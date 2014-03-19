@@ -8,18 +8,25 @@ class TestTypeEnum(Enum):
     WholeSystem = 3
 
 class FaceDetectionAlgorithm(Enum):
-    #Insert face detection algorithms
+    # Insert face detection algorithms
     HaarCascadeFrontalFaceAlt = 1
 
-#Load file with annotations and return data
+# Load file with annotations and return data
 def loadAnnotations(filePath):
     stream = open(filePath, 'r');
     data = yaml.load(stream);
     return data;
 
-#Load file with image annotations and return list of images
+# Load file with image annotations and return list of images
 def loadFrameAnnotations(filePath):
     data = loadAnnotations(filePath);
     images = data[ANNOTATIONS_FRAMES_KEY];
     return images;
+
+# Save YAML file
+def saveYAMLFile(filePath, dict):
+    stream = open(filePath, 'w');
+    result = stream.write(yaml.dump(dict, default_flow_style=False));
+    return result;
+    
 
