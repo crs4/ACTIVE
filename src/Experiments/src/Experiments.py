@@ -16,8 +16,8 @@ while(True):
 
     if(moduleToBeTested == TestTypeEnum.FaceDetection.value):
         print("\n ### FACE DETECTION ###\n");
-        rootPath = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Test\Test files\\'; # Path with all test files as row string
-
+        #rootPath = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\Test\Test files\\'; # Path with all test files as row string
+        rootPath = r'..\..\..\Test files\Face detection\\';
         paramsDict = {};
         paramsDict[SCALE_FACTOR_KEY] = 1.2;
         paramsDict[MIN_NEIGHBORS_KEY] = 3;

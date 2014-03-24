@@ -49,15 +49,18 @@ def faceDetectionExperiments(rootPath, algorithm, paramsDict):
             framePath = videoDirCompletePath + '\\' + frameFile;
             classifierFilesPath = rootPath + CLASSIFIER_FILES_PATH;
 
-            # Saving processing time for face detection
-            startTime = cv2.getTickCount();
-
             # Call function for face detection
-            detectedFaces = imageFaceDetection(framePath, classifierFilesPath, algorithm, paramsDict, False);
+            detectionResults = faceDetectionFromImage(framePath, classifierFilesPath, algorithm, paramsDict, False);
 
-            detectionTimeInClocks = cv2.getTickCount() - startTime;
-            detectionTimeInSeconds = detectionTimeInClocks / cv2.getTickFrequency();
-            meanDetectionTime = meanDetectionTime + detectionTimeInSeconds;
+            # Add detection time to total
+            meanDetectionTime = meanDetectionTime + detectionResults[FACE_DETECTION_ELAPSED_CPU_TIME_KEY];
+
+            # Convert opencv rectangles in sympy polygons
+            opencvDetectedFaces = detectionResults[FACE_DETECTION_FACES_KEY];
+            detectedFaces = [];
+            for (x, y, width, height) in opencvDetectedFaces:
+                polygonFace = Polygon((x,y), (x+width, y), (x+width,y+height), (x, y+height));
+                detectedFaces.append(polygonFace);
 
             # Save name of image and number of detected faces in image dictionary
             detectedFacesNrInImage = len(detectedFaces);
@@ -137,9 +140,6 @@ def faceDetectionExperiments(rootPath, algorithm, paramsDict):
 
             frameCounter = frameCounter + 1;
             globalFrameCounter = globalFrameCounter + 1;
-            ### TEST ONLY ###
-        break;
-        #####################
 
     detectionDict[FACE_DETECTIONS_FRAMES_KEY] = imagesListForYAML;
 
