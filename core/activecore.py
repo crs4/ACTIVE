@@ -1,17 +1,14 @@
-
-
 #---------------------------------------------------------
 # ActiveCore API
-#---------------------------------------------------------
-# TODO:
-#  - define and list custom exceptions!!
-#  - configure sphynx to generate documentation
 #
-# ALL METHODS ARE BLOCKING, UNLESS SPECIFIED OTHERWISE
+# This is a very first draft of the programmatic API of Active Core.
+# The documentation API shall be automatically generated using Sphynx.
+# All methods are blocking, unless specified otherwise.
 #
-# Configuration parameters:
-#   Key          Value
-#   ...          ...
+# To do:
+#  - define and list custom exceptions!
+#  - define configuration parameters
+#  
 #---------------------------------------------------------
 
 class Processor(object):
@@ -21,7 +18,7 @@ class Processor(object):
 	'''
 	def __init__(self, workers=None, application):
 		'''
-		Initialize the communications with all workers.
+		Initialize the communications with workers.
 		An exception is raised if any of the workers is not available.
 		If workers=None, it is assumed that all API calls are executed locally in the same thread 
 		of the caller (blocking calls).
@@ -63,6 +60,7 @@ class FaceRecognitionTrainingSet(object):
 	def __init__(self, processor, db_path=None):
 		'''
 		Initialize the training set on all workers.
+		If db_path is None an empty database is created on each worker.
 		
 		:type  workers: list of strings
 		:param workers: the address (IP and port) of workers.
@@ -75,9 +73,8 @@ class FaceRecognitionTrainingSet(object):
 	def add_faces(self, files_or_images, tag):
 		'''
 		Add new faces to the training set and associate them with the given tag.
-		It is resposibility of the caller to provide valid faces.
-		No check is done on invalid or duplicated faces.
-		If the ActiveCore configuration is based on a set of workers, the method is propagated to each worker.
+		No check is done on invalid or duplicated faces (it is resposibility of the caller to provide valid faces).
+		This method is asynchronous and is propagated to all workers.
 		
 		:type  files_or_images: an Image object, or a string, or a list of Image objects, or a list of strings
 		:param files_or_images: faces to be added to the training set
@@ -86,14 +83,14 @@ class FaceRecognitionTrainingSet(object):
 		:param tag: the tag associated to the face to be added to the training set
 		'''
 
-	def remove_tags(self, tag=None):
+	def remove_tags(self, tags):
 		'''
-		Remove the given tags (and all associated faces) from the training set.
-		If tags=None, all tags are removed from the training set (i.e. the training set is cleared).
+		Remove the given tag or tags (and all associated faces) from the training set.
 		If any of the provided tags is not in the training set, the tag is ignored.
+		This method is asynchronous and is propagated to all workers.
 		
-		:type  tag: string or list of strings
-		:param tag: the tags associated to the face to be added to the training set
+		:type  tags: string or list of strings
+		:param tags: the tags associated to the face to be added to the training set
 		'''
 
 	def rename_tag(self, old_tag, new_tag, blocking=True):
@@ -101,6 +98,7 @@ class FaceRecognitionTrainingSet(object):
 		Rename a tag in the training set.
 		Raise an exception if old_tag does not exist in training set.
 		Raise an exception if new_tag already exists in training set.
+		This method is asynchronous and is propagated to all workers.
 		
 		:type  old_tag: string
 		:param old_tag: a tag already present in the training set
@@ -111,14 +109,15 @@ class FaceRecognitionTrainingSet(object):
 
     def sync(self):
 		'''
-		Wait until all write operations to the training set have been propagated to all workers.
+		Wait until all asynchronous methods previously invoked have been executed by all workers.
+		This method shall be called in order to ensure that training sets on all workers are aligned.
 		'''
 
 	def has_tag(self, tag):
 		'''
 		Return true if the tag is already in the training set.
-		This call can be processed by any of the available workers, the caller is responsible for 
-		ensuring that the training sets are aligned on all workers.
+		This call can be processed by any of the available workers (the caller is responsible for 
+		ensuring that the training sets are aligned on all workers).
 		
 		:type  tag: string
 		:param tag: the tag associated to a set of faces in the training set
@@ -137,6 +136,9 @@ class FaceRecognitionTrainingSet(object):
 		Return a list of serialized Image objects associated to the given tag in the training set, 
 		or an empty list if the tag is not in the training set.
 		TODO: provide detail about how to pickle/unpickle the Image object
+		
+		:type  tag: string
+		:param tag: the tag associated to a set of faces in the training set
 		'''
 
 class FaceExtractor(object):
@@ -146,7 +148,8 @@ class FaceExtractor(object):
     def __init__(self, training_set, params=None):
 		'''
 		Initialize the face extractor.
-		The provided configuration parameters override default values.
+		The configuration parameters define and customize the face extraction algorithm.
+		If any of the configuration parameters is not provided a default value is used.
 		
 		:type  training_set: a FaceRecognitionTrainingSet object
 		:param training_set: the training set for the face recognition
@@ -156,39 +159,37 @@ class FaceExtractor(object):
 		'''
         pass
 	
-	def extractFacesFromImage(self, id_s, resource, params=None):
+	def extractFacesFromImage(self, resource, blocking=False):
 		'''
-		Launch the face extractor on one or more image resources.
-		The provided configuration parameters override default values.
-		This is a non-blocking call.
+		Launch the face extractor on one image resource.
 		Return a task handle.
 		
-		:type  resources: string
-		:param resources: resource file path
-				
-		:type  params: dictionary 
-		:param params: configuration parameters (see table)
+		:type  resource: string
+		:param resource: resource file path
+		
+		:type  blocking: boolean
+		:param blocking: specifies whether the call is synchronous
 		'''
 		pass
 		
-	def extractFacesFromVideo(self, resource, params=None):
+	def extractFacesFromVideo(self, resource, blocking=False):
 		'''
-		Launch the face extractor on one or more video resources (asynchronous task).
-		The provided configuration parameters override default values.
-		This is non-blocking call.
-		Return a task handle.
+		Launch the face extractor on one video resource.
+		This is an asynchronous call which returns a task handle.
+
+		:type  resource: string
+		:param resource: resource file path
 		
-		:type  resources: string
-		:param resources: resource file path
-		
-		:type  params: dictionary 
-		:param params: configuration parameters (see table)
+		:type  blocking: boolean
+		:param blocking: specifies whether the call is synchronous
 		'''
 		pass
         
-	def sync(self, handle):
+	def wait(self, handle):
 		'''
 		Wait until the task associated with the given handle has completed.
+		If the handle is invalid, this method is ignored.
+		TODO: alternatively, a callback mechanism could be provided
 		
 		:type  handle: integer ?
 		:param handle: the task handle
@@ -199,12 +200,12 @@ class FaceExtractor(object):
 		'''
 		Return the results of the face extraction process.
 		This call invalidates the specified handle.
-		For extractFacesFromImage() a dictionary is returned with the following entries:
+		If the handle was returned by extractFacesFromImage(), a dictionary 
+		is returned with the following entries:
 		  elapsed_cpu_time:  float  (the elapsed cpu time in sec)
-		  error: a string specyfing an error condition, or None if the execution completed without errors
+		  error: a string specyfing an error condition, or None if no errors occurred
 		  faces: a list of tags with associated associated bounding boxes
-		example:
-		
+		Example:
 		    results = {'elapsed_cpu_time':  0.011,
 		               'error': None,
 		               'faces': ({'tag': 'Barack Obama', 'bbox':(100,210, 50, 50)},
@@ -212,7 +213,10 @@ class FaceExtractor(object):
 		                        )
 		              }
 		For extractFacesFromVideo() a dictionary is returned with the following entries:
-          TBD                     
+          TBD  
+                   
+     	:type  handle: integer ?
+		:param handle: the task handle
 		'''
 		pass
     
@@ -223,4 +227,7 @@ class FaceExtractor(object):
 		  100: completed
 		  any value between 0 and 100: running
         Raise an exception if an error was encountered during the face extraction.
+        
+		:type  handle: integer ?
+		:param handle: the task handle
 		'''
