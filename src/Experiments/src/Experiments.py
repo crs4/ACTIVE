@@ -16,13 +16,24 @@ while(True):
 
     if(moduleToBeTested == TestTypeEnum.FaceDetection.value):
         print("\n ### FACE DETECTION ###\n");
-        faceDetectionExperiments();
+        rootPath = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Test\Test files\\'; # Path with all test files as row string
+
+        paramsDict = {};
+        paramsDict[SCALE_FACTOR_KEY] = 1.2;
+        paramsDict[MIN_NEIGHBORS_KEY] = 3;
+        paramsDict[FLAGS_KEY] = 0;
+        paramsDict[MIN_SIZE_KEY] = (20,20);
+
+        faceDetectionExperiments(rootPath, FaceDetectionAlgorithm.HaarCascadeFrontalFaceAlt, paramsDict);
+
         break;
     elif(moduleToBeTested == TestTypeEnum.FaceRecognition.value):
-        print("\n ### FACE RECOGNITION ###");
+        #print("\n ### FACE RECOGNITION ###");
+        print("Not available yet");
         break;
     elif(moduleToBeTested == TestTypeEnum.WholeSystem.value):
-        print("\n ### WHOLE SYSTEM ###");
+        #print("\n ### WHOLE SYSTEM ###");
+        print("Not available yet");
         break;
     else:
         print("\nValue is not correct");

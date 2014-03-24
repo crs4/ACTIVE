@@ -8,8 +8,7 @@ class TestTypeEnum(Enum):
     WholeSystem = 3
 
 class FaceDetectionAlgorithm(Enum):
-    # Insert face detection algorithms
-    HaarCascadeFrontalFaceAlt = 1
+    HaarCascadeFrontalFaceAlt = 1 # Haar cascade usign haarcascade_frontalface_alt.xml
 
 # Load file with annotations and return data
 def loadAnnotations(filePath):
@@ -28,5 +27,5 @@ def saveYAMLFile(filePath, dict):
     stream = open(filePath, 'w');
     result = stream.write(yaml.dump(dict, default_flow_style=False));
     return result;
-    
+
 

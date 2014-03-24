@@ -1,9 +1,9 @@
 
 #Path of files
-ROOT_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Test\Test files'; #path with all test files as row string 
-FRAMES_PATH = ROOT_PATH + '\Frames\\';
-ANNOTATIONS_PATH = ROOT_PATH + '\Annotations\\';
-RESULTS_PATH = ROOT_PATH + '\TestResults\\';
+FACE_DETECTION_FRAMES_PATH = 'TestSet\\'
+ANNOTATIONS_PATH = 'Annotations\\';
+RESULTS_PATH = 'TestResults\\';
+CLASSIFIER_FILES_PATH = 'ClassifierFiles\\';
 
 # Annotations for face detection
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -38,3 +38,10 @@ PRECISION_KEY = 'precision';
 RECALL_KEY = 'recall';
 F1_KEY = 'F1';
 MEAN_DETECTION_TIME_KEY = 'meanDetectionTime';
+
+# Dictionary with classification parameters
+SCALE_FACTOR_KEY = 'scaleFactor';
+MIN_NEIGHBORS_KEY = 'minNeighbors';
+FLAGS_KEY = 'flags';
+MIN_SIZE_KEY = 'minSize';
+MAX_SIZE_KEY = 'maxSize';

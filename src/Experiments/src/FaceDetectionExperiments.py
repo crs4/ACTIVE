@@ -1,28 +1,12 @@
 from Constants import *
 from Utils import *
+#from FaceDetection import *
 from os import listdir
 import cv2
 from sympy import Polygon
+from FaceDetection import *
 
-def faceDetectionExperiments():
-
-    # Algorithm choice
-
-    algorithmsList = list(FaceDetectionAlgorithm);
-    numberOfAlgorithms = len(algorithmsList);
-
-    print("Face detection algorithm choice");
-    print(algorithmsList);
-
-    # Waiting a correct input by user
-    while(True):
-        algorithm = input("Please enter a value: ");
-
-        if((algorithm > 0) & (algorithm <= numberOfAlgorithms)):
-            print("\n ### " + str(algorithmsList[algorithm - 1]) + " ###\n");
-            break;
-        else:
-            print("\nValue is not correct");
+def faceDetectionExperiments(rootPath, algorithm, paramsDict):
 
     annotatedFacesNr = 0;
     truePositivesNr = 0;
@@ -32,15 +16,17 @@ def faceDetectionExperiments():
     detectionDict = {};
     imagesListForYAML = []; # Array used for creating YAML file
 
-    videoDirectories = listdir(FRAMES_PATH);
+    framesPath = rootPath + FACE_DETECTION_FRAMES_PATH;
+    videoDirectories = listdir(framesPath);
+
     # Iterate over all directories with test frames
     globalFrameCounter = 0;
     for videoDir in videoDirectories:
-        videoDirCompletePath = FRAMES_PATH + videoDir;
+        videoDirCompletePath = framesPath + videoDir;
 
         # Build path of file with annotations
-        annotationsFile = ANNOTATIONS_PATH + videoDir + '_annotations.yml';
-        
+        annotationsFile = rootPath + ANNOTATIONS_PATH + videoDir + '_annotations.yml';
+
         # Load annotations for this video
         frames = loadFrameAnnotations(annotationsFile);
 
@@ -59,25 +45,16 @@ def faceDetectionExperiments():
                 print('Frame name from file with annotations: ' + frameName);
                 continue;
 
-            # Load frame
-            frame = cv2.imread(videoDirCompletePath + '\\' + frameFile);
-        
+            # Set path of frame and path of directory with classifier files
+            framePath = videoDirCompletePath + '\\' + frameFile;
+            classifierFilesPath = rootPath + CLASSIFIER_FILES_PATH;
+
             # Saving processing time for face detection
             startTime = cv2.getTickCount();
 
             # Call function for face detection
-            # detectedFaces = imageFaceDetection(frame, algorithm, scaleFactor, minNeighbors, flags, minSize);
-            ### TEST ONLY ###
-            detectedFaces = [];
-            if(frameCounter == 1):
-                x = 272;
-                y = 120;
-                width = 146;
-                height = 146;
-                detectedFace1 = Polygon((x,y), (x+width, y), (x+width,y+height), (x, y+height));
-                detectedFaces.append(detectedFace1);
-            #################
-            
+            detectedFaces = imageFaceDetection(framePath, classifierFilesPath, algorithm, paramsDict, False);
+
             detectionTimeInClocks = cv2.getTickCount() - startTime;
             detectionTimeInSeconds = detectionTimeInClocks / cv2.getTickFrequency();
             meanDetectionTime = meanDetectionTime + detectionTimeInSeconds;
@@ -97,7 +74,7 @@ def faceDetectionExperiments():
             if(annotatedFacesNrInImage > 0):
                 annotatedFaces = annotationsDict[ANNOTATIONS_FACES_KEY];
                 annotatedFacesNr = annotatedFacesNr + annotatedFacesNrInImage;
-                
+
             # Compare rectangles and update number of true positives and false positives
             truePositivesNrInImage = 0;
 
@@ -108,7 +85,7 @@ def faceDetectionExperiments():
                 detectedFaceWidth = int(detectedFaceRectangle.vertices[1].x - detectedFaceRectangle.vertices[0].x);
                 detectedFaceHeight = int(detectedFaceRectangle.vertices[3].y - detectedFaceRectangle.vertices[0].y);
                 truePositive = False; #True if detected face is a real face
-                
+
                 # Check if detected face contains one of the annotated faces.
                 # Width of detected face must not be more than 4 times width of correctly annotated face.
                 for annotatedFace in annotatedFaces:
@@ -118,13 +95,13 @@ def faceDetectionExperiments():
                     width = annotatedFacePositionAndSize[ANNOTATIONS_FACE_WIDTH_KEY];
                     height = annotatedFacePositionAndSize[ANNOTATIONS_FACE_HEIGHT_KEY];
                     annotatedFaceRectangle = Polygon((x,y), (x+width,y), (x+width,y+height), (x, y+height)); # Create sympy rectangle
-                    
+
                     if(detectedFaceRectangle.encloses(annotatedFaceRectangle) & (detectedFaceWidth <= 4 * width)):
                         truePositive = True;
                         truePositivesNr = truePositivesNr + 1;
                         truePositivesNrInImage = truePositivesNrInImage + 1
 
-                        # Each face must be considered once 
+                        # Each face must be considered once
                         annotatedFaces.remove(annotatedFace);
                         break;
 
@@ -141,27 +118,26 @@ def faceDetectionExperiments():
                     detectedFaceInnerDict[FACE_CHECK_KEY] = 'TP'; # Face is a true positive detection
                 else:
                     detectedFaceInnerDict[FACE_CHECK_KEY] = 'FP'; # Face is a false positive detection
-                
+
                 detectedFaceDict[FACE_DETECTIONS_FACE_KEY] = detectedFaceInnerDict;
                 detectedFacesListForYAML.append(detectedFaceDict);
 
             falsePositivesNrInImage = detectedFacesNrInImage - truePositivesNrInImage;
+            imageDict[TRUE_POSITIVES_NR_KEY] = truePositivesNrInImage;
             imageDict[FALSE_POSITIVES_NR_KEY] = falsePositivesNrInImage;
 
             falsePositivesNr = falsePositivesNr + falsePositivesNrInImage;
 
             if(len(detectedFacesListForYAML) > 0):
-                imageDict[FACE_DETECTIONS_FACES_KEY] = detectedFacesListForYAML;    
-            
+                imageDict[FACE_DETECTIONS_FACES_KEY] = detectedFacesListForYAML;
+
             imageDictExtended[FACE_DETECTIONS_FRAME_KEY] = imageDict;
 
             imagesListForYAML.append(imageDictExtended);
-            
+
             frameCounter = frameCounter + 1;
             globalFrameCounter = globalFrameCounter + 1;
             ### TEST ONLY ###
-            if(frameCounter == 15):
-                break;
         break;
         #####################
 
@@ -184,8 +160,12 @@ def faceDetectionExperiments():
 
     detectionDict[MEAN_DETECTION_TIME_KEY] = meanDetectionTime;
 
-    resultsFilePath = RESULTS_PATH + 'Results.yml';
-    result = saveYAMLFile(resultsFilePath, detectionDict);
+    print("\n ### RESULTS ###\n");
 
-### TEST ONLY ###
-faceDetectionExperiments();
+    print('\nPrecision: ' + str(precision*100) + '%');
+    print('Recall: ' + str(recall*100) + '%');
+    print('F1: ' + str(f1*100) + '%');
+    print('Mean detection time: ' + str(meanDetectionTime) + ' s');
+
+    resultsFilePath = rootPath + RESULTS_PATH + 'Results.yml';
+    result = saveYAMLFile(resultsFilePath, detectionDict);
