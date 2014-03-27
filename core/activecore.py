@@ -52,109 +52,95 @@ class Processor(object):
          3. stop the processor and all workers.		
         '''
 
-class FaceRecognitionTrainingSet(object):
+class FaceModels(object):
     '''
-    Training set for the face recognition.
-    TODO: Felice please suggest a better name for this class!
-    This is a shared resource which is replicated on each worker.
+    The persistent data structure containing the face models used by the 
+    face recognition algorithm and replicated on each worker.
+    This class ensures that the face models are replicated and updated on each worker.
     '''
-    def __init__(self, processor, db_name):
+    def __init__(self, workers):
         '''
-        Initialize the training set on all workers.
-        The caller is responsible for creating the connection with the database.
-        The caller is also responsible for managing database backups.
+        Initialize the face models on all workers.
 
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
-
-        :type  db_name: string
-        :param db_name: the database name
         '''
         pass
 		
     def add_faces(self, filenames_or_images, tag):
         '''
-        Add new faces to the training set and associate them with the given tag.
+        Add new faces to the face models and associate them with the given tag.
         No check is done on invalid or duplicated faces (it is resposibility of the caller to provide valid faces).
         This method is asynchronous and is propagated to all workers.
 
         :type  filenames_or_images: an Image object, or a string, or a list of Image objects, or a list of strings
-        :param filenames_or_images: faces to be added to the training set
+        :param filenames_or_images: faces to be added to the face models data structure
 
         :type  tag: string
-        :param tag: the tag associated to the face to be added to the training set
+        :param tag: the tag associated to the face to be added to the face models data structure
         '''
+        pass
 
     def remove_tags(self, tags):
         '''
-        Remove the given tag or tags (and all associated faces) from the training set.
-        If any of the provided tags is not in the training set, the tag is ignored.
+        Remove the given tag or tags (and all associated faces) from the face models data structure.
+        If any of the provided tags is not in the face models data structure, the tag is ignored.
         This method is asynchronous and is propagated to all workers.
 
         :type  tags: string or list of strings
-        :param tags: the tags associated to the face to be added to the training set
+        :param tags: the tags associated to the face to be added to the face models data structure
         '''
-
+        pass
+        
     def rename_tag(self, old_tag, new_tag, blocking=True):
         '''
-        Rename a tag in the training set.
-        Raise an exception if old_tag does not exist in training set.
-        Raise an exception if new_tag already exists in training set.
+        Rename a tag in the face models data structure.
+        Raise an exception if old_tag does not exist in face models data structure.
+        Raise an exception if new_tag already exists in face models data structure.
         This method is asynchronous and is propagated to all workers.
 
         :type  old_tag: string
-        :param old_tag: a tag already present in the training set
+        :param old_tag: a tag already present in the face models data structure
 
         :type  new_tag: string
-        :param new_tag: a tag not yet present in the training set
+        :param new_tag: a tag not yet present in the face models data structure
         '''
+        pass
 
     def sync(self):
         '''
         Wait until all asynchronous methods previously invoked have been executed by all workers.
-        This method shall be called in order to ensure that training sets on all workers are aligned.
-        '''
-
-    def has_tag(self, tag):
-        '''
-        Return true if the tag is already in the training set.
-        This call can be processed by any of the available workers (the caller is responsible for 
-        ensuring that the training sets are aligned on all workers).
-
-        :type  tag: string
-        :param tag: the tag associated to a set of faces in the training set
+        This method shall be called in order to ensure that face models data structure on all workers are aligned.
         '''
         pass
-
-    def get_tags(self):
+        
+    def dump(self):
         '''
-        Return all tags of the training set as a list of strings.
-        This call can be processed by any of the available workers, the caller is responsible for 
-        ensuring that the training sets are aligned on all workers.
+        Return a file containig the dump of the face models data structure.
         '''
-		
-    def get_faces(self, tag):
+        pass
+        
+    def load(self, file_name):
         '''
-        Return a list of serialized Image objects associated to the given tag in the training set, 
-        or an empty list if the tag is not in the training set.
-        TODO: provide detail about how to pickle/unpickle the Image object
-
-        :type  tag: string
-        :param tag: the tag associated to a set of faces in the training set
+        Update the face models data structure on all workers from a file.
+        
+        :type  file_name: string
+        :param file_name: the name of the file containing the dump of the face models data structure
         '''
+        pass
 
 class FaceExtractor(object):
     '''
     Tool for detecting and recognizing faces in images and video.
     '''
-    def __init__(self, training_set, params=None):
+    def __init__(self, face_models, params=None):
         '''
         Initialize the face extractor.
         The configuration parameters define and customize the face extraction algorithm.
         If any of the configuration parameters is not provided a default value is used.
 
-        :type  training_set: a FaceRecognitionTrainingSet object
-        :param training_set: the training set for the face recognition
+        :type  face_models: a FaceModels object
+        :param face_models: the face models data structure
 
         :type  params: dictionary 
         :param params: configuration parameters (see table)
