@@ -1,0 +1,761 @@
+images:
+   -
+      Image:
+         imageName: "fic.06_I_001.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 323
+                  y: 169
+                  width: 61
+                  height: 73
+   -
+      Image:
+         imageName: "fic.06_I_002.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 101
+                  y: 174
+                  width: 23
+                  height: 26
+            -
+               face:
+                  x: 344
+                  y: 190
+                  width: 19
+                  height: 20
+            -
+               face:
+                  x: 504
+                  y: 165
+                  width: 24
+                  height: 22
+   -
+      Image:
+         imageName: "fic.06_I_003.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 261
+                  y: 159
+                  width: 76
+                  height: 85
+   -
+      Image:
+         imageName: "fic.06_I_004.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 312
+                  y: 155
+                  width: 70
+                  height: 84
+   -
+      Image:
+         imageName: "fic.06_I_005.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 292
+                  y: 163
+                  width: 72
+                  height: 90
+   -
+      Image:
+         imageName: "fic.06_I_006.jpg"
+         numberOfFaces: 7
+         faces:
+            -
+               face:
+                  x: 71
+                  y: 175
+                  width: 21
+                  height: 26
+            -
+               face:
+                  x: 160
+                  y: 159
+                  width: 20
+                  height: 25
+            -
+               face:
+                  x: 200
+                  y: 208
+                  width: 18
+                  height: 25
+            -
+               face:
+                  x: 302
+                  y: 164
+                  width: 19
+                  height: 21
+            -
+               face:
+                  x: 386
+                  y: 200
+                  width: 23
+                  height: 32
+            -
+               face:
+                  x: 406
+                  y: 138
+                  width: 21
+                  height: 24
+            -
+               face:
+                  x: 446
+                  y: 200
+                  width: 23
+                  height: 27
+   -
+      Image:
+         imageName: "fic.06_I_007.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 207
+                  y: 141
+                  width: 47
+                  height: 58
+            -
+               face:
+                  x: 440
+                  y: 130
+                  width: 46
+                  height: 47
+            -
+               face:
+                  x: 530
+                  y: 272
+                  width: 35
+                  height: 55
+   -
+      Image:
+         imageName: "fic.06_I_008.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 302
+                  y: 163
+                  width: 62
+                  height: 80
+   -
+      Image:
+         imageName: "fic.06_I_009.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 410
+                  y: 148
+                  width: 56
+                  height: 84
+   -
+      Image:
+         imageName: "fic.06_I_010.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 308
+                  y: 172
+                  width: 70
+                  height: 96
+   -
+      Image:
+         imageName: "fic.06_I_011.jpg"
+         numberOfFaces: 5
+         faces:
+            -
+               face:
+                  x: 213
+                  y: 115
+                  width: 37
+                  height: 42
+            -
+               face:
+                  x: 288
+                  y: 152
+                  width: 34
+                  height: 38
+            -
+               face:
+                  x: 380
+                  y: 130
+                  width: 30
+                  height: 43
+            -
+               face:
+                  x: 584
+                  y: 149
+                  width: 35
+                  height: 33
+            -
+               face:
+                  x: 632
+                  y: 182
+                  width: 40
+                  height: 46
+   -
+      Image:
+         imageName: "fic.06_I_012.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 340
+                  y: 164
+                  width: 72
+                  height: 84
+   -
+      Image:
+         imageName: "fic.06_I_013.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 126
+                  y: 3
+                  width: 88
+                  height: 97
+            -
+               face:
+                  x: 229
+                  y: 210
+                  width: 66
+                  height: 125
+            -
+               face:
+                  x: 553
+                  y: 47
+                  width: 75
+                  height: 105
+   -
+      Image:
+         imageName: "fic.06_I_014.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 195
+                  y: 158
+                  width: 144
+                  height: 282
+   -
+      Image:
+         imageName: "fic.06_I_015.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 175
+                  y: 154
+                  width: 238
+                  height: 262
+   -
+      Image:
+         imageName: "fic.06_I_016.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 370
+                  y: 189
+                  width: 48
+                  height: 62
+   -
+      Image:
+         imageName: "fic.06_I_017.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 397
+                  y: 179
+                  width: 52
+                  height: 82
+   -
+      Image:
+         imageName: "fic.06_I_018.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 394
+                  y: 213
+                  width: 47
+                  height: 59
+   -
+      Image:
+         imageName: "fic.06_I_019.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 474
+                  y: 131
+                  width: 15
+                  height: 21
+            -
+               face:
+                  x: 562
+                  y: 128
+                  width: 17
+                  height: 20
+            -
+               face:
+                  x: 632
+                  y: 150
+                  width: 20
+                  height: 25
+   -
+      Image:
+         imageName: "fic.06_I_020.jpg"
+         numberOfFaces: 4
+         faces:
+            -
+               face:
+                  x: 76
+                  y: 152
+                  width: 50
+                  height: 43
+            -
+               face:
+                  x: 160
+                  y: 67
+                  width: 40
+                  height: 46
+            -
+               face:
+                  x: 318
+                  y: 154
+                  width: 46
+                  height: 62
+            -
+               face:
+                  x: 374
+                  y: 38
+                  width: 41
+                  height: 48
+   -
+      Image:
+         imageName: "fic.06_I_021.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 55
+                  y: 35
+                  width: 69
+                  height: 67
+            -
+               face:
+                  x: 254
+                  y: 177
+                  width: 76
+                  height: 93
+   -
+      Image:
+         imageName: "fic.06_I_022.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 14
+                  y: 18
+                  width: 58
+                  height: 95
+            -
+               face:
+                  x: 241
+                  y: 218
+                  width: 100
+                  height: 133
+            -
+               face:
+                  x: 493
+                  y: 251
+                  width: 96
+                  height: 115
+   -
+      Image:
+         imageName: "fic.06_I_023.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 355
+                  y: 122
+                  width: 48
+                  height: 54
+   -
+      Image:
+         imageName: "fic.06_I_024.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 341
+                  y: 164
+                  width: 92
+                  height: 119
+   -
+      Image:
+         imageName: "fic.06_I_025.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 282
+                  y: 218
+                  width: 93
+                  height: 120
+   -
+      Image:
+         imageName: "fic.06_I_026.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 260
+                  y: 256
+                  width: 86
+                  height: 107
+   -
+      Image:
+         imageName: "fic.06_I_027.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 320
+                  y: 182
+                  width: 75
+                  height: 109
+   -
+      Image:
+         imageName: "fic.06_I_028.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 375
+                  y: 182
+                  width: 79
+                  height: 94
+   -
+      Image:
+         imageName: "fic.06_I_029.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 18
+                  y: 231
+                  width: 39
+                  height: 65
+            -
+               face:
+                  x: 284
+                  y: 181
+                  width: 44
+                  height: 96
+            -
+               face:
+                  x: 568
+                  y: 84
+                  width: 52
+                  height: 82
+   -
+      Image:
+         imageName: "fic.06_I_030.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 325
+                  y: 157
+                  width: 71
+                  height: 88
+   -
+      Image:
+         imageName: "fic.06_I_031.jpg"
+         numberOfFaces: 3
+         faces:
+            -
+               face:
+                  x: 78
+                  y: 4
+                  width: 97
+                  height: 91
+            -
+               face:
+                  x: 306
+                  y: 209
+                  width: 72
+                  height: 122
+            -
+               face:
+                  x: 566
+                  y: 38
+                  width: 76
+                  height: 95
+   -
+      Image:
+         imageName: "fic.06_I_032.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 396
+                  y: 177
+                  width: 56
+                  height: 87
+   -
+      Image:
+         imageName: "fic.06_I_033.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 257
+                  y: 246
+                  width: 94
+                  height: 103
+   -
+      Image:
+         imageName: "fic.06_I_034.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 363
+                  y: 149
+                  width: 44
+                  height: 81
+   -
+      Image:
+         imageName: "fic.06_I_035.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 318
+                  y: 191
+                  width: 68
+                  height: 96
+   -
+      Image:
+         imageName: "fic.06_I_036.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 324
+                  y: 204
+                  width: 100
+                  height: 125
+   -
+      Image:
+         imageName: "fic.06_I_037.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 249
+                  y: 152
+                  width: 46
+                  height: 71
+            -
+               face:
+                  x: 461
+                  y: 162
+                  width: 30
+                  height: 60
+   -
+      Image:
+         imageName: "fic.06_I_038.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 244
+                  y: 205
+                  width: 92
+                  height: 111
+   -
+      Image:
+         imageName: "fic.06_I_039.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 242
+                  y: 175
+                  width: 91
+                  height: 114
+   -
+      Image:
+         imageName: "fic.06_I_040.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 266
+                  y: 214
+                  width: 100
+                  height: 114
+            -
+               face:
+                  x: 470
+                  y: 38
+                  width: 98
+                  height: 100
+   -
+      Image:
+         imageName: "fic.06_I_041.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 258
+                  y: 212
+                  width: 105
+                  height: 111
+            -
+               face:
+                  x: 474
+                  y: 30
+                  width: 95
+                  height: 104
+   -
+      Image:
+         imageName: "fic.06_I_042.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 474
+                  y: 57
+                  width: 90
+                  height: 99
+            -
+               face:
+                  x: 317
+                  y: 235
+                  width: 101
+                  height: 125
+   -
+      Image:
+         imageName: "fic.06_I_043.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 195
+                  y: 281
+                  width: 70
+                  height: 92
+            -
+               face:
+                  x: 236
+                  y: 207
+                  width: 63
+                  height: 124
+   -
+      Image:
+         imageName: "fic.06_I_044.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 282
+                  y: 220
+                  width: 41
+                  height: 59
+   -
+      Image:
+         imageName: "fic.06_I_045.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 123
+                  y: 439
+                  width: 83
+                  height: 117
+            -
+               face:
+                  x: 250
+                  y: 188
+                  width: 102
+                  height: 131
+   -
+      Image:
+         imageName: "fic.06_I_046.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 291
+                  y: 174
+                  width: 37
+                  height: 57
+   -
+      Image:
+         imageName: "fic.06_I_047.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 335
+                  y: 150
+                  width: 60
+                  height: 69
+   -
+      Image:
+         imageName: "fic.06_I_048.jpg"
+         numberOfFaces: 2
+         faces:
+            -
+               face:
+                  x: 181
+                  y: 167
+                  width: 25
+                  height: 39
+            -
+               face:
+                  x: 468
+                  y: 168
+                  width: 32
+                  height: 47
+   -
+      Image:
+         imageName: "fic.06_I_049.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 334
+                  y: 139
+                  width: 68
+                  height: 68
+   -
+      Image:
+         imageName: "fic.06_I_050.jpg"
+         numberOfFaces: 1
+         faces:
+            -
+               face:
+                  x: 293
+                  y: 220
+                  width: 52
+                  height: 66

@@ -1,0 +1,5 @@
+syntax: glob
+test/Test module/src/Utils.pyc
+test/Test module/src/FaceDetectionExperiments.pyc
+test/Test module/src/FaceDetection.pyc
+test/Test module/src/Constants.pyc
