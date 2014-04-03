@@ -1,0 +1,3248 @@
+F1: 0.6232980332829048
+annotatedFacesNr: 451
+falsePositivesNr: 4
+images:
+- images:
+    annotatedFacesNr: 0
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_001.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 128
+        width: 128
+        x: 283
+        y: 129
+    falsePositivesNr: 0
+    imageName: fic.02_I_002.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 134
+        width: 134
+        x: 303
+        y: 129
+    falsePositivesNr: 0
+    imageName: fic.02_I_003.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 126
+        width: 126
+        x: 331
+        y: 129
+    falsePositivesNr: 0
+    imageName: fic.02_I_004.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 132
+        width: 132
+        x: 284
+        y: 144
+    falsePositivesNr: 0
+    imageName: fic.02_I_005.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_006.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 137
+        width: 137
+        x: 317
+        y: 106
+    falsePositivesNr: 0
+    imageName: fic.02_I_007.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 165
+        width: 165
+        x: 291
+        y: 117
+    falsePositivesNr: 0
+    imageName: fic.02_I_008.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_009.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_010.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 151
+        width: 151
+        x: 337
+        y: 98
+    falsePositivesNr: 0
+    imageName: fic.02_I_011.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 62
+        width: 62
+        x: 90
+        y: 108
+    - face:
+        check: TP
+        height: 68
+        width: 68
+        x: 333
+        y: 95
+    falsePositivesNr: 0
+    imageName: fic.02_I_012.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_013.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 37
+        width: 37
+        x: 295
+        y: 125
+    falsePositivesNr: 0
+    imageName: fic.02_I_014.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 50
+        width: 50
+        x: 178
+        y: 124
+    - face:
+        check: TP
+        height: 56
+        width: 56
+        x: 380
+        y: 105
+    falsePositivesNr: 0
+    imageName: fic.02_I_015.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_016.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 54
+        width: 54
+        x: 87
+        y: 200
+    - face:
+        check: TP
+        height: 68
+        width: 68
+        x: 134
+        y: 200
+    falsePositivesNr: 0
+    imageName: fic.02_I_017.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 93
+        width: 93
+        x: 170
+        y: 165
+    - face:
+        check: FP
+        height: 131
+        width: 131
+        x: 286
+        y: 189
+    falsePositivesNr: 1
+    imageName: fic.02_I_018.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_019.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 105
+        width: 105
+        x: 330
+        y: 224
+    falsePositivesNr: 0
+    imageName: fic.02_I_020.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_021.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_022.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_023.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 158
+        width: 158
+        x: 104
+        y: 151
+    falsePositivesNr: 0
+    imageName: fic.02_I_024.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_025.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_026.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_027.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_028.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_029.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_030.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 131
+        width: 131
+        x: 296
+        y: 136
+    falsePositivesNr: 0
+    imageName: fic.02_I_031.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_032.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_033.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 252
+        width: 252
+        x: 206
+        y: 150
+    falsePositivesNr: 0
+    imageName: fic.02_I_034.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_035.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 211
+        width: 211
+        x: 227
+        y: 130
+    falsePositivesNr: 0
+    imageName: fic.02_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 210
+        width: 210
+        x: 222
+        y: 123
+    falsePositivesNr: 0
+    imageName: fic.02_I_037.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 256
+        width: 256
+        x: 277
+        y: 161
+    falsePositivesNr: 0
+    imageName: fic.02_I_038.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_039.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 87
+        width: 87
+        x: 204
+        y: 87
+    falsePositivesNr: 0
+    imageName: fic.02_I_040.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 252
+        width: 252
+        x: 229
+        y: 96
+    falsePositivesNr: 0
+    imageName: fic.02_I_041.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 136
+        width: 136
+        x: 306
+        y: 103
+    falsePositivesNr: 0
+    imageName: fic.02_I_042.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_043.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_044.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_045.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.02_I_046.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 172
+        width: 172
+        x: 288
+        y: 81
+    falsePositivesNr: 0
+    imageName: fic.02_I_047.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 111
+        width: 111
+        x: 368
+        y: 131
+    falsePositivesNr: 0
+    imageName: fic.02_I_048.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 133
+        width: 133
+        x: 264
+        y: 83
+    falsePositivesNr: 0
+    imageName: fic.02_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 119
+        width: 119
+        x: 391
+        y: 171
+    falsePositivesNr: 0
+    imageName: fic.02_I_050.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 144
+        width: 144
+        x: 283
+        y: 118
+    falsePositivesNr: 0
+    imageName: fic.06_I_001.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 47
+        width: 47
+        x: 492
+        y: 147
+    - face:
+        check: TP
+        height: 51
+        width: 51
+        x: 328
+        y: 169
+    - face:
+        check: TP
+        height: 53
+        width: 53
+        x: 85
+        y: 153
+    falsePositivesNr: 0
+    imageName: fic.06_I_002.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 167
+        width: 167
+        x: 216
+        y: 97
+    falsePositivesNr: 0
+    imageName: fic.06_I_003.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 161
+        width: 161
+        x: 266
+        y: 99
+    falsePositivesNr: 0
+    imageName: fic.06_I_004.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 165
+        width: 165
+        x: 250
+        y: 105
+    falsePositivesNr: 0
+    imageName: fic.06_I_005.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 7
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 51
+        width: 51
+        x: 55
+        y: 156
+    falsePositivesNr: 0
+    imageName: fic.06_I_006.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 111
+        width: 111
+        x: 409
+        y: 90
+    - face:
+        check: TP
+        height: 115
+        width: 115
+        x: 173
+        y: 100
+    falsePositivesNr: 0
+    imageName: fic.06_I_007.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 148
+        width: 148
+        x: 260
+        y: 106
+    falsePositivesNr: 0
+    imageName: fic.06_I_008.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 147
+        width: 147
+        x: 364
+        y: 91
+    falsePositivesNr: 0
+    imageName: fic.06_I_009.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 168
+        width: 168
+        x: 256
+        y: 113
+    falsePositivesNr: 0
+    imageName: fic.06_I_010.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 5
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 86
+        width: 86
+        x: 186
+        y: 85
+    falsePositivesNr: 0
+    imageName: fic.06_I_011.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 159
+        width: 159
+        x: 297
+        y: 106
+    falsePositivesNr: 0
+    imageName: fic.06_I_012.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_013.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_014.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_015.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_016.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_017.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_018.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 44
+        width: 44
+        x: 550
+        y: 113
+    - face:
+        check: TP
+        height: 57
+        width: 57
+        x: 450
+        y: 110
+    falsePositivesNr: 0
+    imageName: fic.06_I_019.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 91
+        width: 91
+        x: 55
+        y: 117
+    - face:
+        check: TP
+        height: 105
+        width: 105
+        x: 126
+        y: 30
+    - face:
+        check: TP
+        height: 125
+        width: 125
+        x: 279
+        y: 109
+    falsePositivesNr: 0
+    imageName: fic.06_I_020.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_021.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 256
+        width: 256
+        x: 173
+        y: 130
+    falsePositivesNr: 0
+    imageName: fic.06_I_022.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_023.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_024.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 243
+        width: 243
+        x: 205
+        y: 129
+    falsePositivesNr: 0
+    imageName: fic.06_I_025.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 224
+        width: 224
+        x: 198
+        y: 174
+    falsePositivesNr: 0
+    imageName: fic.06_I_026.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_027.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 174
+        width: 174
+        x: 328
+        y: 119
+    falsePositivesNr: 0
+    imageName: fic.06_I_028.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_029.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 168
+        width: 168
+        x: 278
+        y: 97
+    falsePositivesNr: 0
+    imageName: fic.06_I_030.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 214
+        width: 214
+        x: 231
+        y: 133
+    falsePositivesNr: 0
+    imageName: fic.06_I_031.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_032.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_033.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_034.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_035.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 250
+        width: 250
+        x: 251
+        y: 120
+    falsePositivesNr: 0
+    imageName: fic.06_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_037.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 176
+        width: 176
+        x: 201
+        y: 145
+    falsePositivesNr: 0
+    imageName: fic.06_I_038.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_039.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 242
+        width: 242
+        x: 196
+        y: 128
+    falsePositivesNr: 0
+    imageName: fic.06_I_040.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 241
+        width: 241
+        x: 187
+        y: 125
+    falsePositivesNr: 0
+    imageName: fic.06_I_041.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 234
+        width: 234
+        x: 252
+        y: 154
+    falsePositivesNr: 0
+    imageName: fic.06_I_042.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_043.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_044.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 245
+        width: 245
+        x: 189
+        y: 106
+    falsePositivesNr: 0
+    imageName: fic.06_I_045.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.06_I_046.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 123
+        width: 123
+        x: 302
+        y: 103
+    falsePositivesNr: 0
+    imageName: fic.06_I_047.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: FP
+        height: 71
+        width: 71
+        x: 447
+        y: 142
+    falsePositivesNr: 1
+    imageName: fic.06_I_048.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 146
+        width: 146
+        x: 297
+        y: 72
+    falsePositivesNr: 0
+    imageName: fic.06_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 138
+        width: 138
+        x: 255
+        y: 167
+    falsePositivesNr: 0
+    imageName: fic.06_I_050.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 129
+        width: 129
+        x: 296
+        y: 178
+    falsePositivesNr: 0
+    imageName: fic.15_I_001.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 53
+        width: 53
+        x: 161
+        y: 130
+    falsePositivesNr: 0
+    imageName: fic.15_I_002.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_003.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 158
+        width: 158
+        x: 238
+        y: 88
+    falsePositivesNr: 0
+    imageName: fic.15_I_004.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_005.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 188
+        width: 188
+        x: 282
+        y: 81
+    falsePositivesNr: 0
+    imageName: fic.15_I_006.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 179
+        width: 179
+        x: 272
+        y: 88
+    falsePositivesNr: 0
+    imageName: fic.15_I_007.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_008.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 55
+        width: 55
+        x: 334
+        y: 115
+    falsePositivesNr: 0
+    imageName: fic.15_I_009.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_010.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 92
+        width: 92
+        x: 140
+        y: 127
+    - face:
+        check: TP
+        height: 91
+        width: 91
+        x: 481
+        y: 100
+    falsePositivesNr: 0
+    imageName: fic.15_I_011.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_012.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 106
+        width: 106
+        x: 130
+        y: 105
+    falsePositivesNr: 0
+    imageName: fic.15_I_013.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_014.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 160
+        width: 160
+        x: 259
+        y: 73
+    falsePositivesNr: 0
+    imageName: fic.15_I_015.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_016.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 80
+        width: 80
+        x: 441
+        y: 122
+    - face:
+        check: TP
+        height: 70
+        width: 70
+        x: 561
+        y: 106
+    falsePositivesNr: 0
+    imageName: fic.15_I_017.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 299
+        width: 299
+        x: 241
+        y: 97
+    falsePositivesNr: 0
+    imageName: fic.15_I_018.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_019.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_020.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 298
+        width: 298
+        x: 115
+        y: 133
+    falsePositivesNr: 0
+    imageName: fic.15_I_021.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_022.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_023.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_024.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 299
+        width: 299
+        x: 145
+        y: 127
+    falsePositivesNr: 0
+    imageName: fic.15_I_025.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_026.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 107
+        width: 107
+        x: 307
+        y: 140
+    falsePositivesNr: 0
+    imageName: fic.15_I_027.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 171
+        width: 171
+        x: 253
+        y: 93
+    falsePositivesNr: 0
+    imageName: fic.15_I_028.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_029.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 139
+        width: 139
+        x: 193
+        y: 93
+    falsePositivesNr: 0
+    imageName: fic.15_I_030.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 213
+        width: 213
+        x: 246
+        y: 83
+    falsePositivesNr: 0
+    imageName: fic.15_I_031.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 105
+        width: 105
+        x: 320
+        y: 48
+    - face:
+        check: TP
+        height: 130
+        width: 130
+        x: 173
+        y: 93
+    falsePositivesNr: 0
+    imageName: fic.15_I_032.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 208
+        width: 208
+        x: 235
+        y: 125
+    falsePositivesNr: 0
+    imageName: fic.15_I_033.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 213
+        width: 213
+        x: 242
+        y: 100
+    falsePositivesNr: 0
+    imageName: fic.15_I_034.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 183
+        width: 183
+        x: 230
+        y: 83
+    falsePositivesNr: 0
+    imageName: fic.15_I_035.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 168
+        width: 168
+        x: 217
+        y: 116
+    falsePositivesNr: 0
+    imageName: fic.15_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 87
+        width: 87
+        x: 104
+        y: 135
+    - face:
+        check: TP
+        height: 87
+        width: 87
+        x: 471
+        y: 114
+    falsePositivesNr: 0
+    imageName: fic.15_I_037.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 149
+        width: 149
+        x: 28
+        y: 2
+    falsePositivesNr: 0
+    imageName: fic.15_I_038.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 186
+        width: 186
+        x: 291
+        y: 108
+    falsePositivesNr: 0
+    imageName: fic.15_I_039.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_040.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_041.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 101
+        width: 101
+        x: 296
+        y: 134
+    falsePositivesNr: 0
+    imageName: fic.15_I_042.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_043.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 90
+        width: 90
+        x: 72
+        y: 92
+    falsePositivesNr: 0
+    imageName: fic.15_I_044.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 101
+        width: 101
+        x: 412
+        y: 137
+    falsePositivesNr: 0
+    imageName: fic.15_I_045.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_046.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 47
+        width: 47
+        x: 388
+        y: 122
+    falsePositivesNr: 0
+    imageName: fic.15_I_047.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 174
+        width: 174
+        x: 227
+        y: 71
+    falsePositivesNr: 0
+    imageName: fic.15_I_048.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 116
+        width: 116
+        x: 258
+        y: 148
+    falsePositivesNr: 0
+    imageName: fic.15_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: fic.15_I_050.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 167
+        width: 167
+        x: 304
+        y: 202
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_001.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_002.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_003.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 156
+        width: 156
+        x: 164
+        y: 172
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_004.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_005.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 168
+        width: 168
+        x: 329
+        y: 143
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_006.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 220
+        width: 220
+        x: 248
+        y: 199
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_007.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 249
+        width: 249
+        x: 262
+        y: 189
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_008.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 183
+        width: 183
+        x: 262
+        y: 167
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_009.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 188
+        width: 188
+        x: 262
+        y: 166
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_010.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_011.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 224
+        width: 224
+        x: 223
+        y: 168
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_012.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 255
+        width: 255
+        x: 230
+        y: 169
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_013.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 120
+        width: 120
+        x: 483
+        y: 125
+    - face:
+        check: TP
+        height: 123
+        width: 123
+        x: 158
+        y: 357
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_014.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 229
+        width: 229
+        x: 222
+        y: 152
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_015.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 134
+        width: 134
+        x: 342
+        y: 137
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_016.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_017.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 135
+        width: 135
+        x: 320
+        y: 137
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_018.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 250
+        width: 250
+        x: 260
+        y: 155
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_019.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_020.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 207
+        width: 207
+        x: 222
+        y: 164
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_021.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 204
+        width: 204
+        x: 209
+        y: 134
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_022.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 256
+        width: 256
+        x: 140
+        y: 208
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_023.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_024.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_025.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 201
+        width: 201
+        x: 241
+        y: 160
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_026.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 236
+        width: 236
+        x: 248
+        y: 171
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_027.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_028.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 174
+        width: 174
+        x: 260
+        y: 126
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_029.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 205
+        width: 205
+        x: 311
+        y: 127
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_030.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 280
+        width: 280
+        x: 233
+        y: 145
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_031.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 279
+        width: 279
+        x: 168
+        y: 168
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_032.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_033.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_034.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 70
+        width: 70
+        x: 500
+        y: 158
+    - face:
+        check: TP
+        height: 84
+        width: 84
+        x: 169
+        y: 141
+    - face:
+        check: TP
+        height: 91
+        width: 91
+        x: 339
+        y: 389
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_035.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 231
+        width: 231
+        x: 183
+        y: 165
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_037.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 209
+        width: 209
+        x: 212
+        y: 140
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_038.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_039.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 200
+        width: 200
+        x: 212
+        y: 168
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_040.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_041.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_042.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_043.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 213
+        width: 213
+        x: 195
+        y: 215
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_044.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 236
+        width: 236
+        x: 211
+        y: 145
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_045.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 231
+        width: 231
+        x: 210
+        y: 151
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_046.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: FP
+        height: 186
+        width: 186
+        x: 231
+        y: 154
+    falsePositivesNr: 1
+    imageName: MONITOR072011_I_047.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_048.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 270
+        width: 270
+        x: 191
+        y: 149
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 207
+        width: 207
+        x: 244
+        y: 164
+    falsePositivesNr: 0
+    imageName: MONITOR072011_I_050.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_001.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_002.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 146
+        width: 146
+        x: 491
+        y: 80
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_003.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 196
+        width: 196
+        x: 357
+        y: 152
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_004.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_005.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_006.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 195
+        width: 195
+        x: 293
+        y: 156
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_007.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 222
+        width: 222
+        x: 244
+        y: 148
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_008.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 210
+        width: 210
+        x: 243
+        y: 141
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_009.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_010.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_011.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_012.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 223
+        width: 223
+        x: 251
+        y: 151
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_013.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 184
+        width: 184
+        x: 386
+        y: 121
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_014.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 5
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 35
+        width: 35
+        x: 551
+        y: 156
+    - face:
+        check: TP
+        height: 36
+        width: 36
+        x: 221
+        y: 238
+    - face:
+        check: TP
+        height: 43
+        width: 43
+        x: 83
+        y: 144
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_015.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 220
+        width: 220
+        x: 199
+        y: 154
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_016.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_017.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 174
+        width: 174
+        x: 278
+        y: 148
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_018.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 72
+        width: 72
+        x: 122
+        y: 102
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_019.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_020.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_021.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_022.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 202
+        width: 202
+        x: 262
+        y: 157
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_023.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 224
+        width: 224
+        x: 265
+        y: 92
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_024.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 100
+        width: 100
+        x: 184
+        y: 116
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_025.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 5
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 86
+        width: 86
+        x: 98
+        y: 90
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_026.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 269
+        width: 269
+        x: 228
+        y: 115
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_027.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 207
+        width: 207
+        x: 331
+        y: 133
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_028.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 167
+        width: 167
+        x: 395
+        y: 159
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_029.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_030.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 202
+        width: 202
+        x: 301
+        y: 188
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_031.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_032.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_033.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 199
+        width: 199
+        x: 245
+        y: 122
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_034.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_035.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 252
+        width: 252
+        x: 190
+        y: 126
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 269
+        width: 269
+        x: 170
+        y: 150
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_037.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 236
+        width: 236
+        x: 271
+        y: 163
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_038.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 205
+        width: 205
+        x: 226
+        y: 188
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_039.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 225
+        width: 225
+        x: 254
+        y: 74
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_040.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 213
+        width: 213
+        x: 271
+        y: 107
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_041.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 267
+        width: 267
+        x: 195
+        y: 91
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_042.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_043.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_044.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_045.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 5
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_046.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 238
+        width: 238
+        x: 201
+        y: 128
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_047.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_048.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 203
+        width: 203
+        x: 303
+        y: 160
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 182
+        width: 182
+        x: 377
+        y: 173
+    falsePositivesNr: 0
+    imageName: MONITOR272010_I_050.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_001.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_002.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 89
+        width: 89
+        x: 407
+        y: 104
+    - face:
+        check: TP
+        height: 82
+        width: 82
+        x: 191
+        y: 70
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_003.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_004.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 143
+        width: 143
+        x: 280
+        y: 142
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_005.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 251
+        width: 251
+        x: 204
+        y: 101
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_006.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 210
+        width: 210
+        x: 253
+        y: 138
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_007.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_008.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 195
+        width: 195
+        x: 258
+        y: 99
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_009.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: FP
+        height: 175
+        width: 175
+        x: 291
+        y: 102
+    falsePositivesNr: 1
+    imageName: SPALTI3_230907_I_010.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_011.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 52
+        width: 52
+        x: 415
+        y: 227
+    - face:
+        check: TP
+        height: 66
+        width: 66
+        x: 204
+        y: 196
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_012.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 201
+        width: 201
+        x: 304
+        y: 119
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_013.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_014.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_015.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_016.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_017.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 109
+        width: 109
+        x: 457
+        y: 164
+    - face:
+        check: TP
+        height: 134
+        width: 134
+        x: 90
+        y: 142
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_018.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_019.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_020.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 89
+        width: 89
+        x: 87
+        y: 74
+    - face:
+        check: TP
+        height: 108
+        width: 108
+        x: 261
+        y: 113
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_021.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 108
+        width: 108
+        x: 256
+        y: 102
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_022.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 176
+        width: 176
+        x: 256
+        y: 138
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_023.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_024.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_025.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 70
+        width: 70
+        x: 333
+        y: 98
+    - face:
+        check: TP
+        height: 65
+        width: 65
+        x: 120
+        y: 121
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_026.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 252
+        width: 252
+        x: 165
+        y: 106
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_027.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 225
+        width: 225
+        x: 284
+        y: 70
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_028.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 89
+        width: 89
+        x: 240
+        y: 57
+    - face:
+        check: TP
+        height: 93
+        width: 93
+        x: 453
+        y: 169
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_029.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 99
+        width: 99
+        x: 182
+        y: 131
+    - face:
+        check: TP
+        height: 100
+        width: 100
+        x: 402
+        y: 36
+    - face:
+        check: TP
+        height: 111
+        width: 111
+        x: 471
+        y: 135
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_030.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 3
+    detectedFacesNr: 2
+    faces:
+    - face:
+        check: TP
+        height: 73
+        width: 73
+        x: 537
+        y: 189
+    - face:
+        check: TP
+        height: 83
+        width: 83
+        x: 367
+        y: 45
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_031.jpg
+    truePositivesNr: 2
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_032.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_033.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 119
+        width: 119
+        x: 276
+        y: 118
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_034.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_035.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 268
+        width: 268
+        x: 145
+        y: 91
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_036.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 4
+    detectedFacesNr: 3
+    faces:
+    - face:
+        check: TP
+        height: 66
+        width: 66
+        x: 487
+        y: 93
+    - face:
+        check: TP
+        height: 63
+        width: 63
+        x: 133
+        y: 71
+    - face:
+        check: TP
+        height: 68
+        width: 68
+        x: 324
+        y: 98
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_037.jpg
+    truePositivesNr: 3
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_038.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 171
+        width: 171
+        x: 233
+        y: 123
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_039.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 119
+        width: 119
+        x: 231
+        y: 123
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_040.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 199
+        width: 199
+        x: 260
+        y: 87
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_041.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_042.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 123
+        width: 123
+        x: 532
+        y: 213
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_043.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 103
+        width: 103
+        x: 201
+        y: 130
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_044.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 205
+        width: 205
+        x: 292
+        y: 145
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_045.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 236
+        width: 236
+        x: 221
+        y: 86
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_046.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 128
+        width: 128
+        x: 511
+        y: 170
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_047.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 2
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_048.jpg
+    truePositivesNr: 0
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 1
+    faces:
+    - face:
+        check: TP
+        height: 200
+        width: 200
+        x: 277
+        y: 100
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_049.jpg
+    truePositivesNr: 1
+- images:
+    annotatedFacesNr: 1
+    detectedFacesNr: 0
+    falsePositivesNr: 0
+    imageName: SPALTI3_230907_I_050.jpg
+    truePositivesNr: 0
+meanDetectionTime: 0.24405157396278399
+precision: 0.9809523809523809
+recall: 0.4567627494456763
+truePositivesNr: 206

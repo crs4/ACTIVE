@@ -1,0 +1,3122 @@
+experiments:
+- experiment:
+    F1: 0.6288751107174492
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 1
+    meanDetectionTime: 0.4758732339833268
+    parameters:
+      flags: &id001 !!python/object/apply:Utils.HaarCascadeFlag
+      - !!python/long '1'
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.523598820058997
+    recall: 0.7871396895787139
+- experiment:
+    F1: 0.7096774193548387
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 2
+    meanDetectionTime: 0.4759258291004667
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.6506469500924215
+    recall: 0.7804878048780488
+- experiment:
+    F1: 0.744336569579288
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 3
+    meanDetectionTime: 0.47581918412270313
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.7247899159663865
+    recall: 0.7649667405764967
+- experiment:
+    F1: 0.7739032620922385
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 4
+    meanDetectionTime: 0.47634356837477376
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.7853881278538812
+    recall: 0.7627494456762749
+- experiment:
+    F1: 0.7820069204152249
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 5
+    meanDetectionTime: 0.4761476975555233
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.8149038461538461
+    recall: 0.7516629711751663
+- experiment:
+    F1: 0.7421109902067464
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 6
+    meanDetectionTime: 0.27732118551675333
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7286324786324786
+    recall: 0.7560975609756098
+- experiment:
+    F1: 0.7813953488372093
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 7
+    meanDetectionTime: 0.2774459569289657
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.8215158924205379
+    recall: 0.7450110864745011
+- experiment:
+    F1: 0.7966101694915255
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 8
+    meanDetectionTime: 0.2780439899315693
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.8773333333333333
+    recall: 0.729490022172949
+- experiment:
+    F1: 0.8049689440993788
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 9
+    meanDetectionTime: 0.2772632756265405
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9152542372881356
+    recall: 0.7184035476718403
+- experiment:
+    F1: 0.8055555555555556
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 10
+    meanDetectionTime: 0.27792498199577825
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9354838709677419
+    recall: 0.7073170731707317
+- experiment:
+    F1: 0.7740440324449595
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 11
+    meanDetectionTime: 0.2118823707642846
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8106796116504854
+    recall: 0.7405764966740577
+- experiment:
+    F1: 0.7872078720787208
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 12
+    meanDetectionTime: 0.21017241426135105
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8839779005524862
+    recall: 0.7095343680709535
+- experiment:
+    F1: 0.8005082592121981
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 13
+    meanDetectionTime: 0.2108383785891987
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9375
+    recall: 0.6984478935698448
+- experiment:
+    F1: 0.7938144329896908
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 14
+    meanDetectionTime: 0.21141527530252938
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9476923076923077
+    recall: 0.6829268292682927
+- experiment:
+    F1: 0.781456953642384
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 15
+    meanDetectionTime: 0.21167113657856848
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9703947368421053
+    recall: 0.6541019955654102
+- experiment:
+    F1: 0.7746650426309377
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 16
+    meanDetectionTime: 0.1802311341791864
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8594594594594595
+    recall: 0.70509977827051
+- experiment:
+    F1: 0.7831632653061225
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 17
+    meanDetectionTime: 0.17916378935644942
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9219219219219219
+    recall: 0.6807095343680709
+- experiment:
+    F1: 0.7805519053876477
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 18
+    meanDetectionTime: 0.18026987853246126
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9580645161290322
+    recall: 0.6585365853658537
+- experiment:
+    F1: 0.7786666666666667
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 19
+    meanDetectionTime: 0.1791593920636422
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9765886287625418
+    recall: 0.647450110864745
+- experiment:
+    F1: 0.7648648648648648
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 20
+    meanDetectionTime: 0.17995657260073314
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9792387543252595
+    recall: 0.6274944567627494
+- experiment:
+    F1: 0.7762669962917182
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 21
+    meanDetectionTime: 0.15588876148075412
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8770949720670391
+    recall: 0.6962305986696231
+- experiment:
+    F1: 0.7761966364812419
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 22
+    meanDetectionTime: 0.15564985292566985
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9316770186335404
+    recall: 0.6651884700665188
+- experiment:
+    F1: 0.7706666666666666
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 23
+    meanDetectionTime: 0.15574403103515747
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9665551839464883
+    recall: 0.6407982261640798
+- experiment:
+    F1: 0.7544097693351426
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 24
+    meanDetectionTime: 0.15518659387753728
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.972027972027972
+    recall: 0.6164079822616408
+- experiment:
+    F1: 0.7427785419532326
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 25
+    meanDetectionTime: 0.15558617483584253
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9782608695652174
+    recall: 0.5986696230598669
+- experiment:
+    F1: 0.7832699619771863
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 26
+    meanDetectionTime: 0.1434190096951804
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9142011834319527
+    recall: 0.6851441241685144
+- experiment:
+    F1: 0.770860927152318
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 27
+    meanDetectionTime: 0.1434645660737523
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9572368421052632
+    recall: 0.6452328159645233
+- experiment:
+    F1: 0.75
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 28
+    meanDetectionTime: 0.1434069809030674
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.968421052631579
+    recall: 0.6119733924611973
+- experiment:
+    F1: 0.7295423023578363
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 29
+    meanDetectionTime: 0.14322828715644523
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9740740740740741
+    recall: 0.5831485587583148
+- experiment:
+    F1: 0.7154929577464789
+    algorithm: HaarCascadeFrontalFaceAlt
+    experimentNumber: 30
+    meanDetectionTime: 0.143321794572508
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9806949806949807
+    recall: 0.5631929046563193
+- experiment:
+    F1: 0.7349999999999999
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 31
+    meanDetectionTime: 0.4938079729153218
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.8424068767908309
+    recall: 0.6518847006651884
+- experiment:
+    F1: 0.7402597402597403
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 32
+    meanDetectionTime: 0.4944688810649199
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.8934169278996865
+    recall: 0.6319290465631929
+- experiment:
+    F1: 0.7427055702917772
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 33
+    meanDetectionTime: 0.4948230922107816
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.9240924092409241
+    recall: 0.6208425720620843
+- experiment:
+    F1: 0.7304582210242587
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 34
+    meanDetectionTime: 0.4930843679192693
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.9312714776632303
+    recall: 0.6008869179600886
+- experiment:
+    F1: 0.7295081967213115
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 35
+    meanDetectionTime: 0.4940326552126879
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.9501779359430605
+    recall: 0.5920177383592018
+- experiment:
+    F1: 0.7416331994645248
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 36
+    meanDetectionTime: 0.3385408297020833
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9358108108108109
+    recall: 0.614190687361419
+- experiment:
+    F1: 0.729281767955801
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 37
+    meanDetectionTime: 0.33876607878262516
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.967032967032967
+    recall: 0.5853658536585366
+- experiment:
+    F1: 0.7196652719665271
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 38
+    meanDetectionTime: 0.3375405920073886
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9699248120300752
+    recall: 0.5720620842572062
+- experiment:
+    F1: 0.7062146892655368
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 39
+    meanDetectionTime: 0.33765534788856133
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9727626459143969
+    recall: 0.5543237250554324
+- experiment:
+    F1: 0.6915351506456241
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 40
+    meanDetectionTime: 0.33800968892223454
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9796747967479674
+    recall: 0.5343680709534369
+- experiment:
+    F1: 0.6979310344827585
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 41
+    meanDetectionTime: 0.28521131270880207
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9233576642335767
+    recall: 0.5609756097560976
+- experiment:
+    F1: 0.6865248226950355
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 42
+    meanDetectionTime: 0.28563699757475813
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.952755905511811
+    recall: 0.5365853658536586
+- experiment:
+    F1: 0.6753246753246753
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 43
+    meanDetectionTime: 0.285505651477704
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9669421487603306
+    recall: 0.5188470066518847
+- experiment:
+    F1: 0.650887573964497
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 44
+    meanDetectionTime: 0.2851797747674507
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9777777777777777
+    recall: 0.4878048780487805
+- experiment:
+    F1: 0.6304675716440422
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 45
+    meanDetectionTime: 0.2857402229606935
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9858490566037735
+    recall: 0.4634146341463415
+- experiment:
+    F1: 0.6985915492957747
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 46
+    meanDetectionTime: 0.26102107524200147
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9575289575289575
+    recall: 0.549889135254989
+- experiment:
+    F1: 0.679136690647482
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 47
+    meanDetectionTime: 0.26039402648317994
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9672131147540983
+    recall: 0.5232815964523282
+- experiment:
+    F1: 0.6397608370702541
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 48
+    meanDetectionTime: 0.2614625662737794
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.981651376146789
+    recall: 0.4745011086474501
+- experiment:
+    F1: 0.6189024390243902
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 49
+    meanDetectionTime: 0.26086528898207767
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9902439024390244
+    recall: 0.4501108647450111
+- experiment:
+    F1: 0.584375
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 50
+    meanDetectionTime: 0.26095625059704103
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9894179894179894
+    recall: 0.4146341463414634
+- experiment:
+    F1: 0.6866952789699571
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 51
+    meanDetectionTime: 0.24361724329179646
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.967741935483871
+    recall: 0.532150776053215
+- experiment:
+    F1: 0.6499261447562777
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 52
+    meanDetectionTime: 0.24399631968791033
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9734513274336283
+    recall: 0.4878048780487805
+- experiment:
+    F1: 0.6232980332829048
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 53
+    meanDetectionTime: 0.24405157396278399
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9809523809523809
+    recall: 0.4567627494456763
+- experiment:
+    F1: 0.5709779179810724
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 54
+    meanDetectionTime: 0.244613310406954
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9890710382513661
+    recall: 0.401330376940133
+- experiment:
+    F1: 0.5324675324675325
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 55
+    meanDetectionTime: 0.2444223753245276
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9939393939393939
+    recall: 0.36363636363636365
+- experiment:
+    F1: 0.64
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 56
+    meanDetectionTime: 0.23422545949879597
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9642857142857143
+    recall: 0.4789356984478936
+- experiment:
+    F1: 0.6055045871559632
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 57
+    meanDetectionTime: 0.23422901724402376
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9753694581280788
+    recall: 0.43902439024390244
+- experiment:
+    F1: 0.5564387917329093
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 58
+    meanDetectionTime: 0.23372130232131938
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9831460674157303
+    recall: 0.38802660753880264
+- experiment:
+    F1: 0.5114754098360655
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 59
+    meanDetectionTime: 0.2338732509868225
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9811320754716981
+    recall: 0.3458980044345898
+- experiment:
+    F1: 0.45392491467576795
+    algorithm: HaarCascadeFrontalFaceAltTree
+    experimentNumber: 60
+    meanDetectionTime: 0.23383138814528118
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9851851851851852
+    recall: 0.29490022172949004
+- experiment:
+    F1: 0.5590251332825591
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 61
+    meanDetectionTime: 0.48492541074363515
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.425754060324826
+    recall: 0.8137472283813747
+- experiment:
+    F1: 0.6506666666666666
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 62
+    meanDetectionTime: 0.4875811075580892
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.543026706231454
+    recall: 0.811529933481153
+- experiment:
+    F1: 0.7155599603567889
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 63
+    meanDetectionTime: 0.4869357930306217
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.6469534050179212
+    recall: 0.8004434589800443
+- experiment:
+    F1: 0.7582534611288605
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 64
+    meanDetectionTime: 0.4860730132448963
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.7295081967213115
+    recall: 0.7893569844789357
+- experiment:
+    F1: 0.7838745800671891
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 65
+    meanDetectionTime: 0.4887391672089484
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.7918552036199095
+    recall: 0.7760532150776053
+- experiment:
+    F1: 0.7076612903225806
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 66
+    meanDetectionTime: 0.28074372697959954
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.6487985212569316
+    recall: 0.7782705099778271
+- experiment:
+    F1: 0.7730337078651685
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 67
+    meanDetectionTime: 0.2802688736731222
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7835990888382688
+    recall: 0.7627494456762749
+- experiment:
+    F1: 0.7966706302021404
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 68
+    meanDetectionTime: 0.2798236465955758
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.8589743589743589
+    recall: 0.7427937915742794
+- experiment:
+    F1: 0.8068880688806889
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 69
+    meanDetectionTime: 0.28100062145413657
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9060773480662984
+    recall: 0.7272727272727273
+- experiment:
+    F1: 0.802017654476671
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 70
+    meanDetectionTime: 0.279872793781727
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9298245614035088
+    recall: 0.70509977827051
+- experiment:
+    F1: 0.7311827956989246
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 71
+    meanDetectionTime: 0.21233896656770404
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.7098121085594989
+    recall: 0.753880266075388
+- experiment:
+    F1: 0.7801418439716312
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 72
+    meanDetectionTime: 0.21198341757738676
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8354430379746836
+    recall: 0.7317073170731707
+- experiment:
+    F1: 0.7984981226533165
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 73
+    meanDetectionTime: 0.21249098962349908
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9166666666666666
+    recall: 0.7073170731707317
+- experiment:
+    F1: 0.7969348659003831
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 74
+    meanDetectionTime: 0.2128139320500183
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9397590361445783
+    recall: 0.6917960088691796
+- experiment:
+    F1: 0.7847769028871392
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 75
+    meanDetectionTime: 0.2127972757094324
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9614147909967846
+    recall: 0.6629711751662971
+- experiment:
+    F1: 0.7738927738927738
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 76
+    meanDetectionTime: 0.17973595579185694
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8157248157248157
+    recall: 0.7361419068736141
+- experiment:
+    F1: 0.7944862155388471
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 77
+    meanDetectionTime: 0.1796247741870883
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9135446685878963
+    recall: 0.7028824833702882
+- experiment:
+    F1: 0.7892030848329048
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 78
+    meanDetectionTime: 0.1790920157135913
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9388379204892966
+    recall: 0.6807095343680709
+- experiment:
+    F1: 0.7798408488063661
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 79
+    meanDetectionTime: 0.17955837435721758
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9702970297029703
+    recall: 0.6518847006651884
+- experiment:
+    F1: 0.7658998646820027
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 80
+    meanDetectionTime: 0.1802909581434167
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9826388888888888
+    recall: 0.6274944567627494
+- experiment:
+    F1: 0.7705314009661837
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 81
+    meanDetectionTime: 0.15596212093570716
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8461538461538461
+    recall: 0.7073170731707317
+- experiment:
+    F1: 0.7888040712468193
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 82
+    meanDetectionTime: 0.15566896414588666
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9253731343283582
+    recall: 0.6873614190687362
+- experiment:
+    F1: 0.7747035573122529
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 83
+    meanDetectionTime: 0.15618069614435107
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9545454545454546
+    recall: 0.6518847006651884
+- experiment:
+    F1: 0.7634408602150538
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 84
+    meanDetectionTime: 0.15571001932140235
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9692832764505119
+    recall: 0.6297117516629712
+- experiment:
+    F1: 0.7540983606557378
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 85
+    meanDetectionTime: 0.15496403583628335
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9822064056939501
+    recall: 0.6119733924611973
+- experiment:
+    F1: 0.7793190416141236
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 86
+    meanDetectionTime: 0.14387300892317462
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9035087719298246
+    recall: 0.6851441241685144
+- experiment:
+    F1: 0.7730870712401056
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 87
+    meanDetectionTime: 0.14440994860339315
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9543973941368078
+    recall: 0.6496674057649667
+- experiment:
+    F1: 0.7567567567567568
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 88
+    meanDetectionTime: 0.14462773621958225
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9688581314878892
+    recall: 0.6208425720620843
+- experiment:
+    F1: 0.7382920110192837
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 89
+    meanDetectionTime: 0.14409014946190435
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9745454545454545
+    recall: 0.5942350332594235
+- experiment:
+    F1: 0.7198879551820727
+    algorithm: HaarCascadeFrontalFaceAlt2
+    experimentNumber: 90
+    meanDetectionTime: 0.14474706297090975
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9771863117870723
+    recall: 0.5698447893569845
+- experiment:
+    F1: 0.433066008636644
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 91
+    meanDetectionTime: 0.3868234483395439
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.3
+    recall: 0.7782705099778271
+- experiment:
+    F1: 0.5168539325842697
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 92
+    meanDetectionTime: 0.3859103417501816
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.3902714932126697
+    recall: 0.7649667405764967
+- experiment:
+    F1: 0.5772495755517827
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 93
+    meanDetectionTime: 0.38490497466774426
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.4676753782668501
+    recall: 0.753880266075388
+- experiment:
+    F1: 0.614115490375802
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 94
+    meanDetectionTime: 0.3852354505873114
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.5234375
+    recall: 0.7427937915742794
+- experiment:
+    F1: 0.6516192345436702
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 95
+    meanDetectionTime: 0.38660385528277946
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.5845070422535211
+    recall: 0.7361419068736141
+- experiment:
+    F1: 0.5839793281653747
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 96
+    meanDetectionTime: 0.23443621782280416
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.47746478873239434
+    recall: 0.7516629711751663
+- experiment:
+    F1: 0.6496062992125984
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 97
+    meanDetectionTime: 0.23627817340424254
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.584070796460177
+    recall: 0.7317073170731707
+- experiment:
+    F1: 0.6914893617021276
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 98
+    meanDetectionTime: 0.23502096094072775
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.6646216768916156
+    recall: 0.720620842572062
+- experiment:
+    F1: 0.725
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 99
+    meanDetectionTime: 0.2352731641036849
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7435897435897436
+    recall: 0.7073170731707317
+- experiment:
+    F1: 0.7455621301775147
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 100
+    meanDetectionTime: 0.2352287637266323
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.799492385786802
+    recall: 0.6984478935698448
+- experiment:
+    F1: 0.6159554730983302
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 101
+    meanDetectionTime: 0.18712643409427515
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.529505582137161
+    recall: 0.7361419068736141
+- experiment:
+    F1: 0.6914103923647933
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 102
+    meanDetectionTime: 0.18707152815489536
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.6626016260162602
+    recall: 0.7228381374722838
+- experiment:
+    F1: 0.7235494880546075
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 103
+    meanDetectionTime: 0.1876341797177349
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.7429906542056075
+    recall: 0.70509977827051
+- experiment:
+    F1: 0.73621103117506
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 104
+    meanDetectionTime: 0.18703803835398136
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8015665796344648
+    recall: 0.6807095343680709
+- experiment:
+    F1: 0.7471980074719801
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 105
+    meanDetectionTime: 0.18688570592903628
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8522727272727273
+    recall: 0.6651884700665188
+- experiment:
+    F1: 0.6946236559139786
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 106
+    meanDetectionTime: 0.15804013226357727
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.6743215031315241
+    recall: 0.7161862527716186
+- experiment:
+    F1: 0.726190476190476
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 107
+    meanDetectionTime: 0.1587744754392186
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.7840616966580977
+    recall: 0.6762749445676275
+- experiment:
+    F1: 0.7450000000000001
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 108
+    meanDetectionTime: 0.1583206793085291
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8538681948424068
+    recall: 0.6607538802660754
+- experiment:
+    F1: 0.7435897435897436
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 109
+    meanDetectionTime: 0.1577878051168005
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8814589665653495
+    recall: 0.6430155210643016
+- experiment:
+    F1: 0.7441253263707572
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 110
+    meanDetectionTime: 0.15752632678332715
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9047619047619048
+    recall: 0.6319290465631929
+- experiment:
+    F1: 0.6789989118607181
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 111
+    meanDetectionTime: 0.14566119449318188
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.6666666666666666
+    recall: 0.6917960088691796
+- experiment:
+    F1: 0.720873786407767
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 112
+    meanDetectionTime: 0.14598983545221675
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.7962466487935657
+    recall: 0.6585365853658537
+- experiment:
+    F1: 0.7391304347826086
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 113
+    meanDetectionTime: 0.1456839614648842
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8731117824773413
+    recall: 0.6407982261640798
+- experiment:
+    F1: 0.7390728476821193
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 114
+    meanDetectionTime: 0.14577680881470642
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9177631578947368
+    recall: 0.6186252771618626
+- experiment:
+    F1: 0.7419354838709676
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 115
+    meanDetectionTime: 0.1454150582718049
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9419795221843004
+    recall: 0.6119733924611973
+- experiment:
+    F1: 0.7079037800687286
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 116
+    meanDetectionTime: 0.13416809041419692
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.7322274881516587
+    recall: 0.6851441241685144
+- experiment:
+    F1: 0.7396226415094339
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 117
+    meanDetectionTime: 0.13365307343490793
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.8546511627906976
+    recall: 0.6518847006651884
+- experiment:
+    F1: 0.7460317460317459
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 118
+    meanDetectionTime: 0.13404948394982216
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9245901639344263
+    recall: 0.6252771618625277
+- experiment:
+    F1: 0.7307171853856563
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 119
+    meanDetectionTime: 0.13431409612193965
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9375
+    recall: 0.5986696230598669
+- experiment:
+    F1: 0.72
+    algorithm: HaarCascadeFrontalFaceDefault
+    experimentNumber: 120
+    meanDetectionTime: 0.13371073417668314
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9525547445255474
+    recall: 0.5787139689578714
+- experiment:
+    F1: 0.40982218458933106
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 121
+    meanDetectionTime: 0.6401795285710086
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.3315068493150685
+    recall: 0.5365853658536586
+- experiment:
+    F1: 0.46336633663366333
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 122
+    meanDetectionTime: 0.6420621473029323
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.4186046511627907
+    recall: 0.5188470066518847
+- experiment:
+    F1: 0.49344978165938863
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 123
+    meanDetectionTime: 0.6398707923286366
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.4860215053763441
+    recall: 0.5011086474501109
+- experiment:
+    F1: 0.5125748502994012
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 124
+    meanDetectionTime: 0.6410970489843546
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.5572916666666666
+    recall: 0.4745011086474501
+- experiment:
+    F1: 0.5214105793450883
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 125
+    meanDetectionTime: 0.64299136706567
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.6034985422740525
+    recall: 0.458980044345898
+- experiment:
+    F1: 0.45796460176991155
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 126
+    meanDetectionTime: 0.36948004137989493
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.45695364238410596
+    recall: 0.458980044345898
+- experiment:
+    F1: 0.495530012771392
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 127
+    meanDetectionTime: 0.36812650529641155
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.5843373493975904
+    recall: 0.43015521064301554
+- experiment:
+    F1: 0.5055248618784531
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 128
+    meanDetectionTime: 0.3694419157649205
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.6703296703296703
+    recall: 0.4057649667405765
+- experiment:
+    F1: 0.5086705202312138
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 129
+    meanDetectionTime: 0.37057936694333976
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7302904564315352
+    recall: 0.3902439024390244
+- experiment:
+    F1: 0.4999999999999999
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 130
+    meanDetectionTime: 0.36935485550748515
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7511111111111111
+    recall: 0.37472283813747226
+- experiment:
+    F1: 0.5025
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 131
+    meanDetectionTime: 0.2723132747586538
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.5759312320916905
+    recall: 0.44567627494456763
+- experiment:
+    F1: 0.5105189340813463
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 132
+    meanDetectionTime: 0.273303574854995
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.6946564885496184
+    recall: 0.4035476718403548
+- experiment:
+    F1: 0.5075075075075075
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 133
+    meanDetectionTime: 0.27284099830827035
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.786046511627907
+    recall: 0.37472283813747226
+- experiment:
+    F1: 0.4992248062015504
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 134
+    meanDetectionTime: 0.2737397452097079
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8298969072164949
+    recall: 0.35698447893569846
+- experiment:
+    F1: 0.4897314375987362
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 135
+    meanDetectionTime: 0.27294898113048904
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8516483516483516
+    recall: 0.3436807095343681
+- experiment:
+    F1: 0.4980026631158455
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 136
+    meanDetectionTime: 0.23187238947639532
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.6233333333333333
+    recall: 0.4146341463414634
+- experiment:
+    F1: 0.49925261584454406
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 137
+    meanDetectionTime: 0.23206496823003187
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.7660550458715596
+    recall: 0.37028824833702884
+- experiment:
+    F1: 0.4830769230769231
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 138
+    meanDetectionTime: 0.2327926717769256
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.7889447236180904
+    recall: 0.34811529933481156
+- experiment:
+    F1: 0.4600638977635783
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 139
+    meanDetectionTime: 0.23278911521249593
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8228571428571428
+    recall: 0.31929046563192903
+- experiment:
+    F1: 0.45065789473684215
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 140
+    meanDetectionTime: 0.23188904581698083
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.8726114649681529
+    recall: 0.30376940133037694
+- experiment:
+    F1: 0.48656294200848654
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 141
+    meanDetectionTime: 0.20294935190115024
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.671875
+    recall: 0.38137472283813745
+- experiment:
+    F1: 0.4879518072289157
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 142
+    meanDetectionTime: 0.20297227119583108
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.7605633802816901
+    recall: 0.35920177383592017
+- experiment:
+    F1: 0.4748427672955975
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 143
+    meanDetectionTime: 0.2028135164090223
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8162162162162162
+    recall: 0.3348115299334812
+- experiment:
+    F1: 0.4397394136807817
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 144
+    meanDetectionTime: 0.20337827451599963
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8282208588957055
+    recall: 0.29933481152993346
+- experiment:
+    F1: 0.41068447412353926
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 145
+    meanDetectionTime: 0.20296055177286834
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.831081081081081
+    recall: 0.2727272727272727
+- experiment:
+    F1: 0.4812030075187969
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 146
+    meanDetectionTime: 0.18316586071279833
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.7476635514018691
+    recall: 0.35476718403547675
+- experiment:
+    F1: 0.4610492845786963
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 147
+    meanDetectionTime: 0.18346171680749465
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.8146067415730337
+    recall: 0.3215077605321508
+- experiment:
+    F1: 0.4437194127243067
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 148
+    meanDetectionTime: 0.1833714495019215
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.8395061728395061
+    recall: 0.30155210643015523
+- experiment:
+    F1: 0.4210526315789474
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 149
+    meanDetectionTime: 0.18376364692856093
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.8985507246376812
+    recall: 0.2749445676274945
+- experiment:
+    F1: 0.40484429065743943
+    algorithm: HaarCascadeProfileFace
+    experimentNumber: 150
+    meanDetectionTime: 0.18351040584391248
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9212598425196851
+    recall: 0.25942350332594233
+- experiment:
+    F1: 0.23429112724976317
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 151
+    meanDetectionTime: 1.1417730052272754
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.13659793814432988
+    recall: 0.8226164079822617
+- experiment:
+    F1: 0.33212669683257917
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 152
+    meanDetectionTime: 1.1403781376614792
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.20864127345082434
+    recall: 0.8137472283813747
+- experiment:
+    F1: 0.38897893030794156
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 153
+    meanDetectionTime: 1.1361126774400345
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.2571428571428571
+    recall: 0.7982261640798226
+- experiment:
+    F1: 0.44555071561916615
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 154
+    meanDetectionTime: 1.140130786398668
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.3096885813148789
+    recall: 0.7937915742793792
+- experiment:
+    F1: 0.4763193504736129
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 155
+    meanDetectionTime: 1.1401329850450723
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.3427458617332035
+    recall: 0.7804878048780488
+- experiment:
+    F1: 0.3914238592633315
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 156
+    meanDetectionTime: 0.6767195723337543
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.260233918128655
+    recall: 0.7893569844789357
+- experiment:
+    F1: 0.4875346260387812
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 157
+    meanDetectionTime: 0.676001088459858
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.3544813695871098
+    recall: 0.7804878048780488
+- experiment:
+    F1: 0.5403288958496476
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 158
+    meanDetectionTime: 0.6754823826667311
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.41767554479418884
+    recall: 0.7649667405764967
+- experiment:
+    F1: 0.569747899159664
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 159
+    meanDetectionTime: 0.6763297058029273
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.4587280108254398
+    recall: 0.7516629711751663
+- experiment:
+    F1: 0.5854513584574934
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 160
+    meanDetectionTime: 0.6770065570909474
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.48405797101449277
+    recall: 0.7405764966740577
+- experiment:
+    F1: 0.47282608695652173
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 161
+    meanDetectionTime: 0.5247819685489649
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.34084231145935356
+    recall: 0.7716186252771619
+- experiment:
+    F1: 0.5551894563426689
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 162
+    meanDetectionTime: 0.5252439322613814
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.4416775884665793
+    recall: 0.7472283813747228
+- experiment:
+    F1: 0.6023657870791629
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 163
+    meanDetectionTime: 0.5218774940673742
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.5108024691358025
+    recall: 0.7339246119733924
+- experiment:
+    F1: 0.6123222748815166
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 164
+    meanDetectionTime: 0.5204940353745908
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.5347682119205298
+    recall: 0.7161862527716186
+- experiment:
+    F1: 0.6130952380952381
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 165
+    meanDetectionTime: 0.52213793211756
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.5547576301615799
+    recall: 0.6851441241685144
+- experiment:
+    F1: 0.5149884704073788
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 166
+    meanDetectionTime: 0.4403286692981938
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.3941176470588235
+    recall: 0.7427937915742794
+- experiment:
+    F1: 0.5817524841915086
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 167
+    meanDetectionTime: 0.4466917562685928
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.49085365853658536
+    recall: 0.7139689578713969
+- experiment:
+    F1: 0.5967276227141481
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 168
+    meanDetectionTime: 0.44680427926021093
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.5272108843537415
+    recall: 0.6873614190687362
+- experiment:
+    F1: 0.6199186991869919
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 169
+    meanDetectionTime: 0.4421682148703359
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.5722326454033771
+    recall: 0.6762749445676275
+- experiment:
+    F1: 0.6300211416490487
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 170
+    meanDetectionTime: 0.44726359444207625
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.602020202020202
+    recall: 0.6607538802660754
+- experiment:
+    F1: 0.5374592833876222
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 171
+    meanDetectionTime: 0.39166939490110064
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.4247104247104247
+    recall: 0.7317073170731707
+- experiment:
+    F1: 0.572992700729927
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 172
+    meanDetectionTime: 0.3968794193589751
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.4868217054263566
+    recall: 0.6962305986696231
+- experiment:
+    F1: 0.610337972166998
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 173
+    meanDetectionTime: 0.3975819423824756
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.5531531531531532
+    recall: 0.6807095343680709
+- experiment:
+    F1: 0.6260504201680671
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 174
+    meanDetectionTime: 0.3966704794643236
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.5948103792415169
+    recall: 0.6607538802660754
+- experiment:
+    F1: 0.6352683461117196
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 175
+    meanDetectionTime: 0.3960690315930845
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.6277056277056277
+    recall: 0.6430155210643016
+- experiment:
+    F1: 0.5767524401064774
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 176
+    meanDetectionTime: 0.3706342657979299
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.4807692307692308
+    recall: 0.720620842572062
+- experiment:
+    F1: 0.6107784431137725
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 177
+    meanDetectionTime: 0.3707391230470925
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.5553539019963702
+    recall: 0.6784922394678492
+- experiment:
+    F1: 0.614406779661017
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 178
+    meanDetectionTime: 0.37165153296546727
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.5882352941176471
+    recall: 0.6430155210643016
+- experiment:
+    F1: 0.6327683615819208
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 179
+    meanDetectionTime: 0.37432877934859377
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.6451612903225806
+    recall: 0.6208425720620843
+- experiment:
+    F1: 0.6317016317016316
+    algorithm: HaarCascadeFrontalAndProfileFaces
+    experimentNumber: 180
+    meanDetectionTime: 0.37364628502557673
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.6658476658476659
+    recall: 0.6008869179600886
+- experiment:
+    F1: 0.49382716049382713
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 181
+    meanDetectionTime: 0.15662130630060977
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.378698224852071
+    recall: 0.7095343680709535
+- experiment:
+    F1: 0.5950095969289827
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 182
+    meanDetectionTime: 0.15637423016379912
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.5245346869712352
+    recall: 0.6873614190687362
+- experiment:
+    F1: 0.6608315098468271
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 183
+    meanDetectionTime: 0.15564570360050203
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.652267818574514
+    recall: 0.6696230598669624
+- experiment:
+    F1: 0.6874279123414072
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 184
+    meanDetectionTime: 0.15552750805392995
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.7163461538461539
+    recall: 0.6607538802660754
+- experiment:
+    F1: 0.7046004842615012
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 185
+    meanDetectionTime: 0.15599385488957368
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.776
+    recall: 0.6452328159645233
+- experiment:
+    F1: 0.6240681576144834
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 186
+    meanDetectionTime: 0.0865171327336531
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.6004098360655737
+    recall: 0.6496674057649667
+- experiment:
+    F1: 0.6821515892420538
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 187
+    meanDetectionTime: 0.08725736573113195
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.7602179836512262
+    recall: 0.6186252771618626
+- experiment:
+    F1: 0.6996098829648895
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 188
+    meanDetectionTime: 0.08654909103919343
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.8459119496855346
+    recall: 0.5964523281596452
+- experiment:
+    F1: 0.6991869918699187
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 189
+    meanDetectionTime: 0.08634008620063625
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.8989547038327527
+    recall: 0.5720620842572062
+- experiment:
+    F1: 0.6907073509015257
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 190
+    meanDetectionTime: 0.08590625500732268
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.9222222222222223
+    recall: 0.5521064301552107
+- experiment:
+    F1: 0.6650485436893205
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 191
+    meanDetectionTime: 0.06685615527119572
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.7345844504021448
+    recall: 0.6075388026607539
+- experiment:
+    F1: 0.6898395721925134
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 192
+    meanDetectionTime: 0.06666899520088156
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.8686868686868687
+    recall: 0.5720620842572062
+- experiment:
+    F1: 0.6835443037974683
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 193
+    meanDetectionTime: 0.06675181875407599
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9346153846153846
+    recall: 0.5388026607538803
+- experiment:
+    F1: 0.6637806637806638
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 194
+    meanDetectionTime: 0.06649458657122986
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9504132231404959
+    recall: 0.5099778270509978
+- experiment:
+    F1: 0.6539589442815249
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 195
+    meanDetectionTime: 0.06644126998633937
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.9653679653679653
+    recall: 0.49445676274944567
+- experiment:
+    F1: 0.6683804627249357
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 196
+    meanDetectionTime: 0.05421024845530919
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.7951070336391437
+    recall: 0.5764966740576497
+- experiment:
+    F1: 0.6824512534818942
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 197
+    meanDetectionTime: 0.054700063656835454
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9176029962546817
+    recall: 0.5432372505543237
+- experiment:
+    F1: 0.6579330422125182
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 198
+    meanDetectionTime: 0.05409650687986216
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9576271186440678
+    recall: 0.5011086474501109
+- experiment:
+    F1: 0.6356821589205398
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 199
+    meanDetectionTime: 0.05426678625791682
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9814814814814815
+    recall: 0.4700665188470067
+- experiment:
+    F1: 0.6085626911314984
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 200
+    meanDetectionTime: 0.054185007711203215
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.9802955665024631
+    recall: 0.44124168514412415
+- experiment:
+    F1: 0.6693877551020407
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 201
+    meanDetectionTime: 0.04387284951540627
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.8661971830985915
+    recall: 0.5454545454545454
+- experiment:
+    F1: 0.6618705035971223
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 202
+    meanDetectionTime: 0.04396777625100558
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9426229508196722
+    recall: 0.5099778270509978
+- experiment:
+    F1: 0.6265060240963854
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 203
+    meanDetectionTime: 0.0436472320258
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9765258215962441
+    recall: 0.4611973392461197
+- experiment:
+    F1: 0.5891472868217054
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 204
+    meanDetectionTime: 0.04356098533838196
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.979381443298969
+    recall: 0.4212860310421286
+- experiment:
+    F1: 0.5610142630744849
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 205
+    meanDetectionTime: 0.04347954686157402
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.9833333333333333
+    recall: 0.3924611973392461
+- experiment:
+    F1: 0.6619915848527348
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 206
+    meanDetectionTime: 0.041713143477500554
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9007633587786259
+    recall: 0.5232815964523282
+- experiment:
+    F1: 0.6371681415929203
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 207
+    meanDetectionTime: 0.041585255938618323
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9515418502202643
+    recall: 0.4789356984478936
+- experiment:
+    F1: 0.6116207951070336
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 208
+    meanDetectionTime: 0.04175496499110207
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9852216748768473
+    recall: 0.4434589800443459
+- experiment:
+    F1: 0.5768025078369906
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 209
+    meanDetectionTime: 0.04181997974458627
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.983957219251337
+    recall: 0.4079822616407982
+- experiment:
+    F1: 0.5292207792207791
+    algorithm: LBPCascadeFrontalface
+    experimentNumber: 210
+    meanDetectionTime: 0.04142641849592982
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.9878787878787879
+    recall: 0.3614190687361419
+- experiment:
+    F1: 0.06451612903225808
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 211
+    meanDetectionTime: 0.27136073541061734
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.09523809523809523
+    recall: 0.04878048780487805
+- experiment:
+    F1: 0.05683836589698047
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 212
+    meanDetectionTime: 0.27038997044107677
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.14285714285714285
+    recall: 0.03547671840354767
+- experiment:
+    F1: 0.05555555555555555
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 213
+    meanDetectionTime: 0.2695892852946805
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.16853932584269662
+    recall: 0.03325942350332594
+- experiment:
+    F1: 0.053949903660886325
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 214
+    meanDetectionTime: 0.27012696179302814
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.20588235294117646
+    recall: 0.031042128603104215
+- experiment:
+    F1: 0.047524752475247525
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 215
+    meanDetectionTime: 0.2692604058143923
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.05
+    precision: 0.2222222222222222
+    recall: 0.026607538802660754
+- experiment:
+    F1: 0.07063197026022305
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 216
+    meanDetectionTime: 0.1478036833113173
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.21839080459770116
+    recall: 0.04212860310421286
+- experiment:
+    F1: 0.052313883299798795
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 217
+    meanDetectionTime: 0.14705799266417263
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.2826086956521739
+    recall: 0.028824833702882482
+- experiment:
+    F1: 0.053608247422680416
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 218
+    meanDetectionTime: 0.1470407813483937
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.38235294117647056
+    recall: 0.028824833702882482
+- experiment:
+    F1: 0.05010438413361169
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 219
+    meanDetectionTime: 0.14705173679486713
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.42857142857142855
+    recall: 0.026607538802660754
+- experiment:
+    F1: 0.04631578947368421
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 220
+    meanDetectionTime: 0.14860377215458034
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1
+    precision: 0.4583333333333333
+    recall: 0.024390243902439025
+- experiment:
+    F1: 0.04339250493096647
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 221
+    meanDetectionTime: 0.11562361676861085
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.19642857142857142
+    recall: 0.024390243902439025
+- experiment:
+    F1: 0.041493775933609964
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 222
+    meanDetectionTime: 0.11182903410582341
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.3225806451612903
+    recall: 0.022172949002217297
+- experiment:
+    F1: 0.029723991507430998
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 223
+    meanDetectionTime: 0.11449660975100862
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.35
+    recall: 0.015521064301552107
+- experiment:
+    F1: 0.02575107296137339
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 224
+    meanDetectionTime: 0.11269414124496512
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.4
+    recall: 0.013303769401330377
+- experiment:
+    F1: 0.021645021645021648
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 225
+    meanDetectionTime: 0.114386248801047
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.1500000000000001
+    precision: 0.45454545454545453
+    recall: 0.011086474501108648
+- experiment:
+    F1: 0.0482897384305835
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 226
+    meanDetectionTime: 0.09152417324341788
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.2608695652173913
+    recall: 0.026607538802660754
+- experiment:
+    F1: 0.03375527426160337
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 227
+    meanDetectionTime: 0.09307839426075358
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.34782608695652173
+    recall: 0.017738359201773836
+- experiment:
+    F1: 0.030042918454935626
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 228
+    meanDetectionTime: 0.09120147996533647
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.4666666666666667
+    recall: 0.015521064301552107
+- experiment:
+    F1: 0.02173913043478261
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 229
+    meanDetectionTime: 0.0929066164496772
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.5555555555555556
+    recall: 0.011086474501108648
+- experiment:
+    F1: 0.013129102844638951
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 230
+    meanDetectionTime: 0.09061283548988425
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2000000000000002
+    precision: 0.5
+    recall: 0.0066518847006651885
+- experiment:
+    F1: 0.03389830508474576
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 231
+    meanDetectionTime: 0.07463495325869036
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.38095238095238093
+    recall: 0.017738359201773836
+- experiment:
+    F1: 0.021551724137931036
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 232
+    meanDetectionTime: 0.07211677339311949
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.38461538461538464
+    recall: 0.011086474501108648
+- experiment:
+    F1: 0.01735357917570499
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 233
+    meanDetectionTime: 0.07206954028098515
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.4
+    recall: 0.008869179600886918
+- experiment:
+    F1: 0.0130718954248366
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 234
+    meanDetectionTime: 0.07410349248250678
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.375
+    recall: 0.0066518847006651885
+- experiment:
+    F1: 0.008771929824561403
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 235
+    meanDetectionTime: 0.07199400225319931
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.2500000000000002
+    precision: 0.4
+    recall: 0.004434589800443459
+- experiment:
+    F1: 0.02564102564102564
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 236
+    meanDetectionTime: 0.06898425960464273
+    parameters:
+      flags: *id001
+      minNeighbors: 2
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.35294117647058826
+    recall: 0.013303769401330377
+- experiment:
+    F1: 0.017316017316017316
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 237
+    meanDetectionTime: 0.07106616638604993
+    parameters:
+      flags: *id001
+      minNeighbors: 3
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.36363636363636365
+    recall: 0.008869179600886918
+- experiment:
+    F1: 0.0087527352297593
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 238
+    meanDetectionTime: 0.06869547058767268
+    parameters:
+      flags: *id001
+      minNeighbors: 4
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.3333333333333333
+    recall: 0.004434589800443459
+- experiment:
+    F1: 0.004395604395604396
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 239
+    meanDetectionTime: 0.06870857508702191
+    parameters:
+      flags: *id001
+      minNeighbors: 5
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0.25
+    recall: 0.0022172949002217295
+- experiment:
+    F1: 0
+    algorithm: LBPCascadeProfileFace
+    experimentNumber: 240
+    meanDetectionTime: 0.07044214165163219
+    parameters:
+      flags: *id001
+      minNeighbors: 6
+      minSizeHeight: 20
+      minSizeWidth: 20
+      scaleFactor: 1.3000000000000003
+    precision: 0
+    recall: 0.0
