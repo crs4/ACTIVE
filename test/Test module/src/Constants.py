@@ -5,7 +5,7 @@ ANNOTATIONS_PATH = 'Annotations\\';
 RESULTS_PATH = 'TestResults\\';
 CLASSIFIER_FILES_PATH = 'ClassifierFiles\\';
 
-# YAML file with face detection snnotations
+# YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
 ANNOTATIONS_FRAME_KEY = 'Image';
 ANNOTATIONS_FRAME_NAME_KEY = 'imageName';
@@ -17,6 +17,7 @@ ANNOTATIONS_FACE_Y_KEY = 'y';
 ANNOTATIONS_FACE_WIDTH_KEY = 'width';
 ANNOTATIONS_FACE_HEIGHT_KEY = 'height';
 ANNOTATED_FACES_NR_KEY = 'annotatedFacesNr';
+ANNOTATATIONS_PERSON_NAME_KEY = 'personName'
 
 # YAML file with face detection results
 FACE_DETECTIONS_DETECTED_FACES_NR_KEY = 'detectedFacesNr';
