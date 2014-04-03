@@ -1,688 +1,638 @@
 images:
-   -
-      Image:
-         imageName: "fic.02_I_001.jpg"
-         numberOfFaces: 0
-   -
-      Image:
-         imageName: "fic.02_I_002.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 312
-                  y: 172
-                  width: 66
-                  height: 70
-   -
-      Image:
-         imageName: "fic.02_I_003.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 338
-                  y: 176
-                  width: 65
-                  height: 71
-   -
-      Image:
-         imageName: "fic.02_I_004.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 363
-                  y: 173
-                  width: 61
-                  height: 75
-   -
-      Image:
-         imageName: "fic.02_I_005.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 320
-                  y: 198
-                  width: 61
-                  height: 63
-   -
-      Image:
-         imageName: "fic.02_I_006.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 368
-                  y: 226
-                  width: 52
-                  height: 64
-   -
-      Image:
-         imageName: "fic.02_I_007.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 356
-                  y: 154
-                  width: 62
-                  height: 74
-   -
-      Image:
-         imageName: "fic.02_I_008.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 334
-                  y: 173
-                  width: 79
-                  height: 94
-   -
-      Image:
-         imageName: "fic.02_I_009.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 497
-                  y: 171
-                  width: 84
-                  height: 94
-   -
-      Image:
-         imageName: "fic.02_I_010.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 323
-                  y: 178
-                  width: 76
-                  height: 89
-   -
-      Image:
-         imageName: "fic.02_I_011.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 380
-                  y: 150
-                  width: 72
-                  height: 73
-   -
-      Image:
-         imageName: "fic.02_I_012.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 108
-                  y: 132
-                  width: 29
-                  height: 32
-            -
-               face:
-                  x: 351
-                  y: 119
-                  width: 32
-                  height: 34
-            -
-               face:
-                  x: 544
-                  y: 122
-                  width: 29
-                  height: 39
-   -
-      Image:
-         imageName: "fic.02_I_013.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 351
-                  y: 160
-                  width: 13
-                  height: 15
-            -
-               face:
-                  x: 469
-                  y: 156
-                  width: 13
-                  height: 15
-            -
-               face:
-                  x: 595
-                  y: 153
-                  width: 14
-                  height: 17
-   -
-      Image:
-         imageName: "fic.02_I_014.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 304
-                  y: 137
-                  width: 17
-                  height: 19
-            -
-               face:
-                  x: 449
-                  y: 126
-                  width: 18
-                  height: 21
-            -
-               face:
-                  x: 599
-                  y: 124
-                  width: 16
-                  height: 20
-   -
-      Image:
-         imageName: "fic.02_I_015.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 190
-                  y: 142
-                  width: 25
-                  height: 25
-            -
-               face:
-                  x: 395
-                  y: 128
-                  width: 23
-                  height: 32
-            -
-               face:
-                  x: 610
-                  y: 121
-                  width: 19
-                  height: 29
-   -
-      Image:
-         imageName: "fic.02_I_016.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 354
-                  y: 131
-                  width: 67
-                  height: 85
-   -
-      Image:
-         imageName: "fic.02_I_017.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 103
-                  y: 222
-                  width: 23
-                  height: 23
-            -
-               face:
-                  x: 152
-                  y: 225
-                  width: 30
-                  height: 31
-            -
-               face:
-                  x: 450
-                  y: 180
-                  width: 23
-                  height: 34
-   -
-      Image:
-         imageName: "fic.02_I_018.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 198
-                  y: 201
-                  width: 41
-                  height: 36
-            -
-               face:
-                  x: 386
-                  y: 202
-                  width: 28
-                  height: 45
-   -
-      Image:
-         imageName: "fic.02_I_019.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 142
-                  y: 323
-                  width: 87
-                  height: 82
-            -
-               face:
-                  x: 308
-                  y: 189
-                  width: 54
-                  height: 114
-   -
-      Image:
-         imageName: "fic.02_I_020.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 360
-                  y: 266
-                  width: 42
-                  height: 35
-   -
-      Image:
-         imageName: "fic.02_I_021.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 380
-                  y: 173
-                  width: 99
-                  height: 146
-   -
-      Image:
-         imageName: "fic.02_I_022.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 297
-                  y: 178
-                  width: 110
-                  height: 158
-   -
-      Image:
-         imageName: "fic.02_I_023.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 334
-                  y: 218
-                  width: 28
-                  height: 29
-   -
-      Image:
-         imageName: "fic.02_I_024.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 142
-                  y: 200
-                  width: 81
-                  height: 84
-            -
-               face:
-                  x: 321
-                  y: 167
-                  width: 59
-                  height: 122
-   -
-      Image:
-         imageName: "fic.02_I_025.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 174
-                  y: 234
-                  width: 32
-                  height: 57
-            -
-               face:
-                  x: 370
-                  y: 217
-                  width: 32
-                  height: 57
-   -
-      Image:
-         imageName: "fic.02_I_026.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 160
-                  y: 188
-                  width: 44
-                  height: 63
-            -
-               face:
-                  x: 447
-                  y: 161
-                  width: 43
-                  height: 71
-            -
-               face:
-                  x: 330
-                  y: 267
-                  width: 13
-                  height: 16
-   -
-      Image:
-         imageName: "fic.02_I_027.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 299
-                  y: 247
-                  width: 62
-                  height: 122
-   -
-      Image:
-         imageName: "fic.02_I_028.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 217
-                  y: 246
-                  width: 70
-                  height: 115
-   -
-      Image:
-         imageName: "fic.02_I_029.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 376
-                  y: 174
-                  width: 88
-                  height: 113
-   -
-      Image:
-         imageName: "fic.02_I_030.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 264
-                  y: 184
-                  width: 54
-                  height: 54
-            -
-               face:
-                  x: 470
-                  y: 162
-                  width: 55
-                  height: 67
-   -
-      Image:
-         imageName: "fic.02_I_031.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 327
-                  y: 185
-                  width: 60
-                  height: 68
-   -
-      Image:
-         imageName: "fic.02_I_032.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 170
-                  y: 209
-                  width: 13
-                  height: 21
-            -
-               face:
-                  x: 247
-                  y: 193
-                  width: 13
-                  height: 17
-            -
-               face:
-                  x: 313
-                  y: 174
-                  width: 16
-                  height: 18
-   -
-      Image:
-         imageName: "fic.02_I_033.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 112
-                  y: 130
-                  width: 23
-                  height: 32
-            -
-               face:
-                  x: 349
-                  y: 126
-                  width: 29
-                  height: 32
-            -
-               face:
-                  x: 538
-                  y: 112
-                  width: 19
-                  height: 36
-   -
-      Image:
-         imageName: "fic.02_I_034.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 286
-                  y: 245
-                  width: 95
-                  height: 127
-   -
-      Image:
-         imageName: "fic.02_I_035.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 249
-                  y: 106
-                  width: 39
-                  height: 64
-   -
-      Image:
-         imageName: "fic.02_I_036.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 284
-                  y: 208
-                  width: 98
-                  height: 116
-   -
-      Image:
-         imageName: "fic.02_I_037.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 281
-                  y: 198
-                  width: 86
-                  height: 107
-   -
-      Image:
-         imageName: "fic.02_I_038.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 358
-                  y: 243
-                  width: 89
-                  height: 146
-   -
-      Image:
-         imageName: "fic.02_I_039.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 273
-                  y: 273
-                  width: 123
-                  height: 138
-   -
-      Image:
-         imageName: "fic.02_I_040.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 229
-                  y: 118
-                  width: 40
-                  height: 41
-   -
-      Image:
-         imageName: "fic.02_I_041.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 299
-                  y: 189
-                  width: 108
-                  height: 117
-   -
-      Image:
-         imageName: "fic.02_I_042.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 342
-                  y: 152
-                  width: 67
-                  height: 66
-   -
-      Image:
-         imageName: "fic.02_I_043.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 131
-                  y: 129
-                  width: 39
-                  height: 43
-            -
-               face:
-                  x: 402
-                  y: 139
-                  width: 29
-                  height: 47
-   -
-      Image:
-         imageName: "fic.02_I_044.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 337
-                  y: 160
-                  width: 70
-                  height: 102
-   -
-      Image:
-         imageName: "fic.02_I_045.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 334
-                  y: 150
-                  width: 53
-                  height: 68
-   -
-      Image:
-         imageName: "fic.02_I_046.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 288
-                  y: 124
-                  width: 13
-                  height: 21
-            -
-               face:
-                  x: 388
-                  y: 121
-                  width: 28
-                  height: 39
-   -
-      Image:
-         imageName: "fic.02_I_047.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 336
-                  y: 146
-                  width: 71
-                  height: 88
-   -
-      Image:
-         imageName: "fic.02_I_048.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 402
-                  y: 172
-                  width: 52
-                  height: 54
-            -
-               face:
-                  x: 564
-                  y: 137
-                  width: 23
-                  height: 27
-   -
-      Image:
-         imageName: "fic.02_I_049.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 299
-                  y: 137
-                  width: 58
-                  height: 67
-   -
-      Image:
-         imageName: "fic.02_I_050.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 423
-                  y: 217
-                  width: 52
-                  height: 55
+- Image:
+    imageName: fic.02_I_001.jpg
+    numberOfFaces: 0
+- Image:
+    faces:
+    - face:
+        height: 70
+        personName: Giacomo Mameli
+        width: 66
+        x: 312
+        y: 172
+    imageName: fic.02_I_002.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 71
+        personName: Giacomo Mameli
+        width: 65
+        x: 338
+        y: 176
+    imageName: fic.02_I_003.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 75
+        personName: Giacomo Mameli
+        width: 61
+        x: 363
+        y: 173
+    imageName: fic.02_I_004.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 63
+        personName: Giacomo Mameli
+        width: 61
+        x: 320
+        y: 198
+    imageName: fic.02_I_005.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 64
+        personName: Giacomo Mameli
+        width: 52
+        x: 368
+        y: 226
+    imageName: fic.02_I_006.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 74
+        personName: Giacomo Mameli
+        width: 62
+        x: 356
+        y: 154
+    imageName: fic.02_I_007.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 94
+        personName: Paolo Fadda
+        width: 79
+        x: 334
+        y: 173
+    imageName: fic.02_I_008.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 94
+        personName: Paolo Fadda
+        width: 84
+        x: 497
+        y: 171
+    imageName: fic.02_I_009.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 89
+        personName: Michele Giannotta
+        width: 76
+        x: 323
+        y: 178
+    imageName: fic.02_I_010.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 73
+        personName: Mario Leoni
+        width: 72
+        x: 380
+        y: 150
+    imageName: fic.02_I_011.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 32
+        personName: Undefined
+        width: 29
+        x: 108
+        y: 132
+    - face:
+        height: 34
+        personName: Paola
+        width: 32
+        x: 351
+        y: 119
+    - face:
+        height: 39
+        personName: Francesca
+        width: 29
+        x: 544
+        y: 122
+    imageName: fic.02_I_012.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 15
+        personName: Mario Leoni
+        width: 13
+        x: 351
+        y: 160
+    - face:
+        height: 15
+        personName: Michele Giannotta
+        width: 13
+        x: 469
+        y: 156
+    - face:
+        height: 17
+        personName: Paolo Fadda
+        width: 14
+        x: 595
+        y: 153
+    imageName: fic.02_I_013.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 19
+        personName: Mario Leoni
+        width: 17
+        x: 304
+        y: 137
+    - face:
+        height: 21
+        personName: Michele Giannotta
+        width: 18
+        x: 449
+        y: 126
+    - face:
+        height: 20
+        personName: Paolo Fadda
+        width: 16
+        x: 599
+        y: 124
+    imageName: fic.02_I_014.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 25
+        personName: Mario Leoni
+        width: 25
+        x: 190
+        y: 142
+    - face:
+        height: 32
+        personName: Michele Giannotta
+        width: 23
+        x: 395
+        y: 128
+    - face:
+        height: 29
+        personName: Paolo Fadda
+        width: 19
+        x: 610
+        y: 121
+    imageName: fic.02_I_015.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 85
+        personName: Paolo Fadda
+        width: 67
+        x: 354
+        y: 131
+    imageName: fic.02_I_016.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 23
+        personName: Undefined
+        width: 23
+        x: 103
+        y: 222
+    - face:
+        height: 31
+        personName: Undefined
+        width: 30
+        x: 152
+        y: 225
+    - face:
+        height: 34
+        personName: Undefined
+        width: 23
+        x: 450
+        y: 180
+    imageName: fic.02_I_017.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 36
+        personName: Undefined
+        width: 41
+        x: 198
+        y: 201
+    - face:
+        height: 45
+        personName: Undefined
+        width: 28
+        x: 386
+        y: 202
+    imageName: fic.02_I_018.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 82
+        personName: Undefined
+        width: 87
+        x: 142
+        y: 323
+    - face:
+        height: 114
+        personName: Undefined
+        width: 54
+        x: 308
+        y: 189
+    imageName: fic.02_I_019.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 35
+        personName: Undefined
+        width: 42
+        x: 360
+        y: 266
+    imageName: fic.02_I_020.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 146
+        personName: Undefined
+        width: 99
+        x: 380
+        y: 173
+    imageName: fic.02_I_021.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 158
+        personName: Undefined
+        width: 110
+        x: 297
+        y: 178
+    imageName: fic.02_I_022.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 29
+        personName: Undefined
+        width: 28
+        x: 334
+        y: 218
+    imageName: fic.02_I_023.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 84
+        personName: Undefined
+        width: 81
+        x: 142
+        y: 200
+    - face:
+        height: 122
+        personName: Undefined
+        width: 59
+        x: 321
+        y: 167
+    imageName: fic.02_I_024.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 57
+        personName: Undefined
+        width: 32
+        x: 174
+        y: 234
+    - face:
+        height: 57
+        personName: Giacomo Mameli
+        width: 32
+        x: 370
+        y: 217
+    imageName: fic.02_I_025.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 63
+        personName: Giacomo Mameli
+        width: 44
+        x: 160
+        y: 188
+    - face:
+        height: 71
+        personName: Undefined
+        width: 43
+        x: 447
+        y: 161
+    - face:
+        height: 16
+        personName: Undefined
+        width: 13
+        x: 330
+        y: 267
+    imageName: fic.02_I_026.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 122
+        personName: Undefined
+        width: 62
+        x: 299
+        y: 247
+    imageName: fic.02_I_027.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 115
+        personName: Undefined
+        width: 70
+        x: 217
+        y: 246
+    imageName: fic.02_I_028.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 113
+        personName: Undefined
+        width: 88
+        x: 376
+        y: 174
+    imageName: fic.02_I_029.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 54
+        personName: Undefined
+        width: 54
+        x: 264
+        y: 184
+    - face:
+        height: 67
+        personName: Undefined
+        width: 55
+        x: 470
+        y: 162
+    imageName: fic.02_I_030.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 68
+        personName: Giacomo Mameli
+        width: 60
+        x: 327
+        y: 185
+    imageName: fic.02_I_031.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 21
+        personName: Mario Leoni
+        width: 13
+        x: 170
+        y: 209
+    - face:
+        height: 17
+        personName: Michele Giannotta
+        width: 13
+        x: 247
+        y: 193
+    - face:
+        height: 18
+        personName: Paolo Fadda
+        width: 16
+        x: 313
+        y: 174
+    imageName: fic.02_I_032.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 32
+        personName: Undefined
+        width: 23
+        x: 112
+        y: 130
+    - face:
+        height: 32
+        personName: Paola
+        width: 29
+        x: 349
+        y: 126
+    - face:
+        height: 36
+        personName: Francesca
+        width: 19
+        x: 538
+        y: 112
+    imageName: fic.02_I_033.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 127
+        personName: Francesca
+        width: 95
+        x: 286
+        y: 245
+    imageName: fic.02_I_034.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 64
+        personName: Giacomo Mameli
+        width: 39
+        x: 249
+        y: 106
+    imageName: fic.02_I_035.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 116
+        personName: Paola
+        width: 98
+        x: 284
+        y: 208
+    imageName: fic.02_I_036.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 107
+        personName: Michele Giannotta
+        width: 86
+        x: 281
+        y: 198
+    imageName: fic.02_I_037.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 146
+        personName: Giorgio Caredda
+        width: 89
+        x: 358
+        y: 243
+    imageName: fic.02_I_038.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 138
+        personName: Giorgio Caredda
+        width: 123
+        x: 273
+        y: 273
+    imageName: fic.02_I_039.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 41
+        personName: Gianni Locatelli
+        width: 40
+        x: 229
+        y: 118
+    imageName: fic.02_I_040.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 117
+        personName: Gianni Locatelli
+        width: 108
+        x: 299
+        y: 189
+    imageName: fic.02_I_041.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 66
+        personName: Mario Leoni
+        width: 67
+        x: 342
+        y: 152
+    imageName: fic.02_I_042.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 43
+        personName: Paola
+        width: 39
+        x: 131
+        y: 129
+    - face:
+        height: 47
+        personName: Francesca
+        width: 29
+        x: 402
+        y: 139
+    imageName: fic.02_I_043.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 102
+        personName: Paolo Fadda
+        width: 70
+        x: 337
+        y: 160
+    imageName: fic.02_I_044.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 68
+        personName: Giacomo Mameli
+        width: 53
+        x: 334
+        y: 150
+    imageName: fic.02_I_045.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 21
+        personName: Mario Leoni
+        width: 13
+        x: 288
+        y: 124
+    - face:
+        height: 39
+        personName: Michele Giannotta
+        width: 28
+        x: 388
+        y: 121
+    imageName: fic.02_I_046.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 88
+        personName: Michele Giannotta
+        width: 71
+        x: 336
+        y: 146
+    imageName: fic.02_I_047.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 54
+        personName: Mario Leoni
+        width: 52
+        x: 402
+        y: 172
+    - face:
+        height: 27
+        personName: Paola
+        width: 23
+        x: 564
+        y: 137
+    imageName: fic.02_I_048.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 67
+        personName: Giacomo Mameli
+        width: 58
+        x: 299
+        y: 137
+    imageName: fic.02_I_049.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 55
+        personName: Giacomo Mameli
+        width: 52
+        x: 423
+        y: 217
+    imageName: fic.02_I_050.jpg
+    numberOfFaces: 1

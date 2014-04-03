@@ -1,719 +1,669 @@
 images:
-   -
-      Image:
-         imageName: "fic.15_I_001.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 334
-                  y: 234
-                  width: 59
-                  height: 70
-   -
-      Image:
-         imageName: "fic.15_I_002.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 176
-                  y: 149
-                  width: 22
-                  height: 23
-            -
-               face:
-                  x: 411
-                  y: 134
-                  width: 23
-                  height: 23
-            -
-               face:
-                  x: 658
-                  y: 129
-                  width: 21
-                  height: 23
-   -
-      Image:
-         imageName: "fic.15_I_003.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 408
-                  y: 130
-                  width: 55
-                  height: 52
-   -
-      Image:
-         imageName: "fic.15_I_004.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 280
-                  y: 145
-                  width: 68
-                  height: 76
-   -
-      Image:
-         imageName: "fic.15_I_005.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 318
-                  y: 144
-                  width: 62
-                  height: 71
-   -
-      Image:
-         imageName: "fic.15_I_006.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 338
-                  y: 148
-                  width: 69
-                  height: 84
-   -
-      Image:
-         imageName: "fic.15_I_007.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 331
-                  y: 150
-                  width: 66
-                  height: 87
-   -
-      Image:
-         imageName: "fic.15_I_008.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 342
-                  y: 152
-                  width: 74
-                  height: 93
-   -
-      Image:
-         imageName: "fic.15_I_009.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 113
-                  y: 172
-                  width: 25
-                  height: 34
-            -
-               face:
-                  x: 257
-                  y: 145
-                  width: 18
-                  height: 25
-            -
-               face:
-                  x: 350
-                  y: 136
-                  width: 23
-                  height: 24
-   -
-      Image:
-         imageName: "fic.15_I_010.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 273
-                  y: 158
-                  width: 61
-                  height: 85
-   -
-      Image:
-         imageName: "fic.15_I_011.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 169
-                  y: 160
-                  width: 37
-                  height: 46
-            -
-               face:
-                  x: 510
-                  y: 135
-                  width: 36
-                  height: 44
-   -
-      Image:
-         imageName: "fic.15_I_012.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 252
-                  y: 231
-                  width: 95
-                  height: 147
-   -
-      Image:
-         imageName: "fic.15_I_013.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 158
-                  y: 143
-                  width: 48
-                  height: 48
-            -
-               face:
-                  x: 495
-                  y: 135
-                  width: 51
-                  height: 54
-   -
-      Image:
-         imageName: "fic.15_I_014.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 340
-                  y: 138
-                  width: 64
-                  height: 63
-   -
-      Image:
-         imageName: "fic.15_I_015.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 310
-                  y: 133
-                  width: 62
-                  height: 73
-   -
-      Image:
-         imageName: "fic.15_I_016.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 209
-                  y: 253
-                  width: 63
-                  height: 80
-            -
-               face:
-                  x: 347
-                  y: 193
-                  width: 123
-                  height: 126
-            -
-               face:
-                  x: 613
-                  y: 169
-                  width: 44
-                  height: 42
-   -
-      Image:
-         imageName: "fic.15_I_017.jpg"
-         numberOfFaces: 4
-         faces:
-            -
-               face:
-                  x: 122
-                  y: 134
-                  width: 60
-                  height: 49
-            -
-               face:
-                  x: 462
-                  y: 152
-                  width: 35
-                  height: 34
-            -
-               face:
-                  x: 578
-                  y: 135
-                  width: 35
-                  height: 31
-            -
-               face:
-                  x: 649
-                  y: 158
-                  width: 13
-                  height: 14
-   -
-      Image:
-         imageName: "fic.15_I_018.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 319
-                  y: 206
-                  width: 141
-                  height: 164
-   -
-      Image:
-         imageName: "fic.15_I_019.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 368
-                  y: 212
-                  width: 36
-                  height: 57
-   -
-      Image:
-         imageName: "fic.15_I_020.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 193
-                  y: 172
-                  width: 33
-                  height: 53
-   -
-      Image:
-         imageName: "fic.15_I_021.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 191
-                  y: 239
-                  width: 143
-                  height: 176
-   -
-      Image:
-         imageName: "fic.15_I_022.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 246
-                  y: 224
-                  width: 94
-                  height: 107
-   -
-      Image:
-         imageName: "fic.15_I_023.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 249
-                  y: 228
-                  width: 103
-                  height: 188
-   -
-      Image:
-         imageName: "fic.15_I_024.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 267
-                  y: 263
-                  width: 109
-                  height: 175
-   -
-      Image:
-         imageName: "fic.15_I_025.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 220
-                  y: 231
-                  width: 132
-                  height: 146
-   -
-      Image:
-         imageName: "fic.15_I_026.jpg"
-         numberOfFaces: 4
-         faces:
-            -
-               face:
-                  x: 172
-                  y: 191
-                  width: 13
-                  height: 14
-            -
-               face:
-                  x: 154
-                  y: 244
-                  width: 20
-                  height: 28
-            -
-               face:
-                  x: 364
-                  y: 206
-                  width: 28
-                  height: 57
-            -
-               face:
-                  x: 527
-                  y: 198
-                  width: 15
-                  height: 20
-   -
-      Image:
-         imageName: "fic.15_I_027.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 340
-                  y: 179
-                  width: 42
-                  height: 45
-   -
-      Image:
-         imageName: "fic.15_I_028.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 306
-                  y: 161
-                  width: 65
-                  height: 86
-   -
-      Image:
-         imageName: "fic.15_I_029.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 274
-                  y: 156
-                  width: 52
-                  height: 68
-   -
-      Image:
-         imageName: "fic.15_I_030.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 233
-                  y: 141
-                  width: 54
-                  height: 72
-   -
-      Image:
-         imageName: "fic.15_I_031.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 310
-                  y: 158
-                  width: 80
-                  height: 105
-            -
-               face:
-                  x: 559
-                  y: 65
-                  width: 71
-                  height: 71
-   -
-      Image:
-         imageName: "fic.15_I_032.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 204
-                  y: 135
-                  width: 60
-                  height: 74
-            -
-               face:
-                  x: 350
-                  y: 88
-                  width: 40
-                  height: 47
-            -
-               face:
-                  x: 500
-                  y: 186
-                  width: 50
-                  height: 61
-   -
-      Image:
-         imageName: "fic.15_I_033.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 15
-                  y: 79
-                  width: 64
-                  height: 74
-            -
-               face:
-                  x: 293
-                  y: 196
-                  width: 93
-                  height: 120
-            -
-               face:
-                  x: 647
-                  y: 100
-                  width: 61
-                  height: 74
-   -
-      Image:
-         imageName: "fic.15_I_034.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 98
-                  y: 90
-                  width: 63
-                  height: 66
-            -
-               face:
-                  x: 306
-                  y: 172
-                  width: 95
-                  height: 117
-            -
-               face:
-                  x: 644
-                  y: 95
-                  width: 62
-                  height: 75
-   -
-      Image:
-         imageName: "fic.15_I_035.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 282
-                  y: 149
-                  width: 76
-                  height: 90
-   -
-      Image:
-         imageName: "fic.15_I_036.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 272
-                  y: 177
-                  width: 64
-                  height: 79
-   -
-      Image:
-         imageName: "fic.15_I_037.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 129
-                  y: 168
-                  width: 36
-                  height: 39
-            -
-               face:
-                  x: 496
-                  y: 149
-                  width: 36
-                  height: 34
-   -
-      Image:
-         imageName: "fic.15_I_038.jpg"
-         numberOfFaces: 2
-         faces:
-            -
-               face:
-                  x: 71
-                  y: 53
-                  width: 68
-                  height: 71
-            -
-               face:
-                  x: 293
-                  y: 222
-                  width: 88
-                  height: 99
-   -
-      Image:
-         imageName: "fic.15_I_039.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 350
-                  y: 168
-                  width: 75
-                  height: 97
-   -
-      Image:
-         imageName: "fic.15_I_040.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 328
-                  y: 176
-                  width: 76
-                  height: 88
-   -
-      Image:
-         imageName: "fic.15_I_041.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 336
-                  y: 146
-                  width: 46
-                  height: 73
-   -
-      Image:
-         imageName: "fic.15_I_042.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 329
-                  y: 166
-                  width: 38
-                  height: 51
-   -
-      Image:
-         imageName: "fic.15_I_043.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 270
-                  y: 163
-                  width: 58
-                  height: 78
-   -
-      Image:
-         imageName: "fic.15_I_044.jpg"
-         numberOfFaces: 4
-         faces:
-            -
-               face:
-                  x: 96
-                  y: 123
-                  width: 44
-                  height: 51
-            -
-               face:
-                  x: 391
-                  y: 121
-                  width: 40
-                  height: 48
-            -
-               face:
-                  x: 638
-                  y: 64
-                  width: 37
-                  height: 38
-            -
-               face:
-                  x: 670
-                  y: 146
-                  width: 41
-                  height: 64
-   -
-      Image:
-         imageName: "fic.15_I_045.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 442
-                  y: 173
-                  width: 36
-                  height: 45
-   -
-      Image:
-         imageName: "fic.15_I_046.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 369
-                  y: 156
-                  width: 43
-                  height: 67
-   -
-      Image:
-         imageName: "fic.15_I_047.jpg"
-         numberOfFaces: 3
-         faces:
-            -
-               face:
-                  x: 158
-                  y: 180
-                  width: 18
-                  height: 32
-            -
-               face:
-                  x: 295
-                  y: 156
-                  width: 12
-                  height: 21
-            -
-               face:
-                  x: 401
-                  y: 139
-                  width: 20
-                  height: 22
-   -
-      Image:
-         imageName: "fic.15_I_048.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 288
-                  y: 135
-                  width: 59
-                  height: 73
-   -
-      Image:
-         imageName: "fic.15_I_049.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 288
-                  y: 188
-                  width: 49
-                  height: 65
-   -
-      Image:
-         imageName: "fic.15_I_050.jpg"
-         numberOfFaces: 1
-         faces:
-            -
-               face:
-                  x: 259
-                  y: 129
-                  width: 28
-                  height: 34
+- Image:
+    faces:
+    - face:
+        height: 70
+        personName: Giacomo Mameli
+        width: 59
+        x: 334
+        y: 234
+    imageName: fic.15_I_001.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 23
+        personName: Paolo Savona
+        width: 22
+        x: 176
+        y: 149
+    - face:
+        height: 23
+        personName: Gesuino Muledda
+        width: 23
+        x: 411
+        y: 134
+    - face:
+        height: 23
+        personName: Gianmario Salis
+        width: 21
+        x: 658
+        y: 129
+    imageName: fic.15_I_002.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 52
+        personName: Gesuino Muledda
+        width: 55
+        x: 408
+        y: 130
+    imageName: fic.15_I_003.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 76
+        personName: Gianmario Salis
+        width: 68
+        x: 280
+        y: 145
+    imageName: fic.15_I_004.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 71
+        personName: Gianmario Salis
+        width: 62
+        x: 318
+        y: 144
+    imageName: fic.15_I_005.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 84
+        personName: Paolo Savona
+        width: 69
+        x: 338
+        y: 148
+    imageName: fic.15_I_006.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 87
+        personName: Paolo Savona
+        width: 66
+        x: 331
+        y: 150
+    imageName: fic.15_I_007.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 93
+        personName: Paolo Savona
+        width: 74
+        x: 342
+        y: 152
+    imageName: fic.15_I_008.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 34
+        personName: Paolo Savona
+        width: 25
+        x: 113
+        y: 172
+    - face:
+        height: 25
+        personName: Gesuino Muledda
+        width: 18
+        x: 257
+        y: 145
+    - face:
+        height: 24
+        personName: Gianmario Salis
+        width: 23
+        x: 350
+        y: 136
+    imageName: fic.15_I_009.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 85
+        personName: Gesuino Muledda
+        width: 61
+        x: 273
+        y: 158
+    imageName: fic.15_I_010.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 46
+        personName: Paolo Savona
+        width: 37
+        x: 169
+        y: 160
+    - face:
+        height: 44
+        personName: Gesuino Muledda
+        width: 36
+        x: 510
+        y: 135
+    imageName: fic.15_I_011.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 147
+        personName: Victoria Srive
+        width: 95
+        x: 252
+        y: 231
+    imageName: fic.15_I_012.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 48
+        personName: Simone Pinna
+        width: 48
+        x: 158
+        y: 143
+    - face:
+        height: 54
+        personName: Elvio Garau
+        width: 51
+        x: 495
+        y: 135
+    imageName: fic.15_I_013.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 63
+        personName: Paolo Savona
+        width: 64
+        x: 340
+        y: 138
+    imageName: fic.15_I_014.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 73
+        personName: Paolo Savona
+        width: 62
+        x: 310
+        y: 133
+    imageName: fic.15_I_015.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 80
+        personName: Undefined
+        width: 63
+        x: 209
+        y: 253
+    - face:
+        height: 126
+        personName: Undefined
+        width: 123
+        x: 347
+        y: 193
+    - face:
+        height: 42
+        personName: Undefined
+        width: 44
+        x: 613
+        y: 169
+    imageName: fic.15_I_016.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 49
+        personName: Undefined
+        width: 60
+        x: 122
+        y: 134
+    - face:
+        height: 34
+        personName: Undefined
+        width: 35
+        x: 462
+        y: 152
+    - face:
+        height: 31
+        personName: Undefined
+        width: 35
+        x: 578
+        y: 135
+    - face:
+        height: 14
+        personName: Undefined
+        width: 13
+        x: 649
+        y: 158
+    imageName: fic.15_I_017.jpg
+    numberOfFaces: 4
+- Image:
+    faces:
+    - face:
+        height: 164
+        personName: Undefined
+        width: 141
+        x: 319
+        y: 206
+    imageName: fic.15_I_018.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 57
+        personName: Undefined
+        width: 36
+        x: 368
+        y: 212
+    imageName: fic.15_I_019.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 53
+        personName: Undefined
+        width: 33
+        x: 193
+        y: 172
+    imageName: fic.15_I_020.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 176
+        personName: Undefined
+        width: 143
+        x: 191
+        y: 239
+    imageName: fic.15_I_021.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 107
+        personName: Undefined
+        width: 94
+        x: 246
+        y: 224
+    imageName: fic.15_I_022.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 188
+        personName: Undefined
+        width: 103
+        x: 249
+        y: 228
+    imageName: fic.15_I_023.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 175
+        personName: Undefined
+        width: 109
+        x: 267
+        y: 263
+    imageName: fic.15_I_024.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 146
+        personName: Undefined
+        width: 132
+        x: 220
+        y: 231
+    imageName: fic.15_I_025.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 14
+        personName: Undefined
+        width: 13
+        x: 172
+        y: 191
+    - face:
+        height: 28
+        personName: Undefined
+        width: 20
+        x: 154
+        y: 244
+    - face:
+        height: 57
+        personName: Undefined
+        width: 28
+        x: 364
+        y: 206
+    - face:
+        height: 20
+        personName: Undefined
+        width: 15
+        x: 527
+        y: 198
+    imageName: fic.15_I_026.jpg
+    numberOfFaces: 4
+- Image:
+    faces:
+    - face:
+        height: 45
+        personName: Giacomo Mameli
+        width: 42
+        x: 340
+        y: 179
+    imageName: fic.15_I_027.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 86
+        personName: Paolo Savona
+        width: 65
+        x: 306
+        y: 161
+    imageName: fic.15_I_028.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 68
+        personName: Gesuino Muledda
+        width: 52
+        x: 274
+        y: 156
+    imageName: fic.15_I_029.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 72
+        personName: Gianmario Salis
+        width: 54
+        x: 233
+        y: 141
+    imageName: fic.15_I_030.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 105
+        personName: Elvio Garau
+        width: 80
+        x: 310
+        y: 158
+    - face:
+        height: 71
+        personName: Undefined
+        width: 71
+        x: 559
+        y: 65
+    imageName: fic.15_I_031.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 74
+        personName: Victoria Srive
+        width: 60
+        x: 204
+        y: 135
+    - face:
+        height: 47
+        personName: Undefined
+        width: 40
+        x: 350
+        y: 88
+    - face:
+        height: 61
+        personName: Tracy Cole
+        width: 50
+        x: 500
+        y: 186
+    imageName: fic.15_I_032.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 74
+        personName: Undefined
+        width: 64
+        x: 15
+        y: 79
+    - face:
+        height: 120
+        personName: Victoria Srive
+        width: 93
+        x: 293
+        y: 196
+    - face:
+        height: 74
+        personName: Undefined
+        width: 61
+        x: 647
+        y: 100
+    imageName: fic.15_I_033.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 66
+        personName: Undefined
+        width: 63
+        x: 98
+        y: 90
+    - face:
+        height: 117
+        personName: Victoria Srive
+        width: 95
+        x: 306
+        y: 172
+    - face:
+        height: 75
+        personName: Undefined
+        width: 62
+        x: 644
+        y: 95
+    imageName: fic.15_I_034.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 90
+        personName: Paolo Savona
+        width: 76
+        x: 282
+        y: 149
+    imageName: fic.15_I_035.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 79
+        personName: Gesuino Muledda
+        width: 64
+        x: 272
+        y: 177
+    imageName: fic.15_I_036.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 39
+        personName: Paolo Savona
+        width: 36
+        x: 129
+        y: 168
+    - face:
+        height: 34
+        personName: Gesuino Muledda
+        width: 36
+        x: 496
+        y: 149
+    imageName: fic.15_I_037.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 71
+        personName: Undefined
+        width: 68
+        x: 71
+        y: 53
+    - face:
+        height: 99
+        personName: Tracy Cole
+        width: 88
+        x: 293
+        y: 222
+    imageName: fic.15_I_038.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 97
+        personName: Marco Durzu
+        width: 75
+        x: 350
+        y: 168
+    imageName: fic.15_I_039.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 88
+        personName: Marco Durzu
+        width: 76
+        x: 328
+        y: 176
+    imageName: fic.15_I_040.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 73
+        personName: Gianmario Salis
+        width: 46
+        x: 336
+        y: 146
+    imageName: fic.15_I_041.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 51
+        personName: Giacomo Mameli
+        width: 38
+        x: 329
+        y: 166
+    imageName: fic.15_I_042.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 78
+        personName: Gesuino Muledda
+        width: 58
+        x: 270
+        y: 163
+    imageName: fic.15_I_043.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 51
+        personName: Simone Pinna
+        width: 44
+        x: 96
+        y: 123
+    - face:
+        height: 48
+        personName: Elvio Garau
+        width: 40
+        x: 391
+        y: 121
+    - face:
+        height: 38
+        personName: Undefined
+        width: 37
+        x: 638
+        y: 64
+    - face:
+        height: 64
+        personName: Victoria Srive
+        width: 41
+        x: 670
+        y: 146
+    imageName: fic.15_I_044.jpg
+    numberOfFaces: 4
+- Image:
+    faces:
+    - face:
+        height: 45
+        personName: Paolo Savona
+        width: 36
+        x: 442
+        y: 173
+    imageName: fic.15_I_045.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 67
+        personName: Paolo Savona
+        width: 43
+        x: 369
+        y: 156
+    imageName: fic.15_I_046.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 32
+        personName: Paolo Savona
+        width: 18
+        x: 158
+        y: 180
+    - face:
+        height: 21
+        personName: Gesuino Muledda
+        width: 12
+        x: 295
+        y: 156
+    - face:
+        height: 22
+        personName: Gianmario Salis
+        width: 20
+        x: 401
+        y: 139
+    imageName: fic.15_I_047.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 73
+        personName: Paolo Savona
+        width: 59
+        x: 288
+        y: 135
+    imageName: fic.15_I_048.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 65
+        personName: Giacomo Mameli
+        width: 49
+        x: 288
+        y: 188
+    imageName: fic.15_I_049.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 34
+        personName: Paolo Savona
+        width: 28
+        x: 259
+        y: 129
+    imageName: fic.15_I_050.jpg
+    numberOfFaces: 1
