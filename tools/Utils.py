@@ -1,9 +1,8 @@
 import cv2
 import sys
+import yaml
 import numpy as np
 import os
-
-# Load file with annotations and return data
 
 def read_images(path, sz=None):
     """Reads the images in a given folder, resizes images on the fly if size is given.
@@ -38,3 +37,46 @@ def read_images(path, sz=None):
                     raise
             c = c+1
     return [X,y]
+
+def load_YAML_file(file_path):
+    """Load YAML file.
+
+    Args:
+        file_path = path of YAML file to be loaded
+
+    Returns:
+        A dictionary with the contents of the file
+    """
+    stream = open(filePath, 'r');
+    data = yaml.load(stream);
+    stream.close();
+    return data;
+
+def load_image_annotations(file_path):
+    """Load YAML file with image .
+
+    Args:
+        file_path = path of YAML file to be loaded
+
+    Returns:
+        A list of dictionaries with the annotated images
+    """
+    data = loadYAMLFile(file_path);
+    images = data[ANNOTATIONS_FRAMES_KEY];
+    return images;
+
+def save_YAML_file(file_path, dictionary):
+    """Save YAML file.
+
+    Args:
+        file_path = path of YAML file to be saved
+        dictionary = dictionary with data to be saved
+
+    Returns:
+        A boolean indicating the result of the write operation
+    """
+    stream = open(file_path, 'w');
+    result = stream.write(yaml.dump(dictionary, default_flow_style = False));
+    stream.close();
+    return result;
+

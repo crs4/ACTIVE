@@ -30,8 +30,8 @@ for image in images:
 
 annotationsDict = {};
 
-#annotationsDict[ANNOTATIONS_FRAMES_KEY] = images;
+annotationsDict[ANNOTATIONS_FRAMES_KEY] = images;
 
-#saveYAMLFile(annotationFilePath, annotationsDict);
+saveYAMLFile(annotationFilePath, annotationsDict);
 
 

@@ -12,6 +12,10 @@
 #  
 #---------------------------------------------------------
 
+from face_detection import *
+from Constants import *
+from Utils import *
+
 class FaceModels(object):
     '''
     The persistent data structure containing the face models used by the 
@@ -105,9 +109,14 @@ class FaceExtractor(object):
         :type  params: dictionary 
         :param params: configuration parameters (see table)
         '''
-        pass
 
-    def extractFacesFromImage(self, resource_path):
+        if(params == None):
+            # Load configuration file
+            self.params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+        else:
+            self.params = params;
+
+    def extract_faces_from_image(self, resource_path):
         '''
         Launch the face extractor on one image resource.
         This method is asynchronous and returns a task handle.
@@ -115,7 +124,13 @@ class FaceExtractor(object):
         :type  resource_path: string
         :param resource_path: resource file path
         '''
-        pass
+
+        # Face detection
+        detection_result = detect_faces_in_image(resource_path, params, show_results)
+
+        faces = detection_result[FACE_DETECTION_FACES_KEY];
+        
+        
 
     def extractFacesFromVideo(self, resource):
         '''

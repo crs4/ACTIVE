@@ -3,7 +3,9 @@
 FACE_DETECTION_FRAMES_PATH = 'TestSet\\'
 ANNOTATIONS_PATH = 'Annotations\\';
 RESULTS_PATH = 'TestResults\\';
-CLASSIFIER_FILES_PATH = 'ClassifierFiles\\';
+
+#Filenames
+FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
 
 # YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -41,6 +43,9 @@ F1_KEY = 'F1';
 MEAN_DETECTION_TIME_KEY = 'meanDetectionTime';
 
 # Dictionary with classification parameters
+FACE_DETECTION_KEY = 'faceDetection'
+ALGORITHM_KEY = 'algorithm'
+CLASSIFIERS_FOLDER_PATH_KEY = 'classifiersFolderPath'
 SCALE_FACTOR_KEY = 'scaleFactor';
 MIN_NEIGHBORS_KEY = 'minNeighbors';
 FLAGS_KEY = 'flags';
