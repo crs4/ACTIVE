@@ -1,0 +1,638 @@
+images:
+- Image:
+    imageName: fic.02_I_001.jpg
+    numberOfFaces: 0
+- Image:
+    faces:
+    - face:
+        height: 70
+        personName: Giacomo Mameli
+        width: 66
+        x: 312
+        y: 172
+    imageName: fic.02_I_002.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 71
+        personName: Giacomo Mameli
+        width: 65
+        x: 338
+        y: 176
+    imageName: fic.02_I_003.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 75
+        personName: Giacomo Mameli
+        width: 61
+        x: 363
+        y: 173
+    imageName: fic.02_I_004.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 63
+        personName: Giacomo Mameli
+        width: 61
+        x: 320
+        y: 198
+    imageName: fic.02_I_005.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 64
+        personName: Giacomo Mameli
+        width: 52
+        x: 368
+        y: 226
+    imageName: fic.02_I_006.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 74
+        personName: Giacomo Mameli
+        width: 62
+        x: 356
+        y: 154
+    imageName: fic.02_I_007.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 94
+        personName: Paolo Fadda
+        width: 79
+        x: 334
+        y: 173
+    imageName: fic.02_I_008.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 94
+        personName: Paolo Fadda
+        width: 84
+        x: 497
+        y: 171
+    imageName: fic.02_I_009.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 89
+        personName: Michele Giannotta
+        width: 76
+        x: 323
+        y: 178
+    imageName: fic.02_I_010.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 73
+        personName: Mario Leoni
+        width: 72
+        x: 380
+        y: 150
+    imageName: fic.02_I_011.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 32
+        personName: Undefined
+        width: 29
+        x: 108
+        y: 132
+    - face:
+        height: 34
+        personName: Paola
+        width: 32
+        x: 351
+        y: 119
+    - face:
+        height: 39
+        personName: Francesca
+        width: 29
+        x: 544
+        y: 122
+    imageName: fic.02_I_012.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 15
+        personName: Mario Leoni
+        width: 13
+        x: 351
+        y: 160
+    - face:
+        height: 15
+        personName: Michele Giannotta
+        width: 13
+        x: 469
+        y: 156
+    - face:
+        height: 17
+        personName: Paolo Fadda
+        width: 14
+        x: 595
+        y: 153
+    imageName: fic.02_I_013.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 19
+        personName: Mario Leoni
+        width: 17
+        x: 304
+        y: 137
+    - face:
+        height: 21
+        personName: Michele Giannotta
+        width: 18
+        x: 449
+        y: 126
+    - face:
+        height: 20
+        personName: Paolo Fadda
+        width: 16
+        x: 599
+        y: 124
+    imageName: fic.02_I_014.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 25
+        personName: Mario Leoni
+        width: 25
+        x: 190
+        y: 142
+    - face:
+        height: 32
+        personName: Michele Giannotta
+        width: 23
+        x: 395
+        y: 128
+    - face:
+        height: 29
+        personName: Paolo Fadda
+        width: 19
+        x: 610
+        y: 121
+    imageName: fic.02_I_015.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 85
+        personName: Paolo Fadda
+        width: 67
+        x: 354
+        y: 131
+    imageName: fic.02_I_016.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 23
+        personName: Undefined
+        width: 23
+        x: 103
+        y: 222
+    - face:
+        height: 31
+        personName: Undefined
+        width: 30
+        x: 152
+        y: 225
+    - face:
+        height: 34
+        personName: Undefined
+        width: 23
+        x: 450
+        y: 180
+    imageName: fic.02_I_017.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 36
+        personName: Undefined
+        width: 41
+        x: 198
+        y: 201
+    - face:
+        height: 45
+        personName: Undefined
+        width: 28
+        x: 386
+        y: 202
+    imageName: fic.02_I_018.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 82
+        personName: Undefined
+        width: 87
+        x: 142
+        y: 323
+    - face:
+        height: 114
+        personName: Undefined
+        width: 54
+        x: 308
+        y: 189
+    imageName: fic.02_I_019.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 35
+        personName: Undefined
+        width: 42
+        x: 360
+        y: 266
+    imageName: fic.02_I_020.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 146
+        personName: Undefined
+        width: 99
+        x: 380
+        y: 173
+    imageName: fic.02_I_021.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 158
+        personName: Undefined
+        width: 110
+        x: 297
+        y: 178
+    imageName: fic.02_I_022.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 29
+        personName: Undefined
+        width: 28
+        x: 334
+        y: 218
+    imageName: fic.02_I_023.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 84
+        personName: Undefined
+        width: 81
+        x: 142
+        y: 200
+    - face:
+        height: 122
+        personName: Undefined
+        width: 59
+        x: 321
+        y: 167
+    imageName: fic.02_I_024.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 57
+        personName: Undefined
+        width: 32
+        x: 174
+        y: 234
+    - face:
+        height: 57
+        personName: Giacomo Mameli
+        width: 32
+        x: 370
+        y: 217
+    imageName: fic.02_I_025.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 63
+        personName: Giacomo Mameli
+        width: 44
+        x: 160
+        y: 188
+    - face:
+        height: 71
+        personName: Undefined
+        width: 43
+        x: 447
+        y: 161
+    - face:
+        height: 16
+        personName: Undefined
+        width: 13
+        x: 330
+        y: 267
+    imageName: fic.02_I_026.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 122
+        personName: Undefined
+        width: 62
+        x: 299
+        y: 247
+    imageName: fic.02_I_027.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 115
+        personName: Undefined
+        width: 70
+        x: 217
+        y: 246
+    imageName: fic.02_I_028.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 113
+        personName: Undefined
+        width: 88
+        x: 376
+        y: 174
+    imageName: fic.02_I_029.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 54
+        personName: Undefined
+        width: 54
+        x: 264
+        y: 184
+    - face:
+        height: 67
+        personName: Undefined
+        width: 55
+        x: 470
+        y: 162
+    imageName: fic.02_I_030.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 68
+        personName: Giacomo Mameli
+        width: 60
+        x: 327
+        y: 185
+    imageName: fic.02_I_031.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 21
+        personName: Mario Leoni
+        width: 13
+        x: 170
+        y: 209
+    - face:
+        height: 17
+        personName: Michele Giannotta
+        width: 13
+        x: 247
+        y: 193
+    - face:
+        height: 18
+        personName: Paolo Fadda
+        width: 16
+        x: 313
+        y: 174
+    imageName: fic.02_I_032.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 32
+        personName: Undefined
+        width: 23
+        x: 112
+        y: 130
+    - face:
+        height: 32
+        personName: Paola
+        width: 29
+        x: 349
+        y: 126
+    - face:
+        height: 36
+        personName: Francesca
+        width: 19
+        x: 538
+        y: 112
+    imageName: fic.02_I_033.jpg
+    numberOfFaces: 3
+- Image:
+    faces:
+    - face:
+        height: 127
+        personName: Francesca
+        width: 95
+        x: 286
+        y: 245
+    imageName: fic.02_I_034.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 64
+        personName: Giacomo Mameli
+        width: 39
+        x: 249
+        y: 106
+    imageName: fic.02_I_035.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 116
+        personName: Paola
+        width: 98
+        x: 284
+        y: 208
+    imageName: fic.02_I_036.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 107
+        personName: Michele Giannotta
+        width: 86
+        x: 281
+        y: 198
+    imageName: fic.02_I_037.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 146
+        personName: Giorgio Caredda
+        width: 89
+        x: 358
+        y: 243
+    imageName: fic.02_I_038.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 138
+        personName: Giorgio Caredda
+        width: 123
+        x: 273
+        y: 273
+    imageName: fic.02_I_039.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 41
+        personName: Gianni Locatelli
+        width: 40
+        x: 229
+        y: 118
+    imageName: fic.02_I_040.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 117
+        personName: Gianni Locatelli
+        width: 108
+        x: 299
+        y: 189
+    imageName: fic.02_I_041.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 66
+        personName: Mario Leoni
+        width: 67
+        x: 342
+        y: 152
+    imageName: fic.02_I_042.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 43
+        personName: Paola
+        width: 39
+        x: 131
+        y: 129
+    - face:
+        height: 47
+        personName: Francesca
+        width: 29
+        x: 402
+        y: 139
+    imageName: fic.02_I_043.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 102
+        personName: Paolo Fadda
+        width: 70
+        x: 337
+        y: 160
+    imageName: fic.02_I_044.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 68
+        personName: Giacomo Mameli
+        width: 53
+        x: 334
+        y: 150
+    imageName: fic.02_I_045.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 21
+        personName: Mario Leoni
+        width: 13
+        x: 288
+        y: 124
+    - face:
+        height: 39
+        personName: Michele Giannotta
+        width: 28
+        x: 388
+        y: 121
+    imageName: fic.02_I_046.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 88
+        personName: Michele Giannotta
+        width: 71
+        x: 336
+        y: 146
+    imageName: fic.02_I_047.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 54
+        personName: Mario Leoni
+        width: 52
+        x: 402
+        y: 172
+    - face:
+        height: 27
+        personName: Paola
+        width: 23
+        x: 564
+        y: 137
+    imageName: fic.02_I_048.jpg
+    numberOfFaces: 2
+- Image:
+    faces:
+    - face:
+        height: 67
+        personName: Giacomo Mameli
+        width: 58
+        x: 299
+        y: 137
+    imageName: fic.02_I_049.jpg
+    numberOfFaces: 1
+- Image:
+    faces:
+    - face:
+        height: 55
+        personName: Giacomo Mameli
+        width: 52
+        x: 423
+        y: 217
+    imageName: fic.02_I_050.jpg
+    numberOfFaces: 1
