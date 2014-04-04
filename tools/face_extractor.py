@@ -12,9 +12,11 @@
 #  
 #---------------------------------------------------------
 
-from face_detection import *
+import cv2
+from enum import Enum
+from face_detection import detect_faces_in_image
+from Utils import load_YAML_file
 from Constants import *
-from Utils import *
 
 class FaceModels(object):
     '''
@@ -116,6 +118,8 @@ class FaceExtractor(object):
         else:
             self.params = params;
 
+        self.progress = 0;
+
     def extract_faces_from_image(self, resource_path):
         '''
         Launch the face extractor on one image resource.
@@ -125,12 +129,38 @@ class FaceExtractor(object):
         :param resource_path: resource file path
         '''
 
+        # Call synchronous method
+
+    def extract_faces_from_image_sync(self, resource_path):
+        '''
+        Launch the face extractor on one image resource.
+        This method is synchronous and returns a dictionary with the results.
+
+        :type  resource_path: string
+        :param resource_path: resource file path
+        '''
+        # Save processing time
+        start_time = cv2.getTickCount();
+        
         # Face detection
-        detection_result = detect_faces_in_image(resource_path, params, show_results)
+        detection_params = self.params[FACE_DETECTION_KEY];
+        
+        detection_result = detect_faces_in_image(resource_path, detection_params, False)
 
         faces = detection_result[FACE_DETECTION_FACES_KEY];
-        
-        
+
+        processing_time_in_clocks = cv2.getTickCount() - start_time;
+        processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency();
+
+        # Populate dictionary with results
+        results = {};
+        results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds;
+        results[FACE_EXTRACTION_ERROR_KEY] = None;
+        results[FACE_EXTRACTION_FACES_KEY] = faces;
+
+        self.progress = 100;
+
+        return results;
 
     def extractFacesFromVideo(self, resource):
         '''

@@ -47,7 +47,7 @@ def load_YAML_file(file_path):
     Returns:
         A dictionary with the contents of the file
     """
-    stream = open(filePath, 'r');
+    stream = open(file_path, 'r');
     data = yaml.load(stream);
     stream.close();
     return data;

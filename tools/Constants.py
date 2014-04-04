@@ -59,6 +59,11 @@ FACE_DETECTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
 FACE_DETECTION_ERROR_KEY = 'error';
 FACE_DETECTION_FACES_KEY = 'faces';
 
+# Face extraction result dictionary
+FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
+FACE_EXTRACTION_ERROR_KEY = 'error';
+FACE_EXTRACTION_FACES_KEY = 'faces';
+
 # Face detection experiment results
 FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperimentsResults';
 EXPERIMENTS_KEY = 'experiments';

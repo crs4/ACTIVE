@@ -1,6 +1,7 @@
 import cv2
 import os
 from Constants import *
+from enum import Enum
 from Utils import *
 from sympy import Polygon, intersection
 
@@ -69,8 +70,9 @@ def detect_faces_in_image(resource_path, params, show_results):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
     elif(algorithm == 'HaarCascadeFrontalFaceAltTree'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_TREE_CLASSIFIER;
-    elif(algorithm == '.HaarCascadeFrontalFaceAlt2'):
+    elif(algorithm == 'HaarCascadeFrontalFaceAlt2'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT2_CLASSIFIER;
+        print(classifier_file);
     elif(algorithm == 'HaarCascadeFrontalFaceDefault'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_DEFAULT_CLASSIFIER;
     elif(algorithm == 'HaarCascadeProfileFace'):
@@ -142,7 +144,7 @@ def detect_faces_in_image(resource_path, params, show_results):
             # Merge results
             faces = merge_classifier_results(facesFromClassifier1, facesFromClassifier2);
 
-    if(showResult):
+    if(show_results):
         for (x, y, w, h) in faces:
             cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
         cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
@@ -174,7 +176,16 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     '''
     haar_scale = params[SCALE_FACTOR_KEY];
     min_neighbors = params[MIN_NEIGHBORS_KEY];
-    haar_flags = params[FLAGS_KEY].value;
+
+    haar_flags_str = params[FLAGS_KEY];
+    haar_flags = cv2.CASCADE_DO_CANNY_PRUNING;
+    if(haar_flags_str == 'DoRoughSearch'):
+        haar_flags = cv2.CASCADE_DO_ROUGH_SEARCH;
+    elif(haar_flags_str == 'FindBiggestObject'):
+        haar_flags = cv2.CASCADE_FIND_BIGGEST_OBJECT;
+    elif(haar_flags_str == 'ScaleImage'):
+        haar_flags = cv2.CASCADE_SCALE_IMAGE;
+    
     min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY]);
     faces = face_cascade_classifier.detectMultiScale(image, haar_scale, min_neighbors, haar_flags, min_size);
 
