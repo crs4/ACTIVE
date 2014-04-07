@@ -15,6 +15,7 @@
 import cv2
 from enum import Enum
 from face_detection import detect_faces_in_image
+from face_recognition import recognize_face
 from Utils import load_YAML_file
 from Constants import *
 
@@ -147,7 +148,19 @@ class FaceExtractor(object):
         
         detection_result = detect_faces_in_image(resource_path, detection_params, False)
 
-        faces = detection_result[FACE_DETECTION_FACES_KEY];
+        face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
+        face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
+
+        # Face recognition
+        faces = [];
+        count = 0;
+        for face in face_images:
+            face_dict = {};
+            [label, confidence] = recognize_face(face, None, False);
+            face_dict[FACE_EXTRACTION_TAG_KEY] = label;
+            face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
+            faces.append(face_dict);
+            count = count + 1;
 
         processing_time_in_clocks = cv2.getTickCount() - start_time;
         processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency();

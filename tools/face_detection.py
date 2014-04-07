@@ -38,7 +38,7 @@ def detect_faces_in_image(resource_path, params, show_results):
     :param resource_path: path of image to be analyzed
     
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for face detection
+    :param params: dictionary containing the parameters to be used for the face detection
 
     :type showResult: boolean
     :param showResult: show (true) or do not show (false) image with detected faces
@@ -53,7 +53,7 @@ def detect_faces_in_image(resource_path, params, show_results):
         print('File does not exist');
         return ;
 
-    image = cv2.imread(resource_path, cv2.IMREAD_COLOR);
+    image = cv2.imread(resource_path, cv2.IMREAD_GRAYSCALE);
 
     # Load classifier files
     classifier_file = '';
@@ -144,13 +144,6 @@ def detect_faces_in_image(resource_path, params, show_results):
             # Merge results
             faces = merge_classifier_results(facesFromClassifier1, facesFromClassifier2);
 
-    if(show_results):
-        for (x, y, w, h) in faces:
-            cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
-        cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
-        cv2.imshow('Result', image);
-        cv2.waitKey(0);
-
     detection_time_in_clocks = cv2.getTickCount() - start_time;
     detection_time_in_seconds = detection_time_in_clocks / cv2.getTickFrequency();
 
@@ -158,6 +151,21 @@ def detect_faces_in_image(resource_path, params, show_results):
     result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
     result[FACE_DETECTION_ERROR_KEY] = '';
     result[FACE_DETECTION_FACES_KEY] = faces;
+
+    # Create face images from original image
+    face_images = [];
+    for (x, y, width, height) in faces:
+        face_image = image[y:y+height, x:x+width];
+        face_images.append(face_image);
+
+    result[FACE_DETECTION_FACE_IMAGES_KEY] = face_images;
+
+    if(show_results):
+        for (x, y, w, h) in faces:
+            cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
+            cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
+            cv2.imshow('Result', image);
+            cv2.waitKey(0);
 
     return result;
 

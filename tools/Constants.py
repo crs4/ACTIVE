@@ -58,11 +58,14 @@ MAX_SIZE_HEIGHT_KEY = 'maxSizeHeight';
 FACE_DETECTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
 FACE_DETECTION_ERROR_KEY = 'error';
 FACE_DETECTION_FACES_KEY = 'faces';
+FACE_DETECTION_FACE_IMAGES_KEY = 'faceImages'
 
 # Face extraction result dictionary
 FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
 FACE_EXTRACTION_ERROR_KEY = 'error';
 FACE_EXTRACTION_FACES_KEY = 'faces';
+FACE_EXTRACTION_TAG_KEY = 'tag';
+FACE_EXTRACTION_BBOX_KEY = 'bbox';
 
 # Face detection experiment results
 FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperimentsResults';
