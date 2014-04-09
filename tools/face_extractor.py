@@ -152,11 +152,13 @@ class FaceExtractor(object):
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
 
         # Face recognition
+        recognition_params = self.params[FACE_RECOGNITION_KEY];
+        
         faces = [];
         count = 0;
         for face in face_images:
             face_dict = {};
-            [label, confidence] = recognize_face(face, None, False);
+            [label, confidence] = recognize_face(face, recognition_params, True);
             face_dict[FACE_EXTRACTION_TAG_KEY] = label;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
             faces.append(face_dict);
@@ -222,7 +224,7 @@ class FaceExtractor(object):
     
     def getProgress(self, handle):
         '''
-        Return an integer between 0 and 100 indicating the the execution progress of the face extraction task.
+        Return an integer between 0 and 100 indicating the execution progress of the face extraction task.
             0: queued
             100: completed
             any value between 0 and 100: running

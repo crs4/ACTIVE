@@ -1,11 +1,13 @@
-
 #Path of files
-FACE_DETECTION_FRAMES_PATH = 'TestSet\\'
-ANNOTATIONS_PATH = 'Annotations\\';
-RESULTS_PATH = 'TestResults\\';
+TEST_FILES_PATH_KEY = 'testSetPath';
+ANNOTATIONS_PATH_KEY = 'annotationsPath';
+CLASSIFIER_FILES_PATH_KEY = 'classifierFilesPath';
+RESULTS_PATH_KEY = 'testResultsPath';
+SOFTWARE_TEST_FILE_KEY = 'softwareTestFile';
 
 #Filenames
 FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
+TEST_CONFIGURATION_FILE = 'TestConfiguration.yml'
 
 # YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -53,6 +55,7 @@ MIN_SIZE_WIDTH_KEY = 'minSizeWidth';
 MIN_SIZE_HEIGHT_KEY = 'minSizeHeight';
 MAX_SIZE_WIDTH_KEY = 'maxSizeWidth';
 MAX_SIZE_HEIGHT_KEY = 'maxSizeHeight';
+FACE_RECOGNITION_KEY = 'faceRecognition';
 
 # Face detection result dictionary
 FACE_DETECTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';

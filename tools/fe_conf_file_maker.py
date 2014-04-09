@@ -1,6 +1,6 @@
 # This script creates the configuration file for face extractor
 
-from Utils import saveYAMLFile
+from Utils import save_YAML_file
 from Constants import *
 
 configuration_file_path = FACE_EXTRACTOR_CONFIGURATION_FILE;
@@ -20,8 +20,14 @@ fd_dict[MIN_SIZE_HEIGHT_KEY] = 20;
 
 conf_dict[FACE_DETECTION_KEY] = fd_dict;
 
+# Creation of dictionary for face recognition
+fe_dict = {};
+fe_dict[ALGORITHM_KEY] = 'LBP';
+
+conf_dict[FACE_RECOGNITION_KEY] = fe_dict;
+
 print(conf_dict);
 
-save_YAML_File(configuration_file_path, conf_dict);
+save_YAML_file(configuration_file_path, conf_dict);
 
 

@@ -64,7 +64,7 @@ def detect_faces_in_image(resource_path, params, show_results):
     algorithm = params[ALGORITHM_KEY];
 
     # Path of directory containing classifier files
-    classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY];
+    classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] + '\\';
 
     if(algorithm == 'HaarCascadeFrontalFaceAlt'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
@@ -72,7 +72,6 @@ def detect_faces_in_image(resource_path, params, show_results):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_TREE_CLASSIFIER;
     elif(algorithm == 'HaarCascadeFrontalFaceAlt2'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT2_CLASSIFIER;
-        print(classifier_file);
     elif(algorithm == 'HaarCascadeFrontalFaceDefault'):
         classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_DEFAULT_CLASSIFIER;
     elif(algorithm == 'HaarCascadeProfileFace'):
@@ -107,15 +106,15 @@ def detect_faces_in_image(resource_path, params, show_results):
                 faces_from_orig_image = detect_faces_in_image_with_single_classifier(image, face_cascade_classifier, params);
 
                 # Flip image around y-axis
-                flippedImage = cv2.flip(image, 1);
+                flipped_image = cv2.flip(image, 1);
 
-                faces_from_flipped_image = detect_faces_in_image_with_single_classifier(flippedImage, face_cascade_classifier, params);
+                faces_from_flipped_image = detect_faces_in_image_with_single_classifier(flipped_image, face_cascade_classifier, params);
 
                 # Transform coordinates of faces from flipped image
-                imageWidth = len(image[0,:]);
+                image_width = len(image[0,:]);
 
                 for i in range(len(faces_from_flipped_image)):
-                    faces_from_flipped_image[i][0] = imageWidth + 1 - faces_from_flipped_image[i][0] - faces_from_flipped_image[i][2];
+                    faces_from_flipped_image[i][0] = image_width + 1 - faces_from_flipped_image[i][0] - faces_from_flipped_image[i][2];
 
                 # Merge results
                 faces = merge_classifier_results(faces_from_orig_image, faces_from_flipped_image);
@@ -133,13 +132,9 @@ def detect_faces_in_image(resource_path, params, show_results):
         else:
             # Detect faces in image using first classifier
             facesFromClassifier1 = detect_faces_in_image_with_single_classifier(image, face_cascade_classifier_1, params);
-            print('faces from classifier 1:');
-            print(facesFromClassifier1);
 
             # Detect faces in image using second classifier
             facesFromClassifier2 = detect_faces_in_image_with_single_classifier(image, face_cascade_classifier_2, params);
-            print('faces from classifier 2:');
-            print(facesFromClassifier2);
 
             # Merge results
             faces = merge_classifier_results(facesFromClassifier1, facesFromClassifier2);

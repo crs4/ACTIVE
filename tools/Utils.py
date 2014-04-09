@@ -3,6 +3,7 @@ import sys
 import yaml
 import numpy as np
 import os
+from Constants import *
 
 def read_images(path, sz=None):
     """Reads the images in a given folder, resizes images on the fly if size is given.
@@ -61,7 +62,8 @@ def load_image_annotations(file_path):
     Returns:
         A list of dictionaries with the annotated images
     """
-    data = loadYAMLFile(file_path);
+    data = load_YAML_file(file_path);
+
     images = data[ANNOTATIONS_FRAMES_KEY];
     return images;
 

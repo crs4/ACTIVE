@@ -1,0 +1,8 @@
+faceDetection:
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    detection\Annotations
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    detection\SoftwareTestingFiles\Test.jpg
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    detection\TestResultsDummy
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\TestSet
