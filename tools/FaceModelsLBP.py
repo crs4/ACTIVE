@@ -1,10 +1,11 @@
-from face_extractor import FaceModels as FM
+#from face_extractor import FaceModels as FM
 import cv2
 import os
 import sys
 import numpy as np
-
-class FaceModelsLBP(FM):
+from Constants import *
+import shutil
+class FaceModelsLBP():
     '''
     The persistent data structure containing the face models used by the 
     face recognition algorithm and replicated on each worker.
@@ -17,9 +18,15 @@ class FaceModelsLBP(FM):
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
         '''
-        self._db_name="develeggeredalfilediconfigurazione"
         
-        
+        self._dbpath=DB_PATH
+        self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
+    '''
+    Set the name of database.
+    Algorithm : 
+    LBP (Long Binary Pattern)
+    '''    
+            
     def add_faces(self, filenames_or_images, tag):
         '''
         Add new faces to the face models and associate them with the given tag.
@@ -32,6 +39,10 @@ class FaceModelsLBP(FM):
         :type  tag: string
         :param tag: the tag associated to the face to be added to the face models data structure
         '''
+        if not filenames_or_images ==None:
+            os.makedirs(self._dbpath+"/"+tag)
+        if type(filenames_or_images) is str:
+            print "string"
         pass
 
     def remove_tags(self, tags):
@@ -43,7 +54,13 @@ class FaceModelsLBP(FM):
         :type  tags: string or list of strings
         :param tags: the tags associated to the face to be added to the face models data structure
         '''
-        pass
+        print "tags ",  tags 
+        for tag in tags: 
+            if os.path.exists(self._dbpath+"/"+tag): 
+                print "removing ",  self._dbpath+"/"+tag
+                shutil.rmtree(self._dbpath+"/"+tag)
+        self.create()
+        return True
         
     def rename_tag(self, old_tag, new_tag, blocking=True):
         '''
@@ -80,13 +97,18 @@ class FaceModelsLBP(FM):
         :type  file_name: string
         :param file_name: the name of the file containing the dump of the face models data structure
         '''
-        pass
+        if file_name==None:
+            file_name=self._db_name+"-LBP"
+        model=cv2.createLBPHFaceRecognizer()
+        model.load(file_name)
+        return model
     
-    def create(self, path=None):
-        [X,y] = self.__read_images(path, None)
+    def create(self):
+        
+        [X,y] = self.__read_images(self._dbpath, None)
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
-        model.save(self._db_name)
+        model.save(self._db_name+"-LBP")
     
     def clear(self): 
         pass
@@ -117,6 +139,8 @@ class FaceModelsLBP(FM):
 if __name__ == '__main__':
     """
     fml=FaceModelsLBP()
-    path="/Users/labcontenuti/Desktop/active/data/att_faces"
-    fml.create(path)
+    #shutil.copytree(fml._dbpath+"/s1", fml._dbpath+"/s1bis")   
+    fml.remove_tags(["s1bis"])
+    print "fml._dbpath ",fml._dbpath
     """
+    pass
