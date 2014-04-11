@@ -1,4 +1,7 @@
-# Test parameters
+import os
+ACTIVE_ROOT_DIRECTORY="/Users/labcontenuti/Desktop/active"
+DB_PATH=ACTIVE_ROOT_DIRECTORY+"/data/DATASET AT&T"
+#Path of files
 TEST_FILES_PATH_KEY = 'testSetPath';
 DATASET_PATH_KEY = 'datasetPath';
 ANNOTATIONS_PATH_KEY = 'annotationsPath';
