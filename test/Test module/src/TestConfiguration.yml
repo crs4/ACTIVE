@@ -6,6 +6,14 @@ faceDetection:
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
     detection\TestResultsDummy
   testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\TestSet
+faceExtraction:
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    extraction\Annotations
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    extraction\SoftwareTestingFiles\Test.jpg
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    extraction\TestResultsDummy
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face extraction\TestSet
 faceRecognition:
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
   peopleNr: 40

@@ -1,7 +1,8 @@
 import os
-ACTIVE_ROOT_DIRECTORY="/Users/labcontenuti/Desktop/active"
+ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
 DB_PATH=ACTIVE_ROOT_DIRECTORY+"/data/DATASET AT&T"
-#Path of files
+
+# Test configuration
 TEST_FILES_PATH_KEY = 'testSetPath';
 DATASET_PATH_KEY = 'datasetPath';
 ANNOTATIONS_PATH_KEY = 'annotationsPath';
@@ -12,9 +13,9 @@ PERSON_IMAGES_NR_KEY = 'personImagesNr'
 TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
 PEOPLE_NR_KEY = 'peopleNr';
 
-#Filenames
-FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
-TEST_CONFIGURATION_FILE = 'TestConfiguration.yml'
+# File paths
+FACE_EXTRACTOR_CONFIGURATION_FILE = ACTIVE_ROOT_DIRECTORY + r'\tools\FaceExtractorConfiguration.yml'
+TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
 
 # YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -63,6 +64,7 @@ MIN_SIZE_HEIGHT_KEY = 'minSizeHeight';
 MAX_SIZE_WIDTH_KEY = 'maxSizeWidth';
 MAX_SIZE_HEIGHT_KEY = 'maxSizeHeight';
 FACE_RECOGNITION_KEY = 'faceRecognition';
+FACE_EXTRACTION_KEY = 'faceExtraction'
 
 # Face detection result dictionary
 FACE_DETECTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';

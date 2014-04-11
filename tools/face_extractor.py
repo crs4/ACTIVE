@@ -158,7 +158,8 @@ class FaceExtractor(object):
         count = 0;
         for face in face_images:
             face_dict = {};
-            [label, confidence] = recognize_face(face, recognition_params, True);
+            rec_result = recognize_face(face, recognition_params, True);
+            label = rec_result[PERSON_ASSIGNED_LABEL_KEY];
             face_dict[FACE_EXTRACTION_TAG_KEY] = label;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
             faces.append(face_dict);
@@ -170,7 +171,7 @@ class FaceExtractor(object):
         # Populate dictionary with results
         results = {};
         results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds;
-        results[FACE_EXTRACTION_ERROR_KEY] = None;
+        results[FACE_EXTRACTION_ERROR_KEY] = '';
         results[FACE_EXTRACTION_FACES_KEY] = faces;
 
         self.progress = 100;

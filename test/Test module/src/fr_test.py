@@ -1,9 +1,11 @@
-from Constants import *
-from Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 from os import listdir, path
-from face_recognition import recognize_face
 import cv2
 import numpy
+import sys
+sys.path.append("../../..");
+from tools.Constants import *
+from tools.face_recognition import recognize_face
+from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
@@ -43,7 +45,7 @@ def fr_test(params, show_results):
 
     if(params == None):
         # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE);
+        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     fr_test_params = params[FACE_RECOGNITION_KEY];
 
@@ -97,7 +99,7 @@ def fr_experiments(params, show_results):
 
     if(params == None):
         # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE);
+        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     rec_images_nr = 0; # Number of correctly recognized images
     test_images_nr = 0; # Number of total test images

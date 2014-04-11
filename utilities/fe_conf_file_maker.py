@@ -1,7 +1,9 @@
 # This script creates the configuration file for face extractor
 
-from Utils import save_YAML_file
-from Constants import *
+import sys
+sys.path.append("..")
+from tools.Constants import *
+from tools.Utils import save_YAML_file
 
 configuration_file_path = FACE_EXTRACTOR_CONFIGURATION_FILE;
 
@@ -11,7 +13,7 @@ conf_dict  = {};
 fd_dict = {};
 
 fd_dict[ALGORITHM_KEY] = 'HaarCascadeFrontalFaceAlt2';
-fd_dict[CLASSIFIERS_FOLDER_PATH_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\ClassifierFiles';
+fd_dict[CLASSIFIERS_FOLDER_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\ClassifierFiles';
 fd_dict[SCALE_FACTOR_KEY] = 1.1;
 fd_dict[MIN_NEIGHBORS_KEY] = 5;
 fd_dict[FLAGS_KEY] = 'DoCannyPruning';

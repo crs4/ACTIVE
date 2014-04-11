@@ -1,9 +1,11 @@
-from Constants import *
-from Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 from os import listdir, path
 import cv2
+import sys
 from sympy import Polygon
-from face_detection import detect_faces_in_image
+sys.path.append("../../..")
+from tools.Constants import *
+from tools.face_detection import detect_faces_in_image
+from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
 # Save in csv file given list of experiments
 def save_experiments_in_CSV_file(file_path, experiments):
@@ -43,8 +45,8 @@ def fd_test(params, show_results):
     '''
 
     if(params == None):
-        # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE);
+        # Load default configuration file
+        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     fd_test_params = params[FACE_DETECTION_KEY];
     image_path = fd_test_params[SOFTWARE_TEST_FILE_KEY];
@@ -52,8 +54,8 @@ def fd_test(params, show_results):
     test_passed = True;
 
     try:
+
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
-        
         image_width = len(image[0,:]);
         image_height = len(image[:,0]);
         polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));
@@ -63,7 +65,7 @@ def fd_test(params, show_results):
         face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
         detection_results = detect_faces_in_image(image_path, face_detection_params, show_results);
-
+        
         error = detection_results[FACE_DETECTION_ERROR_KEY];
 
         if(len(error) == 0):
@@ -111,7 +113,7 @@ def fd_experiments(params, show_results):
 
     if(params == None):
         # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE);
+        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
     
     annotated_faces_nr = 0;
     true_positives_nr = 0;
@@ -148,6 +150,7 @@ def fd_experiments(params, show_results):
         frame_counter = 0;
         for frame_file in listdir(video_dir_complete_path):
 
+            print(frame_file);
             annotations_dict = frames[frame_counter][ANNOTATIONS_FRAME_KEY];
 
             frame_name = annotations_dict[ANNOTATIONS_FRAME_NAME_KEY];
