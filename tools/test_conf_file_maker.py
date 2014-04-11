@@ -16,4 +16,15 @@ fd_dict[SOFTWARE_TEST_FILE_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\
 
 conf_dict[FACE_DETECTION_KEY] = fd_dict;
 
+# Creation of dictionary for face recognition experiments
+fr_dict = {};
+fr_dict[DATASET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T'
+fr_dict[RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face recognition\TestResults\Dataset AT&T'
+fr_dict[SOFTWARE_TEST_FILE_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face recognition\SoftwareTestingFiles\Test.pgm';
+fr_dict[PERSON_IMAGES_NR_KEY] = 10;
+fr_dict[TRAINING_IMAGES_NR_KEY] = 6;
+fr_dict[PEOPLE_NR_KEY] = 40;
+
+conf_dict[FACE_RECOGNITION_KEY] = fr_dict;
+
 save_YAML_file(configuration_file_path, conf_dict);

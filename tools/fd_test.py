@@ -1,15 +1,9 @@
 from Constants import *
-from Utils import *
+from Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 from os import listdir, path
 import cv2
 from sympy import Polygon
 from face_detection import detect_faces_in_image
-
-# Load file with results of all experiments and return list of experiments
-def load_experiment_results(filePath):
-    data = load_YAML_file(filePath);
-    experiments = data[EXPERIMENTS_KEY];
-    return experiments;
 
 # Save in csv file given list of experiments
 def save_experiments_in_CSV_file(file_path, experiments):
@@ -55,44 +49,53 @@ def fd_test(params, show_results):
     fd_test_params = params[FACE_DETECTION_KEY];
     image_path = fd_test_params[SOFTWARE_TEST_FILE_KEY];
 
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
-    
-    image_width = len(image[0,:]);
-    image_height = len(image[:,0]);
-    polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));
-    
-    # Load face detection parameters
-    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
-    face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
-
-    detection_results = detect_faces_in_image(image_path, face_detection_params, show_results);
-
-    error = detection_results[FACE_DETECTION_ERROR_KEY];
-
     test_passed = True;
-    if(len(error) == 0):
+
+    try:
+        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
         
-        face_rectangles = detection_results[FACE_DETECTION_FACES_KEY];
-        face_images = detection_results[FACE_DETECTION_FACE_IMAGES_KEY];
+        image_width = len(image[0,:]);
+        image_height = len(image[:,0]);
+        polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));
+        
+        # Load face detection parameters
+        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+        face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
-        # Check that rectangles are inside the original image
-        face_counter = 0;
-        for (x, y, width, height) in face_rectangles:
-            polygon_face = Polygon((x,y), (x+width, y), (x+width,y+height), (x, y+height));
-            if(not(polygon_image.encloses(polygon_face))):
-                test_passed = False;
-                break;
-            # Check that size of correspondent face image is equalt to size of rectangle
-            face_image = face_images[face_counter];
-            face_image_width = len(face_image[0,:]);
-            face_image_height = len(face_image[:,0]);
-            if(not(face_image_width == width) or not(face_image_height == height)):
-                test_passed = False;
-                break;
-            face_counter = face_counter + 1;
-    else:
+        detection_results = detect_faces_in_image(image_path, face_detection_params, show_results);
+
+        error = detection_results[FACE_DETECTION_ERROR_KEY];
+
+        if(len(error) == 0):
+            
+            face_rectangles = detection_results[FACE_DETECTION_FACES_KEY];
+            face_images = detection_results[FACE_DETECTION_FACE_IMAGES_KEY];
+
+            # Check that rectangles are inside the original image
+            face_counter = 0;
+            for (x, y, width, height) in face_rectangles:
+                polygon_face = Polygon((x,y), (x+width, y), (x+width,y+height), (x, y+height));
+                if(not(polygon_image.encloses(polygon_face))):
+                    test_passed = False;
+                    break;
+                # Check that size of correspondent face image is equalt to size of rectangle
+                face_image = face_images[face_counter];
+                face_image_width = len(face_image[0,:]);
+                face_image_height = len(face_image[:,0]);
+                if(not(face_image_width == width) or not(face_image_height == height)):
+                    test_passed = False;
+                    break;
+                face_counter = face_counter + 1;
+        else:
+            test_passed = False;
+    except IOError, (errno, strerror):
+        print "I/O error({0}): {1}".format(errno, strerror);
         test_passed = False;
-
+    except:
+        print "Unexpected error:", sys.exc_info()[0];
+        test_passed = False;
+        raise;
+        
     return test_passed;
 
 def fd_experiments(params, show_results):
@@ -115,14 +118,18 @@ def fd_experiments(params, show_results):
     false_positives_nr = 0;
     mean_detection_time = 0;
 
-    detection_dict = {};
-    images_list_for_YAML = []; # Array used for creating YAML file
+    detection_dict = {}; # Dictionary containing all results for this experiment
+    images_list_for_YAML = []; # List used for creating YAML file
 
     # Get path of directories with used files from params
     fd_test_params = params[FACE_DETECTION_KEY];
     frames_path = fd_test_params[TEST_FILES_PATH_KEY] + '\\'; # directory with test files
     annotations_path = fd_test_params[ANNOTATIONS_PATH_KEY] + '\\'; # directory with annotation files
     results_path = fd_test_params[RESULTS_PATH_KEY] + '\\'; # directory with results
+
+    # Load face detection parameters
+    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+    face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
     video_directories = listdir(frames_path);
 
@@ -154,10 +161,6 @@ def fd_experiments(params, show_results):
 
             # Set path of frame
             frame_path = video_dir_complete_path + '\\' + frame_file;
-
-            # Load face detection parameters
-            face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
-            face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
             # Call function for face detection
             detection_results = detect_faces_in_image(frame_path, face_detection_params, show_results);
@@ -303,7 +306,7 @@ def fd_experiments(params, show_results):
     new_experiment_dict[MEAN_DETECTION_TIME_KEY] = mean_detection_time;
 
     all_results_YAML_file_path = results_path + FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME + '.yml';
-    file_check = os.path.isfile(all_results_YAML_file_path);
+    file_check = path.isfile(all_results_YAML_file_path);
 
     experiments = list();
     if(file_check):

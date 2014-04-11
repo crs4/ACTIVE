@@ -82,3 +82,9 @@ def save_YAML_file(file_path, dictionary):
     stream.close();
     return result;
 
+# Load file with results of all experiments and return list of experiments
+def load_experiment_results(filePath):
+    data = load_YAML_file(filePath);
+    experiments = data[EXPERIMENTS_KEY];
+    return experiments
+

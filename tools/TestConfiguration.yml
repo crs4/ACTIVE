@@ -6,3 +6,12 @@ faceDetection:
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
     detection\TestResultsDummy
   testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\TestSet
+faceRecognition:
+  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
+  peopleNr: 40
+  personImagesNr: 10
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    recognition\SoftwareTestingFiles\Test.pgm
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+    recognition\TestResults\Dataset AT&T
+  trainingImagesNr: 6

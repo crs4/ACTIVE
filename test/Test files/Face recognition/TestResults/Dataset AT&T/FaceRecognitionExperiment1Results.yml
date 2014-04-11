@@ -1,0 +1,1047 @@
+globalResults:
+  algorithm: LBP
+  experimentNumber: 1
+  meanF1: 0.9007400007400008
+  meanPrecision: 0.9257631257631258
+  meanRecall: 0.9038461538461539
+  meanRecognitionTime: 0.01304254124896959
+  recognitionRate: 0.89375
+  stdF1: 0.11630330850620982
+  stdPrecision: 0.143755692440065
+  stdRecall: 0.1456130345076993
+images:
+- image:
+    check: TP
+    confidence: 44.25742524205696
+    image: 6.pgm
+    label: 0
+- image:
+    check: TP
+    confidence: 53.337788098619434
+    image: 7.pgm
+    label: 0
+- image:
+    check: TP
+    confidence: 65.20014507976342
+    image: 8.pgm
+    label: 0
+- image:
+    check: TP
+    confidence: 80.10572335383524
+    image: 9.pgm
+    label: 0
+- image:
+    check: TP
+    confidence: 50.962793814522925
+    image: 6.pgm
+    label: 1
+- image:
+    check: TP
+    confidence: 44.50812091450819
+    image: 7.pgm
+    label: 1
+- image:
+    check: TP
+    confidence: 38.393224334767666
+    image: 8.pgm
+    label: 1
+- image:
+    check: TP
+    confidence: 77.60402728260638
+    image: 9.pgm
+    label: 1
+- image:
+    check: TP
+    confidence: 34.37460677130182
+    image: 6.pgm
+    label: 2
+- image:
+    check: TP
+    confidence: 37.89744283866792
+    image: 7.pgm
+    label: 2
+- image:
+    check: TP
+    confidence: 50.99947901215044
+    image: 8.pgm
+    label: 2
+- image:
+    check: TP
+    confidence: 41.14805277324348
+    image: 9.pgm
+    label: 2
+- image:
+    check: TP
+    confidence: 59.45616718194277
+    image: 6.pgm
+    label: 3
+- image:
+    check: TP
+    confidence: 32.863625611105086
+    image: 7.pgm
+    label: 3
+- image:
+    check: TP
+    confidence: 36.97831553709436
+    image: 8.pgm
+    label: 3
+- image:
+    check: TP
+    confidence: 36.29902138551203
+    image: 9.pgm
+    label: 3
+- image:
+    check: TP
+    confidence: 56.06895696792319
+    image: 6.pgm
+    label: 4
+- image:
+    check: TP
+    confidence: 50.76536734797236
+    image: 7.pgm
+    label: 4
+- image:
+    check: TP
+    confidence: 49.53736000675934
+    image: 8.pgm
+    label: 4
+- image:
+    check: TP
+    confidence: 43.03368970007738
+    image: 9.pgm
+    label: 4
+- image:
+    check: TP
+    confidence: 40.64631870027328
+    image: 6.pgm
+    label: 5
+- image:
+    check: TP
+    confidence: 36.72983889643119
+    image: 7.pgm
+    label: 5
+- image:
+    check: TP
+    confidence: 38.96687502901508
+    image: 8.pgm
+    label: 5
+- image:
+    check: TP
+    confidence: 42.74099313548701
+    image: 9.pgm
+    label: 5
+- image:
+    check: TP
+    confidence: 34.17296490691921
+    image: 6.pgm
+    label: 6
+- image:
+    check: TP
+    confidence: 37.80759785533728
+    image: 7.pgm
+    label: 6
+- image:
+    check: TP
+    confidence: 41.24346171371872
+    image: 8.pgm
+    label: 6
+- image:
+    check: TP
+    confidence: 41.418838387399916
+    image: 9.pgm
+    label: 6
+- image:
+    check: TP
+    confidence: 56.42624301168063
+    image: 6.pgm
+    label: 7
+- image:
+    check: TP
+    confidence: 49.6631319209827
+    image: 7.pgm
+    label: 7
+- image:
+    check: TP
+    confidence: 52.182722955762365
+    image: 8.pgm
+    label: 7
+- image:
+    check: TP
+    confidence: 45.72899784596009
+    image: 9.pgm
+    label: 7
+- image:
+    check: TP
+    confidence: 41.60067374989438
+    image: 6.pgm
+    label: 8
+- image:
+    check: TP
+    confidence: 34.45331499411914
+    image: 7.pgm
+    label: 8
+- image:
+    check: TP
+    confidence: 43.47347354959018
+    image: 8.pgm
+    label: 8
+- image:
+    check: TP
+    confidence: 43.11244122670037
+    image: 9.pgm
+    label: 8
+- image:
+    check: TP
+    confidence: 36.24552602884394
+    image: 6.pgm
+    label: 9
+- image:
+    check: FP
+    confidence: 54.104245654228905
+    image: 7.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 38.718224408177306
+    image: 8.pgm
+    label: 9
+- image:
+    check: FP
+    confidence: 48.63640749735009
+    image: 9.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 36.6265370192439
+    image: 6.pgm
+    label: 10
+- image:
+    check: TP
+    confidence: 46.46738506645643
+    image: 7.pgm
+    label: 10
+- image:
+    check: TP
+    confidence: 37.422800771159956
+    image: 8.pgm
+    label: 10
+- image:
+    check: TP
+    confidence: 61.45005361106297
+    image: 9.pgm
+    label: 10
+- image:
+    check: TP
+    confidence: 35.538082571767234
+    image: 6.pgm
+    label: 11
+- image:
+    check: TP
+    confidence: 29.59183225895297
+    image: 7.pgm
+    label: 11
+- image:
+    check: TP
+    confidence: 31.663431176696104
+    image: 8.pgm
+    label: 11
+- image:
+    check: TP
+    confidence: 34.12500618888616
+    image: 9.pgm
+    label: 11
+- image:
+    check: TP
+    confidence: 32.712014423230485
+    image: 6.pgm
+    label: 12
+- image:
+    check: TP
+    confidence: 31.04316947008517
+    image: 7.pgm
+    label: 12
+- image:
+    check: TP
+    confidence: 42.52083168304379
+    image: 8.pgm
+    label: 12
+- image:
+    check: TP
+    confidence: 36.43617133725683
+    image: 9.pgm
+    label: 12
+- image:
+    check: TP
+    confidence: 38.46249289060273
+    image: 6.pgm
+    label: 13
+- image:
+    check: TP
+    confidence: 37.49092699420744
+    image: 7.pgm
+    label: 13
+- image:
+    check: TP
+    confidence: 39.709727118967976
+    image: 8.pgm
+    label: 13
+- image:
+    check: TP
+    confidence: 36.793522704138425
+    image: 9.pgm
+    label: 13
+- image:
+    check: TP
+    confidence: 45.55687005393375
+    image: 6.pgm
+    label: 14
+- image:
+    check: TP
+    confidence: 33.93894793758763
+    image: 7.pgm
+    label: 14
+- image:
+    check: TP
+    confidence: 32.469529897680914
+    image: 8.pgm
+    label: 14
+- image:
+    check: TP
+    confidence: 35.58616730623543
+    image: 9.pgm
+    label: 14
+- image:
+    check: TP
+    confidence: 30.01701352825891
+    image: 6.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 59.1426447318358
+    image: 7.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 30.633987183769012
+    image: 8.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 49.35342182629965
+    image: 9.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 34.92136165223272
+    image: 6.pgm
+    label: 16
+- image:
+    check: TP
+    confidence: 40.046527718757154
+    image: 7.pgm
+    label: 16
+- image:
+    check: TP
+    confidence: 52.96813804064518
+    image: 8.pgm
+    label: 16
+- image:
+    check: TP
+    confidence: 33.874049786410374
+    image: 9.pgm
+    label: 16
+- image:
+    check: TP
+    confidence: 40.00488778901934
+    image: 6.pgm
+    label: 17
+- image:
+    check: TP
+    confidence: 36.20790492109253
+    image: 7.pgm
+    label: 17
+- image:
+    check: TP
+    confidence: 46.6094356353532
+    image: 8.pgm
+    label: 17
+- image:
+    check: TP
+    confidence: 48.43607119303304
+    image: 9.pgm
+    label: 17
+- image:
+    check: TP
+    confidence: 40.022436028091555
+    image: 6.pgm
+    label: 18
+- image:
+    check: FP
+    confidence: 52.593344598030015
+    image: 7.pgm
+    label: 20
+- image:
+    check: TP
+    confidence: 40.99731620385865
+    image: 8.pgm
+    label: 18
+- image:
+    check: TP
+    confidence: 44.49756662710961
+    image: 9.pgm
+    label: 18
+- image:
+    check: TP
+    confidence: 45.87918104191666
+    image: 6.pgm
+    label: 19
+- image:
+    check: FP
+    confidence: 47.0436602745386
+    image: 7.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 43.07288790687993
+    image: 8.pgm
+    label: 19
+- image:
+    check: TP
+    confidence: 39.87914290197023
+    image: 9.pgm
+    label: 19
+- image:
+    check: TP
+    confidence: 28.79550173361652
+    image: 6.pgm
+    label: 20
+- image:
+    check: TP
+    confidence: 36.708177083644216
+    image: 7.pgm
+    label: 20
+- image:
+    check: FP
+    confidence: 69.81541890331518
+    image: 8.pgm
+    label: 18
+- image:
+    check: TP
+    confidence: 46.58332357087231
+    image: 9.pgm
+    label: 20
+- image:
+    check: TP
+    confidence: 34.85723327939662
+    image: 6.pgm
+    label: 21
+- image:
+    check: TP
+    confidence: 39.00300270886557
+    image: 7.pgm
+    label: 21
+- image:
+    check: TP
+    confidence: 51.667161934720276
+    image: 8.pgm
+    label: 21
+- image:
+    check: FP
+    confidence: 53.54686575404078
+    image: 9.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 45.792602614594095
+    image: 6.pgm
+    label: 22
+- image:
+    check: TP
+    confidence: 49.1070669614767
+    image: 7.pgm
+    label: 22
+- image:
+    check: TP
+    confidence: 51.96912462235519
+    image: 8.pgm
+    label: 22
+- image:
+    check: TP
+    confidence: 36.757805145403054
+    image: 9.pgm
+    label: 22
+- image:
+    check: TP
+    confidence: 43.33465446515446
+    image: 6.pgm
+    label: 23
+- image:
+    check: TP
+    confidence: 47.76033801772756
+    image: 7.pgm
+    label: 23
+- image:
+    check: TP
+    confidence: 43.94235290312832
+    image: 8.pgm
+    label: 23
+- image:
+    check: TP
+    confidence: 53.32669299640377
+    image: 9.pgm
+    label: 23
+- image:
+    check: TP
+    confidence: 45.47397732702898
+    image: 6.pgm
+    label: 24
+- image:
+    check: FP
+    confidence: 66.29155553355696
+    image: 7.pgm
+    label: 17
+- image:
+    check: TP
+    confidence: 32.87589157214629
+    image: 8.pgm
+    label: 24
+- image:
+    check: TP
+    confidence: 60.83639186269518
+    image: 9.pgm
+    label: 24
+- image:
+    check: TP
+    confidence: 37.72633683035833
+    image: 6.pgm
+    label: 25
+- image:
+    check: FP
+    confidence: 59.51508221436746
+    image: 7.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 42.90569098430809
+    image: 8.pgm
+    label: 25
+- image:
+    check: TP
+    confidence: 37.252157092989016
+    image: 9.pgm
+    label: 25
+- image:
+    check: FP
+    confidence: 59.730238028486944
+    image: 6.pgm
+    label: 15
+- image:
+    check: TP
+    confidence: 42.4399163661224
+    image: 7.pgm
+    label: 26
+- image:
+    check: TP
+    confidence: 48.61700172517725
+    image: 8.pgm
+    label: 26
+- image:
+    check: TP
+    confidence: 41.16396812663534
+    image: 9.pgm
+    label: 26
+- image:
+    check: TP
+    confidence: 31.95018003664701
+    image: 6.pgm
+    label: 27
+- image:
+    check: TP
+    confidence: 34.743432365123596
+    image: 7.pgm
+    label: 27
+- image:
+    check: TP
+    confidence: 30.9516796548555
+    image: 8.pgm
+    label: 27
+- image:
+    check: TP
+    confidence: 31.39044628223643
+    image: 9.pgm
+    label: 27
+- image:
+    check: TP
+    confidence: 58.60476220341919
+    image: 6.pgm
+    label: 28
+- image:
+    check: FP
+    confidence: 70.69199745046423
+    image: 7.pgm
+    label: 22
+- image:
+    check: TP
+    confidence: 56.6932650227717
+    image: 8.pgm
+    label: 28
+- image:
+    check: TP
+    confidence: 54.165016894148756
+    image: 9.pgm
+    label: 28
+- image:
+    check: TP
+    confidence: 44.80874467083682
+    image: 6.pgm
+    label: 29
+- image:
+    check: TP
+    confidence: 41.103755461151714
+    image: 7.pgm
+    label: 29
+- image:
+    check: TP
+    confidence: 33.456254698205605
+    image: 8.pgm
+    label: 29
+- image:
+    check: TP
+    confidence: 43.653166789501704
+    image: 9.pgm
+    label: 29
+- image:
+    check: TP
+    confidence: 31.574862217567766
+    image: 6.pgm
+    label: 30
+- image:
+    check: TP
+    confidence: 41.16502553591407
+    image: 7.pgm
+    label: 30
+- image:
+    check: TP
+    confidence: 34.529821144709516
+    image: 8.pgm
+    label: 30
+- image:
+    check: TP
+    confidence: 32.03622903272766
+    image: 9.pgm
+    label: 30
+- image:
+    check: TP
+    confidence: 34.19497449069928
+    image: 6.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 32.73922831687518
+    image: 7.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 47.647938422631675
+    image: 8.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 39.01621033372279
+    image: 9.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 46.86512191985457
+    image: 6.pgm
+    label: 32
+- image:
+    check: FP
+    confidence: 57.91799962640714
+    image: 7.pgm
+    label: 13
+- image:
+    check: FP
+    confidence: 57.343484874151955
+    image: 8.pgm
+    label: 13
+- image:
+    check: TP
+    confidence: 43.35098595766588
+    image: 9.pgm
+    label: 32
+- image:
+    check: TP
+    confidence: 52.47739441773831
+    image: 6.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 33.640945126593294
+    image: 7.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 33.03404175670127
+    image: 8.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 32.228352991873614
+    image: 9.pgm
+    label: 33
+- image:
+    check: TP
+    confidence: 50.55573722412586
+    image: 6.pgm
+    label: 34
+- image:
+    check: TP
+    confidence: 63.110262271489646
+    image: 7.pgm
+    label: 34
+- image:
+    check: TP
+    confidence: 45.570833627385284
+    image: 8.pgm
+    label: 34
+- image:
+    check: FP
+    confidence: 60.12430024328487
+    image: 9.pgm
+    label: 35
+- image:
+    check: TP
+    confidence: 36.45679924609551
+    image: 6.pgm
+    label: 35
+- image:
+    check: TP
+    confidence: 34.247465487103966
+    image: 7.pgm
+    label: 35
+- image:
+    check: FP
+    confidence: 60.52725524079107
+    image: 8.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 54.49879425651876
+    image: 9.pgm
+    label: 35
+- image:
+    check: TP
+    confidence: 33.7348759036369
+    image: 6.pgm
+    label: 36
+- image:
+    check: TP
+    confidence: 34.8355875124393
+    image: 7.pgm
+    label: 36
+- image:
+    check: TP
+    confidence: 44.660868781633326
+    image: 8.pgm
+    label: 36
+- image:
+    check: FP
+    confidence: 55.864351624839905
+    image: 9.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 33.51518116374242
+    image: 6.pgm
+    label: 37
+- image:
+    check: TP
+    confidence: 35.912193539711815
+    image: 7.pgm
+    label: 37
+- image:
+    check: TP
+    confidence: 41.23478701615495
+    image: 8.pgm
+    label: 37
+- image:
+    check: TP
+    confidence: 35.746012967542306
+    image: 9.pgm
+    label: 37
+- image:
+    check: TP
+    confidence: 31.510912650677554
+    image: 6.pgm
+    label: 38
+- image:
+    check: TP
+    confidence: 49.52679280786897
+    image: 7.pgm
+    label: 38
+- image:
+    check: TP
+    confidence: 30.52062005696936
+    image: 8.pgm
+    label: 38
+- image:
+    check: TP
+    confidence: 53.16423474861515
+    image: 9.pgm
+    label: 38
+- image:
+    check: FP
+    confidence: 63.21516406334367
+    image: 6.pgm
+    label: 35
+- image:
+    check: FP
+    confidence: 55.129351236752974
+    image: 7.pgm
+    label: 31
+- image:
+    check: TP
+    confidence: 45.01279538876957
+    image: 8.pgm
+    label: 39
+- image:
+    check: TP
+    confidence: 43.36588894480996
+    image: 9.pgm
+    label: 39
+people:
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 0
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 1
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 2
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 3
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 4
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 5
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 6
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 7
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 8
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.6666666666666666
+  falsePositivesNr: 0
+  label: 9
+  precision: 1.0
+  recall: 0.5
+  truePositivesNr: 2
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 10
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 11
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 12
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.8
+  falsePositivesNr: 2
+  label: 13
+  precision: 0.6666666666666666
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 14
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.8
+  falsePositivesNr: 2
+  label: 15
+  precision: 0.6666666666666666
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 16
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.888888888888889
+  falsePositivesNr: 1
+  label: 17
+  precision: 0.8
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.75
+  falsePositivesNr: 1
+  label: 18
+  precision: 0.75
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 19
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.75
+  falsePositivesNr: 1
+  label: 20
+  precision: 0.75
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 21
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.888888888888889
+  falsePositivesNr: 1
+  label: 22
+  precision: 0.8
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 23
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 24
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 25
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 26
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 27
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 28
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 29
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 30
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.7272727272727273
+  falsePositivesNr: 3
+  label: 31
+  precision: 0.5714285714285714
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.6666666666666666
+  falsePositivesNr: 0
+  label: 32
+  precision: 1.0
+  recall: 0.5
+  truePositivesNr: 2
+- F1: 0.6666666666666666
+  falsePositivesNr: 4
+  label: 33
+  precision: 0.5
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 34
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.6666666666666665
+  falsePositivesNr: 2
+  label: 35
+  precision: 0.6
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 0.8571428571428571
+  falsePositivesNr: 0
+  label: 36
+  precision: 1.0
+  recall: 0.75
+  truePositivesNr: 3
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 37
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
+- F1: 1.0
+  falsePositivesNr: 0
+  label: 38
+  precision: 1.0
+  recall: 1.0
+  truePositivesNr: 4
