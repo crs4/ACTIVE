@@ -19,9 +19,13 @@ offset = len(category)
 files = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath,f))]
 faces = {}
 
+i = 0
+print "Reading image files ..." 
 for f in files:
-    with exiftool.ExifTool() as et:
-        metadata = et.get_metadata(f)
+	print "\r", 100*i/len(files), '%',
+	i =i+1
+	with exiftool.ExifTool() as et:
+		metadata = et.get_metadata(f)
 	try:
 		name = metadata[u'XMP:HierarchicalSubject'][offset:]
 	except:
