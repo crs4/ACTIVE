@@ -10,13 +10,15 @@
 #  - define configuration parameters
 #  
 #---------------------------------------------------------
-
+import Constants
+import os
+from FaceModelsLBP import FaceModelsLBP
 class Processor(object):
     '''
     The processor allows to execute tasks in parallel on N workers.
     It also provides a mechanism for updating the status of all workers.
     '''
-    def __init__(self, workers=None, application):
+    def __init__(self, workers=None, application=None):
         '''
         Initialize the communications with workers.
         An exception is raised if any of the workers is not available.
@@ -58,15 +60,24 @@ class FaceModels(object):
     face recognition algorithm and replicated on each worker.
     This class ensures that the face models are replicated and updated on each worker.
     '''
-    def __init__(self, workers):
+    def __init__(self, workers=None):
         '''
         Initialize the face models on all workers.
 
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
         '''
-        pass
-		
+
+        #self.facemodel=None
+        if Constants.FACEMODEL_ALGORITHM==Constants.FACEMODEL_CONSTANT_ALGORITHM: 
+            self.facemodel=FaceModelsLBP()        
+        self._dbpath=Constants.DB_PATH
+        self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
+        self._labels=self.facemodel._labels
+    
+    def  get_label(self, index):
+        return self.facemodel.get_label(index)
+            
     def add_faces(self, filenames_or_images, tag):
         '''
         Add new faces to the face models and associate them with the given tag.
@@ -79,7 +90,7 @@ class FaceModels(object):
         :type  tag: string
         :param tag: the tag associated to the face to be added to the face models data structure
         '''
-        pass
+        self.facemodel.add_faces(filenames_or_images, tag)
 
     def remove_tags(self, tags):
         '''
@@ -90,7 +101,7 @@ class FaceModels(object):
         :type  tags: string or list of strings
         :param tags: the tags associated to the face to be added to the face models data structure
         '''
-        pass
+        self.facemodel.remove_tags(tags)
         
     def rename_tag(self, old_tag, new_tag, blocking=True):
         '''
@@ -105,20 +116,20 @@ class FaceModels(object):
         :type  new_tag: string
         :param new_tag: a tag not yet present in the face models data structure
         '''
-        pass
+        return self.facemodel.rename_tag(old_tag, new_tag, blocking)
 
     def sync(self):
         '''
         Wait until all asynchronous methods previously invoked have been executed by all workers.
         This method shall be called in order to ensure that face models data structure on all workers are aligned.
         '''
-        pass
+        self.facemodel.sync()
         
     def dump(self):
         '''
         Return a file containig the dump of the face models data structure.
         '''
-        pass
+        return self.facemodel.dump()
         
     def load(self, file_name):
         '''
@@ -127,7 +138,14 @@ class FaceModels(object):
         :type  file_name: string
         :param file_name: the name of the file containing the dump of the face models data structure
         '''
-        pass
+        return self.facemodel.load(file_name)
+        
+    def create(self):
+                return self.facemodel.create()
+            
+    def read_images(self, path, sz=None):
+        self.facemodel.read_images(path, sz)
+
 
 class FaceExtractor(object):
     '''

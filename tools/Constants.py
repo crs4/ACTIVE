@@ -1,21 +1,16 @@
 import os
-ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
+ACTIVE_ROOT_DIRECTORY=os.getcwd()+"/../" #"/Users/labcontenuti/Desktop/active"
 DB_PATH=ACTIVE_ROOT_DIRECTORY+"/data/DATASET AT&T"
-
-# Test configuration
+#Path of files
 TEST_FILES_PATH_KEY = 'testSetPath';
-DATASET_PATH_KEY = 'datasetPath';
 ANNOTATIONS_PATH_KEY = 'annotationsPath';
 CLASSIFIER_FILES_PATH_KEY = 'classifierFilesPath';
 RESULTS_PATH_KEY = 'testResultsPath';
 SOFTWARE_TEST_FILE_KEY = 'softwareTestFile';
-PERSON_IMAGES_NR_KEY = 'personImagesNr'
-TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
-PEOPLE_NR_KEY = 'peopleNr';
 
-# File paths
-FACE_EXTRACTOR_CONFIGURATION_FILE = ACTIVE_ROOT_DIRECTORY + r'\tools\FaceExtractorConfiguration.yml'
-TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
+#Filenames
+FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
+TEST_CONFIGURATION_FILE = 'TestConfiguration.yml'
 
 # YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -64,39 +59,12 @@ MIN_SIZE_HEIGHT_KEY = 'minSizeHeight';
 MAX_SIZE_WIDTH_KEY = 'maxSizeWidth';
 MAX_SIZE_HEIGHT_KEY = 'maxSizeHeight';
 FACE_RECOGNITION_KEY = 'faceRecognition';
-FACE_EXTRACTION_KEY = 'faceExtraction'
 
 # Face detection result dictionary
 FACE_DETECTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
 FACE_DETECTION_ERROR_KEY = 'error';
 FACE_DETECTION_FACES_KEY = 'faces';
 FACE_DETECTION_FACE_IMAGES_KEY = 'faceImages'
-
-# Face recognition result dictionary
-FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
-FACE_RECOGNITION_ERROR_KEY = 'error';
-FACE_RECOGNITION_IMAGE_NAME_KEY = 'imageName';
-FACE_RECOGNITION_IMAGE_KEY = 'image';
-FACE_RECOGNITION_GLOBAL_RESULTS = 'globalResults';
-FACE_RECOGNITION_IMAGES_KEY = 'images';
-FACE_RECOGNITION_PEOPLE_KEY = 'people';
-PERSON_CHECK_KEY = 'check';
-PERSON_LABEL_KEY = 'label';
-PERSON_ASSIGNED_LABEL_KEY = 'label';
-PERSON_CONFIDENCE_KEY = 'confidence';
-PERSON_TRUE_POSITIVES_NR_KEY = 'truePositivesNr';
-PERSON_FALSE_POSITIVES_NR_KEY = 'falsePositivesNr';
-PERSON_PRECISION_KEY = 'precision';
-PERSON_RECALL_KEY = 'recall';
-PERSON_F1_KEY = 'F1';
-RECOGNITION_RATE_KEY = 'recognitionRate';
-MEAN_PRECISION_KEY = 'meanPrecision';
-STD_PRECISION_KEY = 'stdPrecision';
-MEAN_RECALL_KEY = 'meanRecall';
-STD_RECALL_KEY = 'stdRecall';
-MEAN_F1_KEY = 'meanF1';
-STD_F1_KEY = 'stdF1';
-MEAN_RECOGNITION_TIME_KEY = 'meanRecognitionTime';
 
 # Face extraction result dictionary
 FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY = 'elapsedCPUTime';
@@ -105,11 +73,20 @@ FACE_EXTRACTION_FACES_KEY = 'faces';
 FACE_EXTRACTION_TAG_KEY = 'tag';
 FACE_EXTRACTION_BBOX_KEY = 'bbox';
 
-# Experiment results
+# Face detection experiment results
 FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperimentsResults';
-FACE_RECOGNITION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceRecognitionExperimentsResults';
 EXPERIMENTS_KEY = 'experiments';
 EXPERIMENT_KEY = 'experiment';
 EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
+
+# Face recognition parameter
+FACE_RECOGNITION_RADIUS=1
+FACE_RECOGNITION_NEIGHTBORS=8
+FACE_RECOGNITION_GRID_X=8
+FACE_RECOGNITION_GRID_Y=8
+
+#Face Model parameter
+FACEMODEL_ALGORITHM="LBP"
+FACEMODEL_CONSTANT_ALGORITHM="LBP"

@@ -18,13 +18,14 @@ class FaceModelsLBP():
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
         '''
+        self._labels={}
         
         self._dbpath=DB_PATH
         self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
     '''
     Set the name of database.
     Algorithm : 
-    LBP (Long Binary Pattern)
+    LBP (Local Binary Pattern)
     '''    
             
     def add_faces(self, filenames_or_images, tag):
@@ -39,12 +40,20 @@ class FaceModelsLBP():
         :type  tag: string
         :param tag: the tag associated to the face to be added to the face models data structure
         '''
-        if not filenames_or_images ==None:
-            os.makedirs(self._dbpath+"/"+tag)
+        if not filenames_or_images==None:
+            if not os.path.exists(self._dbpath+"/"+tag):
+                os.makedirs(self._dbpath+"/"+tag)
         if type(filenames_or_images) is str:
             print "string"
-        pass
-
+        
+    def  get_label(self, index):
+        try:
+            if not self._labels==None:
+                return self._labels[index]
+            return -1
+        except:
+            return -1
+        
     def remove_tags(self, tags):
         '''
         Remove the given tag or tags (and all associated faces) from the face models data structure.
@@ -109,6 +118,7 @@ class FaceModelsLBP():
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
+        return model
     
     def clear(self): 
         pass
@@ -127,6 +137,7 @@ class FaceModelsLBP():
                             im = cv2.resize(im, sz)
                         X.append(np.asarray(im, dtype=np.uint8))
                         y.append(c)
+                        self._labels[c]=str( subdirname)
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)
                     except:
@@ -135,7 +146,8 @@ class FaceModelsLBP():
                 c = c+1
         return [X,y]
 
-
+    def read_images(self, path, sz=None):
+        self.__read_images(path, sz)
 if __name__ == '__main__':
     """
     fml=FaceModelsLBP()
