@@ -1,1047 +1,2647 @@
 globalResults:
   algorithm: LBP
   experimentNumber: 1
-  meanF1: 0.9007400007400008
-  meanPrecision: 0.9257631257631258
-  meanRecall: 0.9038461538461539
-  meanRecognitionTime: 0.01304254124896959
-  recognitionRate: 0.89375
-  stdF1: 0.11630330850620982
-  stdPrecision: 0.143755692440065
-  stdRecall: 0.1456130345076993
+  meanF1: 1.428571428571429
+  meanPrecision: 1.0
+  meanRecall: 2.5
+  meanRecognitionTime: 0.01993693120208689
+  recognitionRate: 1.0
+  stdF1: 4.440892098500626e-16
+  stdPrecision: 0.0
+  stdRecall: 0.0
 images:
 - image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
     check: TP
-    confidence: 44.25742524205696
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 0
 - image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
     check: TP
-    confidence: 53.337788098619434
+    confidence: 0.0
     image: 7.pgm
-    label: 0
 - image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
     check: TP
-    confidence: 65.20014507976342
+    confidence: 0.0
     image: 8.pgm
-    label: 0
 - image:
+    annotatedPersonTag: s1
+    assignedPersonTag: s1
     check: TP
-    confidence: 80.10572335383524
+    confidence: 0.0
     image: 9.pgm
-    label: 0
 - image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
     check: TP
-    confidence: 50.962793814522925
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 1
 - image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
     check: TP
-    confidence: 44.50812091450819
+    confidence: 0.0
     image: 7.pgm
-    label: 1
 - image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
     check: TP
-    confidence: 38.393224334767666
+    confidence: 0.0
     image: 8.pgm
-    label: 1
 - image:
+    annotatedPersonTag: s10
+    assignedPersonTag: s10
     check: TP
-    confidence: 77.60402728260638
+    confidence: 0.0
     image: 9.pgm
-    label: 1
 - image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
     check: TP
-    confidence: 34.37460677130182
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 2
 - image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
     check: TP
-    confidence: 37.89744283866792
+    confidence: 0.0
     image: 7.pgm
-    label: 2
 - image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
     check: TP
-    confidence: 50.99947901215044
+    confidence: 0.0
     image: 8.pgm
-    label: 2
 - image:
+    annotatedPersonTag: s11
+    assignedPersonTag: s11
     check: TP
-    confidence: 41.14805277324348
+    confidence: 0.0
     image: 9.pgm
-    label: 2
 - image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
     check: TP
-    confidence: 59.45616718194277
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 3
 - image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
     check: TP
-    confidence: 32.863625611105086
+    confidence: 0.0
     image: 7.pgm
-    label: 3
 - image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
     check: TP
-    confidence: 36.97831553709436
+    confidence: 0.0
     image: 8.pgm
-    label: 3
 - image:
+    annotatedPersonTag: s12
+    assignedPersonTag: s12
     check: TP
-    confidence: 36.29902138551203
+    confidence: 0.0
     image: 9.pgm
-    label: 3
 - image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
     check: TP
-    confidence: 56.06895696792319
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 4
 - image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
     check: TP
-    confidence: 50.76536734797236
+    confidence: 0.0
     image: 7.pgm
-    label: 4
 - image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
     check: TP
-    confidence: 49.53736000675934
+    confidence: 0.0
     image: 8.pgm
-    label: 4
 - image:
+    annotatedPersonTag: s13
+    assignedPersonTag: s13
     check: TP
-    confidence: 43.03368970007738
+    confidence: 0.0
     image: 9.pgm
-    label: 4
 - image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
     check: TP
-    confidence: 40.64631870027328
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 5
 - image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
     check: TP
-    confidence: 36.72983889643119
+    confidence: 0.0
     image: 7.pgm
-    label: 5
 - image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
     check: TP
-    confidence: 38.96687502901508
+    confidence: 0.0
     image: 8.pgm
-    label: 5
 - image:
+    annotatedPersonTag: s14
+    assignedPersonTag: s14
     check: TP
-    confidence: 42.74099313548701
+    confidence: 0.0
     image: 9.pgm
-    label: 5
 - image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
     check: TP
-    confidence: 34.17296490691921
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 6
 - image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
     check: TP
-    confidence: 37.80759785533728
+    confidence: 0.0
     image: 7.pgm
-    label: 6
 - image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
     check: TP
-    confidence: 41.24346171371872
+    confidence: 0.0
     image: 8.pgm
-    label: 6
 - image:
+    annotatedPersonTag: s15
+    assignedPersonTag: s15
     check: TP
-    confidence: 41.418838387399916
+    confidence: 0.0
     image: 9.pgm
-    label: 6
 - image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
     check: TP
-    confidence: 56.42624301168063
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 7
 - image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
     check: TP
-    confidence: 49.6631319209827
+    confidence: 0.0
     image: 7.pgm
-    label: 7
 - image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
     check: TP
-    confidence: 52.182722955762365
+    confidence: 0.0
     image: 8.pgm
-    label: 7
 - image:
+    annotatedPersonTag: s16
+    assignedPersonTag: s16
     check: TP
-    confidence: 45.72899784596009
+    confidence: 0.0
     image: 9.pgm
-    label: 7
 - image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
     check: TP
-    confidence: 41.60067374989438
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 8
 - image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
     check: TP
-    confidence: 34.45331499411914
+    confidence: 0.0
     image: 7.pgm
-    label: 8
 - image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
     check: TP
-    confidence: 43.47347354959018
+    confidence: 0.0
     image: 8.pgm
-    label: 8
 - image:
+    annotatedPersonTag: s17
+    assignedPersonTag: s17
     check: TP
-    confidence: 43.11244122670037
+    confidence: 0.0
     image: 9.pgm
-    label: 8
 - image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
     check: TP
-    confidence: 36.24552602884394
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 9
 - image:
-    check: FP
-    confidence: 54.104245654228905
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
     check: TP
-    confidence: 38.718224408177306
+    confidence: 0.0
     image: 8.pgm
-    label: 9
 - image:
-    check: FP
-    confidence: 48.63640749735009
-    image: 9.pgm
-    label: 33
-- image:
+    annotatedPersonTag: s18
+    assignedPersonTag: s18
     check: TP
-    confidence: 36.6265370192439
+    confidence: 0.0
+    image: 9.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 10
 - image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
     check: TP
-    confidence: 46.46738506645643
+    confidence: 0.0
     image: 7.pgm
-    label: 10
 - image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
     check: TP
-    confidence: 37.422800771159956
+    confidence: 0.0
     image: 8.pgm
-    label: 10
 - image:
+    annotatedPersonTag: s19
+    assignedPersonTag: s19
     check: TP
-    confidence: 61.45005361106297
+    confidence: 0.0
     image: 9.pgm
-    label: 10
 - image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
     check: TP
-    confidence: 35.538082571767234
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 11
 - image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
     check: TP
-    confidence: 29.59183225895297
+    confidence: 0.0
     image: 7.pgm
-    label: 11
 - image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
     check: TP
-    confidence: 31.663431176696104
+    confidence: 0.0
     image: 8.pgm
-    label: 11
 - image:
+    annotatedPersonTag: s2
+    assignedPersonTag: s2
     check: TP
-    confidence: 34.12500618888616
+    confidence: 0.0
     image: 9.pgm
-    label: 11
 - image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
     check: TP
-    confidence: 32.712014423230485
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 12
 - image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
     check: TP
-    confidence: 31.04316947008517
+    confidence: 0.0
     image: 7.pgm
-    label: 12
 - image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
     check: TP
-    confidence: 42.52083168304379
+    confidence: 0.0
     image: 8.pgm
-    label: 12
 - image:
+    annotatedPersonTag: s20
+    assignedPersonTag: s20
     check: TP
-    confidence: 36.43617133725683
+    confidence: 0.0
     image: 9.pgm
-    label: 12
 - image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
     check: TP
-    confidence: 38.46249289060273
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 13
 - image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
     check: TP
-    confidence: 37.49092699420744
+    confidence: 0.0
     image: 7.pgm
-    label: 13
 - image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
     check: TP
-    confidence: 39.709727118967976
+    confidence: 0.0
     image: 8.pgm
-    label: 13
 - image:
+    annotatedPersonTag: s21
+    assignedPersonTag: s21
     check: TP
-    confidence: 36.793522704138425
+    confidence: 0.0
     image: 9.pgm
-    label: 13
 - image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
     check: TP
-    confidence: 45.55687005393375
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 14
 - image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
     check: TP
-    confidence: 33.93894793758763
+    confidence: 0.0
     image: 7.pgm
-    label: 14
 - image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
     check: TP
-    confidence: 32.469529897680914
+    confidence: 0.0
     image: 8.pgm
-    label: 14
 - image:
+    annotatedPersonTag: s22
+    assignedPersonTag: s22
     check: TP
-    confidence: 35.58616730623543
+    confidence: 0.0
     image: 9.pgm
-    label: 14
 - image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
     check: TP
-    confidence: 30.01701352825891
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 15
 - image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
     check: TP
-    confidence: 59.1426447318358
+    confidence: 0.0
     image: 7.pgm
-    label: 15
 - image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
     check: TP
-    confidence: 30.633987183769012
+    confidence: 0.0
     image: 8.pgm
-    label: 15
 - image:
+    annotatedPersonTag: s23
+    assignedPersonTag: s23
     check: TP
-    confidence: 49.35342182629965
+    confidence: 0.0
     image: 9.pgm
-    label: 15
 - image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
     check: TP
-    confidence: 34.92136165223272
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 16
 - image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
     check: TP
-    confidence: 40.046527718757154
+    confidence: 0.0
     image: 7.pgm
-    label: 16
 - image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
     check: TP
-    confidence: 52.96813804064518
+    confidence: 0.0
     image: 8.pgm
-    label: 16
 - image:
+    annotatedPersonTag: s24
+    assignedPersonTag: s24
     check: TP
-    confidence: 33.874049786410374
+    confidence: 0.0
     image: 9.pgm
-    label: 16
 - image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
     check: TP
-    confidence: 40.00488778901934
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 17
 - image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
     check: TP
-    confidence: 36.20790492109253
+    confidence: 0.0
     image: 7.pgm
-    label: 17
 - image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
     check: TP
-    confidence: 46.6094356353532
+    confidence: 0.0
     image: 8.pgm
-    label: 17
 - image:
+    annotatedPersonTag: s25
+    assignedPersonTag: s25
     check: TP
-    confidence: 48.43607119303304
+    confidence: 0.0
     image: 9.pgm
-    label: 17
 - image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
     check: TP
-    confidence: 40.022436028091555
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 18
 - image:
-    check: FP
-    confidence: 52.593344598030015
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 20
 - image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
     check: TP
-    confidence: 40.99731620385865
+    confidence: 0.0
     image: 8.pgm
-    label: 18
 - image:
+    annotatedPersonTag: s26
+    assignedPersonTag: s26
     check: TP
-    confidence: 44.49756662710961
+    confidence: 0.0
     image: 9.pgm
-    label: 18
 - image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
     check: TP
-    confidence: 45.87918104191666
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 19
 - image:
-    check: FP
-    confidence: 47.0436602745386
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
     check: TP
-    confidence: 43.07288790687993
+    confidence: 0.0
     image: 8.pgm
-    label: 19
 - image:
+    annotatedPersonTag: s27
+    assignedPersonTag: s27
     check: TP
-    confidence: 39.87914290197023
+    confidence: 0.0
     image: 9.pgm
-    label: 19
 - image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
     check: TP
-    confidence: 28.79550173361652
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 20
 - image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
     check: TP
-    confidence: 36.708177083644216
+    confidence: 0.0
     image: 7.pgm
-    label: 20
 - image:
-    check: FP
-    confidence: 69.81541890331518
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
+    check: TP
+    confidence: 0.0
     image: 8.pgm
-    label: 18
 - image:
+    annotatedPersonTag: s28
+    assignedPersonTag: s28
     check: TP
-    confidence: 46.58332357087231
+    confidence: 0.0
     image: 9.pgm
-    label: 20
 - image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
     check: TP
-    confidence: 34.85723327939662
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 21
 - image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
     check: TP
-    confidence: 39.00300270886557
+    confidence: 0.0
     image: 7.pgm
-    label: 21
 - image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
     check: TP
-    confidence: 51.667161934720276
+    confidence: 0.0
     image: 8.pgm
-    label: 21
 - image:
-    check: FP
-    confidence: 53.54686575404078
-    image: 9.pgm
-    label: 15
-- image:
+    annotatedPersonTag: s29
+    assignedPersonTag: s29
     check: TP
-    confidence: 45.792602614594095
+    confidence: 0.0
+    image: 9.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 22
 - image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
     check: TP
-    confidence: 49.1070669614767
+    confidence: 0.0
     image: 7.pgm
-    label: 22
 - image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
     check: TP
-    confidence: 51.96912462235519
+    confidence: 0.0
     image: 8.pgm
-    label: 22
 - image:
+    annotatedPersonTag: s3
+    assignedPersonTag: s3
     check: TP
-    confidence: 36.757805145403054
+    confidence: 0.0
     image: 9.pgm
-    label: 22
 - image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
     check: TP
-    confidence: 43.33465446515446
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 23
 - image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
     check: TP
-    confidence: 47.76033801772756
+    confidence: 0.0
     image: 7.pgm
-    label: 23
 - image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
     check: TP
-    confidence: 43.94235290312832
+    confidence: 0.0
     image: 8.pgm
-    label: 23
 - image:
+    annotatedPersonTag: s30
+    assignedPersonTag: s30
     check: TP
-    confidence: 53.32669299640377
+    confidence: 0.0
     image: 9.pgm
-    label: 23
 - image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
     check: TP
-    confidence: 45.47397732702898
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 24
 - image:
-    check: FP
-    confidence: 66.29155553355696
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 17
 - image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
     check: TP
-    confidence: 32.87589157214629
+    confidence: 0.0
     image: 8.pgm
-    label: 24
 - image:
+    annotatedPersonTag: s31
+    assignedPersonTag: s31
     check: TP
-    confidence: 60.83639186269518
+    confidence: 0.0
     image: 9.pgm
-    label: 24
 - image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
     check: TP
-    confidence: 37.72633683035833
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 25
 - image:
-    check: FP
-    confidence: 59.51508221436746
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
     check: TP
-    confidence: 42.90569098430809
+    confidence: 0.0
     image: 8.pgm
-    label: 25
 - image:
+    annotatedPersonTag: s32
+    assignedPersonTag: s32
     check: TP
-    confidence: 37.252157092989016
+    confidence: 0.0
     image: 9.pgm
-    label: 25
 - image:
-    check: FP
-    confidence: 59.730238028486944
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 15
 - image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
     check: TP
-    confidence: 42.4399163661224
+    confidence: 0.0
     image: 7.pgm
-    label: 26
 - image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
     check: TP
-    confidence: 48.61700172517725
+    confidence: 0.0
     image: 8.pgm
-    label: 26
 - image:
+    annotatedPersonTag: s33
+    assignedPersonTag: s33
     check: TP
-    confidence: 41.16396812663534
+    confidence: 0.0
     image: 9.pgm
-    label: 26
 - image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
     check: TP
-    confidence: 31.95018003664701
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 27
 - image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
     check: TP
-    confidence: 34.743432365123596
+    confidence: 0.0
     image: 7.pgm
-    label: 27
 - image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
     check: TP
-    confidence: 30.9516796548555
+    confidence: 0.0
     image: 8.pgm
-    label: 27
 - image:
+    annotatedPersonTag: s34
+    assignedPersonTag: s34
     check: TP
-    confidence: 31.39044628223643
+    confidence: 0.0
     image: 9.pgm
-    label: 27
 - image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
     check: TP
-    confidence: 58.60476220341919
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 28
 - image:
-    check: FP
-    confidence: 70.69199745046423
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 22
 - image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
     check: TP
-    confidence: 56.6932650227717
+    confidence: 0.0
     image: 8.pgm
-    label: 28
 - image:
+    annotatedPersonTag: s35
+    assignedPersonTag: s35
     check: TP
-    confidence: 54.165016894148756
+    confidence: 0.0
     image: 9.pgm
-    label: 28
 - image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
     check: TP
-    confidence: 44.80874467083682
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 29
 - image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
     check: TP
-    confidence: 41.103755461151714
+    confidence: 0.0
     image: 7.pgm
-    label: 29
 - image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
     check: TP
-    confidence: 33.456254698205605
+    confidence: 0.0
     image: 8.pgm
-    label: 29
 - image:
+    annotatedPersonTag: s36
+    assignedPersonTag: s36
     check: TP
-    confidence: 43.653166789501704
+    confidence: 0.0
     image: 9.pgm
-    label: 29
 - image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
     check: TP
-    confidence: 31.574862217567766
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 30
 - image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
     check: TP
-    confidence: 41.16502553591407
+    confidence: 0.0
     image: 7.pgm
-    label: 30
 - image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
     check: TP
-    confidence: 34.529821144709516
+    confidence: 0.0
     image: 8.pgm
-    label: 30
 - image:
+    annotatedPersonTag: s37
+    assignedPersonTag: s37
     check: TP
-    confidence: 32.03622903272766
+    confidence: 0.0
     image: 9.pgm
-    label: 30
 - image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
     check: TP
-    confidence: 34.19497449069928
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
     check: TP
-    confidence: 32.73922831687518
+    confidence: 0.0
     image: 7.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
     check: TP
-    confidence: 47.647938422631675
+    confidence: 0.0
     image: 8.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s38
+    assignedPersonTag: s38
     check: TP
-    confidence: 39.01621033372279
+    confidence: 0.0
     image: 9.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
     check: TP
-    confidence: 46.86512191985457
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 32
 - image:
-    check: FP
-    confidence: 57.91799962640714
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 13
 - image:
-    check: FP
-    confidence: 57.343484874151955
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
+    check: TP
+    confidence: 0.0
     image: 8.pgm
-    label: 13
 - image:
+    annotatedPersonTag: s39
+    assignedPersonTag: s39
     check: TP
-    confidence: 43.35098595766588
+    confidence: 0.0
     image: 9.pgm
-    label: 32
 - image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
     check: TP
-    confidence: 52.47739441773831
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
     check: TP
-    confidence: 33.640945126593294
+    confidence: 0.0
     image: 7.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
     check: TP
-    confidence: 33.03404175670127
+    confidence: 0.0
     image: 8.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s4
+    assignedPersonTag: s4
     check: TP
-    confidence: 32.228352991873614
+    confidence: 0.0
     image: 9.pgm
-    label: 33
 - image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
     check: TP
-    confidence: 50.55573722412586
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 34
 - image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
     check: TP
-    confidence: 63.110262271489646
+    confidence: 0.0
     image: 7.pgm
-    label: 34
 - image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
     check: TP
-    confidence: 45.570833627385284
+    confidence: 0.0
     image: 8.pgm
-    label: 34
 - image:
-    check: FP
-    confidence: 60.12430024328487
-    image: 9.pgm
-    label: 35
-- image:
+    annotatedPersonTag: s40
+    assignedPersonTag: s40
     check: TP
-    confidence: 36.45679924609551
+    confidence: 0.0
+    image: 9.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 35
 - image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
     check: TP
-    confidence: 34.247465487103966
+    confidence: 0.0
     image: 7.pgm
-    label: 35
 - image:
-    check: FP
-    confidence: 60.52725524079107
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
+    check: TP
+    confidence: 0.0
     image: 8.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s5
+    assignedPersonTag: s5
     check: TP
-    confidence: 54.49879425651876
+    confidence: 0.0
     image: 9.pgm
-    label: 35
 - image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
     check: TP
-    confidence: 33.7348759036369
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 36
 - image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
     check: TP
-    confidence: 34.8355875124393
+    confidence: 0.0
     image: 7.pgm
-    label: 36
 - image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
     check: TP
-    confidence: 44.660868781633326
+    confidence: 0.0
     image: 8.pgm
-    label: 36
 - image:
-    check: FP
-    confidence: 55.864351624839905
-    image: 9.pgm
-    label: 31
-- image:
+    annotatedPersonTag: s6
+    assignedPersonTag: s6
     check: TP
-    confidence: 33.51518116374242
+    confidence: 0.0
+    image: 9.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 37
 - image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
     check: TP
-    confidence: 35.912193539711815
+    confidence: 0.0
     image: 7.pgm
-    label: 37
 - image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
     check: TP
-    confidence: 41.23478701615495
+    confidence: 0.0
     image: 8.pgm
-    label: 37
 - image:
+    annotatedPersonTag: s7
+    assignedPersonTag: s7
     check: TP
-    confidence: 35.746012967542306
+    confidence: 0.0
     image: 9.pgm
-    label: 37
 - image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
     check: TP
-    confidence: 31.510912650677554
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 38
 - image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
     check: TP
-    confidence: 49.52679280786897
+    confidence: 0.0
     image: 7.pgm
-    label: 38
 - image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
     check: TP
-    confidence: 30.52062005696936
+    confidence: 0.0
     image: 8.pgm
-    label: 38
 - image:
+    annotatedPersonTag: s8
+    assignedPersonTag: s8
     check: TP
-    confidence: 53.16423474861515
+    confidence: 0.0
     image: 9.pgm
-    label: 38
 - image:
-    check: FP
-    confidence: 63.21516406334367
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 1.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 10.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 2.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 3.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 4.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
+    image: 5.pgm
+- image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
     image: 6.pgm
-    label: 35
 - image:
-    check: FP
-    confidence: 55.129351236752974
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
+    check: TP
+    confidence: 0.0
     image: 7.pgm
-    label: 31
 - image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
     check: TP
-    confidence: 45.01279538876957
+    confidence: 0.0
     image: 8.pgm
-    label: 39
 - image:
+    annotatedPersonTag: s9
+    assignedPersonTag: s9
     check: TP
-    confidence: 43.36588894480996
+    confidence: 0.0
     image: 9.pgm
-    label: 39
 people:
-- F1: 1.0
+- F1: 1.4285714285714286
+  annotatedPersonTag: s1
   falsePositivesNr: 0
-  label: 0
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s10
   falsePositivesNr: 0
-  label: 1
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s11
   falsePositivesNr: 0
-  label: 2
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s12
   falsePositivesNr: 0
-  label: 3
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s13
   falsePositivesNr: 0
-  label: 4
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s14
   falsePositivesNr: 0
-  label: 5
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s15
   falsePositivesNr: 0
-  label: 6
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s16
   falsePositivesNr: 0
-  label: 7
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s17
   falsePositivesNr: 0
-  label: 8
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.6666666666666666
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s18
   falsePositivesNr: 0
-  label: 9
   precision: 1.0
-  recall: 0.5
-  truePositivesNr: 2
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s19
   falsePositivesNr: 0
-  label: 10
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s2
   falsePositivesNr: 0
-  label: 11
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s20
   falsePositivesNr: 0
-  label: 12
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.8
-  falsePositivesNr: 2
-  label: 13
-  precision: 0.6666666666666666
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s21
   falsePositivesNr: 0
-  label: 14
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.8
-  falsePositivesNr: 2
-  label: 15
-  precision: 0.6666666666666666
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s22
   falsePositivesNr: 0
-  label: 16
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.888888888888889
-  falsePositivesNr: 1
-  label: 17
-  precision: 0.8
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.75
-  falsePositivesNr: 1
-  label: 18
-  precision: 0.75
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s23
   falsePositivesNr: 0
-  label: 19
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.75
-  falsePositivesNr: 1
-  label: 20
-  precision: 0.75
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s24
   falsePositivesNr: 0
-  label: 21
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.888888888888889
-  falsePositivesNr: 1
-  label: 22
-  precision: 0.8
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s25
   falsePositivesNr: 0
-  label: 23
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s26
   falsePositivesNr: 0
-  label: 24
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s27
   falsePositivesNr: 0
-  label: 25
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s28
   falsePositivesNr: 0
-  label: 26
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s29
   falsePositivesNr: 0
-  label: 27
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s3
   falsePositivesNr: 0
-  label: 28
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s30
   falsePositivesNr: 0
-  label: 29
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s31
   falsePositivesNr: 0
-  label: 30
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.7272727272727273
-  falsePositivesNr: 3
-  label: 31
-  precision: 0.5714285714285714
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.6666666666666666
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s32
   falsePositivesNr: 0
-  label: 32
   precision: 1.0
-  recall: 0.5
-  truePositivesNr: 2
-- F1: 0.6666666666666666
-  falsePositivesNr: 4
-  label: 33
-  precision: 0.5
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s33
   falsePositivesNr: 0
-  label: 34
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.6666666666666665
-  falsePositivesNr: 2
-  label: 35
-  precision: 0.6
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 0.8571428571428571
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s34
   falsePositivesNr: 0
-  label: 36
   precision: 1.0
-  recall: 0.75
-  truePositivesNr: 3
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s35
   falsePositivesNr: 0
-  label: 37
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
-- F1: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s36
   falsePositivesNr: 0
-  label: 38
   precision: 1.0
-  recall: 1.0
-  truePositivesNr: 4
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s37
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s38
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s39
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s4
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s40
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s5
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s6
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s7
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10
+- F1: 1.4285714285714286
+  annotatedPersonTag: s8
+  falsePositivesNr: 0
+  precision: 1.0
+  recall: 2.5
+  truePositivesNr: 10

@@ -5,6 +5,7 @@ import sys
 sys.path.append("../../..");
 from tools.Constants import *
 from tools.face_recognition import recognize_face
+from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
 # Save in csv file given list of experiments
@@ -58,7 +59,7 @@ def fr_test(params, show_results):
 
         # Load face recognition parameters
 
-        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
         fr_params = face_extractor_params[FACE_DETECTION_KEY];
 
         recognition_results = recognize_face(image, None, fr_params, show_results);
@@ -108,6 +109,8 @@ def fr_experiments(params, show_results):
     test_images_nr = 0; # Number of total test images
     mean_rec_time = 0;
 
+    fm = FaceModelsLBP();
+
     fr_test_params = params[FACE_RECOGNITION_KEY];
 
     # Total number of images for each person
@@ -126,9 +129,14 @@ def fr_experiments(params, show_results):
     images_list_for_YAML = []; # List used for creating YAML file with list of images
     people_list_for_YAML = []; # List used for creating YAML file with list of people
 
-    people_true_positives_list = [0]*people_nr;
-    people_false_positives_list = [0]*people_nr;
-    people_tags_list = ['']*people_nr;
+    # Initialize dictionaries with people
+    people_true_positives_dict = {};
+    people_false_positives_dict = {};
+    people_test_images_nr_dict = {};
+    for label in range(0, people_nr):
+        tag = fm.get_label(label);
+        people_true_positives_dict[tag] = 0;
+        people_false_positives_dict[tag] = 0;
 
     # Get path of directories with used files from params
     test_set_path = None; # directory with test set
@@ -144,7 +152,7 @@ def fr_experiments(params, show_results):
     results_path = fr_test_params[RESULTS_PATH_KEY] + '\\'; # directory with results
 
     # Load face recognition parameters
-    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
     face_rec_params = face_extractor_params[FACE_RECOGNITION_KEY];
 
     # Iterate over all directories with images
@@ -155,8 +163,6 @@ def fr_experiments(params, show_results):
     for images_dir in images_dirs:
         
         images_dir_complete_path = test_set_path + images_dir;
-
-        people_tags_list[label] = images_dir;
 
         # Iterate over all images in this directory
         image_counter = 0;
@@ -173,7 +179,7 @@ def fr_experiments(params, show_results):
                 try:
                 
                     face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
-                    rec_results = recognize_face(face, None, face_rec_params, show_results);
+                    rec_results = recognize_face(face, fm, face_rec_params, show_results);
 
                     # Add recognition time to total
                     mean_rec_time = mean_rec_time + rec_results[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY];
@@ -191,11 +197,11 @@ def fr_experiments(params, show_results):
 
                     if(assigned_label == label):
                         image_dict[PERSON_CHECK_KEY] = 'TP';
-                        people_true_positives_list[assigned_label] = people_true_positives_list[assigned_label] + 1;
+                        people_true_positives_dict[assigned_tag] = people_true_positives_dict[assigned_tag] + 1;
                         rec_images_nr = rec_images_nr + 1;
                     else:
                         image_dict[PERSON_CHECK_KEY] = 'FP';
-                        people_false_positives_list[assigned_label] = people_false_positives_list[assigned_label] + 1;
+                        people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1;
 
                     image_dict_extended = {};
                     image_dict_extended[FACE_RECOGNITION_IMAGE_KEY] = image_dict;
@@ -223,8 +229,10 @@ def fr_experiments(params, show_results):
     people_f1_list = [];
     for label in range(0, people_nr - 1):
 
-        person_true_positives = people_true_positives_list[label];
-        person_false_positives = people_false_positives_list[label];
+        tag = fm.get_label(label);
+
+        person_true_positives = people_true_positives_dict[tag];
+        person_false_positives = people_false_positives_dict[tag];
 
         person_precision = 0;
         if(person_true_positives != 0):
@@ -243,7 +251,7 @@ def fr_experiments(params, show_results):
 
         # Populate dictionary with results for this person
         person_dict = {};
-        person_dict[PERSON_ANNOTATED_TAG_KEY] = people_tags_list[label];
+        person_dict[PERSON_ANNOTATED_TAG_KEY] = tag;
         person_dict[PERSON_TRUE_POSITIVES_NR_KEY] = person_true_positives;
         person_dict[PERSON_FALSE_POSITIVES_NR_KEY] = person_false_positives;
         person_dict[PERSON_PRECISION_KEY] = person_precision;

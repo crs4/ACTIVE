@@ -22,6 +22,7 @@ class FaceModelsLBP():
         
         self._dbpath=DB_PATH
         self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
+        self.model = self.create();
     '''
     Set the name of database.
     Algorithm : 

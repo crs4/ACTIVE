@@ -48,10 +48,9 @@ def load_YAML_file(file_path):
     Returns:
         A dictionary with the contents of the file
     """
-    stream = open(file_path, 'r');
-    data = yaml.load(stream);
-    stream.close();
-    return data;
+    with open(file_path, 'r') as stream:
+        data = yaml.load(stream);
+        return data;
 
 def load_image_annotations(file_path):
     """Load YAML file with image .

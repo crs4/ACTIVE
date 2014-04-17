@@ -1,7 +1,10 @@
 import os
-ACTIVE_ROOT_DIRECTORY=os.getcwd()+"/../" #"/Users/labcontenuti/Desktop/active"
+#ACTIVE_ROOT_DIRECTORY=os.getcwd()+"\..\\" #"/Users/labcontenuti/Desktop/active"
+ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
 DB_PATH=ACTIVE_ROOT_DIRECTORY+"\data\DATASET AT&T"
 #Path of files
+FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\tools\FaceExtractorConfiguration.yml'
+TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
 
 # Test configuration
 TEST_FILES_PATH_KEY = 'testSetPath';

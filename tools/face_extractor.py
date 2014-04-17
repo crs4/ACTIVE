@@ -115,7 +115,7 @@ class FaceExtractor(object):
 
         if(params == None):
             # Load configuration file
-            self.params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+            self.params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
         else:
             self.params = params;
 
@@ -160,7 +160,7 @@ class FaceExtractor(object):
         count = 0;
         for face in face_images:
             face_dict = {};
-            rec_result = recognize_face(face, face_models, recognition_params, False);
+            rec_result = recognize_face(face, self.face_models, recognition_params, False);
             tag = rec_result[PERSON_ASSIGNED_TAG_KEY];
             face_dict[FACE_EXTRACTION_TAG_KEY] = tag;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];

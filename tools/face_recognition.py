@@ -18,16 +18,14 @@ def recognize_face(face, face_models, params, show_results):
     if(face_models == None):
         fm = FaceModelsLBP();
 
-    model = fm.load(None);
-
     start_time = cv2.getTickCount();
     
-    [label, confidence] = model.predict(np.asarray(face, dtype=np.uint8));
+    [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8));
 
     # TODO: Get name of person
-    tag = '';
+    tag = fm.get_label(label);
     
-    print "Predicted label = %d (confidence=%.2f)" % (label, confidence) # TEST ONLY
+    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time;
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency();

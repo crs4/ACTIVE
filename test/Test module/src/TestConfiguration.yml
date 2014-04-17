@@ -18,7 +18,7 @@ faceExtraction:
   testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face extraction\TestSet
   trainingImagesNr: 6
 faceRecognition:
-  datasetAlreadyDivided: true
+  datasetAlreadyDivided: false
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
   peopleNr: 40
   personImagesNr: 10

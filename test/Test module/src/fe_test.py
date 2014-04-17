@@ -6,6 +6,7 @@ import sys
 sys.path.append("../../..");
 from tools.Constants import *
 from tools.face_extractor import FaceExtractor
+from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
 # Save in csv file given list of experiments
@@ -69,8 +70,11 @@ def fe_test(params, show_results):
             
             for face in faces:
                 
-                label = face[FACE_EXTRACTION_TAG_KEY];
-                # TO DO: CHECK THAT LABEL IS A POSSIBLE VALUE (E.G LABEL BETWEEN 0 AND 40)
+                tag = face[FACE_EXTRACTION_TAG_KEY];
+                # Check that tag is a not empty string
+                if(len(tag) == 0):
+                    test_passed = False;
+                    break;
 
                 # Check that bounding box rectangle is inside the original image
                 face_bbox = face[FACE_EXTRACTION_BBOX_KEY];
@@ -113,6 +117,8 @@ def fe_experiments(params, show_results):
         params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     mean_ext_time = 0;
+    
+    fm = FaceModelsLBP();
 
     # Get path of directories with used files from params
     fe_test_params = params[FACE_EXTRACTION_KEY];
@@ -135,8 +141,11 @@ def fe_experiments(params, show_results):
     people_list_for_YAML = []; # List used for creating YAML file with list of people
 
     # Initialize dictionaries with people
-    for label in range(0, people_nr - 1):
-        tag = ; #TODO: GET TAG FROM FACEMODELS
+    people_true_positives_dict = {};
+    people_false_positives_dict = {};
+    people_test_images_nr_dict = {};
+    for label in range(0, people_nr):
+        tag = fm.get_label(label);
         people_true_positives_dict[tag] = 0;
         people_false_positives_dict[tag] = 0;
         people_test_images_nr_dict[tag] = 0;
@@ -176,7 +185,7 @@ def fe_experiments(params, show_results):
             frame_path = video_dir_complete_path + '\\' + frame_file;
 
             # Extract faces from image
-            fe = FaceExtractor(None);
+            fe = FaceExtractor(fm);
             ext_results = fe.extract_faces_from_image_sync(frame_path);
 
             # Add extraction time to total
@@ -190,8 +199,9 @@ def fe_experiments(params, show_results):
                 # Update number of test images
                 for annotated_face_dict_extended in annotated_faces:
                     annotated_face_dict = annotated_face_dict_extended[ANNOTATIONS_FACE_KEY];
-                    ann_face_tag = annotated_face_dict[ANNOTATIONS_PERSON_TAG_KEY];
-                    people_test_images_nr_dict[ann_face_tag] = people_test_images_nr_dict[ann_face_tag] + 1;
+                    ann_face_tag = annotated_face_dict[ANNOTATIONS_PERSON_NAME_KEY];
+                    test_images_nr = people_test_images_nr_dict.get(ann_face_tag, 0);
+                    people_test_images_nr_dict[ann_face_tag] = test_images_nr + 1;
 
             ext_faces = ext_results[FACE_EXTRACTION_FACES_KEY];
 
@@ -242,8 +252,8 @@ def fe_experiments(params, show_results):
                         detection_true_positive = True;
                         ext_face_dict[FACE_CHECK_KEY] = 'Face detection - TP';
                         # Check tag
-                        ann_face_tag = annotated_face_dict[ANNOTATIONS_PERSON_TAG_KEY];
-                        if(ext_face_tag == ann_face_tag):
+                        ann_face_tag = annotated_face_dict[ANNOTATIONS_PERSON_NAME_KEY];
+                        if(ext_face_tag == ann_face_tag):s
                             recognition_true_positive = True;
                             ext_face_dict[PERSON_CHECK_KEY] = 'Face recognition - TP';
                             people_true_positives_dict[ext_face_tag] = people_true_positives_dict[ext_face_tag] + 1;
@@ -279,7 +289,7 @@ def fe_experiments(params, show_results):
     people_f1_list = [];
     for label in range(0, people_nr - 1):
 
-        tag = ;#TODO: GET TAG FROM FACE MODELS
+        tag = fm.get_label(label);
         person_true_positives = people_true_positives_dict[tag];
         person_false_positives = people_false_positives_dict[tag];
         person_test_images_nr = people_test_images_nr_dict[tag];
@@ -301,7 +311,7 @@ def fe_experiments(params, show_results):
 
         # Populate dictionary with results for this person
         person_dict = {};
-        person_dict[PERSON_ANNOTATED_TAG_KEY] = label;
+        person_dict[PERSON_ANNOTATED_TAG_KEY] = tag;
         person_dict[PERSON_TRUE_POSITIVES_NR_KEY] = person_true_positives;
         person_dict[PERSON_FALSE_POSITIVES_NR_KEY] = person_false_positives;
         person_dict[PERSON_PRECISION_KEY] = person_precision;
@@ -397,7 +407,7 @@ if __name__ == "__main__":
     test_passed = True; # TEST ONLY
 
     #TODO: UNCOMMENT
-    #test_passed = fe_test(params, False); 
+    test_passed = fe_test(params, False); 
 
     if(test_passed):
         print("\nSOFTWARE TEST PASSED\n");
