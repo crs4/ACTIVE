@@ -100,7 +100,7 @@ class FaceExtractor(object):
     '''
     Tool for detecting and recognizing faces in images and video.
     '''
-    def __init__(self, face_models, params=None):
+    def __init__(self, face_models = None, params=None):
         '''
         Initialize the face extractor.
         The configuration parameters define and customize the face extraction algorithm.
@@ -118,6 +118,8 @@ class FaceExtractor(object):
             self.params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
         else:
             self.params = params;
+
+        self.face_models = face_models;
 
         self.progress = 0;
 
@@ -158,9 +160,9 @@ class FaceExtractor(object):
         count = 0;
         for face in face_images:
             face_dict = {};
-            rec_result = recognize_face(face, recognition_params, True);
-            label = rec_result[PERSON_ASSIGNED_LABEL_KEY];
-            face_dict[FACE_EXTRACTION_TAG_KEY] = label;
+            rec_result = recognize_face(face, face_models, recognition_params, False);
+            tag = rec_result[PERSON_ASSIGNED_TAG_KEY];
+            face_dict[FACE_EXTRACTION_TAG_KEY] = tag;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
             faces.append(face_dict);
             count = count + 1;

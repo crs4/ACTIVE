@@ -61,7 +61,7 @@ def fr_test(params, show_results):
         face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
         fr_params = face_extractor_params[FACE_DETECTION_KEY];
 
-        recognition_results = recognize_face(image, fr_params, show_results);
+        recognition_results = recognize_face(image, None, fr_params, show_results);
 
         error = recognition_results[FACE_RECOGNITION_ERROR_KEY];
 
@@ -71,7 +71,10 @@ def fr_test(params, show_results):
 
             confidence = recognition_results[FACE_RECOGNITION_CONFIDENCE_KEY];
 
-            # TO DO: CHECK THAT LABEL AND CONFIDENCE ARE POSSIBLE VALUES (E.G LABEL BETWEEN 0 AND 40)
+            # TO DO: CHECK THAT LABEL IS A NOT EMPTY STRING
+
+            if(confidence < 0):
+                test_passed = False
         else:
 
             test_passed = False;
@@ -125,31 +128,42 @@ def fr_experiments(params, show_results):
 
     people_true_positives_list = [0]*people_nr;
     people_false_positives_list = [0]*people_nr;
+    people_tags_list = ['']*people_nr;
 
     # Get path of directories with used files from params
-    dataset_path = fr_test_params[DATASET_PATH_KEY] + '\\'; # directory with dataset
+    test_set_path = None; # directory with test set
+
+    dataset_already_divided = fr_test_params[DATASET_ALREADY_DIVIDED];
+    
+    if(dataset_already_divided):
+        training_set_path = fr_test_params[TRAINING_SET_PATH_KEY] + '\\';
+        test_set_path = fr_test_params[TEST_SET_PATH_KEY] + '\\';
+    else:
+        test_set_path = fr_test_params[DATASET_PATH_KEY] + '\\';
+    
     results_path = fr_test_params[RESULTS_PATH_KEY] + '\\'; # directory with results
 
     # Load face recognition parameters
     face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
     face_rec_params = face_extractor_params[FACE_RECOGNITION_KEY];
 
-    images_dirs = listdir(dataset_path);
-
     # Iterate over all directories with images
+    images_dirs = listdir(test_set_path);
 
     label = 0;
     total_test_images_nr = 0;
     for images_dir in images_dirs:
         
-        images_dir_complete_path = dataset_path + images_dir;
+        images_dir_complete_path = test_set_path + images_dir;
+
+        people_tags_list[label] = images_dir;
 
         # Iterate over all images in this directory
         image_counter = 0;
         for image in listdir(images_dir_complete_path):
 
-            # First training_images_nr images are used for training, the remaining for test
-            if(image_counter >= training_images_nr):
+            # If dataset is not already divided, first training_images_nr images are used for training, the remaining for test
+            if((dataset_already_divided) or (image_counter >= training_images_nr)):
 
                 total_test_images_nr = total_test_images_nr + 1;
                 
@@ -159,24 +173,25 @@ def fr_experiments(params, show_results):
                 try:
                 
                     face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
-                    rec_results = recognize_face(face, face_rec_params, show_results);
+                    rec_results = recognize_face(face, None, face_rec_params, show_results);
 
                     # Add recognition time to total
                     mean_rec_time = mean_rec_time + rec_results[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY];
                     
                     assigned_label = rec_results[PERSON_ASSIGNED_LABEL_KEY];
+                    assigned_tag = rec_results[PERSON_ASSIGNED_TAG_KEY];
                     confidence = rec_results[PERSON_CONFIDENCE_KEY];
 
                     image_dict = {};
 
                     image_dict[FACE_RECOGNITION_IMAGE_KEY] = image;
-                    image_dict[PERSON_LABEL_KEY] = label;
-                    image_dict[PERSON_ASSIGNED_LABEL_KEY] = assigned_label;
+                    image_dict[PERSON_ANNOTATED_TAG_KEY] = images_dir;
+                    image_dict[PERSON_ASSIGNED_TAG_KEY] = assigned_tag;
                     image_dict[PERSON_CONFIDENCE_KEY] = confidence;
 
                     if(assigned_label == label):
                         image_dict[PERSON_CHECK_KEY] = 'TP';
-                        people_true_positives_list[label] = people_true_positives_list[label] + 1;
+                        people_true_positives_list[assigned_label] = people_true_positives_list[assigned_label] + 1;
                         rec_images_nr = rec_images_nr + 1;
                     else:
                         image_dict[PERSON_CHECK_KEY] = 'FP';
@@ -202,7 +217,7 @@ def fr_experiments(params, show_results):
 
         label = label + 1;
 
-    # Calculate values of precision and recall
+    # Calculate statistics for each person
     people_precision_list = [];
     people_recall_list = [];
     people_f1_list = [];
@@ -212,7 +227,7 @@ def fr_experiments(params, show_results):
         person_false_positives = people_false_positives_list[label];
 
         person_precision = 0;
-        if(people_true_positives_list[label] != 0):
+        if(person_true_positives != 0):
             person_precision = float(person_true_positives) / float(person_true_positives + person_false_positives);
         people_precision_list.append(person_precision);
     
@@ -222,13 +237,13 @@ def fr_experiments(params, show_results):
         people_recall_list.append(person_recall);
 
         person_f1 = 0;
-        if((person_precision + person_recall) != 0):
+        if((person_precision != 0) and (person_recall != 0)):
             person_f1 = 2 * (person_precision * person_recall) / (person_precision + person_recall);
         people_f1_list.append(person_f1);
 
         # Populate dictionary with results for this person
         person_dict = {};
-        person_dict[PERSON_LABEL_KEY] = label;
+        person_dict[PERSON_ANNOTATED_TAG_KEY] = people_tags_list[label];
         person_dict[PERSON_TRUE_POSITIVES_NR_KEY] = person_true_positives;
         person_dict[PERSON_FALSE_POSITIVES_NR_KEY] = person_false_positives;
         person_dict[PERSON_PRECISION_KEY] = person_precision;
@@ -288,7 +303,6 @@ def fr_experiments(params, show_results):
         experiments = load_experiment_results(all_results_YAML_file_path);
         number_of_already_done_experiments = len(experiments);
         new_experiment_dict[EXPERIMENT_NUMBER_KEY] = number_of_already_done_experiments + 1;
-
     else:
         new_experiment_dict[EXPERIMENT_NUMBER_KEY] = 1;
 
@@ -305,7 +319,7 @@ def fr_experiments(params, show_results):
 
     # Save file with results related to this experiment
     results_file_path = results_path + 'FaceRecognitionExperiment' + str(number_of_already_done_experiments + 1) + 'Results.yml';
-    result = save_YAML_file(results_file_path, rec_dict);
+    save_YAML_file(results_file_path, rec_dict);
 
 if __name__ == "__main__":
     

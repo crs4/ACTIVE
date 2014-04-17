@@ -9,12 +9,16 @@ faceDetection:
 faceExtraction:
   annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
     extraction\Annotations
+  peopleNr: 40
+  personImagesNr: 10
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
     extraction\SoftwareTestingFiles\Test.jpg
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
-    extraction\TestResultsDummy
+    extraction\TestResults
   testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face extraction\TestSet
+  trainingImagesNr: 6
 faceRecognition:
+  datasetAlreadyDivided: true
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
   peopleNr: 40
   personImagesNr: 10
@@ -22,4 +26,6 @@ faceRecognition:
     recognition\SoftwareTestingFiles\Test.pgm
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
     recognition\TestResults\Dataset AT&T
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
   trainingImagesNr: 6
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T

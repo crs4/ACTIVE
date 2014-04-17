@@ -150,7 +150,6 @@ def fd_experiments(params, show_results):
         frame_counter = 0;
         for frame_file in listdir(video_dir_complete_path):
 
-            print(frame_file);
             annotations_dict = frames[frame_counter][ANNOTATIONS_FRAME_KEY];
 
             frame_name = annotations_dict[ANNOTATIONS_FRAME_NAME_KEY];
@@ -158,8 +157,8 @@ def fd_experiments(params, show_results):
             # Check that frame name from file with annotations corresponds to file name
             if(frame_name != frame_file):
                 print('Check failed');
-                print('Frame file: ' + frameFile);
-                print('Frame name from file with annotations: ' + frameName);
+                print('Frame file: ' + frame_file);
+                print('Frame name from file with annotations: ' + frame_name);
                 continue;
 
             # Set path of frame
@@ -201,6 +200,7 @@ def fd_experiments(params, show_results):
 
             # Iterate through detected faces
             for detected_face_rectangle in detected_faces:
+                
                 detected_face_width = int(detected_face_rectangle.vertices[1].x - detected_face_rectangle.vertices[0].x);
                 detected_face_height = int(detected_face_rectangle.vertices[3].y - detected_face_rectangle.vertices[0].y);
                 true_positive = False; #True if detected face is a real face
@@ -209,13 +209,13 @@ def fd_experiments(params, show_results):
                 # Width of detected face must not be more than 4 times width of correctly annotated face.
                 for annotated_face_dict_extended in annotated_faces:
                     annotated_face_dict = annotated_face_dict_extended[ANNOTATIONS_FACE_KEY];
-                    x = annotated_face_dict[ANNOTATIONS_FACE_X_KEY];
-                    y = annotated_face_dict[ANNOTATIONS_FACE_Y_KEY];
-                    width = annotated_face_dict[ANNOTATIONS_FACE_WIDTH_KEY];
-                    height = annotated_face_dict[ANNOTATIONS_FACE_HEIGHT_KEY];
+                    x = annotated_face_dict[FACE_X_KEY];
+                    y = annotated_face_dict[FACE_Y_KEY];
+                    width = annotated_face_dict[FACE_WIDTH_KEY];
+                    height = annotated_face_dict[FACE_HEIGHT_KEY];
                     annotated_face_rectangle = Polygon((x,y), (x+width,y), (x+width,y+height), (x, y+height)); # Create sympy rectangle
 
-                    if(detected_face_rectangle.encloses(annotated_face_rectangle) & (detected_face_width <= 4 * width)):
+                    if(detected_face_rectangle.encloses(annotated_face_rectangle) and (detected_face_width <= 4 * width)):
                         true_positive = True;
                         true_positives_nr = true_positives_nr + 1;
                         true_positives_nr_in_image = true_positives_nr_in_image + 1
@@ -227,10 +227,10 @@ def fd_experiments(params, show_results):
                 # Save position and size of detected face in face dictionary and add this to list
                 detected_face_dict_extended = {};
                 detected_face_dict = {};
-                detected_face_dict[FACE_DETECTIONS_FACE_X_KEY] = int(detected_face_rectangle.vertices[0].x);
-                detected_face_dict[FACE_DETECTIONS_FACE_Y_KEY] = int(detected_face_rectangle.vertices[0].y);
-                detected_face_dict[FACE_DETECTIONS_FACE_WIDTH_KEY] = detected_face_width;
-                detected_face_dict[FACE_DETECTIONS_FACE_HEIGHT_KEY] = detected_face_height;
+                detected_face_dict[FACE_X_KEY] = int(detected_face_rectangle.vertices[0].x);
+                detected_face_dict[FACE_Y_KEY] = int(detected_face_rectangle.vertices[0].y);
+                detected_face_dict[FACE_WIDTH_KEY] = detected_face_width;
+                detected_face_dict[FACE_HEIGHT_KEY] = detected_face_height;
 
                 # Save check result
                 if(true_positive):

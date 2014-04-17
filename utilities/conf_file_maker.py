@@ -1,7 +1,7 @@
 # This script creates the configuration file for the experiments
 
 import sys
-sys.path.append("..")
+sys.path.append('..')
 from tools.Constants import *
 from tools.Utils import save_YAML_file
 
@@ -13,7 +13,7 @@ conf_dict  = {};
 fd_dict = {};
 fd_dict[TEST_FILES_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\TestSet'
 fd_dict[ANNOTATIONS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\Annotations'
-fd_dict[RESULTS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\TestResultsDummy'
+fd_dict[RESULTS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\TestResultsDummy' #TEST ONLY
 fd_dict[SOFTWARE_TEST_FILE_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face detection\SoftwareTestingFiles\Test.jpg'
 
 conf_dict[FACE_DETECTION_KEY] = fd_dict;
@@ -21,11 +21,14 @@ conf_dict[FACE_DETECTION_KEY] = fd_dict;
 # Creation of dictionary for face recognition experiments
 fr_dict = {};
 fr_dict[DATASET_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\data\Dataset AT&T'
+fr_dict[TRAINING_SET_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\data\Dataset AT&T'
+fr_dict[TEST_SET_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\data\Dataset AT&T'
 fr_dict[RESULTS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face recognition\TestResults\Dataset AT&T'
 fr_dict[SOFTWARE_TEST_FILE_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face recognition\SoftwareTestingFiles\Test.pgm';
 fr_dict[PERSON_IMAGES_NR_KEY] = 10;
 fr_dict[TRAINING_IMAGES_NR_KEY] = 6;
 fr_dict[PEOPLE_NR_KEY] = 40;
+fr_dict[DATASET_ALREADY_DIVIDED] = True;
 
 conf_dict[FACE_RECOGNITION_KEY] = fr_dict;
 
@@ -33,8 +36,11 @@ conf_dict[FACE_RECOGNITION_KEY] = fr_dict;
 fe_dict = {};
 fe_dict[TEST_FILES_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face extraction\TestSet'
 fe_dict[ANNOTATIONS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face extraction\Annotations'
-fe_dict[RESULTS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face extraction\TestResultsDummy'
+fe_dict[RESULTS_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face extraction\TestResults'
 fe_dict[SOFTWARE_TEST_FILE_KEY] = ACTIVE_ROOT_DIRECTORY + r'\test\Test files\Face extraction\SoftwareTestingFiles\Test.jpg'
+fe_dict[PERSON_IMAGES_NR_KEY] = 10;
+fe_dict[TRAINING_IMAGES_NR_KEY] = 6;
+fe_dict[PEOPLE_NR_KEY] = 40;
 
 conf_dict[FACE_EXTRACTION_KEY] = fe_dict;
 

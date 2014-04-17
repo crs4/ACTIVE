@@ -1,37 +1,41 @@
 # This script adds to a YAML annotation file "Undefined" person name for those faces where no person name is present 
 
-from Utils import *
-import Constants
+import sys
+sys.path.append('..');
+from tools.Constants import *
+from tools.Utils import load_image_annotations, save_YAML_file
 
-annotationFilePath = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\Annotations\fic.15_annotations.yml'
+annotations_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face extraction\Annotations\fic.02_annotations.yml'
 
-images = loadFrameAnnotations(annotationFilePath);
+images = load_image_annotations(annotations_file_path);
 
 for image in images:
 
-    imageInnerDict = image[ANNOTATIONS_FRAME_KEY];
+    image_inner_dict = image[ANNOTATIONS_FRAME_KEY];
 
-    imageName = imageInnerDict[ANNOTATIONS_FRAME_NAME_KEY];
+    imageName = image_inner_dict[ANNOTATIONS_FRAME_NAME_KEY];
 
-    faces = imageInnerDict.get(ANNOTATIONS_FACES_KEY, 'undefined');
+    faces = image_inner_dict.get(ANNOTATIONS_FACES_KEY, 'undefined');
 
     if(faces == 'undefined'):
         continue;
     else:
         for face in faces:
 
-            faceInnerDict = face[ANNOTATIONS_FACE_KEY];
+            face_inner_dict = face[ANNOTATIONS_FACE_KEY];
 
-            personName = faceInnerDict.get(ANNOTATATIONS_PERSON_NAME_KEY, 'undefined');
+            face_inner_dict[ANNOTATIONS_PERSON_TAG_KEY] = 0; # TEST ONLY
+
+            personName = face_inner_dict.get(ANNOTATIONS_PERSON_NAME_KEY, 'undefined');
 
             if(personName == 'undefined'):
 
-                faceInnerDict[ANNOTATATIONS_PERSON_NAME_KEY] = 'Undefined';
+                face_inner_dict[ANNOTATIONS_PERSON_NAME_KEY] = 'Undefined';
 
 annotationsDict = {};
 
 annotationsDict[ANNOTATIONS_FRAMES_KEY] = images;
 
-saveYAMLFile(annotationFilePath, annotationsDict);
+save_YAML_file(annotations_file_path, annotationsDict);
 
 
