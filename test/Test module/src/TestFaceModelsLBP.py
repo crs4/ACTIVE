@@ -14,7 +14,7 @@ import shutil
 
 
 class TestFaceModelsLBP(unittest.TestCase):
-
+    
     def test_init(self):
         fml=FaceModelsLBP()
         self.assertEqual(Constants.DB_PATH, fml._dbpath, "OK PATH DB")
@@ -36,6 +36,11 @@ class TestFaceModelsLBP(unittest.TestCase):
              fml=FaceModelsLBP()
              fml.add_faces("", "tagdiprova")
              self.assertTrue(os.path.exists(fml._dbpath+"/tagdiprova"))
+    
+    def test_readimages2(self):
+            fml=FaceModelsLBP()
+            fml.read_images("../data/DATASET AT&T", None)
+            self.assertTrue(len(fml._labels.keys()) )
 if __name__ == '__main__':
     unittest.main()
     

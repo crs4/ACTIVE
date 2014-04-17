@@ -1,6 +1,7 @@
 import os
-ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
+ACTIVE_ROOT_DIRECTORY=os.getcwd()+"/../" #"/Users/labcontenuti/Desktop/active"
 DB_PATH=ACTIVE_ROOT_DIRECTORY+"\data\DATASET AT&T"
+#Path of files
 
 # Test configuration
 TEST_FILES_PATH_KEY = 'testSetPath';
@@ -16,9 +17,9 @@ TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
 PEOPLE_NR_KEY = 'peopleNr';
 DATASET_ALREADY_DIVIDED = 'datasetAlreadyDivided';
 
-# File paths
-FACE_EXTRACTOR_CONFIGURATION_FILE = ACTIVE_ROOT_DIRECTORY + r'\tools\FaceExtractorConfiguration.yml'
-TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
+#Filenames
+FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
+TEST_CONFIGURATION_FILE = 'TestConfiguration.yml'
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -43,6 +44,10 @@ ANNOTATIONS_FRAME_NAME_KEY = 'imageName';
 ANNOTATIONS_FRAME_FACES_NR_KEY = 'numberOfFaces';
 ANNOTATIONS_FACES_KEY = 'faces';
 ANNOTATIONS_FACE_KEY = 'face';
+ANNOTATIONS_FACE_X_KEY = 'x';
+ANNOTATIONS_FACE_Y_KEY = 'y';
+ANNOTATIONS_FACE_WIDTH_KEY = 'width';
+ANNOTATIONS_FACE_HEIGHT_KEY = 'height';
 ANNOTATED_FACES_NR_KEY = 'annotatedFacesNr';
 ANNOTATIONS_PERSON_NAME_KEY = 'personName';
 ANNOTATIONS_PERSON_TAG_KEY = 'personTag';
@@ -54,8 +59,13 @@ FACE_DETECTIONS_FRAME_KEY = 'image';
 FACE_DETECTIONS_FRAME_NAME_KEY = 'imageName';
 FACE_DETECTIONS_FACES_KEY = 'faces';
 FACE_DETECTIONS_FACE_KEY = 'face';
+FACE_DETECTIONS_FACE_X_KEY = 'x';
+FACE_DETECTIONS_FACE_Y_KEY = 'y';
+FACE_DETECTIONS_FACE_WIDTH_KEY = 'width';
+FACE_DETECTIONS_FACE_HEIGHT_KEY = 'height';
 
 # Face detection check
+FACE_CHECK_KEY = 'check';
 TRUE_POSITIVES_NR_KEY = 'truePositivesNr';
 FALSE_POSITIVES_NR_KEY = 'falsePositivesNr';
 PRECISION_KEY = 'precision';
@@ -91,6 +101,7 @@ FACE_RECOGNITION_IMAGE_KEY = 'image';
 FACE_RECOGNITION_GLOBAL_RESULTS = 'globalResults';
 FACE_RECOGNITION_IMAGES_KEY = 'images';
 FACE_RECOGNITION_PEOPLE_KEY = 'people';
+PERSON_CHECK_KEY = 'check';
 PERSON_LABEL_KEY = 'label';
 PERSON_ASSIGNED_LABEL_KEY = 'label';
 PERSON_CONFIDENCE_KEY = 'confidence';
@@ -128,3 +139,13 @@ EXPERIMENT_KEY = 'experiment';
 EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
+
+# Face recognition parameter
+FACE_RECOGNITION_RADIUS=1
+FACE_RECOGNITION_NEIGHTBORS=8
+FACE_RECOGNITION_GRID_X=8
+FACE_RECOGNITION_GRID_Y=8
+
+#Face Model parameter
+FACEMODEL_ALGORITHM="LBP"
+FACEMODEL_CONSTANT_ALGORITHM="LBP"
