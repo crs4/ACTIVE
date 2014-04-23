@@ -354,8 +354,8 @@ if __name__ == "__main__":
 
     params = None;
 
-    #test_passed = fr_test(params, False);
-    test_passed = True; # TEST ONLY
+    test_passed = fr_test(params, False);
+    #test_passed = True; # TEST ONLY
 
     if(test_passed):
         print("\nSOFTWARE TEST PASSED\n");
