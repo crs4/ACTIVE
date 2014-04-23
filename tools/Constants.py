@@ -1,9 +1,11 @@
 import os
-#ACTIVE_ROOT_DIRECTORY=os.getcwd()+"\..\\" #"/Users/labcontenuti/Desktop/active"
-ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
-DB_PATH=ACTIVE_ROOT_DIRECTORY+"\data\DATASET AT&T"
+ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep
+#ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
+DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
+#DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+"Dataset AT&T"
+
 #Path of files
-FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\tools\FaceExtractorConfiguration.yml'
+FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY+os.sep+"tools"+os.sep+'FaceExtractorConfiguration.yml'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
 
 # Test configuration
@@ -20,9 +22,7 @@ TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
 PEOPLE_NR_KEY = 'peopleNr';
 DATASET_ALREADY_DIVIDED = 'datasetAlreadyDivided';
 
-#Filenames
-FACE_EXTRACTOR_CONFIGURATION_FILE = 'FaceExtractorConfiguration.yml'
-TEST_CONFIGURATION_FILE = 'TestConfiguration.yml'
+
 
 # Face bounding box position
 FACE_X_KEY = 'x'

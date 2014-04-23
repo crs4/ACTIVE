@@ -115,7 +115,7 @@ class FaceModelsLBP():
         return model
     
     def create(self):
-        
+        #print "CREATE self._dbpath", self._dbpath
         [X,y] = self.__read_images(self._dbpath, None)
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
@@ -140,7 +140,7 @@ class FaceModelsLBP():
                             im = cv2.resize(im, sz)
                         X.append(np.asarray(im, dtype=np.uint8))
                         y.append(c)
-                        self._labels[c]=str( subdirname)
+                        self._labels[c]=str(subdirname)
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)
                     except:

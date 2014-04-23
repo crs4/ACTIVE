@@ -18,6 +18,8 @@ from face_detection import detect_faces_in_image
 from face_recognition import recognize_face
 from Utils import load_YAML_file
 from Constants import *
+import time
+
 
 class FaceModels(object):
     '''
@@ -122,6 +124,8 @@ class FaceExtractor(object):
         self.face_models = face_models;
 
         self.progress = 0;
+        
+        self.db_resutl4image={}
 
     def extract_faces_from_image(self, resource_path):
         '''
@@ -147,8 +151,8 @@ class FaceExtractor(object):
         
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY];
-        
-        detection_result = detect_faces_in_image(resource_path, detection_params, False)
+        print "sssssssssssss",  resource_path
+        detection_result = detect_faces_in_image(resource_path, detection_params, True)
 
         face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
@@ -158,9 +162,12 @@ class FaceExtractor(object):
         
         faces = [];
         count = 0;
+        #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
+        #face_images=[face]
         for face in face_images:
             face_dict = {};
             rec_result = recognize_face(face, self.face_models, recognition_params, False);
+            print "rec result ", rec_result 
             tag = rec_result[PERSON_ASSIGNED_TAG_KEY];
             face_dict[FACE_EXTRACTION_TAG_KEY] = tag;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
@@ -177,9 +184,10 @@ class FaceExtractor(object):
         results[FACE_EXTRACTION_FACES_KEY] = faces;
 
         self.progress = 100;
-
-        return results;
-
+        handle=time.time()
+        self.db_resutl4image[handle]=results
+        #return results;
+        return handle
     def extractFacesFromVideo(self, resource):
         '''
         Launch the face extractor on one video resource.
@@ -223,7 +231,7 @@ class FaceExtractor(object):
         :type  handle: integer ?
         :param handle: the task handle
         '''
-        pass
+        return self.db_resutl4image[handle]
     
     def getProgress(self, handle):
         '''

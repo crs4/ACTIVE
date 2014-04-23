@@ -66,7 +66,7 @@ def detect_faces_in_image(resource_path, params, show_results):
         algorithm = params[ALGORITHM_KEY];
 
         # Path of directory containing classifier files
-        classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] + '\\';
+        classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
 
         if(algorithm == 'HaarCascadeFrontalFaceAlt'):
             classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
@@ -96,6 +96,7 @@ def detect_faces_in_image(resource_path, params, show_results):
 
         faces = [];
         if(use_one_classifier_file):
+            print "classifier_file ", classifier_file
             face_cascade_classifier = cv2.CascadeClassifier(classifier_file);
 
             if(face_cascade_classifier.empty()):
@@ -154,7 +155,9 @@ def detect_faces_in_image(resource_path, params, show_results):
         for (x, y, width, height) in faces:
             face_image = image[y:y+height, x:x+width];
             face_images.append(face_image);
-
+            cv2.namedWindow('solocrop', cv2.WINDOW_AUTOSIZE);
+            cv2.imshow("solocrop",face_image)
+            cv2.waitKey(5000);
         result[FACE_DETECTION_FACE_IMAGES_KEY] = face_images;
 
         if(show_results):
@@ -162,7 +165,7 @@ def detect_faces_in_image(resource_path, params, show_results):
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
                 cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
                 cv2.imshow('Result', image);
-                cv2.waitKey(0);
+                cv2.waitKey(5);
 
     except IOError, (errno, strerror):
         print "I/O error({0}): {1}".format(errno, strerror)
@@ -199,7 +202,6 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     
     min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY]);
     faces = face_cascade_classifier.detectMultiScale(image, haar_scale, min_neighbors, haar_flags, min_size);
-
     return faces;
 
 def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
