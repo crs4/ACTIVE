@@ -74,6 +74,7 @@ class FaceModels(object):
         self._dbpath=Constants.DB_PATH
         self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
         self._labels=self.facemodel._labels
+        self.model=self.facemodel.model
     
     def  get_label(self, index):
         return self.facemodel.get_label(index)
