@@ -19,7 +19,7 @@ class FaceModelsLBP():
         :param workers: the address (IP and port) of workers.
         '''
         self._labels={}
-        
+        self.model=None
         self._dbpath=DB_PATH
         self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
         self.model = self.create();
@@ -111,6 +111,7 @@ class FaceModelsLBP():
             file_name=self._db_name+"-LBP"
         model=cv2.createLBPHFaceRecognizer()
         model.load(file_name)
+        self.model=model
         return model
     
     def create(self):
@@ -119,6 +120,7 @@ class FaceModelsLBP():
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
+        self.model=model
         return model
     
     def clear(self): 
