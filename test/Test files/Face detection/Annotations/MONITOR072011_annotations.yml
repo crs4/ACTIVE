@@ -10,6 +10,7 @@ images:
                   y: 265
                   width: 64
                   height: 92
+                  personName: Giorgia Corona
    -
       Image:
          imageName: "MONITOR072011_I_002.jpg"
@@ -27,6 +28,7 @@ images:
                   y: 399
                   width: 22
                   height: 28
+                  personName: Giorgia Corona
             -
                face:
                   x: 519
@@ -77,6 +79,7 @@ images:
                   y: 200
                   width: 73
                   height: 97
+                  personName: Emanuele Dessì
    -
       Image:
          imageName: "MONITOR072011_I_007.jpg"
@@ -88,6 +91,7 @@ images:
                   y: 288
                   width: 101
                   height: 113
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_008.jpg"
@@ -99,6 +103,7 @@ images:
                   y: 283
                   width: 91
                   height: 128
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_009.jpg"
@@ -110,6 +115,7 @@ images:
                   y: 231
                   width: 76
                   height: 96
+                  personName: Giorgia Corona
    -
       Image:
          imageName: "MONITOR072011_I_010.jpg"
