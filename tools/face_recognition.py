@@ -17,6 +17,7 @@ def recognize_face(face, face_models, params, show_results):
     fm = face_models;
     if(face_models == None):
         fm = FaceModelsLBP();
+        fm.create();
 
     start_time = cv2.getTickCount();
     
@@ -25,7 +26,7 @@ def recognize_face(face, face_models, params, show_results):
     # TODO: Get name of person
     tag = fm.get_label(label);
     
-    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
+    print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time;
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency();

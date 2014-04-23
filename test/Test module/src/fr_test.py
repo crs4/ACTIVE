@@ -110,6 +110,7 @@ def fr_experiments(params, show_results):
     mean_rec_time = 0;
 
     fm = FaceModelsLBP();
+    fm.create();
 
     fr_test_params = params[FACE_RECOGNITION_KEY];
 

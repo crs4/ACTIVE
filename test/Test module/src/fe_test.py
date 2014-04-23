@@ -119,6 +119,7 @@ def fe_experiments(params, show_results):
     mean_ext_time = 0;
     
     fm = FaceModelsLBP();
+    fm.create();
 
     # Get path of directories with used files from params
     fe_test_params = params[FACE_EXTRACTION_KEY];
@@ -253,7 +254,7 @@ def fe_experiments(params, show_results):
                         ext_face_dict[FACE_CHECK_KEY] = 'Face detection - TP';
                         # Check tag
                         ann_face_tag = annotated_face_dict[ANNOTATIONS_PERSON_NAME_KEY];
-                        if(ext_face_tag == ann_face_tag):s
+                        if(ext_face_tag == ann_face_tag):
                             recognition_true_positive = True;
                             ext_face_dict[PERSON_CHECK_KEY] = 'Face recognition - TP';
                             people_true_positives_dict[ext_face_tag] = people_true_positives_dict[ext_face_tag] + 1;
