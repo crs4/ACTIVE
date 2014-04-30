@@ -151,8 +151,8 @@ class FaceExtractor(object):
         
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY];
-        print "sssssssssssss",  resource_path
-        detection_result = detect_faces_in_image(resource_path, detection_params, True)
+
+        detection_result = detect_faces_in_image(resource_path, detection_params, False)
 
         face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
@@ -166,8 +166,14 @@ class FaceExtractor(object):
         #face_images=[face]
         for face in face_images:
             face_dict = {};
+            
+            # Resize face
+            resize_face = False;
+            if(resize_face):
+                new_size = (FACES_WIDTH, FACES_HEIGHT);
+                face = cv2.resize(face, new_size);
+            
             rec_result = recognize_face(face, self.face_models, recognition_params, False);
-            print "rec result ", rec_result 
             tag = rec_result[PERSON_ASSIGNED_TAG_KEY];
             face_dict[FACE_EXTRACTION_TAG_KEY] = tag;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
@@ -186,8 +192,9 @@ class FaceExtractor(object):
         self.progress = 100;
         handle=time.time()
         self.db_resutl4image[handle]=results
-        #return results;
+
         return handle
+    
     def extractFacesFromVideo(self, resource):
         '''
         Launch the face extractor on one video resource.

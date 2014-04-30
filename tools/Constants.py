@@ -1,11 +1,13 @@
 import os
 ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep
-#ACTIVE_ROOT_DIRECTORY="C:\Users\Maurizio\Documents\Progetto ACTIVE"
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
-#DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+"Dataset AT&T"
+#DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING Ridotto Modificato"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 
 #Path of files
-FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY+os.sep+"tools"+os.sep+'FaceExtractorConfiguration.yml'
+FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY+"tools"+os.sep+'FaceExtractorConfiguration.yml'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
 
 # Test configuration
@@ -21,8 +23,6 @@ PERSON_IMAGES_NR_KEY = 'personImagesNr'
 TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
 PEOPLE_NR_KEY = 'peopleNr';
 DATASET_ALREADY_DIVIDED = 'datasetAlreadyDivided';
-
-
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -145,9 +145,11 @@ EXPERIMENT_PARAMS_KEY = 'parameters';
 
 # Face recognition parameter
 FACE_RECOGNITION_RADIUS=1
-FACE_RECOGNITION_NEIGHTBORS=8
+FACE_RECOGNITION_NEIGHBORS=8
 FACE_RECOGNITION_GRID_X=8
 FACE_RECOGNITION_GRID_Y=8
+FACES_WIDTH = 70;
+FACES_HEIGHT = 70;
 
 #Face Model parameter
 FACEMODEL_ALGORITHM="LBP"

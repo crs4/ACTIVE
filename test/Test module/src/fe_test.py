@@ -60,7 +60,9 @@ def fe_test(params, show_results):
 
         fe = FaceExtractor(None);
 
-        result = fe.extract_faces_from_image_sync(image_path);
+        handle = fe.extract_faces_from_image_sync(image_path);
+
+        result = fe.getResults(handle);
 
         error = result[FACE_EXTRACTION_ERROR_KEY];
 
@@ -119,7 +121,6 @@ def fe_experiments(params, show_results):
     mean_ext_time = 0;
     
     fm = FaceModelsLBP();
-    fm.create();
 
     # Get path of directories with used files from params
     fe_test_params = params[FACE_EXTRACTION_KEY];
@@ -167,6 +168,8 @@ def fe_experiments(params, show_results):
         frame_counter = 0;
         for frame_file in listdir(video_dir_complete_path):
 
+            print(frame_file);
+
             image_dict = {};
 
             ext_faces_list = [];
@@ -187,7 +190,9 @@ def fe_experiments(params, show_results):
 
             # Extract faces from image
             fe = FaceExtractor(fm);
-            ext_results = fe.extract_faces_from_image_sync(frame_path);
+            handle = fe.extract_faces_from_image_sync(frame_path);
+
+            ext_results = fe.getResults(handle);
 
             # Add extraction time to total
             mean_ext_time = mean_ext_time + ext_results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY];
@@ -288,7 +293,7 @@ def fe_experiments(params, show_results):
     people_precision_list = [];
     people_recall_list = [];
     people_f1_list = [];
-    for label in range(0, people_nr - 1):
+    for label in range(0, people_nr):
 
         tag = fm.get_label(label);
         person_true_positives = people_true_positives_dict[tag];
@@ -330,6 +335,8 @@ def fe_experiments(params, show_results):
     std_f1 = float(numpy.std(people_f1_list));
 
     mean_ext_time = mean_ext_time / global_frame_counter;
+
+    print("\n ### RESULTS ###\n");
 
     print('Mean of precision: ' + str(mean_precision*100) + '%');
     print('Standard deviation of precision: ' + str(std_precision*100) + '%');

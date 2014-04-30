@@ -22,6 +22,7 @@ images:
                   y: 226
                   width: 38
                   height: 41
+                  personName: Undefined
             -
                face:
                   x: 384
@@ -47,6 +48,7 @@ images:
                   y: 259
                   width: 86
                   height: 155
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_004.jpg"
@@ -58,6 +60,7 @@ images:
                   y: 231
                   width: 58
                   height: 88
+                  personName: Gerardo Giagnoli
    -
       Image:
          imageName: "MONITOR072011_I_005.jpg"
@@ -287,6 +290,7 @@ images:
                   y: 203
                   width: 79
                   height: 108
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_023.jpg"
@@ -298,6 +302,7 @@ images:
                   y: 293
                   width: 104
                   height: 124
+                  personName: Gerardo Giagnoli
    -
       Image:
          imageName: "MONITOR072011_I_024.jpg"
@@ -309,6 +314,7 @@ images:
                   y: 250
                   width: 96
                   height: 160
+                  personName: Giampaola Minutti
    -
       Image:
          imageName: "MONITOR072011_I_025.jpg"
@@ -320,18 +326,21 @@ images:
                   y: 169
                   width: 38
                   height: 37
+                  personName: Gerardo Giagnoli
             -
                face:
                   x: 363
                   y: 435
                   width: 33
                   height: 48
+                  personName: Francesco Pisano
             -
                face:
                   x: 457
                   y: 213
                   width: 25
                   height: 38
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_026.jpg"
@@ -367,6 +376,7 @@ images:
                   y: 230
                   width: 81
                   height: 117
+                  personName: Luisa Sanna
    -
       Image:
          imageName: "MONITOR072011_I_029.jpg"
@@ -378,6 +388,7 @@ images:
                   y: 200
                   width: 80
                   height: 72
+                  personName: Emanuele Dessì
    -
       Image:
          imageName: "MONITOR072011_I_030.jpg"
@@ -389,6 +400,7 @@ images:
                   y: 208
                   width: 85
                   height: 95
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_031.jpg"
@@ -400,6 +412,7 @@ images:
                   y: 242
                   width: 106
                   height: 152
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_032.jpg"
@@ -411,6 +424,7 @@ images:
                   y: 262
                   width: 85
                   height: 145
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_033.jpg"
@@ -422,6 +436,7 @@ images:
                   y: 76
                   width: 80
                   height: 127
+                  personName: Giampaola Minutti
    -
       Image:
          imageName: "MONITOR072011_I_034.jpg"
@@ -433,6 +448,7 @@ images:
                   y: 209
                   width: 76
                   height: 123
+                  personName: Giampaola Minutti
    -
       Image:
          imageName: "MONITOR072011_I_035.jpg"
@@ -444,18 +460,21 @@ images:
                   y: 167
                   width: 26
                   height: 44
+                  personName: Gerardo Giagnoli
             -
                face:
                   x: 366
                   y: 422
                   width: 34
                   height: 42
+                  personName: Francesco Pisano
             -
                face:
                   x: 522
                   y: 183
                   width: 25
                   height: 38
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_036.jpg"
@@ -467,6 +486,7 @@ images:
                   y: 246
                   width: 100
                   height: 117
+                  personName: Gerardo Giagnoli
    -
       Image:
          imageName: "MONITOR072011_I_037.jpg"
@@ -478,6 +498,7 @@ images:
                   y: 206
                   width: 100
                   height: 128
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_038.jpg"
@@ -489,6 +510,7 @@ images:
                   y: 215
                   width: 93
                   height: 115
+                  personName: Giorgia Corona
    -
       Image:
          imageName: "MONITOR072011_I_039.jpg"
@@ -500,6 +522,7 @@ images:
                   y: 271
                   width: 65
                   height: 106
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_040.jpg"
@@ -511,6 +534,7 @@ images:
                   y: 238
                   width: 100
                   height: 121
+                  personName: Laura Pinna
    -
       Image:
          imageName: "MONITOR072011_I_041.jpg"
@@ -522,6 +546,7 @@ images:
                   y: 211
                   width: 64
                   height: 74
+                  personName: Luisa Sanna
    -
       Image:
          imageName: "MONITOR072011_I_042.jpg"
@@ -533,6 +558,7 @@ images:
                   y: 158
                   width: 57
                   height: 85
+                  personName: Emanuele Dessì
    -
       Image:
          imageName: "MONITOR072011_I_043.jpg"
@@ -544,6 +570,7 @@ images:
                   y: 242
                   width: 102
                   height: 123
+                  personName: Giampaola Minutti
    -
       Image:
          imageName: "MONITOR072011_I_044.jpg"
@@ -555,6 +582,7 @@ images:
                   y: 286
                   width: 96
                   height: 107
+                  personName: Gerardo Giagnoli
    -
       Image:
          imageName: "MONITOR072011_I_045.jpg"
@@ -566,6 +594,7 @@ images:
                   y: 232
                   width: 88
                   height: 144
+                  personName: Francesco Pisano
    -
       Image:
          imageName: "MONITOR072011_I_046.jpg"
@@ -577,6 +606,7 @@ images:
                   y: 238
                   width: 102
                   height: 113
+                  personName: Giorgia Corona
    -
       Image:
          imageName: "MONITOR072011_I_047.jpg"
@@ -588,6 +618,7 @@ images:
                   y: 225
                   width: 88
                   height: 122
+                  personName: Mario Sassu
    -
       Image:
          imageName: "MONITOR072011_I_048.jpg"
@@ -599,6 +630,7 @@ images:
                   y: 204
                   width: 90
                   height: 113
+                  personName: Emanuele Dessì
    -
       Image:
          imageName: "MONITOR072011_I_049.jpg"
@@ -610,6 +642,7 @@ images:
                   y: 240
                   width: 103
                   height: 140
+                  personName: Nicola Luciano
    -
       Image:
          imageName: "MONITOR072011_I_050.jpg"
@@ -621,3 +654,4 @@ images:
                   y: 238
                   width: 101
                   height: 97
+                  personName: Giampaola Minutti

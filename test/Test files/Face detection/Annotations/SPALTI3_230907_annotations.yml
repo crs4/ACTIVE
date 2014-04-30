@@ -10,12 +10,14 @@ images:
                   y: 228
                   width: 48
                   height: 65
+                  personName: Undefined
             -
                face:
                   x: 404
                   y: 158
                   width: 63
                   height: 112
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_002.jpg"
@@ -27,6 +29,7 @@ images:
                   y: 160
                   width: 90
                   height: 90
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_003.jpg"
@@ -38,12 +41,14 @@ images:
                   y: 99
                   width: 34
                   height: 40
+                  personName: Mara Chessa
             -
                face:
                   x: 430
                   y: 140
                   width: 37
                   height: 40
+                  personName: Valerio Vargiu
    -
       Image:
          imageName: "SPALTI3_230907_I_004.jpg"
@@ -55,6 +60,7 @@ images:
                   y: 171
                   width: 62
                   height: 71
+                  personName: Vittorio Sanna
    -
       Image:
          imageName: "SPALTI3_230907_I_005.jpg"
@@ -66,6 +72,7 @@ images:
                   y: 194
                   width: 65
                   height: 80
+                  personName: Franco Ferrandu
    -
       Image:
          imageName: "SPALTI3_230907_I_006.jpg"
@@ -77,6 +84,7 @@ images:
                   y: 193
                   width: 98
                   height: 144
+                  personName: Sergio Bertola
    -
       Image:
          imageName: "SPALTI3_230907_I_007.jpg"
@@ -88,6 +96,7 @@ images:
                   y: 211
                   width: 85
                   height: 111
+                  personName: Maria Sias
    -
       Image:
          imageName: "SPALTI3_230907_I_008.jpg"
@@ -99,6 +108,7 @@ images:
                   y: 185
                   width: 89
                   height: 117
+                  personName: Antonello Dessalvi
    -
       Image:
          imageName: "SPALTI3_230907_I_009.jpg"
@@ -110,6 +120,7 @@ images:
                   y: 168
                   width: 83
                   height: 107
+                  personName: Ignazio Argiolas
    -
       Image:
          imageName: "SPALTI3_230907_I_010.jpg"
@@ -121,6 +132,7 @@ images:
                   y: 169
                   width: 85
                   height: 114
+                  personName: Alberto Murgia
    -
       Image:
          imageName: "SPALTI3_230907_I_011.jpg"
@@ -132,6 +144,7 @@ images:
                   y: 179
                   width: 71
                   height: 111
+                  personName: Pietro Porcella
    -
       Image:
          imageName: "SPALTI3_230907_I_012.jpg"
@@ -143,12 +156,14 @@ images:
                   y: 222
                   width: 32
                   height: 29
+                  personName: Mara Chessa
             -
                face:
                   x: 426
                   y: 247
                   width: 28
                   height: 29
+                  personName: Valerio Vargiu
    -
       Image:
          imageName: "SPALTI3_230907_I_013.jpg"
@@ -160,6 +175,7 @@ images:
                   y: 192
                   width: 88
                   height: 105
+                  personName: Alfio Uda
    -
       Image:
          imageName: "SPALTI3_230907_I_014.jpg"
@@ -171,6 +187,7 @@ images:
                   y: 250
                   width: 81
                   height: 99
+                  personName: Andrea Contini
    -
       Image:
          imageName: "SPALTI3_230907_I_015.jpg"
@@ -182,6 +199,7 @@ images:
                   y: 184
                   width: 94
                   height: 132
+                  personName: Alberto Murgia
    -
       Image:
          imageName: "SPALTI3_230907_I_016.jpg"
@@ -193,6 +211,7 @@ images:
                   y: 156
                   width: 74
                   height: 88
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_017.jpg"
@@ -204,6 +223,7 @@ images:
                   y: 116
                   width: 77
                   height: 95
+                  personName: Valerio Vargiu
    -
       Image:
          imageName: "SPALTI3_230907_I_018.jpg"
@@ -215,18 +235,21 @@ images:
                   y: 192
                   width: 49
                   height: 63
+                  personName: Valerio Vargiu
             -
                face:
                   x: 330
                   y: 296
                   width: 55
                   height: 86
+                  personName: Arrigo Sacchi
             -
                face:
                   x: 488
                   y: 201
                   width: 48
                   height: 61
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_019.jpg"
@@ -238,6 +261,7 @@ images:
                   y: 223
                   width: 96
                   height: 183
+                  personName: Alberto Murgia
    -
       Image:
          imageName: "SPALTI3_230907_I_020.jpg"
@@ -249,6 +273,7 @@ images:
                   y: 158
                   width: 84
                   height: 90
+                  personName: Valerio Vargiu
    -
       Image:
          imageName: "SPALTI3_230907_I_021.jpg"
@@ -260,18 +285,21 @@ images:
                   y: 105
                   width: 42
                   height: 40
+                  personName: Undefined
             -
                face:
                   x: 293
                   y: 149
                   width: 47
                   height: 67
+                  personName: Matteo Bruni
             -
                face:
                   x: 518
                   y: 218
                   width: 25
                   height: 55
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_022.jpg"
@@ -283,6 +311,7 @@ images:
                   y: 143
                   width: 48
                   height: 52
+                  personName: Paolo Rocca
    -
       Image:
          imageName: "SPALTI3_230907_I_023.jpg"
@@ -294,6 +323,7 @@ images:
                   y: 200
                   width: 73
                   height: 99
+                  personName: Mara Chessa
    -
       Image:
          imageName: "SPALTI3_230907_I_024.jpg"
@@ -305,18 +335,21 @@ images:
                   y: 132
                   width: 56
                   height: 89
+                  personName: Undefined
             -
                face:
                   x: 390
                   y: 140
                   width: 41
                   height: 80
+                  personName: Matteo Bruni
             -
                face:
                   x: 653
                   y: 132
                   width: 31
                   height: 30
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_025.jpg"
@@ -328,6 +361,7 @@ images:
                   y: 241
                   width: 98
                   height: 166
+                  personName: Pietro Porcella
    -
       Image:
          imageName: "SPALTI3_230907_I_026.jpg"
@@ -339,18 +373,21 @@ images:
                   y: 145
                   width: 28
                   height: 34
+                  personName: Andrea Contini
             -
                face:
                   x: 354
                   y: 123
                   width: 27
                   height: 33
+                  personName: Alfio Uda
             -
                face:
                   x: 277
                   y: 41
                   width: 54
                   height: 63
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_027.jpg"
@@ -362,12 +399,14 @@ images:
                   y: 25
                   width: 76
                   height: 94
+                  personName: Undefined
             -
                face:
                   x: 244
                   y: 190
                   width: 93
                   height: 134
+                  personName: Max Bo
    -
       Image:
          imageName: "SPALTI3_230907_I_028.jpg"
@@ -379,6 +418,7 @@ images:
                   y: 153
                   width: 91
                   height: 105
+                  personName: Francisco Porcella
    -
       Image:
          imageName: "SPALTI3_230907_I_029.jpg"
@@ -390,12 +430,14 @@ images:
                   y: 90
                   width: 37
                   height: 49
+                  personName: Floriano Contu
             -
                face:
                   x: 483
                   y: 205
                   width: 34
                   height: 47
+                  personName: Cristina Ambu
    -
       Image:
          imageName: "SPALTI3_230907_I_030.jpg"
@@ -407,24 +449,28 @@ images:
                   y: 168
                   width: 36
                   height: 56
+                  personName: Cristina Ambu
             -
                face:
                   x: 432
                   y: 69
                   width: 41
                   height: 56
+                  personName: Undefined
             -
                face:
                   x: 498
                   y: 177
                   width: 52
                   height: 55
+                  personName: Floriano Contu
             -
                face:
                   x: 665
                   y: 25
                   width: 40
                   height: 47
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_031.jpg"
@@ -436,18 +482,21 @@ images:
                   y: 150
                   width: 25
                   height: 40
+                  personName: Undefined
             -
                face:
                   x: 390
                   y: 77
                   width: 34
                   height: 38
+                  personName: Undefined
             -
                face:
                   x: 554
                   y: 217
                   width: 36
                   height: 32
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_032.jpg"
@@ -459,6 +508,7 @@ images:
                   y: 185
                   width: 87
                   height: 114
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_033.jpg"
@@ -470,6 +520,7 @@ images:
                   y: 196
                   width: 54
                   height: 73
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_034.jpg"
@@ -481,6 +532,7 @@ images:
                   y: 159
                   width: 48
                   height: 71
+                  personName: Matteo Bruni
    -
       Image:
          imageName: "SPALTI3_230907_I_035.jpg"
@@ -492,6 +544,7 @@ images:
                   y: 165
                   width: 33
                   height: 50
+                  personName: Gianfranco Ganau
    -
       Image:
          imageName: "SPALTI3_230907_I_036.jpg"
@@ -503,6 +556,7 @@ images:
                   y: 188
                   width: 107
                   height: 141
+                  personName: Paolo Rocca
    -
       Image:
          imageName: "SPALTI3_230907_I_037.jpg"
@@ -514,24 +568,28 @@ images:
                   y: 90
                   width: 24
                   height: 32
+                  personName: Mara Chessa
             -
                face:
                   x: 345
                   y: 122
                   width: 20
                   height: 31
+                  personName: Paolo Rocca
             -
                face:
                   x: 505
                   y: 120
                   width: 26
                   height: 30
+                  personName: Valerio Vargiu
             -
                face:
                   x: 641
                   y: 215
                   width: 20
                   height: 21
+                  personName: Undefined
    -
       Image:
          imageName: "SPALTI3_230907_I_038.jpg"
@@ -543,6 +601,7 @@ images:
                   y: 179
                   width: 99
                   height: 129
+                  personName: Antonello Dessalvi
    -
       Image:
          imageName: "SPALTI3_230907_I_039.jpg"
@@ -554,6 +613,7 @@ images:
                   y: 174
                   width: 69
                   height: 91
+                  personName: Stefania Melargo
    -
       Image:
          imageName: "SPALTI3_230907_I_040.jpg"
@@ -565,12 +625,14 @@ images:
                   y: 169
                   width: 54
                   height: 70
+                  personName: Stefano Colantuono
             -
                face:
                   x: 502
                   y: 189
                   width: 40
                   height: 63
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_041.jpg"
@@ -582,6 +644,7 @@ images:
                   y: 160
                   width: 78
                   height: 100
+                  personName: Alfio Uda
    -
       Image:
          imageName: "SPALTI3_230907_I_042.jpg"
@@ -593,12 +656,14 @@ images:
                   y: 147
                   width: 53
                   height: 64
+                  personName: Franco Ferrandu
             -
                face:
                   x: 433
                   y: 236
                   width: 44
                   height: 48
+                  personName: Luciano Foschi
    -
       Image:
          imageName: "SPALTI3_230907_I_043.jpg"
@@ -610,12 +675,14 @@ images:
                   y: 201
                   width: 59
                   height: 79
+                  personName: Joaquín Larrivey
             -
                face:
                   x: 569
                   y: 258
                   width: 54
                   height: 68
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_044.jpg"
@@ -627,12 +694,14 @@ images:
                   y: 169
                   width: 45
                   height: 56
+                  personName: Marco Giampaolo
             -
                face:
                   x: 483
                   y: 206
                   width: 35
                   height: 54
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_045.jpg"
@@ -644,6 +713,7 @@ images:
                   y: 212
                   width: 88
                   height: 124
+                  personName: Marco Giampaolo
    -
       Image:
          imageName: "SPALTI3_230907_I_046.jpg"
@@ -655,6 +725,7 @@ images:
                   y: 170
                   width: 92
                   height: 124
+                  personName: Ignazio Argiolas
    -
       Image:
          imageName: "SPALTI3_230907_I_047.jpg"
@@ -666,12 +737,14 @@ images:
                   y: 175
                   width: 46
                   height: 86
+                  personName: Cristian Zaccardo
             -
                face:
                   x: 546
                   y: 213
                   width: 63
                   height: 63
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_048.jpg"
@@ -683,12 +756,14 @@ images:
                   y: 234
                   width: 46
                   height: 80
+                  personName: Andrea Parola
             -
                face:
                   x: 607
                   y: 227
                   width: 50
                   height: 69
+                  personName: Veronica Baldaccini
    -
       Image:
          imageName: "SPALTI3_230907_I_049.jpg"
@@ -700,6 +775,7 @@ images:
                   y: 179
                   width: 83
                   height: 111
+                  personName: Marco Giampaolo
    -
       Image:
          imageName: "SPALTI3_230907_I_050.jpg"
@@ -711,3 +787,4 @@ images:
                   y: 193
                   width: 76
                   height: 88
+                  personName: Andrea Contini

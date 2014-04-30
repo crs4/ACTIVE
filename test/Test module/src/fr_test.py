@@ -4,9 +4,12 @@ import numpy
 import sys
 sys.path.append("../../..");
 from tools.Constants import *
+from tools.face_extractor import FaceExtractor
 from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
+
+use_FaceExtractor = False; # True if recognition is carried out by using FaceExtractor class
 
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
@@ -51,7 +54,7 @@ def fr_test(params, show_results):
     fr_test_params = params[FACE_RECOGNITION_KEY];
 
     image_path = fr_test_params[SOFTWARE_TEST_FILE_KEY];
-
+    
     test_passed = True;
 
     try:
@@ -68,9 +71,9 @@ def fr_test(params, show_results):
 
         if(len(error) == 0):
 
-            label = recognition_results[FACE_RECOGNITION_LABEL_KEY];
+            label = recognition_results[PERSON_LABEL_KEY];
 
-            confidence = recognition_results[FACE_RECOGNITION_CONFIDENCE_KEY];
+            confidence = recognition_results[PERSON_CONFIDENCE_KEY];
 
             # TO DO: CHECK THAT LABEL IS A NOT EMPTY STRING
 
@@ -110,7 +113,6 @@ def fr_experiments(params, show_results):
     mean_rec_time = 0;
 
     fm = FaceModelsLBP();
-    fm.create();
 
     fr_test_params = params[FACE_RECOGNITION_KEY];
 
@@ -119,7 +121,7 @@ def fr_experiments(params, show_results):
 
     # Number of images for each person to be used for the training
     training_images_nr = fr_test_params[TRAINING_IMAGES_NR_KEY];
-
+    
     # Number of images for each person to be used for the test
     test_images_nr = person_images_nr - training_images_nr;
 
@@ -159,9 +161,12 @@ def fr_experiments(params, show_results):
     # Iterate over all directories with images
     images_dirs = listdir(test_set_path);
 
-    label = 0;
     total_test_images_nr = 0;
     for images_dir in images_dirs:
+
+        ann_face_tag = images_dir;
+
+        print('ann_face_tag: ', ann_face_tag);
         
         images_dir_complete_path = test_set_path + images_dir;
 
@@ -178,16 +183,39 @@ def fr_experiments(params, show_results):
                 image_complete_path = images_dir_complete_path + '\\' + image;
 
                 try:
-                
-                    face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
-                    rec_results = recognize_face(face, fm, face_rec_params, show_results);
 
-                    # Add recognition time to total
-                    mean_rec_time = mean_rec_time + rec_results[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY];
+                    assigned_label = -1;
+                    assigned_tag = 'Undefined';
+                    confidence = -1;
+
+                    if(use_FaceExtractor):
+
+                        fe = FaceExtractor(fm);
+
+                        handle = fe.extract_faces_from_image_sync(image_complete_path);
+
+                        results = fe.getResults(handle)
+
+                        faces = results[FACE_EXTRACTION_FACES_KEY];
+
+                        if(len(faces) != 0):
+                            face = faces[0];
+
+                            mean_rec_time = mean_rec_time + results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY];
+                            
+                            assigned_tag = face[FACE_EXTRACTION_TAG_KEY];
+
+                    else:                   
+                        face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
                     
-                    assigned_label = rec_results[PERSON_ASSIGNED_LABEL_KEY];
-                    assigned_tag = rec_results[PERSON_ASSIGNED_TAG_KEY];
-                    confidence = rec_results[PERSON_CONFIDENCE_KEY];
+                        rec_results = recognize_face(face, fm, face_rec_params, show_results);
+
+                        # Add recognition time to total
+                        mean_rec_time = mean_rec_time + rec_results[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY];
+                    
+                        assigned_label = rec_results[PERSON_ASSIGNED_LABEL_KEY];
+                        assigned_tag = rec_results[PERSON_ASSIGNED_TAG_KEY];
+                        confidence = rec_results[PERSON_CONFIDENCE_KEY];
 
                     image_dict = {};
 
@@ -196,13 +224,16 @@ def fr_experiments(params, show_results):
                     image_dict[PERSON_ASSIGNED_TAG_KEY] = assigned_tag;
                     image_dict[PERSON_CONFIDENCE_KEY] = confidence;
 
-                    if(assigned_label == label):
+                    print('assigned_tag = ', assigned_tag);
+                    
+                    if(assigned_tag == ann_face_tag):
                         image_dict[PERSON_CHECK_KEY] = 'TP';
                         people_true_positives_dict[assigned_tag] = people_true_positives_dict[assigned_tag] + 1;
                         rec_images_nr = rec_images_nr + 1;
                     else:
                         image_dict[PERSON_CHECK_KEY] = 'FP';
-                        people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1;
+                        if(assigned_tag != 'Undefined'):
+                            people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1;
 
                     image_dict_extended = {};
                     image_dict_extended[FACE_RECOGNITION_IMAGE_KEY] = image_dict;
@@ -228,7 +259,11 @@ def fr_experiments(params, show_results):
     people_precision_list = [];
     people_recall_list = [];
     people_f1_list = [];
-    for label in range(0, people_nr - 1):
+
+    print(people_true_positives_dict);
+    print(people_false_positives_dict);
+    
+    for label in range(0, people_nr):
 
         tag = fm.get_label(label);
 
@@ -260,8 +295,12 @@ def fr_experiments(params, show_results):
         person_dict[PERSON_F1_KEY] = person_f1;
         people_list_for_YAML.append(person_dict);
 
+    print(people_precision_list);
+
     mean_precision = float(numpy.mean(people_precision_list));
     std_precision = float(numpy.std(people_precision_list));
+
+    print(people_recall_list);
 
     mean_recall = float(numpy.mean(people_recall_list));
     std_recall = float(numpy.std(people_recall_list));

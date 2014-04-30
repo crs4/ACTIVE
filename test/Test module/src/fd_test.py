@@ -61,7 +61,7 @@ def fd_test(params, show_results):
         polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));
         
         # Load face detection parameters
-        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
         face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
         detection_results = detect_faces_in_image(image_path, face_detection_params, show_results);
@@ -130,7 +130,7 @@ def fd_experiments(params, show_results):
     results_path = fd_test_params[RESULTS_PATH_KEY] + '\\'; # directory with results
 
     # Load face detection parameters
-    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE);
+    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
     face_detection_params = face_extractor_params[FACE_DETECTION_KEY];
 
     video_directories = listdir(frames_path);
@@ -364,7 +364,7 @@ if __name__ == "__main__":
     if(test_passed):
         print("\nSOFTWARE TEST PASSED\n");
         print("\n ### EXECUTING EXPERIMENTS ###\n");
-        fd_experiments(params, False);
+        fd_experiments(params, True);
     else:
         print("\nSOFTWARE TEST FAILED\n");
 

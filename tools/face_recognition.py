@@ -17,7 +17,6 @@ def recognize_face(face, face_models, params, show_results):
     fm = face_models;
     if(face_models == None):
         fm = FaceModelsLBP();
-        fm.create();
 
     start_time = cv2.getTickCount();
     
