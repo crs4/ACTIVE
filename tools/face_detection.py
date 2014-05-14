@@ -1,10 +1,14 @@
 import cv2
 import os
+import sys
 from Constants import *
 from enum import Enum
-from Utils import *
+from Utils import detect_eyes_in_image, load_YAML_file
 from sympy import Polygon, intersection
+from PIL import Image
+from crop_face import CropFace
 
+# Face detectors
 HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER = 'haarcascade_frontalface_alt.xml';
 HAARCASCADE_FRONTALFACE_ALT_TREE_CLASSIFIER = 'haarcascade_frontalface_alt_tree.xml';
 HAARCASCADE_FRONTALFACE_ALT2_CLASSIFIER = 'haarcascade_frontalface_alt2.xml';
@@ -12,6 +16,9 @@ HAARCASCADE_FRONTALFACE_DEFAULT_CLASSIFIER = 'haarcascade_frontalface_default.xm
 HAARCASCADE_PROFILEFACE_CLASSIFIER = 'haarcascade_profileface.xml';
 LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml';
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml';
+
+# Eye detector
+HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_eye.xml';
 
 class FaceDetectionAlgorithm(Enum):
     HaarCascadeFrontalFaceAlt = 1 # Haar cascade using haarcascade_frontalface_alt.xml
@@ -56,6 +63,12 @@ def detect_faces_in_image(resource_path, params, show_results):
         return ;
     try:
         image = cv2.imread(resource_path, cv2.IMREAD_GRAYSCALE);
+
+        PADDING_BORDER = 0;
+        
+        # Pad image with zeros
+        if(PADDING_BORDER != 0):
+            image = cv2.copyMakeBorder(image, PADDING_BORDER, PADDING_BORDER, PADDING_BORDER, PADDING_BORDER, cv2.BORDER_CONSTANT, 0);
 
         # Load classifier files
         classifier_file = '';
@@ -144,6 +157,10 @@ def detect_faces_in_image(resource_path, params, show_results):
         detection_time_in_clocks = cv2.getTickCount() - start_time;
         detection_time_in_seconds = detection_time_in_clocks / cv2.getTickFrequency();
 
+        # Cascade classifier for eye detection
+        eye_classifier_file = classifiers_folder_path + HAARCASCADE_EYE_CLASSIFIER;
+        eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
+
         # Populate dictionary with detected faces and elapsed CPU time 
         result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
         result[FACE_DETECTION_ERROR_KEY] = '';
@@ -152,16 +169,75 @@ def detect_faces_in_image(resource_path, params, show_results):
         # Create face images from original image
         face_images = [];
         for (x, y, width, height) in faces:
+
+            new_y = max(0, int(y - 0.3*height));
+            new_x = max(0, int(x - 0.05*width));
+            image_height, image_width = image.shape;
+            new_height = min(image_height - new_y, int(1.6*height));
+            new_width = min(image_width - new_x, int(1.1*width));
+            
             face_image = image[y:y+height, x:x+width];
+            #face_image = image[new_y:new_y+new_height, x:x+width];
+            #face_image = image[new_y:new_y+new_height, new_x:new_x+new_width];
+
+            # Detect eyes in face
+            eye_rects = detect_eyes_in_image(face_image, eye_cascade_classifier);
+
+            if(len(eye_rects) == 2):
+                
+                x_first_eye = eye_rects[0][0];
+                y_first_eye = eye_rects[0][1];
+                w_first_eye = eye_rects[0][2];
+                h_first_eye = eye_rects[0][3];
+
+                x_second_eye = eye_rects[1][0];
+                y_second_eye = eye_rects[1][1];
+                w_second_eye = eye_rects[1][2];
+                h_second_eye = eye_rects[1][3];
+
+                x_left_eye_center = 0;
+                y_left_eye_center = 0;
+                x_right_eye_center = 0;
+                y_right_eye_center = 0;
+                if(x_first_eye < x_second_eye):
+                    x_left_eye_center = x_first_eye + w_first_eye/2;
+                    y_left_eye_center = y_first_eye + h_first_eye/2;
+
+                    x_right_eye_center = x_second_eye + w_second_eye/2;
+                    y_right_eye_center = y_second_eye + h_second_eye/2;
+                else:
+                    x_right_eye_center = x_first_eye + w_first_eye/2;
+                    y_right_eye_center = y_first_eye + h_first_eye/2;
+
+                    x_left_eye_center = x_second_eye + w_second_eye/2;
+                    y_left_eye_center = y_second_eye + h_second_eye/2;
+
+                # Open whole image as PIL Image
+                img = Image.open(resource_path);
+
+                # Align face image
+                tmp_file_name = "aligned_face.jpg";
+                eye_left = (x_left_eye_center + x,y_left_eye_center + y);
+                eye_right=(x_right_eye_center + x,y_right_eye_center + y);
+                CropFace(img, eye_left, eye_right, offset_pct=(0.3,0.3), dest_sz=(200,200)).save(tmp_file_name);
+
+                face_image = cv2.imread(tmp_file_name, cv2.IMREAD_GRAYSCALE);
+            
             face_images.append(face_image);
-            if(show_results):
-                cv2.namedWindow('solocrop', cv2.WINDOW_AUTOSIZE);
-                cv2.imshow("solocrop",face_image)
-                cv2.waitKey(0);
+            ### TEST ONLY ###
+            #if(show_results):
+            #    cv2.namedWindow(resource_path, cv2.WINDOW_AUTOSIZE);
+            #    cv2.imshow(resource_path,face_image)
+            #    cv2.waitKey(0);
+            #################
         result[FACE_DETECTION_FACE_IMAGES_KEY] = face_images;
 
         if(show_results):
             for (x, y, w, h) in faces:
+                face = image[y:y+h, x:x+w];
+                eye_rects = detect_eyes_in_image(face, eye_cascade_classifier);
+                for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
+                    cv2.rectangle(face, (x_eye,y_eye), (x_eye+w_eye, y_eye+h_eye), (0,0,255), 3, 8, 0);
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
                 cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
                 cv2.imshow('Result', image);
@@ -235,6 +311,38 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
     faces.extend(facesFromClassifier1);
 
     return faces;
+
+def get_cropped_face(image_path, offset_pct, dest_size):
+    '''
+    Get face cropped and aligned to eyes from image
+
+    :type image_path: string
+    :param image_path: path of image to be cropped
+
+    :type offset_pct: 2-element tuple
+    :param offset_pct: offset given as percentage of eye-to-eye distance
+
+    :type dest_size: 2-element tuple
+    :param dest_size: size of result
+    '''
+
+    params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
+
+    # Face detection
+    detection_params = params[FACE_DETECTION_KEY];
+
+    # Path of directory containing classifier files
+    classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
+
+    detection_result = detect_faces_in_image(image_path, detection_params, False);
+
+    face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
+
+    if(len(face_images) == 1):
+       return face_images[0];
+    else:
+        return None;
+
 
 
 

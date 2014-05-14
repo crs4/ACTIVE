@@ -288,7 +288,7 @@ def fe_experiments(params, show_results):
 
             frame_counter = frame_counter + 1;
             global_frame_counter = global_frame_counter + 1;
-
+    
     # Calculate statistics for each person
     people_precision_list = [];
     people_recall_list = [];

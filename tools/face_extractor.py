@@ -152,7 +152,7 @@ class FaceExtractor(object):
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY];
 
-        detection_result = detect_faces_in_image(resource_path, detection_params, False)
+        detection_result = detect_faces_in_image(resource_path, detection_params, True);
 
         face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];

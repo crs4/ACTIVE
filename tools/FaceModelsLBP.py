@@ -3,8 +3,10 @@ import cv2
 import os
 import sys
 import numpy as np
+from face_detection import get_cropped_face
 from Constants import *
 import shutil
+
 class FaceModelsLBP():
     '''
     The persistent data structure containing the face models used by the 
@@ -116,7 +118,7 @@ class FaceModelsLBP():
     
     def create(self):
         #print "CREATE self._dbpath", self._dbpath
-        [X,y] = self.__read_images(self._dbpath, None)
+        [X,y] = self.__read_images(self._dbpath, sz = (100,100))
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
@@ -134,19 +136,22 @@ class FaceModelsLBP():
                 subject_path = os.path.join(dirname, subdirname)
                 for filename in os.listdir(subject_path):
                     try:
-                        im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
+                        #im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
                         # resize to given size (if given)
-                        if (sz is not None):
-                            im = cv2.resize(im, sz)
-                        X.append(np.asarray(im, dtype=np.uint8))
-                        y.append(c)
-                        self._labels[c]=str(subdirname)
+                        #if (sz is not None):
+                        #    im = cv2.resize(im, sz)
+                        im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (0.3,0.3), dest_size = sz);
+                        if(not(im == None)):
+                            X.append(np.asarray(im, dtype=np.uint8))
+                            y.append(c)
+                            self._labels[c]=str(subdirname)
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
                         raise
                 c = c+1
+        print(self._labels);
         return [X,y]
 
     def read_images(self, path, sz=None):

@@ -80,13 +80,6 @@ def fd_test(params, show_results):
                 if(not(polygon_image.encloses(polygon_face))):
                     test_passed = False;
                     break;
-                # Check that size of correspondent face image is equalt to size of rectangle
-                face_image = face_images[face_counter];
-                face_image_width = len(face_image[0,:]);
-                face_image_height = len(face_image[:,0]);
-                if(not(face_image_width == width) or not(face_image_height == height)):
-                    test_passed = False;
-                    break;
                 face_counter = face_counter + 1;
         else:
             test_passed = False;

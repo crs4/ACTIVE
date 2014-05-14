@@ -9,7 +9,7 @@ from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-use_FaceExtractor = False; # True if recognition is carried out by using FaceExtractor class
+use_FaceExtractor = True; # True if recognition is carried out by using FaceExtractor class
 
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
@@ -144,7 +144,7 @@ def fr_experiments(params, show_results):
     # Get path of directories with used files from params
     test_set_path = None; # directory with test set
 
-    dataset_already_divided = fr_test_params[DATASET_ALREADY_DIVIDED];
+    dataset_already_divided = fr_test_params[DATASET_ALREADY_DIVIDED_KEY];
     
     if(dataset_already_divided):
         training_set_path = fr_test_params[TRAINING_SET_PATH_KEY] + '\\';
@@ -204,7 +204,6 @@ def fr_experiments(params, show_results):
                             mean_rec_time = mean_rec_time + results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY];
                             
                             assigned_tag = face[FACE_EXTRACTION_TAG_KEY];
-
                     else:                   
                         face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
                     
@@ -295,12 +294,8 @@ def fr_experiments(params, show_results):
         person_dict[PERSON_F1_KEY] = person_f1;
         people_list_for_YAML.append(person_dict);
 
-    print(people_precision_list);
-
     mean_precision = float(numpy.mean(people_precision_list));
     std_precision = float(numpy.std(people_precision_list));
-
-    print(people_recall_list);
 
     mean_recall = float(numpy.mean(people_recall_list));
     std_recall = float(numpy.std(people_recall_list));
