@@ -7,6 +7,8 @@ from face_detection import get_cropped_face
 from Constants import *
 import shutil
 
+USE_AUTOMATIC_CROPPING = True;
+
 class FaceModelsLBP():
     '''
     The persistent data structure containing the face models used by the 
@@ -136,11 +138,13 @@ class FaceModelsLBP():
                 subject_path = os.path.join(dirname, subdirname)
                 for filename in os.listdir(subject_path):
                     try:
-                        #im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
-                        # resize to given size (if given)
-                        #if (sz is not None):
-                        #    im = cv2.resize(im, sz)
-                        im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (0.3,0.3), dest_size = sz);
+                        if(USE_AUTOMATIC_CROPPING):
+                            im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (0.3,0.3), dest_size = sz);
+                        else:
+                            im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
+                            #resize to given size (if given)
+                            if (sz is not None):
+                                im = cv2.resize(im, sz)
                         if(not(im == None)):
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
