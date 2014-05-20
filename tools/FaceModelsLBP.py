@@ -5,6 +5,7 @@ import sys
 import numpy as np
 from face_detection import get_cropped_face
 from Constants import *
+from Utils import load_YAML_file, save_YAML_file
 import shutil
 
 USE_AUTOMATIC_CROPPING = True;
@@ -26,7 +27,13 @@ class FaceModelsLBP():
         self.model=None
         self._dbpath=DB_PATH
         self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
-        self.model = self.create()
+
+        # Try to load db
+        ok = self.load(None)
+
+        # If loading was not successful, create it
+        if(not(ok)):
+            self.create()
     '''
     Set the name of database.
     Algorithm : 
@@ -104,26 +111,37 @@ class FaceModelsLBP():
         '''
         pass
         
-    def load(self, file_name):
+    def load(self, db_file_name):
         '''
         Update the face models data structure on all workers from a file.
         
         :type  file_name: string
         :param file_name: the name of the file containing the dump of the face models data structure
         '''
-        if file_name==None:
-            file_name=self._db_name+"-LBP"
+        if db_file_name==None:
+            db_file_name=self._db_name+"-LBP"
+
+        labels_file_name = self._db_name+"-Labels"
+        
         model=cv2.createLBPHFaceRecognizer()
-        model.load(file_name)
-        self.model=model
-        return model
+        ok = False;
+
+        if(os.path.isfile(db_file_name) and (os.path.isfile(labels_file_name))):
+            model.load(db_file_name)
+            if(not(model == None)):
+                self.model=model
+                self._labels = load_YAML_file(labels_file_name)
+                ok = True
+
+        return ok;
     
     def create(self):
-        #print "CREATE self._dbpath", self._dbpath
-        [X,y] = self.__read_images(self._dbpath, sz = (100,100))
+        print "CREATE self._dbpath", self._dbpath
+        [X,y] = self.__read_images(self._dbpath, sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT))
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
+        save_YAML_file(self._db_name+"-Labels",self._labels) # Save labels in YAML file
         self.model=model
         return model
     
@@ -131,15 +149,28 @@ class FaceModelsLBP():
         pass
     
     def __read_images(self, path, sz=None):
+        """Reads the images in a given folder, resizes images on the fly if size is given.
+
+        Args:
+            path: Path to a folder with subfolders representing the subjects (persons).
+            sz: A tuple with the size Resizes
+
+        Returns:
+            A list [X,y]
+
+                X: The images, which is a Python list of numpy arrays.
+                y: The corresponding labels (the unique number of the subject, person) in a Python list.
+        """
         c = 0
         X,y = [], []
         for dirname, dirnames, filenames in os.walk(path):
             for subdirname in dirnames:
+                print "creating model for", subdirname
                 subject_path = os.path.join(dirname, subdirname)
                 for filename in os.listdir(subject_path):
                     try:
                         if(USE_AUTOMATIC_CROPPING):
-                            im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (0.3,0.3), dest_size = sz);
+                            im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
                         else:
                             im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
                             #resize to given size (if given)
@@ -155,11 +186,11 @@ class FaceModelsLBP():
                         print "Unexpected error:", sys.exc_info()[0]
                         raise
                 c = c+1
-        print(self._labels);
         return [X,y]
 
     def read_images(self, path, sz=None):
         self.__read_images(path, sz)
+        
 if __name__ == '__main__':
     """
     fml=FaceModelsLBP()

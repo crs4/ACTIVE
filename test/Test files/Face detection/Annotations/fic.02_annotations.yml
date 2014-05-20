@@ -11,6 +11,7 @@ images:
         width: 66
         x: 312
         y: 172
+        goodFace: true
     imageName: fic.02_I_002.jpg
     numberOfFaces: 1
 - Image:
@@ -22,6 +23,7 @@ images:
         width: 65
         x: 338
         y: 176
+        goodFace: true
     imageName: fic.02_I_003.jpg
     numberOfFaces: 1
 - Image:
@@ -33,6 +35,7 @@ images:
         width: 61
         x: 363
         y: 173
+        goodFace: true
     imageName: fic.02_I_004.jpg
     numberOfFaces: 1
 - Image:
@@ -44,6 +47,7 @@ images:
         width: 61
         x: 320
         y: 198
+        goodFace: false
     imageName: fic.02_I_005.jpg
     numberOfFaces: 1
 - Image:
@@ -55,6 +59,7 @@ images:
         width: 52
         x: 368
         y: 226
+        goodFace: false
     imageName: fic.02_I_006.jpg
     numberOfFaces: 1
 - Image:
@@ -66,6 +71,7 @@ images:
         width: 62
         x: 356
         y: 154
+        goodFace: true
     imageName: fic.02_I_007.jpg
     numberOfFaces: 1
 - Image:
@@ -77,6 +83,7 @@ images:
         width: 79
         x: 334
         y: 173
+        goodFace: true
     imageName: fic.02_I_008.jpg
     numberOfFaces: 1
 - Image:
@@ -88,6 +95,7 @@ images:
         width: 84
         x: 497
         y: 171
+        goodFace: false
     imageName: fic.02_I_009.jpg
     numberOfFaces: 1
 - Image:
@@ -99,6 +107,7 @@ images:
         width: 76
         x: 323
         y: 178
+        goodFace: true
     imageName: fic.02_I_010.jpg
     numberOfFaces: 1
 - Image:
@@ -110,6 +119,7 @@ images:
         width: 72
         x: 380
         y: 150
+        goodFace: true
     imageName: fic.02_I_011.jpg
     numberOfFaces: 1
 - Image:
@@ -121,20 +131,23 @@ images:
         width: 29
         x: 108
         y: 132
+        goodFace: false
     - face:
         height: 34
-        personName: Paola
+        personName: Undefined
         personTag: 0
         width: 32
         x: 351
         y: 119
+        goodFace: false
     - face:
         height: 39
-        personName: Francesca
+        personName: Undefined
         personTag: 0
         width: 29
         x: 544
         y: 122
+        goodFace: false
     imageName: fic.02_I_012.jpg
     numberOfFaces: 3
 - Image:
@@ -146,6 +159,7 @@ images:
         width: 13
         x: 351
         y: 160
+        goodFace: false
     - face:
         height: 15
         personName: Michele Giannotta
@@ -153,6 +167,7 @@ images:
         width: 13
         x: 469
         y: 156
+        goodFace: false
     - face:
         height: 17
         personName: Paolo Fadda
@@ -160,6 +175,7 @@ images:
         width: 14
         x: 595
         y: 153
+        goodFace: false
     imageName: fic.02_I_013.jpg
     numberOfFaces: 3
 - Image:
@@ -171,6 +187,7 @@ images:
         width: 17
         x: 304
         y: 137
+        goodFace: false
     - face:
         height: 21
         personName: Michele Giannotta
@@ -178,6 +195,7 @@ images:
         width: 18
         x: 449
         y: 126
+        goodFace: false
     - face:
         height: 20
         personName: Paolo Fadda
@@ -185,6 +203,7 @@ images:
         width: 16
         x: 599
         y: 124
+        goodFace: false
     imageName: fic.02_I_014.jpg
     numberOfFaces: 3
 - Image:
@@ -196,6 +215,7 @@ images:
         width: 25
         x: 190
         y: 142
+        goodFace: false
     - face:
         height: 32
         personName: Michele Giannotta
@@ -203,6 +223,7 @@ images:
         width: 23
         x: 395
         y: 128
+        goodFace: false
     - face:
         height: 29
         personName: Paolo Fadda
@@ -210,6 +231,7 @@ images:
         width: 19
         x: 610
         y: 121
+        goodFace: false
     imageName: fic.02_I_015.jpg
     numberOfFaces: 3
 - Image:
@@ -221,6 +243,7 @@ images:
         width: 67
         x: 354
         y: 131
+        goodFace: true
     imageName: fic.02_I_016.jpg
     numberOfFaces: 1
 - Image:
@@ -232,6 +255,7 @@ images:
         width: 23
         x: 103
         y: 222
+        goodFace: false
     - face:
         height: 31
         personName: Undefined
@@ -239,6 +263,7 @@ images:
         width: 30
         x: 152
         y: 225
+        goodFace: false
     - face:
         height: 34
         personName: Undefined
@@ -246,6 +271,7 @@ images:
         width: 23
         x: 450
         y: 180
+        goodFace: false
     imageName: fic.02_I_017.jpg
     numberOfFaces: 3
 - Image:
@@ -257,6 +283,7 @@ images:
         width: 41
         x: 198
         y: 201
+        goodFace: false
     - face:
         height: 45
         personName: Undefined
@@ -264,6 +291,7 @@ images:
         width: 28
         x: 386
         y: 202
+        goodFace: false
     imageName: fic.02_I_018.jpg
     numberOfFaces: 2
 - Image:
@@ -275,6 +303,7 @@ images:
         width: 87
         x: 142
         y: 323
+        goodFace: false
     - face:
         height: 114
         personName: Undefined
@@ -282,6 +311,7 @@ images:
         width: 54
         x: 308
         y: 189
+        goodFace: false
     imageName: fic.02_I_019.jpg
     numberOfFaces: 2
 - Image:
@@ -293,6 +323,7 @@ images:
         width: 42
         x: 360
         y: 266
+        goodFace: false
     imageName: fic.02_I_020.jpg
     numberOfFaces: 1
 - Image:
@@ -304,6 +335,7 @@ images:
         width: 99
         x: 380
         y: 173
+        goodFace: false
     imageName: fic.02_I_021.jpg
     numberOfFaces: 1
 - Image:
@@ -315,6 +347,7 @@ images:
         width: 110
         x: 297
         y: 178
+        goodFace: false
     imageName: fic.02_I_022.jpg
     numberOfFaces: 1
 - Image:
@@ -326,6 +359,7 @@ images:
         width: 28
         x: 334
         y: 218
+        goodFace: false
     imageName: fic.02_I_023.jpg
     numberOfFaces: 1
 - Image:
@@ -337,6 +371,7 @@ images:
         width: 81
         x: 142
         y: 200
+        goodFace: true
     - face:
         height: 122
         personName: Undefined
@@ -344,6 +379,7 @@ images:
         width: 59
         x: 321
         y: 167
+        goodFace: false
     imageName: fic.02_I_024.jpg
     numberOfFaces: 2
 - Image:
@@ -355,6 +391,7 @@ images:
         width: 32
         x: 174
         y: 234
+        goodFace: false
     - face:
         height: 57
         personName: Giacomo Mameli
@@ -362,6 +399,7 @@ images:
         width: 32
         x: 370
         y: 217
+        goodFace: false
     imageName: fic.02_I_025.jpg
     numberOfFaces: 2
 - Image:
@@ -373,6 +411,7 @@ images:
         width: 44
         x: 160
         y: 188
+        goodFace: false
     - face:
         height: 71
         personName: Undefined
@@ -380,6 +419,7 @@ images:
         width: 43
         x: 447
         y: 161
+        goodFace: false
     - face:
         height: 16
         personName: Undefined
@@ -387,6 +427,7 @@ images:
         width: 13
         x: 330
         y: 267
+        goodFace: false
     imageName: fic.02_I_026.jpg
     numberOfFaces: 3
 - Image:
@@ -398,6 +439,7 @@ images:
         width: 62
         x: 299
         y: 247
+        goodFace: false
     imageName: fic.02_I_027.jpg
     numberOfFaces: 1
 - Image:
@@ -409,6 +451,7 @@ images:
         width: 70
         x: 217
         y: 246
+        goodFace: false
     imageName: fic.02_I_028.jpg
     numberOfFaces: 1
 - Image:
@@ -420,6 +463,7 @@ images:
         width: 88
         x: 376
         y: 174
+        goodFace: false
     imageName: fic.02_I_029.jpg
     numberOfFaces: 1
 - Image:
@@ -431,6 +475,7 @@ images:
         width: 54
         x: 264
         y: 184
+        goodFace: false
     - face:
         height: 67
         personName: Undefined
@@ -438,6 +483,7 @@ images:
         width: 55
         x: 470
         y: 162
+        goodFace: true
     imageName: fic.02_I_030.jpg
     numberOfFaces: 2
 - Image:
@@ -449,6 +495,7 @@ images:
         width: 60
         x: 327
         y: 185
+        goodFace: false
     imageName: fic.02_I_031.jpg
     numberOfFaces: 1
 - Image:
@@ -460,6 +507,7 @@ images:
         width: 13
         x: 170
         y: 209
+        goodFace: false
     - face:
         height: 17
         personName: Michele Giannotta
@@ -467,6 +515,7 @@ images:
         width: 13
         x: 247
         y: 193
+        goodFace: false
     - face:
         height: 18
         personName: Paolo Fadda
@@ -474,6 +523,7 @@ images:
         width: 16
         x: 313
         y: 174
+        goodFace: false
     imageName: fic.02_I_032.jpg
     numberOfFaces: 3
 - Image:
@@ -487,29 +537,32 @@ images:
         y: 130
     - face:
         height: 32
-        personName: Paola
+        personName: Undefined
         personTag: 0
         width: 29
         x: 349
         y: 126
+        goodFace: false
     - face:
         height: 36
-        personName: Francesca
+        personName: Undefined
         personTag: 0
         width: 19
         x: 538
         y: 112
+        goodFace: false
     imageName: fic.02_I_033.jpg
     numberOfFaces: 3
 - Image:
     faces:
     - face:
         height: 127
-        personName: Francesca
+        personName: Undefined
         personTag: 0
         width: 95
         x: 286
         y: 245
+        goodFace: true
     imageName: fic.02_I_034.jpg
     numberOfFaces: 1
 - Image:
@@ -521,6 +574,7 @@ images:
         width: 39
         x: 249
         y: 106
+        goodFace: false
     imageName: fic.02_I_035.jpg
     numberOfFaces: 1
 - Image:
@@ -532,6 +586,7 @@ images:
         width: 98
         x: 284
         y: 208
+        goodFace: true
     imageName: fic.02_I_036.jpg
     numberOfFaces: 1
 - Image:
@@ -543,6 +598,7 @@ images:
         width: 86
         x: 281
         y: 198
+        goodFace: true
     imageName: fic.02_I_037.jpg
     numberOfFaces: 1
 - Image:
@@ -554,6 +610,7 @@ images:
         width: 89
         x: 358
         y: 243
+        goodFace: false
     imageName: fic.02_I_038.jpg
     numberOfFaces: 1
 - Image:
@@ -565,6 +622,7 @@ images:
         width: 123
         x: 273
         y: 273
+        goodFace: false
     imageName: fic.02_I_039.jpg
     numberOfFaces: 1
 - Image:
@@ -576,6 +634,7 @@ images:
         width: 40
         x: 229
         y: 118
+        goodFace: true
     imageName: fic.02_I_040.jpg
     numberOfFaces: 1
 - Image:
@@ -587,6 +646,7 @@ images:
         width: 108
         x: 299
         y: 189
+        goodFace: true
     imageName: fic.02_I_041.jpg
     numberOfFaces: 1
 - Image:
@@ -598,24 +658,27 @@ images:
         width: 67
         x: 342
         y: 152
+        goodFace: true
     imageName: fic.02_I_042.jpg
     numberOfFaces: 1
 - Image:
     faces:
     - face:
         height: 43
-        personName: Paola
+        personName: Undefined
         personTag: 0
         width: 39
         x: 131
         y: 129
+        goodFace: false
     - face:
         height: 47
-        personName: Francesca
+        personName: Undefined
         personTag: 0
         width: 29
         x: 402
         y: 139
+        goodFace: false
     imageName: fic.02_I_043.jpg
     numberOfFaces: 2
 - Image:
@@ -627,6 +690,7 @@ images:
         width: 70
         x: 337
         y: 160
+        goodFace: true
     imageName: fic.02_I_044.jpg
     numberOfFaces: 1
 - Image:
@@ -638,6 +702,7 @@ images:
         width: 53
         x: 334
         y: 150
+        goodFace: true
     imageName: fic.02_I_045.jpg
     numberOfFaces: 1
 - Image:
@@ -649,6 +714,7 @@ images:
         width: 13
         x: 288
         y: 124
+        goodFace: false
     - face:
         height: 39
         personName: Michele Giannotta
@@ -656,6 +722,7 @@ images:
         width: 28
         x: 388
         y: 121
+        goodFace: false
     imageName: fic.02_I_046.jpg
     numberOfFaces: 2
 - Image:
@@ -667,6 +734,7 @@ images:
         width: 71
         x: 336
         y: 146
+        goodFace: true
     imageName: fic.02_I_047.jpg
     numberOfFaces: 1
 - Image:
@@ -678,13 +746,15 @@ images:
         width: 52
         x: 402
         y: 172
+        goodFace: true
     - face:
         height: 27
-        personName: Paola
+        personName: Undefined
         personTag: 0
         width: 23
         x: 564
         y: 137
+        goodFace: false
     imageName: fic.02_I_048.jpg
     numberOfFaces: 2
 - Image:
@@ -696,6 +766,7 @@ images:
         width: 58
         x: 299
         y: 137
+        goodFace: true
     imageName: fic.02_I_049.jpg
     numberOfFaces: 1
 - Image:
@@ -707,5 +778,6 @@ images:
         width: 52
         x: 423
         y: 217
+        goodFace: true
     imageName: fic.02_I_050.jpg
     numberOfFaces: 1

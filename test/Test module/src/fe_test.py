@@ -60,7 +60,7 @@ def fe_test(params, show_results):
 
         fe = FaceExtractor(None);
 
-        handle = fe.extract_faces_from_image_sync(image_path);
+        handle = fe.extractFacesFromImage(image_path);
 
         result = fe.getResults(handle);
 
@@ -91,6 +91,7 @@ def fe_test(params, show_results):
                     break;
             
         else:
+            print(error);
             test_passed = False;
         
     except IOError, (errno, strerror):
@@ -190,7 +191,7 @@ def fe_experiments(params, show_results):
 
             # Extract faces from image
             fe = FaceExtractor(fm);
-            handle = fe.extract_faces_from_image_sync(frame_path);
+            handle = fe.extractFacesFromImage(frame_path);
 
             ext_results = fe.getResults(handle);
 
@@ -414,8 +415,7 @@ if __name__ == "__main__":
 
     test_passed = True; # TEST ONLY
 
-    #TODO: UNCOMMENT
-    test_passed = fe_test(params, False); 
+    #test_passed = fe_test(params, False); 
 
     if(test_passed):
         print("\nSOFTWARE TEST PASSED\n");

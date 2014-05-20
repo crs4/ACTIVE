@@ -13,7 +13,6 @@
 #---------------------------------------------------------
 
 import cv2
-from enum import Enum
 from face_detection import detect_faces_in_image
 from face_recognition import recognize_face
 from Utils import load_YAML_file
@@ -125,23 +124,12 @@ class FaceExtractor(object):
 
         self.progress = 0;
         
-        self.db_resutl4image={}
+        self.db_result4image={}
 
-    def extract_faces_from_image(self, resource_path):
+    def extractFacesFromImage(self, resource_path):
         '''
         Launch the face extractor on one image resource.
         This method is asynchronous and returns a task handle.
-
-        :type  resource_path: string
-        :param resource_path: resource file path
-        '''
-
-        # Call synchronous method
-
-    def extract_faces_from_image_sync(self, resource_path):
-        '''
-        Launch the face extractor on one image resource.
-        This method is synchronous and returns a dictionary with the results.
 
         :type  resource_path: string
         :param resource_path: resource file path
@@ -152,7 +140,10 @@ class FaceExtractor(object):
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY];
 
-        detection_result = detect_faces_in_image(resource_path, detection_params, True);
+        #TEST ONLY
+        #detection_params['minNeighbors'] = 0;
+
+        detection_result = detect_faces_in_image(resource_path, detection_params, False);
 
         face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
@@ -191,7 +182,7 @@ class FaceExtractor(object):
 
         self.progress = 100;
         handle=time.time()
-        self.db_resutl4image[handle]=results
+        self.db_result4image[handle]=results
 
         return handle
     
@@ -238,7 +229,7 @@ class FaceExtractor(object):
         :type  handle: integer ?
         :param handle: the task handle
         '''
-        return self.db_resutl4image[handle]
+        return self.db_result4image[handle]
     
     def getProgress(self, handle):
         '''

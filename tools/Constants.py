@@ -1,13 +1,15 @@
 import os
-ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep
+ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
 #ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
-DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
-#DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING Ridotto Modificato"
+DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
+#DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3"
-#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
 
 #Path of files
-FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY+"tools"+os.sep+'FaceExtractorConfiguration.yml'
+#FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY+"tools"+os.sep+'FaceExtractorConfiguration.yml'
+FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = 'FaceExtractorConfiguration.yml'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
 
 # Test configuration
@@ -22,7 +24,7 @@ SOFTWARE_TEST_FILE_KEY = 'softwareTestFile';
 PERSON_IMAGES_NR_KEY = 'personImagesNr'
 TRAINING_IMAGES_NR_KEY = 'trainingImagesNr';
 PEOPLE_NR_KEY = 'peopleNr';
-DATASET_ALREADY_DIVIDED = 'datasetAlreadyDivided';
+DATASET_ALREADY_DIVIDED_KEY = 'datasetAlreadyDivided';
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -148,9 +150,15 @@ FACE_RECOGNITION_RADIUS=1
 FACE_RECOGNITION_NEIGHBORS=8
 FACE_RECOGNITION_GRID_X=8
 FACE_RECOGNITION_GRID_Y=8
-FACES_WIDTH = 70;
-FACES_HEIGHT = 70;
+FACES_WIDTH = 92;
+FACES_HEIGHT = 112;
 
-#Face Model parameter
+# Face Model parameter
 FACEMODEL_ALGORITHM="LBP"
 FACEMODEL_CONSTANT_ALGORITHM="LBP"
+
+# Face alignment
+OFFSET_PCT_X = 0.3
+OFFSET_PCT_Y = 0.3
+CROPPED_FACE_WIDTH = 100
+CROPPED_FACE_HEIGHT = 100

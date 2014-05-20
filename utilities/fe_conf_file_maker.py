@@ -14,7 +14,7 @@ conf_dict  = {};
 fd_dict = {};
 
 fd_dict[ALGORITHM_KEY] = 'HaarCascadeFrontalFaceAlt2';
-fd_dict[CLASSIFIERS_FOLDER_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + os.sep+'test'+ os.sep+'Test_files'+ os.sep+'Face_detection'+ os.sep+'ClassifierFiles';
+fd_dict[CLASSIFIERS_FOLDER_PATH_KEY] = ACTIVE_ROOT_DIRECTORY + os.sep+'test'+ os.sep+'Test files'+ os.sep+'Face detection'+ os.sep+'ClassifierFiles';
 fd_dict[SCALE_FACTOR_KEY] = 1.1;
 fd_dict[MIN_NEIGHBORS_KEY] = 5;
 fd_dict[FLAGS_KEY] = 'DoCannyPruning';

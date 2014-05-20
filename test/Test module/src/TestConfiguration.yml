@@ -1,31 +1,35 @@
 faceDetection:
-  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
-    detection\Annotations
-  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces with detected eyes\Annotations
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     detection\SoftwareTestingFiles\Test.jpg
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     detection\TestResultsDummy
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\TestSet
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces with detected eyes\Images
 faceExtraction:
-  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
-    extraction\Annotations
-  peopleNr: 40
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces\Annotations
+  peopleNr: 5
   personImagesNr: 10
-  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     extraction\SoftwareTestingFiles\Test.jpg
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     extraction\TestResults
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face extraction\TestSet
-  trainingImagesNr: 6
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces\Images
+  trainingImagesNr: 9
 faceRecognition:
-  datasetAlreadyDivided: false
-  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
+  datasetAlreadyDivided: true
+  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
   peopleNr: 40
   personImagesNr: 10
-  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\TestResults\Dataset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
-  trainingImagesNr: 6
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\datatest\Dataset
+    AT&T TEST
+  trainingImagesNr: 9
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\datatest\Dataset
+    AT&T TRAINING

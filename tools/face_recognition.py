@@ -22,7 +22,6 @@ def recognize_face(face, face_models, params, show_results):
     
     [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8));
 
-    # TODO: Get name of person
     tag = fm.get_label(label);
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
