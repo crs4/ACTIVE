@@ -9,6 +9,7 @@ from Utils import load_YAML_file, save_YAML_file
 import shutil
 
 USE_AUTOMATIC_CROPPING = True;
+USE_EYE_DETECTION = False;
 
 class FaceModelsLBP():
     '''
@@ -170,7 +171,10 @@ class FaceModelsLBP():
                 for filename in os.listdir(subject_path):
                     try:
                         if(USE_AUTOMATIC_CROPPING):
-                            im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
+                            if(USE_EYE_DETECTION):
+                                im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
+                            else:
+                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);   
                         else:
                             im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
                             #resize to given size (if given)

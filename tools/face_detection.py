@@ -278,9 +278,57 @@ def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_f
     else:
         return None;
 
+def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
+    '''
+    Get face cropped and aligned to eyes from image file
+    Eyes positions are known
+
+    :type image_path: string
+    :param image_path: path of image to be cropped
+
+    :type offset_pct: 2-element tuple
+    :param offset_pct: offset given as percentage of eye-to-eye distance
+
+    :type dest_size: 2-element tuple
+    :param dest_size: size of result
+    '''
+
+    cropped_image = None;
+    # Open image
+    file_check = os.path.isfile(image_path);
+
+    if(not(file_check)):
+        print('File does not exist');
+        return ;
+    try:
+        # Open whole image as PIL Image
+        img = Image.open(image_path);
+
+        # Align face image
+        tmp_file_name = "aligned_face.jpg";
+
+        (width, height) = im.size
+
+        eye_left = (width/GRID_CELLS_X, height/GRID_CELLS_Y);
+
+        eye_right = (2 * width/GRID_CELLS_Y, height/GRID_CELLS_Y);
+
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_name);
+
+        face_image = cv2.imread(tmp_file_name, cv2.IMREAD_GRAYSCALE);
+
+        return face_image;
+        
+    except IOError, (errno, strerror):
+        print "I/O error({0}): {1}".format(errno, strerror)
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+        raise
+
 def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
     '''
     Get face cropped and aligned to eyes from image file
+    Position of eyes is automatically detected
 
     :type image_path: string
     :param image_path: path of image to be cropped
