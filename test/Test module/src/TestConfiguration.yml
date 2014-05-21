@@ -11,7 +11,7 @@ faceExtraction:
   annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
     2 - Good faces\Annotations
   peopleNr: 5
-  personImagesNr: 10
+  personImagesNr: 9
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     extraction\SoftwareTestingFiles\Test.jpg
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face

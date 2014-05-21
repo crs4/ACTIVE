@@ -13,6 +13,6 @@ if __name__ == "__main__":
 
     command = "python extract_faces_from_image.py " +  image_path
 
-    call("python extract_faces_from_image.py test.jpg", shell=True)
+    call(command, shell=True)
 
 

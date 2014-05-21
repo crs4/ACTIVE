@@ -16,9 +16,10 @@ LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml';
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml';
 
 # Eye detector
-HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_eye.xml';
+#HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_eye.xml';
+HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_mcs_lefteye.xml';
 
-def detect_faces_in_image(resource_path, params, show_results, return_always_faces = True):
+def detect_faces_in_image(resource_path, params, show_results, return_always_faces = False):
     '''
     Detect faces in image
 
@@ -146,19 +147,27 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         # Populate dictionary with detected faces and elapsed CPU time 
         result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
         result[FACE_DETECTION_ERROR_KEY] = '';
-        result[FACE_DETECTION_FACES_KEY] = faces;
+        #result[FACE_DETECTION_FACES_KEY] = faces;
 
         # Create face images from original image
         face_images = [];
-        for (x, y, width, height) in faces:
+        faces_final = [];
+        for (x, y, width, height) in faces :
 
             image_height, image_width = image.shape;
             
             face_image = image[y:y+height, x:x+width];
 
             face_image = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces);
+
+            if(not(face_image == None)):
             
-            face_images.append(face_image);
+                face_images.append(face_image);
+
+                face_list = (x, y, width, height);
+
+                faces_final.append(face_list);
+                
             ### TEST ONLY ###
             #if(show_results):
             #    cv2.namedWindow(resource_path, cv2.WINDOW_AUTOSIZE);
@@ -166,9 +175,10 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             #    cv2.waitKey(0);
             #################
         result[FACE_DETECTION_FACE_IMAGES_KEY] = face_images;
+        result[FACE_DETECTION_FACES_KEY] = faces_final;
 
         if(show_results):
-            for (x, y, w, h) in faces:
+            for (x, y, w, h) in faces_final:
                 face = image[y:y+h, x:x+w];
                 eye_rects = detect_eyes_in_image(face, eye_cascade_classifier);
                 for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
@@ -260,7 +270,6 @@ def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_f
     :type dest_size: 2-element tuple
     :param dest_size: size of result
     '''
-
     params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
 
     # Face detection
