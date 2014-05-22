@@ -1,7 +1,7 @@
 import shutil
 import os
 import random
-
+from FaceModelsLBP import FaceModelsLBP
 
 class DBOrder():
         def __init__(self,dir_img,dir_db ):
@@ -26,6 +26,19 @@ class DBOrder():
                     shutil.copy(self.dir_img+im, self.dir_db+str(imsplit[0])+"/"+im)
                 
 if __name__ == "__main__":
-    dbo=DBOrder("testimg", "ordered")
-    dbo._sep="_I_"
+
+    # Training db creation
+    training_input_path = r'C:\Active\FaceModelsInput\web_training'
+    training_output_path = r'C:\Active\FaceModelsInput\web_training_ordered'
+    dbo=DBOrder(training_input_path, training_output_path)
+    dbo._sep=" -- "
+    dbo.sort()
+
+    fm = FaceModelsLBP(force_db_creation = True);
+
+    # Test db creation
+    test_input_path = r'C:\Active\FaceModelsInput\web_test'
+    test_output_path = r'C:\Active\FaceModelsInput\web_test_ordered'
+    dbo=DBOrder(test_input_path, test_output_path)
+    dbo._sep=" -- "
     dbo.sort()

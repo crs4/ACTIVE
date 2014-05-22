@@ -41,8 +41,9 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     # Open image
     file_check = os.path.isfile(resource_path);
     if(not(file_check)):
-        print('File does not exist');
-        return ;
+        print('Image file does not exist');
+        result[FACE_DETECTION_ERROR_KEY] = 'Image file does not exist';
+        return result;
     try:
         image = cv2.imread(resource_path, cv2.IMREAD_GRAYSCALE);
 
@@ -87,14 +88,16 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             classifier_file_2 = classifiers_folder_path + LBPCASCADE_PROFILEFACE_CLASSIFIER;
         else:
             print('\nAlgorithm is not available');
-            return;
+            result[FACE_DETECTION_ERROR_KEY] = 'Detection algorithm is not available';
+            return result;
 
         faces = [];
         if(use_one_classifier_file):
             face_cascade_classifier = cv2.CascadeClassifier(classifier_file);
 
             if(face_cascade_classifier.empty()):
-                print('Error loading cascade classifier file');
+                print('Error loading face cascade classifier file');
+                result[FACE_DETECTION_ERROR_KEY] = 'Error loading face cascade classifier file';
                 return;
             else:
                 if(algorithm == 'LBPCascadeProfileFace'):
@@ -124,7 +127,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             face_cascade_classifier_1 = cv2.CascadeClassifier(classifier_file);
             face_cascade_classifier_2 = cv2.CascadeClassifier(classifier_file_2);
             if(face_cascade_classifier_1.empty() | face_cascade_classifier_2.empty()):
-                print('Error loading cascade classifier file');
+                print('Error loading face cascade classifier file');
+                result[FACE_DETECTION_ERROR_KEY] = 'Error loading face cascade classifier file';
                 return;
             else:
                 # Detect faces in image using first classifier
@@ -143,6 +147,11 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         # Cascade classifier for eye detection
         eye_classifier_file = classifiers_folder_path + HAARCASCADE_EYE_CLASSIFIER;
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
+
+        if(eye_cascade_classifier.empty()):
+            print('Error loading eye cascade classifier file');
+            result[FACE_DETECTION_ERROR_KEY] = 'Error loading eye cascade classifier file';
+            return result;
 
         # Populate dictionary with detected faces and elapsed CPU time 
         result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
@@ -314,17 +323,15 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
         img = Image.open(image_path);
 
         # Align face image
-        tmp_file_name = "aligned_face.jpg";
-
-        (width, height) = im.size
+        (width, height) = img.size
 
         eye_left = (width/GRID_CELLS_X, height/GRID_CELLS_Y);
 
         eye_right = (2 * width/GRID_CELLS_Y, height/GRID_CELLS_Y);
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_name);
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH);
 
-        face_image = cv2.imread(tmp_file_name, cv2.IMREAD_GRAYSCALE);
+        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE);
 
         return face_image;
         
@@ -429,12 +436,11 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offse
         img = Image.open(image_path);
 
         # Align face image
-        tmp_file_name = "aligned_face.jpg";
         eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1]);
         eye_right=(x_right_eye_center + face_position[0],y_right_eye_center + face_position[1]);
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_name);
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH);
 
-        face_image = cv2.imread(tmp_file_name, cv2.IMREAD_GRAYSCALE);
+        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE);
 
         return face_image;
 

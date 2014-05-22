@@ -3,7 +3,7 @@ import cv2
 import os
 import sys
 import numpy as np
-from face_detection import get_cropped_face
+from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos
 from Constants import *
 from Utils import load_YAML_file, save_YAML_file
 import shutil
@@ -17,29 +17,30 @@ class FaceModelsLBP():
     face recognition algorithm and replicated on each worker.
     This class ensures that the face models are replicated and updated on each worker.
     '''
-    def __init__(self, workers=None):
+    def __init__(self, force_db_creation = False, workers=None):
         '''
         Initialize the face models on all workers.
 
+        :type force_db_creation: boolean
+        :param force_db_creation: if true, db is always created
+        
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
         '''
         self._labels={}
         self.model=None
         self._dbpath=DB_PATH
-        self._db_name=os.path.join(self._dbpath).split(os.path.sep)[-1]
+        self._db_name=DB_NAME
 
-        # Try to load db
-        ok = self.load(None)
-
-        # If loading was not successful, create it
-        if(not(ok)):
+        if(force_db_creation):
             self.create()
-    '''
-    Set the name of database.
-    Algorithm : 
-    LBP (Local Binary Pattern)
-    '''    
+        else:
+            # Try to load db
+            ok = self.load(None)
+
+            # If loading was not successful, create it
+            if(not(ok)):
+                self.create()  
             
     def add_faces(self, filenames_or_images, tag):
         '''
@@ -120,6 +121,11 @@ class FaceModelsLBP():
         :param file_name: the name of the file containing the dump of the face models data structure
         '''
         if db_file_name==None:
+            '''
+            Set the name of database.
+            Algorithm : 
+            LBP (Local Binary Pattern)
+            '''  
             db_file_name=self._db_name+"-LBP"
 
         labels_file_name = self._db_name+"-Labels"
@@ -133,11 +139,13 @@ class FaceModelsLBP():
                 self.model=model
                 self._labels = load_YAML_file(labels_file_name)
                 ok = True
+                print('\n### DB LOADED ###\n')
 
         return ok;
     
     def create(self):
-        print "CREATE self._dbpath", self._dbpath
+        print('\n### CREATING DB ####\n')
+        #print "CREATE self._dbpath", self._dbpath
         [X,y] = self.__read_images(self._dbpath, sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT))
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
