@@ -105,7 +105,7 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     return eyes_final_list;   
 
 def get_best_eye(eyes_list):
-        # Calculate confidence for each eye rectangle
+    # Calculate confidence for each eye rectangle
     eyes_confidences = [];
 
     eye_counter = 0;

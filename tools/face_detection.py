@@ -379,6 +379,8 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
 
         cropped_image = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face);
+
+        return cropped_image;
         
     except IOError, (errno, strerror):
         print "I/O error({0}): {1}".format(errno, strerror)

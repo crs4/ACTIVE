@@ -192,7 +192,7 @@ def fr_experiments(params, show_results):
 
                         fe = FaceExtractor(fm);
 
-                        handle = fe.extract_faces_from_image_sync(image_complete_path);
+                        handle = fe.extractFacesFromImage(image_complete_path);
 
                         results = fe.getResults(handle)
 

@@ -140,7 +140,7 @@ class FaceExtractor(object):
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY];
 
-        detection_result = detect_faces_in_image(resource_path, detection_params, False);
+        detection_result = detect_faces_in_image(resource_path, detection_params, True);
 
         face_bboxes = detection_result[FACE_DETECTION_FACES_KEY];
         face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
@@ -153,6 +153,9 @@ class FaceExtractor(object):
         #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
         #face_images=[face]
         for face in face_images:
+
+            #cv2.imshow('face',face);
+            #cv2.waitKey(0)
             face_dict = {};
             
             # Resize face
