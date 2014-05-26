@@ -1,7 +1,6 @@
 faceDetection:
   algorithm: HaarCascadeFrontalFaceAlt2
-  classifiersFolderPath: C:\Active\Mercurial\test\Test files\Face
-    detection\ClassifierFiles
+  classifiersFolderPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\ClassifierFiles
   flags: DoCannyPruning
   minNeighbors: 5
   minSizeHeight: 20
