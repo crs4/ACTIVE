@@ -292,6 +292,14 @@ def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_f
     face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
 
     if(len(face_images) == 1):
+
+       face_image = face_images[0];
+       if(USE_HIST_EQ_IN_CROPPED_FACES):
+           face_image = cv2.equalizeHist(face_image);
+
+       if(USE_CANNY_IN_CROPPED_FACES):
+           face_image = cv2.Canny(face_image, 0.1,100)
+        
        return face_images[0];
     else:
         return None;
@@ -332,6 +340,12 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH);
 
         face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE);
+
+        if(USE_HIST_EQ_IN_CROPPED_FACES):
+           face_image = cv2.equalizeHist(face_image);
+
+        if(USE_CANNY_IN_CROPPED_FACES):
+           face_image = cv2.Canny(face_image, 0.1,100)
 
         return face_image;
         
@@ -379,6 +393,12 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
 
         cropped_image = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face);
+
+        if(USE_HIST_EQ_IN_CROPPED_FACES):
+           cropped_image = cv2.equalizeHist(cropped_image);
+
+        if(USE_CANNY_IN_CROPPED_FACES):
+           cropped_image = cv2.Canny(cropped_image, 0.1,100)
 
         return cropped_image;
         
@@ -440,9 +460,16 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offse
         # Align face image
         eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1]);
         eye_right=(x_right_eye_center + face_position[0],y_right_eye_center + face_position[1]);
+
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH);
 
         face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE);
+
+        if(USE_HIST_EQ_IN_CROPPED_FACES):
+           face_image = cv2.equalizeHist(face_image);
+
+        if(USE_CANNY_IN_CROPPED_FACES):
+           face_image = cv2.Canny(face_image, 0.1,100)
 
         return face_image;
 

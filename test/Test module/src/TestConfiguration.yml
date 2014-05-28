@@ -23,13 +23,9 @@ faceRecognition:
   datasetAlreadyDivided: true
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
   peopleNr: 40
-  personImagesNr: 10
-  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
-    recognition\SoftwareTestingFiles\Test.pgm
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
-    recognition\TestResults\Dataset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\datatest\Dataset
-    AT&T TEST
-  trainingImagesNr: 9
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\datatest\Dataset
-    AT&T TRAINING
+  personImagesNr: 6
+  softwareTestFile: C:\Active\Mercurial\tools\aligned_face.jpg
+  testResultsPath: C:\Active\Mercurial\test\Test files\Face recognition\TestResults\Web
+  testSetPath: C:\Active\FaceModelsInput\web_training_ordered
+  trainingImagesNr: 5
+  trainingSetPath: C:\Active\FaceModelsInput\web_training_ordered

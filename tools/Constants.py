@@ -1,15 +1,15 @@
 import os
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\\'
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\\'
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
-DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-#DB_PATH = r'C:\Active\FaceModelsInput\web_training_ordered'
-#DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Web'
-DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Videolina'
+DB_PATH = r'C:\Active\FaceModelsInput\web_training_ordered'
+DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Web'
+#DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'ATT'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
@@ -168,3 +168,5 @@ CROPPED_FACE_WIDTH = 200
 CROPPED_FACE_HEIGHT = 200
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
+USE_HIST_EQ_IN_CROPPED_FACES = True
+USE_CANNY_IN_CROPPED_FACES = False
