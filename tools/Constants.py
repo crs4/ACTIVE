@@ -5,11 +5,10 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
-DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
+#DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-#DB_PATH = r'C:\Active\FaceModelsInput\web_training_ordered'
-#DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Web'
-DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Videolina'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\web_training_ordered'
+DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Web'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'

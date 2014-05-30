@@ -9,7 +9,7 @@ from Utils import load_YAML_file, save_YAML_file
 import shutil
 
 USE_AUTOMATIC_CROPPING = True;
-USE_EYE_DETECTION = True;
+USE_EYE_DETECTION = False;
 
 class FaceModelsLBP():
     '''
