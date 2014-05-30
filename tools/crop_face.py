@@ -60,6 +60,7 @@ def ScaleRotateTranslate(image, angle, center = None, new_center = None, scale =
   return image.transform(image.size, Image.AFFINE, (a,b,c,d,e,f), resample=resample)
 
 def CropFace(image, eye_left=(0,0), eye_right=(0,0), offset_pct=(0.2,0.2), dest_sz = (70,70)):
+
   # calculate offsets in original image
   offset_h = math.floor(float(offset_pct[0])*dest_sz[0])
   offset_v = math.floor(float(offset_pct[1])*dest_sz[1])

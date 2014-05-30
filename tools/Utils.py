@@ -68,7 +68,7 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     '''
 
     min_neighbors = 0;
-    haar_scale = 1.01;
+    haar_scale = 1.1;
     haar_flags = cv2.CASCADE_DO_CANNY_PRUNING;
 
     image_width = len(image[0,:]);

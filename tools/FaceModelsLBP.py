@@ -132,7 +132,7 @@ class FaceModelsLBP():
         
         model=cv2.createLBPHFaceRecognizer()
         ok = False;
-
+        
         if(os.path.isfile(db_file_name) and (os.path.isfile(labels_file_name))):
             model.load(db_file_name)
             if(not(model == None)):
@@ -182,7 +182,7 @@ class FaceModelsLBP():
                             if(USE_EYE_DETECTION):
                                 im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
                             else:
-                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);   
+                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);
                         else:
                             im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
                             #resize to given size (if given)
