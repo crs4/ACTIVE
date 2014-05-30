@@ -297,6 +297,9 @@ def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_f
        if(USE_HIST_EQ_IN_CROPPED_FACES):
            face_image = cv2.equalizeHist(face_image);
 
+       if(USE_NORM_IN_CROPPED_FACES):
+           face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1);
+
        if(USE_CANNY_IN_CROPPED_FACES):
            face_image = cv2.Canny(face_image, 0.1,100)
         
@@ -343,6 +346,9 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
            face_image = cv2.equalizeHist(face_image);
+
+        if(USE_NORM_IN_CROPPED_FACES):
+           face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1);
 
         if(USE_CANNY_IN_CROPPED_FACES):
            face_image = cv2.Canny(face_image, 0.1,100)
@@ -396,6 +402,9 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
            cropped_image = cv2.equalizeHist(cropped_image);
+
+        if(USE_NORM_IN_CROPPED_FACES):
+           cropped_image = cv2.normalize(cropped_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1);
 
         if(USE_CANNY_IN_CROPPED_FACES):
            cropped_image = cv2.Canny(cropped_image, 0.1,100)
@@ -467,6 +476,9 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offse
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
            face_image = cv2.equalizeHist(face_image);
+
+        if(USE_NORM_IN_CROPPED_FACES):
+           face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1);
 
         if(USE_CANNY_IN_CROPPED_FACES):
            face_image = cv2.Canny(face_image, 0.1,100)

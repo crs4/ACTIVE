@@ -22,12 +22,12 @@ faceExtraction:
 faceRecognition:
   datasetAlreadyDivided: true
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
-  peopleNr: 40
+  peopleNr: 14
   personImagesNr: 6
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\TestResults\Dataset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\web_test_ordered
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test_ordered
   trainingImagesNr: 5
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\web_training_ordered
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training_ordered

@@ -27,8 +27,8 @@ class DBOrder():
                 
 if __name__ == "__main__":
 
-    training_input_path = r'C:\Active\FaceModelsInput\web_training'
-    training_output_path = r'C:\Active\FaceModelsInput\web_training_ordered'
+    training_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training'
+    training_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training_ordered'
 
     images_dirs = os.listdir(training_output_path);
 
@@ -44,8 +44,8 @@ if __name__ == "__main__":
 
     fm = FaceModelsLBP(force_db_creation = True);
 
-    test_input_path = r'C:\Active\FaceModelsInput\web_test'
-    test_output_path = r'C:\Active\FaceModelsInput\web_test_ordered'
+    test_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test'
+    test_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test_ordered'
 
     images_dirs = os.listdir(test_output_path);
 
