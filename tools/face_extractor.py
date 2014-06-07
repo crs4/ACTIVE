@@ -154,19 +154,21 @@ class FaceExtractor(object):
         #face_images=[face]
         for face in face_images:
 
-            #cv2.imshow('face',face);
-            #cv2.waitKey(0)
+#            cv2.imshow('face',face);
+#            cv2.waitKey(0)
             face_dict = {};
             
             # Resize face
             resize_face = False;
             if(resize_face):
-                new_size = (FACES_WIDTH, FACES_HEIGHT);
+                new_size = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT);
                 face = cv2.resize(face, new_size);
             
             rec_result = recognize_face(face, self.face_models, recognition_params, False);
             tag = rec_result[PERSON_ASSIGNED_TAG_KEY];
+            confidence = rec_result[PERSON_CONFIDENCE_KEY];
             face_dict[FACE_EXTRACTION_TAG_KEY] = tag;
+            face_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence;
             face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count];
             faces.append(face_dict);
             count = count + 1;

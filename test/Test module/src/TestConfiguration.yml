@@ -10,7 +10,7 @@ faceDetection:
 faceExtraction:
   annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
     2 - Good faces\Annotations
-  peopleNr: 5
+  peopleNr: 10
   personImagesNr: 9
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     extraction\SoftwareTestingFiles\Test.jpg
@@ -22,12 +22,12 @@ faceExtraction:
 faceRecognition:
   datasetAlreadyDivided: true
   datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
-  peopleNr: 14
-  personImagesNr: 6
+  peopleNr: 5
+  personImagesNr: 13
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\TestResults\Dataset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test_ordered
-  trainingImagesNr: 5
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training_ordered
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_5\Test_set_whole_images_ordered
+  trainingImagesNr: 12
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_5\Training_set_whole_images_ordered

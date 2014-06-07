@@ -7,8 +7,8 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training_ordered_mini'
-DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'US_Presidents_training_mii'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_5\Training_set_ordered'
+DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Videolina'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
@@ -132,6 +132,7 @@ FACE_EXTRACTION_ERROR_KEY = 'error';
 FACE_EXTRACTION_FACES_KEY = 'faces';
 FACE_EXTRACTION_TAG_KEY = 'tag';
 FACE_EXTRACTION_BBOX_KEY = 'bbox';
+FACE_EXTRACTION_CONFIDENCE_KEY = 'confidence'
 
 # YAML file with face extraction results
 FACE_EXTRACTION_FACE_KEY = 'face';
@@ -161,8 +162,9 @@ FACEMODEL_CONSTANT_ALGORITHM="LBP"
 
 # Face alignment
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.jpg'
-OFFSET_PCT_X = 0.3
-OFFSET_PCT_Y = 0.3
+OFFSET_PCT_X = 0.2
+OFFSET_PCT_Y = 0.2
+OFFSET_PCT_Y_FROM_MOUTH = 0.5
 CROPPED_FACE_WIDTH = 200
 CROPPED_FACE_HEIGHT = 200
 GRID_CELLS_X = 3
@@ -170,3 +172,6 @@ GRID_CELLS_Y = 3
 USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
+USE_EYES_POSITION = False
+USE_FACE_DETECTION_IN_TRAINING = True
+USE_MOUTH_POSITION = False

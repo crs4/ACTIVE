@@ -3,13 +3,14 @@ import cv2
 import os
 import sys
 import numpy as np
-from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos
+from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos, get_detected_cropped_face
 from Constants import *
 from Utils import load_YAML_file, save_YAML_file
 import shutil
 
+USE_RESIZING = True;
 USE_AUTOMATIC_CROPPING = True;
-USE_EYE_DETECTION = False;
+USE_EYE_DETECTION = True;
 
 class FaceModelsLBP():
     '''
@@ -146,12 +147,25 @@ class FaceModelsLBP():
     def create(self):
         print('\n### CREATING DB ####\n')
         #print "CREATE self._dbpath", self._dbpath
-        [X,y] = self.__read_images(self._dbpath, sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT))
+
+        start_time = cv2.getTickCount();
+        sz = None;
+        if(USE_RESIZING):
+            sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+            
+        [X,y] = self.__read_images(self._dbpath, sz)
+            
         model=cv2.createLBPHFaceRecognizer()
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
         save_YAML_file(self._db_name+"-Labels",self._labels) # Save labels in YAML file
         self.model=model
+
+        creation_time_in_clocks = cv2.getTickCount() - start_time;
+        creation_time_in_seconds = creation_time_in_clocks / cv2.getTickFrequency();
+
+        print('Creation time: ' + str(creation_time_in_seconds) + ' s\n');
+        
         return model
     
     def clear(self): 
@@ -178,15 +192,24 @@ class FaceModelsLBP():
                 subject_path = os.path.join(dirname, subdirname)
                 for filename in os.listdir(subject_path):
                     try:
-                        if(USE_AUTOMATIC_CROPPING):
+                        if(USE_EYES_POSITION):
                             if(USE_EYE_DETECTION):
                                 im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
                             else:
                                 im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);
+                
                         else:
-                            im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
+                            if(USE_FACE_DETECTION_IN_TRAINING):
+                                im = get_detected_cropped_face(os.path.join(subject_path, filename), return_always_face = False);
+##                                if(not(im == None)):
+##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
+##                                    cv2.imshow('Training image', im);
+##                                    cv2.waitKey(0);
+                            else:   
+                                im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
                             #resize to given size (if given)
-                            if (sz is not None):
+                            sz = None;
+                            if ((im is not None) and (sz is not None)):
                                 im = cv2.resize(im, sz)
                         if(not(im == None)):
                             X.append(np.asarray(im, dtype=np.uint8))

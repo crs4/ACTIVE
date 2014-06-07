@@ -34,6 +34,7 @@
 import sys, math
 
 from PIL import Image
+from Constants import *
 
 def Distance(p1,p2):
   dx = p2[0] - p1[0]
@@ -79,7 +80,14 @@ def CropFace(image, eye_left=(0,0), eye_right=(0,0), offset_pct=(0.2,0.2), dest_
   # crop the rotated image
   crop_xy = (eye_left[0] - scale*offset_h, eye_left[1] - scale*offset_v)
   crop_size = (dest_sz[0]*scale, dest_sz[1]*scale)
-  image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(crop_xy[1]+crop_size[1])))
+
+  if(USE_MOUTH_POSITION):
+     (width, height) = image.size;
+     new_height = height - ((height/GRID_CELLS_Y)*(1-OFFSET_PCT_Y_FROM_MOUTH));
+     image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(new_height)));
+  else:
+     image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(crop_xy[1]+crop_size[1])))
+  
   # resize it
   image = image.resize(dest_sz, Image.ANTIALIAS)
   return image

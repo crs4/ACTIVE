@@ -27,8 +27,8 @@ class DBOrder():
                 
 if __name__ == "__main__":
 
-    training_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training'
-    training_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_training_ordered'
+    training_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Training_set'
+    training_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Training_set_ordered'
 
     images_dirs = os.listdir(training_output_path);
 
@@ -44,8 +44,23 @@ if __name__ == "__main__":
 
     fm = FaceModelsLBP(force_db_creation = True);
 
-    test_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test'
-    test_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Web\US_presidents_test_ordered'
+    test_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Test_set_only_faces'
+    test_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Test_set_only_faces_ordered'
+
+    images_dirs = os.listdir(test_output_path);
+
+    # Deleting files in output path
+    for images_dir in images_dirs:
+        images_dir_complete_path = test_output_path + os.sep + images_dir;
+        shutil.rmtree(images_dir_complete_path)    
+
+    # Test db creation
+    dbo=DBOrder(test_input_path, test_output_path)
+    dbo._sep=" -- "
+    dbo.sort()
+
+    test_input_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Test_set_whole_images'
+    test_output_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_10\Test_set_whole_images_ordered'
 
     images_dirs = os.listdir(test_output_path);
 

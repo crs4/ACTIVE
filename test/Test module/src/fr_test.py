@@ -4,12 +4,17 @@ import numpy
 import sys
 sys.path.append("../../..");
 from tools.Constants import *
+from tools.face_detection import get_cropped_face, get_cropped_face_using_eyes_pos
 from tools.face_extractor import FaceExtractor
 from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
 use_FaceExtractor = True; # True if recognition is carried out by using FaceExtractor class
+
+USE_RESIZING = True
+USE_AUTOMATIC_CROPPING = True;
+USE_EYE_DETECTION = True;
 
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
@@ -112,6 +117,9 @@ def fr_experiments(params, show_results):
     test_images_nr = 0; # Number of total test images
     mean_rec_time = 0;
 
+    true_pos_confidence_list = []; # List of confidence values for true positives
+    false_pos_confidence_list = []; # List of confidence values for false positives
+
     fm = FaceModelsLBP();
 
     fr_test_params = params[FACE_RECOGNITION_KEY];
@@ -136,6 +144,7 @@ def fr_experiments(params, show_results):
     people_true_positives_dict = {};
     people_false_positives_dict = {};
     people_test_images_nr_dict = {};
+    
     for label in range(0, people_nr):
         tag = fm.get_label(label);
         people_true_positives_dict[tag] = 0;
@@ -204,8 +213,23 @@ def fr_experiments(params, show_results):
                             mean_rec_time = mean_rec_time + results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY];
                             
                             assigned_tag = face[FACE_EXTRACTION_TAG_KEY];
+
+                            confidence = face[FACE_EXTRACTION_CONFIDENCE_KEY];
                     else:                   
                         face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE);
+
+                        sz = None;
+                        if(USE_RESIZING):
+                            sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+
+                        if(USE_AUTOMATIC_CROPPING):
+                            if(USE_EYE_DETECTION):
+                                face = get_cropped_face(image_complete_path, offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
+                            else:
+                                face = get_cropped_face_using_eyes_pos(image_complete_path, offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);
+                        else:
+                            if (sz is not None):
+                                face = cv2.resize(face, sz)
                     
                         rec_results = recognize_face(face, fm, face_rec_params, show_results);
 
@@ -229,10 +253,12 @@ def fr_experiments(params, show_results):
                         image_dict[PERSON_CHECK_KEY] = 'TP';
                         people_true_positives_dict[assigned_tag] = people_true_positives_dict[assigned_tag] + 1;
                         rec_images_nr = rec_images_nr + 1;
+                        true_pos_confidence_list.append(confidence);
                     else:
                         image_dict[PERSON_CHECK_KEY] = 'FP';
                         if(assigned_tag != 'Undefined'):
                             people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1;
+                        false_pos_confidence_list.append(confidence);
 
                     image_dict_extended = {};
                     image_dict_extended[FACE_RECOGNITION_IMAGE_KEY] = image_dict;
@@ -307,6 +333,12 @@ def fr_experiments(params, show_results):
 
     mean_rec_time = mean_rec_time / total_test_images_nr;
 
+    mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list));
+    std_true_pos_confidence = float(numpy.std(true_pos_confidence_list));
+
+    mean_false_pos_confidence = float(numpy.mean(false_pos_confidence_list));
+    std_false_pos_confidence = float(numpy.std(false_pos_confidence_list));
+
     print("\n ### RESULTS ###\n");
 
     print('Recognition rate: ' + str(recognition_rate*100) + '%');
@@ -317,6 +349,11 @@ def fr_experiments(params, show_results):
     print('Mean of f1: ' + str(mean_f1*100) + '%');
     print('Standard deviation of f1: ' + str(std_f1*100) + '%');
     print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+    print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence));
+    print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence));
+    print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence));
+    print('Standard deviation of confidence for false positives: ' + str(std_false_pos_confidence));
+    
 
     # Update YAML file with results related to all the experiments
     number_of_already_done_experiments = 0;

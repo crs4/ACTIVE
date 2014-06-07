@@ -32,7 +32,6 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     :type showResult: boolean
     :param showResult: show (true) or do not show (false) image with detected faces
     '''
-
     # Saving processing time for face detection
     start_time = cv2.getTickCount();
 
@@ -167,7 +166,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             
             face_image = image[y:y+height, x:x+width];
 
-            face_image = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces);
+            if(USE_EYES_POSITION):
+                face_image = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces);
 
             if(not(face_image == None)):
             
@@ -266,7 +266,7 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
 
     return faces;
 
-def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_face):
+def get_detected_cropped_face(image_path, return_always_face):
     '''
     Detect face in image and return it cropped and aligned to eyes
 
@@ -276,8 +276,8 @@ def get_detected_cropped_face(image_path, offset_pct, dest_size, return_always_f
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
 
-    :type dest_size: 2-element tuple
-    :param dest_size: size of result
+    :type return_always_face: boolean
+    :param return_always_face: if true, face is always returned
     '''
     params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
 
@@ -468,7 +468,7 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offse
 
         # Align face image
         eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1]);
-        eye_right=(x_right_eye_center + face_position[0],y_right_eye_center + face_position[1]);
+        eye_right = (x_right_eye_center + face_position[0],y_right_eye_center + face_position[1]);
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH);
 
