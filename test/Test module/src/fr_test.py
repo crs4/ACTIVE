@@ -10,10 +10,9 @@ from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-use_FaceExtractor = True; # True if recognition is carried out by using FaceExtractor class
+USE_FACEEXTRACTOR = False; # True if recognition is carried out by using FaceExtractor class
 
-USE_RESIZING = True
-USE_AUTOMATIC_CROPPING = True;
+USE_RESIZING = True;
 USE_EYE_DETECTION = True;
 
 # Save in csv file given list of experiments
@@ -197,7 +196,7 @@ def fr_experiments(params, show_results):
                     assigned_tag = 'Undefined';
                     confidence = -1;
 
-                    if(use_FaceExtractor):
+                    if(USE_FACEEXTRACTOR):
 
                         fe = FaceExtractor(fm);
 
@@ -222,7 +221,7 @@ def fr_experiments(params, show_results):
                         if(USE_RESIZING):
                             sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
 
-                        if(USE_AUTOMATIC_CROPPING):
+                        if(USE_EYES_POSITION):
                             if(USE_EYE_DETECTION):
                                 face = get_cropped_face(image_complete_path, offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
                             else:

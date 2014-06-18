@@ -153,9 +153,7 @@ class FaceExtractor(object):
         #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
         #face_images=[face]
         for face in face_images:
-
-#            cv2.imshow('face',face);
-#            cv2.waitKey(0)
+            
             face_dict = {};
             
             # Resize face

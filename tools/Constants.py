@@ -7,7 +7,7 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_5\Training_set_ordered'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_40\Training_set_ordered'
 DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Videolina'
 
 #Path of files
@@ -172,6 +172,6 @@ GRID_CELLS_Y = 3
 USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
-USE_EYES_POSITION = False
-USE_FACE_DETECTION_IN_TRAINING = True
+USE_EYES_POSITION = True
+USE_FACE_DETECTION_IN_TRAINING = False
 USE_MOUTH_POSITION = False

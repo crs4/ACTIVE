@@ -9,7 +9,6 @@ from Utils import load_YAML_file, save_YAML_file
 import shutil
 
 USE_RESIZING = True;
-USE_AUTOMATIC_CROPPING = True;
 USE_EYE_DETECTION = True;
 
 class FaceModelsLBP():
@@ -207,10 +206,13 @@ class FaceModelsLBP():
 ##                                    cv2.waitKey(0);
                             else:   
                                 im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
-                            #resize to given size (if given)
-                            sz = None;
-                            if ((im is not None) and (sz is not None)):
-                                im = cv2.resize(im, sz)
+                                #resize to given size (if given)
+                                if ((im is not None) and (sz is not None)):
+                                    im = cv2.resize(im, sz)
+##                                if(not(im == None)):
+##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
+##                                    cv2.imshow('Training image', im);
+##                                    cv2.waitKey(0);
                         if(not(im == None)):
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
