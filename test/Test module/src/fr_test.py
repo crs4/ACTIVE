@@ -10,7 +10,7 @@ from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-USE_FACEEXTRACTOR = False; # True if recognition is carried out by using FaceExtractor class
+USE_FACEEXTRACTOR = True; # True if recognition is carried out by using FaceExtractor class
 
 USE_RESIZING = True;
 USE_EYE_DETECTION = True;
@@ -275,7 +275,7 @@ def fr_experiments(params, show_results):
         # Check number of images
         if((image_counter < person_images_nr) or (image_counter > person_images_nr)):
             warning_message = images_dir + ' directory contains ' + str(image_counter) + ' images';
-            print(warning_message);
+            #print(warning_message);
 
         label = label + 1;
 
@@ -284,8 +284,8 @@ def fr_experiments(params, show_results):
     people_recall_list = [];
     people_f1_list = [];
 
-    print(people_true_positives_dict);
-    print(people_false_positives_dict);
+    #print(people_true_positives_dict);
+    #print(people_false_positives_dict);
     
     for label in range(0, people_nr):
 
