@@ -133,6 +133,11 @@ FACE_EXTRACTION_FACES_KEY = 'faces';
 FACE_EXTRACTION_TAG_KEY = 'tag';
 FACE_EXTRACTION_BBOX_KEY = 'bbox';
 FACE_EXTRACTION_CONFIDENCE_KEY = 'confidence'
+FACE_EXTRACTION_TOT_FRAMES_NR = 'totFramesNr'
+FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY = 'elapsedVideoTime'
+FACE_EXTRACTION_FRAMES_KEY = 'frames'
+FACE_EXTRACTION_FRAME_COUNTER_KEY = 'frameCounter'
+FACE_EXTRACTION_SEGMENTS_KEY = 'segments'
 
 # YAML file with face extraction results
 FACE_EXTRACTION_FACE_KEY = 'face';
@@ -172,6 +177,19 @@ GRID_CELLS_Y = 3
 USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
-USE_EYES_POSITION = False
-USE_FACE_DETECTION_IN_TRAINING = True
+USE_EYES_POSITION = True
+USE_FACE_DETECTION_IN_TRAINING = False
 USE_MOUTH_POSITION = False
+
+# Face extraction from video
+TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.jpg'
+USE_TRACKING = True
+USE_MAJORITY_RULE = True # Assigne tag that whose assigned to the majority of frames
+USE_MIN_CONFIDENCE_RULE = False # Assigne tag that received the minimum confidence
+USE_MEAN_CONFIDENCE_RULE = True # Assigne tag that received the minimu value for the mean of conficences among frames
+MAX_DELTA_PCT_X = 0.1
+MAX_DELTA_PCT_Y = 0.1
+MAX_DELTA_PCT_W = 0.1
+MAX_FRAMES_WITH_MISSED_DETECTION = 5 # Maximum number of frames with missed detection that does not interrupt tracking
+
+

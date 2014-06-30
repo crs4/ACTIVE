@@ -61,12 +61,30 @@ class FaceModelsLBP():
             print "string"
         
     def  get_label(self, index):
+        '''
+        Get label string given numeric index
+
+        :type index: int
+        :param index: index of label
+        '''
         try:
             if not self._labels==None:
                 return self._labels[index]
             return -1
         except:
             return -1
+
+    def get_people_nr(self):
+        '''
+        Get number of people in face model
+        '''
+        try:
+            if not self._labels==None:
+                return len(self._labels)
+            return -1
+        except:
+            return -1
+        
         
     def remove_tags(self, tags):
         '''

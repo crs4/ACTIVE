@@ -1,7 +1,7 @@
 import cv2
 import sys
 import yaml
-import numpy as np
+import numpy
 import os
 from Constants import *
 
@@ -154,4 +154,91 @@ def get_best_eye(eyes_list):
         return eyes_list[eye_index];
     else:
         return None;
+
+def aggregate_frame_results(frames, fm):
+
+    assigned_frames_nr_dict = {}
+    confidence_lists_dict = {}
+    people_nr = fm.get_people_nr();
+
+    for label in range(0, people_nr):
+        tag = fm.get_label(label);
+        assigned_frames_nr_dict[tag] = 0
+        confidence_lists_dict[tag] = []
+
+    #print(frames)
+
+    for frame in frames:
+
+        assigned_tag = frame[FACE_EXTRACTION_TAG_KEY]
+
+        assigned_frames_nr_dict[assigned_tag] = assigned_frames_nr_dict[assigned_tag] + 1
+
+        confidence = frame[FACE_EXTRACTION_CONFIDENCE_KEY]
+
+        confidence_lists_dict[assigned_tag].append(confidence)
+
+    # Take final decision on person
+
+    final_tag = 'Undefined'
+    final_confidence = -1
+    if(USE_MAJORITY_RULE):
+        max_frames_nr = 0
+        candidate_tags_list = []
+        
+        for label in range(0, people_nr):
+            
+            tag = fm.get_label(label);
+            assigned_frames_nr = assigned_frames_nr_dict[tag]
+
+            if(assigned_frames_nr > max_frames_nr):
+
+                # There is one tag that has more occurrences that the others
+                candidate_tags_list = []
+                candidate_tags_list.append(tag)
+                max_frames_nr = assigned_frames_nr
+
+            elif(assigned_frames_nr == max_frames_nr):
+
+                # There are two or more tags that have the same number of occurrences
+                candidate_tags_list.append(tag)
+
+        if (len(candidate_tags_list) >= 1):
+
+            final_tag = candidate_tags_list[0]
+
+            if(USE_MIN_CONFIDENCE_RULE):
+
+                final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
+
+                for i in range(1, len(candidate_tags_list)):
+
+                    min_confidence = float(numpy.min(confidence_lists_dict[candidate_tags_list[i]]));
+
+                    if (min_confidence < final_confidence):
+
+                        final_tag = candidate_tags_list[i]
+
+                        final_confidence = min_confidence
+
+            elif(USE_MEAN_CONFIDENCE_RULE):
+
+                #print('\nCONFIDENCE LIST\n')
+                #print(confidence_lists_dict[final_tag])
+
+                final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
+                #print(candidate_tags_list)
+
+                for i in range(1, len(candidate_tags_list)):
+
+                    mean_confidence = float(numpy.mean(confidence_lists_dict[candidate_tags_list[i]]));
+
+                    if (mean_confidence < final_confidence):
+
+                        final_tag = candidate_tags_list[i]
+
+                        final_confidence = mean_confidence
+                        
+    return [final_tag, final_confidence]
+        
 

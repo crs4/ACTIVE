@@ -192,7 +192,6 @@ def fr_experiments(params, show_results):
 
                 try:
 
-                    assigned_label = -1;
                     assigned_tag = 'Undefined';
                     confidence = -1;
 
@@ -235,7 +234,6 @@ def fr_experiments(params, show_results):
                         # Add recognition time to total
                         mean_rec_time = mean_rec_time + rec_results[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY];
                     
-                        assigned_label = rec_results[PERSON_ASSIGNED_LABEL_KEY];
                         assigned_tag = rec_results[PERSON_ASSIGNED_TAG_KEY];
                         confidence = rec_results[PERSON_CONFIDENCE_KEY];
 
@@ -276,8 +274,6 @@ def fr_experiments(params, show_results):
         if((image_counter < person_images_nr) or (image_counter > person_images_nr)):
             warning_message = images_dir + ' directory contains ' + str(image_counter) + ' images';
             #print(warning_message);
-
-        label = label + 1;
 
     # Calculate statistics for each person
     people_precision_list = [];
@@ -406,30 +402,30 @@ if __name__ == "__main__":
     import sys
     
     parser = argparse.ArgumentParser(description = "Execute face recognition tests")
-    parser.add_argument("-config", help = "configuration file");
+    parser.add_argument("-config", help = "configuration file")
     args = parser.parse_args()
+
+    params = None
 
     if(args.config):
         # Load given configuration file
         try:
-            params = load_YAML_file(args.config);
+            params = load_YAML_file(args.config)
         except IOError, (errno, strerror):
-            print("I/O error({0}): {1}".format(errno, strerror));
-            print("Default configuration file will be used");
+            print("I/O error({0}): {1}".format(errno, strerror))
+            print("Default configuration file will be used")
         except:
-            print("Unexpected error:", sys.exc_info()[0]);
+            print("Unexpected error:", sys.exc_info()[0])
             raise
         
     print("\n ### EXECUTING SOFTWARE TEST ###\n");
 
-    params = None;
-
-    #test_passed = fr_test(params, False);
+    #test_passed = fr_test(params, False)
     test_passed = True; # TEST ONLY
 
     if(test_passed):
-        print("\nSOFTWARE TEST PASSED\n");
-        print("\n ### EXECUTING EXPERIMENTS ###\n");
-        fr_experiments(params, False);
+        print("\nSOFTWARE TEST PASSED\n")
+        print("\n ### EXECUTING EXPERIMENTS ###\n")
+        fr_experiments(params, False)
     else:
-        print("\nSOFTWARE TEST FAILED\n");
+        print("\nSOFTWARE TEST FAILED\n")
