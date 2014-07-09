@@ -172,7 +172,7 @@ class FaceModelsLBP():
             
         [X,y] = self.__read_images(self._dbpath, sz)
             
-        model=cv2.createLBPHFaceRecognizer()
+        model=cv2.createLBPHFaceRecognizer(FACE_RECOGNITION_RADIUS, FACE_RECOGNITION_NEIGHBORS, FACE_RECOGNITION_GRID_X, FACE_RECOGNITION_GRID_Y)
         model.train(np.asarray(X), np.asarray(y))
         model.save(self._db_name+"-LBP")
         save_YAML_file(self._db_name+"-Labels",self._labels) # Save labels in YAML file

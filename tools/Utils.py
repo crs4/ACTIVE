@@ -238,6 +238,61 @@ def aggregate_frame_results(frames, fm):
                         final_tag = candidate_tags_list[i]
 
                         final_confidence = mean_confidence
+            else:
+                print('Warning! Method is not available')
+
+    else:
+        if(USE_MIN_CONFIDENCE_RULE):
+
+            if(people_nr > 0):
+
+                final_tag = fm.get_label(0)
+
+                if(len(confidence_lists_dict[final_tag]) > 0):
+
+                    final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
+
+                for label in range(1, people_nr):
+                
+                    tag = fm.get_label(label);
+
+                    if(len(confidence_lists_dict[tag]) > 0):
+
+                        min_confidence = float(numpy.min(confidence_lists_dict[tag]));
+
+                        if ((final_confidence == -1) or (min_confidence < final_confidence)):
+
+                            final_tag = tag
+
+                            final_confidence = min_confidence
+
+        elif(USE_MEAN_CONFIDENCE_RULE):
+
+            if(people_nr > 0):
+
+                final_tag = fm.get_label(0)
+
+                if(len(confidence_lists_dict[final_tag]) > 0):
+
+                    final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
+
+                for label in range(1, people_nr):
+                
+                    tag = fm.get_label(label);
+
+                    if(len(confidence_lists_dict[tag]) > 0):
+
+                        mean_confidence = float(numpy.mean(confidence_lists_dict[tag]));
+
+                        if ((final_confidence == -1) or (mean_confidence < final_confidence)):
+
+                            final_tag = tag
+
+                            final_confidence = mean_confidence
+            
+        else:
+            print('Warning! Method is not available')
+        
                         
     return [final_tag, final_confidence]
         

@@ -18,6 +18,7 @@ from face_recognition import recognize_face
 from Utils import load_YAML_file, aggregate_frame_results
 from Constants import *
 import time
+import math
 
 
 class FaceModels(object):
@@ -215,6 +216,8 @@ class FaceExtractor(object):
 
             frames = []
 
+            tot_frames = capture.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+
             while True:
             
                 frame_dict = {}
@@ -227,10 +230,12 @@ class FaceExtractor(object):
                 elapsed_video_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
 
                 elapsed_video_s = elapsed_video_ms / 1000 # Frame position in video in seconds
+                
+                #video_position = capture.get(cv2.cv.CV_CAP_PROP_POS_AVI_RATIO) # This doesn't work!
 
-                video_position = capture.get(cv2.cv.CV_CAP_PROP_POS_AVI_RATIO)
+                self.progress = 100 * (frame_counter / tot_frames)
 
-                self.progress = 100 * video_position
+                #print('progress: ' + str(self.progress) + '%')
 
                 cv2.imwrite(TMP_FRAME_FILE_PATH, frame)
 
@@ -262,7 +267,7 @@ class FaceExtractor(object):
 
                 segments = []
 
-                frame_counter = 0
+                tracking_frame_counter = 0
                 
                 for frame in frames:
 
@@ -277,6 +282,8 @@ class FaceExtractor(object):
 
                             segment_dict = {}
 
+                            segment_frame_counter = 1
+
                             prev_bbox = face[FACE_EXTRACTION_BBOX_KEY]
 
                             segment_frames_list = []
@@ -285,7 +292,7 @@ class FaceExtractor(object):
 
                             segment_frame_dict[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
 
-                            segment_frame_dict[FACE_EXTRACTION_FRAME_COUNTER_KEY] = frame_counter
+                            segment_frame_dict[FACE_EXTRACTION_FRAME_COUNTER_KEY] = tracking_frame_counter
 
                             segment_frame_dict[FACE_EXTRACTION_TAG_KEY] = face[FACE_EXTRACTION_TAG_KEY]
 
@@ -295,11 +302,11 @@ class FaceExtractor(object):
 
                             segment_frames_list.append(segment_frame_dict)
 
-                            del frames[frame_counter][FACE_EXTRACTION_FACES_KEY][face_counter]
+                            del frames[tracking_frame_counter][FACE_EXTRACTION_FACES_KEY][face_counter]
 
-                            sub_frame_counter = frame_counter + 1
+                            sub_frame_counter = tracking_frame_counter + 1
 
-                            prev_frame_counter = frame_counter
+                            prev_frame_counter = tracking_frame_counter
 
                             # Search face in subsequent frames and add good bounding boxes to segment
                             # Bounding boxes included in this segment must not be considered by other segments
@@ -308,9 +315,8 @@ class FaceExtractor(object):
 
                                 # Consider only successive frames or frames whose maximum distance is MAX_FRAMES_WITH_MISSED_DETECTION + 1
                                 if((sub_frame_counter > (prev_frame_counter + MAX_FRAMES_WITH_MISSED_DETECTION + 1))):
-                                    print('### WARNING - Frames too distant')
-                                    print(sub_frame_counter)
-                                    print(prev_frame_counter)
+
+                                    segment_frame_counter = segment_frame_counter - MAX_FRAMES_WITH_MISSED_DETECTION - 1
 
                                     break;
 
@@ -365,14 +371,12 @@ class FaceExtractor(object):
                                             consecutive_frames_with_missed_detection = 0
 
                                             break; #Do not consider other faces in the same frame
-                                        else:
-                                            print 'delta_x = ' + delta_x
-                                            print 'delta_y = ' + delta_y
-                                            print 'delta_w = '
 
                                     sub_face_counter = sub_face_counter + 1
                                     
                                 sub_frame_counter = sub_frame_counter + 1
+
+                                segment_frame_counter = segment_frame_counter + 1
 
                             # Aggregate results from all frames in segment
                             [final_tag, final_confidence] = aggregate_frame_results(segment_frames_list, self.face_models)
@@ -383,11 +387,85 @@ class FaceExtractor(object):
 
                             segment_dict[FACE_EXTRACTION_FRAMES_KEY] = segment_frames_list
 
+                            print('segment_frame_counter: ', segment_frame_counter)
+
+                            segment_dict[FACE_EXTRACTION_SEGMENT_TOT_FRAMES_NR_KEY] = segment_frame_counter
+
                             segments.append(segment_dict)
 
                             face_counter = face_counter + 1
                             
-                    frame_counter = frame_counter + 1  
+                    tracking_frame_counter = tracking_frame_counter + 1
+
+            elif(USE_SLIDING_WINDOW):
+
+                frame_rate = capture.get(cv2.cv.CV_CAP_PROP_FPS)
+
+                frame_nr_in_window = frame_rate * SLIDING_WINDOW_SIZE
+
+                frame_nr_half_window = int(math.floor(frame_nr_in_window/2))
+
+                print('frame_nr_half_window: ', frame_nr_half_window)
+
+                sl_window_frame_counter = 0
+
+                for frame in frames:
+
+                    # Get faces from frame results
+                    faces = frame[FACE_EXTRACTION_FACES_KEY]
+
+                    if(len(faces) != 0):
+
+                        # Select frames to be included in window
+                        
+                        first_frame_in_window = sl_window_frame_counter - frame_nr_half_window
+
+                        if (first_frame_in_window < 0):
+
+                            first_frame_in_window = 0 # First frame in window is first frame of all video if window exceeds video
+
+                        last_frame_in_window = sl_window_frame_counter + frame_nr_half_window
+
+                        if (last_frame_in_window > (len(frames)-1)):
+
+                            last_frame_in_window = len(frames)-1
+
+                        window_frames = frames[first_frame_in_window : (last_frame_in_window + 1)]
+
+                        window_frames_list = []
+
+                        for window_frame in window_frames:
+
+                            # Get tag from first face
+                            faces = window_frame[FACE_EXTRACTION_FACES_KEY]
+
+                            if(len(faces) != 0):
+
+                                first_face = faces[0];
+
+                                assigned_tag = first_face[FACE_EXTRACTION_TAG_KEY]
+
+                                confidence = first_face[FACE_EXTRACTION_CONFIDENCE_KEY]
+
+                                window_frame_dict = {}
+
+                                window_frame_dict[FACE_EXTRACTION_TAG_KEY] = assigned_tag
+
+                                window_frame_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence
+
+                                window_frames_list.append(window_frame_dict)
+
+                        # Final tag for each frame depends on assigned tags on all frames in window
+
+                        [frame_final_tag, frame_final_confidence] = aggregate_frame_results(window_frames_list, self.face_models)
+
+                        print('frame_final_tag: ', frame_final_tag)
+
+                        frame[FACE_EXTRACTION_FACES_KEY][0][FACE_EXTRACTION_TAG_KEY] = frame_final_tag
+
+                        frame[FACE_EXTRACTION_FACES_KEY][0][FACE_EXTRACTION_CONFIDENCE_KEY] = frame_final_confidence
+
+                    sl_window_frame_counter = sl_window_frame_counter + 1
 
         processing_time_in_clocks = cv2.getTickCount() - start_time
         processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency()

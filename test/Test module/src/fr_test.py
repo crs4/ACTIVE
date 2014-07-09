@@ -10,7 +10,7 @@ from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-USE_FACEEXTRACTOR = True; # True if recognition is carried out by using FaceExtractor class
+USE_FACEEXTRACTOR = False; # True if recognition is carried out by using FaceExtractor class
 
 USE_RESIZING = True;
 USE_EYE_DETECTION = True;
@@ -133,7 +133,7 @@ def fr_experiments(params, show_results):
     test_images_nr = person_images_nr - training_images_nr;
 
     # Number of people
-    people_nr = fr_test_params[PEOPLE_NR_KEY];
+    people_nr = fm.get_people_nr();
 
     rec_dict = {}; # Dictionary containing all results for this experiment
     images_list_for_YAML = []; # List used for creating YAML file with list of images
@@ -336,14 +336,24 @@ def fr_experiments(params, show_results):
 
     print("\n ### RESULTS ###\n");
 
-    print('Recognition rate: ' + str(recognition_rate*100) + '%');
-    print('Mean of precision: ' + str(mean_precision*100) + '%');
-    print('Standard deviation of precision: ' + str(std_precision*100) + '%');
-    print('Mean of recall: ' + str(mean_recall*100) + '%');
-    print('Standard deviation of recall: ' + str(std_recall*100) + '%');
-    print('Mean of f1: ' + str(mean_f1*100) + '%');
-    print('Standard deviation of f1: ' + str(std_f1*100) + '%');
+##    print('Recognition rate: ' + str(recognition_rate*100) + '%');
+##    print('Mean of precision: ' + str(mean_precision*100) + '%');
+##    print('Standard deviation of precision: ' + str(std_precision*100) + '%');
+##    print('Mean of recall: ' + str(mean_recall*100) + '%');
+##    print('Standard deviation of recall: ' + str(std_recall*100) + '%');
+##    print('Mean of f1: ' + str(mean_f1*100) + '%');
+##    print('Standard deviation of f1: ' + str(std_f1*100) + '%');
+##    print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+
+    print('Recognition rate: ' + str(recognition_rate));
+    print('Mean of precision: ' + str(mean_precision));
+    print('Standard deviation of precision: ' + str(std_precision));
+    print('Mean of recall: ' + str(mean_recall));
+    print('Standard deviation of recall: ' + str(std_recall));
+    print('Mean of f1: ' + str(mean_f1));
+    print('Standard deviation of f1: ' + str(std_f1));
     print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+    
     print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence));
     print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence));
     print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence));

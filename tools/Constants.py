@@ -137,6 +137,7 @@ FACE_EXTRACTION_TOT_FRAMES_NR = 'totFramesNr'
 FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY = 'elapsedVideoTime'
 FACE_EXTRACTION_FRAMES_KEY = 'frames'
 FACE_EXTRACTION_FRAME_COUNTER_KEY = 'frameCounter'
+FACE_EXTRACTION_SEGMENT_TOT_FRAMES_NR_KEY = 'segmentTotFramesNr'
 FACE_EXTRACTION_SEGMENTS_KEY = 'segments'
 
 # YAML file with face extraction results
@@ -154,10 +155,10 @@ EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 
 # Face recognition parameter
-FACE_RECOGNITION_RADIUS=1
-FACE_RECOGNITION_NEIGHBORS=8
-FACE_RECOGNITION_GRID_X=8
-FACE_RECOGNITION_GRID_Y=8
+FACE_RECOGNITION_RADIUS=2
+FACE_RECOGNITION_NEIGHBORS=12
+FACE_RECOGNITION_GRID_X=6
+FACE_RECOGNITION_GRID_Y=6
 FACES_WIDTH = 92;
 FACES_HEIGHT = 112;
 
@@ -183,13 +184,15 @@ USE_MOUTH_POSITION = False
 
 # Face extraction from video
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.jpg'
-USE_TRACKING = True
+USE_TRACKING = False
 USE_MAJORITY_RULE = True # Assigne tag that whose assigned to the majority of frames
-USE_MIN_CONFIDENCE_RULE = False # Assigne tag that received the minimum confidence
-USE_MEAN_CONFIDENCE_RULE = True # Assigne tag that received the minimu value for the mean of conficences among frames
+USE_MIN_CONFIDENCE_RULE = True # Assigne tag that received the minimum confidence
+USE_MEAN_CONFIDENCE_RULE = False # Assigne tag that received the minimu value for the mean of conficences among frames
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
 MAX_DELTA_PCT_W = 0.1
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 # Maximum number of frames with missed detection that does not interrupt tracking
+USE_SLIDING_WINDOW = True
+SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
 
 
