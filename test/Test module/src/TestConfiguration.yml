@@ -27,6 +27,6 @@ faceRecognition:
     recognition\SoftwareTestingFiles\Test.pgm
   testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\TestResults\Dataset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_video\Test_set
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_80\Test_set_whole_images_ordered
   trainingImagesNr: 12
   trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina\Dataset_80\Training_set_ordered
