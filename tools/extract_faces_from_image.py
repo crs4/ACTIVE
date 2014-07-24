@@ -23,7 +23,7 @@ if __name__ == "__main__":
     
     error = result[FACE_EXTRACTION_ERROR_KEY];
 
-    if(len(error) == 0):
+    if(not(error)):
 
         image = cv2.imread(image_path, cv2.IMREAD_COLOR);
 

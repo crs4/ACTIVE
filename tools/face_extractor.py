@@ -35,7 +35,7 @@ class FaceModels(object):
         :param workers: the address (IP and port) of workers.
         '''
         pass
-		
+        
     def add_faces(self, filenames_or_images, tag):
         '''
         Add new faces to the face models and associate them with the given tag.
@@ -144,50 +144,61 @@ class FaceExtractor(object):
         detection_params = self.params[FACE_DETECTION_KEY]
 
         detection_result = detect_faces_in_image(resource_path, detection_params, False)
-
-        face_bboxes = detection_result[FACE_DETECTION_FACES_KEY]
-        face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY]
-
-        # Face recognition
-        recognition_params = self.params[FACE_RECOGNITION_KEY]
         
-        faces = []
-        count = 0
-        #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
-        #face_images=[face]
-        for face in face_images:
+        detection_error = detection_result[FACE_DETECTION_ERROR_KEY]
+        
+        if(not(detection_error)):
             
-            face_dict = {}
+            face_bboxes = detection_result[FACE_DETECTION_FACES_KEY]
+            face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY]
+    
+            # Face recognition
+            recognition_params = self.params[FACE_RECOGNITION_KEY]
             
-            # Resize face
-            resize_face = False
-            if(resize_face):
-                new_size = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
-                face = cv2.resize(face, new_size)
+            faces = []
+            count = 0
+            #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
+            #face_images=[face]
+            for face in face_images:
+                
+                face_dict = {}
+                
+                # Resize face
+                resize_face = False
+                if(resize_face):
+                    new_size = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
+                    face = cv2.resize(face, new_size)
+                
+                rec_result = recognize_face(face, self.face_models, recognition_params, False)
+                tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
+                confidence = rec_result[PERSON_CONFIDENCE_KEY]
+                face_dict[FACE_EXTRACTION_TAG_KEY] = tag
+                face_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence
+                face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count]
+                faces.append(face_dict)
+                count = count + 1
+    
+            processing_time_in_clocks = cv2.getTickCount() - start_time
+            processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency()
+    
+            # Populate dictionary with results
+            results = {}
+            results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
+            results[FACE_EXTRACTION_ERROR_KEY] = error
+            results[FACE_EXTRACTION_FACES_KEY] = faces
             
-            rec_result = recognize_face(face, self.face_models, recognition_params, False)
-            tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
-            confidence = rec_result[PERSON_CONFIDENCE_KEY]
-            face_dict[FACE_EXTRACTION_TAG_KEY] = tag
-            face_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence
-            face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count]
-            faces.append(face_dict)
-            count = count + 1
-
-        processing_time_in_clocks = cv2.getTickCount() - start_time
-        processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency()
-
-        # Populate dictionary with results
-        results = {}
-        results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
-        results[FACE_EXTRACTION_ERROR_KEY] = error
-        results[FACE_EXTRACTION_FACES_KEY] = faces
-
+        else:
+            
+            results = {}
+            results[FACE_EXTRACTION_ERROR_KEY] = detection_error
+    
         self.progress = 100
         handle=time.time()
         self.db_result4image[handle]=results
-
+    
         return handle
+                        
+
     
     def extractFacesFromVideo(self, resource):
         '''
@@ -514,7 +525,7 @@ class FaceExtractor(object):
         Example:
             results = {'elapsed_cpu_time':  0.011,
                        'error': None,
-		       'faces': ({'tag': 'Barack Obama', 'confidence': 60, 'bbox':(100,210, 50, 50)},
+               'faces': ({'tag': 'Barack Obama', 'confidence': 60, 'bbox':(100,210, 50, 50)},
                                  {'tag': 'Betty White', 'confidence': 30, 'bbox':(30, 250, 40, 45)}
                                 )
                       }

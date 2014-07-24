@@ -10,7 +10,7 @@ from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-USE_FACEEXTRACTOR = False; # True if recognition is carried out by using FaceExtractor class
+USE_FACEEXTRACTOR = True; # True if recognition is carried out by using FaceExtractor class
 
 USE_RESIZING = True;
 USE_EYE_DETECTION = True;
