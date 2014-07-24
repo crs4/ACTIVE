@@ -154,7 +154,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
 
         # Populate dictionary with detected faces and elapsed CPU time 
         result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
-        result[FACE_DETECTION_ERROR_KEY] = '';
+        result[FACE_DETECTION_ERROR_KEY] = None;
         #result[FACE_DETECTION_FACES_KEY] = faces;
 
         # Create face images from original image
