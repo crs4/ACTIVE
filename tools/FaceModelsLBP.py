@@ -232,9 +232,32 @@ class FaceModelsLBP():
 ##                                    cv2.imshow('Training image', im);
 ##                                    cv2.waitKey(0);
                         if(not(im == None)):
+                            
+                            if(USE_BLACK_PELS):
+                                
+                                im_width = im.size_column;
+                                im_height = im_size_row;
+                                # Divide image by using a 4 x 4 grid
+                                for im_x in range(0, im_width - 1):
+                                    for im_y in range(0, im_height - 1):
+                                        if(((im_x < 50) and (im_y >= 50) and (im_y < 150)) or ((im_x >= 150) and (im_y >= 50) and (im_y < 150))):
+                                            im[im_x,im_y] = 0
+                                            
+                                cv2.imshow(im, "face")
+                                cv2.waitKey(0)
+                                                            
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
                             self._labels[c]=str(subdirname)
+                            
+                            if(USE_MIRRORED_FACES_IN_TRAINING):
+                                c = c + 1
+                                # Add mirrored image
+                                mirrored_im = cv2.flip(im,1);
+                                X.appen(np.asarry(flipped_im, dtype=np.uint8))
+                                y.append(c)
+                                self._labels[c] = str(subdirname)
+                            
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)
                     except:
