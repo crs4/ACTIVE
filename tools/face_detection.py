@@ -198,7 +198,9 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             cv2.waitKey(0);
 
     except IOError, (errno, strerror):
-        print "I/O error({0}): {1}".format(errno, strerror)
+        error_str = "I/O error({0}): {1}".format(errno, strerror)
+        print error_str
+        result[FACE_DETECTION_ERROR_KEY] = error_str
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise
