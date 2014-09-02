@@ -222,7 +222,7 @@ def get_tag_from_image(image_path, face_models):
     idx_black_list = []
     #print(all_letters)
     lett_idx = 0
-    #rgb_im_copy = rgb_im.copy() # TEST ONLY
+    rgb_im_copy = rgb_im.copy() # TEST ONLY
     for lett in all_letters:
         if((lett_idx not in idx_black_list) and (len(lett) > 0)):
             
@@ -249,7 +249,7 @@ def get_tag_from_image(image_path, face_models):
             pt1 = (bbox[0], bbox[1])
             pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
         
-            cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) # TEST ONLY
+            #cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) # TEST ONLY
             
             for idx2 in range((lett_idx + 1),len(all_letters)):
                 #print(idx2)
@@ -267,10 +267,10 @@ def get_tag_from_image(image_path, face_models):
                     x22 = x12 + w2
                     y22 = y12 + h2
                     
-                    pt1 = (bbox2[0], bbox2[1])
-                    pt2 = (pt1[0] + bbox2[2], pt1[1] + bbox2[3])
+                    #pt1 = (bbox2[0], bbox2[1])
+                    #pt2 = (pt1[0] + bbox2[2], pt1[1] + bbox2[3])
                     
-                    cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) 
+                    #cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) 
             
                     #cv2.imshow('rgb', rgb_im_copy)
                         
@@ -324,6 +324,7 @@ def get_tag_from_image(image_path, face_models):
     print('rows', rows)
     
     row_idx = 0
+    words = []
     for row in rows:
         
         bw_im[:,:] = 255
@@ -337,11 +338,32 @@ def get_tag_from_image(image_path, face_models):
         
             cv2.drawContours(bw_im, contours, contour_idx, 
             0, -1, cv2.CV_AA, hierarchy, 1)
-            
-            cv2.imshow('bw_im', bw_im)
-            cv2.waitKey(0) 
+        
+        # Transform image
+        shape_1 = bw_im.shape[1]
+        shape_0 = bw_im.shape[0]
+        depth = cv.IPL_DEPTH_8U
+        bitmap = cv.CreateImageHeader((shape_1, shape_0), depth, 1)
+        cv.SetData(bitmap, bw_im.tostring(), 
+            bw_im.dtype.itemsize * 1 * shape_1)
+    
+        api.SetPageSegMode(tesseract.PSM_AUTO)
+        tesseract.SetCvImage(bitmap,api)
+        text = api.GetUTF8Text().rstrip()
+        
+        print('TEXT',text)
+        if(len(text) > 0):
+			row_words = text.split()
+			for row_word in row_words:
+				words.append(row_word)
+        
+        cv2.imshow('bw_im', bw_im)
+        cv2.waitKey(0)
             
         row_idx = row_idx + 1
+        
+    print('words', words)
+    rows = words
     
     if(labels != -1):
         assigned_label = ''
@@ -422,11 +444,11 @@ def get_tag_from_image(image_path, face_models):
 
 ####    TEST ONLY      ####
 
-use_all_images = False
+use_all_images = True
 
 if (use_all_images):
    
-    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video YouTube\Originali'
+    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali'
     
     fm = FaceModelsLBP()
     
@@ -438,7 +460,8 @@ if (use_all_images):
         
 else:
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Caption detection\Baldaccini.bmp'
-    image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video YouTube\Originali\Fisichella_Giancarlo.jpg'
+    image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\BaldacciniDOcchiChiusi.jpg'
+    #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video YouTube\Originali\Fisichella_Giancarlo.jpg'
     fm = FaceModelsLBP()
     
     get_tag_from_image(image_path, fm)
