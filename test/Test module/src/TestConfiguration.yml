@@ -1,0 +1,31 @@
+faceDetection:
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces with detected eyes\Annotations
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
+    detection\SoftwareTestingFiles\Test.jpg
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
+    detection\TestResultsDummy
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces with detected eyes\Images
+faceExtraction:
+  annotationsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces\Annotations
+  peopleNr: 10
+  personImagesNr: 9
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
+    extraction\SoftwareTestingFiles\Test.jpg
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
+    extraction\TestResults
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset Videolina
+    2 - Good faces\Images
+  trainingImagesNr: 9
+faceRecognition:
+  datasetAlreadyDivided: true
+  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
+  personImagesNr: 50
+  softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
+    recognition\SoftwareTestingFiles\Test.pgm
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Risultati test\Nuovi test
+  testSetPath: C:\Users\Maurizio\Documents\Video da YouTube\Alonso_Fernando\Nuovi test
+  trainingImagesNr: 12
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_ordered

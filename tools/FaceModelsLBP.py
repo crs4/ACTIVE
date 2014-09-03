@@ -73,6 +73,17 @@ class FaceModelsLBP():
             return -1
         except:
             return -1
+            
+    def get_labels(self):
+		'''
+		Get all labels as list of strings
+		'''
+		try:
+			if not self._labels == None:
+				return self._labels.values()
+			return - 1
+		except:
+			return -1
 
     def get_people_nr(self):
         '''
