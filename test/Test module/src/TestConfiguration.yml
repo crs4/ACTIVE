@@ -25,7 +25,7 @@ faceRecognition:
   personImagesNr: 50
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Risultati test\Nuovi test
-  testSetPath: C:\Users\Maurizio\Documents\Video da YouTube\Alonso_Fernando\Nuovi test
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Risultati
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Test_set
   trainingImagesNr: 12
   trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_ordered

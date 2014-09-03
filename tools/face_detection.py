@@ -399,6 +399,10 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         # Cascade classifier for eye detection
         eye_classifier_file = classifiers_folder_path + HAARCASCADE_EYE_CLASSIFIER;
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
+        
+        if(eye_cascade_classifier.empty()):
+            print('Error loading eye cascade classifier file')
+            return None
 
         cropped_image = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face);
 

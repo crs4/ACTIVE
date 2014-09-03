@@ -268,6 +268,9 @@ class FaceModelsLBP():
                                 X.appen(np.asarry(flipped_im, dtype=np.uint8))
                                 y.append(c)
                                 self._labels[c] = str(subdirname)
+                                
+                        else:
+							print "Image", os.path.join(subject_path, filename), "not considered" 
                             
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)

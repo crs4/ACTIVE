@@ -25,6 +25,8 @@ MAX_BBOX_DIFF = 10
 
 PELS_TO_TEXT_SIZE_RATIO = 25.7
 
+CORNER_THRESHOLD = 0.01
+
 USE_METHOD_2 = True
 
 def get_tag_from_image(image_path, face_models):
@@ -111,8 +113,8 @@ def get_tag_from_image(image_path, face_models):
         LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
         cv2.BORDER_CONSTANT, value = 255)
         
-        lett_im_w = w + (2 * LETT_MARGIN)
-        lett_im_h = h + (2 * LETT_MARGIN)
+        #lett_im_w = w + (2 * LETT_MARGIN)
+        #lett_im_h = h + (2 * LETT_MARGIN)
         
         #lett_im = cv2.copyMakeBorder(lett_im, 0, 0,
         #lett_im_w, lett_im_w, cv2.BORDER_WRAP)
@@ -131,22 +133,22 @@ def get_tag_from_image(image_path, face_models):
         
         #cv2.imshow('lett_im', lett_im)
         
-        bbox_area = w * h
-        lett_im_area = lett_im_w * lett_im_h
-        black_pels_nr = lett_im_area - cv2.countNonZero(lett_im)
+        #bbox_area = w * h
+        #lett_im_area = lett_im_w * lett_im_h
+        #black_pels_nr = lett_im_area - cv2.countNonZero(lett_im)
         
-        saturation = float(black_pels_nr) / float(bbox_area)
+        #saturation = float(black_pels_nr) / float(bbox_area)
         #print('saturation', saturation)
         
         pt1 = (bbox[0], bbox[1])
         pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
         
-        cv2.rectangle(rgb_im, pt1, pt2, (0,0,255))
+        cv2.rectangle(rgb_im, pt1, pt2, (255,0,0))
 
         #cv2.imshow('rgb_im', rgb_im)
         #cv2.waitKey(0) 
         
-        width_to_height_ratio = float(w) / float(h)
+        #width_to_height_ratio = float(w) / float(h)
         
         #if((saturation > I_MIN_SATURATION) and
         #(width_to_height_ratio < I_MAX_WIDTH_TO_HEIGHT_RATIO)):
@@ -222,7 +224,7 @@ def get_tag_from_image(image_path, face_models):
     idx_black_list = []
     #print(all_letters)
     lett_idx = 0
-    rgb_im_copy = rgb_im.copy() # TEST ONLY
+    #rgb_im_copy = rgb_im.copy() # TEST ONLY
     for lett in all_letters:
         if((lett_idx not in idx_black_list) and (len(lett) > 0)):
             
@@ -237,14 +239,14 @@ def get_tag_from_image(image_path, face_models):
             
             big_bbox = bbox
             
-            row = lett
+            row = [lett]
             row_bboxs = [bbox]
             
             contour_idx = ord_contour_idxs[lett_idx]
             row_contour_idxs = [contour_idx]
             
             #print('new idx')
-            rgb_im_copy = rgb_im.copy()
+            #rgb_im_copy = rgb_im.copy()
             
             pt1 = (bbox[0], bbox[1])
             pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
@@ -296,7 +298,7 @@ def get_tag_from_image(image_path, face_models):
                         if(not((x12 > big_x) and (y12 > big_y) 
                         and (x22 < big_x2) and (y22 < big_y2))):
                         
-                            row = row + lett2
+                            row.append(lett2)
                             
                             row_bboxs.append(bbox2)
                             
@@ -321,7 +323,35 @@ def get_tag_from_image(image_path, face_models):
         
     labels = fm.get_labels()
     
-    print('rows', rows)
+    #print('rows', rows)
+    
+    ######### CORNER DETECTION ##########
+
+    # Detect corners in image
+    dst = cv2.cornerHarris(gray_im,2,3,0.04)
+    dst_max = dst.max()
+
+    #result is dilated for marking the corners, not important
+    dst = cv2.dilate(dst,None)
+    
+    #####################################
+
+    # Threshold for an optimal value, it may vary depending on the image.
+    rgb_im[dst>CORNER_THRESHOLD*dst_max]=[0,0,255]
+    
+    corner_counter = 0 
+    
+    num_pels = im_height * im_width
+        
+    for i in range(0, im_height):
+        for j in range(0, im_width):
+                if(dst[i, i] > CORNER_THRESHOLD*dst_max):
+                    corner_counter = corner_counter + 1
+    print('corner_counter', corner_counter)
+    print('corner counter percentage: ', float(corner_counter) / num_pels)
+    
+    cv2.imshow('rgb', rgb_im)
+    cv2.waitKey(0)
     
     row_idx = 0
     words = []
@@ -329,40 +359,68 @@ def get_tag_from_image(image_path, face_models):
         
         bw_im[:,:] = 255
         
+        x1_min = im_width
+        y1_min = im_height
+        x2_max = 0
+        y2_max = 0
+        
         for i in range(0, len(row)):
     
             lett = row[i]
-            print('lett', lett)
+            #if((row_idx < len(rows_contour_idxs)) 
+            #and (i < len(rows_contour_idxs[row_idx]))):
             
             contour_idx = rows_contour_idxs[row_idx][i]
-        
+    
             cv2.drawContours(bw_im, contours, contour_idx, 
             0, -1, cv2.CV_AA, hierarchy, 1)
-        
+            
+            contour_bbox = rows_bboxs[row_idx][i]
+            
+            x1 = contour_bbox[0]
+            y1 = contour_bbox [1]
+            w = contour_bbox[2]
+            h = contour_bbox[3]
+            x2 = x1 + w
+            y2 = y1 + h
+            
+            if(x1 < x1_min):
+                x1_min = x1
+            if(y1 < y1_min):
+                y1_min = y1
+            if(x2 > x2_max):
+                x2_max = x2
+            if(y2 > y2_max):
+                y2_max = y2
+                
+        block_im = cv2.copyMakeBorder(bw_im[y1_min:y2_max, x1_min:x2_max], 
+        LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
+        cv2.BORDER_CONSTANT, value = 255)
+ 
         # Transform image
-        shape_1 = bw_im.shape[1]
-        shape_0 = bw_im.shape[0]
+        shape_1 = block_im.shape[1]
+        shape_0 = block_im.shape[0]
         depth = cv.IPL_DEPTH_8U
         bitmap = cv.CreateImageHeader((shape_1, shape_0), depth, 1)
-        cv.SetData(bitmap, bw_im.tostring(), 
-            bw_im.dtype.itemsize * 1 * shape_1)
+        cv.SetData(bitmap, block_im.tostring(), 
+            block_im.dtype.itemsize * 1 * shape_1)
     
-        api.SetPageSegMode(tesseract.PSM_AUTO)
+        api.SetPageSegMode(tesseract.PSM_SINGLE_BLOCK)
         tesseract.SetCvImage(bitmap,api)
         text = api.GetUTF8Text().rstrip()
         
-        print('TEXT',text)
+        #print('TEXT',text)
         if(len(text) > 0):
-			row_words = text.split()
-			for row_word in row_words:
-				words.append(row_word)
+            row_words = text.split()
+            for row_word in row_words:
+                words.append(row_word)
         
-        cv2.imshow('bw_im', bw_im)
-        cv2.waitKey(0)
+        #cv2.imshow('block', block_im)
+        #cv2.waitKey(0)
             
         row_idx = row_idx + 1
         
-    print('words', words)
+    #print('words', words)
     rows = words
     
     if(labels != -1):
@@ -426,7 +484,7 @@ def get_tag_from_image(image_path, face_models):
                 lett_pct = float(lett_counter) / label_parts_len
                 lett_pct_list.append(lett_pct)
                 
-            print "Tag = %s (%d equal letters out of %d)" % (label, lett_counter, label_parts_len) # TEST ONLY
+            #print "Tag = %s (%d equal letters out of %d)" % (label, lett_counter, label_parts_len) # TEST ONLY
         
         if(len(assigned_label) == 0):
             label_idxs = [i[0] for i in sorted(enumerate(lett_pct_list), 
@@ -438,9 +496,9 @@ def get_tag_from_image(image_path, face_models):
             
         print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_label, eq_letters_nr, tot_letter_nr) # TEST ONLY
     
-        cv2.imshow('rgb', rgb_im_copy)
+        #cv2.imshow('rgb', rgb_im_copy)
             
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
 
 ####    TEST ONLY      ####
 
@@ -448,7 +506,7 @@ use_all_images = True
 
 if (use_all_images):
    
-    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali'
+    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Frame senza testo'
     
     fm = FaceModelsLBP()
     
@@ -460,8 +518,10 @@ if (use_all_images):
         
 else:
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Caption detection\Baldaccini.bmp'
-    image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\BaldacciniDOcchiChiusi.jpg'
+    #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\BaldacciniDOcchiChiusi.jpg'
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video YouTube\Originali\Fisichella_Giancarlo.jpg'
+    #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\CabrasTest1.jpg'
+    image_path = r'C:\Users\Maurizio\Documents\Frame dai video di Videolina\1 fps\Fic.02\frame3052.jpg'
     fm = FaceModelsLBP()
     
     get_tag_from_image(image_path, fm)

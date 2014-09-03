@@ -7,12 +7,12 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
-DB_NAME=ACTIVE_ROOT_DIRECTORY+os.sep+'tools' + os.sep + 'Videolina'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Training_set_ordered'
+DB_NAME=ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_Fic02'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'\test\Test module\src\TestConfiguration.yml'
+TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 
 # Test configuration
 TEST_FILES_PATH_KEY = 'testSetPath';
@@ -182,7 +182,7 @@ CROPPED_FACE_HEIGHT = 200
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 USE_EYES_POSITION = True
-USE_FACE_DETECTION_IN_TRAINING = False
+USE_FACE_DETECTION_IN_TRAINING = True
 USE_MOUTH_POSITION = False
 
 # Face extraction from video
