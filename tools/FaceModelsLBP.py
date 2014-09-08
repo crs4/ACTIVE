@@ -8,8 +8,8 @@ from Constants import *
 from Utils import load_YAML_file, save_YAML_file
 import shutil
 
-USE_RESIZING = True;
-USE_EYE_DETECTION = True;
+USE_RESIZING = True #TEST ONLY SET True 
+USE_EYE_DETECTION = True #TEST ONLY SET True
 
 class FaceModelsLBP():
     '''
@@ -75,15 +75,15 @@ class FaceModelsLBP():
             return -1
             
     def get_labels(self):
-		'''
-		Get all labels as list of strings
-		'''
-		try:
-			if not self._labels == None:
-				return self._labels.values()
-			return - 1
-		except:
-			return -1
+        '''
+        Get all labels as list of strings
+        '''
+        try:
+            if not self._labels == None:
+                return self._labels.values()
+            return - 1
+        except:
+            return -1
 
     def get_people_nr(self):
         '''
@@ -219,6 +219,7 @@ class FaceModelsLBP():
                 print "creating model for", subdirname
                 subject_path = os.path.join(dirname, subdirname)
                 for filename in os.listdir(subject_path):
+                    #print "image path", os.path.join(subject_path, filename)
                     try:
                         if(USE_EYES_POSITION):
                             if(USE_EYE_DETECTION):
@@ -268,6 +269,9 @@ class FaceModelsLBP():
                                 X.appen(np.asarry(flipped_im, dtype=np.uint8))
                                 y.append(c)
                                 self._labels[c] = str(subdirname)
+                                
+                        else:
+                            print "Image", os.path.join(subject_path, filename), "not considered" 
                             
                     except IOError, (errno, strerror):
                         print "I/O error({0}): {1}".format(errno, strerror)
