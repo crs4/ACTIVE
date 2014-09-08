@@ -1,10 +1,10 @@
 import cv2
 import cv2.cv as cv
 import numpy as np
+import os
 import tesseract
 from Constants import LABEL_SEP
 from FaceModelsLBP import FaceModelsLBP
-from os import listdir
 
 LETT_MARGIN = 2
 
@@ -29,30 +29,43 @@ CORNER_THRESHOLD = 0.01
 
 USE_METHOD_2 = True
 
-def get_tag_from_image(image_path, face_models):
+CONTOURS_KEY = 'contours'
+
+HIERARCHY_KEY = 'hierarchy'
+
+ALL_LETTERS_KEY = 'all_letters'
+
+ORD_BBOXS_KEY = 'ord_bboxs'
+
+ORD_CONTOUR_IDXS_KEY = 'ord_contour_idxs'
+
+ASSIGNED_LABEL_KEY = 'assigned_label'
+        
+EQ_LETTERS_NR_KEY = 'eq_letters_nr'
+        
+TOT_LETTERS_NR_KEY = 'tot_letters_nr'
+
+def find_letters_in_image(gray_im, api, use_max_height, show_image):
     
-    # Tesseract init
-    api = tesseract.TessBaseAPI()
-    api.Init(".","eng",tesseract.OEM_DEFAULT)
-    api.SetVariable("tessedit_char_whitelist",
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-    api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
-    
-    rgb_im = cv2.imread(image_path) # TEST ONLY
-    
-    gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
+    result_dict = {}
     
     im_height, im_width = gray_im.shape
-    #print(im_height)
     
     # Convert grayscale image to black and white image
+    
     flags = cv2.THRESH_BINARY | cv2.THRESH_OTSU
     th, bw_im = cv2.threshold(gray_im, 128, 255, flags)
+    
+    #cv2.imshow('bw_im', bw_im)
+    #cv2.waitKey(0)
     
     # Find contours in image
     mode = cv2.RETR_TREE
     method = cv2.CHAIN_APPROX_SIMPLE
     contours, hierarchy = cv2.findContours(bw_im, mode, method)
+    
+    result_dict[CONTOURS_KEY] = contours
+    result_dict[HIERARCHY_KEY] = hierarchy
     
     # Order contours from left to right
     bbox_xs = []
@@ -92,12 +105,13 @@ def get_tag_from_image(image_path, face_models):
         if(h < MIN_CHAR_HEIGHT):
             #print('Bbox too short')
             continue
+ 
+        if(use_max_height):
+            if(h > (MAX_CHAR_HEIGHT_PCT * im_height)):
+                #print('BBox too high')
+                continue
             
-        #if(h > (MAX_CHAR_HEIGHT_PCT * im_height)):
-            #print('BBox too high')
-            continue
-            
-        if(h > (MAX_CHAR_WIDTH_PCT * im_width)):
+        if(w > (MAX_CHAR_WIDTH_PCT * im_width)):
             #print('BBox too wide')
             continue
             
@@ -108,6 +122,10 @@ def get_tag_from_image(image_path, face_models):
         
         cv2.drawContours(bw_im, contours, idx, 0, -1, cv2.CV_AA, 
         hierarchy, 1)
+        
+        if(show_image):
+            cv2.imshow('bw_im inside', bw_im)
+            cv2.waitKey(0)
         
         lett_im = cv2.copyMakeBorder(bw_im[y1:y2, x1:x2], 
         LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
@@ -140,10 +158,10 @@ def get_tag_from_image(image_path, face_models):
         #saturation = float(black_pels_nr) / float(bbox_area)
         #print('saturation', saturation)
         
-        pt1 = (bbox[0], bbox[1])
-        pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
+        #pt1 = (bbox[0], bbox[1])
+        #pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
         
-        cv2.rectangle(rgb_im, pt1, pt2, (255,0,0))
+        #cv2.rectangle(rgb_im, pt1, pt2, (255,0,0))
 
         #cv2.imshow('rgb_im', rgb_im)
         #cv2.waitKey(0) 
@@ -210,7 +228,40 @@ def get_tag_from_image(image_path, face_models):
         all_letters.append(text)
             
         useful_contour_counter = useful_contour_counter + 1
-        #print(all_letters_str)
+
+    result_dict[ALL_LETTERS_KEY] = all_letters
+    result_dict[ORD_BBOXS_KEY] = ord_bboxs
+    result_dict[ORD_CONTOUR_IDXS_KEY] = ord_contour_idxs
+    
+    return result_dict
+
+def get_tag_from_image(image_path, face_models):
+    
+    # Tesseract init
+    api = tesseract.TessBaseAPI()
+    api.Init(".","eng",tesseract.OEM_DEFAULT)
+    api.SetVariable("tessedit_char_whitelist",
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
+    
+    rgb_im = cv2.imread(image_path) # TEST ONLY
+    
+    gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
+    
+    #print(im_height)
+    
+    result_dict = find_letters_in_image(gray_im, api, True, False)
+    
+    contours = result_dict[CONTOURS_KEY]
+    
+    hierarchy = result_dict[HIERARCHY_KEY]
+    
+    all_letters = result_dict[ALL_LETTERS_KEY]
+    
+    ord_bboxs = result_dict[ORD_BBOXS_KEY]
+    ord_contour_idxs = result_dict[ORD_CONTOUR_IDXS_KEY]
+    
+    #print(all_letters_str)
         
     #cv2.imshow('rgb', rgb_im)
             
@@ -328,36 +379,38 @@ def get_tag_from_image(image_path, face_models):
     ######### CORNER DETECTION ##########
 
     # Detect corners in image
-    dst = cv2.cornerHarris(gray_im,2,3,0.04)
-    dst_max = dst.max()
+    #dst = cv2.cornerHarris(gray_im,2,3,0.04)
+    #dst_max = dst.max()
 
-    #result is dilated for marking the corners, not important
-    dst = cv2.dilate(dst,None)
+    ##result is dilated for marking the corners, not important
+    #dst = cv2.dilate(dst,None)
     
-    #####################################
+    ######################################
 
-    # Threshold for an optimal value, it may vary depending on the image.
-    rgb_im[dst>CORNER_THRESHOLD*dst_max]=[0,0,255]
+    ## Threshold for an optimal value, it may vary depending on the image.
+    #rgb_im[dst>CORNER_THRESHOLD*dst_max]=[0,0,255]
     
-    corner_counter = 0 
+    #corner_counter = 0 
     
-    num_pels = im_height * im_width
+    #num_pels = im_height * im_width
         
-    for i in range(0, im_height):
-        for j in range(0, im_width):
-                if(dst[i, i] > CORNER_THRESHOLD*dst_max):
-                    corner_counter = corner_counter + 1
-    print('corner_counter', corner_counter)
-    print('corner counter percentage: ', float(corner_counter) / num_pels)
+    #for i in range(0, im_height):
+        #for j in range(0, im_width):
+                #if(dst[i, i] > CORNER_THRESHOLD*dst_max):
+                    #corner_counter = corner_counter + 1
+    #print('corner_counter', corner_counter)
+    #print('corner counter percentage: ', float(corner_counter) / num_pels)
     
-    cv2.imshow('rgb', rgb_im)
-    cv2.waitKey(0)
+    #cv2.imshow('rgb', rgb_im)
+    #cv2.waitKey(0)
+    
+    im_height, im_width = gray_im.shape
     
     row_idx = 0
     words = []
     for row in rows:
         
-        bw_im[:,:] = 255
+        #bw_im[:,:] = 255
         
         x1_min = im_width
         y1_min = im_height
@@ -372,8 +425,8 @@ def get_tag_from_image(image_path, face_models):
             
             contour_idx = rows_contour_idxs[row_idx][i]
     
-            cv2.drawContours(bw_im, contours, contour_idx, 
-            0, -1, cv2.CV_AA, hierarchy, 1)
+            #cv2.drawContours(bw_im, contours, contour_idx, 
+            #0, -1, cv2.CV_AA, hierarchy, 1)
             
             contour_bbox = rows_bboxs[row_idx][i]
             
@@ -393,9 +446,92 @@ def get_tag_from_image(image_path, face_models):
             if(y2 > y2_max):
                 y2_max = y2
                 
-        block_im = cv2.copyMakeBorder(bw_im[y1_min:y2_max, x1_min:x2_max], 
+        #block_im = cv2.copyMakeBorder(bw_im[y1_min:y2_max, x1_min:x2_max], 
+        #LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
+        #cv2.BORDER_CONSTANT, value = 255)
+ 
+        # Convert block region in original image to black and white image
+        
+        block_im = cv2.copyMakeBorder(
+        gray_im[y1_min - LETT_MARGIN : y2_max + LETT_MARGIN, 
+        x1_min - LETT_MARGIN : x2_max + LETT_MARGIN], 
         LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
         cv2.BORDER_CONSTANT, value = 255)
+        
+        #cv2.imshow('block_im before', block_im)
+        #cv2.waitKey(0)
+        
+        block_result_dict = find_letters_in_image(block_im, api, False, False)
+        
+        block_contours = block_result_dict[CONTOURS_KEY]
+        
+        block_hierarchy = block_result_dict[HIERARCHY_KEY]
+    
+        block_all_letters = block_result_dict[ALL_LETTERS_KEY]
+    
+        block_ord_bboxs = block_result_dict[ORD_BBOXS_KEY]
+        
+        block_ord_contour_idxs = block_result_dict[ORD_CONTOUR_IDXS_KEY]
+        
+        flags = cv2.THRESH_BINARY | cv2.THRESH_OTSU
+        th, block_im = cv2.threshold(block_im, 128, 255, flags)
+        
+        block_im[:,:] = 255
+        
+        #print('block_all_letters', block_all_letters)
+        
+        #print('contours', block_contours)
+        
+        #print('contour idxs', block_ord_contour_idxs)
+        
+        is_first_lett = True
+        
+        big_bbox = None
+        
+        for i in range(0, len(block_all_letters)):
+    
+            lett = block_all_letters[i]
+            #if((row_idx < len(rows_contour_idxs)) 
+            #and (i < len(rows_contour_idxs[row_idx]))):
+            
+            if(len(lett) > 0):
+            
+                if(is_first_lett):
+                    big_bbox = block_ord_bboxs[i]
+                    is_first_lett = False
+            
+                else:
+                    
+                    big_x = big_bbox[0]
+                    big_y = big_bbox[1]
+                    big_w = big_bbox[2]
+                    big_h = big_bbox[3]
+                    big_x2 = big_x + big_w
+                    big_y2 = big_y + big_h
+                    
+                    bbox = block_ord_bboxs[i]
+                    x1 = bbox[0]
+                    y1 = bbox [1]
+                    w = bbox[2]
+                    h = bbox[3]
+                    x2 = x1 + w
+                    y2 = y1 + h
+                
+                    # Discard letter if it is inside previous letter
+
+                    if(not((x1 > big_x) and (y1 > big_y) 
+                    and (x2 < big_x2) and (y2 < big_y2))):
+            
+                        contour_idx = block_ord_contour_idxs[i]
+    
+                        cv2.drawContours(block_im, block_contours, 
+                        contour_idx, 0, -1, cv2.CV_AA, block_hierarchy, 1)
+                        
+                        big_bbox = bbox
+            
+    
+        #cv2.imshow('block_im', block_im)
+        #cv2.waitKey(0)
  
         # Transform image
         shape_1 = block_im.shape[1]
@@ -420,13 +556,13 @@ def get_tag_from_image(image_path, face_models):
             
         row_idx = row_idx + 1
         
-    #print('words', words)
+    print('words', words)
     rows = words
     
     if(labels != -1):
         assigned_label = ''
         eq_letters_nr = 0
-        tot_letter_nr = 0
+        tot_letters_nr = 0
         lett_counter_list = []
         label_parts_len_list =  []
         lett_pct_list = []
@@ -467,6 +603,9 @@ def get_tag_from_image(image_path, face_models):
                             complete_check_found = True
                     row_lett_counter_l.append(row_lett_counter)
                     
+                    if(complete_check_found):
+                        break # Do not consider other rows
+                    
                 # Add to total best row check
                 #print(row_lett_counter_l)
                 if(not(complete_check_found)):
@@ -476,7 +615,7 @@ def get_tag_from_image(image_path, face_models):
             if(lett_counter == label_parts_len):
                 assigned_label = label
                 eq_letters_nr = lett_counter
-                tot_letter_nr = lett_counter
+                tot_letters_nr = lett_counter
                 break
             else:
                 lett_counter_list.append(lett_counter)
@@ -492,13 +631,23 @@ def get_tag_from_image(image_path, face_models):
             assigned_label_idx = label_idxs[0]
             assigned_label = labels[assigned_label_idx]
             eq_letters_nr = lett_counter_list[assigned_label_idx]
-            tot_letter_nr = label_parts_len_list[assigned_label_idx]
+            tot_letters_nr = label_parts_len_list[assigned_label_idx]
             
-        print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_label, eq_letters_nr, tot_letter_nr) # TEST ONLY
+        print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_label, eq_letters_nr, tot_letters_nr) # TEST ONLY
     
-        #cv2.imshow('rgb', rgb_im_copy)
+        #cv2.imshow('rgb', rgb_im)
             
         #cv2.waitKey(0)
+        
+        result_dict = {}
+        
+        result_dict[ASSIGNED_LABEL_KEY] = assigned_label
+        
+        result_dict[EQ_LETTERS_NR_KEY] = eq_letters_nr
+        
+        result_dict[TOT_LETTERS_NR_KEY] = tot_letters_nr
+        
+        return result_dict
 
 ####    TEST ONLY      ####
 
@@ -506,22 +655,63 @@ use_all_images = True
 
 if (use_all_images):
    
-    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Frame senza testo'
+    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\MONITOR072011\Training_set_ordered\Luciano_Nicola'
+    
+    folder_list = folder.split('\\')
+    annotated_label = folder_list[len(folder_list) - 1]
+    
+    print 'annotated_label:', annotated_label
     
     fm = FaceModelsLBP()
     
-    for image in listdir(folder):
+    true_pos_nr = 0 
+    
+    min_eq_letters_true_pos = 1000
+    max_eq_letters_false_pos = -1
+    tot_letters_max_false_pos = 0
+    sum_eq_letters_true_pos = 0
+    
+    for image in os.listdir(folder):
         
         image_complete_path = folder + '\\' + image;
         
-        get_tag_from_image(image_complete_path, fm)
+        result_dict = get_tag_from_image(image_complete_path, fm)
+        assigned_label = result_dict[ASSIGNED_LABEL_KEY]
+        
+        eq_letters_nr = result_dict[EQ_LETTERS_NR_KEY]
+        
+        tot_letters_nr = result_dict[TOT_LETTERS_NR_KEY]
+        
+        if(assigned_label == annotated_label):
+            
+            true_pos_nr = true_pos_nr + 1
+            
+            sum_eq_letters_true_pos = sum_eq_letters_true_pos + eq_letters_nr
+            
+            if(eq_letters_nr < min_eq_letters_true_pos):
+                
+                min_eq_letters_true_pos = eq_letters_nr
+                
+        else:
+            
+            if(eq_letters_nr > max_eq_letters_false_pos):
+                
+                max_eq_letters_false_pos = eq_letters_nr
+                tot_letters_max_false_pos = tot_letters_nr
+            
+                
+    print 'true positives:', true_pos_nr
+    print 'mean number of equal letters in true positives:', float(sum_eq_letters_true_pos) / true_pos_nr
+    print 'min number of equal letters in true positives:', min_eq_letters_true_pos
+    print 'max number of equal letters in false positives:', max_eq_letters_false_pos
+    print 'tot number of letters in false positive with max number of equal letters:', tot_letters_max_false_pos
         
 else:
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Caption detection\Baldaccini.bmp'
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\BaldacciniDOcchiChiusi.jpg'
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video YouTube\Originali\Fisichella_Giancarlo.jpg'
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\CabrasTest1.jpg'
-    image_path = r'C:\Users\Maurizio\Documents\Frame dai video di Videolina\1 fps\Fic.02\frame3052.jpg'
+    image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\MONITOR072011\Test vari\frame2182.jpg'
     fm = FaceModelsLBP()
     
     get_tag_from_image(image_path, fm)

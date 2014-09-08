@@ -12,6 +12,40 @@ from tools.Utils import load_YAML_file, save_YAML_file
 
 SIM_TRACKING = False
 
+def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
+    stream = open(file_path, 'w');
+
+    # Write csv header
+    stream.write('Video number' + 
+                 'Timestamp' +
+                 'Annotated tag' + 
+                 'Predicted tag' +
+                 'Confidence' + '\n');
+                     
+    for experiment_dict in experiment_dict_list:
+		
+		video_counter = experiment_dict[VIDEO_COUNTER]
+        
+        ann_face_tag = experiment_dict[PERSON_ANNOTATED_TAG_KEY]
+        
+        frames = experiment_dict[FACE_EXTRACTION_FRAMES_KEY]
+		
+		for frame in frames:
+			
+			time_stamp = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+			
+			assigned_tag = frame[FACE_EXTRACTION_FACES_KEY]
+			
+			confidence = frame[PERSON_CONFIDENCE_KEY]
+			
+			steam.write(str(video_counter) + ',' +
+			            str(time_stamp) + ',' + 
+			            str(ann_face_tag) + ',' + 
+			            str(assigned_tag) + ',' +
+			            str(confidence) + '\n')
+                     
+    stream.close();
+
 def aggregate_frame_results_in_sim_tracking(frames, fm):
 
     assigned_frames_nr_dict = {}
@@ -208,6 +242,8 @@ def fr_video_experiments(params, show_results):
     delta_y_maxs = []
     delta_w_maxs = []
     
+    experiment_dict_list = []
+    
     for video in os.listdir(test_set_path):
         
         # Dictionary for YAML file with results
@@ -291,12 +327,6 @@ def fr_video_experiments(params, show_results):
                                 people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + frames_nr
                                 false_pos_confidence_list.append(final_confidence)
 
-                            else:
-
-                                if(assigned_tag != 'Undefined'):
-
-                                    people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1
-                                    false_pos_confidence_list.appende(confidence)
 
                     # Tot number of frames in segments cannot be more than number of frames in video
                     if(true_positives_in_segment > video_test_frames_nr):
@@ -328,13 +358,6 @@ def fr_video_experiments(params, show_results):
 
                             people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + len(frames)
                             false_pos_confidence_list.append(final_confidence)
-
-                        else:
-
-                            if(assigned_tag != 'Undefined'):
-
-                                people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1
-                                false_pos_confidence_list.appende(confidence)
 
                 else:
 
@@ -421,6 +444,8 @@ def fr_video_experiments(params, show_results):
                             
                             experiment_dict_frame[FACE_EXTRACTION_FACES_KEY] = "No face detected"
                             
+                        experiment_dict_frame[PERSON_CONFIDENCE_KEY] = confidence
+                            
                         experiment_dict_frames.append(experiment_dict_frame)
 
                         if(assigned_tag == ann_face_tag):
@@ -456,9 +481,17 @@ def fr_video_experiments(params, show_results):
 
         video_counter = video_counter + 1
         
+        experiment_dict[VIDEO_COUNTER] = video_counter
+        
+        experiment_dict[PERSON_ANNOTATED_TAG_KEY] = ann_face_tag
+        
         experiment_dict[FACE_EXTRACTION_FRAMES_KEY] = experiment_dict_frames
         
         save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
+        
+        experiment_dict_list.append(experiment_dict)
+        
+    save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
 
     # Calculate statistics for each person
     people_precision_list = [];

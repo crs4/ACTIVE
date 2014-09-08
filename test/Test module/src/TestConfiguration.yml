@@ -21,11 +21,11 @@ faceExtraction:
   trainingImagesNr: 9
 faceRecognition:
   datasetAlreadyDivided: true
-  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\data\Dataset AT&T
-  personImagesNr: 50
+  datasetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T
+  personImagesNr: 10
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Risultati
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Test_set
-  trainingImagesNr: 12
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_ordered
+  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face recognition\TestResults\Dateset AT&T
+  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TEST
+  trainingImagesNr: 9
+  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TRAINING

@@ -7,8 +7,8 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Training_set_ordered'
-DB_NAME=ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_Fic02'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TRAINING'
+DB_NAME=ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'ATT'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
@@ -34,7 +34,7 @@ FACE_Y_KEY = 'y'
 FACE_WIDTH_KEY = 'width'
 FACE_HEIGHT_KEY = 'height'
 
-# YAML result files
+# Result files
 GLOBAL_RESULTS_KEY = 'globalResults';
 IMAGES_KEY = 'images';
 PEOPLE_KEY = 'people';
@@ -43,6 +43,7 @@ PERSON_CHECK_KEY = 'personCheck';
 PERSON_ASSIGNED_LABEL_KEY = 'assignedPersonLabel'
 PERSON_ASSIGNED_TAG_KEY = 'assignedPersonTag';
 PERSON_ANNOTATED_TAG_KEY = 'annotatedPersonTag';
+VIDEO_COUNTER = 'videoCounter'
 
 # YAML file with frame annotations
 ANNOTATIONS_FRAMES_KEY = 'images';
@@ -155,10 +156,10 @@ EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 
 # Face recognition parameter
-FACE_RECOGNITION_RADIUS=1
-FACE_RECOGNITION_NEIGHBORS=8
-FACE_RECOGNITION_GRID_X=4
-FACE_RECOGNITION_GRID_Y=4
+FACE_RECOGNITION_RADIUS=2
+FACE_RECOGNITION_NEIGHBORS=12
+FACE_RECOGNITION_GRID_X=6
+FACE_RECOGNITION_GRID_Y=6
 FACES_WIDTH = 200;
 FACES_HEIGHT = 200;
 USE_HIST_EQ_IN_CROPPED_FACES = True
@@ -181,8 +182,8 @@ CROPPED_FACE_WIDTH = 200
 CROPPED_FACE_HEIGHT = 200
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
-USE_EYES_POSITION = True
-USE_FACE_DETECTION_IN_TRAINING = True
+USE_EYES_POSITION = True #TEST ONLY SET True
+USE_FACE_DETECTION_IN_TRAINING = True #TEST ONLY SET True
 USE_MOUTH_POSITION = False
 
 # Face extraction from video
