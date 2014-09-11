@@ -7,8 +7,8 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE\\"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TRAINING'
-DB_NAME=ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'ATT'
+DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_ordered'
+DB_NAME=ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YT'
 
 #Path of files
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
@@ -156,15 +156,16 @@ EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 
 # Face recognition parameter
-FACE_RECOGNITION_RADIUS=2
-FACE_RECOGNITION_NEIGHBORS=12
-FACE_RECOGNITION_GRID_X=6
-FACE_RECOGNITION_GRID_Y=6
-FACES_WIDTH = 200;
-FACES_HEIGHT = 200;
-USE_HIST_EQ_IN_CROPPED_FACES = True
+FACE_RECOGNITION_RADIUS=1
+FACE_RECOGNITION_NEIGHBORS=8
+FACE_RECOGNITION_GRID_X=7
+FACE_RECOGNITION_GRID_Y=7
+#FACES_WIDTH = 200;
+#FACES_HEIGHT = 200;
+USE_HIST_EQ_IN_CROPPED_FACES = False
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
+USE_TAN_AND_TRIGG_NORM = True
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_BLACK_PELS = False # If true, pixels in some regions in face images are put equals to zero
 LABEL_SEP = '_'
@@ -174,20 +175,20 @@ FACEMODEL_ALGORITHM="LBP"
 FACEMODEL_CONSTANT_ALGORITHM="LBP"
 
 # Face alignment
-TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.jpg'
-OFFSET_PCT_X = 0.2
-OFFSET_PCT_Y = 0.2
+TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
+OFFSET_PCT_X = 0.20 # Default 0.20
+OFFSET_PCT_Y = 0.29 # Default 0.20
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
-CROPPED_FACE_WIDTH = 200
-CROPPED_FACE_HEIGHT = 200
+CROPPED_FACE_WIDTH = 215 # Default 200
+CROPPED_FACE_HEIGHT = 245 # Default 200
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 USE_EYES_POSITION = True #TEST ONLY SET True
-USE_FACE_DETECTION_IN_TRAINING = True #TEST ONLY SET True
+USE_FACE_DETECTION_IN_TRAINING = False #TEST ONLY SET False
 USE_MOUTH_POSITION = False
 
 # Face extraction from video
-TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.jpg'
+TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 USE_TRACKING = False
 USE_MAJORITY_RULE = True # Assigne tag that whose assigned to the majority of frames
 USE_MIN_CONFIDENCE_RULE = True # Assigne tag that received the minimum value of confidence
