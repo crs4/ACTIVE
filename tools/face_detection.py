@@ -306,9 +306,9 @@ def get_detected_cropped_face(image_path, return_always_face):
            face_image = cv2.Canny(face_image, 0.1,100)
            
         if(USE_TAN_AND_TRIGG_NORM):
-			face_image = normalize_illumination(face_image)
+            face_image = normalize_illumination(face_image)
         
-       return face_images[0];
+        return face_images[0];
     else:
         return None;
 
@@ -359,7 +359,7 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
             face_image = cv2.Canny(face_image, 0.1,100)
            
         if(USE_TAN_AND_TRIGG_NORM):
-			face_image = normalize_illumination(face_image)
+            face_image = normalize_illumination(face_image)
 
         return face_image;
         
@@ -422,7 +422,7 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
            cropped_image = cv2.Canny(cropped_image, 0.1,100)
            
         if(USE_TAN_AND_TRIGG_NORM):
-			cropped_image = normalize_illumination(cropped_image)
+            cropped_image = normalize_illumination(cropped_image)
 
         return cropped_image;
         
@@ -499,7 +499,7 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, offse
            face_image = cv2.Canny(face_image, 0.1,100)
            
         if(USE_TAN_AND_TRIGG_NORM):
-			face_image = normalize_illumination(face_image)
+            face_image = normalize_illumination(face_image)
 
         return face_image;
 
