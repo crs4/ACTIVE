@@ -16,33 +16,41 @@ def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
     stream = open(file_path, 'w');
 
     # Write csv header
-    stream.write('Video number' + 
-                 'Timestamp' +
-                 'Annotated tag' + 
-                 'Predicted tag' +
+    stream.write('Video number,' + 
+                 'Timestamp,' +
+                 'Annotated tag,' + 
+                 'Predicted tag,' +
                  'Confidence' + '\n');
                      
     for experiment_dict in experiment_dict_list:
-		
-		video_counter = experiment_dict[VIDEO_COUNTER]
+        
+        video_counter = experiment_dict[VIDEO_COUNTER]
         
         ann_face_tag = experiment_dict[PERSON_ANNOTATED_TAG_KEY]
         
         frames = experiment_dict[FACE_EXTRACTION_FRAMES_KEY]
-		
-		for frame in frames:
-			
-			time_stamp = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
-			
-			assigned_tag = frame[FACE_EXTRACTION_FACES_KEY]
-			
-			confidence = frame[PERSON_CONFIDENCE_KEY]
-			
-			steam.write(str(video_counter) + ',' +
-			            str(time_stamp) + ',' + 
-			            str(ann_face_tag) + ',' + 
-			            str(assigned_tag) + ',' +
-			            str(confidence) + '\n')
+        
+        for frame in frames:
+            
+            time_stamp = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+            
+            assigned_tag = frame[FACE_EXTRACTION_TAG_KEY]
+            
+            confidence = frame[PERSON_CONFIDENCE_KEY]
+
+            if(confidence != -1):
+            
+                stream.write(str(video_counter) + ',' +
+                             str(time_stamp) + ',' + 
+                             str(ann_face_tag) + ',' + 
+                             str(assigned_tag) + ',' +
+                             str(confidence) + '\n')
+            else:
+                
+                stream.write(str(video_counter) + ',' +
+                             str(time_stamp) + ',' + 
+                             str(ann_face_tag) + ',' + 
+                             str(assigned_tag) + ',,\n')
                      
     stream.close();
 
@@ -439,10 +447,14 @@ def fr_video_experiments(params, show_results):
                             prev_bbox = bbox
                             
                             experiment_dict_frame[FACE_EXTRACTION_FACES_KEY] = experiment_dict_faces
+
+                            experiment_dict_frame[FACE_EXTRACTION_TAG_KEY] = assigned_tag
                             
                         else:
                             
                             experiment_dict_frame[FACE_EXTRACTION_FACES_KEY] = "No face detected"
+
+                            experiment_dict_frame[FACE_EXTRACTION_TAG_KEY] = "No face detected"
                             
                         experiment_dict_frame[PERSON_CONFIDENCE_KEY] = confidence
                             
@@ -490,8 +502,10 @@ def fr_video_experiments(params, show_results):
         save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
         
         experiment_dict_list.append(experiment_dict)
+
+    csv_file_path = results_path + "Risultati_Videolina.csv"
         
-    save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
+    save_experiment_results_in_CSV_file(csv_file_path, experiment_dict_list)
 
     # Calculate statistics for each person
     people_precision_list = [];
