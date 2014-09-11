@@ -1,8 +1,9 @@
 import cv2
-import sys
-import yaml
+import math
 import numpy
 import os
+import sys
+import yaml
 from Constants import *
 
 FACE_CLASSIFIER = 'haarcascade_frontalface_alt2.xml';
@@ -296,4 +297,74 @@ def aggregate_frame_results(frames, fm):
                         
     return [final_tag, final_confidence]
         
-
+def normalize_illumination(img):
+    
+    # Gamma correction
+    gamma = 0.2
+    
+    width, height = img.shape
+    
+    nr_pels = width * height
+    
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = round(math.pow(float(pel)/255, gamma) * 255)
+            img[col, row] = new_pel
+    
+    # Difference of Gaussians
+    sigma_1 = 1.0
+    dog1 = cv2.GaussianBlur(img, (0, 0), sigma_1)
+    sigma_2 = 2.0
+    dog2 = cv2.GaussianBlur(img, (0, 0), sigma_2)
+    
+    img = dog1 - dog2
+    
+    # Contrast equalization
+    
+    eq_img = cv2.equalizeHist(img)
+    
+    a = 0.1
+    
+    tau = 10.0
+    
+    img_mean = cv2.mean(img)[0]
+    
+    pel_sum = 0
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = math.pow(pel, a)
+            pel_sum = pel_sum + new_pel
+            
+    mean = float(pel_sum) / nr_pels
+    
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = pel / math.pow(mean, 1.0/a)
+            img[col, row] = new_pel
+            
+    pel_sum = 0
+    
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = math.pow(min(pel, tau), a)
+            pel_sum = pel_sum + new_pel
+            
+    mean = float(pel_sum) / nr_pels
+    
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = pel / math.pow(mean, 1.0/a)
+            img[col, row] = new_pel
+            
+    for row in range(0, height):
+        for col in range(0, width):
+            pel = img[col, row]
+            new_pel = 0.5 * math.tanh(pel / tau) + 0.5
+            img[col, row] = new_pel * 255
+    
+    return img

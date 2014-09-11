@@ -1,19 +1,9 @@
 import cv2
-
+import os
 from face_extractor import FaceExtractor
 from Constants import FACE_EXTRACTION_ERROR_KEY, FACE_EXTRACTION_FACES_KEY, FACE_EXTRACTION_TAG_KEY, FACE_EXTRACTION_BBOX_KEY
 
-if __name__ == "__main__":
-
-    import argparse
-
-    parser = argparse.ArgumentParser(description='Extract faces from given image')
-
-    parser.add_argument('image_path', metavar = 'image_path',
-                        help = 'image path');
-    args = parser.parse_args()
-    
-    image_path = args.image_path;
+def extract_faces(image_path):
 
     fe = FaceExtractor(None);
 
@@ -50,4 +40,27 @@ if __name__ == "__main__":
 
         cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
         cv2.imshow('Result', image);
-        cv2.waitKey(0);
+        cv2.waitKey(0); 
+
+subject_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Test_set_1fps\Alonso_Fernando'
+
+for training_im in os.listdir(subject_path):
+            
+    training_im_path = os.path.join(subject_path, training_im)
+
+    extract_faces(training_im_path)
+
+#if __name__ == "__main__":
+
+    #import argparse
+
+    #parser = argparse.ArgumentParser(description='Extract faces from given image')
+
+    #parser.add_argument('image_path', metavar = 'image_path',
+                        #help = 'image path');
+    #args = parser.parse_args()
+    
+    #image_path = args.image_path;
+    
+    #extract_faces(image_path)
+

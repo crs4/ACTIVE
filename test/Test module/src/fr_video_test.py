@@ -233,7 +233,7 @@ def fr_video_experiments(params, show_results):
         people_false_positives_dict[tag] = 0;
         people_test_frames_nr_dict[tag] = 0;
 
-    test_set_path = fr_test_params[TEST_SET_PATH_KEY] + '\\';
+    test_set_path = fr_test_params[TEST_SET_PATH_KEY] + os.sep;
 
     # Iterate over all videos
     video_counter = 0
