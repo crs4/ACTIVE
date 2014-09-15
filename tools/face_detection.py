@@ -2,7 +2,7 @@ import cv2
 import os
 import sys
 from Constants import *
-from Utils import detect_eyes_in_image, load_YAML_file
+from Utils import detect_eyes_in_image, load_YAML_file, normalize_illumination
 from PIL import Image
 from crop_face import CropFace
 

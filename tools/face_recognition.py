@@ -7,13 +7,13 @@ from collections import Counter
 from Constants import *
 from FaceModelsLBP import FaceModelsLBP
 
-USE_WEIGHTED_REGIONS = False
+USE_WEIGHTED_REGIONS = True
 
-USE_NBNN = True
+USE_NBNN = False
 
 CALCULATE_K_FROM_FEATURES = False
 
-USE_WEIGHTED_KNN = True
+USE_WEIGHTED_KNN = False
 
 # Weights for 7 x 7 grid
 

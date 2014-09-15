@@ -25,7 +25,7 @@ faceRecognition:
   personImagesNr: 10
   softwareTestFile: C:\Users\Maurizio\Documents\Progetto ACTIVE\\\test\Test files\Face
     recognition\SoftwareTestingFiles\Test.pgm
-  testResultsPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face recognition\TestResults\Dateset AT&T
-  testSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TEST
+  testResultsPath: C:\Active\Mercurial\data\YouTube\Risultati_weighted_LBP_2_12_7x7
+  testSetPath: C:\Active\Mercurial\data\YouTube\Test_set
   trainingImagesNr: 9
-  trainingSetPath: C:\Users\Maurizio\Documents\Progetto ACTIVE\data\datatest\Dataset AT&T TRAINING
+  trainingSetPath: 
