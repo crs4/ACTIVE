@@ -305,12 +305,6 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     result[PERSON_ASSIGNED_LABEL_KEY] = label;
     result[PERSON_ASSIGNED_TAG_KEY] = tag;
     result[PERSON_CONFIDENCE_KEY] = confidence;
-    
-    print('result', result)
-
-    if(show_results):
-        cv2.imshow(str(label), face);
-        cv2.waitKey(0); 
 
     return result;
 
