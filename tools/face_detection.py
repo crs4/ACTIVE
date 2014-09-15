@@ -392,6 +392,7 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         print('File does not exist');
         return ;
     try:
+        
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
 
         params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);

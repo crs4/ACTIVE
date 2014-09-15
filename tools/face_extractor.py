@@ -170,6 +170,9 @@ class FaceExtractor(object):
                     face = cv2.resize(face, new_size)
                 
                 rec_result = recognize_face(face, self.face_models, recognition_params, False)
+                
+                print('rec_result', rec_result)
+                
                 tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
                 confidence = rec_result[PERSON_CONFIDENCE_KEY]
                 face_dict[FACE_EXTRACTION_TAG_KEY] = tag

@@ -11,6 +11,18 @@ import shutil
 USE_RESIZING = True #TEST ONLY SET True 
 USE_EYE_DETECTION = True #TEST ONLY SET True
 
+def save_model_files(X, y):
+    
+    if(len(y) > 0): 
+        model=cv2.createLBPHFaceRecognizer(
+        FACE_RECOGNITION_RADIUS, 
+        FACE_RECOGNITION_NEIGHBORS, 
+        FACE_RECOGNITION_GRID_X, 
+        FACE_RECOGNITION_GRID_Y)
+        model.train(np.asarray(X), np.asarray(y))
+        model_file = DB_MODELS_PATH + os.sep + str(y[0])
+        model.save(model_file)
+
 class FaceModelsLBP():
     '''
     The persistent data structure containing the face models used by the 
@@ -35,12 +47,18 @@ class FaceModelsLBP():
         if(force_db_creation):
             self.create()
         else:
-            # Try to load db
-            ok = self.load(None)
-
+            ok = False
+            if(USE_ONE_FILE_FOR_FACE_MODELS):
+                # Try to load db
+                ok = self.load(None)
+   
+            else: 
+                
+                ok = self.load_labels(None)
+                
             # If loading was not successful, create it
             if(not(ok)):
-                self.create()  
+                self.create() 
             
     def add_faces(self, filenames_or_images, tag):
         '''
@@ -60,7 +78,7 @@ class FaceModelsLBP():
         if type(filenames_or_images) is str:
             print "string"
         
-    def  get_label(self, index):
+    def get_label(self, index):
         '''
         Get label string given numeric index
 
@@ -171,6 +189,59 @@ class FaceModelsLBP():
                 print('\n### DB LOADED ###\n')
 
         return ok;
+        
+    def load_labels(self, db_file_name):
+        '''
+        Load labels from a file.
+        
+        :type  file_name: string
+        :param file_name: the root name of the file containing the labels
+        '''
+        if db_file_name==None:
+            '''
+            Set the name of database.
+            Algorithm : 
+            LBP (Local Binary Pattern)
+            '''  
+            db_file_name = self._db_name
+
+        labels_file_name = self._db_name+"-Labels"
+        
+        ok = False;
+        
+        if(os.path.isfile(labels_file_name)):
+
+            self._labels = load_YAML_file(labels_file_name)
+            ok = True
+            print('\n### LABELS LOADED ###\n')
+    
+        return ok;  
+        
+    def load_model(self, db_file_name):
+        '''
+        Update the face models data structure for a single person on all workers from a file.
+        
+        :type  file_name: string
+        :param file_name: the name of the file containing the dump of the face models data structure
+        '''
+        
+        ok = False
+        
+        if db_file_name==None:
+            
+            print "No db file was provided"
+        
+        else:
+        
+            model=cv2.createLBPHFaceRecognizer()
+                    
+            if(os.path.isfile(db_file_name)):
+                model.load(db_file_name)
+                if(not(model == None)):
+                    self.model=model
+                    ok = True
+
+        return ok;    
     
     def create(self):
         print('\n### CREATING DB ####\n')
@@ -182,17 +253,33 @@ class FaceModelsLBP():
             sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
             
         [X,y] = self.__read_images(self._dbpath, sz)
+        
+        model = None
+        
+        if(len(self._labels) > 0):
             
-        model=cv2.createLBPHFaceRecognizer(FACE_RECOGNITION_RADIUS, FACE_RECOGNITION_NEIGHBORS, FACE_RECOGNITION_GRID_X, FACE_RECOGNITION_GRID_Y)
-        model.train(np.asarray(X), np.asarray(y))
-        model.save(self._db_name+"-LBP")
-        save_YAML_file(self._db_name+"-Labels",self._labels) # Save labels in YAML file
-        self.model=model
-
-        creation_time_in_clocks = cv2.getTickCount() - start_time;
-        creation_time_in_seconds = creation_time_in_clocks / cv2.getTickFrequency();
-
-        print('Creation time: ' + str(creation_time_in_seconds) + ' s\n');
+            if(USE_ONE_FILE_FOR_FACE_MODELS):
+            
+                model=cv2.createLBPHFaceRecognizer(
+                FACE_RECOGNITION_RADIUS, 
+                FACE_RECOGNITION_NEIGHBORS, 
+                FACE_RECOGNITION_GRID_X, 
+                FACE_RECOGNITION_GRID_Y)
+                model.train(np.asarray(X), np.asarray(y))
+                model.save(self._db_name+"-LBP")
+                self.model=model
+                    
+            # Save labels in YAML file
+            save_YAML_file(self._db_name+"-Labels",self._labels) 
+    
+            time_in_clocks = cv2.getTickCount() - start_time;
+            time_in_seconds = time_in_clocks / cv2.getTickFrequency();
+    
+            print('Creation time: ' + str(time_in_seconds) + ' s\n');
+         
+        else:
+            
+            print "No model was created"
         
         return model
     
@@ -218,6 +305,7 @@ class FaceModelsLBP():
             for subdirname in dirnames:
                 print "creating model for", subdirname
                 subject_path = os.path.join(dirname, subdirname)
+                #print "subject path:", subject_path
                 for filename in os.listdir(subject_path):
                     #print "image path", os.path.join(subject_path, filename)
                     try:
@@ -278,6 +366,12 @@ class FaceModelsLBP():
                     except:
                         print "Unexpected error:", sys.exc_info()[0]
                         raise
+                
+                if(not(USE_ONE_FILE_FOR_FACE_MODELS)):
+                    
+                    save_model_files(X,y)
+                    X,y = [], []
+                
                 c = c+1
         return [X,y]
 
