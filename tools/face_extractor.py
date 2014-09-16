@@ -171,7 +171,7 @@ class FaceExtractor(object):
                 
                 rec_result = recognize_face(face, self.face_models, recognition_params, False)
                 
-                print('rec_result', rec_result)
+                #print('rec_result', rec_result)
                 
                 tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
                 confidence = rec_result[PERSON_CONFIDENCE_KEY]
@@ -220,7 +220,10 @@ class FaceExtractor(object):
 
         capture = cv2.VideoCapture(resource)
 
+		# Counter for all frames in video
         frame_counter = 0
+        
+        anal_frame_counter = 0
 
         if capture is None or not capture.isOpened():
 

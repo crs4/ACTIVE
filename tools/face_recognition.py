@@ -3,13 +3,14 @@ import cv2
 import cv2.cv as cv
 import math
 import numpy as np
+import sys
 from collections import Counter
 from Constants import *
 from FaceModelsLBP import FaceModelsLBP
 
-USE_WEIGHTED_REGIONS = False
+USE_WEIGHTED_REGIONS = True
 
-USE_NBNN = True
+USE_NBNN = False
 
 CALCULATE_K_FROM_FEATURES = False
 
@@ -74,7 +75,7 @@ def calculate_w_reg_distance(query_hist, train_hist):
         
     return diff
 
-def calculate_NBNN_distance(
+def recognize_with_NBNN_distance(
 query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
     
     nr_regions = FACE_RECOGNITION_GRID_X * FACE_RECOGNITION_GRID_Y
@@ -84,29 +85,40 @@ query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
     reg_w = float(im_w) / FACE_RECOGNITION_GRID_X
     reg_h = float(im_h) / FACE_RECOGNITION_GRID_Y
     
-    for r in range(0, nr_regions):
+    # List with minimum differences for all query regions
+    diff_list = [] 
+    
+    for p in range(0, people_nr):
         
-        #print('len query hist', len(query_hist))
+        print 'p =', p
         
-        # Calculate region position for query image
-
-        reg_x_counter = r % FACE_RECOGNITION_GRID_X
-        
-        reg_y_counter = r / FACE_RECOGNITION_GRID_Y
-        
-        q_x = reg_x_counter * reg_w / im_w
-        
-        q_y = reg_y_counter * reg_h / im_h
-        
-        first_idx = r * len_reg_hist
-        
-        last_idx = (r + 1) * len_reg_hist
-        
-        query_reg_hist = query_hist[first_idx:last_idx]
-        
-        for p in range(0,people_nr):
+        min_diff_list = []
+    
+        for r in range(0, nr_regions):
             
+            #print('len query hist', len(query_hist))
+            
+            # Calculate region position for query image
+    
+            reg_x_counter = r % FACE_RECOGNITION_GRID_X
+            
+            reg_y_counter = r / FACE_RECOGNITION_GRID_Y
+            
+            q_x = reg_x_counter * reg_w / im_w
+            
+            q_y = reg_y_counter * reg_h / im_h
+            
+            first_idx = r * len_reg_hist
+            
+            last_idx = (r + 1) * len_reg_hist
+            
+            query_reg_hist = query_hist[first_idx:last_idx]
+            
+            #for p in range(0,people_nr):
+                
             # Consider all images of training subject p
+                
+            min_reg_diff = sys.maxint
 
             for t in range(0, len(train_labels)):
                 
@@ -141,11 +153,27 @@ query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
                         
                         reg_diff = hist_diff + pos_diff
                         
-                        print ('hist_diff', hist_diff)
-                        print ('pos_diff', pos_diff)
+                        #print ('hist_diff', hist_diff)
+                        #print ('pos_diff', pos_diff)
                         
-                        cv2.waitKey(0)
-
+                        if(reg_diff < min_reg_diff):
+                            
+                            min_reg_diff = reg_diff
+    
+            min_diff_list.append(min_reg_diff)
+        
+        diff = min(min_diff_list)
+        
+        diff_list.append(diff)
+        
+    idxs = [i[0] for i in sorted(enumerate(diff_list), key=lambda x:x[1])]
+    
+    label = idxs[0]
+    
+    confidence = diff_list[label]
+    
+    return [label, confidence]
+        
 def recognize_face_from_model_files(face, face_models, params, show_results):
     '''Recognize given face using the face recognition model
 
@@ -324,9 +352,7 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
 
-    cv2.imshow('face', face)
-
-    K = 1
+    K = 10
 
     fm = face_models;
     if(face_models == None):
@@ -355,95 +381,103 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     
     query_hist = query_histograms[0][0]
     
-    diff_list = []
-    
-    for i in range(0,len(train_histograms)):
+    if(USE_NBNN):
         
-        train_hist = train_histograms[i][0]
-        
-        diff = 0
-        
-        if(USE_WEIGHTED_REGIONS):
-            
-            diff = calculate_w_reg_distance(query_hist, train_hist)
-                            
-        elif(USE_NBNN):
-            
-            people_nr = fm.get_people_nr()
-            
-            diff = calculate_NBNN_distance(
-            query_hist, train_histograms, train_labels, w, h, people_nr)
-        
-        else:
-    
-            diff = cv2.compareHist(
-            query_hist, train_hist, cv.CV_COMP_CHISQR)  
-            
-        diff_list.append(diff)  
-        
-    # Get K nearest histograms
-    
-    idxs = [i[0] for i in sorted(enumerate(diff_list), key=lambda x:x[1])]
-    
-    if(CALCULATE_K_FROM_FEATURES):
-        
-        nr_features = 2**FACE_RECOGNITION_NEIGHBORS * FACE_RECOGNITION_GRID_X * FACE_RECOGNITION_GRID_Y
-        
-        K = int(round(math.sqrt(nr_features)))
-    
-    if(K == 1):
-        
-        idx = idxs[0]
-        
-        confidence = diff_list[idx]
-        
-        label = train_labels[idx][0]
+        people_nr = fm.get_people_nr()
+                
+        [label, confidence] = recognize_with_NBNN_distance(
+        query_hist, train_histograms, train_labels, w, h, people_nr)
         
     else:
         
-        nearest_labels_list = []
-        
-        # K cannot be greater than number of training items
-        if(K > len(idxs)):
+        diff_list = []
+    
+        for i in range(0,len(train_histograms)):
             
-            K = len(idxs)
-        
-        for i in range(0, K):
+            train_hist = train_histograms[i][0]
             
-            idx = idxs[i]
+            diff = 0
             
-            diff = diff_list[idx]
-            
-            weight = 0
-            
-            if(diff < 1):
+            if(USE_WEIGHTED_REGIONS):
                 
-                weight = 100
-                
-            elif(diff > 100):
-                
-                weight = 1
-                
+                diff = calculate_w_reg_distance(query_hist, train_hist)
+                                
             else:
+        
+                diff = cv2.compareHist(
+                query_hist, train_hist, cv.CV_COMP_CHISQR)  
                 
-                weight = int(round(100 / diff))
+            diff_list.append(diff)  
+            
+        # Get K nearest histograms
+        
+        idxs = [i[0] for i in sorted(enumerate(diff_list), key=lambda x:x[1])]
+        
+        if(CALCULATE_K_FROM_FEATURES):
+            
+            nr_features = 2**FACE_RECOGNITION_NEIGHBORS * FACE_RECOGNITION_GRID_X * FACE_RECOGNITION_GRID_Y
+            
+            K = int(round(math.sqrt(nr_features)))
+        
+        if(K == 1):
+            
+            idx = idxs[0]
+            
+            confidence = diff_list[idx]
             
             label = train_labels[idx][0]
             
-            for t in range(0, weight):
+        else:
             
-                nearest_labels_list.append(label)
+            nearest_labels_list = []
             
-            #print 'tag = %s diff =%.2f' % (tag, diff)
+            # K cannot be greater than number of training items
+            if(K > len(idxs)):
+                
+                K = len(idxs)
             
-        # Find most common label in K nearest ones
-        data = Counter(nearest_labels_list)
-        
-        label = data.most_common(1)[0][0]
-        
-        counter = data.most_common(1)[0][1]
-        
-        confidence = counter
+            for i in range(0, K):
+                
+                idx = idxs[i]
+                
+                diff = diff_list[idx]
+                
+                label = train_labels[idx][0]
+                
+                if(USE_WEIGHTED_KNN):
+                
+                    weight = 0
+                    
+                    if(diff < 1):
+                        
+                        weight = 100
+                        
+                    elif(diff > 100):
+                        
+                        weight = 1
+                        
+                    else:
+                        
+                        weight = int(round(100 / diff))
+                    
+                    for t in range(0, weight):
+                    
+                        nearest_labels_list.append(label)
+                        
+                else:
+                    
+                    nearest_labels_list.append(label)
+                    
+                #print 'tag = %s diff =%.2f' % (tag, diff)
+                
+            # Find most common label in K nearest ones
+            data = Counter(nearest_labels_list)
+            
+            label = data.most_common(1)[0][0]
+            
+            counter = data.most_common(1)[0][1]
+            
+            confidence = counter
         
     tag = fm.get_label(label);
     
