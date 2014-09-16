@@ -1,13 +1,14 @@
 import os
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE"
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\\'
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE"
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\\'
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
 #DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"data"+os.sep+'datatest'+os.sep+"Dataset AT&T TRAINING"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set Aligned"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "Dataset Videolina 3" + os.sep + "Training Set"
 #DB_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + "data" + os.sep + "datatest" + os.sep + "Dataset AT&T TRAINING Ridotto"
-DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_test'
+#DB_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Training_set_test'
+DB_PATH = R'C:\Active\Mercurial\data\YouTube\Training set'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YT'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 
@@ -163,10 +164,10 @@ FACE_RECOGNITION_GRID_X=7
 FACE_RECOGNITION_GRID_Y=7
 #FACES_WIDTH = 200;
 #FACES_HEIGHT = 200;
-USE_HIST_EQ_IN_CROPPED_FACES = True
+USE_HIST_EQ_IN_CROPPED_FACES = False
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
-USE_TAN_AND_TRIGG_NORM = False
+USE_TAN_AND_TRIGG_NORM = True
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_BLACK_PELS = False # If true, pixels in some regions in face images are put equals to zero
 LABEL_SEP = '_'
@@ -201,5 +202,7 @@ MAX_DELTA_PCT_W = 0.1
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 # Maximum number of frames with missed detection that does not interrupt tracking
 USE_SLIDING_WINDOW = False
 SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
+USE_ORIGINAL_FPS = True
+USED_FPS = 1.0 # Bitrate at which video is analyzed
 
 
