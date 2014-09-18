@@ -481,15 +481,15 @@ def fr_video_experiments(params, show_results):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-        if(not(USE_TRACKING) and not(SIM_TRACKING)):
-
-            video_max_x = max(video_delta_xs)
-            video_max_y = max(video_delta_ys)
-            video_max_w = max(video_delta_ws)
-
-            delta_x_maxs.append(video_max_x)
-            delta_y_maxs.append(video_max_y)
-            delta_w_maxs.append(video_max_w)
+##        if(not(USE_TRACKING) and not(SIM_TRACKING)):
+##
+##            video_max_x = max(video_delta_xs)
+##            video_max_y = max(video_delta_ys)
+##            video_max_w = max(video_delta_ws)
+##
+##            delta_x_maxs.append(video_max_x)
+##            delta_y_maxs.append(video_max_y)
+##            delta_w_maxs.append(video_max_w)
 
         video_counter = video_counter + 1
         

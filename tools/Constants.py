@@ -158,16 +158,16 @@ EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 
 # Face recognition parameter
-FACE_RECOGNITION_RADIUS=1
-FACE_RECOGNITION_NEIGHBORS=8
+FACE_RECOGNITION_RADIUS=2
+FACE_RECOGNITION_NEIGHBORS=12
 FACE_RECOGNITION_GRID_X=7
 FACE_RECOGNITION_GRID_Y=7
 #FACES_WIDTH = 200;
 #FACES_HEIGHT = 200;
-USE_HIST_EQ_IN_CROPPED_FACES = False
+USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_NORM_IN_CROPPED_FACES = False
 USE_CANNY_IN_CROPPED_FACES = False
-USE_TAN_AND_TRIGG_NORM = True
+USE_TAN_AND_TRIGG_NORM = False
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_BLACK_PELS = False # If true, pixels in some regions in face images are put equals to zero
 LABEL_SEP = '_'
@@ -175,7 +175,7 @@ LABEL_SEP = '_'
 # Face Model parameter
 FACEMODEL_ALGORITHM="LBP"
 FACEMODEL_CONSTANT_ALGORITHM="LBP"
-USE_ONE_FILE_FOR_FACE_MODELS = True
+USE_ONE_FILE_FOR_FACE_MODELS = False
 
 # Face alignment
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
@@ -202,7 +202,7 @@ MAX_DELTA_PCT_W = 0.1
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 # Maximum number of frames with missed detection that does not interrupt tracking
 USE_SLIDING_WINDOW = False
 SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
-USE_ORIGINAL_FPS = True
+USE_ORIGINAL_FPS = False
 USED_FPS = 1.0 # Bitrate at which video is analyzed
 
 

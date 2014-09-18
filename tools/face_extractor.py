@@ -171,8 +171,6 @@ class FaceExtractor(object):
                 
                 rec_result = recognize_face(face, self.face_models, recognition_params, False)
                 
-                print('rec_result', rec_result)
-                
                 tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
                 confidence = rec_result[PERSON_CONFIDENCE_KEY]
                 face_dict[FACE_EXTRACTION_TAG_KEY] = tag
@@ -251,12 +249,14 @@ class FaceExtractor(object):
                     break;
                     
                 # Next frame to be analyzed
-                next_frame = anal_frame_counter + (video_fps/USED_FPS)
+                next_frame = last_anal_frame + (video_fps/USED_FPS)
                 if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
 
                     elapsed_video_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
     
                     elapsed_video_s = elapsed_video_ms / 1000 # Frame position in video in seconds
+                    
+                    print "elapsed video s =", elapsed_video_s
                     
                     #video_position = capture.get(cv2.cv.CV_CAP_PROP_POS_AVI_RATIO) # This doesn't work!
     
