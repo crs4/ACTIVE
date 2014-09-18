@@ -343,8 +343,8 @@ class FaceModelsLBP():
                                         if(((im_x < 50) and (im_y >= 50) and (im_y < 150)) or ((im_x >= 150) and (im_y >= 50) and (im_y < 150))):
                                             im[im_x,im_y] = 0
                                             
-                                cv2.imshow(im, "face")
-                                cv2.waitKey(0)
+                                #cv2.imshow(im, "face")
+                                #cv2.waitKey(0)
                                                             
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
