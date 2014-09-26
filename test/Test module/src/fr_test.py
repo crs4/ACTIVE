@@ -55,46 +55,56 @@ def fr_test(params, show_results):
     if(params == None):
         # Load configuration file
         params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
+    
+    image_path = SOFTWARE_TEST_FILE_PATH
+    
+    if params is not None:
 
-    fr_test_params = params[FACE_RECOGNITION_KEY];
-
-    image_path = fr_test_params[SOFTWARE_TEST_FILE_KEY];
+        fr_test_params = params[FACE_RECOGNITION_KEY];
+        image_path = fr_test_params[SOFTWARE_TEST_FILE_KEY];
     
     test_passed = True;
+    
+    if os.path.isfile(image_path):
 
-    try:
-        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
-
-        # Load face recognition parameters
-
-        face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
-        fr_params = face_extractor_params[FACE_DETECTION_KEY];
-
-        recognition_results = recognize_face(image, None, fr_params, show_results);
-
-        error = recognition_results[FACE_RECOGNITION_ERROR_KEY];
-
-        if(len(error) == 0):
-
-            label = recognition_results[PERSON_LABEL_KEY];
-
-            confidence = recognition_results[PERSON_CONFIDENCE_KEY];
-
-            # TO DO: CHECK THAT LABEL IS A NOT EMPTY STRING
-
-            if(confidence < 0):
-                test_passed = False
-        else:
-
+        try:
+            image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
+    
+            # Load face recognition parameters
+    
+            face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
+            fr_params = face_extractor_params[FACE_DETECTION_KEY];
+    
+            recognition_results = recognize_face(image, None, fr_params, show_results);
+    
+            error = recognition_results[FACE_RECOGNITION_ERROR_KEY];
+    
+            if(len(error) == 0):
+    
+                label = recognition_results[PERSON_LABEL_KEY];
+    
+                confidence = recognition_results[PERSON_CONFIDENCE_KEY];
+    
+                # TO DO: CHECK THAT LABEL IS A NOT EMPTY STRING
+    
+                if(confidence < 0):
+                    test_passed = False
+            else:
+    
+                test_passed = False;
+    
+        except IOError, (errno, strerror):
+            print "I/O error({0}): {1}".format(errno, strerror);
             test_passed = False;
-
-    except IOError, (errno, strerror):
-        print "I/O error({0}): {1}".format(errno, strerror);
-        test_passed = False;
-    except:
-        print "Unexpected error:", sys.exc_info()[0];
-        test_passed = False;
-        raise;
+        except:
+            print "Unexpected error:", sys.exc_info()[0];
+            test_passed = False;
+            raise;
+            
+    else:
+        
+        print "Software test file does not exist"
+        test_passed = False         
         
     return test_passed;            
 

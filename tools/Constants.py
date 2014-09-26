@@ -10,11 +10,15 @@ CLASSIFIERS_FOLDER_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Tes
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YT'
 DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
+FACE_DETECTION_RESULTS_PATH = r''
+FACE_DETECTION_TEST_SET_PATH = r''
+FACE_RECOGNITION_RESULTS_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Risultati'
+FACE_RECOGNITION_TEST_SET_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-RESULTS_PATH = 'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Risultati'
-SOFTWARE_TEST_FILE_PATH = ''
+
+SOFTWARE_TEST_FILE_KEY = 'software_test_file'
+SOFTWARE_TEST_FILE_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\test.jpg'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
-TEST_SET_PATH = 'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Test_set'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -30,6 +34,7 @@ ANN_TAG_KEY = 'ann_tag'
 ASSIGNED_LABEL_KEY = 'assigned_label'
 ASSIGNED_TAG_KEY = 'assigned_tag'
 BBOX_KEY = 'bbox'
+DETECTED_FACES_NR_KEY = 'detected_faces_nr'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
 ERROR_KEY = 'error'
@@ -117,6 +122,7 @@ EXPERIMENT_KEY = 'experiment';
 EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
+EXPERIMENT_RESULTS_FILE_NAME = ''
 
 # Face recognition parameters
 ALFA = 1

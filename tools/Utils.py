@@ -16,9 +16,11 @@ def load_YAML_file(file_path):
         A dictionary with the contents of the file
     """
     try:
+        
         with open(file_path, 'r') as stream:
-            data = yaml.load(stream);
-            return data;
+            data = yaml.load(stream)
+            return data
+           
     except:
         
         return None
@@ -34,8 +36,15 @@ def load_image_annotations(file_path):
     """
     data = load_YAML_file(file_path);
     
-    images = data[ANNOTATIONS_FRAMES_KEY];
-    return images;
+    if(data):
+        
+        images = data[ANNOTATIONS_FRAMES_KEY]
+        return images
+        
+    else:
+        
+        print 'Unable to open', file_path
+        return None
 
 def save_YAML_file(file_path, dictionary):
     """Save YAML file.

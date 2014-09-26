@@ -212,9 +212,9 @@ def fr_video_experiments(params, show_results):
         params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
     
     # Folder with results
-    results_path = RESULTS_PATH + os.sep
+    results_path = FACE_RECOGNITION_RESULTS_PATH + os.sep
     # Folder with test files
-    test_set_path = TEST_SET_PATH + os.sep
+    test_set_path = FACE_RECOGNITION_TEST_SET_PATH + os.sep
     if params is not None:
         fr_test_params = params[FACE_RECOGNITION_KEY];
         results_path = fr_test_params[RESULTS_PATH_KEY] + '\\'; 
