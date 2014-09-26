@@ -3,25 +3,11 @@ import cv2
 import os
 import sys
 import numpy as np
-from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos, get_detected_cropped_face
-from Constants import *
-from Utils import load_YAML_file, save_YAML_file
 import shutil
-
-USE_RESIZING = True #TEST ONLY SET True 
-USE_EYE_DETECTION = True #TEST ONLY SET True
-
-def save_model_files(X, y):
-    
-    if(len(y) > 0): 
-        model=cv2.createLBPHFaceRecognizer(
-        FACE_RECOGNITION_RADIUS, 
-        FACE_RECOGNITION_NEIGHBORS, 
-        FACE_RECOGNITION_GRID_X, 
-        FACE_RECOGNITION_GRID_Y)
-        model.train(np.asarray(X), np.asarray(y))
-        model_file = DB_MODELS_PATH + os.sep + str(y[0])
-        model.save(model_file)
+from Constants import *
+from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos, get_detected_cropped_face
+from train_by_captions import train_by_captions
+from Utils import load_YAML_file, save_model_file, save_YAML_file
 
 class FaceModelsLBP():
     '''
@@ -29,7 +15,7 @@ class FaceModelsLBP():
     face recognition algorithm and replicated on each worker.
     This class ensures that the face models are replicated and updated on each worker.
     '''
-    def __init__(self, force_db_creation = False, workers=None):
+    def __init__(self, force_db_creation = False, video_path = None, workers=None):
         '''
         Initialize the face models on all workers.
 
@@ -39,13 +25,28 @@ class FaceModelsLBP():
         :type  workers: list of strings
         :param workers: the address (IP and port) of workers.
         '''
-        self._labels={}
-        self.model=None
-        self._dbpath=DB_PATH
-        self._db_name=DB_NAME
+        self._tags={}
+        self._model=None
+
+        if(USE_CAPTIONS):
+            
+            if(video_path):
+                
+                self._dbpath = video_path
+                
+                file_name, file_ext = os.path.splitext(video_path)
+                
+                self._db_name = file_name + '-DB'
+                
+            else:
+                
+                print 'No video path was provided'
+        else:       
+            self._dbpath=DB_PATH
+            self._db_name=DB_NAME
 
         if(force_db_creation):
-            self.create()
+            self.create(video_path)
         else:
             ok = False
             if(USE_ONE_FILE_FOR_FACE_MODELS):
@@ -54,11 +55,11 @@ class FaceModelsLBP():
    
             else: 
                 
-                ok = self.load_labels(None)
+                ok = self.load_tags(None)
                 
             # If loading was not successful, create it
             if(not(ok)):
-                self.create() 
+                self.create(video_path) 
             
     def add_faces(self, filenames_or_images, tag):
         '''
@@ -78,27 +79,27 @@ class FaceModelsLBP():
         if type(filenames_or_images) is str:
             print "string"
         
-    def get_label(self, index):
+    def get_tag(self, index):
         '''
-        Get label string given numeric index
+        Get tag string given numeric index
 
         :type index: int
-        :param index: index of label
+        :param index: index of tag
         '''
         try:
-            if not self._labels==None:
-                return self._labels[index]
+            if not self._tags==None:
+                return self._tags[index]
             return -1
         except:
             return -1
             
-    def get_labels(self):
+    def get_tags(self):
         '''
-        Get all labels as list of strings
+        Get all tags as list of strings
         '''
         try:
-            if not self._labels == None:
-                return self._labels.values()
+            if not self._tags == None:
+                return self._tags.values()
             return - 1
         except:
             return -1
@@ -108,8 +109,8 @@ class FaceModelsLBP():
         Get number of people in face model
         '''
         try:
-            if not self._labels==None:
-                return len(self._labels)
+            if not self._tags==None:
+                return len(self._tags)
             return -1
         except:
             return -1
@@ -175,27 +176,27 @@ class FaceModelsLBP():
             '''  
             db_file_name=self._db_name+"-LBP"
 
-        labels_file_name = self._db_name+"-Labels"
+        tags_file_name = db_file_name + "-Tags"
         
         model=cv2.createLBPHFaceRecognizer()
         ok = False;
         
-        if(os.path.isfile(db_file_name) and (os.path.isfile(labels_file_name))):
+        if(os.path.isfile(db_file_name) and (os.path.isfile(tags_file_name))):
             model.load(db_file_name)
             if(not(model == None)):
-                self.model=model
-                self._labels = load_YAML_file(labels_file_name)
+                self._model=model
+                self._tags = load_YAML_file(tags_file_name)
                 ok = True
                 print('\n### DB LOADED ###\n')
 
         return ok;
         
-    def load_labels(self, db_file_name):
+    def load_tags(self, db_file_name):
         '''
-        Load labels from a file.
+        Load tags from a file.
         
         :type  file_name: string
-        :param file_name: the root name of the file containing the labels
+        :param file_name: the root name of the file containing the tags
         '''
         if db_file_name==None:
             '''
@@ -205,15 +206,15 @@ class FaceModelsLBP():
             '''  
             db_file_name = self._db_name
 
-        labels_file_name = self._db_name+"-Labels"
+        tags_file_name = self._db_name+"-Tags"
         
         ok = False;
         
-        if(os.path.isfile(labels_file_name)):
+        if(os.path.isfile(tags_file_name)):
 
-            self._labels = load_YAML_file(labels_file_name)
+            self._tags = load_YAML_file(tags_file_name)
             ok = True
-            print('\n### LABELS LOADED ###\n')
+            print('\n### TAGS LOADED ###\n')
     
         return ok;  
         
@@ -238,48 +239,62 @@ class FaceModelsLBP():
             if(os.path.isfile(db_file_name)):
                 model.load(db_file_name)
                 if(not(model == None)):
-                    self.model=model
+                    self._model=model
                     ok = True
 
         return ok;    
     
-    def create(self):
+    def create(self, video_path = None, db_file_name = None):
         print('\n### CREATING DB ####\n')
         #print "CREATE self._dbpath", self._dbpath
 
-        start_time = cv2.getTickCount();
-        sz = None;
-        if(USE_RESIZING):
-            sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
-            
-        [X,y] = self.__read_images(self._dbpath, sz)
-        
         model = None
-        
-        if(len(self._labels) > 0):
+
+        if(USE_CAPTIONS):
             
-            if(USE_ONE_FILE_FOR_FACE_MODELS):
+            db_file_name=self._db_name+"-LBP"
+            [model, tags] = train_by_captions(video_path, db_file_name)
+            self._model = model
+            self._tags = tags
             
-                model=cv2.createLBPHFaceRecognizer(
-                FACE_RECOGNITION_RADIUS, 
-                FACE_RECOGNITION_NEIGHBORS, 
-                FACE_RECOGNITION_GRID_X, 
-                FACE_RECOGNITION_GRID_Y)
-                model.train(np.asarray(X), np.asarray(y))
-                model.save(self._db_name+"-LBP")
-                self.model=model
-                    
-            # Save labels in YAML file
-            save_YAML_file(self._db_name+"-Labels",self._labels) 
-    
-            time_in_clocks = cv2.getTickCount() - start_time;
-            time_in_seconds = time_in_clocks / cv2.getTickFrequency();
-    
-            print('Creation time: ' + str(time_in_seconds) + ' s\n');
-         
         else:
+
+            start_time = cv2.getTickCount();
             
-            print "No model was created"
+            if(db_file_name == None):
+                
+                db_file_name=self._db_name+"-LBP"
+                
+            sz = None;
+            if(USE_RESIZING):
+                sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+                
+            [X,y] = self.__read_images(self._dbpath, sz)
+            
+            if(len(self._tags) > 0):
+                
+                if(USE_ONE_FILE_FOR_FACE_MODELS):
+                
+                    model=cv2.createLBPHFaceRecognizer(
+                    FACE_RECOGNITION_RADIUS, 
+                    FACE_RECOGNITION_NEIGHBORS, 
+                    FACE_RECOGNITION_GRID_X, 
+                    FACE_RECOGNITION_GRID_Y)
+                    model.train(np.asarray(X), np.asarray(y))
+                    model.save(db_file_name)
+                    self._model=model
+                        
+                # Save tags in YAML file
+                save_YAML_file(db_file_name + "-Tags",self._tags) 
+        
+                time_in_clocks = cv2.getTickCount() - start_time;
+                time_in_seconds = time_in_clocks / cv2.getTickFrequency();
+        
+                print('Creation time: ' + str(time_in_seconds) + ' s\n');
+             
+            else:
+                
+                print "No model was created"
         
         return model
     
@@ -348,7 +363,7 @@ class FaceModelsLBP():
                                                             
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
-                            self._labels[c]=str(subdirname)
+                            self._tags[c]=str(subdirname)
                             
                             if(USE_MIRRORED_FACES_IN_TRAINING):
                                 c = c + 1
@@ -356,7 +371,7 @@ class FaceModelsLBP():
                                 mirrored_im = cv2.flip(im,1);
                                 X.appen(np.asarry(flipped_im, dtype=np.uint8))
                                 y.append(c)
-                                self._labels[c] = str(subdirname)
+                                self._tags[c] = str(subdirname)
                                 
                         else:
                             print "Image", os.path.join(subject_path, filename), "not considered" 
@@ -369,7 +384,7 @@ class FaceModelsLBP():
                 
                 if(not(USE_ONE_FILE_FOR_FACE_MODELS)):
                     
-                    save_model_files(X,y)
+                    save_model_file(X,y)
                     X,y = [], []
                 
                 c = c+1

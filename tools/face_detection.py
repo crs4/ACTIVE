@@ -15,10 +15,6 @@ HAARCASCADE_PROFILEFACE_CLASSIFIER = 'haarcascade_profileface.xml';
 LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml';
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml';
 
-# Eye detector
-#HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_eye.xml';
-HAARCASCADE_EYE_CLASSIFIER = 'haarcascade_mcs_lefteye.xml';
-
 def detect_faces_in_image(resource_path, params, show_results, return_always_faces = False):
     '''
     Detect faces in image
@@ -58,10 +54,14 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         use_one_classifier_file = True;
 
         # Algorithm to be used for the face detection
-        algorithm = params[ALGORITHM_KEY];
+        algorithm = FACE_DETECTION_ALGORITHM
+        if(params is not None): 
+            algorithm = params[ALGORITHM_KEY];
 
         # Path of directory containing classifier files
-        classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
+        classifiers_folder_path = CLASSIFIERS_FOLDER_PATH + os.sep
+        if(params is not None):
+            classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep
 
         if(algorithm == 'HaarCascadeFrontalFaceAlt'):
             classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
@@ -87,7 +87,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             classifier_file_2 = classifiers_folder_path + LBPCASCADE_PROFILEFACE_CLASSIFIER;
         else:
             print('\nAlgorithm is not available');
-            result[FACE_DETECTION_ERROR_KEY] = 'Detection algorithm is not available';
+            result[ERROR_KEY] = 'Detection algorithm is not available';
             return result;
 
         faces = [];
@@ -96,7 +96,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
 
             if(face_cascade_classifier.empty()):
                 print('Error loading face cascade classifier file');
-                result[FACE_DETECTION_ERROR_KEY] = 'Error loading face cascade classifier file';
+                result[ERROR_KEY] = 'Error loading face cascade classifier file';
                 return;
             else:
                 if(algorithm == 'LBPCascadeProfileFace'):
@@ -127,7 +127,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             face_cascade_classifier_2 = cv2.CascadeClassifier(classifier_file_2);
             if(face_cascade_classifier_1.empty() | face_cascade_classifier_2.empty()):
                 print('Error loading face cascade classifier file');
-                result[FACE_DETECTION_ERROR_KEY] = 'Error loading face cascade classifier file';
+                result[ERROR_KEY] = 'Error loading face cascade classifier file';
                 return;
             else:
                 # Detect faces in image using first classifier
@@ -144,17 +144,17 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         detection_time_in_seconds = detection_time_in_clocks / cv2.getTickFrequency();
 
         # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + HAARCASCADE_EYE_CLASSIFIER;
+        eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER;
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
 
         if(eye_cascade_classifier.empty()):
             print('Error loading eye cascade classifier file');
-            result[FACE_DETECTION_ERROR_KEY] = 'Error loading eye cascade classifier file';
+            result[ERROR_KEY] = 'Error loading eye cascade classifier file';
             return result;
 
         # Populate dictionary with detected faces and elapsed CPU time 
-        result[FACE_DETECTION_ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
-        result[FACE_DETECTION_ERROR_KEY] = None;
+        result[ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds;
+        result[ERROR_KEY] = None;
         #result[FACE_DETECTION_FACES_KEY] = faces;
 
         # Create face images from original image
@@ -183,8 +183,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             #    cv2.imshow(resource_path,face_image)
             #    cv2.waitKey(0);
             #################
-        result[FACE_DETECTION_FACE_IMAGES_KEY] = face_images;
-        result[FACE_DETECTION_FACES_KEY] = faces_final;
+        result[FACE_IMAGES_KEY] = face_images;
+        result[FACES_KEY] = faces_final;
 
         if(show_results):
             for (x, y, w, h) in faces_final:
@@ -200,7 +200,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     except IOError, (errno, strerror):
         error_str = "I/O error({0}): {1}".format(errno, strerror)
         print error_str
-        result[FACE_DETECTION_ERROR_KEY] = error_str
+        result[ERROR_KEY] = error_str
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise
@@ -220,10 +220,17 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for face detection
     '''
-    haar_scale = params[SCALE_FACTOR_KEY];
-    min_neighbors = params[MIN_NEIGHBORS_KEY];
-
-    haar_flags_str = params[FLAGS_KEY];
+    haar_scale = FACE_DETECTION_SCALE_FACTOR
+    min_neighbors = FACE_DETECTION_MIN_NEIGHBORS
+    haar_flags_str = FACE_DETECTION_FLAGS
+    min_size = (FACE_DETECTION_MIN_SIZE_WIDTH, FACE_DETECTION_MIN_SIZE_HEIGHT)
+    
+    if(params is not None):
+        haar_scale = params[SCALE_FACTOR_KEY];
+        min_neighbors = params[MIN_NEIGHBORS_KEY];
+        haar_flags_str = params[FLAGS_KEY];
+        min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY])
+        
     haar_flags = cv2.CASCADE_DO_CANNY_PRUNING;
     if(haar_flags_str == 'DoRoughSearch'):
         haar_flags = cv2.CASCADE_DO_ROUGH_SEARCH;
@@ -232,8 +239,8 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     elif(haar_flags_str == 'ScaleImage'):
         haar_flags = cv2.CASCADE_SCALE_IMAGE;
     
-    min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY]);
-    faces = face_cascade_classifier.detectMultiScale(image, haar_scale, min_neighbors, haar_flags, min_size);
+    faces = face_cascade_classifier.detectMultiScale(
+    image, haar_scale, min_neighbors, haar_flags, min_size);
     return faces;
 
 def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
@@ -283,15 +290,21 @@ def get_detected_cropped_face(image_path, return_always_face):
     '''
     params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
 
-    # Face detection
-    detection_params = params[FACE_DETECTION_KEY];
+    detection_params = None
 
-    # Path of directory containing classifier files
-    classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
+    if params is not None:
+        
+        # Face detection
+        detection_params = params[FACE_DETECTION_KEY];
+
+    #else:
+        
+        #print 'No file with face extraction parameters available'
+        #print 'Default values will be used'
 
     detection_result = detect_faces_in_image(image_path, detection_params, False, return_always_face);
 
-    face_images = detection_result[FACE_DETECTION_FACE_IMAGES_KEY];
+    face_images = detection_result[FACE_IMAGES_KEY];
 
     if(len(face_images) == 1):
 
@@ -404,7 +417,7 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
 
         # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + HAARCASCADE_EYE_CLASSIFIER;
+        eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER;
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
         
         if(eye_cascade_classifier.empty()):
