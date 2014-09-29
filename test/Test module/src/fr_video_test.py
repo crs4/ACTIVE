@@ -10,8 +10,6 @@ from tools.face_extractor import FaceExtractor
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_YAML_file, save_YAML_file
 
-SIM_TRACKING = False
-
 def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
     stream = open(file_path, 'w');
 
@@ -24,19 +22,19 @@ def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
                      
     for experiment_dict in experiment_dict_list:
         
-        video_counter = experiment_dict[VIDEO_COUNTER]
+        video_counter = experiment_dict[VIDEO_COUNTER_KEY]
         
-        ann_face_tag = experiment_dict[PERSON_ANNOTATED_TAG_KEY]
+        ann_face_tag = experiment_dict[ANN_TAG_KEY]
         
-        frames = experiment_dict[FACE_EXTRACTION_FRAMES_KEY]
+        frames = experiment_dict[FRAMES_KEY]
         
         for frame in frames:
             
-            time_stamp = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+            time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
             
-            assigned_tag = frame[FACE_EXTRACTION_TAG_KEY]
+            assigned_tag = frame[TAG_KEY]
             
-            confidence = frame[PERSON_CONFIDENCE_KEY]
+            confidence = frame[CONFIDENCE_KEY]
 
             if(confidence != -1):
             
@@ -61,7 +59,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
     people_nr = fm.get_people_nr();
 
     for label in range(0, people_nr):
-        tag = fm.get_label(label);
+        tag = fm.get_tag(label);
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
@@ -69,17 +67,17 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
     for frame in frames:
 
-        faces = frame[FACE_EXTRACTION_FACES_KEY]
+        faces = frame[FACES_KEY]
 
         if(len(faces) != 0):
 
             face = faces[0]
 
-            assigned_tag = face[FACE_EXTRACTION_TAG_KEY]
+            assigned_tag = face[TAG_KEY]
 
             assigned_frames_nr_dict[assigned_tag] = assigned_frames_nr_dict[assigned_tag] + 1
 
-            confidence = face[FACE_EXTRACTION_CONFIDENCE_KEY]
+            confidence = face[CONFIDENCE_KEY]
 
             confidence_lists_dict[assigned_tag].append(confidence)
 
@@ -93,7 +91,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
         
         for label in range(0, people_nr):
             
-            tag = fm.get_label(label);
+            tag = fm.get_tag(label);
             assigned_frames_nr = assigned_frames_nr_dict[tag]
 
             if(assigned_frames_nr > max_frames_nr):
@@ -149,7 +147,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_label(0)
+                final_tag = fm.get_tag(0)
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
@@ -157,7 +155,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
                 for label in range(1, people_nr):
                 
-                    tag = fm.get_label(label);
+                    tag = fm.get_tag(label);
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
@@ -173,7 +171,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_label(0)
+                final_tag = fm.get_tag(0)
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
@@ -181,7 +179,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
                 for label in range(1, people_nr):
                 
-                    tag = fm.get_label(label);
+                    tag = fm.get_tag(label);
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
@@ -213,6 +211,15 @@ def fr_video_experiments(params, show_results):
         # Load configuration file
         params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
     
+    # Folder with results
+    results_path = FACE_RECOGNITION_RESULTS_PATH + os.sep
+    # Folder with test files
+    test_set_path = FACE_RECOGNITION_TEST_SET_PATH + os.sep
+    if params is not None:
+        fr_test_params = params[FACE_RECOGNITION_KEY];
+        results_path = fr_test_params[RESULTS_PATH_KEY] + '\\'; 
+        test_set_path = fr_test_params[TEST_SET_PATH_KEY] + os.sep;
+    
     tot_rec_frames_nr = 0; # Number of correctly recognized frames
     tot_test_frames_nr = 0; # Number of total test frames
     mean_rec_time = 0; # Mean recognition time for videos
@@ -221,12 +228,11 @@ def fr_video_experiments(params, show_results):
     false_pos_confidence_list = []; # List of confidence values for false positives
     tested_people_tag_list = []; # List of tags of people that appear in test set
 
-    fm = FaceModelsLBP();
+    video_path = None
+    if(USE_CAPTIONS):
+        video_path = r'C:\Users\Maurizio\Documents\Frame dai video di Videolina\1 fps\Fic_02' # TEST ONLY
 
-    fr_test_params = params[FACE_RECOGNITION_KEY];
-    
-    results_path = fr_test_params[RESULTS_PATH_KEY] + '\\'; # directory with results
-
+    fm = FaceModelsLBP(video_path = video_path);
     # Number of people
     people_nr = fm.get_people_nr();
 
@@ -236,13 +242,11 @@ def fr_video_experiments(params, show_results):
     people_test_frames_nr_dict = {};
     
     for label in range(0, people_nr):
-        tag = fm.get_label(label);
+        tag = fm.get_tag(label);
         people_true_positives_dict[tag] = 0;
         people_false_positives_dict[tag] = 0;
         people_test_frames_nr_dict[tag] = 0;
-
-    test_set_path = fr_test_params[TEST_SET_PATH_KEY] + os.sep;
-
+        
     # Iterate over all videos
     video_counter = 0
 
@@ -251,6 +255,8 @@ def fr_video_experiments(params, show_results):
     delta_w_maxs = []
     
     experiment_dict_list = []
+    
+    number_of_anal_video = 0
     
     for video in os.listdir(test_set_path):
         
@@ -280,7 +286,7 @@ def fr_video_experiments(params, show_results):
 
             results = fe.getResults(handle)
 
-            error = results[FACE_EXTRACTION_ERROR_KEY]
+            error = results[ERROR_KEY]
 
             if(error):
 
@@ -289,17 +295,17 @@ def fr_video_experiments(params, show_results):
 
             else:
 
-                video_test_frames_nr = results[FACE_EXTRACTION_TOT_FRAMES_NR]
+                video_test_frames_nr = results[TOT_FRAMES_NR]
 
                 tot_test_frames_nr = tot_test_frames_nr + video_test_frames_nr
 
                 people_test_frames_nr_dict[ann_face_tag] = video_test_frames_nr
                 
-                mean_rec_time = mean_rec_time + results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY]
+                mean_rec_time = mean_rec_time + results[ELAPSED_CPU_TIME_KEY]
 
                 if(USE_TRACKING):
 
-                    segments = results[FACE_EXTRACTION_SEGMENTS_KEY]
+                    segments = results[SEGMENTS_KEY]
 
                     #print(results)
 
@@ -309,15 +315,15 @@ def fr_video_experiments(params, show_results):
 
                     for segment in segments:
 
-                        segment_frames = segment[FACE_EXTRACTION_FRAMES_KEY]
+                        segment_frames = segment[FRAMES_KEY]
 
-                        frames_nr = segment[FACE_EXTRACTION_SEGMENT_TOT_FRAMES_NR_KEY]
+                        frames_nr = segment[SEGMENT_TOT_FRAMES_NR_KEY]
 
-                        assigned_tag = segment[FACE_EXTRACTION_TAG_KEY]
+                        assigned_tag = segment[ASSIGNED_TAG_KEY]
 
                         print('assigned_tag = ' + assigned_tag)
 
-                        final_confidence = segment[FACE_EXTRACTION_CONFIDENCE_KEY]
+                        final_confidence = segment[CONFIDENCE_KEY]
 
                         tot_segments_frames_nr = tot_segments_frames_nr + frames_nr
 
@@ -348,7 +354,7 @@ def fr_video_experiments(params, show_results):
 
                     # Simulate tracking (every frame of this video contains the same person)
 
-                    frames = results[FACE_EXTRACTION_FRAMES_KEY]
+                    frames = results[FRAMES_KEY]
 
                     [assigned_tag, final_confidence] = aggregate_frame_results_in_sim_tracking(frames, fm)
 
@@ -369,7 +375,7 @@ def fr_video_experiments(params, show_results):
 
                 else:
 
-                    frames = results[FACE_EXTRACTION_FRAMES_KEY]
+                    frames = results[FRAMES_KEY]
 
                     frame_counter = 0
                     prev_frame_counter = -1
@@ -378,25 +384,25 @@ def fr_video_experiments(params, show_results):
                         assigned_tag = 'Undefined';
                         confidence = -1;
 
-                        faces = frame[FACE_EXTRACTION_FACES_KEY]
+                        faces = frame[FACES_KEY]
                         
-                        time_stamp = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+                        time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
                         
                         experiment_dict_frame = {}
                         
-                        experiment_dict_frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY] = time_stamp
+                        experiment_dict_frame[ELAPSED_VIDEO_TIME_KEY] = time_stamp
 
                         if(len(faces) != 0):
 
                             face = faces[0]
 
-                            assigned_tag = face[FACE_EXTRACTION_TAG_KEY]
+                            assigned_tag = face[ASSIGNED_TAG_KEY]
                             
                             experiment_dict_faces = []
                             
                             experiment_dict_face = {}
                             
-                            experiment_dict_face[FACE_EXTRACTION_TAG_KEY] = assigned_tag
+                            experiment_dict_face[ASSIGNED_TAG_KEY] = assigned_tag
                             
                             experiment_dict_faces.append(experiment_dict_face)
                             
@@ -406,17 +412,17 @@ def fr_video_experiments(params, show_results):
                                     
                                     other_face = faces [face_counter]
                                     
-                                    other_face_assigned_tag = other_face[FACE_EXTRACTION_TAG_KEY]
+                                    other_face_assigned_tag = other_face[ASSIGNED_TAG_KEY]
                                     
                                     experiment_dict_face = {}
                                     
-                                    experiment_dict_face[FACE_EXTRACTION_TAG_KEY] = other_face_assigned_tag
+                                    experiment_dict_face[ASSIGNED_TAG_KEY] = other_face_assigned_tag
                                     
                                     experiment_dict_faces.append(experiment_dict_face)
 
-                            confidence = face[FACE_EXTRACTION_CONFIDENCE_KEY]
+                            confidence = face[CONFIDENCE_KEY]
 
-                            bbox = face[FACE_EXTRACTION_BBOX_KEY]
+                            bbox = face[BBOX_KEY]
 
                             if((frame_counter > 0) and (frame_counter <= (prev_frame_counter + MAX_FRAMES_WITH_MISSED_DETECTION + 1))):
 
@@ -446,17 +452,17 @@ def fr_video_experiments(params, show_results):
 
                             prev_bbox = bbox
                             
-                            experiment_dict_frame[FACE_EXTRACTION_FACES_KEY] = experiment_dict_faces
+                            experiment_dict_frame[FACES_KEY] = experiment_dict_faces
 
-                            experiment_dict_frame[FACE_EXTRACTION_TAG_KEY] = assigned_tag
+                            experiment_dict_frame[ASSIGNED_TAG_KEY] = assigned_tag
                             
                         else:
                             
-                            experiment_dict_frame[FACE_EXTRACTION_FACES_KEY] = "No face detected"
+                            experiment_dict_frame[FACES_KEY] = "No face detected"
 
-                            experiment_dict_frame[FACE_EXTRACTION_TAG_KEY] = "No face detected"
+                            experiment_dict_frame[ASSIGNED_TAG_KEY] = "No face detected"
                             
-                        experiment_dict_frame[PERSON_CONFIDENCE_KEY] = confidence
+                        experiment_dict_frame[CONFIDENCE_KEY] = confidence
                             
                         experiment_dict_frames.append(experiment_dict_frame)
 
@@ -474,6 +480,8 @@ def fr_video_experiments(params, show_results):
                                 false_pos_confidence_list.append(confidence)
 
                         frame_counter = frame_counter + 1
+                
+                number_of_anal_video = number_of_anal_video + 1 
                     
         except IOError, (errno, strerror):
             print "I/O error({0}): {1}".format(errno, strerror)
@@ -481,124 +489,130 @@ def fr_video_experiments(params, show_results):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-##        if(not(USE_TRACKING) and not(SIM_TRACKING)):
+    if(number_of_anal_video > 0):
+    
+        #if(not(USE_TRACKING) and not(SIM_TRACKING)):
 ##
-##            video_max_x = max(video_delta_xs)
-##            video_max_y = max(video_delta_ys)
-##            video_max_w = max(video_delta_ws)
-##
-##            delta_x_maxs.append(video_max_x)
-##            delta_y_maxs.append(video_max_y)
-##            delta_w_maxs.append(video_max_w)
+            #video_max_x = max(video_delta_xs)
+            #video_max_y = max(video_delta_ys)
+            #video_max_w = max(video_delta_ws)
+
+            #delta_x_maxs.append(video_max_x)
+            #delta_y_maxs.append(video_max_y)
+            #delta_w_maxs.append(video_max_w)
 
         video_counter = video_counter + 1
         
-        experiment_dict[VIDEO_COUNTER] = video_counter
+        experiment_dict[VIDEO_COUNTER_KEY] = video_counter
         
-        experiment_dict[PERSON_ANNOTATED_TAG_KEY] = ann_face_tag
+        experiment_dict[ANN_TAG_KEY] = ann_face_tag
         
-        experiment_dict[FACE_EXTRACTION_FRAMES_KEY] = experiment_dict_frames
+        experiment_dict[FRAMES_KEY] = experiment_dict_frames
         
         save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
         
         experiment_dict_list.append(experiment_dict)
-
-    csv_file_path = results_path + "Risultati_Videolina.csv"
-        
-    save_experiment_results_in_CSV_file(csv_file_path, experiment_dict_list)
-
-    # Calculate statistics for each person
-    people_precision_list = [];
-    people_recall_list = [];
-    people_f1_list = [];
-
-    print('\nTRUE POSITIVES\n')
-    print(people_true_positives_dict)
-    print('\nFALSE POSITIVES\n')
-    print(people_false_positives_dict)
-    print('\nTEST FRAMES NR\n')
-    print(people_test_frames_nr_dict)    
     
-    for label in range(0, people_nr):
-
-        tag = fm.get_label(label);
-
-        if tag in tested_people_tag_list:
-
-            person_true_positives = people_true_positives_dict[tag]
-            person_false_positives = people_false_positives_dict[tag]
-            person_test_frames_nr = people_test_frames_nr_dict[tag]
-
-            person_precision = 0;
-            if(person_true_positives != 0):
-                person_precision = float(person_true_positives) / float(person_true_positives + person_false_positives);
-            people_precision_list.append(person_precision);
-        
-            person_recall = 0;
-            if(person_test_frames_nr != 0):
-                person_recall = float(person_true_positives) / person_test_frames_nr;
-            people_recall_list.append(person_recall);
-
-            person_f1 = 0;
-            if((person_precision != 0) and (person_recall != 0)):
-                person_f1 = 2 * (person_precision * person_recall) / (person_precision + person_recall);
-            people_f1_list.append(person_f1);
-
-    mean_precision = float(numpy.mean(people_precision_list));
-    std_precision = float(numpy.std(people_precision_list));
-
-    mean_recall = float(numpy.mean(people_recall_list));
-    std_recall = float(numpy.std(people_recall_list));
-
-    mean_f1 = float(numpy.mean(people_f1_list));
-    std_f1 = float(numpy.std(people_f1_list));
-
-    recognition_rate = float(tot_rec_frames_nr) / float(tot_test_frames_nr);
-
-    mean_rec_time = mean_rec_time / video_counter;
-
-    mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list));
-    std_true_pos_confidence = float(numpy.std(true_pos_confidence_list));
-
-    mean_false_pos_confidence = float(numpy.mean(false_pos_confidence_list));
-    std_false_pos_confidence = float(numpy.std(false_pos_confidence_list));
-
-    print("\n ### RESULTS ###\n");
-
-    print("USE_MAJORITY_RULE = " + str(USE_MAJORITY_RULE))
-    print("USE_MIN_CONFIDENCE_RULE = " + str(USE_MIN_CONFIDENCE_RULE))
-    print("USE_MEAN_CONFIDENCE_RULE = " + str(USE_MEAN_CONFIDENCE_RULE))
-
-##    print('\nRecognition rate: ' + str(recognition_rate*100) + '%');
-##    print('Mean of precision: ' + str(mean_precision*100) + '%');
-##    print('Standard deviation of precision: ' + str(std_precision*100) + '%');
-##    print('Mean of recall: ' + str(mean_recall*100) + '%');
-##    print('Standard deviation of recall: ' + str(std_recall*100) + '%');
-##    print('Mean of f1: ' + str(mean_f1*100) + '%');
-##    print('Standard deviation of f1: ' + str(std_f1*100) + '%');
-##    print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
-
-    print('Recognition rate: ' + str(recognition_rate));
-    print('Mean of precision: ' + str(mean_precision));
-    print('Standard deviation of precision: ' + str(std_precision));
-    print('Mean of recall: ' + str(mean_recall));
-    print('Standard deviation of recall: ' + str(std_recall));
-    print('Mean of f1: ' + str(mean_f1));
-    print('Standard deviation of f1: ' + str(std_f1));
-    print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+        csv_file_path = results_path + "Risultati_Videolina.csv"
+            
+        save_experiment_results_in_CSV_file(csv_file_path, experiment_dict_list)
     
-    print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence));
-    print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence));
-    print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence));
-    print('Standard deviation of confidence for false positives: ' + str(std_false_pos_confidence));
-
-    if(not(USE_TRACKING) and not(SIM_TRACKING)):
-        print('Maximums for delta x: ')
-        print(delta_x_maxs)
-        print('Maximums for delta y: ')
-        print(delta_y_maxs)
-        print('Maximums for delta w: ')
-        print(delta_w_maxs)
+        # Calculate statistics for each person
+        people_precision_list = [];
+        people_recall_list = [];
+        people_f1_list = [];
+    
+        print('\nTRUE POSITIVES\n')
+        print(people_true_positives_dict)
+        print('\nFALSE POSITIVES\n')
+        print(people_false_positives_dict)
+        print('\nTEST FRAMES NR\n')
+        print(people_test_frames_nr_dict)    
+        
+        for label in range(0, people_nr):
+    
+            tag = fm.get_tag(label);
+    
+            if tag in tested_people_tag_list:
+    
+                person_true_positives = people_true_positives_dict[tag]
+                person_false_positives = people_false_positives_dict[tag]
+                person_test_frames_nr = people_test_frames_nr_dict[tag]
+    
+                person_precision = 0;
+                if(person_true_positives != 0):
+                    person_precision = float(person_true_positives) / float(person_true_positives + person_false_positives);
+                people_precision_list.append(person_precision);
+            
+                person_recall = 0;
+                if(person_test_frames_nr != 0):
+                    person_recall = float(person_true_positives) / person_test_frames_nr;
+                people_recall_list.append(person_recall);
+    
+                person_f1 = 0;
+                if((person_precision != 0) and (person_recall != 0)):
+                    person_f1 = 2 * (person_precision * person_recall) / (person_precision + person_recall);
+                people_f1_list.append(person_f1);
+    
+        mean_precision = float(numpy.mean(people_precision_list));
+        std_precision = float(numpy.std(people_precision_list));
+    
+        mean_recall = float(numpy.mean(people_recall_list));
+        std_recall = float(numpy.std(people_recall_list));
+    
+        mean_f1 = float(numpy.mean(people_f1_list));
+        std_f1 = float(numpy.std(people_f1_list));
+    
+        recognition_rate = float(tot_rec_frames_nr) / float(tot_test_frames_nr);
+    
+        mean_rec_time = mean_rec_time / video_counter;
+    
+        mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list));
+        std_true_pos_confidence = float(numpy.std(true_pos_confidence_list));
+    
+        mean_false_pos_confidence = float(numpy.mean(false_pos_confidence_list));
+        std_false_pos_confidence = float(numpy.std(false_pos_confidence_list));
+    
+        print("\n ### RESULTS ###\n");
+    
+        print("USE_MAJORITY_RULE = " + str(USE_MAJORITY_RULE))
+        print("USE_MIN_CONFIDENCE_RULE = " + str(USE_MIN_CONFIDENCE_RULE))
+        print("USE_MEAN_CONFIDENCE_RULE = " + str(USE_MEAN_CONFIDENCE_RULE))
+    
+    
+        ##    print('\nRecognition rate: ' + str(recognition_rate*100) + '%');
+        ##    print('Mean of precision: ' + str(mean_precision*100) + '%');
+        ##    print('Standard deviation of precision: ' + str(std_precision*100) + '%');
+        ##    print('Mean of recall: ' + str(mean_recall*100) + '%');
+        ##    print('Standard deviation of recall: ' + str(std_recall*100) + '%');
+        ##    print('Mean of f1: ' + str(mean_f1*100) + '%');
+        ##    print('Standard deviation of f1: ' + str(std_f1*100) + '%');
+        ##    print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+    
+        print('Recognition rate: ' + str(recognition_rate));
+        print('Mean of precision: ' + str(mean_precision));
+        print('Standard deviation of precision: ' + str(std_precision));
+        print('Mean of recall: ' + str(mean_recall));
+        print('Standard deviation of recall: ' + str(std_recall));
+        print('Mean of f1: ' + str(mean_f1));
+        print('Standard deviation of f1: ' + str(std_f1));
+        print('Mean recognition time: ' + str(mean_rec_time) + ' s\n');
+        
+        print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence));
+        print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence));
+        print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence));
+        print('Standard deviation of confidence for false positives: ' + str(std_false_pos_confidence));
+    
+        #if(not(USE_TRACKING) and not(SIM_TRACKING)):
+            #print('Maximums for delta x: ')
+            #print(delta_x_maxs)
+            #print('Maximums for delta y: ')
+            #print(delta_y_maxs)
+            #print('Maximums for delta w: ')
+            #print(delta_w_maxs)
+    else:
+        
+        print 'No video was analyzed'
     
 if __name__ == "__main__":
 

@@ -143,7 +143,7 @@ class FaceExtractor(object):
         # Face detection
         detection_params = self.params[FACE_DETECTION_KEY]
 
-        detection_result = detect_faces_in_image(resource_path, detection_params, False)
+        detection_result = detect_faces_in_image(resource_path, detection_params, True)
         
         detection_error = detection_result[FACE_DETECTION_ERROR_KEY]
         
@@ -171,11 +171,11 @@ class FaceExtractor(object):
                 
                 rec_result = recognize_face(face, self.face_models, recognition_params, False)
                 
-                tag = rec_result[PERSON_ASSIGNED_TAG_KEY]
+                tag = rec_result[ASSIGNED_TAG_KEY]
                 confidence = rec_result[PERSON_CONFIDENCE_KEY]
-                face_dict[FACE_EXTRACTION_TAG_KEY] = tag
-                face_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence
-                face_dict[FACE_EXTRACTION_BBOX_KEY] = face_bboxes[count]
+                face_dict[ASSIGNED_TAG_KEY] = tag
+                face_dict[CONFIDENCE_KEY] = confidence
+                face_dict[BBOX_KEY] = face_bboxes[count]
                 faces.append(face_dict)
                 count = count + 1
     
@@ -184,14 +184,14 @@ class FaceExtractor(object):
     
             # Populate dictionary with results
             results = {}
-            results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
-            results[FACE_EXTRACTION_ERROR_KEY] = error
-            results[FACE_EXTRACTION_FACES_KEY] = faces
+            results[ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
+            results[ERROR_KEY] = error
+            results[FACES_KEY] = faces
             
         else:
             
             results = {}
-            results[FACE_EXTRACTION_ERROR_KEY] = detection_error
+            results[ERROR_KEY] = detection_error
     
         self.progress = 100
         handle=time.time()
@@ -252,9 +252,9 @@ class FaceExtractor(object):
                 next_frame = last_anal_frame + (video_fps/USED_FPS)
                 if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
 
+                    # Frame position in video in seconds
                     elapsed_video_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
-    
-                    elapsed_video_s = elapsed_video_ms / 1000 # Frame position in video in seconds
+                    elapsed_video_s = elapsed_video_ms / 1000 
                     
                     print "elapsed video s =", elapsed_video_s
                     
@@ -270,21 +270,21 @@ class FaceExtractor(object):
     
                     frame_results = self.getResults(handle)
     
-                    frame_error = frame_results[FACE_EXTRACTION_ERROR_KEY]
+                    frame_error = frame_results[_ERROR_KEY]
     
                     if(frame_error):
     
-                        error = frame_results[FACE_EXTRACTION_ERROR_KEY]
+                        error = frame_results[_ERROR_KEY]
     
                         break;
     
                     else:
     
-                        frame_dict[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+                        frame_dict[_ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
     
-                        frame_dict[FACE_EXTRACTION_FACES_KEY] = frame_results[FACE_EXTRACTION_FACES_KEY]
+                        frame_dict[_FACES_KEY] = frame_results[_FACES_KEY]
     
-                        frame_dict[FACE_EXTRACTION_FRAME_COUNTER_KEY] = frame_counter
+                        frame_dict[_FRAME_COUNTER_KEY] = frame_counter
     
                         frames.append(frame_dict)
                         
@@ -302,9 +302,9 @@ class FaceExtractor(object):
                 
                 for frame in frames:
 
-                    faces = frame[FACE_EXTRACTION_FACES_KEY]
+                    faces = frame[_FACES_KEY]
 
-                    elapsed_video_s = frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+                    elapsed_video_s = frame[_ELAPSED_VIDEO_TIME_KEY]
 
                     if(len(faces) != 0):
 
@@ -315,25 +315,25 @@ class FaceExtractor(object):
 
                             segment_frame_counter = 1
 
-                            prev_bbox = face[FACE_EXTRACTION_BBOX_KEY]
+                            prev_bbox = face[_BBOX_KEY]
 
                             segment_frames_list = []
 
                             segment_frame_dict = {}
 
-                            segment_frame_dict[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+                            segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
 
-                            segment_frame_dict[FACE_EXTRACTION_FRAME_COUNTER_KEY] = tracking_frame_counter
+                            segment_frame_dict[FRAME_COUNTER_KEY] = tracking_frame_counter
 
-                            segment_frame_dict[FACE_EXTRACTION_TAG_KEY] = face[FACE_EXTRACTION_TAG_KEY]
+                            segment_frame_dict[ASSIGNED_TAG_KEY] = face[ASSIGNED_TAG_KEY]
 
-                            segment_frame_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = face[FACE_EXTRACTION_CONFIDENCE_KEY]
+                            segment_frame_dict[CONFIDENCE_KEY] = face[CONFIDENCE_KEY]
 
-                            segment_frame_dict[FACE_EXTRACTION_BBOX_KEY] = prev_bbox
+                            segment_frame_dict[BBOX_KEY] = prev_bbox
 
                             segment_frames_list.append(segment_frame_dict)
 
-                            del frames[tracking_frame_counter][FACE_EXTRACTION_FACES_KEY][face_counter]
+                            del frames[tracking_frame_counter][FACES_KEY][face_counter]
 
                             sub_frame_counter = tracking_frame_counter + 1
 
@@ -351,9 +351,9 @@ class FaceExtractor(object):
 
                                     break;
 
-                                sub_faces = subsequent_frame[FACE_EXTRACTION_FACES_KEY]
+                                sub_faces = subsequent_frame[FACES_KEY]
 
-                                elapsed_video_s = subsequent_frame[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY]
+                                elapsed_video_s = subsequent_frame[ELAPSED_VIDEO_TIME_KEY]
 
                                 if(len(sub_faces) != 0):
 
@@ -366,7 +366,7 @@ class FaceExtractor(object):
                                         prev_bbox_y = prev_bbox[1]
                                         prev_bbox_w = prev_bbox[2]
 
-                                        bbox = sub_face[FACE_EXTRACTION_BBOX_KEY]
+                                        bbox = sub_face[BBOX_KEY]
 
                                         bbox_x = bbox[0]
                                         bbox_y = bbox[1]
@@ -383,19 +383,19 @@ class FaceExtractor(object):
 
                                             segment_frame_dict = {}
 
-                                            segment_frame_dict[FACE_EXTRACTION_ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+                                            segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
 
-                                            segment_frame_dict[FACE_EXTRACTION_FRAME_COUNTER_KEY] = sub_frame_counter
+                                            segment_frame_dict[FRAME_COUNTER_KEY] = sub_frame_counter
 
-                                            segment_frame_dict[FACE_EXTRACTION_TAG_KEY] = sub_face[FACE_EXTRACTION_TAG_KEY]
+                                            segment_frame_dict[ASSIGNED_TAG_KEY] = sub_face[ASSIGNED_TAG_KEY]
 
-                                            segment_frame_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = sub_face[FACE_EXTRACTION_CONFIDENCE_KEY]
+                                            segment_frame_dict[CONFIDENCE_KEY] = sub_face[CONFIDENCE_KEY]
 
-                                            segment_frame_dict[FACE_EXTRACTION_BBOX_KEY] = bbox
+                                            segment_frame_dict[BBOX_KEY] = bbox
 
                                             segment_frames_list.append(segment_frame_dict)
 
-                                            del frames[sub_frame_counter][FACE_EXTRACTION_FACES_KEY][sub_face_counter]
+                                            del frames[sub_frame_counter][FACES_KEY][sub_face_counter]
 
                                             prev_frame_counter = sub_frame_counter
 
@@ -412,15 +412,15 @@ class FaceExtractor(object):
                             # Aggregate results from all frames in segment
                             [final_tag, final_confidence] = aggregate_frame_results(segment_frames_list, self.face_models)
 
-                            segment_dict[FACE_EXTRACTION_TAG_KEY] = final_tag
+                            segment_dict[ASSIGNED_TAG_KEY] = final_tag
 
-                            segment_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = final_confidence
+                            segment_dict[CONFIDENCE_KEY] = final_confidence
 
-                            segment_dict[FACE_EXTRACTION_FRAMES_KEY] = segment_frames_list
+                            segment_dict[FRAMES_KEY] = segment_frames_list
 
                             print('segment_frame_counter: ', segment_frame_counter)
 
-                            segment_dict[FACE_EXTRACTION_SEGMENT_TOT_FRAMES_NR_KEY] = segment_frame_counter
+                            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = segment_frame_counter
 
                             segments.append(segment_dict)
 
@@ -443,7 +443,7 @@ class FaceExtractor(object):
                 for frame in frames:
 
                     # Get faces from frame results
-                    faces = frame[FACE_EXTRACTION_FACES_KEY]
+                    faces = frame[FACES_KEY]
 
                     if(len(faces) != 0):
 
@@ -468,21 +468,21 @@ class FaceExtractor(object):
                         for window_frame in window_frames:
 
                             # Get tag from first face
-                            faces = window_frame[FACE_EXTRACTION_FACES_KEY]
+                            faces = window_frame[FACES_KEY]
 
                             if(len(faces) != 0):
 
                                 first_face = faces[0];
 
-                                assigned_tag = first_face[FACE_EXTRACTION_TAG_KEY]
+                                assigned_tag = first_face[ASSIGNED_TAG_KEY]
 
-                                confidence = first_face[FACE_EXTRACTION_CONFIDENCE_KEY]
+                                confidence = first_face[CONFIDENCE_KEY]
 
                                 window_frame_dict = {}
 
-                                window_frame_dict[FACE_EXTRACTION_TAG_KEY] = assigned_tag
+                                window_frame_dict[ASSIGNED_TAG_KEY] = assigned_tag
 
-                                window_frame_dict[FACE_EXTRACTION_CONFIDENCE_KEY] = confidence
+                                window_frame_dict[CONFIDENCE_KEY] = confidence
 
                                 window_frames_list.append(window_frame_dict)
 
@@ -492,9 +492,9 @@ class FaceExtractor(object):
 
                         print('frame_final_tag: ', frame_final_tag)
 
-                        frame[FACE_EXTRACTION_FACES_KEY][0][FACE_EXTRACTION_TAG_KEY] = frame_final_tag
+                        frame[FACES_KEY][0][ASSIGNED_TAG_KEY] = frame_final_tag
 
-                        frame[FACE_EXTRACTION_FACES_KEY][0][FACE_EXTRACTION_CONFIDENCE_KEY] = frame_final_confidence
+                        frame[FACES_KEY][0][CONFIDENCE_KEY] = frame_final_confidence
 
                     sl_window_frame_counter = sl_window_frame_counter + 1
 
@@ -503,17 +503,17 @@ class FaceExtractor(object):
 
         # Populate dictionary with results
         results = {}
-        results[FACE_EXTRACTION_ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
-        results[FACE_EXTRACTION_ERROR_KEY] = error
-        results[FACE_EXTRACTION_TOT_FRAMES_NR] = anal_frame_counter
+        results[ELAPSED_CPU_TIME_KEY] = processing_time_in_seconds
+        results[ERROR_KEY] = error
+        results[TOT_FRAMES_NR_KEY] = anal_frame_counter
 
         if(USE_TRACKING):
             
-            results[FACE_EXTRACTION_SEGMENTS_KEY] = segments
+            results[SEGMENTS_KEY] = segments
 
         else:
 
-            results[FACE_EXTRACTION_FRAMES_KEY] = frames
+            results[FRAMES_KEY] = frames
             
         self.progress = 100
         handle=time.time()

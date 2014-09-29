@@ -7,24 +7,7 @@ import sys
 from collections import Counter
 from Constants import *
 from FaceModelsLBP import FaceModelsLBP
-
-USE_WEIGHTED_REGIONS = True
-
-USE_NBNN = False
-
-CALCULATE_K_FROM_FEATURES = False
-
-USE_WEIGHTED_KNN = False
-
-# Weights for 7 x 7 grid
-
-WEIGHT_0_REGIONS = [17, 21, 24, 27, 28, 34, 35, 41, 42, 48]
-
-WEIGHT_2_REGIONS = [0, 6, 7, 13]
-
-WEIGHT_4_REGIONS = [8, 9, 11, 12]
-
-ALFA = 1
+from train_from_captions import train_from_captions
 
 def calculate_w_reg_distance(query_hist, train_hist):
     
@@ -183,8 +166,6 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
-
-    K = 1
 
     fm = face_models;
     if(face_models == None):
@@ -345,11 +326,10 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
-
-    K = 10
-
+	
     fm = face_models;
     if(face_models == None):
+		
         fm = FaceModelsLBP();
 
     start_time = cv2.getTickCount();

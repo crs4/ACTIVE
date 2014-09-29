@@ -46,61 +46,71 @@ def fe_test(params, show_results):
         # Load default configuration file
         params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
-    fe_test_params = params[FACE_EXTRACTION_KEY];
-    image_path = fe_test_params[SOFTWARE_TEST_FILE_KEY];
+    image_path = SOFTWARE_TEST_FILE_PATH
+    
+    if params is not None:
+        fe_test_params = params[FACE_EXTRACTION_KEY];
+        image_path = fe_test_params[SOFTWARE_TEST_FILE_KEY];
 
     test_passed = True;
+    
+    if os.path.isfile(image_path):
 
-    try:
-
-        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
-        image_width = len(image[0,:]);
-        image_height = len(image[:,0]);
-        polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));        
-
-        fe = FaceExtractor(None);
-
-        handle = fe.extractFacesFromImage(image_path);
-
-        result = fe.getResults(handle);
-
-        error = result[FACE_EXTRACTION_ERROR_KEY];
-
-        if(len(error) == 0):
-
-            faces = result[FACE_EXTRACTION_FACES_KEY];
-            
-            for face in faces:
+        try:
+    
+            image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
+            image_width = len(image[0,:]);
+            image_height = len(image[:,0]);
+            polygon_image = Polygon((0,0), (image_width, 0), (image_width, image_height), (0, image_height));        
+    
+            fe = FaceExtractor(None);
+    
+            handle = fe.extractFacesFromImage(image_path);
+    
+            result = fe.getResults(handle);
+    
+            error = result[FACE_EXTRACTION_ERROR_KEY];
+    
+            if(len(error) == 0):
+    
+                faces = result[FACE_EXTRACTION_FACES_KEY];
                 
-                tag = face[FACE_EXTRACTION_TAG_KEY];
-                # Check that tag is a not empty string
-                if(len(tag) == 0):
-                    test_passed = False;
-                    break;
-
-                # Check that bounding box rectangle is inside the original image
-                face_bbox = face[FACE_EXTRACTION_BBOX_KEY];
-                x = face_bbox[0];
-                y = face_bbox[1];
-                width = face_bbox[2];
-                height = face_bbox[3];
-
-                polygon_bbox = Polygon((x,y), (x+width,y), (x+width, y+height), (x, y+height));
-                if(not(polygon_image.encloses(polygon_bbox))):
-                    test_passed = False;
-                    break;
+                for face in faces:
+                    
+                    tag = face[FACE_EXTRACTION_TAG_KEY];
+                    # Check that tag is a not empty string
+                    if(len(tag) == 0):
+                        test_passed = False;
+                        break;
+    
+                    # Check that bounding box rectangle is inside the original image
+                    face_bbox = face[FACE_EXTRACTION_BBOX_KEY];
+                    x = face_bbox[0];
+                    y = face_bbox[1];
+                    width = face_bbox[2];
+                    height = face_bbox[3];
+    
+                    polygon_bbox = Polygon((x,y), (x+width,y), (x+width, y+height), (x, y+height));
+                    if(not(polygon_image.encloses(polygon_bbox))):
+                        test_passed = False;
+                        break;
+                
+            else:
+                print(error);
+                test_passed = False;
             
-        else:
-            print(error);
+        except IOError, (errno, strerror):
+            print "I/O error({0}): {1}".format(errno, strerror);
             test_passed = False;
-        
-    except IOError, (errno, strerror):
-        print "I/O error({0}): {1}".format(errno, strerror);
-        test_passed = False;
-    except:
-        print "Unexpected error:", sys.exc_info()[0];
-        test_passed = False;
-        raise;
+        except:
+            print "Unexpected error:", sys.exc_info()[0];
+            test_passed = False;
+            raise;
+            
+    else:
+
+        print "Software test file does not exist"
+        test_passed = False
         
     return test_passed;
 

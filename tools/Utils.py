@@ -1,13 +1,10 @@
 import cv2
 import math
-import numpy
+import numpy as np
 import os
 import sys
 import yaml
-from Constants import *
-
-FACE_CLASSIFIER = 'haarcascade_frontalface_alt2.xml';
-EYE_CLASSIFIER = 'haarcascade_eye.xml';
+from Constants import * 
 
 def load_YAML_file(file_path):
     """Load YAML file.
@@ -18,9 +15,15 @@ def load_YAML_file(file_path):
     Returns:
         A dictionary with the contents of the file
     """
-    with open(file_path, 'r') as stream:
-        data = yaml.load(stream);
-        return data;
+    try:
+        
+        with open(file_path, 'r') as stream:
+            data = yaml.load(stream)
+            return data
+           
+    except:
+        
+        return None
 
 def load_image_annotations(file_path):
     """Load YAML file with image .
@@ -32,9 +35,16 @@ def load_image_annotations(file_path):
         A list of dictionaries with the annotated images
     """
     data = load_YAML_file(file_path);
-
-    images = data[ANNOTATIONS_FRAMES_KEY];
-    return images;
+    
+    if(data):
+        
+        images = data[ANNOTATIONS_FRAMES_KEY]
+        return images
+        
+    else:
+        
+        print 'Unable to open', file_path
+        return None
 
 def save_YAML_file(file_path, dictionary):
     """Save YAML file.
@@ -210,11 +220,11 @@ def aggregate_frame_results(frames, fm):
 
             if(USE_MIN_CONFIDENCE_RULE):
 
-                final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
+                final_confidence = float(np.min(confidence_lists_dict[final_tag]));
 
                 for i in range(1, len(candidate_tags_list)):
 
-                    min_confidence = float(numpy.min(confidence_lists_dict[candidate_tags_list[i]]));
+                    min_confidence = float(np.min(confidence_lists_dict[candidate_tags_list[i]]));
 
                     if (min_confidence < final_confidence):
 
@@ -227,12 +237,12 @@ def aggregate_frame_results(frames, fm):
                 #print('\nCONFIDENCE LIST\n')
                 #print(confidence_lists_dict[final_tag])
 
-                final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
+                final_confidence = float(np.mean(confidence_lists_dict[final_tag]));
                 #print(candidate_tags_list)
 
                 for i in range(1, len(candidate_tags_list)):
 
-                    mean_confidence = float(numpy.mean(confidence_lists_dict[candidate_tags_list[i]]));
+                    mean_confidence = float(np.mean(confidence_lists_dict[candidate_tags_list[i]]));
 
                     if (mean_confidence < final_confidence):
 
@@ -251,7 +261,7 @@ def aggregate_frame_results(frames, fm):
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
+                    final_confidence = float(np.min(confidence_lists_dict[final_tag]));
 
                 for label in range(1, people_nr):
                 
@@ -259,7 +269,7 @@ def aggregate_frame_results(frames, fm):
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
-                        min_confidence = float(numpy.min(confidence_lists_dict[tag]));
+                        min_confidence = float(np.min(confidence_lists_dict[tag]));
 
                         if ((final_confidence == -1) or (min_confidence < final_confidence)):
 
@@ -275,7 +285,7 @@ def aggregate_frame_results(frames, fm):
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
+                    final_confidence = float(np.mean(confidence_lists_dict[final_tag]));
 
                 for label in range(1, people_nr):
                 
@@ -283,7 +293,7 @@ def aggregate_frame_results(frames, fm):
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
-                        mean_confidence = float(numpy.mean(confidence_lists_dict[tag]));
+                        mean_confidence = float(np.mean(confidence_lists_dict[tag]));
 
                         if ((final_confidence == -1) or (mean_confidence < final_confidence)):
 
@@ -378,4 +388,24 @@ def normalize_illumination(img):
     else:
         
         return None
+        
+def save_model_file(X, y, db_file_name = None):
+    
+    if(len(y) > 0): 
+        model=cv2.createLBPHFaceRecognizer(
+        FACE_RECOGNITION_RADIUS, 
+        FACE_RECOGNITION_NEIGHBORS, 
+        FACE_RECOGNITION_GRID_X, 
+        FACE_RECOGNITION_GRID_Y)
+        model.train(np.asarray(X), np.asarray(y))
+        model_folder = DB_MODELS_PATH
+        
+        if db_file_name is not None:
+            
+            model_folder = db_file_name
+            if not os.path.exists(model_folder):
+                os.makedirs(model_folder)
+        
+        model_file = model_folder + os.sep + str(y[0])
+        model.save(model_file)
     
