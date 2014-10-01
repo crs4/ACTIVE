@@ -250,8 +250,6 @@ def fr_video_experiments(params, show_results):
         people_test_frames_nr_dict[tag] = 0;
         
     # Iterate over all videos
-    video_counter = 0
-
     delta_x_maxs = []
     delta_y_maxs = []
     delta_w_maxs = []
@@ -483,7 +481,17 @@ def fr_video_experiments(params, show_results):
 
                         frame_counter = frame_counter + 1
                 
-                number_of_anal_video = number_of_anal_video + 1 
+                experiment_dict[VIDEO_COUNTER_KEY] = number_of_anal_video
+        
+                experiment_dict[ANN_TAG_KEY] = ann_face_tag
+                
+                experiment_dict[FRAMES_KEY] = experiment_dict_frames
+                
+                save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
+                
+                experiment_dict_list.append(experiment_dict)
+                
+                number_of_anal_video = number_of_anal_video + 1
                     
         except IOError, (errno, strerror):
             print "I/O error({0}): {1}".format(errno, strerror)
@@ -491,7 +499,6 @@ def fr_video_experiments(params, show_results):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-    if(number_of_anal_video > 0):
     
         #if(not(USE_TRACKING) and not(SIM_TRACKING)):
 ##
@@ -502,18 +509,8 @@ def fr_video_experiments(params, show_results):
             #delta_x_maxs.append(video_max_x)
             #delta_y_maxs.append(video_max_y)
             #delta_w_maxs.append(video_max_w)
-
-        video_counter = video_counter + 1
         
-        experiment_dict[VIDEO_COUNTER_KEY] = video_counter
-        
-        experiment_dict[ANN_TAG_KEY] = ann_face_tag
-        
-        experiment_dict[FRAMES_KEY] = experiment_dict_frames
-        
-        save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
-        
-        experiment_dict_list.append(experiment_dict)
+    if(number_of_anal_video > 0):    
     
         csv_file_path = results_path + CSV_FILE_NAME
             
@@ -565,7 +562,7 @@ def fr_video_experiments(params, show_results):
     
         recognition_rate = float(tot_rec_frames_nr) / float(tot_test_frames_nr);
     
-        mean_rec_time = mean_rec_time / video_counter;
+        mean_rec_time = mean_rec_time / number_of_anal_video;
     
         mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list));
         std_true_pos_confidence = float(numpy.std(true_pos_confidence_list));
