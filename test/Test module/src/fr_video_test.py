@@ -515,7 +515,7 @@ def fr_video_experiments(params, show_results):
         
         experiment_dict_list.append(experiment_dict)
     
-        csv_file_path = results_path + "Risultati_Videolina.csv"
+        csv_file_path = results_path + CSV_FILE_NAME
             
         save_experiment_results_in_CSV_file(csv_file_path, experiment_dict_list)
     

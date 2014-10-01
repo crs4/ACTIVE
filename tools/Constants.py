@@ -3,15 +3,16 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE"
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
-ANN_PATH = R'C:\Active\Mercurial\test\Test files\Face detection\Annotations'
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
+CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Fic06'
 DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Training_set_ordered'
-FACE_DETECTION_RESULTS_PATH = r''
-FACE_DETECTION_TEST_SET_PATH = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet'
+FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
+FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Risultati\LBP_1_8_4x4_indipendent_frames'
 FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
@@ -126,7 +127,7 @@ EXPERIMENT_KEY = 'experiment';
 EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
-EXPERIMENT_RESULTS_FILE_NAME = ''
+EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
 
 # Face recognition parameters
 ALFA = 1
@@ -175,7 +176,7 @@ USE_RESIZING = True
 # Face extraction from video
 
 # Face extraction from video
-
+LOAD_IND_FRAMES_RESULTS = True
 MAX_DELTA_PCT_W = 0.1
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1

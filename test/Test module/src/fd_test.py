@@ -125,7 +125,7 @@ def fd_experiments(params, show_results):
     # Folder with annotation files
     annotations_path = ANN_PATH + os.sep
     #Folder with results
-    results_path = FACE_DETECTION_RESULTS_PATH
+    results_path = FACE_DETECTION_RESULTS_PATH + os.sep
     
     if params is not None:
         
@@ -147,10 +147,18 @@ def fd_experiments(params, show_results):
     face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
     # Name of used algorithm for face detection
     algorithm_name = ALGORITH_NAME
-    face_detection_params = None
+    face_detection_params = {}
     if face_extractor_params is not None:
         face_detection_params = face_extractor_params[FACE_DETECTION_KEY]
         algorithm_name = face_detection_params[ALGORITHM_KEY]
+    else:
+        face_detection_params[ALGORITHM_KEY] = FACE_DETECTION_ALGORITHM
+        face_detection_params[SCALE_FACTOR_KEY] = FACE_DETECTION_SCALE_FACTOR
+        face_detection_params[MIN_NEIGHBORS_KEY] = FACE_DETECTION_MIN_NEIGHBORS
+        face_detection_params[FLAGS_KEY] = FACE_DETECTION_FLAGS
+        face_detection_params[MIN_SIZE_WIDTH_KEY] = FACE_DETECTION_MIN_SIZE_WIDTH
+        face_detection_params[MIN_SIZE_HEIGHT_KEY] = FACE_DETECTION_MIN_SIZE_HEIGHT
+        face_detection_params[CLASSIFIERS_FOLDER_PATH_KEY] = CLASSIFIERS_FOLDER_PATH
 
     video_directories = listdir(frames_path)
 
@@ -235,9 +243,9 @@ def fd_experiments(params, show_results):
                         width = annotated_face_dict[FACE_WIDTH_KEY]
                         height = annotated_face_dict[FACE_HEIGHT_KEY]
                         annotated_face_rectangle = [x, y, width, height] # Create annotated face rectangle
-    
-                        if(is_rect_enclosed(detected_face_rectangle, annotated_face_rectangle) and (detected_face_width <= 4 * width)):
-                            true_positive = True
+                        
+                        if(is_rect_enclosed(annotated_face_rectangle, detected_face_rectangle) and (detected_face_width <= 4 * width)):
+                            true_positive = True 
                             true_positives_nr = true_positives_nr + 1
                             true_positives_nr_in_image = true_positives_nr_in_image + 1
     
@@ -248,10 +256,10 @@ def fd_experiments(params, show_results):
                     # Save position and size of detected face in face dictionary and add this to list
                     detected_face_dict_extended = {}
                     detected_face_dict = {}
-                    detected_face_dict[FACE_X_KEY] = detected_face_rectangle[0]
-                    detected_face_dict[FACE_Y_KEY] = detected_face_rectangle[1]
-                    detected_face_dict[FACE_WIDTH_KEY] = detected_face_width
-                    detected_face_dict[FACE_HEIGHT_KEY] = detected_face_height
+                    detected_face_dict[FACE_X_KEY] = int(detected_face_rectangle[0])
+                    detected_face_dict[FACE_Y_KEY] = int(detected_face_rectangle[1])
+                    detected_face_dict[FACE_WIDTH_KEY] = int(detected_face_width)
+                    detected_face_dict[FACE_HEIGHT_KEY] = int(detected_face_height)
     
                     # Save check result
                     if(true_positive):

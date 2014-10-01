@@ -13,12 +13,13 @@
 #---------------------------------------------------------
 
 import cv2
+import math
+import os
+import time
+from Constants import *
 from face_detection import detect_faces_in_image
 from face_recognition import recognize_face
-from Utils import load_YAML_file, aggregate_frame_results
-from Constants import *
-import time
-import math
+from Utils import aggregate_frame_results, load_YAML_file, save_YAML_file
 
 
 class FaceModels(object):
@@ -144,9 +145,9 @@ class FaceExtractor(object):
         detection_params = None
         recognition_params = None
         if self.params is not None:
-			
-			detection_params = self.params[FACE_DETECTION_KEY]
-			recognition_params = self.params[FACE_RECOGNITION_KEY]
+            
+            detection_params = self.params[FACE_DETECTION_KEY]
+            recognition_params = self.params[FACE_RECOGNITION_KEY]
 
         detection_result = detect_faces_in_image(resource_path, detection_params, False)
         
@@ -239,65 +240,78 @@ class FaceExtractor(object):
 
             frames = []
             
-            video_fps = capture.get(cv2.cv.CV_CAP_PROP_FPS)
-
-            tot_frames = capture.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
-
-            while True:
+            file_name, ext = os.path.splitext(resource)
             
-                frame_dict = {}
+            YAML_file = file_name + '_ind_frames_results.yml'
             
-                ret, frame = capture.read()
-
-                if(not(ret)):
-                    break;
-                    
-                # Next frame to be analyzed
-                next_frame = last_anal_frame + (video_fps/USED_FPS)
-                if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
-
-                    # Frame position in video in seconds
-                    elapsed_video_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
-                    elapsed_video_s = elapsed_video_ms / 1000 
-                    
-                    print "elapsed video s =", elapsed_video_s
-                    
-                    #video_position = capture.get(cv2.cv.CV_CAP_PROP_POS_AVI_RATIO) # This doesn't work!
+            if((USE_TRACKING or USE_SLIDING_WINDOW)
+            and LOAD_IND_FRAMES_RESULTS):
+                
+                frames = load_YAML_file(YAML_file)
+                
+            else:
+            
+                video_fps = capture.get(cv2.cv.CV_CAP_PROP_FPS)
     
-                    self.progress = 100 * (frame_counter / tot_frames)
+                tot_frames = capture.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
     
-                    #print('progress: ' + str(self.progress) + '%')
+                while True:
+                
+                    frame_dict = {}
+                
+                    ret, frame = capture.read()
     
-                    cv2.imwrite(TMP_FRAME_FILE_PATH, frame)
-    
-                    handle = self.extractFacesFromImage(TMP_FRAME_FILE_PATH)
-    
-                    frame_results = self.getResults(handle)
-    
-                    frame_error = frame_results[ERROR_KEY]
-    
-                    if(frame_error):
-    
-                        error = frame_results[ERROR_KEY]
-    
+                    if(not(ret)):
                         break;
-    
-                    else:
-    
-                        frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
-    
-                        frame_dict[FACES_KEY] = frame_results[FACES_KEY]
-    
-                        frame_dict[FRAME_COUNTER_KEY] = frame_counter
-    
-                        frames.append(frame_dict)
                         
-                    anal_frame_counter = anal_frame_counter + 1
-                    
-                    last_anal_frame = frame_counter
+                    # Next frame to be analyzed
+                    next_frame = last_anal_frame + (video_fps/USED_FPS)
+                    if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
     
-                frame_counter = frame_counter + 1
-
+                        # Frame position in video in seconds
+                        elapsed_video_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
+                        elapsed_video_s = elapsed_video_ms / 1000 
+                        
+                        print "elapsed video s =", elapsed_video_s
+                        
+                        #video_position = capture.get(cv2.cv.CV_CAP_PROP_POS_AVI_RATIO) # This doesn't work!
+        
+                        self.progress = 100 * (frame_counter / tot_frames)
+        
+                        #print('progress: ' + str(self.progress) + '%')
+        
+                        cv2.imwrite(TMP_FRAME_FILE_PATH, frame)
+        
+                        handle = self.extractFacesFromImage(TMP_FRAME_FILE_PATH)
+        
+                        frame_results = self.getResults(handle)
+        
+                        frame_error = frame_results[ERROR_KEY]
+        
+                        if(frame_error):
+        
+                            error = frame_results[ERROR_KEY]
+        
+                            break
+        
+                        else:
+        
+                            frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+        
+                            frame_dict[FACES_KEY] = frame_results[FACES_KEY]
+        
+                            frame_dict[FRAME_COUNTER_KEY] = frame_counter
+        
+                            frames.append(frame_dict)
+                            
+                        anal_frame_counter = anal_frame_counter + 1
+                        
+                        last_anal_frame = frame_counter
+        
+                    frame_counter = frame_counter + 1
+                    
+                save_YAML_file(YAML_file, frames)
+    
             if(USE_TRACKING):
 
                 segments = []
