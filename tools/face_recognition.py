@@ -7,13 +7,13 @@ import sys
 from collections import Counter
 from Constants import *
 from FaceModelsLBP import FaceModelsLBP
-from train_from_captions import train_from_captions
+from train_by_captions import train_by_captions
 
 def calculate_w_reg_distance(query_hist, train_hist):
     
-    nr_regions = FACE_RECOGNITION_GRID_X * FACE_RECOGNITION_GRID_Y
+    nr_regions = LBP_GRID_X * LBP_GRID_Y
     
-    len_reg_hist = 2**FACE_RECOGNITION_NEIGHBORS
+    len_reg_hist = 2**LBP_NEIGHBORS
     
     diff = 0
     
@@ -61,12 +61,12 @@ def calculate_w_reg_distance(query_hist, train_hist):
 def recognize_with_NBNN_distance(
 query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
     
-    nr_regions = FACE_RECOGNITION_GRID_X * FACE_RECOGNITION_GRID_Y
+    nr_regions = LBP_GRID_X * LBP_GRID_Y
     
-    len_reg_hist = 2**FACE_RECOGNITION_NEIGHBORS
+    len_reg_hist = 2**LBP_NEIGHBORS
     
-    reg_w = float(im_w) / FACE_RECOGNITION_GRID_X
-    reg_h = float(im_h) / FACE_RECOGNITION_GRID_Y
+    reg_w = float(im_w) / LBP_GRID_X
+    reg_h = float(im_h) / LBP_GRID_Y
     
     # List with minimum differences for all query regions
     diff_list = [] 
@@ -83,9 +83,9 @@ query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
             
             # Calculate region position for query image
     
-            reg_x_counter = r % FACE_RECOGNITION_GRID_X
+            reg_x_counter = r % LBP_GRID_X
             
-            reg_y_counter = r / FACE_RECOGNITION_GRID_Y
+            reg_y_counter = r / LBP_GRID_Y
             
             q_x = reg_x_counter * reg_w / im_w
             
@@ -122,9 +122,9 @@ query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
                         
                         # Calculate region position for train image
                         
-                        reg_x_counter = r2 % FACE_RECOGNITION_GRID_X
+                        reg_x_counter = r2 % LBP_GRID_X
                         
-                        reg_y_counter = r2 / FACE_RECOGNITION_GRID_Y
+                        reg_y_counter = r2 / LBP_GRID_Y
                         
                         t_x = reg_x_counter * reg_w / im_w
                         
@@ -182,8 +182,8 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     #train_labels = fm.model.getMat("labels")
            
     query_model = cv2.createLBPHFaceRecognizer(
-    FACE_RECOGNITION_RADIUS, FACE_RECOGNITION_NEIGHBORS, 
-    FACE_RECOGNITION_GRID_X, FACE_RECOGNITION_GRID_Y)
+    LBP_RADIUS, LBP_NEIGHBORS, 
+    LBP_GRID_X, LBP_GRID_Y)
         
     query_model.train(
     np.asarray([np.asarray(face, dtype=np.uint8)]), np.asarray(0))
@@ -239,6 +239,8 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     # Get K nearest histograms
     
     idxs = [i[0] for i in sorted(enumerate(diff_list), key=lambda x:x[1])]
+    
+    K = KNN_NEIGHBORS
     
     if(CALCULATE_K_FROM_FEATURES):
         
@@ -300,7 +302,7 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
         
         confidence = counter
     
-    tag = fm.get_label(label);
+    tag = fm.get_tag(label);
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
@@ -309,11 +311,11 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
 
     # Populate dictionary with label, confidence and elapsed CPU time
     result = {}; 
-    result[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[FACE_RECOGNITION_ERROR_KEY] = '';
-    result[PERSON_ASSIGNED_LABEL_KEY] = label;
-    result[PERSON_ASSIGNED_TAG_KEY] = tag;
-    result[PERSON_CONFIDENCE_KEY] = confidence;
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
+    result[ERROR_KEY] = '';
+    result[ASSIGNED_LABEL_KEY] = label;
+    result[ASSIGNED_TAG_KEY] = tag;
+    result[CONFIDENCE_KEY] = confidence;
 
     return result;
 
@@ -345,8 +347,8 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     w, h = face.shape
            
     query_model = cv2.createLBPHFaceRecognizer(
-    FACE_RECOGNITION_RADIUS, FACE_RECOGNITION_NEIGHBORS, 
-    FACE_RECOGNITION_GRID_X, FACE_RECOGNITION_GRID_Y)
+    LBP_RADIUS, LBP_NEIGHBORS, 
+    LBP_GRID_X, LBP_GRID_Y)
         
     query_model.train(
     np.asarray([np.asarray(face, dtype=np.uint8)]), np.asarray(0))
@@ -386,6 +388,8 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
         # Get K nearest histograms
         
         idxs = [i[0] for i in sorted(enumerate(diff_list), key=lambda x:x[1])]
+        
+        K = KNN_NEIGHBORS
         
         if(CALCULATE_K_FROM_FEATURES):
             
@@ -453,7 +457,7 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
             
             confidence = counter
         
-    tag = fm.get_label(label);
+    tag = fm.get_tag(label);
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
@@ -462,11 +466,11 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
 
     # Populate dictionary with label, confidence and elapsed CPU time
     result = {}; 
-    result[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[FACE_RECOGNITION_ERROR_KEY] = '';
-    result[PERSON_ASSIGNED_LABEL_KEY] = label;
-    result[PERSON_ASSIGNED_TAG_KEY] = tag;
-    result[PERSON_CONFIDENCE_KEY] = confidence;
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
+    result[ERROR_KEY] = '';
+    result[ASSIGNED_LABEL_KEY] = label;
+    result[ASSIGNED_TAG_KEY] = tag;
+    result[CONFIDENCE_KEY] = confidence;
 
     if(show_results):
         cv2.imshow(str(label), face);
@@ -492,7 +496,7 @@ def recognize_face_old(face, face_models, params, show_results):
     
     [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8));
 
-    tag = fm.get_label(label);
+    tag = fm.get_tag(label);
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
@@ -501,11 +505,11 @@ def recognize_face_old(face, face_models, params, show_results):
 
     # Populate dictionary with label, confidence and elapsed CPU time
     result = {}; 
-    result[FACE_RECOGNITION_ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[FACE_RECOGNITION_ERROR_KEY] = '';
-    result[PERSON_ASSIGNED_LABEL_KEY] = label;
-    result[PERSON_ASSIGNED_TAG_KEY] = tag;
-    result[PERSON_CONFIDENCE_KEY] = confidence;
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
+    result[ERROR_KEY] = '';
+    result[ASSIGNED_LABEL_KEY] = label;
+    result[ASSIGNED_TAG_KEY] = tag;
+    result[CONFIDENCE_KEY] = confidence;
 
     if(show_results):
         cv2.imshow(str(label), face);

@@ -3,21 +3,22 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE"
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\\'
-ANN_PATH = ''
-CLASSIFIERS_FOLDER_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\ClassifierFiles'
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE"
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+ANN_PATH = R'C:\Active\Mercurial\test\Test files\Face detection\Annotations'
+CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YT'
-DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep+"Training Set Videolina"
+DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Fic06'
+DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Training_set_ordered'
 FACE_DETECTION_RESULTS_PATH = r''
-FACE_DETECTION_TEST_SET_PATH = r''
-FACE_RECOGNITION_RESULTS_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Risultati'
-FACE_RECOGNITION_TEST_SET_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Test_set'
+FACE_DETECTION_TEST_SET_PATH = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet'
+FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Risultati\LBP_1_8_4x4_indipendent_frames'
+FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
+TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
-SOFTWARE_TEST_FILE_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\test.jpg'
+SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
@@ -56,6 +57,7 @@ PEOPLE_KEY = 'people'
 PERSON_CHECK_KEY = 'person_check'
 PERSON_LABEL_KEY = 'label'
 SEGMENTS_KEY = 'segments'
+SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
 TOT_FRAMES_NR_KEY = 'tot_frames_nr'
 TRUE_POSITIVES_NR_KEY = 'true_positives_nr'
 VIDEO_COUNTER_KEY = 'video_counter'
@@ -80,8 +82,8 @@ MEAN_RECOGNITION_TIME_KEY = 'mean_recognition_time'
 
 ANNOTATIONS_FRAMES_KEY = 'images';
 ANNOTATIONS_FRAME_KEY = 'Image';
-ANNOTATIONS_FRAME_NAME_KEY = 'image_name';
-ANNOTATIONS_FRAME_FACES_NR_KEY = 'number_of_faces';
+ANNOTATIONS_FRAME_NAME_KEY = 'imageName';
+ANNOTATIONS_FRAME_FACES_NR_KEY = 'numberOfFaces';
 ANNOTATIONS_FACES_KEY = 'faces';
 ANNOTATIONS_FACE_KEY = 'face';
 ANNOTATED_FACES_NR_KEY = 'ann_faces_nr';
@@ -104,8 +106,10 @@ MIN_SIZE_WIDTH_KEY = 'min_size_width';
 SCALE_FACTOR_KEY = 'scale_factor';
 
 # Detection parameters
+ALGORITH_NAME = 'HaarCascadeFrontalAndProfileFaces'
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
-FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2'
+#FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2' Default HaarCascadeFrontalFaceAlt2
+FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces'
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 FACE_DETECTION_MIN_NEIGHBORS = 5
 FACE_DETECTION_MIN_SIZE_HEIGHT = 20
@@ -128,11 +132,11 @@ EXPERIMENT_RESULTS_FILE_NAME = ''
 ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
 FACE_MODEL_ALGORITHM="LBP"
-FACE_RECOGNITION_RADIUS=1
-FACE_RECOGNITION_NEIGHBORS=8
-FACE_RECOGNITION_GRID_X=7
-FACE_RECOGNITION_GRID_Y=7
-K = 1
+LBP_RADIUS=1
+LBP_NEIGHBORS=8
+LBP_GRID_X=4
+LBP_GRID_Y=4
+KNN_NEIGHBORS = 1
 TAG_SEP = '_'
 # If true, pixels in some regions in face images are put equals to zero
 USE_BLACK_PELS = False 
@@ -142,10 +146,10 @@ USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_NBNN = False
 USE_NORM_IN_CROPPED_FACES = False
-USE_ONE_FILE_FOR_FACE_MODELS = False
+USE_ONE_FILE_FOR_FACE_MODELS = True
 USE_TAN_AND_TRIGG_NORM = False
 USE_WEIGHTED_KNN = False
-USE_WEIGHTED_REGIONS = True
+USE_WEIGHTED_REGIONS = False
 
 # Weights for 7 x 7 grid with weighted LBP
 
@@ -155,12 +159,12 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 245 # Default 200
-CROPPED_FACE_WIDTH = 215 # Default 200
+CROPPED_FACE_HEIGHT = 200 # Default 200 245 for weighted LBP
+CROPPED_FACE_WIDTH = 200 # Default 200 215 for weighted LBP
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 OFFSET_PCT_X = 0.20 # Default 0.20
-OFFSET_PCT_Y = 0.29 # Default 0.20
+OFFSET_PCT_Y = 0.20 # Default 0.20 0.29 for weighted LBP
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
@@ -180,7 +184,7 @@ MAX_FRAMES_WITH_MISSED_DETECTION = 5
 USE_ORIGINAL_FPS = True
 # Bitrate at which video is analyzed in face extraction
 USED_FPS = 1.0 
-USE_ORIGIN_FPS_IN_TRAINING = False
+USE_ORIGINAL_FPS_IN_TRAINING = False
 # Bitrate at which video is analyzed in training from captions
 USED_FPS_IN_TRAINING = 1.0
 # Assigne tag that whose assigned to the majority of frames
@@ -213,6 +217,7 @@ USE_LEVENSHTEIN = True
 
 # Face extraction test
 SIM_TRACKING = False
+TEST_VIDEO_PATH = 'video_path'
 
 
 

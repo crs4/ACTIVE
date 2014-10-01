@@ -32,7 +32,7 @@ def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
             
             time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
             
-            assigned_tag = frame[TAG_KEY]
+            assigned_tag = frame[ASSIGNED_TAG_KEY]
             
             confidence = frame[CONFIDENCE_KEY]
 
@@ -73,7 +73,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
             face = faces[0]
 
-            assigned_tag = face[TAG_KEY]
+            assigned_tag = face[ASSIGNED_TAG_KEY]
 
             assigned_frames_nr_dict[assigned_tag] = assigned_frames_nr_dict[assigned_tag] + 1
 
@@ -230,7 +230,7 @@ def fr_video_experiments(params, show_results):
 
     video_path = None
     if(USE_CAPTIONS):
-        video_path = r'C:\Users\Maurizio\Documents\Frame dai video di Videolina\1 fps\Fic_02' # TEST ONLY
+        video_path = r'C:\Active\Dataset\Videolina - Video originali\fic.02.mpg' # TEST ONLY
 
     fm = FaceModelsLBP(video_path = video_path);
     # Number of people
@@ -241,8 +241,10 @@ def fr_video_experiments(params, show_results):
     people_false_positives_dict = {};
     people_test_frames_nr_dict = {};
     
-    for label in range(0, people_nr):
-        tag = fm.get_tag(label);
+    tags = fm.get_tags()
+    
+    for tag in tags:
+        
         people_true_positives_dict[tag] = 0;
         people_false_positives_dict[tag] = 0;
         people_test_frames_nr_dict[tag] = 0;
@@ -295,7 +297,7 @@ def fr_video_experiments(params, show_results):
 
             else:
 
-                video_test_frames_nr = results[TOT_FRAMES_NR]
+                video_test_frames_nr = results[TOT_FRAMES_NR_KEY]
 
                 tot_test_frames_nr = tot_test_frames_nr + video_test_frames_nr
 
@@ -529,9 +531,7 @@ def fr_video_experiments(params, show_results):
         print('\nTEST FRAMES NR\n')
         print(people_test_frames_nr_dict)    
         
-        for label in range(0, people_nr):
-    
-            tag = fm.get_tag(label);
+        for tag in tags:
     
             if tag in tested_people_tag_list:
     

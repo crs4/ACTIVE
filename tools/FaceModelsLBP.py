@@ -26,7 +26,7 @@ class FaceModelsLBP():
         :param workers: the address (IP and port) of workers.
         '''
         self._tags={}
-        self._model=None
+        self.model=None
 
         if(USE_CAPTIONS):
             
@@ -77,7 +77,7 @@ class FaceModelsLBP():
             if not os.path.exists(self._dbpath+"/"+tag):
                 os.makedirs(self._dbpath+"/"+tag)
         if type(filenames_or_images) is str:
-            print "string"
+            print "string"   
         
     def get_tag(self, index):
         '''
@@ -184,7 +184,7 @@ class FaceModelsLBP():
         if(os.path.isfile(db_file_name) and (os.path.isfile(tags_file_name))):
             model.load(db_file_name)
             if(not(model == None)):
-                self._model=model
+                self.model=model
                 self._tags = load_YAML_file(tags_file_name)
                 ok = True
                 print('\n### DB LOADED ###\n')
@@ -239,7 +239,7 @@ class FaceModelsLBP():
             if(os.path.isfile(db_file_name)):
                 model.load(db_file_name)
                 if(not(model == None)):
-                    self._model=model
+                    self.model=model
                     ok = True
 
         return ok;    
@@ -254,7 +254,7 @@ class FaceModelsLBP():
             
             db_file_name=self._db_name+"-LBP"
             [model, tags] = train_by_captions(video_path, db_file_name)
-            self._model = model
+            self.model = model
             self._tags = tags
             
         else:
@@ -276,13 +276,13 @@ class FaceModelsLBP():
                 if(USE_ONE_FILE_FOR_FACE_MODELS):
                 
                     model=cv2.createLBPHFaceRecognizer(
-                    FACE_RECOGNITION_RADIUS, 
-                    FACE_RECOGNITION_NEIGHBORS, 
-                    FACE_RECOGNITION_GRID_X, 
-                    FACE_RECOGNITION_GRID_Y)
+                    LBP_RADIUS, 
+                    LBP_NEIGHBORS, 
+                    LBP_GRID_X, 
+                    LBP_GRID_Y)
                     model.train(np.asarray(X), np.asarray(y))
                     model.save(db_file_name)
-                    self._model=model
+                    self.model=model
                         
                 # Save tags in YAML file
                 save_YAML_file(db_file_name + "-Tags",self._tags) 

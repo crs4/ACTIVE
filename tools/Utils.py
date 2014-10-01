@@ -34,7 +34,7 @@ def load_image_annotations(file_path):
     Returns:
         A list of dictionaries with the annotated images
     """
-    data = load_YAML_file(file_path);
+    data = load_YAML_file(file_path)
     
     if(data):
         
@@ -57,13 +57,13 @@ def save_YAML_file(file_path, dictionary):
         A boolean indicating the result of the write operation
     """
     with open(file_path, 'w') as stream:
-        result = stream.write(yaml.dump(dictionary, default_flow_style = False));
-        return result;
+        result = stream.write(yaml.dump(dictionary, default_flow_style = False))
+        return result
 
 # Load file with results of all experiments and return list of experiments
 def load_experiment_results(filePath):
-    data = load_YAML_file(filePath);
-    experiments = data[EXPERIMENTS_KEY];
+    data = load_YAML_file(filePath)
+    experiments = data[EXPERIMENTS_KEY]
     return experiments
 
 def detect_eyes_in_image(image, eye_cascade_classifier):
@@ -78,102 +78,103 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
 
     '''
 
-    min_neighbors = 0;
-    haar_scale = 1.1;
-    haar_flags = cv2.CASCADE_DO_CANNY_PRUNING;
+    min_neighbors = 0
+    haar_scale = 1.1
+    haar_flags = cv2.CASCADE_DO_CANNY_PRUNING
 
-    image_width = len(image[0,:]);
-    image_height = len(image[:,0]);
+    image_width = len(image[0,:])
+    image_height = len(image[:,0])
     
-    eyes = eye_cascade_classifier.detectMultiScale(image, haar_scale, min_neighbors, haar_flags);
+    eyes = eye_cascade_classifier.detectMultiScale(image, haar_scale, min_neighbors, haar_flags)
 
     # Divide between left eyes and right eyes
-    left_eyes = [];
-    right_eyes = [];
+    left_eyes = []
+    right_eyes = []
     for eye in eyes:
-        eye_x = eye[0];
-        eye_y = eye[1];
-        eye_w = eye[2];
-        eye_h = eye[3];
-        eye_center_x = eye_x + (eye_w / 2);
-        eye_center_y = eye_y + (eye_h / 2);
+        eye_x = eye[0]
+        eye_y = eye[1]
+        eye_w = eye[2]
+        eye_h = eye[3]
+        eye_center_x = eye_x + (eye_w / 2)
+        eye_center_y = eye_y + (eye_h / 2)
         if(eye_center_y < (image_height / 2)):
             if(eye_center_x < (image_width / 2)):
-                left_eyes.append(eye);
+                left_eyes.append(eye)
             else:
-                right_eyes.append(eye);
+                right_eyes.append(eye)
 
-    left_eye = get_best_eye(left_eyes);
+    left_eye = get_best_eye(left_eyes)
 
-    right_eye = get_best_eye(right_eyes);
+    right_eye = get_best_eye(right_eyes)
 
     # Get max eyes confidence
 
-    eyes_final_list = [];
+    eyes_final_list = []
     if(not(left_eye == None) and not(right_eye == None)):
-        eyes_final_list = [left_eye, right_eye];
+        eyes_final_list = [left_eye, right_eye]
     
-    return eyes_final_list;   
+    return eyes_final_list   
 
 def get_best_eye(eyes_list):
     # Calculate confidence for each eye rectangle
-    eyes_confidences = [];
+    eyes_confidences = []
 
-    eye_counter = 0;
+    eye_counter = 0
     for eye in eyes_list:
-        eye_x1 = eye[0];
-        eye_y1 = eye[1];
-        eye_w = eye[2];
-        eye_h = eye[3];
-        eye_x2 = eye_x1 + eye_w;
-        eye_y2 = eye_y1 + eye_h;
+        eye_x1 = eye[0]
+        eye_y1 = eye[1]
+        eye_w = eye[2]
+        eye_h = eye[3]
+        eye_x2 = eye_x1 + eye_w
+        eye_y2 = eye_y1 + eye_h
 
-        eye_area = eye_w * eye_h;
+        eye_area = eye_w * eye_h
         
-        confidence = 0;
+        confidence = 0
 
-        other_eye_counter = 0;
+        other_eye_counter = 0
         for other_eye in eyes_list:
 
             if(not(other_eye_counter == eye_counter)):
-                other_eye_x1 = other_eye[0];
-                other_eye_y1 = other_eye[1];
-                other_eye_w = other_eye[2];
-                other_eye_h = other_eye[3];
-                other_eye_x2 = other_eye_x1 + other_eye_w;
-                other_eye_y2 = other_eye_y1 + other_eye_h;
+                other_eye_x1 = other_eye[0]
+                other_eye_y1 = other_eye[1]
+                other_eye_w = other_eye[2]
+                other_eye_h = other_eye[3]
+                other_eye_x2 = other_eye_x1 + other_eye_w
+                other_eye_y2 = other_eye_y1 + other_eye_h
 
-                int_x1 = max(eye_x1, other_eye_x1);
-                int_y1 = max(eye_y1, other_eye_y1);
-                int_x2 = min(eye_x2, other_eye_x2);
-                int_y2 = min(eye_y2, other_eye_y2);
+                int_x1 = max(eye_x1, other_eye_x1)
+                int_y1 = max(eye_y1, other_eye_y1)
+                int_x2 = min(eye_x2, other_eye_x2)
+                int_y2 = min(eye_y2, other_eye_y2)
 
                 if((int_x2 > int_x1) and (int_y2 > int_y1)):
-                    int_width = int_x2 - int_x1;
-                    int_height = int_y2 - int_y1;
-                    int_area = int_width * int_height;
-                    confidence = confidence + float(int_area)/float(eye_area);
+                    int_width = int_x2 - int_x1
+                    int_height = int_y2 - int_y1
+                    int_area = int_width * int_height
+                    confidence = confidence + float(int_area)/float(eye_area)
                 
-            other_eye_counter = other_eye_counter + 1;
+            other_eye_counter = other_eye_counter + 1
 
-        eyes_confidences.append(confidence);
+        eyes_confidences.append(confidence)
         
-        eye_counter = eye_counter + 1;
+        eye_counter = eye_counter + 1
 
     if(len(eyes_confidences) > 0):
-        eye_index = eyes_confidences.index(max(eyes_confidences));
-        return eyes_list[eye_index];
+        eye_index = eyes_confidences.index(max(eyes_confidences))
+        return eyes_list[eye_index]
     else:
-        return None;
+        return None
 
 def aggregate_frame_results(frames, fm):
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
-    people_nr = fm.get_people_nr();
-
-    for label in range(0, people_nr):
-        tag = fm.get_label(label);
+    people_nr = fm.get_people_nr()
+    
+    tags = fm.get_tags()
+    
+    for tag in tags:
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
@@ -181,11 +182,11 @@ def aggregate_frame_results(frames, fm):
 
     for frame in frames:
 
-        assigned_tag = frame[FACE_EXTRACTION_TAG_KEY]
+        assigned_tag = frame[ASSIGNED_TAG_KEY]
 
         assigned_frames_nr_dict[assigned_tag] = assigned_frames_nr_dict[assigned_tag] + 1
 
-        confidence = frame[FACE_EXTRACTION_CONFIDENCE_KEY]
+        confidence = frame[CONFIDENCE_KEY]
 
         confidence_lists_dict[assigned_tag].append(confidence)
 
@@ -197,9 +198,8 @@ def aggregate_frame_results(frames, fm):
         max_frames_nr = 0
         candidate_tags_list = []
         
-        for label in range(0, people_nr):
+        for tag in tags:
             
-            tag = fm.get_label(label);
             assigned_frames_nr = assigned_frames_nr_dict[tag]
 
             if(assigned_frames_nr > max_frames_nr):
@@ -220,11 +220,11 @@ def aggregate_frame_results(frames, fm):
 
             if(USE_MIN_CONFIDENCE_RULE):
 
-                final_confidence = float(np.min(confidence_lists_dict[final_tag]));
+                final_confidence = float(np.min(confidence_lists_dict[final_tag]))
 
                 for i in range(1, len(candidate_tags_list)):
 
-                    min_confidence = float(np.min(confidence_lists_dict[candidate_tags_list[i]]));
+                    min_confidence = float(np.min(confidence_lists_dict[candidate_tags_list[i]]))
 
                     if (min_confidence < final_confidence):
 
@@ -237,12 +237,12 @@ def aggregate_frame_results(frames, fm):
                 #print('\nCONFIDENCE LIST\n')
                 #print(confidence_lists_dict[final_tag])
 
-                final_confidence = float(np.mean(confidence_lists_dict[final_tag]));
+                final_confidence = float(np.mean(confidence_lists_dict[final_tag]))
                 #print(candidate_tags_list)
 
                 for i in range(1, len(candidate_tags_list)):
 
-                    mean_confidence = float(np.mean(confidence_lists_dict[candidate_tags_list[i]]));
+                    mean_confidence = float(np.mean(confidence_lists_dict[candidate_tags_list[i]]))
 
                     if (mean_confidence < final_confidence):
 
@@ -257,19 +257,17 @@ def aggregate_frame_results(frames, fm):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_label(0)
+                final_tag = tags[0]
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(np.min(confidence_lists_dict[final_tag]));
+                    final_confidence = float(np.min(confidence_lists_dict[final_tag]))
 
-                for label in range(1, people_nr):
-                
-                    tag = fm.get_label(label);
+                for tag in tags:
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
-                        min_confidence = float(np.min(confidence_lists_dict[tag]));
+                        min_confidence = float(np.min(confidence_lists_dict[tag]))
 
                         if ((final_confidence == -1) or (min_confidence < final_confidence)):
 
@@ -281,19 +279,17 @@ def aggregate_frame_results(frames, fm):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_label(0)
+                final_tag = tags[0]
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(np.mean(confidence_lists_dict[final_tag]));
+                    final_confidence = float(np.mean(confidence_lists_dict[final_tag]))
 
-                for label in range(1, people_nr):
-                
-                    tag = fm.get_label(label);
+                for tag in tags:
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
-                        mean_confidence = float(np.mean(confidence_lists_dict[tag]));
+                        mean_confidence = float(np.mean(confidence_lists_dict[tag]))
 
                         if ((final_confidence == -1) or (mean_confidence < final_confidence)):
 
@@ -409,3 +405,28 @@ def save_model_file(X, y, db_file_name = None):
         model_file = model_folder + os.sep + str(y[0])
         model.save(model_file)
     
+def is_rect_enclosed(rect1, rect2):
+    """Check if rectangle is inside another rectangle
+
+    Args:
+        rect1 = first rectangle given as list (x, y, width, height)
+        rect2 = second rectangle given as list (x, y, width, height)
+
+    Returns:
+        True if rect 1 is inside rect 2
+    """ 
+    x11 = rect1[0]
+    y11 = rect1[1]
+    x12 = x11 + rect1[2]
+    y12 = y11 + rect1[3] 
+    
+    x21 = rect2[0]
+    y21 = rect2[1]
+    x22 = x21 + rect2[2]
+    y22 = y21 + rect2[3]
+    
+    if((x11 >= x21) and (y11 >= y21)
+        and (x12 <= x22) and (y12 <= y22)):
+        return True
+    else:
+        return False

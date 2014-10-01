@@ -66,24 +66,22 @@ def train_by_images(path, db_file_name):
         
         if(label != -1):
             
-            print('label', label)
-            print('tag', tag)
+            #print('label', label)
+            #print('tag', tag)
             
             X.append(np.asarray(face, dtype = np.uint8))
             y.append(label)
             tags[label] = tag
-            
-            break
     
     # Save file with face models
     
     if(USE_ONE_FILE_FOR_FACE_MODELS):
             
         model=cv2.createLBPHFaceRecognizer(
-        FACE_RECOGNITION_RADIUS, 
-        FACE_RECOGNITION_NEIGHBORS, 
-        FACE_RECOGNITION_GRID_X, 
-        FACE_RECOGNITION_GRID_Y)
+        LBP_RADIUS, 
+        LBP_NEIGHBORS, 
+        LBP_GRID_X, 
+        LBP_GRID_Y)
         model.train(np.asarray(X), np.asarray(y))
         model.save(db_file_name)
         
@@ -163,7 +161,7 @@ def train_by_captions(video_path, db_file_name):
                 break;
             
             # Next frame to be analyzed
-            next_frame = anal_frame_counter + (video_fps/USED_FPS_IN_TRAINING)
+            next_frame = last_anal_frame + (video_fps/USED_FPS_IN_TRAINING)
             if(USE_ORIGINAL_FPS_IN_TRAINING or (frame_counter > next_frame)):
                 
                 # Frame position in video in seconds
@@ -198,10 +196,10 @@ def train_by_captions(video_path, db_file_name):
         if(USE_ONE_FILE_FOR_FACE_MODELS):
                 
             model=cv2.createLBPHFaceRecognizer(
-            FACE_RECOGNITION_RADIUS, 
-            FACE_RECOGNITION_NEIGHBORS, 
-            FACE_RECOGNITION_GRID_X, 
-            FACE_RECOGNITION_GRID_Y)
+            LBP_RADIUS, 
+            LBP_NEIGHBORS, 
+            LBP_GRID_X, 
+            LBP_GRID_Y)
             model.train(np.asarray(X), np.asarray(y))
             model.save(db_file_name)
             

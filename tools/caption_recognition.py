@@ -8,9 +8,7 @@ from itertools import permutations
 
 def get_tags_from_file():
     
-    file_name = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\Labels.txt'
-    
-    with open(file_name, 'r') as file:
+    with open(TAGS_FILE_PATH, 'r') as file:
     
         tags = file.read().splitlines()
         

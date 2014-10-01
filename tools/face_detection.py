@@ -2,7 +2,7 @@ import cv2
 import os
 import sys
 from Constants import *
-from Utils import detect_eyes_in_image, load_YAML_file, normalize_illumination
+from Utils import detect_eyes_in_image, is_rect_enclosed, load_YAML_file, normalize_illumination
 from PIL import Image
 from crop_face import CropFace
 
@@ -257,21 +257,75 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
 
     # Add faces from second classifier only if they are not already present in list of faces from first classifier
     for face2 in facesFromClassifier2:
+        face_must_be_considered = True
         for face1 in facesFromClassifier1:
 
-            x1 = face1[0];
-            y1 = face1[1];
-            w1 = face1[2];
-            h1 = face1[3];
-            x2 = face2[0];
-            y2 = face2[1];
-            w2 = face2[2];
-            h2 = face2[3];
+            x11 = face1[0]
+            y11 = face1[1]
+            w1 = face1[2]
+            x12 = x11 + w1
+            h1 = face1[3]
+            y12 = y11 + h1
+            x21 = face2[0]
+            y21 = face2[1]
+            w2 = face2[2]
+            x22 = x21 + w2
+            h2 = face2[3]
+            y22 = y21 + h2
 
-            if((x1 != x2) | (y1 != y2) | (w1 != w2) | (h1 != h2)):
-                faces.append(face2);
-
+            # Old check
+            #if((x1 != x2) | (y1 != y2) | (w1 != w2) | (h1 != h2)):
+            #    faces.append(face2);
+            
+            int_x1 = max(x11,x21)
+            int_y1 = max(y11,y21)
+            int_x2 = min(x12,x22)
+            int_y2 = min(y12,y22)
+            
+            #print('face1', face1)
+            #print('fac2', face2)
+            
+            if((int_x1 < int_x2) and (int_y1 < int_y2)):
+                # The two rectangles intersect
+                if(is_rect_enclosed(face1,face2)
+                or is_rect_enclosed(face2,face1)):
+                    # One face is inside the other
+                    face_must_be_considered = False
+                    #print('one face inside the other')
+                    #path = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet\fic.06\fic.06_I_006.jpg' # TEST ONLY
+                    #image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+                    #cv2.rectangle(image, (x11,y11), (x12, y12), (0,0,255), 3, 8, 0);
+                    #cv2.rectangle(image, (x21,y21), (x22, y22), (0,0,255), 3, 8, 0);
+                    #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
+                    #cv2.imshow('Result', image);
+                    #cv2.waitKey(0);
+                    break
+                else:
+                    face1_area = w1 * h1
+                    face2_area = w2 * h2
+                    min_face_area = min(face1_area, face2_area)
+                    int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
+                    if(float(int_area) > (0.5 * float(min_face_area))):
+                        # Intersection area more than 0.5 times the area 
+                        # of the smallest face between the two 
+                        # being compared
+                        face_must_be_considered = False
+                        #print ('intersection too big')
+                        #path = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet\fic.06\fic.06_I_006.jpg' # TEST ONLY
+                        #image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+                        #cv2.rectangle(image, (x11,y11), (x12, y12), (0,0,255), 3, 8, 0);
+                        #cv2.rectangle(image, (x21,y21), (x22, y22), (0,0,255), 3, 8, 0);
+                        #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
+                        #cv2.imshow('Result', image);
+                        #cv2.waitKey(0);
+                        break
+        
+        if(face_must_be_considered):
+            faces.append(face2)
+        
     faces.extend(facesFromClassifier1);
+    
+    #print('faces', faces)
 
     return faces;
 
@@ -409,15 +463,18 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
 
         params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
-
-        # Face detection
-        detection_params = params[FACE_DETECTION_KEY];
-
+        
         # Path of directory containing classifier files
-        classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
+        classifiers_folder_path = CLASSIFIERS_FOLDER_PATH
+        
+        if params is not None:
+            
+            detection_params = params[FACE_DETECTION_KEY];
+
+            classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep;
 
         # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER;
+        eye_classifier_file = classifiers_folder_path + os.sep + EYE_DETECTION_CLASSIFIER;
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file);
         
         if(eye_cascade_classifier.empty()):
