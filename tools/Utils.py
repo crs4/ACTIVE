@@ -589,7 +589,7 @@ def track_faces_with_LBP(frames, fm):
 
                 segment_frame_counter = 1
 
-                prev_bbox = face[BBOX_KEY]
+                prev_face = face[FACE_KEY]
 
                 segment_frames_list = []
 
@@ -608,6 +608,17 @@ def track_faces_with_LBP(frames, fm):
                 segment_frames_list.append(segment_frame_dict)
 
                 del frames[tracking_frame_counter][FACES_KEY][face_counter]
+                
+                # Calculate LBP histograms from face
+                X = []
+                X.append(np.asarray(prev_face, dtype = np.uint8))
+                c = [0]
+                model = cv2.createLBPHFaceRecognizer(
+                LBP_RADIUS,
+                LBP_NEIGHBORS,
+                LBP_GRID_X,
+                LBP_GRID_Y)
+                model.train(np.asarray(X), np.asarray(c))
 
                 sub_frame_counter = tracking_frame_counter + 1
 
@@ -635,25 +646,13 @@ def track_faces_with_LBP(frames, fm):
                         for sub_face in sub_faces:
 
                             # Calculate differences between the two detections
-                    
-                            prev_bbox_x = prev_bbox[0]
-                            prev_bbox_y = prev_bbox[1]
-                            prev_bbox_w = prev_bbox[2]
 
-                            bbox = sub_face[BBOX_KEY]
+                            this_face = sub_face[FACE_KEY]
+                            
+                            [lbl, conf] = model.predict(np.asarray(this_face, dtype = np.uint8))
 
-                            bbox_x = bbox[0]
-                            bbox_y = bbox[1]
-                            bbox_w = bbox[2]
-
-                            delta_x = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
-                            delta_y = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
-                            delta_w = abs(bbox_w - prev_bbox_w)/float(prev_bbox_w)
-
-                            #Check if delta is small enough
-                            if((delta_x < MAX_DELTA_PCT_X) and (delta_y < MAX_DELTA_PCT_Y) and (delta_w < MAX_DELTA_PCT_W)):
-
-                                prev_bbox = bbox
+                            #Check if confidence is low enough
+                            if(conf < STOP_TRACKING_THRESHOLD):
 
                                 segment_frame_dict = {}
 
@@ -665,7 +664,7 @@ def track_faces_with_LBP(frames, fm):
 
                                 segment_frame_dict[CONFIDENCE_KEY] = sub_face[CONFIDENCE_KEY]
 
-                                segment_frame_dict[BBOX_KEY] = bbox
+                                segment_frame_dict[BBOX_KEY] = sub_face[BBOX_KEY]
 
                                 segment_frames_list.append(segment_frame_dict)
 

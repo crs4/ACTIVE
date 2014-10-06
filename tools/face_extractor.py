@@ -181,6 +181,7 @@ class FaceExtractor(object):
                 face_dict[ASSIGNED_TAG_KEY] = tag
                 face_dict[CONFIDENCE_KEY] = confidence
                 face_dict[BBOX_KEY] = face_bboxes[count]
+                face_dict[FACE_KEY] = face
                 faces.append(face_dict)
                 count = count + 1
     
