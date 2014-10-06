@@ -85,6 +85,10 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             use_one_classifier_file = False;
             classifier_file = classifiers_folder_path + LBPCASCADE_FRONTALFACE_CLASSIFIER;
             classifier_file_2 = classifiers_folder_path + LBPCASCADE_PROFILEFACE_CLASSIFIER;
+        elif(algorithm == 'HaarCascadeFrontalAndProfileFaces2'):
+            use_one_classifier_file = False;
+            classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT2_CLASSIFIER;
+            classifier_file_2 = classifiers_folder_path + HAARCASCADE_PROFILEFACE_CLASSIFIER;           
         else:
             print('\nAlgorithm is not available');
             result[ERROR_KEY] = 'Detection algorithm is not available';
@@ -173,7 +177,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             
                 face_images.append(face_image);
 
-                face_list = (x, y, width, height);
+                face_list = (int(x), int(y), int(width), int(height));
 
                 faces_final.append(face_list);
                 

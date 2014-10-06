@@ -3,19 +3,20 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Fic06'
-DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Training_set_ordered'
+DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Fic.02'
+DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Training_set_ordered'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
-FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Risultati\LBP_1_8_4x4_indipendent_frames'
-FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.06\Test_set'
+FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s'
+FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
+FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s\Frames'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
@@ -107,10 +108,9 @@ MIN_SIZE_WIDTH_KEY = 'min_size_width';
 SCALE_FACTOR_KEY = 'scale_factor';
 
 # Detection parameters
-ALGORITH_NAME = 'HaarCascadeFrontalAndProfileFaces'
+ALGORITH_NAME = 'HaarCascadeFrontalAndProfileFaces2'
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
-#FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2' Default HaarCascadeFrontalFaceAlt2
-FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces'
+FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# TEST ONLY Default HaarCascadeFrontalFaceAlt2
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 FACE_DETECTION_MIN_NEIGHBORS = 5
 FACE_DETECTION_MIN_SIZE_HEIGHT = 20
@@ -174,9 +174,7 @@ USE_MOUTH_POSITION = False
 USE_RESIZING = True
 
 # Face extraction from video
-
-# Face extraction from video
-LOAD_IND_FRAMES_RESULTS = True
+LOAD_IND_FRAMES_RESULTS = False
 MAX_DELTA_PCT_W = 0.1
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
@@ -185,18 +183,19 @@ MAX_FRAMES_WITH_MISSED_DETECTION = 5
 USE_ORIGINAL_FPS = True
 # Bitrate at which video is analyzed in face extraction
 USED_FPS = 1.0 
-USE_ORIGINAL_FPS_IN_TRAINING = False
+USE_ORIGINAL_FPS_IN_TRAINING = False 
 # Bitrate at which video is analyzed in training from captions
 USED_FPS_IN_TRAINING = 1.0
 # Assigne tag that whose assigned to the majority of frames
 USE_MAJORITY_RULE = True 
-# Assigne tag that received the minimum value for the mean of conficences among frames
+# Assigne tag that received the minimum value for the mean of confidences among frames
 USE_MEAN_CONFIDENCE_RULE = False 
 # Assigne tag that received the minimum value of confidence
 USE_MIN_CONFIDENCE_RULE = True
-USE_SLIDING_WINDOW = False
-SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
-USE_TRACKING = False 
+USE_SLIDING_WINDOW = True
+SLIDING_WINDOW_SIZE = 1.0 # Size of sliding window in seconds
+USE_TRACKING = False
+STOP_TRACKING_THRESHOLD = 20
 
 # Caption recognition
 ALL_LETTERS_KEY = 'all_letters'
@@ -218,7 +217,7 @@ USE_LEVENSHTEIN = True
 
 # Face extraction test
 SIM_TRACKING = False
-TEST_VIDEO_PATH = 'video_path'
+TEST_VIDEO_PATH = r'C:\Active\Dataset\Videolina - Video originali\Fic.02.mpg'
 
 
 

@@ -230,7 +230,7 @@ def fr_video_experiments(params, show_results):
 
     video_path = None
     if(USE_CAPTIONS):
-        video_path = r'C:\Active\Dataset\Videolina - Video originali\fic.02.mpg' # TEST ONLY
+        video_path = TEST_VIDEO_PATH # TEST ONLY
 
     fm = FaceModelsLBP(video_path = video_path);
     # Number of people

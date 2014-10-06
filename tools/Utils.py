@@ -430,3 +430,277 @@ def is_rect_enclosed(rect1, rect2):
         return True
     else:
         return False
+        
+        
+def track_faces(frames, fm):
+    
+    segments = []
+
+    tracking_frame_counter = 0
+    
+    for frame in frames:
+
+        faces = frame[FACES_KEY]
+
+        elapsed_video_s = frame[ELAPSED_VIDEO_TIME_KEY]
+
+        if(len(faces) != 0):
+
+            face_counter = 0
+            for face in faces:
+
+                segment_dict = {}
+
+                segment_frame_counter = 1
+
+                prev_bbox = face[BBOX_KEY]
+
+                segment_frames_list = []
+
+                segment_frame_dict = {}
+
+                segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+
+                segment_frame_dict[FRAME_COUNTER_KEY] = tracking_frame_counter
+
+                segment_frame_dict[ASSIGNED_TAG_KEY] = face[ASSIGNED_TAG_KEY]
+
+                segment_frame_dict[CONFIDENCE_KEY] = face[CONFIDENCE_KEY]
+
+                segment_frame_dict[BBOX_KEY] = prev_bbox
+
+                segment_frames_list.append(segment_frame_dict)
+
+                del frames[tracking_frame_counter][FACES_KEY][face_counter]
+
+                sub_frame_counter = tracking_frame_counter + 1
+
+                prev_frame_counter = tracking_frame_counter
+
+                # Search face in subsequent frames and add good bounding boxes to segment
+                # Bounding boxes included in this segment must not be considered by other segments
+
+                for subsequent_frame in frames[sub_frame_counter :]:
+
+                    # Consider only successive frames or frames whose maximum distance is MAX_FRAMES_WITH_MISSED_DETECTION + 1
+                    if((sub_frame_counter > (prev_frame_counter + MAX_FRAMES_WITH_MISSED_DETECTION + 1))):
+
+                        segment_frame_counter = segment_frame_counter - MAX_FRAMES_WITH_MISSED_DETECTION - 1
+
+                        break;
+
+                    sub_faces = subsequent_frame[FACES_KEY]
+
+                    elapsed_video_s = subsequent_frame[ELAPSED_VIDEO_TIME_KEY]
+
+                    if(len(sub_faces) != 0):
+
+                        sub_face_counter = 0
+                        for sub_face in sub_faces:
+
+                            # Calculate differences between the two detections
+                    
+                            prev_bbox_x = prev_bbox[0]
+                            prev_bbox_y = prev_bbox[1]
+                            prev_bbox_w = prev_bbox[2]
+
+                            bbox = sub_face[BBOX_KEY]
+
+                            bbox_x = bbox[0]
+                            bbox_y = bbox[1]
+                            bbox_w = bbox[2]
+
+                            delta_x = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
+                            delta_y = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
+                            delta_w = abs(bbox_w - prev_bbox_w)/float(prev_bbox_w)
+
+                            #Check if delta is small enough
+                            if((delta_x < MAX_DELTA_PCT_X) and (delta_y < MAX_DELTA_PCT_Y) and (delta_w < MAX_DELTA_PCT_W)):
+
+                                prev_bbox = bbox
+
+                                segment_frame_dict = {}
+
+                                segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+
+                                segment_frame_dict[FRAME_COUNTER_KEY] = sub_frame_counter
+
+                                segment_frame_dict[ASSIGNED_TAG_KEY] = sub_face[ASSIGNED_TAG_KEY]
+
+                                segment_frame_dict[CONFIDENCE_KEY] = sub_face[CONFIDENCE_KEY]
+
+                                segment_frame_dict[BBOX_KEY] = bbox
+
+                                segment_frames_list.append(segment_frame_dict)
+
+                                del frames[sub_frame_counter][FACES_KEY][sub_face_counter]
+
+                                prev_frame_counter = sub_frame_counter
+
+                                consecutive_frames_with_missed_detection = 0
+
+                                break; #Do not consider other faces in the same frame
+
+                        sub_face_counter = sub_face_counter + 1
+                        
+                    sub_frame_counter = sub_frame_counter + 1
+
+                    segment_frame_counter = segment_frame_counter + 1
+
+                # Aggregate results from all frames in segment
+                [final_tag, final_confidence] = aggregate_frame_results(segment_frames_list, fm)
+
+                segment_dict[ASSIGNED_TAG_KEY] = final_tag
+
+                segment_dict[CONFIDENCE_KEY] = final_confidence
+
+                segment_dict[FRAMES_KEY] = segment_frames_list
+
+                print('segment_frame_counter: ', segment_frame_counter)
+
+                segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = segment_frame_counter
+
+                segments.append(segment_dict)
+
+                face_counter = face_counter + 1
+                
+        tracking_frame_counter = tracking_frame_counter + 1
+        
+    return segments
+    
+def track_faces_with_LBP(frames, fm):
+    
+    segments = []
+
+    tracking_frame_counter = 0
+    
+    for frame in frames:
+
+        faces = frame[FACES_KEY]
+
+        elapsed_video_s = frame[ELAPSED_VIDEO_TIME_KEY]
+
+        if(len(faces) != 0):
+
+            face_counter = 0
+            for face in faces:
+
+                segment_dict = {}
+
+                segment_frame_counter = 1
+
+                prev_bbox = face[BBOX_KEY]
+
+                segment_frames_list = []
+
+                segment_frame_dict = {}
+
+                segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+
+                segment_frame_dict[FRAME_COUNTER_KEY] = tracking_frame_counter
+
+                segment_frame_dict[ASSIGNED_TAG_KEY] = face[ASSIGNED_TAG_KEY]
+
+                segment_frame_dict[CONFIDENCE_KEY] = face[CONFIDENCE_KEY]
+
+                segment_frame_dict[BBOX_KEY] = prev_bbox
+
+                segment_frames_list.append(segment_frame_dict)
+
+                del frames[tracking_frame_counter][FACES_KEY][face_counter]
+
+                sub_frame_counter = tracking_frame_counter + 1
+
+                prev_frame_counter = tracking_frame_counter
+
+                # Search face in subsequent frames and add good bounding boxes to segment
+                # Bounding boxes included in this segment must not be considered by other segments
+
+                for subsequent_frame in frames[sub_frame_counter :]:
+
+                    # Consider only successive frames or frames whose maximum distance is MAX_FRAMES_WITH_MISSED_DETECTION + 1
+                    if((sub_frame_counter > (prev_frame_counter + MAX_FRAMES_WITH_MISSED_DETECTION + 1))):
+
+                        segment_frame_counter = segment_frame_counter - MAX_FRAMES_WITH_MISSED_DETECTION - 1
+
+                        break;
+
+                    sub_faces = subsequent_frame[FACES_KEY]
+
+                    elapsed_video_s = subsequent_frame[ELAPSED_VIDEO_TIME_KEY]
+
+                    if(len(sub_faces) != 0):
+
+                        sub_face_counter = 0
+                        for sub_face in sub_faces:
+
+                            # Calculate differences between the two detections
+                    
+                            prev_bbox_x = prev_bbox[0]
+                            prev_bbox_y = prev_bbox[1]
+                            prev_bbox_w = prev_bbox[2]
+
+                            bbox = sub_face[BBOX_KEY]
+
+                            bbox_x = bbox[0]
+                            bbox_y = bbox[1]
+                            bbox_w = bbox[2]
+
+                            delta_x = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
+                            delta_y = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
+                            delta_w = abs(bbox_w - prev_bbox_w)/float(prev_bbox_w)
+
+                            #Check if delta is small enough
+                            if((delta_x < MAX_DELTA_PCT_X) and (delta_y < MAX_DELTA_PCT_Y) and (delta_w < MAX_DELTA_PCT_W)):
+
+                                prev_bbox = bbox
+
+                                segment_frame_dict = {}
+
+                                segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_video_s
+
+                                segment_frame_dict[FRAME_COUNTER_KEY] = sub_frame_counter
+
+                                segment_frame_dict[ASSIGNED_TAG_KEY] = sub_face[ASSIGNED_TAG_KEY]
+
+                                segment_frame_dict[CONFIDENCE_KEY] = sub_face[CONFIDENCE_KEY]
+
+                                segment_frame_dict[BBOX_KEY] = bbox
+
+                                segment_frames_list.append(segment_frame_dict)
+
+                                del frames[sub_frame_counter][FACES_KEY][sub_face_counter]
+
+                                prev_frame_counter = sub_frame_counter
+
+                                consecutive_frames_with_missed_detection = 0
+
+                                break; #Do not consider other faces in the same frame
+
+                        sub_face_counter = sub_face_counter + 1
+                        
+                    sub_frame_counter = sub_frame_counter + 1
+
+                    segment_frame_counter = segment_frame_counter + 1
+
+                # Aggregate results from all frames in segment
+                [final_tag, final_confidence] = aggregate_frame_results(segment_frames_list, fm)
+
+                segment_dict[ASSIGNED_TAG_KEY] = final_tag
+
+                segment_dict[CONFIDENCE_KEY] = final_confidence
+
+                segment_dict[FRAMES_KEY] = segment_frames_list
+
+                print('segment_frame_counter: ', segment_frame_counter)
+
+                segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = segment_frame_counter
+
+                segments.append(segment_dict)
+
+                face_counter = face_counter + 1
+                
+        tracking_frame_counter = tracking_frame_counter + 1
+        
+    return segments
+
