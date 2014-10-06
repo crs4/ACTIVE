@@ -8,7 +8,7 @@ from Utils import load_YAML_file, save_model_file, save_YAML_file
 
 ASSIGNED_LABEL_KEY = 'assigned_label'
 
-def analyze_image(image_path):
+def analyze_image(image_path, image_counter):  # TEST ONLY delete image_counter
     
     face = None
     
@@ -28,6 +28,12 @@ def analyze_image(image_path):
         label = cap_rec_res[ASSIGNED_LABEL_KEY]
         
         tag = cap_rec_res[ASSIGNED_TAG_KEY]
+        
+        #TEST ONLY
+        if(label != -1):
+            base_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\Scelti da train_by_captions\MONITOR072011'
+            face_path = base_path + os.sep + str(image_counter) + '-' + str(tag) + '.jpg'
+            cv2.imwrite(face_path, image)
         
         #if(label == -1):
                 
@@ -55,6 +61,8 @@ def train_by_images(path, db_file_name):
     
     X, y = [], []
     tags = {}
+    
+    image_counter = 0
      
     for image in os.listdir(path):
     
@@ -62,7 +70,7 @@ def train_by_images(path, db_file_name):
         
         print(image)
                 
-        [label, tag, face] = analyze_image(image_complete_path)
+        [label, tag, face] = analyze_image(image_complete_path, image_counter)
         
         if(label != -1):
             
@@ -72,6 +80,8 @@ def train_by_images(path, db_file_name):
             X.append(np.asarray(face, dtype = np.uint8))
             y.append(label)
             tags[label] = tag
+            
+            image_counter = image_counter + 1
     
     # Save file with face models
     
