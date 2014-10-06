@@ -326,13 +326,13 @@ class FaceModelsLBP():
                     try:
                         if(USE_EYES_POSITION):
                             if(USE_EYE_DETECTION):
-                                im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False);
+                                im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False)
                             else:
-                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz);
+                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz)
                 
                         else:
                             if(USE_FACE_DETECTION_IN_TRAINING):
-                                im = get_detected_cropped_face(os.path.join(subject_path, filename), return_always_face = False);
+                                im = get_detected_cropped_face(os.path.join(subject_path, filename), return_always_face = False)
 ##                                if(not(im == None)):
 ##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
 ##                                    cv2.imshow('Training image', im);
