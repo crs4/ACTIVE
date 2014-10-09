@@ -19,7 +19,7 @@ import time
 from Constants import *
 from face_detection import detect_faces_in_image
 from face_recognition import recognize_face
-from Utils import aggregate_frame_results, load_YAML_file, save_YAML_file, track_faces
+from Utils import aggregate_frame_results, load_YAML_file, save_YAML_file, track_faces_with_LBP
 
 
 class FaceModels(object):
@@ -317,13 +317,11 @@ class FaceExtractor(object):
                 
                 frames_dict[FRAMES_KEY] = frames
                     
-                save_YAML_file(YAML_file, frames_dict)
+                #save_YAML_file(YAML_file, frames_dict)
     
             if(USE_TRACKING and (frames is not None)):
                 
-                segments = track_faces(frames, self.face_models)
-                
-                print('segments', segments)
+                segments = track_faces_with_LBP(frames, self.face_models)
 
             elif(USE_SLIDING_WINDOW and (frames is not None)):
 

@@ -3,6 +3,7 @@ import math
 import numpy as np
 import os
 import sys
+import time
 import yaml
 from Constants import * 
 
@@ -590,6 +591,11 @@ def track_faces_with_LBP(frames, fm):
                 segment_frame_counter = 1
 
                 prev_face = face[FACE_KEY]
+                
+                cv2.imshow('prev_face', prev_face)
+                cv2.waitKey(0)
+                
+                prev_bbox = face[BBOX_KEY]
 
                 segment_frames_list = []
 
@@ -626,6 +632,8 @@ def track_faces_with_LBP(frames, fm):
 
                 # Search face in subsequent frames and add good bounding boxes to segment
                 # Bounding boxes included in this segment must not be considered by other segments
+                
+                continue_tracking = True
 
                 for subsequent_frame in frames[sub_frame_counter :]:
 
@@ -643,6 +651,7 @@ def track_faces_with_LBP(frames, fm):
                     if(len(sub_faces) != 0):
 
                         sub_face_counter = 0
+                        continue_tracking = False
                         for sub_face in sub_faces:
 
                             # Calculate differences between the two detections
@@ -651,8 +660,26 @@ def track_faces_with_LBP(frames, fm):
                             
                             [lbl, conf] = model.predict(np.asarray(this_face, dtype = np.uint8))
 
+                            print 'conf =', conf # TEST ONLY
+                            
+                            cv2.imshow('this_face', this_face)
+                            cv2.waitKey(0)
+                            
                             #Check if confidence is low enough
                             if(conf < STOP_TRACKING_THRESHOLD):
+                                
+                                # Calculate LBP histograms from face
+                                X = []
+                                X.append(np.asarray(this_face, dtype = np.uint8))
+                                c = [0]
+                                model = cv2.createLBPHFaceRecognizer(
+                                LBP_RADIUS,
+                                LBP_NEIGHBORS,
+                                LBP_GRID_X,
+                                LBP_GRID_Y)
+                                model.train(np.asarray(X), np.asarray(c))
+                                
+                                continue_tracking = True
 
                                 segment_frame_dict = {}
 
@@ -681,6 +708,10 @@ def track_faces_with_LBP(frames, fm):
                     sub_frame_counter = sub_frame_counter + 1
 
                     segment_frame_counter = segment_frame_counter + 1
+                    
+                    if(not continue_tracking):
+                        
+                        break
 
                 # Aggregate results from all frames in segment
                 [final_tag, final_confidence] = aggregate_frame_results(segment_frames_list, fm)
