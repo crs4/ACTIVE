@@ -3,8 +3,8 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
 CSV_FILE_NAME = 'Risultati.csv'
@@ -17,11 +17,14 @@ FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Train
 FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s\Frames'
-TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
-
+SAVE_PATH_ALL_FACES = r''
+SAVE_PATH_FACE_GROUPS = r''
+SAVE_PATH_KEY_FRAMES = r''
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
 SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
+TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
+TEST_VIDEO_PATH = r'C:\Active\Dataset\Videolina - Video originali\Fic.02.mpg'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -37,12 +40,13 @@ ANN_TAG_KEY = 'ann_tag'
 ASSIGNED_LABEL_KEY = 'assigned_label'
 ASSIGNED_TAG_KEY = 'assigned_tag'
 BBOX_KEY = 'bbox'
+CHECKED_KEY = 'checked'
 DETECTED_FACES_NR_KEY = 'detected_faces_nr'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
 ERROR_KEY = 'error'
 FACE_CHECK_KEY = 'face_check'
-FACE_DETECTIONS_DETECTED_FACES_NR_KEY = 'detected_faces_nr'
+FACE_MODEL_KEY = 'face_model'
 FACE_IMAGES_KEY = 'face_images'	
 FACE_KEY = 'face'
 FACES_KEY = 'faces'
@@ -52,8 +56,10 @@ FRAME_KEY = 'image'
 FRAME_NAME_KEY = 'image_name'
 FRAMES_KEY = 'images'
 GLOBAL_RESULTS_KEY = 'global_results'
+IMAGE_COUNTER_KEY = 'image_counter'
 IMAGE_NAME_KEY = 'image_name'
 IMAGE_KEY = 'image'
+IMAGE_PATH_KEY = 'image_path'
 IMAGES_KEY = 'images'
 PEOPLE_KEY = 'people'
 PERSON_CHECK_KEY = 'person_check'
@@ -182,7 +188,10 @@ MAX_DELTA_PCT_Y = 0.1
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 
 USE_ORIGINAL_FPS = True
 # Bitrate at which video is analyzed in face extraction
-USED_FPS = 1.0 
+USED_FPS = 1.0
+USE_ORIGINAL_FPS_IN_SHOT_DETECTIN = False
+# Bitrate at which video is analyzed in shot detection
+USED_FPS_IN_SHOT_DETECTION = 1.0
 USE_ORIGINAL_FPS_IN_TRAINING = False 
 # Bitrate at which video is analyzed in training from captions
 USED_FPS_IN_TRAINING = 1.0
@@ -217,7 +226,10 @@ USE_LEVENSHTEIN = True
 
 # Face extraction test
 SIM_TRACKING = False
-TEST_VIDEO_PATH = r'C:\Active\Dataset\Videolina - Video originali\Fic.02.mpg'
+
+# Summarization
+HIST_DIFF_THRESHOLD = 10
+HSV_HIST_DIFF_THRESHOLD = 1000000
 
 
 
