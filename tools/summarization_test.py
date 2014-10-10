@@ -2,6 +2,7 @@ import cv2
 import cv2.cv as cv
 import numpy as np
 import os
+import shutil
 from Constants import *
 from face_detection import detect_faces_in_image
 
@@ -39,7 +40,6 @@ def calculate_threshold(path):
         if(prev_hists is not None):
             # Not for first frame
             diff_list.append(tot_diff)
-            print('tot_diff', tot_diff)
         
         prev_hists = hists
         
@@ -89,15 +89,14 @@ def divide_images_in_shots(path, save_path = None):
         # First frame
         if(prev_hists is None):
             prev_hists = hists
-                
-        print('diff', tot_diff)
+
         if(tot_diff > HSV_HIST_DIFF_THRESHOLD):
             
             cv2.imshow(im_file, im_bgr)
             cv2.waitKey(0)
             prev_hists = hists
         
-def divide_video_in_shots(path, save_path = None
+def divide_video_in_shots(path, save_path = None):
 
     # Save processing time
     start_time = cv2.getTickCount()
@@ -173,9 +172,8 @@ def divide_video_in_shots(path, save_path = None
                     
                     prev_hists = hists
                         
-                print('diff', tot_diff)
                 if(tot_diff > HSV_HIST_DIFF_THRESHOLD):
-                    
+                    print('diff', tot_diff)
                     # Save frame
                     frame_path = save_path + os.sep + str(frame_counter) + '.bmp'
                     cv2.imwrite(frame_path, frame)
@@ -349,7 +347,7 @@ def group_faces(all_faces, save_path = None):
                     diff = cv2.compareHist(
                     ref_hist, hist, cv.CV_COMP_CHISQR) 
                     
-                    if(diff < HIST_DIFF_THRESHOLD):
+                    if(diff < LBP_HIST_DIFF_THRESHOLD):
                         
                         face_dict2[CHECKED_KEY] = True
                         
@@ -358,8 +356,8 @@ def group_faces(all_faces, save_path = None):
                             face_path = group_path + os.sep + str(frame_counter) + '-' + str(image_counter) + '-diff-' + str(diff) + '.bmp'
                             #face = face_dict2[FACE_KEY]
                             #cv2.imwrite(face_path, face)
-                            im_path = face_dict [IMAGE_PATH_KEY]
-                            bbox = face_dict[BBOX_KEY]
+                            im_path = face_dict2[IMAGE_PATH_KEY]
+                            bbox = face_dict2[BBOX_KEY]
                             x = bbox[0]
                             y = bbox[1]
                             w = bbox[2]
@@ -381,7 +379,7 @@ def get_key_faces_from_video(path, save_path = None):
     # Save processing time
     start_time = cv2.getTickCount()
     
-    divide_video_in_shots()
+    divide_video_in_shots(TEST_VIDEO_PATH)
     
     all_faces = get_all_faces_from_images()
     
@@ -393,5 +391,21 @@ def get_key_faces_from_video(path, save_path = None):
     
     print('Processing time (get_key_faces_from_video): ' + str(time_in_s) + ' s\n')
 
+# Delete previous files
+
+path = SAVE_PATH_KEY_FRAMES
+for im in os.listdir(path):
+	im_path = os.path.join(path, im)
+	os.remove(im_path)
+    
+path = SAVE_PATH_ALL_FACES
+for im in os.listdir(path):
+	im_path = os.path.join(path, im)
+	os.remove(im_path)
+    
+path = SAVE_PATH_FACE_GROUPS
+for folder in os.listdir(path):
+    folder_path = os.path.join(path, folder)
+    shutil.rmtree(folder_path)
 
 get_key_faces_from_video(TEST_VIDEO_PATH)

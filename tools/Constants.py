@@ -3,8 +3,8 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
 CSV_FILE_NAME = 'Risultati.csv'
@@ -17,14 +17,14 @@ FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Train
 FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s\Frames'
-SAVE_PATH_ALL_FACES = r''
-SAVE_PATH_FACE_GROUPS = r''
-SAVE_PATH_KEY_FRAMES = r''
+SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\All faces'
+SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Face groups'
+SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
 SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
-TEST_VIDEO_PATH = r'C:\Active\Dataset\Videolina - Video originali\Fic.02.mpg'
+TEST_VIDEO_PATH = r'C:\Active\RawVideos\fic.02.mpg'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -174,7 +174,7 @@ OFFSET_PCT_X = 0.20 # Default 0.20
 OFFSET_PCT_Y = 0.20 # Default 0.20 0.29 for weighted LBP
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
-USE_EYES_POSITION = True # Default True
+USE_EYES_POSITION = False # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
 USE_RESIZING = True
@@ -228,7 +228,7 @@ USE_LEVENSHTEIN = True
 SIM_TRACKING = False
 
 # Summarization
-HIST_DIFF_THRESHOLD = 10
+LBP_HIST_DIFF_THRESHOLD = 100
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 

@@ -99,9 +99,9 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             face_cascade_classifier = cv2.CascadeClassifier(classifier_file);
 
             if(face_cascade_classifier.empty()):
-                print('Error loading face cascade classifier file');
-                result[ERROR_KEY] = 'Error loading face cascade classifier file';
-                return;
+                print('Error loading face cascade classifier file')
+                result[ERROR_KEY] = 'Error loading face cascade classifier file'
+                return result
             else:
                 if(algorithm == 'LBPCascadeProfileFace'):
                     # lbpcascade_profileface classifier only detects faces rotated to the right,
