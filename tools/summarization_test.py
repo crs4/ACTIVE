@@ -104,7 +104,7 @@ def divide_video_in_shots(path, save_path = None):
     prev_hists = None
     
     if(save_path is None):
-        save_path = SAVE_PATH_KEY_FRAMES
+        save_path = SAVE_PATH_ALL_KEY_FRAMES
 
     capture = cv2.VideoCapture(path)
     
@@ -116,6 +116,9 @@ def divide_video_in_shots(path, save_path = None):
     
     # Value of frame_counter for last analyzed frame
     last_anal_frame = 1
+    
+    key_frame_list = []
+    hist_list = []
     
     if capture is None or not capture.isOpened():
         
@@ -162,21 +165,17 @@ def divide_video_in_shots(path, save_path = None):
                         diff = cv2.compareHist(
                         prev_hists[ch], hist, cv.CV_COMP_CHISQR)
                         tot_diff = tot_diff + abs(diff)
-                     
-                # First frame
-                if(prev_hists is None):
-                    
-                    # Save frame
-                    frame_path = save_path + os.sep + str(frame_counter) + '.bmp'
-                    cv2.imwrite(frame_path, frame)
-                    
-                    prev_hists = hists
-                        
-                if(tot_diff > HSV_HIST_DIFF_THRESHOLD):
+                
+                # If this is the first frame or if difference
+                # is greater than threshold    
+                if((prev_hists is None) or (tot_diff > HSV_HIST_DIFF_THRESHOLD)):
                     print('diff', tot_diff)
                     # Save frame
                     frame_path = save_path + os.sep + str(frame_counter) + '.bmp'
                     cv2.imwrite(frame_path, frame)
+                    
+                    key_frame_list.append(frame_path)
+                    hist_list.append(hists)    
                         
                     prev_hists = hists
   
@@ -191,7 +190,60 @@ def divide_video_in_shots(path, save_path = None):
     time_in_s = time_in_clocks / cv2.getTickFrequency()
     
     print('Processing time (divide video in shots): ' + str(time_in_s) + ' s\n')
+    
+    return [key_frame_list, hist_list]
+          
+def group_shots(im_list, hist_list, save_path = None):
+    
+    # Save processing time
+    start_time = cv2.getTickCount()
+        
+    if(save_path is None):
+        save_path = SAVE_PATH_KEY_FRAMES
+        
+    chosen_im_hist_list = []
+    
+    im_counter = 0  
+        
+    for im_path in im_list:
+        
+        im_hists = hist_list[im_counter]
+        
+        min_diff = HSV_HIST_DIFF_THRESHOLD
+        
+        for hists in chosen_im_hist_list:
+            
+            tot_diff = 0
+            for ch in range(0,3):
+                
+                diff = cv2.compareHist(
+                hists[ch], im_hists[ch], cv.CV_COMP_CHISQR)
+                tot_diff = tot_diff + abs(diff)
              
+            if(tot_diff < min_diff):
+                min_diff = tot_diff
+                break
+        
+        # If no similare image was found, 
+        # consider image as key frame  
+        if(min_diff == HSV_HIST_DIFF_THRESHOLD):
+            
+            [path, im_name] = os.path.split(im_path)
+            
+            new_im_path = os.path.join(save_path, im_name)
+            
+            im = cv2.imread(im_path, cv2.IMREAD_COLOR)
+            cv2.imwrite(new_im_path, im)
+            
+            chosen_im_hist_list.append(im_hists)
+        
+        im_counter = im_counter + 1
+        
+    # Calculate processing time in seconds
+    time_in_clocks = cv2.getTickCount() - start_time
+    time_in_s = time_in_clocks / cv2.getTickFrequency()
+    
+    print('Processing time (group shots): ' + str(time_in_s) + ' s\n')
             
 def get_all_faces_from_images(path = None, params = None, save_path = None):
     
@@ -379,7 +431,9 @@ def get_key_faces_from_video(path, save_path = None):
     # Save processing time
     start_time = cv2.getTickCount()
     
-    divide_video_in_shots(TEST_VIDEO_PATH)
+    [key_frame_list, hist_list] = divide_video_in_shots(TEST_VIDEO_PATH)
+    
+    group_shots(key_frame_list, hist_list)
     
     all_faces = get_all_faces_from_images()
     
@@ -393,15 +447,20 @@ def get_key_faces_from_video(path, save_path = None):
 
 # Delete previous files
 
+path = SAVE_PATH_ALL_KEY_FRAMES
+for im in os.listdir(path):
+    im_path = os.path.join(path, im)
+    os.remove(im_path)
+
 path = SAVE_PATH_KEY_FRAMES
 for im in os.listdir(path):
-	im_path = os.path.join(path, im)
-	os.remove(im_path)
+    im_path = os.path.join(path, im)
+    os.remove(im_path)
     
 path = SAVE_PATH_ALL_FACES
 for im in os.listdir(path):
-	im_path = os.path.join(path, im)
-	os.remove(im_path)
+    im_path = os.path.join(path, im)
+    os.remove(im_path)
     
 path = SAVE_PATH_FACE_GROUPS
 for folder in os.listdir(path):

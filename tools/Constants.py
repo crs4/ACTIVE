@@ -18,6 +18,7 @@ FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Trai
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s\Frames'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\All faces'
+SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\All key frames'
 SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Face groups'
 SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
@@ -174,7 +175,7 @@ OFFSET_PCT_X = 0.20 # Default 0.20
 OFFSET_PCT_Y = 0.20 # Default 0.20 0.29 for weighted LBP
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
-USE_EYES_POSITION = False # Default True
+USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
 USE_RESIZING = True
@@ -228,7 +229,7 @@ USE_LEVENSHTEIN = True
 SIM_TRACKING = False
 
 # Summarization
-LBP_HIST_DIFF_THRESHOLD = 100
+LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 
