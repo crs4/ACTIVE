@@ -15,6 +15,7 @@
 import cv2
 import math
 import os
+import pickle
 import time
 from Constants import *
 from face_detection import detect_faces_in_image
@@ -241,16 +242,13 @@ class FaceExtractor(object):
 
             frames = []
             
-            path, file_name = os.path.split(resource)
-            
-            YAML_file = FRAMES_YAML_FILES_PATH + os.sep + file_name + '.yml'
-            
             if((USE_TRACKING or USE_SLIDING_WINDOW)
             and LOAD_IND_FRAMES_RESULTS):
                 
-                frames_dict = load_YAML_file(YAML_file)
-                
-                frames = frames_dict[FRAMES_KEY]
+                # Load frames by using pickle
+                with open('objs.pickle') as f:
+                    
+                    frames = pickle.load(f) 
                 
             else:
             
@@ -317,7 +315,9 @@ class FaceExtractor(object):
                 
                 frames_dict[FRAMES_KEY] = frames
                     
-                #save_YAML_file(YAML_file, frames_dict)
+                with open('objs.pickle', 'w') as f:
+                    
+                    pickle.dump(frames, f)
     
             if(USE_TRACKING and (frames is not None)):
                 

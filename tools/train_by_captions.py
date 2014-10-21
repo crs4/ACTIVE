@@ -8,8 +8,8 @@ from Utils import load_YAML_file, save_model_file, save_YAML_file
 
 ASSIGNED_LABEL_KEY = 'assigned_label'
 
-def analyze_image(image_path, image_counter):  # TEST ONLY delete image_counter
-    
+def analyze_image(image_path): 
+#def analyze_image(image_path, image_counter):    # TEST ONLY
     face = None
     
     label = -1
@@ -30,10 +30,10 @@ def analyze_image(image_path, image_counter):  # TEST ONLY delete image_counter
         tag = cap_rec_res[ASSIGNED_TAG_KEY]
         
         #TEST ONLY
-        if(label != -1):
-            base_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\Scelti da train_by_captions\MONITOR072011'
-            face_path = base_path + os.sep + str(image_counter) + '-' + str(tag) + '.jpg'
-            cv2.imwrite(face_path, image)
+        #if(label != -1):
+            #base_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\Scelti da train_by_captions\MONITOR072011'
+            #face_path = base_path + os.sep + str(image_counter) + '-' + str(tag) + '.jpg'
+            #cv2.imwrite(face_path, image)
         
         #if(label == -1):
                 
