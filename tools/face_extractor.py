@@ -223,6 +223,8 @@ class FaceExtractor(object):
         frames = None
         segments = None
 
+        print 'here'
+
         capture = cv2.VideoCapture(resource)
 
         # Counter for all frames
@@ -242,13 +244,24 @@ class FaceExtractor(object):
 
             frames = []
             
-            if((USE_TRACKING or USE_SLIDING_WINDOW)
+            if((USE_TRACKING or SIM_TRACKING or USE_SLIDING_WINDOW)
             and LOAD_IND_FRAMES_RESULTS):
                 
                 # Load frames by using pickle
-                with open('objs.pickle') as f:
+                
+                print 'Loading frames'
+                
+                resource_name = os.path.basename(resource)
+                
+                file_name = resource_name + '.pickle'
+                
+                file_path = os.path.join(FRAMES_FILES_PATH, file_name)
+                
+                with open(file_path) as f:
                     
                     frames = pickle.load(f) 
+                    
+                    anal_frame_counter = len(frames)
                 
             else:
             
@@ -314,8 +327,16 @@ class FaceExtractor(object):
                 frames_dict = {}
                 
                 frames_dict[FRAMES_KEY] = frames
+                
+                # Save frames by using pickle
                     
-                with open('objs.pickle', 'w') as f:
+                resource_name = os.path.basename(resource)
+                
+                file_name = resource_name + '.pickle'
+                
+                file_path = os.path.join(FRAMES_FILES_PATH, file_name)    
+                    
+                with open(file_path, 'w') as f:
                     
                     pickle.dump(frames, f)
     

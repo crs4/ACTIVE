@@ -26,29 +26,49 @@ def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
         
         ann_face_tag = experiment_dict[ANN_TAG_KEY]
         
-        frames = experiment_dict[FRAMES_KEY]
-        
-        for frame in frames:
+        if(SIM_TRACKING):
             
-            time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
+            assigned_tag = experiment_dict[ASSIGNED_TAG_KEY]
             
-            assigned_tag = frame[ASSIGNED_TAG_KEY]
+            confidence = experiment_dict[CONFIDENCE_KEY]
             
-            confidence = frame[CONFIDENCE_KEY]
-
             if(confidence != -1):
             
                 stream.write(str(video_counter) + ',' +
-                             str(time_stamp) + ',' + 
                              str(ann_face_tag) + ',' + 
                              str(assigned_tag) + ',' +
                              str(confidence) + '\n')
             else:
                 
                 stream.write(str(video_counter) + ',' +
-                             str(time_stamp) + ',' + 
                              str(ann_face_tag) + ',' + 
-                             str(assigned_tag) + ',,\n')
+                             str(assigned_tag) + ',,\n')            
+            
+        else:
+        
+            frames = experiment_dict[FRAMES_KEY]
+            
+            for frame in frames:
+                
+                time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
+                
+                assigned_tag = frame[ASSIGNED_TAG_KEY]
+                
+                confidence = frame[CONFIDENCE_KEY]
+    
+                if(confidence != -1):
+                
+                    stream.write(str(video_counter) + ',' +
+                                 str(time_stamp) + ',' + 
+                                 str(ann_face_tag) + ',' + 
+                                 str(assigned_tag) + ',' +
+                                 str(confidence) + '\n')
+                else:
+                    
+                    stream.write(str(video_counter) + ',' +
+                                 str(time_stamp) + ',' + 
+                                 str(ann_face_tag) + ',' + 
+                                 str(assigned_tag) + ',,\n')
                      
     stream.close();
 
@@ -274,6 +294,9 @@ def fr_video_experiments(params, show_results):
         # Dictionary for YAML file with results
         experiment_dict = {}
         experiment_dict_frames = []
+        
+        assigned_tag = 'Undefined'
+        final_confidence = -1
 
         video_delta_xs = []
         video_delta_ys = []
@@ -366,6 +389,8 @@ def fr_video_experiments(params, show_results):
                     # Simulate tracking (every frame of this video contains the same person)
 
                     frames = results[FRAMES_KEY]
+                    
+                    #print(frames)
 
                     [assigned_tag, final_confidence] = aggregate_frame_results_in_sim_tracking(frames, fm)
 
@@ -496,7 +521,14 @@ def fr_video_experiments(params, show_results):
         
                 experiment_dict[ANN_TAG_KEY] = ann_face_tag
                 
-                experiment_dict[FRAMES_KEY] = experiment_dict_frames
+                if(SIM_TRACKING):
+                    
+                    experiment_dict[ASSIGNED_TAG_KEY] = assigned_tag
+                    experiment_dict[CONFIDENCE_KEY] = final_confidence
+                
+                else:
+                
+                    experiment_dict[FRAMES_KEY] = experiment_dict_frames
                 
                 save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
                 

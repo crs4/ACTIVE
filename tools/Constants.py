@@ -13,10 +13,10 @@ DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YouTube'
 DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\YouTube\Training set'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
-FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position\Manual tracking'
+FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
 FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position\Frames'
+FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
 SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All key frames'
@@ -143,10 +143,10 @@ EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
 ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
 FACE_MODEL_ALGORITHM="LBP"
-LBP_RADIUS=1
-LBP_NEIGHBORS=8
-LBP_GRID_X=4
-LBP_GRID_Y=4
+LBP_RADIUS=2
+LBP_NEIGHBORS=12
+LBP_GRID_X=6
+LBP_GRID_Y=6
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
 # If true, pixels in some regions in face images are put equals to zero
@@ -170,19 +170,19 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_HEIGHT = 331 # Default 200, 245 for weighted LBP, 331 for oval mask
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
-OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
-OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_X = 0.24 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_Y = 0.42 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
 USE_NOSE_POSITION = True
-USE_OVAL_MASK = False
+USE_OVAL_MASK = True
 USE_RESIZING = True
 
 # Face extraction from video
@@ -207,7 +207,7 @@ USE_MAJORITY_RULE = True
 USE_MEAN_CONFIDENCE_RULE = False 
 # Assigne tag that received the minimum value of confidence
 USE_MIN_CONFIDENCE_RULE = True
-USE_SLIDING_WINDOW = False
+USE_SLIDING_WINDOW = True
 SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
 USE_TRACKING = False
 STOP_TRACKING_THRESHOLD = 20

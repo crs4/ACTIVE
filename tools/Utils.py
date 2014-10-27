@@ -646,8 +646,8 @@ def track_faces_with_LBP(frames, fm):
 
                 prev_face = face[FACE_KEY]
                 
-                cv2.imshow('prev_face', prev_face)
-                cv2.waitKey(0)
+                #cv2.imshow('prev_face', prev_face)
+                #cv2.waitKey(0)
                 
                 prev_bbox = face[BBOX_KEY]
 
@@ -716,8 +716,8 @@ def track_faces_with_LBP(frames, fm):
 
                             print 'conf =', conf # TEST ONLY
                             
-                            cv2.imshow('this_face', this_face)
-                            cv2.waitKey(0)
+                            #cv2.imshow('this_face', this_face)
+                            #cv2.waitKey(0)
                             
                             #Check if confidence is low enough
                             if(conf < STOP_TRACKING_THRESHOLD):
