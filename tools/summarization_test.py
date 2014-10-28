@@ -53,7 +53,12 @@ def calculate_threshold(path):
     mean = np.mean(red_diff_list)
     std = np.std(red_diff_list)
     
-    return [mean, std]
+    print('mean', mean)
+    print('std', std)
+    
+    threshold = mean + 2 * std
+    
+    return threshold
     
 def divide_images_in_shots(path, save_path = None):
     
@@ -63,6 +68,7 @@ def divide_images_in_shots(path, save_path = None):
     prev_hists = None
     
     diff_list = []
+    im_counter = 0
     
     for im_file in os.listdir(path):
         
@@ -92,9 +98,12 @@ def divide_images_in_shots(path, save_path = None):
 
         if(tot_diff > HSV_HIST_DIFF_THRESHOLD):
             
+            print('diff', tot_diff)
             cv2.imshow(im_file, im_bgr)
             cv2.waitKey(0)
             prev_hists = hists
+        
+        im_counter = im_counter + 1
         
 def divide_video_in_shots(path, save_path = None):
 
@@ -447,24 +456,28 @@ def get_key_faces_from_video(path, save_path = None):
 
 # Delete previous files
 
-path = SAVE_PATH_ALL_KEY_FRAMES
-for im in os.listdir(path):
-    im_path = os.path.join(path, im)
-    os.remove(im_path)
+#path = SAVE_PATH_ALL_KEY_FRAMES
+#for im in os.listdir(path):
+    #im_path = os.path.join(path, im)
+    #os.remove(im_path)
 
-path = SAVE_PATH_KEY_FRAMES
-for im in os.listdir(path):
-    im_path = os.path.join(path, im)
-    os.remove(im_path)
+#path = SAVE_PATH_KEY_FRAMES
+#for im in os.listdir(path):
+    #im_path = os.path.join(path, im)
+    #os.remove(im_path)
     
-path = SAVE_PATH_ALL_FACES
-for im in os.listdir(path):
-    im_path = os.path.join(path, im)
-    os.remove(im_path)
+#path = SAVE_PATH_ALL_FACES
+#for im in os.listdir(path):
+    #im_path = os.path.join(path, im)
+    #os.remove(im_path)
     
-path = SAVE_PATH_FACE_GROUPS
-for folder in os.listdir(path):
-    folder_path = os.path.join(path, folder)
-    shutil.rmtree(folder_path)
+#path = SAVE_PATH_FACE_GROUPS
+#for folder in os.listdir(path):
+    #folder_path = os.path.join(path, folder)
+    #shutil.rmtree(folder_path)
 
-get_key_faces_from_video(TEST_VIDEO_PATH)
+#get_key_faces_from_video(TEST_VIDEO_PATH)
+
+im_path = r'C:\Users\Maurizio\Documents\Frame da video\1 fps\SPALTI3_230907'
+
+divide_images_in_shots(im_path)
