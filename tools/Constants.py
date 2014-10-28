@@ -63,11 +63,13 @@ IMAGE_NAME_KEY = 'image_name'
 IMAGE_KEY = 'image'
 IMAGE_PATH_KEY = 'image_path'
 IMAGES_KEY = 'images'
+NO_FACE_STRING = 'No face detected'
 PEOPLE_KEY = 'people'
 PERSON_CHECK_KEY = 'person_check'
 PERSON_LABEL_KEY = 'label'
 SEGMENTS_KEY = 'segments'
 SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
+TEST_IMAGES_NR_KEY = 'test_images_nr'
 TOT_FRAMES_NR_KEY = 'tot_frames_nr'
 TRUE_POSITIVES_NR_KEY = 'true_positives_nr'
 VIDEO_COUNTER_KEY = 'video_counter'
@@ -138,6 +140,8 @@ EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
+RESULTS_PATH_KEY = 'resultsPath'
+TEST_SET_PATH_KEY = 'testSetPath'
 
 # Face recognition parameters
 ALFA = 1
@@ -237,6 +241,13 @@ SIM_TRACKING = False
 LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
-
+# Video annotations
+VIDEO_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r''
+SEGMENT_START_KEY = 'segment_start'
+SEGMENT_END_KEY = 'segment_end'
+SEGMENT_DURATION_KEY = 'segment_duration'
+AUDIO_SEGMENTS_KEY = 'audio_segments'
+CAPTION_SEGMENTS_KEY = 'caption_segments'
+VIDEO_SEGMENTS_KEY = 'video_segments'
 
 
