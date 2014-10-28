@@ -26,29 +26,49 @@ def save_experiment_results_in_CSV_file(file_path, experiment_dict_list):
         
         ann_face_tag = experiment_dict[ANN_TAG_KEY]
         
-        frames = experiment_dict[FRAMES_KEY]
-        
-        for frame in frames:
+        if(SIM_TRACKING):
             
-            time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
+            assigned_tag = experiment_dict[ASSIGNED_TAG_KEY]
             
-            assigned_tag = frame[ASSIGNED_TAG_KEY]
+            confidence = experiment_dict[CONFIDENCE_KEY]
             
-            confidence = frame[CONFIDENCE_KEY]
-
             if(confidence != -1):
             
                 stream.write(str(video_counter) + ',' +
-                             str(time_stamp) + ',' + 
                              str(ann_face_tag) + ',' + 
                              str(assigned_tag) + ',' +
                              str(confidence) + '\n')
             else:
                 
                 stream.write(str(video_counter) + ',' +
-                             str(time_stamp) + ',' + 
                              str(ann_face_tag) + ',' + 
-                             str(assigned_tag) + ',,\n')
+                             str(assigned_tag) + ',,\n')            
+            
+        else:
+        
+            frames = experiment_dict[FRAMES_KEY]
+            
+            for frame in frames:
+                
+                time_stamp = frame[ELAPSED_VIDEO_TIME_KEY]
+                
+                assigned_tag = frame[ASSIGNED_TAG_KEY]
+                
+                confidence = frame[CONFIDENCE_KEY]
+    
+                if(confidence != -1):
+                
+                    stream.write(str(video_counter) + ',' +
+                                 str(time_stamp) + ',' + 
+                                 str(ann_face_tag) + ',' + 
+                                 str(assigned_tag) + ',' +
+                                 str(confidence) + '\n')
+                else:
+                    
+                    stream.write(str(video_counter) + ',' +
+                                 str(time_stamp) + ',' + 
+                                 str(ann_face_tag) + ',' + 
+                                 str(assigned_tag) + ',,\n')
                      
     stream.close();
 
@@ -56,10 +76,12 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
-    people_nr = fm.get_people_nr();
+    people_nr = fm.get_people_nr()
+    
+    tags = fm.get_tags()
+    
+    for tag in tags:
 
-    for label in range(0, people_nr):
-        tag = fm.get_tag(label);
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
@@ -89,10 +111,14 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
         max_frames_nr = 0
         candidate_tags_list = []
         
-        for label in range(0, people_nr):
+        people_found = False
+        
+        for tag in tags:
             
-            tag = fm.get_tag(label);
             assigned_frames_nr = assigned_frames_nr_dict[tag]
+            
+            if(assigned_frames_nr > 0):
+                people_found = True
 
             if(assigned_frames_nr > max_frames_nr):
 
@@ -106,56 +132,63 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
                 # There are two or more tags that have the same number of occurrences
                 candidate_tags_list.append(tag)
 
-        if (len(candidate_tags_list) >= 1):
-
-            final_tag = candidate_tags_list[0]
-
-            if(USE_MIN_CONFIDENCE_RULE):
-
-                final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
-
-                for i in range(1, len(candidate_tags_list)):
-
-                    min_confidence = float(numpy.min(confidence_lists_dict[candidate_tags_list[i]]));
-
-                    if (min_confidence < final_confidence):
-
-                        final_tag = candidate_tags_list[i]
-
-                        final_confidence = min_confidence
-
-            elif(USE_MEAN_CONFIDENCE_RULE):
-
-                #print('\nCONFIDENCE LIST\n')
-                #print(confidence_lists_dict[final_tag])
-
-                final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
-                #print(candidate_tags_list)
-
-                for i in range(1, len(candidate_tags_list)):
-
-                    mean_confidence = float(numpy.mean(confidence_lists_dict[candidate_tags_list[i]]));
-
-                    if (mean_confidence < final_confidence):
-
-                        final_tag = candidate_tags_list[i]
-
-                        final_confidence = mean_confidence
-
+        if(people_found):
+        
+            if (len(candidate_tags_list) >= 1):
+    
+                final_tag = candidate_tags_list[0]
+    
+                if(USE_MIN_CONFIDENCE_RULE):
+                    
+                    if(len(confidence_lists_dict[final_tag]) > 0):
+    
+                        final_confidence = float(numpy.min(confidence_lists_dict[final_tag]))
+    
+                    for i in range(1, len(candidate_tags_list)):
+                        
+                        if(len(confidence_lists_dict[candidate_tags_list[i]]) > 0):
+    
+                            min_confidence = float(numpy.min(confidence_lists_dict[candidate_tags_list[i]]))
+    
+                        if (min_confidence < final_confidence):
+    
+                            final_tag = candidate_tags_list[i]
+    
+                            final_confidence = min_confidence
+    
+                elif(USE_MEAN_CONFIDENCE_RULE):
+    
+                    #print('\nCONFIDENCE LIST\n')
+                    #print(confidence_lists_dict[final_tag])
+    
+                    if(len(confidence_lists_dict[final_tag]) > 0):
+                        final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]))
+                    #print(candidate_tags_list)
+    
+                    for i in range(1, len(candidate_tags_list)):
+                        
+                        if(len(confidence_lists_dict[candidate_tags_list[i]]) > 0):
+    
+                            mean_confidence = float(numpy.mean(confidence_lists_dict[candidate_tags_list[i]]))
+    
+                        if (mean_confidence < final_confidence):
+    
+                            final_tag = candidate_tags_list[i]
+    
+                            final_confidence = mean_confidence
+    
     else:
         if(USE_MIN_CONFIDENCE_RULE):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_tag(0)
+                final_tag = tags[0]
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(numpy.min(confidence_lists_dict[final_tag]));
+                    final_confidence = float(numpy.min(confidence_lists_dict[final_tag]))
 
-                for label in range(1, people_nr):
-                
-                    tag = fm.get_tag(label);
+                for tag in tags:
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
@@ -171,19 +204,17 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
 
             if(people_nr > 0):
 
-                final_tag = fm.get_tag(0)
+                final_tag = tags[0]
 
                 if(len(confidence_lists_dict[final_tag]) > 0):
 
-                    final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]));
+                    final_confidence = float(numpy.mean(confidence_lists_dict[final_tag]))
 
-                for label in range(1, people_nr):
-                
-                    tag = fm.get_tag(label);
+                for tag in tags:
 
                     if(len(confidence_lists_dict[tag]) > 0):
 
-                        mean_confidence = float(numpy.mean(confidence_lists_dict[tag]));
+                        mean_confidence = float(numpy.mean(confidence_lists_dict[tag]))
 
                         if ((final_confidence == -1) or (mean_confidence < final_confidence)):
 
@@ -263,6 +294,9 @@ def fr_video_experiments(params, show_results):
         # Dictionary for YAML file with results
         experiment_dict = {}
         experiment_dict_frames = []
+        
+        assigned_tag = 'Undefined'
+        final_confidence = -1
 
         video_delta_xs = []
         video_delta_ys = []
@@ -355,6 +389,8 @@ def fr_video_experiments(params, show_results):
                     # Simulate tracking (every frame of this video contains the same person)
 
                     frames = results[FRAMES_KEY]
+                    
+                    #print(frames)
 
                     [assigned_tag, final_confidence] = aggregate_frame_results_in_sim_tracking(frames, fm)
 
@@ -485,7 +521,14 @@ def fr_video_experiments(params, show_results):
         
                 experiment_dict[ANN_TAG_KEY] = ann_face_tag
                 
-                experiment_dict[FRAMES_KEY] = experiment_dict_frames
+                if(SIM_TRACKING):
+                    
+                    experiment_dict[ASSIGNED_TAG_KEY] = assigned_tag
+                    experiment_dict[CONFIDENCE_KEY] = final_confidence
+                
+                else:
+                
+                    experiment_dict[FRAMES_KEY] = experiment_dict_frames
                 
                 save_YAML_file(results_path + ann_face_tag + ".yml", experiment_dict)
                 

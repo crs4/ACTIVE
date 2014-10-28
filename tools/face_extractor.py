@@ -15,6 +15,7 @@
 import cv2
 import math
 import os
+import pickle
 import time
 from Constants import *
 from face_detection import detect_faces_in_image
@@ -222,6 +223,8 @@ class FaceExtractor(object):
         frames = None
         segments = None
 
+        print 'here'
+
         capture = cv2.VideoCapture(resource)
 
         # Counter for all frames
@@ -241,16 +244,24 @@ class FaceExtractor(object):
 
             frames = []
             
-            path, file_name = os.path.split(resource)
-            
-            YAML_file = FRAMES_YAML_FILES_PATH + os.sep + file_name + '.yml'
-            
-            if((USE_TRACKING or USE_SLIDING_WINDOW)
+            if((USE_TRACKING or SIM_TRACKING or USE_SLIDING_WINDOW)
             and LOAD_IND_FRAMES_RESULTS):
                 
-                frames_dict = load_YAML_file(YAML_file)
+                # Load frames by using pickle
                 
-                frames = frames_dict[FRAMES_KEY]
+                print 'Loading frames'
+                
+                resource_name = os.path.basename(resource)
+                
+                file_name = resource_name + '.pickle'
+                
+                file_path = os.path.join(FRAMES_FILES_PATH, file_name)
+                
+                with open(file_path) as f:
+                    
+                    frames = pickle.load(f) 
+                    
+                    anal_frame_counter = len(frames)
                 
             else:
             
@@ -316,8 +327,18 @@ class FaceExtractor(object):
                 frames_dict = {}
                 
                 frames_dict[FRAMES_KEY] = frames
+                
+                # Save frames by using pickle
                     
-                #save_YAML_file(YAML_file, frames_dict)
+                resource_name = os.path.basename(resource)
+                
+                file_name = resource_name + '.pickle'
+                
+                file_path = os.path.join(FRAMES_FILES_PATH, file_name)    
+                    
+                with open(file_path, 'w') as f:
+                    
+                    pickle.dump(frames, f)
     
             if(USE_TRACKING and (frames is not None)):
                 

@@ -286,7 +286,7 @@ def get_all_faces_from_images(path = None, params = None, save_path = None):
             det_params = params[FACE_DETECTION_KEY]
             rec_params = params[FACE_RECOGNITION_KEY]
 
-        detection_result = detect_faces_in_image(image_path, det_params, False)
+        detection_result = detect_faces_in_image(image_path, det_params, True)
 
         detection_error = detection_result[ERROR_KEY]
         
@@ -457,24 +457,36 @@ def get_key_faces_from_video(path, save_path = None):
 # Delete previous files
 
 #path = SAVE_PATH_ALL_KEY_FRAMES
-#for im in os.listdir(path):
-    #im_path = os.path.join(path, im)
-    #os.remove(im_path)
+if not os.path.exists(path):
+    os.makedirs(path)
+else:
+    for im in os.listdir(path):
+        im_path = os.path.join(path, im)
+        os.remove(im_path)
 
 #path = SAVE_PATH_KEY_FRAMES
-#for im in os.listdir(path):
-    #im_path = os.path.join(path, im)
-    #os.remove(im_path)
+if not os.path.exists(path):
+    os.makedirs(path)
+else:
+    for im in os.listdir(path):
+        im_path = os.path.join(path, im)
+        os.remove(im_path)
     
 #path = SAVE_PATH_ALL_FACES
-#for im in os.listdir(path):
-    #im_path = os.path.join(path, im)
-    #os.remove(im_path)
+if not os.path.exists(path):
+    os.makedirs(path)
+else:
+    for im in os.listdir(path):
+        im_path = os.path.join(path, im)
+        os.remove(im_path)
     
 #path = SAVE_PATH_FACE_GROUPS
-#for folder in os.listdir(path):
-    #folder_path = os.path.join(path, folder)
-    #shutil.rmtree(folder_path)
+if not os.path.exists(path):
+    os.makedirs(path)
+else:
+    for folder in os.listdir(path):
+        folder_path = os.path.join(path, folder)
+        shutil.rmtree(folder_path)
 
 #get_key_faces_from_video(TEST_VIDEO_PATH)
 

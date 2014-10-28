@@ -182,7 +182,12 @@ class FaceModelsLBP():
         ok = False;
         
         if(os.path.isfile(db_file_name) and (os.path.isfile(tags_file_name))):
-            model.load(db_file_name)
+            
+            if(not((USE_TRACKING or SIM_TRACKING or USE_SLIDING_WINDOW)
+            and LOAD_IND_FRAMES_RESULTS)):          
+            
+                model.load(db_file_name)
+                
             if(not(model == None)):
                 self.model=model
                 self._tags = load_YAML_file(tags_file_name)

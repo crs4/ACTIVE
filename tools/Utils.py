@@ -69,7 +69,7 @@ def load_experiment_results(filePath):
 
 def detect_eyes_in_image(image, eye_cascade_classifier):
     '''
-    Detect eyes in image using a single classifier
+    Detect eyes in image by using a single cascade classifier
 
     :type image: openCV image
     :param image: image to be analyzed
@@ -166,6 +166,60 @@ def get_best_eye(eyes_list):
         return eyes_list[eye_index]
     else:
         return None
+
+def detect_mouth_in_image(image, mouth_cascade_classifier):
+    '''
+    Detect mouth in image by using cascade classifier
+
+    :type image: openCV image
+    :param image: image to be analyzed
+
+    :type mouth_cascade_classifier: cascade classifier
+    :param mouth_cascade_classifier: classifier to be used for the detection
+
+    ''' 
+    
+    min_neighbors = 5
+    haar_scale = 1.1
+    haar_flags = cv2.CASCADE_DO_CANNY_PRUNING
+    
+    mouth_list = []
+    
+    if(mouth_cascade_classifier is not None):
+        mouth_list = mouth_cascade_classifier.detectMultiScale(
+            image, haar_scale, min_neighbors, haar_flags)
+        
+    else:
+        print('Mouth cascade classifier must be provided')
+        
+    return mouth_list
+
+def detect_nose_in_image(image, nose_cascade_classifier):
+    '''
+    Detect nose in image by using cascade classifier
+
+    :type image: openCV image
+    :param image: image to be analyzed
+
+    :type nose_cascade_classifier: cascade classifier
+    :param nose_cascade_classifier: classifier to be used for the detection
+
+    ''' 
+    
+    min_neighbors = 5
+    haar_scale = 1.1
+    haar_flags = cv2.CASCADE_DO_CANNY_PRUNING
+    
+    nose_list = []
+    
+    if(nose_cascade_classifier is not None):
+        nose_list = nose_cascade_classifier.detectMultiScale(
+            image, haar_scale, min_neighbors, haar_flags)
+        
+    else:
+        print('Nose cascade classifier must be provided')
+        
+    return nose_list
 
 def aggregate_frame_results(frames, fm):
 
@@ -592,8 +646,8 @@ def track_faces_with_LBP(frames, fm):
 
                 prev_face = face[FACE_KEY]
                 
-                cv2.imshow('prev_face', prev_face)
-                cv2.waitKey(0)
+                #cv2.imshow('prev_face', prev_face)
+                #cv2.waitKey(0)
                 
                 prev_bbox = face[BBOX_KEY]
 
@@ -662,8 +716,8 @@ def track_faces_with_LBP(frames, fm):
 
                             print 'conf =', conf # TEST ONLY
                             
-                            cv2.imshow('this_face', this_face)
-                            cv2.waitKey(0)
+                            #cv2.imshow('this_face', this_face)
+                            #cv2.waitKey(0)
                             
                             #Check if confidence is low enough
                             if(conf < STOP_TRACKING_THRESHOLD):
@@ -733,4 +787,18 @@ def track_faces_with_LBP(frames, fm):
         tracking_frame_counter = tracking_frame_counter + 1
         
     return segments
+    
+def add_oval_mask(image):
+    
+    center_x = int(CROPPED_FACE_WIDTH / 2)
+    center_y = int(CROPPED_FACE_HEIGHT / 2)
+    center = (center_x, center_y)
+    
+    axe_x = center_x + int(center_x / 4)
+    axe_y = center_y + int(center_x / 4)
+    line_w = int(center_x / 2)
+    axes = (axe_x, axe_y)
+    cv2.ellipse(image, center, axes, 0, 0, 360, (0, 0, 0), line_w)
+    
+    return image
 

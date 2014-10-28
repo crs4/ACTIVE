@@ -167,11 +167,11 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
 
-    fm = face_models;
+    fm = face_models
     if(face_models == None):
-        fm = FaceModelsLBP();
+        fm = FaceModelsLBP()
 
-    start_time = cv2.getTickCount();
+    start_time = cv2.getTickCount()
     
     label = -1
     
@@ -302,22 +302,22 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
         
         confidence = counter
     
-    tag = fm.get_tag(label);
+    tag = fm.get_tag(label)
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
-    rec_time_in_clocks = cv2.getTickCount() - start_time;
-    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency();
+    rec_time_in_clocks = cv2.getTickCount() - start_time
+    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
 
     # Populate dictionary with label, confidence and elapsed CPU time
-    result = {}; 
-    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[ERROR_KEY] = '';
-    result[ASSIGNED_LABEL_KEY] = label;
-    result[ASSIGNED_TAG_KEY] = tag;
-    result[CONFIDENCE_KEY] = confidence;
+    result = {} 
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds
+    result[ERROR_KEY] = ''
+    result[ASSIGNED_LABEL_KEY] = label
+    result[ASSIGNED_TAG_KEY] = tag
+    result[CONFIDENCE_KEY] = confidence
 
-    return result;
+    return result
 
 def recognize_face_from_models_file(face, face_models, params, show_results):
     '''Recognize given face using the face recognition model
@@ -328,13 +328,13 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
-	
-    fm = face_models;
+    
+    fm = face_models
     if(face_models == None):
-		
-        fm = FaceModelsLBP();
+        
+        fm = FaceModelsLBP()
 
-    start_time = cv2.getTickCount();
+    start_time = cv2.getTickCount()
     
     label = -1
     
@@ -457,26 +457,26 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
             
             confidence = counter
         
-    tag = fm.get_tag(label);
+    tag = fm.get_tag(label)
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
-    rec_time_in_clocks = cv2.getTickCount() - start_time;
-    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency();
+    rec_time_in_clocks = cv2.getTickCount() - start_time
+    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
 
     # Populate dictionary with label, confidence and elapsed CPU time
-    result = {}; 
-    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[ERROR_KEY] = '';
-    result[ASSIGNED_LABEL_KEY] = label;
-    result[ASSIGNED_TAG_KEY] = tag;
-    result[CONFIDENCE_KEY] = confidence;
+    result = {} 
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds
+    result[ERROR_KEY] = ''
+    result[ASSIGNED_LABEL_KEY] = label
+    result[ASSIGNED_TAG_KEY] = tag
+    result[CONFIDENCE_KEY] = confidence
 
     if(show_results):
-        cv2.imshow(str(label), face);
-        cv2.waitKey(0); 
+        cv2.imshow(str(label), face)
+        cv2.waitKey(0) 
 
-    return result;
+    return result
 
 def recognize_face_old(face, face_models, params, show_results):
     '''Recognize given face using the face recognition model
@@ -488,34 +488,34 @@ def recognize_face_old(face, face_models, params, show_results):
     :param params: dictionary containing the parameters to be used for the face recognition
     '''
 
-    fm = face_models;
+    fm = face_models
     if(face_models == None):
-        fm = FaceModelsLBP();
+        fm = FaceModelsLBP()
 
-    start_time = cv2.getTickCount();
+    start_time = cv2.getTickCount()
     
-    [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8));
+    [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8))
 
-    tag = fm.get_tag(label);
+    tag = fm.get_tag(label)
     
     print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
-    rec_time_in_clocks = cv2.getTickCount() - start_time;
-    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency();
+    rec_time_in_clocks = cv2.getTickCount() - start_time
+    rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
 
     # Populate dictionary with label, confidence and elapsed CPU time
-    result = {}; 
-    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds;
-    result[ERROR_KEY] = '';
-    result[ASSIGNED_LABEL_KEY] = label;
-    result[ASSIGNED_TAG_KEY] = tag;
-    result[CONFIDENCE_KEY] = confidence;
+    result = {} 
+    result[ELAPSED_CPU_TIME_KEY] = rec_time_in_seconds
+    result[ERROR_KEY] = ''
+    result[ASSIGNED_LABEL_KEY] = label
+    result[ASSIGNED_TAG_KEY] = tag
+    result[CONFIDENCE_KEY] = confidence
 
     if(show_results):
-        cv2.imshow(str(label), face);
-        cv2.waitKey(0); 
+        cv2.imshow(str(label), face)
+        cv2.waitKey(0) 
 
-    return result;
+    return result
     
 def recognize_face(face, face_models, params, show_results):
     '''Recognize given face using the face recognition model
@@ -531,7 +531,9 @@ def recognize_face(face, face_models, params, show_results):
     
     if(USE_ONE_FILE_FOR_FACE_MODELS):
         
-        result = recognize_face_from_models_file(
+        #result = recognize_face_from_models_file(
+        #face, face_models, params, show_results)
+        result = recognize_face_old(
         face, face_models, params, show_results)
         
     else:

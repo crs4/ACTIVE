@@ -9,23 +9,24 @@ ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Fic.02'
-DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Training_set_ordered'
+DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YouTube'
+DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\YouTube\Training set'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
-FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s'
-FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Test_set'
+FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
+FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FRAMES_YAML_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\Videolina - Training set da testo\Frame per training scelti automaticamente\Fic.02\Risultati\LBP_1_8_4x4_sliding_window_1_s\Frames'
-SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\All faces'
-SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\All key frames'
-SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Face groups'
-SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization\Fic.02\Key frames'
+FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
+TEST_VIDEO_NAME = 'test1'
+SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
+SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All key frames'
+SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Face groups'
+SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
 SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
-TEST_VIDEO_PATH = r'C:\Active\RawVideos\fic.02.mpg'
+TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -115,14 +116,16 @@ MIN_SIZE_WIDTH_KEY = 'min_size_width';
 SCALE_FACTOR_KEY = 'scale_factor';
 
 # Detection parameters
-ALGORITH_NAME = 'HaarCascadeFrontalAndProfileFaces2'
+ALGORITH_NAME = 'HaarCascadeFrontalFaceAlt2'
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
-FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# TEST ONLY Default HaarCascadeFrontalFaceAlt2
+FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2'# TEST ONLY Default HaarCascadeFrontalFaceAlt2
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 FACE_DETECTION_MIN_NEIGHBORS = 5
 FACE_DETECTION_MIN_SIZE_HEIGHT = 20
 FACE_DETECTION_MIN_SIZE_WIDTH = 20
 FACE_DETECTION_SCALE_FACTOR = 1.1
+MOUTH_DETECTION_CLASSIFIER = 'haarcascade_mcs_mouth.xml'
+NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
 
 # Experiment parameters
 
@@ -140,16 +143,16 @@ EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
 ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
 FACE_MODEL_ALGORITHM="LBP"
-LBP_RADIUS=1
-LBP_NEIGHBORS=8
-LBP_GRID_X=4
-LBP_GRID_Y=4
+LBP_RADIUS=2
+LBP_NEIGHBORS=12
+LBP_GRID_X=6
+LBP_GRID_Y=6
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
 # If true, pixels in some regions in face images are put equals to zero
 USE_BLACK_PELS = False 
 USE_CANNY_IN_CROPPED_FACES = False
-USE_CAPTIONS = True
+USE_CAPTIONS = False
 USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_NBNN = False
@@ -167,21 +170,23 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 200 # Default 200 245 for weighted LBP
-CROPPED_FACE_WIDTH = 200 # Default 200 215 for weighted LBP
+CROPPED_FACE_HEIGHT = 331 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
-OFFSET_PCT_X = 0.20 # Default 0.20
-OFFSET_PCT_Y = 0.20 # Default 0.20 0.29 for weighted LBP
+OFFSET_PCT_X = 0.24 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_Y = 0.42 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
+USE_NOSE_POSITION = True
+USE_OVAL_MASK = True
 USE_RESIZING = True
 
 # Face extraction from video
-LOAD_IND_FRAMES_RESULTS = False
+LOAD_IND_FRAMES_RESULTS = True
 MAX_DELTA_PCT_W = 0.1
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
@@ -203,7 +208,7 @@ USE_MEAN_CONFIDENCE_RULE = False
 # Assigne tag that received the minimum value of confidence
 USE_MIN_CONFIDENCE_RULE = True
 USE_SLIDING_WINDOW = True
-SLIDING_WINDOW_SIZE = 1.0 # Size of sliding window in seconds
+SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
 USE_TRACKING = False
 STOP_TRACKING_THRESHOLD = 20
 
