@@ -1,0 +1,23 @@
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+celery.starmap
+default
+testapp.tasks.image_detection_task
+image
+testapp.tasks.sound_detection_task
+sound
+testapp.tasks.video_detection_task
+video
+Destroying test database for alias 'default'...
