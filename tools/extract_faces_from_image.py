@@ -1,7 +1,7 @@
 import cv2
 import os
 from face_extractor import FaceExtractor
-from Constants import FACE_EXTRACTION_ERROR_KEY, FACE_EXTRACTION_FACES_KEY, FACE_EXTRACTION_TAG_KEY, FACE_EXTRACTION_BBOX_KEY
+from Constants import ERROR_KEY, FACES_KEY, ASSIGNED_TAG_KEY, BBOX_KEY
 
 def extract_faces(image_path):
 
@@ -11,13 +11,13 @@ def extract_faces(image_path):
 
     result = fe.getResults(handle);
     
-    error = result[FACE_EXTRACTION_ERROR_KEY];
+    error = result[ERROR_KEY];
 
     if(not(error)):
 
         image = cv2.imread(image_path, cv2.IMREAD_COLOR);
 
-        faces = result[FACE_EXTRACTION_FACES_KEY];
+        faces = result[FACES_KEY];
 
         if(len(faces) == 0):
 
@@ -27,9 +27,9 @@ def extract_faces(image_path):
 
             for face in faces:
 
-                tag = face[FACE_EXTRACTION_TAG_KEY];
+                tag = face[ASSIGNED_TAG_KEY];
             
-                face_bbox = face[FACE_EXTRACTION_BBOX_KEY];
+                face_bbox = face[BBOX_KEY];
                 x = face_bbox[0];
                 y = face_bbox[1];
                 w = face_bbox[2];
@@ -42,25 +42,30 @@ def extract_faces(image_path):
         cv2.imshow('Result', image);
         cv2.waitKey(0); 
 
-subject_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Test_set_1fps\Alonso_Fernando'
+#subject_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\YouTube\Dataset_50\Test_set_1fps\Alonso_Fernando'
 
-for training_im in os.listdir(subject_path):
+#for training_im in os.listdir(subject_path):
             
-    training_im_path = os.path.join(subject_path, training_im)
+    #training_im_path = os.path.join(subject_path, training_im)
 
-    extract_faces(training_im_path)
+    #extract_faces(training_im_path)
+ 
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
 
-    #import argparse
+    import argparse
 
-    #parser = argparse.ArgumentParser(description='Extract faces from given image')
+    parser = argparse.ArgumentParser(description='Extract faces from given image')
 
-    #parser.add_argument('image_path', metavar = 'image_path',
-                        #help = 'image path');
-    #args = parser.parse_args()
+    parser.add_argument('image_path', metavar = 'image_path',
+                        help = 'image path');
+    args = parser.parse_args()
     
-    #image_path = args.image_path;
+    image_path = args.image_path;
     
-    #extract_faces(image_path)
+    extract_faces(image_path)
+    
+#image_path = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\People\fic.02\Paolo Fadda.jpg'
+
+#extract_faces(image_path)
 
