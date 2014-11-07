@@ -3,10 +3,10 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
+CLASSIFIERS_FOLDER_PATH = r'C:\OpenCV\opencv\sources\data\haarcascades'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YouTube'
@@ -174,19 +174,19 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 331 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
-OFFSET_PCT_X = 0.24 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
-OFFSET_PCT_Y = 0.42 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
 USE_NOSE_POSITION = True
-USE_OVAL_MASK = True
+USE_OVAL_MASK = False
 USE_RESIZING = True
 
 # Face extraction from video
@@ -242,7 +242,7 @@ LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 # Video annotations
-VIDEO_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r''
+VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Dataset\Dataset Videolina 1\Video'
 SEGMENT_START_KEY = 'segment_start'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_DURATION_KEY = 'segment_duration'
