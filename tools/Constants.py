@@ -3,10 +3,10 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades'
+CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
@@ -256,4 +256,6 @@ AUDIO_SEGMENTS_KEY = 'audio_segments'
 CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
-
+# Face summarization
+FRAME_PATH_KEY = 'frame_path'
+FRAME_POS_KEY = 'frame_position'

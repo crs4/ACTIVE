@@ -5,11 +5,16 @@ import os
 from Constants import *
 from face_detection import detect_faces_in_image, get_cropped_face
 
+use_video = False
+
 resource = r'C:\Active\RawVideos\FicMix.mov'
 images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
 
+capture = None
 
-capture = cv2.VideoCapture(resource)
+if(use_video):
+
+    capture = cv2.VideoCapture(resource)
 
 frame_counter = 0
 
@@ -31,6 +36,9 @@ diff_list = []
 
 first_face = True
 
+MIN_FRAMES_FROM_DETECTION = 10 # Dovranno essere calcolati dal tempo in 
+#secondi (per esempio, 0,5 secondi) e dal bitrate
+
 #for image_name in os.listdir(images_path):
     
     #image_path = os.path.join(images_path, image_name)
@@ -39,18 +47,31 @@ first_face = True
 
     #image = cv2.imread(image_path, cv2.IMREAD_COLOR)
     
-if capture is None or not capture.isOpened():
+if use_video and (capture is None or not capture.isOpened()):
 
     error = 'Error in opening video file'
 
 else:
     
-    while True:
-        
-        ret, image = capture.read()
+    frames_from_detection = 0 
     
-        if(not(ret)):
-            break
+    ### Code to be used for video
+    #while True:
+    
+        #ret, image = capture.read()
+    
+        #if(not(ret)):
+            #break
+            
+    ### Code to be used for images
+    for image_name in os.listdir(images_path):
+        
+        image_path = os.path.join(images_path, image_name)
+        
+        print image_path
+    
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)        
+
     
         vis = image.copy()
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -58,9 +79,15 @@ else:
         
         if(not(tracking)):
             
-            cv2.imwrite(TMP_FRAME_FILE_PATH, image)
+            frame_path = TMP_FRAME_FILE_PATH
             
-            det_res = detect_faces_in_image(TMP_FRAME_FILE_PATH, None, True)
+            if(use_video):
+                cv2.imwrite(TMP_FRAME_FILE_PATH, image)
+                frame_path = TMP_FRAME_FILE_PATH
+            else:
+                frame_path = image_path
+            
+            det_res = detect_faces_in_image(frame_path, None, False)
             
             err = det_res[ERROR_KEY]
             
@@ -85,10 +112,10 @@ else:
                     hsv_roi = hsv[y0:y1, x0:x1]
                     mask_roi = mask[y0:y1, x0:x1]
                     hist = cv2.calcHist( [hsv_roi], [0], mask_roi, [16], [0, 180] )
+                    prev_hist = hist
                     cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX);
                     hist = hist.reshape(-1)
-                    
-                    prev_hist = hist
+                    diff_list = []
                     
                     #tot_diff = 0
                     #prev_hists = []
@@ -121,6 +148,7 @@ else:
                     #LBP_GRID_Y)
                     #model.train(np.asarray(X), np.asarray(c))
                     
+                    frames_from_detection = 0
                     tracking = True
                     
                 else:
@@ -162,9 +190,13 @@ else:
             hsv_roi = hsv[y0:y1, x0:x1]
             mask_roi = mask[y0:y1, x0:x1]
             new_hist = cv2.calcHist( [hsv_roi], [0], mask_roi, [16], [0, 180] )
-            cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX);
+            #cv2.normalize(new_hist, new_hist, 0, 255, cv2.NORM_MINMAX);
             new_hist = new_hist.reshape(-1)
-            diff = cv2.compareHist(new_hist, hist, cv.CV_COMP_CHISQR)
+            diff = abs(cv2.compareHist(new_hist, prev_hist, cv.CV_COMP_CHISQR))
+            
+            prev_hist = new_hist
+            
+            print 'hist diff = ', diff
             
             #tot_diff = 0
             #hists = []
@@ -178,17 +210,33 @@ else:
                     #prev_hists[ch], new_hist, cv.CV_COMP_CHISQR)
                     #tot_diff = tot_diff + abs(diff)
             
-            print 'hist diff = ', diff
+            frames_from_detection = frames_from_detection + 1
             
-            #prev_hists = hists
-            
-            cv2.imshow('image', image)
-        
-            cv2.waitKey(0)
-            
-            if(diff > 40000):
+            if(frames_from_detection > MIN_FRAMES_FROM_DETECTION):
                 
-                tracking = False
+                mean = np.mean(diff_list)
+                std = np.std(diff_list)
+                
+                threshold = mean + 2 * std
+                
+                print 'threshold = ', threshold
+                
+                if(diff > threshold):
+                    
+                    tracking = False
+                    
+                    cv2.imshow('image', image)
+        
+                    cv2.waitKey(0)   
+
+            
+                #prev_hists = hists
+               
+
+               
+            if(tracking):
+                    
+                diff_list.append(diff)
             
             #cv2.imwrite(TMP_FRAME_FILE_PATH, track_face)
             

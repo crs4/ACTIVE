@@ -51,7 +51,9 @@ class FaceSummarizer(object):
 		
 		frame_counter = 0
 		detected_faces = []
-		for frame_path in self.frame_list:	
+		for frame_dict in self.frame_list:
+			
+			frame_path = frame_dict[FRAME_PATH_KEY]	
 			
 			detection_result = detect_faces_in_image
 			(frame_path, detection_params, False)
@@ -140,6 +142,12 @@ class FaceSummarizer(object):
                     frame_path = os.path.join(FRAME_DIR_PATH, fr_name)
                     
                     cv2.imwrite(frame_path, frame)
+                    
+                    frame_dict = {}
+                    
+                    frame_dict[FRAME_PATH_KEY] = frame_path
+                    
+                    frame_dict[FRAME_POS_KEY] = elapsed_video_s
                     
                     self.frame_list.append(frame_path) 
                     
