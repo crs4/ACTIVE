@@ -100,6 +100,7 @@ class FaceModels(object):
         '''
         pass
 
+
 class FaceExtractor(object):
     '''
     Tool for detecting and recognizing faces in images and video.
@@ -207,7 +208,6 @@ class FaceExtractor(object):
         return handle
                         
 
-    
     def extractFacesFromVideo(self, resource):
         '''
         Launch the face extractor on one video resource.

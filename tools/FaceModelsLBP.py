@@ -56,7 +56,7 @@ class FaceModelsLBP():
             else: 
                 
                 ok = self.load_tags(None)
-                
+                  
             # If loading was not successful, create it
             if(not(ok)):
                 self.create(video_path) 
@@ -211,7 +211,7 @@ class FaceModelsLBP():
             '''  
             db_file_name = self._db_name
 
-        tags_file_name = self._db_name+"-Tags"
+        tags_file_name = self._db_name+"-LBP-Tags"
         
         ok = False;
         

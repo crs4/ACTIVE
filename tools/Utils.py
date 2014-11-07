@@ -444,10 +444,10 @@ def save_model_file(X, y, db_file_name = None):
     
     if(len(y) > 0): 
         model=cv2.createLBPHFaceRecognizer(
-        FACE_RECOGNITION_RADIUS, 
-        FACE_RECOGNITION_NEIGHBORS, 
-        FACE_RECOGNITION_GRID_X, 
-        FACE_RECOGNITION_GRID_Y)
+        LBP_RADIUS, 
+        LBP_NEIGHBORS, 
+        LBP_GRID_X, 
+        LBP_GRID_Y)
         model.train(np.asarray(X), np.asarray(y))
         model_folder = DB_MODELS_PATH
         
