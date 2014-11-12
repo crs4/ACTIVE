@@ -622,7 +622,7 @@ def track_faces(frames, fm):
         tracking_frame_counter = tracking_frame_counter + 1
         
     return segments
-    
+
 def track_faces_with_LBP(frames, fm):
     
     segments = []

@@ -206,15 +206,14 @@ class FaceExtractor(object):
         self.db_result4image[handle]=results
     
         return handle
-                        
 
     def extractFacesFromVideo(self, resource):
         '''
         Launch the face extractor on one video resource.
         This method is asynchronous and returns a task handle.
 
-        :type  resource_path: string
-        :param resource_path: resource file path
+        :type  resource: string
+        :param resource: resource file path
         '''
         # Save processing time
         start_time = cv2.getTickCount()
@@ -222,8 +221,6 @@ class FaceExtractor(object):
         error = None
         frames = None
         segments = None
-
-        print 'here'
 
         capture = cv2.VideoCapture(resource)
 
@@ -276,7 +273,7 @@ class FaceExtractor(object):
                     ret, frame = capture.read()
     
                     if(not(ret)):
-                        break;
+                        break
                         
                     # Next frame to be analyzed
                     next_frame = last_anal_frame + (video_fps/USED_FPS)
