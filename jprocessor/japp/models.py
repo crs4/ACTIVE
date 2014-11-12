@@ -1,0 +1,12 @@
+from django.db import models
+
+class Job(models.Model):
+	
+	created  = models.DateTimeField(auto_now_add=True)
+	
+	resource = models.CharField(max_length=256)
+	
+	data     = models.TextField()
+	
+	class Meta:
+		ordering = ('created',)
