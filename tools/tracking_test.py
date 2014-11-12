@@ -5,10 +5,11 @@ import os
 from Constants import *
 from face_detection import detect_faces_in_image, get_cropped_face
 
-use_video = False
+use_video = True
 
-resource = r'C:\Active\RawVideos\FicMix.mov'
-images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
+#resource = r'C:\Active\RawVideos\fic.02.mpg'
+resource = r'C:\Active\RawVideos\FicMix3sec.mp4'
+#images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
 
 capture = None
 
@@ -56,25 +57,29 @@ else:
     frames_from_detection = 0 
     
     ### Code to be used for video
-    #while True:
+    while True:
     
-        #ret, image = capture.read()
+        ret, image = capture.read()
     
-        #if(not(ret)):
-            #break
+        if(not(ret)):
+            break
             
     ### Code to be used for images
-    for image_name in os.listdir(images_path):
+    #for image_name in os.listdir(images_path):
         
-        image_path = os.path.join(images_path, image_name)
+        #image_path = os.path.join(images_path, image_name)
         
-        print image_path
+        #print image_path
     
-        image = cv2.imread(image_path, cv2.IMREAD_COLOR)        
+        #image = cv2.imread(image_path, cv2.IMREAD_COLOR)        
 
-    
-        vis = image.copy()
+        print 'number of channels: ', image.shape[2]
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        print 'height = ', hsv.shape[0]
+        print 'width = ', hsv.shape[1]
+        channels = cv2.split(hsv)
+        
+        print 'h sum = ', sum(sum(channels[0]))
         mask = cv2.inRange(hsv, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
         
         if(not(tracking)):
@@ -95,11 +100,9 @@ else:
                 
                 faces = det_res[FACES_KEY]
                 
-                face_images = det_res[FACE_IMAGES_KEY]
-                
                 if(len(faces) == 1):
                     
-                    bbox = faces[0]
+                    bbox = faces[0][BBOX_KEY]
                     
                     x0 = bbox[0]
                     y0 = bbox[1]
@@ -113,7 +116,7 @@ else:
                     mask_roi = mask[y0:y1, x0:x1]
                     hist = cv2.calcHist( [hsv_roi], [0], mask_roi, [16], [0, 180] )
                     prev_hist = hist
-                    cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX);
+                    cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
                     hist = hist.reshape(-1)
                     diff_list = []
                     
@@ -163,10 +166,12 @@ else:
             
             prob = cv2.calcBackProject([hsv], [0], hist, [0, 180], 1)
             prob &= mask
+            print 'track_window before = ', track_window
+            
             term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.1 )
             track_box, track_window = cv2.CamShift(prob, track_window, term_crit)
             
-            #print 'track_window = ', track_window
+            print 'track_window after = ', track_window
             
             x = track_window[0]
             y = track_window[1]
@@ -191,7 +196,7 @@ else:
             mask_roi = mask[y0:y1, x0:x1]
             new_hist = cv2.calcHist( [hsv_roi], [0], mask_roi, [16], [0, 180] )
             #cv2.normalize(new_hist, new_hist, 0, 255, cv2.NORM_MINMAX);
-            new_hist = new_hist.reshape(-1)
+            #new_hist = new_hist.reshape(-1)
             diff = abs(cv2.compareHist(new_hist, prev_hist, cv.CV_COMP_CHISQR))
             
             prev_hist = new_hist
@@ -212,22 +217,30 @@ else:
             
             frames_from_detection = frames_from_detection + 1
             
-            if(frames_from_detection > MIN_FRAMES_FROM_DETECTION):
+            print 'frames from detection:', frames_from_detection
+            
+            # Check size of track_window
+            if((w <= 0) or (h <= 0)):
                 
-                mean = np.mean(diff_list)
-                std = np.std(diff_list)
-                
-                threshold = mean + 2 * std
-                
-                print 'threshold = ', threshold
-                
-                if(diff > threshold):
+                tracking = False
+            
+            else:
+                if(frames_from_detection > MIN_FRAMES_FROM_DETECTION):
                     
-                    tracking = False
+                    mean = np.mean(diff_list)
+                    std = np.std(diff_list)
                     
-                    cv2.imshow('image', image)
-        
-                    cv2.waitKey(0)   
+                    threshold = mean + 2 * std
+                    
+                    print 'threshold = ', threshold
+                    
+                    if(diff > threshold):
+                        
+                        tracking = False
+                        
+                        cv2.imshow('image', image)
+            
+                        cv2.waitKey(0)   
 
             
                 #prev_hists = hists

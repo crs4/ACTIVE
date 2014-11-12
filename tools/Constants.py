@@ -3,16 +3,17 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades'
+CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
+FACE_DETECTION_PATH = r'C:\Active\Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 #FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
@@ -20,6 +21,7 @@ FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4
 #FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
+FACE_TRACKING_PATH = r'C:\Active\Face tracking'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
 FRAME_DIR_PATH = r'C:\Active\Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
@@ -33,6 +35,7 @@ SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
+TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -49,13 +52,14 @@ ASSIGNED_LABEL_KEY = 'assigned_label'
 ASSIGNED_TAG_KEY = 'assigned_tag'
 BBOX_KEY = 'bbox'
 CHECKED_KEY = 'checked'
+CONFIDENCE_KEY = 'confidence'
 DETECTED_FACES_NR_KEY = 'detected_faces_nr'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
 ERROR_KEY = 'error'
 FACE_CHECK_KEY = 'face_check'
 FACE_MODEL_KEY = 'face_model'
-FACE_IMAGES_KEY = 'face_images'	
+FACE_IMAGES_KEY = 'face_images' 
 FACE_KEY = 'face'
 FACES_KEY = 'faces'
 FALSE_POSITIVES_NR_KEY = 'false_positives_nr'
@@ -69,10 +73,13 @@ IMAGE_NAME_KEY = 'image_name'
 IMAGE_KEY = 'image'
 IMAGE_PATH_KEY = 'image_path'
 IMAGES_KEY = 'images'
+LEFT_EYE_POS_KEY = 'left_eye_position'
 NO_FACE_STRING = 'No face detected'
+NOSE_POSITION_KEY = 'nose_position'
 PEOPLE_KEY = 'people'
 PERSON_CHECK_KEY = 'person_check'
 PERSON_LABEL_KEY = 'label'
+RIGHT_EYE_POS_KEY = 'right_eye_position'
 SEGMENTS_KEY = 'segments'
 SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
 TEST_IMAGES_NR_KEY = 'test_images_nr'
@@ -92,7 +99,6 @@ STD_RECALL_KEY = 'std_recall'
 F1_KEY = 'F1';
 MEAN_F1_KEY = 'mean_F1'
 STD_F1_KEY = 'std_F1'
-CONFIDENCE_KEY = 'confidence'
 MEAN_DETECTION_TIME_KEY = 'mean_detection_time'
 MEAN_RECOGNITION_TIME_KEY = 'mean_recognition_time'
 
@@ -257,5 +263,13 @@ CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
 # Face summarization
+DETECTED_KEY = 'detected'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
+FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
+# not considered for threshold calculation
+MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
+# total faces in tracking segment in order to retain segment
+MIN_TRACKING_TIME = 0.5 # Minimum time from detection before 
+                            # tracking interruption
+MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model

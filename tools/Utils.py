@@ -485,7 +485,66 @@ def is_rect_enclosed(rect1, rect2):
         return True
     else:
         return False
+ 
+def is_rect_similar(rect1, rect2):
+    """Check if a rectangle is similar to another rectangle
+
+    Args:
+        rect1 = first rectangle given as list (x, y, width, height)
+        rect2 = second rectangle given as list (x, y, width, height)
+
+    Returns:
+        True if rect 1 is similar to rect 2
+    """             
+    
+    similar = False
+    
+    x11 = rect1[0]
+    y11 = rect1[1]
+    w1 = rect1[2]
+    x12 = x11 + w1
+    h1 = rect1[3]
+    y12 = y11 + h1
+    x21 = rect2[0]
+    y21 = rect2[1]
+    w2 = rect2[2]
+    x22 = x21 + w2
+    h2 = rect2[3]
+    y22 = y21 + h2
+    
+    int_x1 = max(x11,x21)
+    int_y1 = max(y11,y21)
+    int_x2 = min(x12,x22)
+    int_y2 = min(y12,y22)
+    
+    if((int_x1 < int_x2) and (int_y1 < int_y2)):
+        # The two rectangles intersect
         
+        if(is_rect_enclosed(rect1,rect2)
+        or is_rect_enclosed(rect2,rect1)):
+            # One rectangle is inside the other
+            
+            similar = True
+            
+        else:
+            
+            rect1_area = w1 * h1
+            
+            rect2_area = w2 * h2
+            
+            min_rect_area = min(rect1_area, rect2_area)
+            
+            int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
+            
+            if(float(int_area) > (0.5 * float(min_rect_area))):
+                # Intersection area more than 0.5 times the area 
+                # of the smallest rectangle between the two 
+                # being compared
+                
+                similar = True
+                
+    return similar
+                
         
 def track_faces(frames, fm):
     

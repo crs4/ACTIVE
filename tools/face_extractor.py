@@ -157,18 +157,21 @@ class FaceExtractor(object):
         
         if(not(detection_error)):
             
-            face_bboxes = detection_result[FACES_KEY]
-            face_images = detection_result[FACE_IMAGES_KEY]
+            face_images = detection_result[FACES_KEY]
+    
+            detected_faces = detection_result[FACES_KEY]
     
             # Face recognition
             
             faces = []
-            count = 0
             #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
             #face_images=[face]
-            for face in face_images:
+            for dec_face_dict in face_images:
                 
                 face_dict = {}
+                
+                face = dec_face_dict[FACE_KEY]
+                bbox = dec_face_dict[BBOX_KEY]
                 
                 # Resize face
                 resize_face = False
@@ -182,10 +185,9 @@ class FaceExtractor(object):
                 confidence = rec_result[CONFIDENCE_KEY]
                 face_dict[ASSIGNED_TAG_KEY] = tag
                 face_dict[CONFIDENCE_KEY] = confidence
-                face_dict[BBOX_KEY] = face_bboxes[count]
+                face_dict[BBOX_KEY] = bbox
                 face_dict[FACE_KEY] = face
                 faces.append(face_dict)
-                count = count + 1
     
             processing_time_in_clocks = cv2.getTickCount() - start_time
             processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency()

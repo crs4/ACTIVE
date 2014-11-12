@@ -529,6 +529,9 @@ def recognize_face(face, face_models, params, show_results):
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
+
+    :type showResult: boolean
+    :param showResult: show (true) or do not show (false) recognized face
     '''
     
     result = None
