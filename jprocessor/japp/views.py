@@ -1,9 +1,11 @@
+from __future__ import absolute_import
+
 import cv2
 import json
+import os
+import multiprocessing
 
 from abc import ABCMeta, abstractmethod
-
-#from django.core.cache import cache
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -70,24 +72,8 @@ class JobDetails(Runner, GenericAPIView):
 
 """
 class FaceExtractorList(JobList):
-	"""
-	def get_face_models(self):
-		
-		data = cache.get('model')
-		
-		if data is not None:
-			
-			return data
-			
-		else:
-			
-			data = FaceModelsLBP()
-			
-			cache.set('model', data, 60)
-			
-			return data
 	
-	"""
+
 	def get_frame_list(self, resource_path):
 
 		frame_dir_path = '/home/federico/workspace-python/video/frames'
@@ -129,7 +115,7 @@ class FaceExtractorList(JobList):
 	
 	def run(self, request, *args, **kwargs):
 		
-		base_path = '/home/federico/workspace-python/video/'
+		base_path = '/home/federico/workspace-python/video' + os.sep
 		
 		if request.method == 'POST':
 			
@@ -141,13 +127,11 @@ class FaceExtractorList(JobList):
 					
 			chunk_size = 22
 
-			job = task_detect_faces.chunks(zip(frame_list), chunk_size)
+			djob = task_detect_faces.chunks(zip(frame_list), chunk_size)
 			
-			result = job.apply_async()
+			result = djob.apply_async()
 			
-			face_models = FaceModelsLBP()
-			
-			final_result = []
+			detect_faces = []
 			
 			for inner_list in result.get():
 				
@@ -158,15 +142,36 @@ class FaceExtractorList(JobList):
 					if(not(detection_error)):
 			
 						face_images = result[FACE_IMAGES_KEY]
-					
-						for face in face_images:
-							
-							final_result.append(recognize_face(face, face_models, None, False))
+						
+						if len(face_images) >= 0:
+						
+							detect_faces.append(face_images)
 			
-			serializer = JobSerializer(Job(resource = body['resourceName'], data = final_result))
+			rjob = task_recognize_faces.chunks(zip(detect_faces), multiprocessing.cpu_count())
+			
+			ret = rjob.apply_async()
+			
+			serializer = JobSerializer(Job(resource = body['resourceName'], data = ret.get()))
                         
 			return Response(serializer.data, status = status.HTTP_200_OK)
 		
+		else:
+			
+			return Response(data = [], status = status.HTTP_400_BAD_REQUEST)
+			
+			
+class CaptionExtractor(JobList):
+	
+	def run(self, request, *args, **kwargs):
+		
+		base_path = '/home/federico/workspace-python/image' + os.sep
+		
+		if request.method == 'POST':
+			
+			body = json.loads(request.body)
+			
+			resource_path = base_path + body['resourceName']
+			
 		else:
 			
 			return Response(data = [], status = status.HTTP_400_BAD_REQUEST)
