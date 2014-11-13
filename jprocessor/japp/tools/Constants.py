@@ -2,17 +2,15 @@ import os
 
 # Path of folders and files
 
-#ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
-ACTIVE_ROOT_DIRECTORY="/home/federico/workspace-python/video" + os.sep
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
+#ACTIVE_ROOT_DIRECTORY="/home/federico/workspace-python/video" + os.sep # Federico
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial\jprocessor\japp' + os.sep # Pc Lab
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-#CLASSIFIERS_FOLDER_PATH = r'C:\OpenCV\opencv\sources\data\haarcascades'
-CLASSIFIERS_FOLDER_PATH = "/usr/share/opencv/haarcascades"
+CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+#CLASSIFIERS_FOLDER_PATH = "/usr/share/opencv/haarcascades" # Federico
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Models' + os.sep +  'Videolina_80_LBP_1_8_4_4'
+DB_NAME = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep +  'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'

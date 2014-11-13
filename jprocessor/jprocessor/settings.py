@@ -39,10 +39,11 @@ CELERY_RESULT_BACKEND = 'amqp://'
 
 CACHES = {
 
-	'default': {
-		'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-		'LOCATION': '/home/federico/workspace-python/cache'
-	}
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        #'LOCATION': '/home/federico/workspace-python/cache' # Federico
+        'LOCATION': 'C:\Active\Mercurial\jprocessor\Cache' # Pc Lab
+    }
 
 }
 
@@ -62,7 +63,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-	'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -113,7 +114,8 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/federico/workspace-python/debug.log',
+            #'filename': '/home/federico/workspace-python/debug.log', # Federico
+            'filename': 'C:\Active\Mercurial\jprocessor\debug.log' # Pc Lab
         },
     },
     'loggers': {

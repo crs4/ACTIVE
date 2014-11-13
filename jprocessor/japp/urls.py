@@ -6,7 +6,7 @@ from japp.views import *
 
 urlpatterns = patterns('',
 
-	url(r'^faceextractor/$', FaceExtractorList.as_view(), name='face_extractor_list'),
+	url(r'^face/$', FaceExtractorList.as_view(), name='face_extractor_list'),
 	
 )
 
