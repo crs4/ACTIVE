@@ -316,6 +316,10 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     result[ASSIGNED_LABEL_KEY] = label
     result[ASSIGNED_TAG_KEY] = tag
     result[CONFIDENCE_KEY] = confidence
+    
+    if(show_results):
+        cv2.imshow(str(label), face)
+        cv2.waitKey(0) 
 
     return result
 
@@ -525,6 +529,9 @@ def recognize_face(face, face_models, params, show_results):
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
+
+    :type showResult: boolean
+    :param showResult: show (true) or do not show (false) recognized face
     '''
     
     result = None

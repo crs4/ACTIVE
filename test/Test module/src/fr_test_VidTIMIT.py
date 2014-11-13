@@ -373,8 +373,6 @@ def fr_VidTIMIT_experiments(params):
         save_YAML_file(person_results_path, person_dict)
         
         people_and_images_list.append(person_dict)
-        
-        break
     
     calculate_stats(tested_tags, rec_im_nr, test_im_nr, tp_dict, 
                     fp_dict,tp_conf_list, fp_conf_list, 

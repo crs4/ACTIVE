@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import shutil
 from Constants import *
-from face_detection import get_cropped_face, get_cropped_face_using_eyes_pos, get_detected_cropped_face
+from face_detection import get_cropped_face, get_cropped_face_using_fixed_eye_pos, get_detected_cropped_face
 from train_by_captions import train_by_captions
 from Utils import load_YAML_file, save_model_file, save_YAML_file
 
@@ -56,7 +56,7 @@ class FaceModelsLBP():
             else: 
                 
                 ok = self.load_tags(None)
-                
+                  
             # If loading was not successful, create it
             if(not(ok)):
                 self.create(video_path) 
@@ -211,7 +211,7 @@ class FaceModelsLBP():
             '''  
             db_file_name = self._db_name
 
-        tags_file_name = self._db_name+"-Tags"
+        tags_file_name = self._db_name+"-LBP-Tags"
         
         ok = False;
         
@@ -331,9 +331,13 @@ class FaceModelsLBP():
                     try:
                         if(USE_EYES_POSITION):
                             if(USE_EYE_DETECTION):
-                                im = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False)
+                                im = None
+                                crop_result = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False)
+                                if(crop_result):
+                                    im = crop_result[FACE_KEY]
+                                
                             else:
-                                im = get_cropped_face_using_eyes_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz)
+                                im = get_cropped_face_using_fixed_eye_pos(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz)
                 
                         else:
                             if(USE_FACE_DETECTION_IN_TRAINING):
@@ -351,7 +355,7 @@ class FaceModelsLBP():
 ##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
 ##                                    cv2.imshow('Training image', im);
 ##                                    cv2.waitKey(0);
-                        if(not(im == None)):
+                        if(im):
                             
                             if(USE_BLACK_PELS):
                                 

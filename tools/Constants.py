@@ -6,17 +6,28 @@ import os
 #ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep
 ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = ACTIVE_ROOT_DIRECTORY +  r'test\Test files\Face detection\ClassifierFiles'
+CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'YouTube'
-DB_PATH=ACTIVE_ROOT_DIRECTORY+os.sep + r'data\YouTube\Training set'
+#DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
+DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
+DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
+#DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
+FACE_DETECTION_DIR = r'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
-FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
-FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
+#FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
+FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Indipendent frames'
+#FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
+FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
+FACE_RECOGNITION_DIR = r'Face recognition'
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization'
+FACE_TRACKING_DIR = r'Face tracking'
+FACE_TRACKING_SEGMENTS_DIR = r'Segments'
+#FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
+FRAMES_DIR_PATH = r'Frames'
+FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
 SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All key frames'
@@ -27,6 +38,7 @@ SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
+TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
@@ -43,13 +55,14 @@ ASSIGNED_LABEL_KEY = 'assigned_label'
 ASSIGNED_TAG_KEY = 'assigned_tag'
 BBOX_KEY = 'bbox'
 CHECKED_KEY = 'checked'
+CONFIDENCE_KEY = 'confidence'
 DETECTED_FACES_NR_KEY = 'detected_faces_nr'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
 ERROR_KEY = 'error'
 FACE_CHECK_KEY = 'face_check'
 FACE_MODEL_KEY = 'face_model'
-FACE_IMAGES_KEY = 'face_images'	
+FACE_IMAGES_KEY = 'face_images' 
 FACE_KEY = 'face'
 FACES_KEY = 'faces'
 FALSE_POSITIVES_NR_KEY = 'false_positives_nr'
@@ -63,10 +76,13 @@ IMAGE_NAME_KEY = 'image_name'
 IMAGE_KEY = 'image'
 IMAGE_PATH_KEY = 'image_path'
 IMAGES_KEY = 'images'
+LEFT_EYE_POS_KEY = 'left_eye_position'
 NO_FACE_STRING = 'No face detected'
+NOSE_POSITION_KEY = 'nose_position'
 PEOPLE_KEY = 'people'
 PERSON_CHECK_KEY = 'person_check'
 PERSON_LABEL_KEY = 'label'
+RIGHT_EYE_POS_KEY = 'right_eye_position'
 SEGMENTS_KEY = 'segments'
 SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
 TEST_IMAGES_NR_KEY = 'test_images_nr'
@@ -86,7 +102,6 @@ STD_RECALL_KEY = 'std_recall'
 F1_KEY = 'F1';
 MEAN_F1_KEY = 'mean_F1'
 STD_F1_KEY = 'std_F1'
-CONFIDENCE_KEY = 'confidence'
 MEAN_DETECTION_TIME_KEY = 'mean_detection_time'
 MEAN_RECOGNITION_TIME_KEY = 'mean_recognition_time'
 
@@ -147,10 +162,10 @@ TEST_SET_PATH_KEY = 'testSetPath'
 ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
 FACE_MODEL_ALGORITHM="LBP"
-LBP_RADIUS=2
-LBP_NEIGHBORS=12
-LBP_GRID_X=6
-LBP_GRID_Y=6
+LBP_RADIUS=1
+LBP_NEIGHBORS=8
+LBP_GRID_X=4
+LBP_GRID_Y=4
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
 # If true, pixels in some regions in face images are put equals to zero
@@ -174,19 +189,19 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 331 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
-OFFSET_PCT_X = 0.24 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
-OFFSET_PCT_Y = 0.42 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
-USE_NOSE_POSITION = True
-USE_OVAL_MASK = True
+USE_NOSE_POSITION = False
+USE_OVAL_MASK = False
 USE_RESIZING = True
 
 # Face extraction from video
@@ -211,7 +226,7 @@ USE_MAJORITY_RULE = True
 USE_MEAN_CONFIDENCE_RULE = False 
 # Assigne tag that received the minimum value of confidence
 USE_MIN_CONFIDENCE_RULE = True
-USE_SLIDING_WINDOW = True
+USE_SLIDING_WINDOW = False
 SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
 USE_TRACKING = False
 STOP_TRACKING_THRESHOLD = 20
@@ -242,7 +257,7 @@ LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 # Video annotations
-VIDEO_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r''
+VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Dataset\Dataset Videolina 1\Video'
 SEGMENT_START_KEY = 'segment_start'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_DURATION_KEY = 'segment_duration'
@@ -250,4 +265,19 @@ AUDIO_SEGMENTS_KEY = 'audio_segments'
 CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
-
+# Face summarization
+DETECTED_KEY = 'detected'
+FRAME_PATH_KEY = 'frame_path'
+FRAME_POS_KEY = 'frame_position'
+FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
+# not considered for threshold calculation
+MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
+# total faces in tracking segment in order to retain segment
+MIN_TRACKING_TIME = 0.5 # Minimum time from detection before 
+                            # tracking interruption
+CONF_THRESHOLD = 6 # Threshold for retaining prediction 
+# (faces whose prediction ha a confidence value 
+# less than CONF_THRESHOLD will not be considered 'Undefined'
+MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
+TRACKED_PERSON_TAG = 'TrackedPerson'
+UNDEFINED_TAG = 'Undefined'

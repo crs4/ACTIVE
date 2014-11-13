@@ -2,7 +2,7 @@ import cv2
 import os
 import sys
 from Constants import *
-from Utils import add_oval_mask, detect_mouth_in_image, detect_nose_in_image, detect_eyes_in_image, is_rect_enclosed, load_YAML_file, normalize_illumination
+from Utils import add_oval_mask, detect_mouth_in_image, detect_nose_in_image, detect_eyes_in_image, is_rect_similar, load_YAML_file, normalize_illumination
 from PIL import Image
 from crop_face import CropFace
 
@@ -37,7 +37,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     file_check = os.path.isfile(resource_path)
     if(not(file_check)):
         print('Image file does not exist')
-        result[FACE_DETECTION_ERROR_KEY] = 'Image file does not exist'
+        result[ERROR_KEY] = 'Image file does not exist'
         return result
     try:
         image = cv2.imread(resource_path, cv2.IMREAD_GRAYSCALE)
@@ -170,9 +170,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         #result[FACE_DETECTION_FACES_KEY] = faces
 
         # Create face images from original image
-        face_images = []
         faces_final = []
-        face_counter = 0
+
         for (x, y, width, height) in faces :
 
             image_height, image_width = image.shape
@@ -180,17 +179,27 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             face_image = image[y:y+height, x:x+width]
 
             if(USE_EYES_POSITION):
-                face_image = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
+                crop_result = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
 
-            if(not(face_image == None)):
+            if(crop_result):
                 
-                face_images.append(face_image)
+                face_dict = {}
+                
+                face_dict[FACE_KEY] = crop_result[FACE_KEY]
+                
+                #face_images.append(face_image)
 
                 face_list = (int(x), int(y), int(width), int(height))
 
-                faces_final.append(face_list)
+                face_dict[BBOX_KEY] = face_list
                 
-            face_counter = face_counter + 1
+                face_dict[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
+                
+                face_dict[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
+                
+                faces_final.append(face_dict)
+
+                #faces_final.append(face_list)
                 
             ### TEST ONLY ###
             #if(show_results):
@@ -198,11 +207,14 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             #    cv2.imshow(resource_path,face_image)
             #    cv2.waitKey(0)
             #################
-        result[FACE_IMAGES_KEY] = face_images
+        #result[FACE_IMAGES_KEY] = face_images
         result[FACES_KEY] = faces_final
 
         if(show_results):
-            for (x, y, w, h) in faces_final:
+            for face_dict in faces_final:
+                
+                (x, y, w, h) = face_dict[BBOX_KEY]
+                
                 face = image[y:y+h, x:x+w]
                 eye_rects = detect_eyes_in_image(face, eye_cascade_classifier)
                 for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
@@ -280,65 +292,15 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
         face_must_be_considered = True
         for face1 in facesFromClassifier1:
 
-            x11 = face1[0]
-            y11 = face1[1]
-            w1 = face1[2]
-            x12 = x11 + w1
-            h1 = face1[3]
-            y12 = y11 + h1
-            x21 = face2[0]
-            y21 = face2[1]
-            w2 = face2[2]
-            x22 = x21 + w2
-            h2 = face2[3]
-            y22 = y21 + h2
-
             # Old check
             #if((x1 != x2) | (y1 != y2) | (w1 != w2) | (h1 != h2)):
             #    faces.append(face2)
+                        
+            similar = is_rect_similar(face1, face2)
             
-            int_x1 = max(x11,x21)
-            int_y1 = max(y11,y21)
-            int_x2 = min(x12,x22)
-            int_y2 = min(y12,y22)
-            
-            #print('face1', face1)
-            #print('fac2', face2)
-            
-            if((int_x1 < int_x2) and (int_y1 < int_y2)):
-                # The two rectangles intersect
-                if(is_rect_enclosed(face1,face2)
-                or is_rect_enclosed(face2,face1)):
-                    # One face is inside the other
-                    face_must_be_considered = False
-                    #print('one face inside the other')
-                    #path = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet\fic.06\fic.06_I_006.jpg' # TEST ONLY
-                    #image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-                    #cv2.rectangle(image, (x11,y11), (x12, y12), (0,0,255), 3, 8, 0)
-                    #cv2.rectangle(image, (x21,y21), (x22, y22), (0,0,255), 3, 8, 0)
-                    #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
-                    #cv2.imshow('Result', image)
-                    #cv2.waitKey(0)
-                    break
-                else:
-                    face1_area = w1 * h1
-                    face2_area = w2 * h2
-                    min_face_area = min(face1_area, face2_area)
-                    int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
-                    if(float(int_area) > (0.5 * float(min_face_area))):
-                        # Intersection area more than 0.5 times the area 
-                        # of the smallest face between the two 
-                        # being compared
-                        face_must_be_considered = False
-                        #print ('intersection too big')
-                        #path = r'C:\Active\Mercurial\test\Test files\Face detection\TestSet\fic.06\fic.06_I_006.jpg' # TEST ONLY
-                        #image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-                        #cv2.rectangle(image, (x11,y11), (x12, y12), (0,0,255), 3, 8, 0)
-                        #cv2.rectangle(image, (x21,y21), (x22, y22), (0,0,255), 3, 8, 0)
-                        #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
-                        #cv2.imshow('Result', image)
-                        #cv2.waitKey(0)
-                        break
+            if(similar):
+                face_must_be_considered = False
+                break
         
         if(face_must_be_considered):
             faces.append(face2)
@@ -403,10 +365,77 @@ def get_detected_cropped_face(image_path, return_always_face):
     else:
         return None
 
-def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
+
+def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
     '''
     Get face cropped and aligned to eyes from image file
-    Eyes positions are known
+    Eye positions are known and given as a list 
+    (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+
+    :type image_path: string
+    :param image_path: path of image to be cropped
+    
+    :type eye_pos: list
+    :param eye_pos: list containing eye positions
+
+    :type offset_pct: 2-element tuple
+    :param offset_pct: offset given as percentage of eye-to-eye distance
+
+    :type dest_size: 2-element tuple
+    :param dest_size: size of result
+    '''
+
+    cropped_image = None
+    # Open image
+    file_check = os.path.isfile(image_path)
+
+    if(not(file_check)):
+        print('File does not exist')
+        return None
+    try:
+        # Open whole image as PIL Image
+        img = Image.open(image_path)
+
+        # Align face image
+        (width, height) = img.size
+
+        eye_left = (eye_pos[0], eye_pos[1])
+
+        eye_right = (eye_pos[2], eye_pos[3])
+
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
+
+        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+
+        if(USE_HIST_EQ_IN_CROPPED_FACES):
+            face_image = cv2.equalizeHist(face_image)
+
+        if(USE_NORM_IN_CROPPED_FACES):
+            face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
+
+        if(USE_CANNY_IN_CROPPED_FACES):
+            face_image = cv2.Canny(face_image, 0.1,100)
+           
+        if(USE_TAN_AND_TRIGG_NORM):
+            face_image = normalize_illumination(face_image)
+            
+        # Insert oval mask in image
+        if(USE_OVAL_MASK):
+            face_image = add_oval_mask(face_image)
+
+        return face_image
+        
+    except IOError, (errno, strerror):
+        print "I/O error({0}): {1}".format(errno, strerror)
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+        raise
+
+
+def get_cropped_face_using_fixed_eye_pos(image_path, offset_pct, dest_size):
+    '''
+    Get face cropped and aligned to eyes from image file
+    Eye positions are known and corresponds to intersection in grid
 
     :type image_path: string
     :param image_path: path of image to be cropped
@@ -464,6 +493,7 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
+
 def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
     '''
     Get face cropped and aligned to eyes from image file
@@ -479,7 +509,6 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
     :param dest_size: size of result
     '''
 
-    cropped_image = None
     # Open image
     file_check = os.path.isfile(image_path)
 
@@ -517,25 +546,37 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
             print('Error loading nose cascade classifier file')
             return None
 
-        cropped_image = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
+        crop_result = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
 
-        if(USE_HIST_EQ_IN_CROPPED_FACES):
-           cropped_image = cv2.equalizeHist(cropped_image)
+        result = None
 
-        if(USE_NORM_IN_CROPPED_FACES):
-           cropped_image = cv2.normalize(cropped_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
+        if(crop_result):
+            
+            result = {}
+            
+            cropped_image = crop_result[FACE_KEY]
 
-        if(USE_CANNY_IN_CROPPED_FACES):
-           cropped_image = cv2.Canny(cropped_image, 0.1,100)
-           
-        if(USE_TAN_AND_TRIGG_NORM):
-            cropped_image = normalize_illumination(cropped_image)
-           
-        # Insert oval mask in image
-        if(USE_OVAL_MASK):
-            cropped_image = add_oval_mask(cropped_image)
+            if(USE_HIST_EQ_IN_CROPPED_FACES):
+               cropped_image = cv2.equalizeHist(cropped_image)
+    
+            if(USE_NORM_IN_CROPPED_FACES):
+               cropped_image = cv2.normalize(cropped_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
+    
+            if(USE_CANNY_IN_CROPPED_FACES):
+               cropped_image = cv2.Canny(cropped_image, 0.1,100)
+               
+            if(USE_TAN_AND_TRIGG_NORM):
+                cropped_image = normalize_illumination(cropped_image)
+               
+            # Insert oval mask in image
+            if(USE_OVAL_MASK):
+                cropped_image = add_oval_mask(cropped_image)
+                
+            result[FACE_KEY] = cropped_image
+            result[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
+            result[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
 
-        return cropped_image
+        return result
         
     except IOError, (errno, strerror):
         print "I/O error({0}): {1}".format(errno, strerror)
@@ -556,6 +597,8 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
     :type dest_size: 2-element tuple
     :param dest_size: size of result
     '''
+
+    result = {}
 
     # Detect eyes in face
     eye_rects = detect_eyes_in_image(image, eye_cascade_classifier)
@@ -593,8 +636,11 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         img = Image.open(image_path)
 
         # Align face image
-        eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1])
-        eye_right = (x_right_eye_center + face_position[0],y_right_eye_center + face_position[1])
+        eye_left = (int(x_left_eye_center + face_position[0]), int(y_left_eye_center + face_position[1]))
+        eye_right = (int(x_right_eye_center + face_position[0]), int(y_right_eye_center + face_position[1]))
+
+        result[LEFT_EYE_POS_KEY] = eye_left
+        result[RIGHT_EYE_POS_KEY] = eye_right
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
 
@@ -645,17 +691,26 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
             if(USE_OVAL_MASK):
                 face_image = add_oval_mask(face_image)
     
-            return face_image
+            result[FACE_KEY] = face_image
+    
+            return result
             
         else:
             
-            return None
+            result[FACE_KEY] = None
+            
+            return result
 
     else:
-
+        
         if(return_always_face):
+            
+            result[LEFT_EYE_POS_KEY] = None
+            result[RIGHT_EYE_POS_KEY] = None
 
-            return image
+            result[FACE_KEY] = image
+        
+            return result
 
         else:
 

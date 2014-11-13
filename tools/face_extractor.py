@@ -100,6 +100,7 @@ class FaceModels(object):
         '''
         pass
 
+
 class FaceExtractor(object):
     '''
     Tool for detecting and recognizing faces in images and video.
@@ -156,18 +157,21 @@ class FaceExtractor(object):
         
         if(not(detection_error)):
             
-            face_bboxes = detection_result[FACES_KEY]
-            face_images = detection_result[FACE_IMAGES_KEY]
+            face_images = detection_result[FACES_KEY]
+    
+            detected_faces = detection_result[FACES_KEY]
     
             # Face recognition
             
             faces = []
-            count = 0
             #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
             #face_images=[face]
-            for face in face_images:
+            for dec_face_dict in face_images:
                 
                 face_dict = {}
+                
+                face = dec_face_dict[FACE_KEY]
+                bbox = dec_face_dict[BBOX_KEY]
                 
                 # Resize face
                 resize_face = False
@@ -181,10 +185,9 @@ class FaceExtractor(object):
                 confidence = rec_result[CONFIDENCE_KEY]
                 face_dict[ASSIGNED_TAG_KEY] = tag
                 face_dict[CONFIDENCE_KEY] = confidence
-                face_dict[BBOX_KEY] = face_bboxes[count]
+                face_dict[BBOX_KEY] = bbox
                 face_dict[FACE_KEY] = face
                 faces.append(face_dict)
-                count = count + 1
     
             processing_time_in_clocks = cv2.getTickCount() - start_time
             processing_time_in_seconds = processing_time_in_clocks / cv2.getTickFrequency()
@@ -205,16 +208,14 @@ class FaceExtractor(object):
         self.db_result4image[handle]=results
     
         return handle
-                        
 
-    
     def extractFacesFromVideo(self, resource):
         '''
         Launch the face extractor on one video resource.
         This method is asynchronous and returns a task handle.
 
-        :type  resource_path: string
-        :param resource_path: resource file path
+        :type  resource: string
+        :param resource: resource file path
         '''
         # Save processing time
         start_time = cv2.getTickCount()
@@ -222,8 +223,6 @@ class FaceExtractor(object):
         error = None
         frames = None
         segments = None
-
-        print 'here'
 
         capture = cv2.VideoCapture(resource)
 
@@ -276,7 +275,7 @@ class FaceExtractor(object):
                     ret, frame = capture.read()
     
                     if(not(ret)):
-                        break;
+                        break
                         
                     # Next frame to be analyzed
                     next_frame = last_anal_frame + (video_fps/USED_FPS)

@@ -221,19 +221,26 @@ def detect_nose_in_image(image, nose_cascade_classifier):
         
     return nose_list
 
-def aggregate_frame_results(frames, fm):
+def aggregate_frame_results(frames, fm = None, tags = None):
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
-    people_nr = fm.get_people_nr()
     
-    tags = fm.get_tags()
+    people_nr = 0
+    if(fm is not None):
+		
+		people_nr = fm.get_people_nr()
+		tags = fm.get_tags()
+    
+    elif(tags is not None):
+		
+		people_nr = len(tags)
     
     for tag in tags:
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
-    #print(frames)
+    print(frames)
 
     for frame in frames:
 
@@ -247,7 +254,7 @@ def aggregate_frame_results(frames, fm):
 
     # Take final decision on person
 
-    final_tag = 'Undefined'
+    final_tag = UNDEFINED_TAG
     final_confidence = -1
     if(USE_MAJORITY_RULE):
         max_frames_nr = 0
@@ -444,10 +451,10 @@ def save_model_file(X, y, db_file_name = None):
     
     if(len(y) > 0): 
         model=cv2.createLBPHFaceRecognizer(
-        FACE_RECOGNITION_RADIUS, 
-        FACE_RECOGNITION_NEIGHBORS, 
-        FACE_RECOGNITION_GRID_X, 
-        FACE_RECOGNITION_GRID_Y)
+        LBP_RADIUS, 
+        LBP_NEIGHBORS, 
+        LBP_GRID_X, 
+        LBP_GRID_Y)
         model.train(np.asarray(X), np.asarray(y))
         model_folder = DB_MODELS_PATH
         
@@ -485,7 +492,66 @@ def is_rect_enclosed(rect1, rect2):
         return True
     else:
         return False
+ 
+def is_rect_similar(rect1, rect2):
+    """Check if a rectangle is similar to another rectangle
+
+    Args:
+        rect1 = first rectangle given as list (x, y, width, height)
+        rect2 = second rectangle given as list (x, y, width, height)
+
+    Returns:
+        True if rect 1 is similar to rect 2
+    """             
+    
+    similar = False
+    
+    x11 = rect1[0]
+    y11 = rect1[1]
+    w1 = rect1[2]
+    x12 = x11 + w1
+    h1 = rect1[3]
+    y12 = y11 + h1
+    x21 = rect2[0]
+    y21 = rect2[1]
+    w2 = rect2[2]
+    x22 = x21 + w2
+    h2 = rect2[3]
+    y22 = y21 + h2
+    
+    int_x1 = max(x11,x21)
+    int_y1 = max(y11,y21)
+    int_x2 = min(x12,x22)
+    int_y2 = min(y12,y22)
+    
+    if((int_x1 < int_x2) and (int_y1 < int_y2)):
+        # The two rectangles intersect
         
+        if(is_rect_enclosed(rect1,rect2)
+        or is_rect_enclosed(rect2,rect1)):
+            # One rectangle is inside the other
+            
+            similar = True
+            
+        else:
+            
+            rect1_area = w1 * h1
+            
+            rect2_area = w2 * h2
+            
+            min_rect_area = min(rect1_area, rect2_area)
+            
+            int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
+            
+            if(float(int_area) > (0.5 * float(min_rect_area))):
+                # Intersection area more than 0.5 times the area 
+                # of the smallest rectangle between the two 
+                # being compared
+                
+                similar = True
+                
+    return similar
+                
         
 def track_faces(frames, fm):
     
@@ -622,7 +688,7 @@ def track_faces(frames, fm):
         tracking_frame_counter = tracking_frame_counter + 1
         
     return segments
-    
+
 def track_faces_with_LBP(frames, fm):
     
     segments = []
