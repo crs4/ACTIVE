@@ -221,19 +221,26 @@ def detect_nose_in_image(image, nose_cascade_classifier):
         
     return nose_list
 
-def aggregate_frame_results(frames, fm):
+def aggregate_frame_results(frames, fm = None, tags = None):
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
-    people_nr = fm.get_people_nr()
     
-    tags = fm.get_tags()
+    people_nr = 0
+    if(fm is not None):
+		
+		people_nr = fm.get_people_nr()
+		tags = fm.get_tags()
+    
+    elif(tags is not None):
+		
+		people_nr = len(tags)
     
     for tag in tags:
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
-    #print(frames)
+    print(frames)
 
     for frame in frames:
 
@@ -247,7 +254,7 @@ def aggregate_frame_results(frames, fm):
 
     # Take final decision on person
 
-    final_tag = 'Undefined'
+    final_tag = UNDEFINED_TAG
     final_confidence = -1
     if(USE_MAJORITY_RULE):
         max_frames_nr = 0

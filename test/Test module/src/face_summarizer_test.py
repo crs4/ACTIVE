@@ -12,7 +12,7 @@ fs = FaceSummarizer()
 
 #resource = r'C:\Active\RawVideos\videolina-3sec.mov'
 
-resource = r'C:\Active\RawVideos\FicTrackingTest1.mp4'
+#resource = r'C:\Active\RawVideos\FicTrackingTest1.mp4'
 
 #resource = r'C:\Active\RawVideos\Videolina-mezzo_sec.mp4'
 
@@ -35,3 +35,5 @@ fs.detectFacesInVideo()
 fs.trackFacesInVideo()
 
 fs.recognizeFacesInVideo()
+
+fs.saveTrackingSegments()

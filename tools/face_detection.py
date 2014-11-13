@@ -211,7 +211,10 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         result[FACES_KEY] = faces_final
 
         if(show_results):
-            for (x, y, w, h) in faces_final:
+            for face_dict in faces_final:
+                
+                (x, y, w, h) = face_dict[BBOX_KEY]
+                
                 face = image[y:y+h, x:x+w]
                 eye_rects = detect_eyes_in_image(face, eye_cascade_classifier)
                 for(x_eye, y_eye, w_eye, h_eye) in eye_rects:

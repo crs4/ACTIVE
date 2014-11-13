@@ -13,7 +13,7 @@ DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
-FACE_DETECTION_PATH = r'C:\Active\Face detection'
+FACE_DETECTION_DIR = r'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 #FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
@@ -21,9 +21,12 @@ FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4
 #FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FACE_TRACKING_PATH = r'C:\Active\Face tracking'
+FACE_RECOGNITION_DIR = r'Face recognition'
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization'
+FACE_TRACKING_DIR = r'Face tracking'
+FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
-FRAME_DIR_PATH = r'C:\Active\Frames'
+FRAMES_DIR_PATH = r'Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
@@ -272,4 +275,9 @@ MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_TRACKING_TIME = 0.5 # Minimum time from detection before 
                             # tracking interruption
+CONF_THRESHOLD = 6 # Threshold for retaining prediction 
+# (faces whose prediction ha a confidence value 
+# less than CONF_THRESHOLD will not be considered 'Undefined'
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
+TRACKED_PERSON_TAG = 'TrackedPerson'
+UNDEFINED_TAG = 'Undefined'
