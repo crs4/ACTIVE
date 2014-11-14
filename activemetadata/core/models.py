@@ -6,19 +6,20 @@ from django.db import models
 # sviluppate, indicando solamente gli attributi essenziali
 
 """
-Classe riportante le informazioni associate a una persona, in questo modo
-e' possibile fare riferimento ad informazioni aggiuntive sulle persone che
-vengono identificate all'interno dei video.
+This class contains all information  associated to a person, so it will be possible to
+retrieve his extra information.
+It is possible to create anonymous persons, that will be identified lately by a user; so
+some fields could have a null value.
+
 TODO decidere se estendere il modello alle entita' (persone, cose, animali)
-TODO consentire inizialmente dei valori nulli nei campi
 """
 class Person(models.Model):
     GENDER_CHOICE = ((u'M', u'Male'), (u'F', u'Female'))
 
-    first_name  = models.CharField(max_length=100)
-    last_name   = models.CharField(max_length=100)
-    birth_date  = models.DateField()
-    gender      = models.CharField(max_length=3, choices=GENDER_CHOICE)
+    first_name  = models.CharField(max_length=100, blank=True)
+    last_name   = models.CharField(max_length=100, blank=True)
+    birth_date  = models.DateField(null=True)
+    gender      = models.CharField(max_length=2, choices=GENDER_CHOICE, blank=True)
     description = models.CharField(max_length=500, blank=True)
 
     def __unicode__(self):
@@ -29,9 +30,9 @@ class Person(models.Model):
 
 
 """
-Classe riportante le informazioni di un particolare item (un generico contenuto
-digitale che viene memorizzato, catalogato e indicizzato dal DAM.
-Vengono riportate le principali informazioni associate a un item.
+This class contains all information about an item (a generic digital content) stored,
+catalogued and indexed by the DAM.
+Here only main attributes has been specified; a more complete data model is provided by the DAM
 """
 class Item(models.Model):
     name     = models.CharField(max_length=200)
@@ -47,12 +48,10 @@ class Item(models.Model):
         return self.name + " - " + self.path
 
 """
-Classe che consente di organizzare i metadati relativi alle occorrenze di una
-persona all'interno di un contenuto digitale (item).
-Alcuni degli attributi riportati possono assumere valore nullo, sulla base della
-tipologia di contenuto digitale che viene considerato.
-Ad esempio per immagini e video ha senso riportare le informazioni sulla posizione
-mentre per i contenuti audio no...
+This class is used to organize metadata referred to persons detected inside a digital content (item)
+Some attributes could bu null, depending on digital content type.
+For example images and videos it is useful to specify position data; for audio files any kind of positional
+data is useless and nonsense.
 """
 class Occurrence(models.Model):
     person      = models.ForeignKey(Person)
