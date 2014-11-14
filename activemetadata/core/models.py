@@ -1,7 +1,17 @@
 from django.db import models
 
-""" classi wrapper di quelle originarie utilizzate da notreDAM """
+# le classi riportate in questo file corrispondono a dei
+# wrapper di quelle originarie utilizzate all'interno di notreDAM
+# vengono riportate per consentire l'interoperabilita' tra le diverse funzionalita'
+# sviluppate, indicando solamente gli attributi essenziali
 
+"""
+Classe riportante le informazioni associate a una persona, in questo modo
+e' possibile fare riferimento ad informazioni aggiuntive sulle persone che
+vengono identificate all'interno dei video.
+TODO decidere se estendere il modello alle entita' (persone, cose, animali)
+TODO consentire inizialmente dei valori nulli nei campi
+"""
 class Person(models.Model):
     GENDER_CHOICE = ((u'M', u'Male'), (u'F', u'Female'))
 
@@ -17,11 +27,18 @@ class Person(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name
 
+
+"""
+Classe riportante le informazioni di un particolare item (un generico contenuto
+digitale che viene memorizzato, catalogato e indicizzato dal DAM.
+Vengono riportate le principali informazioni associate a un item.
+"""
 class Item(models.Model):
     name     = models.CharField(max_length=200)
     path     = models.CharField(max_length=200)
+    # per semplicita' i metadati vengono riporatati come una stringa
     metadata = models.CharField(max_length=200, blank=True)
-    """ mancano i metodi per la manipolazione degli attributi degli item """
+    # mancano i metodi per la manipolazione degli attributi degli item
 
     def __unicode__(self):
         return self.name + " - " + self.path
@@ -31,20 +48,28 @@ class Item(models.Model):
 
 """
 Classe che consente di organizzare i metadati relativi alle occorrenze di una
-particolare persona all'interno di un contenuto digitale.
-Gli attributi riportanti l'istante di inizio e la durata non sono presenti nel
-caso delle immagini mentre devono essere sempre presenti nel caso di audio e video.
-Se invece si considera un file audio non si deve indicare i valori degli attributi
-x ed y, necessari nel caso di video e immagini.
+persona all'interno di un contenuto digitale (item).
+Alcuni degli attributi riportati possono assumere valore nullo, sulla base della
+tipologia di contenuto digitale che viene considerato.
+Ad esempio per immagini e video ha senso riportare le informazioni sulla posizione
+mentre per i contenuti audio no...
 """
 class Occurrence(models.Model):
     person      = models.ForeignKey(Person)
     item        = models.ForeignKey(Item)
-    position_x  = models.PositiveIntegerField()
-    position_y  = models.PositiveIntegerField()
-    """ millisecondi trascorsi dall'inizio del video/audio???? """
-    start_time  = models.TimeField("Occurrence start")
-    """ millisecondi??? """
-    length      = models.TimeField("Occurence duration")
+    # posizione all'interno di un'immagine in cui viene determinato un volto
+    position_x  = models.PositiveIntegerField(blank=True)
+    position_y  = models.PositiveIntegerField(blank=True)
+    position_width  = models.PositiveIntegerField(blank=True)
+    position_height = models.PositiveIntegerField(blank=True)
+    # millisecondi trascorsi dall'inizio del video/audio????
+    start_time  = models.TimeField(null=True)
+    # durata di un'apparizione espressa in millisecondi???
+    length      = models.TimeField(null=True)
 
-""" gestire il polimorfismo a oggetti??? con Django! """
+
+####################################################################################
+# TODO gestire il polimorfismo delle classi in python/Django                       #
+# in particolare sarebbe utile definire delle classi che riportano                 #
+# le informazioni delle occorrenze sulla base della tipologia di item considerato. #
+####################################################################################
