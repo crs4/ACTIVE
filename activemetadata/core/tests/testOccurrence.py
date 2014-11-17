@@ -44,8 +44,8 @@ def create_new_occurrence(person, item):
         occurrence.position_height = 60
         occurrence.position_width  = 90
         # set when person has been detected
-        #occurrence.start_time   = datetime.timedelta(hours=1, minutes=30)
-        #occurrence.length       = datetime.timedelta(milliseconds=600000)
+        occurrence.start_time   = 3600000
+        occurrence.length       = 1000
         return occurrence
 
 
