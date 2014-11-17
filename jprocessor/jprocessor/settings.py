@@ -29,11 +29,8 @@ ALLOWED_HOSTS = []
 # Celery settings
 
 BROKER_URL = 'amqp://localhost'
-
-#CELERY_ACCEPT_CONTENT = ['json']
-#CELERY_TASK_SERIALIZER = 'json'
-#CELERY_RESULT_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'amqp://'
+CELERY_MESSAGE_COMPRESSION = 'gzip'
 
 # Cache settings
 
