@@ -68,7 +68,7 @@ class Occurrence(models.Model):
 
 
 ####################################################################################
-# TODO gestire il polimorfismo delle classi in python/Django                       #
+# TODO gestire il polimorfismo delle classi                                        #
 # in particolare sarebbe utile definire delle classi che riportano                 #
 # le informazioni delle occorrenze sulla base della tipologia di item considerato. #
 ####################################################################################

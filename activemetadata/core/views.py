@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Create your views here.
+# Funzioni che implementano le operazioni CRUD per gli oggetti
