@@ -14,9 +14,9 @@ from rest_framework.generics import GenericAPIView
 from japp.models import Job
 from japp.serializers import JobSerializer
 from japp.tasks import *
+from japp.cake import CacheManager
 
 from japp.tools.Constants import *
-from japp.tools.FaceModelsLBP import FaceModelsLBP
 from japp.tools.face_recognition import recognize_face
         
 
@@ -123,8 +123,6 @@ class FaceExtractorList(JobList):
     
     def run(self, request, *args, **kwargs):
         
-        start_time = cv2.getTickCount()
-        
         #base_path = '/home/federico/workspace-python/video' + os.sep # Federico
         base_path = r'C:\Active\Mercurial\jprocessor\Video' + os.sep # Pc Lab
         
@@ -135,8 +133,12 @@ class FaceExtractorList(JobList):
             resource_path = base_path + body['resourceName']
         
             frame_list = self.get_frame_list(resource_path)
+            
+            frame_nr = len(frame_list)
+            
+            cpu_nr = multiprocessing.cpu_count()
                     
-            chunk_size = 22
+            chunk_size = int(math.ceil(float(frame_nr) / cpu_nr))
 
             djob = task_detect_faces.chunks(zip(frame_list), chunk_size)
             
@@ -154,21 +156,24 @@ class FaceExtractorList(JobList):
             
                         face_images = result[FACE_IMAGES_KEY]
                         
-                        if len(face_images) >= 0:
+                        if len(face_images) > 0:
                         
                             detect_faces.append(face_images)
+                            
             
-            rjob = task_recognize_faces.chunks(zip(detect_faces), multiprocessing.cpu_count())
+            cm = CacheManager()
+	
+			cm.checkFaceModels()
+				
+            faces_nr = len(detect_faces)
+                    
+            chunk_size = int(math.ceil(float(faces_nr) / cpu_nr))
+            
+            rjob = task_recognize_faces.chunks(zip(detect_faces), chunk_size)
             
             ret = rjob.apply_async()
             
-            data = ret.get()
-            
-            time_in_clocks = cv2.getTickCount() - start_time
-            
-            time_in_seconds = time_in_clocks / cv2.getTickFrequency()
-            
-            serializer = JobSerializer(Job(resource = body['resourceName'], data = data, duration = time_in_seconds))
+            serializer = JobSerializer(Job(resource = body['resourceName'], data = ret.get()))
                         
             return Response(serializer.data, status = status.HTTP_200_OK)
         
