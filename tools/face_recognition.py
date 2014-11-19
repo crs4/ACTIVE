@@ -482,7 +482,7 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
 
     return result
 
-def recognize_face_old(face, face_models, params, show_results):
+def recognize_face_base(face, face_models, params, show_results):
     '''Recognize given face using the face recognition model
 
     :type face:image
@@ -540,7 +540,7 @@ def recognize_face(face, face_models, params, show_results):
         
         #result = recognize_face_from_models_file(
         #face, face_models, params, show_results)
-        result = recognize_face_old(
+        result = recognize_face_base(
         face, face_models, params, show_results)
         
     else:

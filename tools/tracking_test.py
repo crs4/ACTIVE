@@ -1,15 +1,17 @@
 import cv2
 import cv2.cv as cv
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 from Constants import *
 from face_detection import detect_faces_in_image, get_cropped_face
 
-use_video = True
+use_video = False
 
 #resource = r'C:\Active\RawVideos\fic.02.mpg'
-resource = r'C:\Active\RawVideos\FicMix3sec.mp4'
-#images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
+#resource = r'C:\Active\RawVideos\FicMix3sec.mp4'
+images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
+images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
 
 capture = None
 
@@ -57,21 +59,21 @@ else:
     frames_from_detection = 0 
     
     ### Code to be used for video
-    while True:
+    #while True:
     
-        ret, image = capture.read()
+        #ret, image = capture.read()
     
-        if(not(ret)):
-            break
+        #if(not(ret)):
+            #break
             
     ### Code to be used for images
-    #for image_name in os.listdir(images_path):
+    for image_name in os.listdir(images_path):
         
-        #image_path = os.path.join(images_path, image_name)
+        image_path = os.path.join(images_path, image_name)
         
-        #print image_path
+        print image_path
     
-        #image = cv2.imread(image_path, cv2.IMREAD_COLOR)        
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)        
 
         print 'number of channels: ', image.shape[2]
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -169,7 +171,7 @@ else:
             print 'track_window before = ', track_window
             
             term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.1 )
-            track_box, track_window = cv2.CamShift(prob, track_window, term_crit)
+            [track_box, track_window] = cv2.CamShift(prob, track_window, term_crit)
             
             print 'track_window after = ', track_window
             
@@ -195,8 +197,8 @@ else:
             hsv_roi = hsv[y0:y1, x0:x1]
             mask_roi = mask[y0:y1, x0:x1]
             new_hist = cv2.calcHist( [hsv_roi], [0], mask_roi, [16], [0, 180] )
-            #cv2.normalize(new_hist, new_hist, 0, 255, cv2.NORM_MINMAX);
-            #new_hist = new_hist.reshape(-1)
+            cv2.normalize(new_hist, new_hist, 0, 255, cv2.NORM_MINMAX);
+            new_hist = new_hist.reshape(-1)
             diff = abs(cv2.compareHist(new_hist, prev_hist, cv.CV_COMP_CHISQR))
             
             prev_hist = new_hist
@@ -238,9 +240,19 @@ else:
                         
                         tracking = False
                         
+                        
+                        # Plot histogram differences
+                        
+                        diff_list.append(diff)
+                        
                         cv2.imshow('image', image)
             
-                        cv2.waitKey(0)   
+                        
+                        
+                        plt.plot(diff_list)
+                        plt.show() 
+                        
+                        cv2.waitKey(0)  
 
             
                 #prev_hists = hists
@@ -291,3 +303,5 @@ print 'mean = ', mean
 std = np.std(diff_list)
 
 print 'std = ', std 
+
+

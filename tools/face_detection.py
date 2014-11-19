@@ -296,7 +296,7 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
             #if((x1 != x2) | (y1 != y2) | (w1 != w2) | (h1 != h2)):
             #    faces.append(face2)
                         
-            similar = is_rect_similar(face1, face2)
+            similar = is_rect_similar(face1, face2, DET_MIN_INT_AREA)
             
             if(similar):
                 face_must_be_considered = False
