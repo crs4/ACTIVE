@@ -57,41 +57,55 @@ class TaskTest(TestCase):
 
     
     def test_face_extraction(self):
-
-        #base_path = '/home/federico/workspace-python/video' + os.sep # Federico
-        base_path = r'C:\Active\Mercurial\jprocessor\Video' + os.sep # Pc Lab       
-        
-        resource_path = base_path + 'videolina-10sec.mov'
-    
-        frame_list = self.get_frame_list(resource_path)
-                
-        chunk_size = 22
-
-        djob = task_detect_faces.chunks(zip(frame_list), chunk_size)
-        
-        result = djob.apply_async()
-        
-        detect_faces = []
-        
-        for inner_list in result.get():
+		
+		base_path = '/home/federico/workspace-python/video' + os.sep
+			
+		resource_path = base_path + 'videolina-10sec.mov'
+	
+		frame_list = self.get_frame_list(resource_path)
+				
+		frame_nr = len(frame_list)
             
-            for result in inner_list:
-        
-                detection_error = result[ERROR_KEY]
-        
-                if(not(detection_error)):
-        
-                    face_images = result[FACE_IMAGES_KEY]
+		cpu_nr = multiprocessing.cpu_count()
                     
-                    if len(face_images) >= 0:
+		chunk_size = int(math.ceil(float(frame_nr) / cpu_nr))
+
+		djob = task_detect_faces.chunks(zip(frame_list), chunk_size)
+		
+		result = djob.apply_async()
+		
+		detect_faces = []
+		
+		for inner_list in result.get():
+			
+			for result in inner_list:
+		
+				detection_error = result[ERROR_KEY]
+		
+				if(not(detection_error)):
+		
+					face_images = result[FACE_IMAGES_KEY]
+					
+					if len(face_images) > 0:
+					
+						detect_faces.append(face_images)
+		
+		if len(detect_faces) > 0:
+			
+			rame_nr = len(frame_list)
+            
+			faces_nr = len(detect_faces)
                     
-                        detect_faces.append(face_images)
-        
-        rjob = task_recognize_faces.chunks(zip(detect_faces), chunk_size)
-        #rjob = task_recognize_faces.chunks(zip(detect_faces), multiprocessing.cpu_count())
-        
-        ret = rjob.apply_async()
-        
-        data = ret.get()
+            chunk_size = int(math.ceil(float(faces_nr) / cpu_nr))
+			
+			cm = CacheManager()
+	
+			cm.checkFaceModels()
+			
+			rjob = task_recognize_faces.chunks(zip(detect_faces), chunk_size)
+		
+			ret = rjob.apply_async()
+		
+			ret.get()
    
     

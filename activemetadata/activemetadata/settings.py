@@ -1,5 +1,5 @@
 """
-Django settings for jprocessor project.
+Django settings for activemetadata project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l*dk8p@80+_6=n8$nuzk3#f!o_gnq5!(l!_2pcqqx*l1m!+!+@'
+SECRET_KEY = 'sirnq_k_c@q61sqdshwzz3r2agl59v3-ke8*51o@s4=s3f9%ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,23 +26,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Celery settings
-
-BROKER_URL = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'amqp://'
-CELERY_MESSAGE_COMPRESSION = 'gzip'
-
-# Cache settings
-
-CACHES = {
-
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        #'LOCATION': '/home/federico/workspace-python/cache' # Federico
-        'LOCATION': 'C:\Active\Mercurial\jprocessor\Cache' # Pc Lab
-    }
-
-}
 
 # Application definition
 
@@ -53,14 +36,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
-    'japp'
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -69,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'jprocessor.urls'
+ROOT_URLCONF = 'activemetadata.urls'
 
-WSGI_APPLICATION = 'jprocessor.wsgi.application'
+WSGI_APPLICATION = 'activemetadata.wsgi.application'
 
 
 # Database
@@ -80,14 +60,14 @@ WSGI_APPLICATION = 'jprocessor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'tmp.db'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'it-IT'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -102,24 +82,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            #'filename': '/home/federico/workspace-python/debug.log', # Federico
-            'filename': 'C:\Active\Mercurial\jprocessor\debug.log' # Pc Lab
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
