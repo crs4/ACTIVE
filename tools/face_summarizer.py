@@ -52,7 +52,34 @@ class FaceSummarizer(object):
         self.tracked_faces = [] # List of tracked faces
         
         self.video_frames = 0 # Number of frames in video
+       
+    
+    def analizeVideo(self, resource):
+		'''
+		Analyze video
         
+        :type resource: string
+        :param resource: file path of resource
+        '''
+        
+        self.getFrameList(resource)
+        
+        self.detectFacesInVideo()		
+	
+		self.calcHistDiff()
+		
+		self.trackFacesInVideo()
+		
+		self.saveTrackingSegments()
+		
+		self.recognizeFacesInVideo()
+		
+		self.saveRecPeople()
+		
+		self.showRecPeople()
+		
+		self.savePeopleFiles()
+		
         
     def detectFacesInVideo(self):
         '''
@@ -1217,6 +1244,12 @@ class FaceSummarizer(object):
                 # Add segments to person dictionary
                 
                 person_dict[SEGMENTS_KEY] = segment_list
+                
+                # Save total duration of video in milliseconds
+                
+                tot_duration = self.tot_frames * 1000.0 / self.fps
+                
+                person_dict[VIDEO_DURATION_KEY] = tot_duration
                 
                 self.recognized_faces.append(person_dict)
                 

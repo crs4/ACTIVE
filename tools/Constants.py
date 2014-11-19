@@ -284,7 +284,7 @@ FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
-MIN_SEGMENT_DURATION = 0.1 # Minimum duration (in seconds) of a segment 
+MIN_SEGMENT_DURATION = 1 # Minimum duration (in seconds) of a segment 
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
@@ -294,10 +294,11 @@ TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area
 						# before tracking interruption is possible T
 STD_MULTIPLIER = 1 # Standard deviation multiplier for calculating
                     # threshold for tracking interruption
-TRACKED_PERSON_TAG = 'TrackedPerson'
-UNDEFINED_TAG = 'Undefined'
+TRACKED_PERSON_TAG = 'tracked_person'
+UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences 
+VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video
