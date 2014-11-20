@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+
+<html lang='en'>
+	<head>
+		<meta charset='utf-8' />
+		 
+		<link href='css/media-player.css' rel='stylesheet' />		
+		<script src="jquery-ui-1.10.4/js/jquery-1.10.2.js"></script>
+		<script src="jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>		
+		<script src='js/media-player.js'></script>
+		
+		
+	</head>
+<body>
+
+	<div id='media-player'>
+		<video class="center" id='media-video' controls preload="none" >
+				
+		</video>
+		<div class="center" id = "icons">
+			<img src="icons/play.png">
+			<img src="icons/pause.png">
+			<img src="icons/stop.png">
+			<img src="icons/volon.png">
+
+		</div>	
+			
+	</div>	
+	
+	<div id='timeline_collector'>	
+		<table id="timetable">
+			<tbody style = "display: none">
+				<tr> 
+					<td><span style="font-weight:bold; background-color:#89c4f4 ;">Time: [s]</span></td>
+					<td>
+						<div id="progressbar" class="timeline center">
+							<div id="move_head" ><span class="tdspan" id="time_span" ></span></div>
+							<span class="tdspan" id="end_time_span"></span>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+
+		
+		
+</body>
+</html>
+

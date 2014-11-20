@@ -240,7 +240,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
         assigned_frames_nr_dict[tag] = 0
         confidence_lists_dict[tag] = []
 
-    print(frames)
+    #print(frames)
 
     for frame in frames:
 
@@ -493,15 +493,21 @@ def is_rect_enclosed(rect1, rect2):
     else:
         return False
  
-def is_rect_similar(rect1, rect2):
-    """Check if a rectangle is similar to another rectangle
+def is_rect_similar(rect1, rect2, min_int_area):
+    """
+    Check if a rectangle is similar to another rectangle
+	Returns True if rect 1 is similar to rect 2
 
-    Args:
-        rect1 = first rectangle given as list (x, y, width, height)
-        rect2 = second rectangle given as list (x, y, width, height)
-
-    Returns:
-        True if rect 1 is similar to rect 2
+	:type rect1: list
+    :param rect1: first rectangle given as list (x, y, width, height)
+    
+	:type rect2: list
+    :param rect2: second rectangle given as list (x, y, width, height)    
+    
+ 	:type min_int_area: float
+    :param min_int_area: minimum area of intersection between the two 
+    rectangles (related to area of the smallest one) for considering
+    them similar  
     """             
     
     similar = False
@@ -543,7 +549,7 @@ def is_rect_similar(rect1, rect2):
             
             int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
             
-            if(float(int_area) > (0.5 * float(min_rect_area))):
+            if(float(int_area) > (min_int_area * float(min_rect_area))):
                 # Intersection area more than 0.5 times the area 
                 # of the smallest rectangle between the two 
                 # being compared
@@ -632,7 +638,7 @@ def track_faces(frames, fm):
                             bbox_w = bbox[2]
 
                             delta_x = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
-                            delta_y = abs(bbox_x - prev_bbox_x)/float(prev_bbox_w)
+                            delta_y = abs(bbox_y - prev_bbox_y)/float(prev_bbox_w)
                             delta_w = abs(bbox_w - prev_bbox_w)/float(prev_bbox_w)
 
                             #Check if delta is small enough
