@@ -4,6 +4,6 @@ from django.contrib import admin
 urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^jobs/extractor/', include('japp.urls')),
+    url(r'^jobs/', include('japp.urls')),
     
 )

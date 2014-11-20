@@ -38,8 +38,8 @@ CACHES = {
 
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        #'LOCATION': '/home/federico/workspace-python/cache' # Federico
-        'LOCATION': 'C:\Active\Mercurial\jprocessor\Cache' # Pc Lab
+        'LOCATION': '/home/federico/workspace-python/cache' # Federico
+        #'LOCATION': 'C:\Active\Mercurial\jprocessor\Cache' # Pc Lab
     }
 
 }

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import cv2
 import json
 import os
+import math
 import multiprocessing
 
 from abc import ABCMeta, abstractmethod
@@ -17,7 +18,6 @@ from japp.tasks import *
 from japp.cake import CacheManager
 
 from japp.tools.Constants import *
-from japp.tools.face_recognition import recognize_face
         
 
 class Runner(object):
@@ -71,6 +71,58 @@ class JobDetails(Runner, GenericAPIView):
         return self.kill(request, *args, **kwargs)
 
 """
+
+class XMPExtractorList(JobList):
+    
+    def run(self, request, *args, **kwargs):
+        """
+        Da modificare - passiamo path dalla request
+        """
+        
+        if request.method == 'POST':
+            
+            body = json.loads(request.body)
+            
+            resource_path = body['resourcePath']
+        
+            #infile = fc.abspath(infile)
+            
+            result = task_extract_xmp.delay(resource_path)
+            
+            serializer = JobSerializer(Job(resource = body['resourcePath'], data = result.get()))
+                            
+            return Response(serializer.data, status = status.HTTP_200_OK)
+            
+        else:
+            
+            return Response(data = {}, status = status.HTTP_400_BAD_REQUEST)
+            
+            
+class XMPEmbedderList(JobList):
+    
+    def run(self, request, *args, **kwargs):
+        
+        if request.method == 'POST':
+            
+            body = json.loads(request.body)
+            
+            componentId = body['componentId']
+            
+            componentPath = body['componentPath']
+            
+            changeDict = body['changeDict']
+            
+            result = task_embed_xmp.apply_async((componentId, componentPath, changeDict))
+            
+            serializer = JobSerializer(Job(resource = body['componentId'], data = result.get()))
+                            
+            return Response(serializer.data, status = status.HTTP_200_OK)
+            
+        else:
+            
+            return Response(data = {}, status = status.HTTP_400_BAD_REQUEST)
+    
+
 class FaceExtractorList(JobList):
     
 
@@ -82,9 +134,9 @@ class FaceExtractorList(JobList):
         :param resource_path: path of video file
         '''
 
-        #frame_dir_path = '/home/federico/workspace-python/video/frames' # Federico
+        frame_dir_path = '/home/federico/workspace-python/video/frames' # Federico
         
-        frame_dir_path = r'C:\Active\Mercurial\jprocessor\Video\Frames' # Pc Lab
+        #frame_dir_path = r'C:\Active\Mercurial\jprocessor\Video\Frames' # Pc Lab
         
         capture = cv2.VideoCapture(resource_path)
         
@@ -123,8 +175,8 @@ class FaceExtractorList(JobList):
     
     def run(self, request, *args, **kwargs):
         
-        #base_path = '/home/federico/workspace-python/video' + os.sep # Federico
-        base_path = r'C:\Active\Mercurial\jprocessor\Video' + os.sep # Pc Lab
+        base_path = '/home/federico/workspace-python/video' + os.sep # Federico
+        #base_path = r'C:\Active\Mercurial\jprocessor\Video' + os.sep # Pc Lab
         
         if request.method == 'POST':
             
@@ -161,21 +213,23 @@ class FaceExtractorList(JobList):
                             detect_faces.append(face_images)
                             
             
-            cm = CacheManager()
-	
-			cm.checkFaceModels()
-				
-            faces_nr = len(detect_faces)
+            if len(detect_faces) > 0:
+                
+                cm = CacheManager()
+        
+                cm.checkFaceModels()
                     
-            chunk_size = int(math.ceil(float(faces_nr) / cpu_nr))
-            
-            rjob = task_recognize_faces.chunks(zip(detect_faces), chunk_size)
-            
-            ret = rjob.apply_async()
-            
-            serializer = JobSerializer(Job(resource = body['resourceName'], data = ret.get()))
+                faces_nr = len(detect_faces)
                         
-            return Response(serializer.data, status = status.HTTP_200_OK)
+                chunk_size = int(math.ceil(float(faces_nr) / cpu_nr))
+                
+                rjob = task_recognize_faces.chunks(zip(detect_faces), chunk_size)
+                
+                ret = rjob.apply_async()
+                
+                serializer = JobSerializer(Job(resource = body['resourceName'], data = ret.get()))
+                            
+                return Response(serializer.data, status = status.HTTP_200_OK)
         
         else:
             
