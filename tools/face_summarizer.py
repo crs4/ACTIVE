@@ -1427,7 +1427,7 @@ class FaceSummarizer(object):
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)
         
-        people_path = os.path.join(rec_path, FACE_TRACKING_PEOPLE_DIR)
+        people_path = os.path.join(rec_path, FACE_RECOGNITION_PEOPLE_DIR)
         
         # Delete already saved files
         if(os.path.exists(people_path)):
@@ -1530,13 +1530,22 @@ class FaceSummarizer(object):
                     
                     cv2.waitKey(3)
                     
+                    final_tag = UNDEFINED_TAG
+                    
                     print '### ' + w_name + ' ###\n'
-                    name = raw_input(PERSON_NAME + ': ')
-                    surname = raw_input(PERSON_SURNAME + ': ')
+                    ans = ''
                     
+                    # Ask contributor if shown person is known
+                    while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
+                        
+                        ans = raw_input(IS_KNOWN_PERSON_ASK)
+                        
+                    if(ans == ANSWER_YES):
+                        name = raw_input(PERSON_NAME + ': ')
+                        surname = raw_input(PERSON_SURNAME + ': ')
+                        final_tag = surname + '_' + name
+                        
                     print '\n'
-                    
-                    final_tag = surname + '_' + name
                     
                     person_dict[ANN_TAG_KEY] = final_tag
                     

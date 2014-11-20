@@ -24,11 +24,11 @@ FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FACE_RECOGNITION_DIR = r'Face recognition'
+FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple snnotations' # Directory containg simple annotations
 FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
-FACE_TRACKING_PEOPLE_DIR = r'People'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
 FRAMES_DIR_PATH = r'Frames'
@@ -274,14 +274,18 @@ CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
 # Face summarization
+ANSWER_NO = 'n'
+ANSWER_YES = 'y'
 CONF_THRESHOLD = 4 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
-FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
+# TO BE DELETED
+#FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation
+IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ?'
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
