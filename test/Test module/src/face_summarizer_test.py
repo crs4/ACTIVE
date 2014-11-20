@@ -10,11 +10,11 @@ from tools.Constants import *
 from tools.face_summarizer import FaceSummarizer
 
 
-frames_already_saved = True
+frames_already_saved = False
 
 fs = FaceSummarizer()
 
-#resource = r'C:\Active\RawVideos\videolina-3sec.mov'
+resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
 
 if(frames_already_saved):
 	
@@ -70,13 +70,13 @@ else:
 
 #file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
 
-file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Face detection\FicMixTest1.YAML'
+#file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Face detection\FicMixTest1.YAML'
 
-with open(file_path) as f:
+#with open(file_path) as f:
 	
-	fs.detected_faces = yaml.load(f) 
+#	fs.detected_faces = yaml.load(f) 
 	
-#fs.detectFacesInVideo()		
+fs.detectFacesInVideo()		
 	
 fs.calcHistDiff()
 

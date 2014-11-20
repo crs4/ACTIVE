@@ -1247,7 +1247,7 @@ class FaceSummarizer(object):
                 
                 # Save total duration of video in milliseconds
                 
-                tot_duration = self.tot_frames * 1000.0 / self.fps
+                tot_duration = self.video_frames * 1000.0 / self.fps
                 
                 person_dict[VIDEO_DURATION_KEY] = tot_duration
                 
