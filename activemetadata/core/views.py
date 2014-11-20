@@ -33,7 +33,10 @@ def get_person(request):
     # check if a Person id has been specified
     if "person_id" in request.GET :
         person_id = request.GET.__getitem__("person_id")
-        data = Person.objects.get(id=person_id).__json__()
+        try:
+            data = Person.objects.get(id=person_id).__json__()
+        except:
+            print("Selected person doesn't exist")
     # return converted result (if any)
     return HttpResponse(json.dumps(data), content_type = "application/json")
 
@@ -47,7 +50,11 @@ def get_item(request):
     # check if an Item id has been specified
     if "item_id" in request.GET :
         item_id = request.GET.__getitem__("item_id")
-        data = Item.objects.get(id=item_id).__json__()
+        try:
+            data = Item.objects.get(id=item_id).__json__()
+        except:
+            print("Selected item doesn't exist")
+
     # return converted result (if any)
     return HttpResponse(json.dumps(data), content_type = "application/json")
 
