@@ -6,7 +6,9 @@ from japp.views import *
 
 urlpatterns = patterns('',
 
-	url(r'^face/$', FaceExtractorList.as_view(), name='face_extractor_list'),
+	url(r'^extractor/face/$', FaceExtractorList.as_view(), name='face_extractor'),
+	url(r'^extractor/xmp/$', XMPExtractorList.as_view(), name='xmp_extractor'),
+	url(r'^embedder/xmp/$', XMPEmbedderList.as_view(), name='xmp_embedder'),
 	
 )
 

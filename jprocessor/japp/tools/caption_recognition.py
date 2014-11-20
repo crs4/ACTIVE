@@ -2,8 +2,8 @@ import cv2
 import cv2.cv as cv
 import Levenshtein as lev
 import numpy as np
-#import pytesseract # Federico
-import tesseract # Pc Lab
+import pytesseract # Federico
+#import tesseract # Pc Lab
 from Constants import *
 from itertools import permutations
 
