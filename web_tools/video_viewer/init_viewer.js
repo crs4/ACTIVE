@@ -23,7 +23,7 @@ var mimeNames = {
     '.webm': 'video/webm'
 };
 
-http.createServer(httpListener).listen(8000);
+http.createServer(httpListener).listen(8000, '0.0.0.0');
 
 function httpListener(request, response) {
     // We will only accept 'GET' method. Otherwise will return 405 'Method Not Allowed'.

@@ -81,7 +81,7 @@ var person9 = {
 
 //~ var people = [person1, person2, person3, person4,person5,person6, person7, person8, person9];
 var people = [];
-var people_paths = ["yaml/MONITOR072011.mpg-Corona_Giorgia.YAML"];
+var people_paths = ["yaml/MONITOR072011.mpg-Corona_Giorgia.YAML","yaml/MONITOR072011.mpg-Dessi_Emanuele.YAML", "yaml/MONITOR072011.mpg-Giagnoli_Gerardo.YAML"];
 var video_path = 'video/monitor.mp4';
 
 
@@ -89,20 +89,19 @@ var video_path = 'video/monitor.mp4';
 //~ document.addEventListener("DOMContentLoaded", function() { initialiseMediaPlayer(); }, false);
 var countDC = 0;
 
+//gestione della lettura e del parse dei file yaml in cui sono contenuti gli istanti di tempo e la durata dei segmenti
 $.getScript("js/files_management.js", function(){
 
    
    // Here you can use anything you defined in the loaded script
    for(var i=0; i<people_paths.length; i++){
-	   var person = readTextFile(people_paths[i]);
-	   people.push(person);
-	   console.log(person);
+		
+	   getYamlFile(people_paths[i],readTextFile)
+		
    }
-   
-   
-   
 });
 
+//~ $( document ).tooltip();
 
 $(document).ready(function(){
 	
@@ -113,7 +112,7 @@ $(document).ready(function(){
 	
 	mediaPlayer.setAttribute('src', video_path );
 	mediaPlayer.controls = false;
-	mediaPlayer.autoplay=true;		
+	mediaPlayer.autoplay=false;		
 	
 	$(mediaPlayer).on("durationchange", function(){
 		
@@ -135,7 +134,7 @@ $(document).ready(function(){
 	
 	
 	
-	$("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
+	//~ $("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
 	
 	$("#icons img").click(function(){
 			
@@ -205,10 +204,13 @@ function updateDOM(){
 		
 		var count_istants = people[j].time.length;
 		for(i=0;i<count_istants;i++){
-			$("#timeline"+j).append('<div id=playhead'+j+"_"+i+'></div>');
+			
 			
 			var ph_istant = (people[j].time[i]/mediaPlayer.duration);
-			var ph_width = (people[j].duration[i]/mediaPlayer.duration);			
+			var ph_width = (people[j].duration[i]/mediaPlayer.duration);	
+			var title = people[j].time[i]; 
+			
+			$("#timeline"+j).append('<div id=playhead'+j+"_"+i+' title='+title+'s></div>');		
 						
 			$("#playhead"+j+"_"+i).css({"left": (ph_istant*100)+"%","width": (ph_width*100)+"%"});
 			
