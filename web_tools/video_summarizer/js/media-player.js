@@ -6,14 +6,20 @@ var movehead;
 var video_line;
 var time_label;
 
-//parametro che indica la durata del summary in secondi
-var summary_duration = 60;
-//parametro che indica il rapporto che deve esserci tra la track piu' lunga e quella piu' corta.
-var max_min_ratio = 2;
+//parametro che indica la durata del summary impostata dall'utente in secondi
+var summary_duration = 20;
 
+//durata totale originaria dei segmenti
+var total_segments_duration = 60
 
+//durata del summary dopo eventuale drop
+var duration_after_drop;
 
-var delta_time;
+//minima durata di un segmento ammessa
+var min_track_duration = 2
+
+//numero di segmenti troppo corti e quindi droppati
+var count_tracks_dropped = 0
 
 var time_offset = 0;
 
@@ -41,8 +47,8 @@ var time_video_track_map;
 var video1 = {
     title:"basket",
     url: "video/basket.mp4",
-    time: [5, 20, 35],
-    duration: [10, 8, 2],
+    time: [5, 20, 40],
+    duration: [10, 18, 5], // 33
     end: 85
 }; 
 
@@ -52,7 +58,7 @@ var video3 = {
     title:"Datome",
     url: "video/sample.mp4",
     time: [0,8],    
-    duration: [2,2],
+    duration: [7,3], //43 
     end: 14
     
 }; 
@@ -62,7 +68,7 @@ var video2 = {
     title:"parrots",
     url: "video/parrots.mp4",
     time: [8, 23],
-    duration: [4,3],
+    duration: [4,3], //50
     end: 33
 }; 
  
@@ -71,7 +77,7 @@ var video4 = {
     title:"beli",
     url: "video/beli.mp4",
     time: [0,6,12],    
-    duration: [2,3,2],
+    duration: [4,4,2], // 60
     end: 78
     
 }; 
@@ -80,6 +86,8 @@ var video4 = {
 
 
 var video_arr = [video1,video2,video3,video4]; //4
+//~ var video_arr = [video3,video4]; //2
+
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //12
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //36
 
@@ -102,8 +110,7 @@ var video_arr = [video1,video2,video3,video4]; //4
 var countDC = 0;
 $(document).ready(function(){
 	
-	delta_time = (summary_duration/video_arr.length);
-	
+
 	
 	mediaPlayer = document.getElementById('media-video');
 	
@@ -119,11 +126,15 @@ $(document).ready(function(){
 	pause = false;
 	stop = false;
 	
-	
+	//creazione della sequenza dei segmenti. Vengono eliminati segmenti di durata inferiore a min_track_duration
 	resizeTracks();
+	
+	
+	
 	for (var i = 0; i < time_video_track_map[0].length; i++) {
 		console.log(time_video_track_map[0][i]);
 	}
+	console.log("dropped: " + count_tracks_dropped);
 	
 	
 	initTime = new Date();
@@ -297,8 +308,14 @@ $(document).on('click','li',function(e){
 			track_id = 0;
 			track_timeout.stop();
 		
-		
-			time_offset = delta_time * ph_index * 1000;
+			var time_from_map = time_video_track_map[1].indexOf(ph_index);
+			if(time_from_map !=0){
+			
+				time_offset = time_video_track_map[0][time_from_map-1] * 1000;
+			}
+			else{
+				time_offset = 0;
+			}
 			initTime.setTime(currentTime.getTime() - time_offset);
 		
 			manageTracks();
@@ -319,7 +336,10 @@ function updateDOM(){
 	var count_video = video_arr.length;
 	var count_track = time_video_track_map[0].length;
 	
-	$("#end_time_span").text(summary_duration);
+	$("#end_time_span").text((time_video_track_map[0][(count_track-1)]).toFixed(1));
+	if(count_tracks_dropped!=0){
+		$("#dropped").text(count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+	}
 	
 	for(var i=0;i<count_video;i++){
 		$("#playlist > ol").append("<li>"+video_arr[i].title+"</li>");		
@@ -503,6 +523,7 @@ function playTracks(video,tracks_count, delta_track_time, total_tracks_duration 
 		
 		mediaPlayer.src = video.url+"#t="+trackStartTime+","+trackEndTime;
 		mediaPlayer.play();
+		
 		track_id = track_id + 1;
 		$(mediaPlayer).fadeIn("slow");
 	}
@@ -557,66 +578,37 @@ function resizeTracks(){
 	for(i=0; i<video_arr.length; i++){
 		
 		var video = video_arr[i];
+		var temp_video_duration = [];
 		
-		//imposta le durate delle tracks in modo che per lo stesso video la track piu' lunga sia al massimo max+min_ratio volte la piu'corta
-		while( (Math.max.apply(Math, video.duration)/Math.min.apply(Math, video.duration)) > max_min_ratio ){
+		for(j=0; j<video.duration.length; j++){
 			
-			var max_duration = Math.max.apply(Math, video.duration);
-			var min_duration = Math.min.apply(Math, video.duration);
-			
-			var index = video.duration.indexOf(max_duration);
-			video.duration[index] = min_duration * max_min_ratio;
-		}
-		
-		var total_tracks_duration = eval(video.duration.join('+'));
-		var tracks_count = video.time.length;
-		var delta_track_time = delta_time/tracks_count;
-		
-		//sulla base delle durate calcolate al punto precedente, ridefinisco le durate distribuendole su delta_time secondi
-		// se la somma delle durate del video e' inferiore a delta_time attribuisco a ogni track la stessa durata, verificando di non sforare le durata del video
-		
-		if(total_tracks_duration <= delta_time){
-			for(j=0; j<video.duration.length; j++){
+			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration)
+			if(temp_duration >= min_track_duration){
 				
-				if(video.time[j] + delta_track_time < video.end){
-					video.duration[j] = delta_track_time;
-				}
-				else{
-					video.duration[j] = video.end - video.time[j];					
-				}
-				acc = acc + video.duration[j];
+				temp_video_duration.push(temp_duration);
+				acc = acc + temp_duration;
 				timeline.push(acc);
 				video_tempid.push(i);
 				temp_trackid.push(j);
-			}
-		}
-		// se la somma delle durate del video e' superiore a delta_time attribuisco a ogni track la percentuale rispetto a delta time
-		else{
-			
-			for(j=0; j<video.duration.length; j++){
 				
-				var track_duration = video.duration[j]*(delta_time/total_tracks_duration);
-				if(video.time[j] + delta_track_time < video.end){
-					video.duration[j] = track_duration;
-				}
-				else{
-					video.duration[j] = video.end - video.time[j];					
-				}				
-				acc = acc + track_duration;
-				timeline.push(acc);
-				video_tempid.push(i);
-				temp_trackid.push(j);
+			}
+			else{
+				count_tracks_dropped = count_tracks_dropped + 1;						
 			}
 			
+			
 		}
-		
+		video.duration = temp_video_duration;
 	}
 	//definisco una mappa che contiene nel 
 	//primo array tutti gli istanti di tempo in cui deve scattare il play di una track
 	//nel secondo array, l'indice del video cui appartiene la track appena riprodotta
 	//nel terzo array la track appena riprodotta;
 	time_video_track_map = [timeline, video_tempid, temp_trackid ];
-	
+	duration_after_drop = time_video_track_map[0][time_video_track_map[0].length - 1];
+	if(count_tracks_dropped > 0){
+		summary_duration = duration_after_drop;
+	}
 	
 }
 
