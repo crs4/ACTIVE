@@ -1,0 +1,8 @@
+Not Found: /jobs/extract/xmp
+Internal Server Error: /jobs/extractor/xmp
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 87, in get_response
+    response = middleware_method(request)
+  File "/usr/local/lib/python2.7/dist-packages/django/middleware/common.py", line 82, in process_request
+    "settings.") % (new_url[0], new_url[1]))
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to localhost:8000/jobs/extractor/xmp/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
