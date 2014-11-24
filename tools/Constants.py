@@ -3,18 +3,18 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-#CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
-CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
+CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+#CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
-FACE_ANNOTATION_DIR = r'Annotations'
+FACE_ANNOTATION_DIR = r'Annotations' # Directory containg complete annotations
 FACE_DETECTION_DIR = r'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
@@ -24,10 +24,11 @@ FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FACE_RECOGNITION_DIR = r'Face recognition'
-#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
-FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+FACE_RECOGNITION_PEOPLE_DIR = r'People'
+FACE_SIMPLE_ANNOTATION_DIR = r'Simple snnotations' # Directory containg simple annotations
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
-FACE_TRACKING_PEOPLE_DIR = r'People'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
 FRAMES_DIR_PATH = r'Frames'
@@ -273,18 +274,22 @@ CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
 # Face summarization
-CONF_THRESHOLD = 6 # Threshold for retaining prediction 
+ANSWER_NO = 'n'
+ANSWER_YES = 'y'
+CONF_THRESHOLD = 4 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
-FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
+# TO BE DELETED
+#FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation
+IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ?'
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
-MIN_SEGMENT_DURATION = 0.1 # Minimum duration (in seconds) of a segment 
+MIN_SEGMENT_DURATION = 1 # Minimum duration (in seconds) of a segment 
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
@@ -294,10 +299,11 @@ TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area
 						# before tracking interruption is possible T
 STD_MULTIPLIER = 1 # Standard deviation multiplier for calculating
                     # threshold for tracking interruption
-TRACKED_PERSON_TAG = 'TrackedPerson'
-UNDEFINED_TAG = 'Undefined'
+TRACKED_PERSON_TAG = 'tracked_person'
+UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences 
+VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video

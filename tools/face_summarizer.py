@@ -52,6 +52,33 @@ class FaceSummarizer(object):
         self.tracked_faces = [] # List of tracked faces
         
         self.video_frames = 0 # Number of frames in video
+       
+    
+    def analizeVideo(self, resource):
+        '''
+        Analyze video
+        
+        :type resource: string
+        :param resource: file path of resource
+        '''
+        
+        self.getFrameList(resource)
+        
+        self.detectFacesInVideo()       
+    
+        self.calcHistDiff()
+        
+        self.trackFacesInVideo()
+        
+        self.saveTrackingSegments()
+        
+        self.recognizeFacesInVideo()
+        
+        self.saveRecPeople()
+        
+        self.showRecPeople()
+        
+        self.savePeopleFiles()
         
         
     def detectFacesInVideo(self):
@@ -238,7 +265,7 @@ class FaceSummarizer(object):
                     
                     frame_dict[FRAME_PATH_KEY] = frame_path
                     
-                    frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_ms
+                    frame_dict[ELAPSED_VIDEO_TIME_KEY] = int(elapsed_ms)
                     
                     self.frame_list.append(frame_dict) 
                     
@@ -1218,6 +1245,12 @@ class FaceSummarizer(object):
                 
                 person_dict[SEGMENTS_KEY] = segment_list
                 
+                # Save total duration of video in milliseconds
+                
+                tot_duration = self.video_frames * 1000.0 / self.fps
+                
+                person_dict[VIDEO_DURATION_KEY] = tot_duration
+                
                 self.recognized_faces.append(person_dict)
                 
                 tag = tag + 1
@@ -1394,7 +1427,7 @@ class FaceSummarizer(object):
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)
         
-        people_path = os.path.join(rec_path, FACE_TRACKING_PEOPLE_DIR)
+        people_path = os.path.join(rec_path, FACE_RECOGNITION_PEOPLE_DIR)
         
         # Delete already saved files
         if(os.path.exists(people_path)):
@@ -1497,13 +1530,22 @@ class FaceSummarizer(object):
                     
                     cv2.waitKey(3)
                     
+                    final_tag = UNDEFINED_TAG
+                    
                     print '### ' + w_name + ' ###\n'
-                    name = raw_input(PERSON_NAME + ': ')
-                    surname = raw_input(PERSON_SURNAME + ': ')
+                    ans = ''
                     
+                    # Ask contributor if shown person is known
+                    while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
+                        
+                        ans = raw_input(IS_KNOWN_PERSON_ASK)
+                        
+                    if(ans == ANSWER_YES):
+                        name = raw_input(PERSON_NAME + ': ')
+                        surname = raw_input(PERSON_SURNAME + ': ')
+                        final_tag = surname + '_' + name
+                        
                     print '\n'
-                    
-                    final_tag = surname + '_' + name
                     
                     person_dict[ANN_TAG_KEY] = final_tag
                     
@@ -1622,12 +1664,30 @@ class FaceSummarizer(object):
             
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
         
-        ann_path = os.path.join(video_path, FACE_ANNOTATION_DIR)
+        # Create or empty directory with complete annotations
+        compl_ann_path = os.path.join(video_path, FACE_ANNOTATION_DIR)
         
         # Delete already saved files
-        if(os.path.exists(ann_path)):
+        if(os.path.exists(compl_ann_path)):
             
-            ann_files = os.listdir(ann_path)
+            ann_files = os.listdir(compl_ann_path)
+            
+            for ann_file in ann_files:
+                
+                ann_file_path = os.path.join(compl_ann_path, ann_file)
+                os.remove(ann_file_path)  
+                
+        else:
+            
+            os.makedirs(compl_ann_path)
+            
+        # Create or empty directory with simple annotations
+        simple_ann_path = os.path.join(video_path, FACE_ANNOTATION_DIR)
+        
+        # Delete already saved files
+        if(os.path.exists(simple_ann_path)):
+            
+            ann_files = os.listdir(simple_ann_path)
             
             for ann_file in ann_files:
                 
@@ -1636,7 +1696,7 @@ class FaceSummarizer(object):
                 
         else:
             
-            os.makedirs(ann_path)      
+            os.makedirs(simple_ann_path)              
             
         # Iterate through all people in video
     
@@ -1646,6 +1706,41 @@ class FaceSummarizer(object):
             
             file_name = ann_tag + '.YAML'
             
-            file_path = os.path.join(ann_path, file_name)
+            # Save complete annotations
+            
+            file_path = os.path.join(compl_ann_path, file_name)
             
             save_YAML_file(file_path, person_dict)
+            
+            # Create and save simple annotations
+            simple_dict = {}
+            
+            simple_dict[ANN_TAG_KEY] = ann_tag
+            
+            video_duration = person_dict[VIDEO_DURATION_KEY]
+            
+            simple_dict[VIDEO_DURATION_KEY] = video_duration
+            
+            segment_list = person_dict[SEGMENTS_KEY]
+            
+            simple_segment_list = []
+            
+            for segment_dict in segment_list:
+                
+                simple_segment_dict = {}
+                
+                start = segment_dict[SEGMENT_START_KEY]
+                
+                simple_segment_dict[SEGMENT_START_KEY] = start
+                
+                duration = segment_dict[SEGMENT_DURATION_KEY]
+                
+                simple_segment_dict[SEGMENT_DURATION_KEY] = duration
+                
+                simple_segment_list.append(simple_segment_dict)
+                
+            simple_dict[SEGMENTS_KEY] = simple_segment_list
+            
+            file_path = os.path.join(simple_ann_path, file_name)
+            
+            save_YAML_file(file_path, simple_dict)

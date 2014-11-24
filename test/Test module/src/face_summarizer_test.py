@@ -14,7 +14,9 @@ frames_already_saved = True
 
 fs = FaceSummarizer()
 
-#resource = r'C:\Active\RawVideos\videolina-3sec.mov'
+#resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
+
+resource = r'C:\Active\RawVideos\FicMix.mov'
 
 if(frames_already_saved):
 	
@@ -22,7 +24,7 @@ if(frames_already_saved):
 	
 	#fs.resource_name = r'FicMixSegment3'
 	
-	fs.resource_name = r'FicMixTest1'
+	fs.resource_name = r'FicMix.mov'
 	
 	fps = 25.0
 	
@@ -34,7 +36,7 @@ if(frames_already_saved):
 	
 	#frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Face tracking\Segments\3'
 	
-	frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
+	frames_path = r'C:\Active\Face summarization\FicMix.mov\Frames'
 	
 	frame_list = []
 	
@@ -70,7 +72,7 @@ else:
 
 #file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
 
-file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Face detection\FicMixTest1.YAML'
+file_path = r'C:\Active\Face summarization\FicMix.mov\Face detection\FicMix.mov.YAML'
 
 with open(file_path) as f:
 	
@@ -78,16 +80,25 @@ with open(file_path) as f:
 	
 #fs.detectFacesInVideo()		
 	
-fs.calcHistDiff()
+#fs.calcHistDiff()
 
-fs.trackFacesInVideo()
+#fs.trackFacesInVideo()
 
-fs.saveTrackingSegments()
+#fs.saveTrackingSegments()
 
-fs.recognizeFacesInVideo()
+#fs.recognizeFacesInVideo()
 
-fs.saveRecPeople()
+#fs.saveRecPeople()
 
+
+file_path = r'C:\Active\Face summarization\FicMix.mov\Face recognition\FicMix.mov.YAML'
+
+with open(file_path) as f:
+	
+	fs.recognized_faces = yaml.load(f)
+	
 fs.showRecPeople()
+
+
 
 fs.savePeopleFiles()
