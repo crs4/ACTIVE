@@ -78,7 +78,7 @@ def task_detect_and_recognize(frame_path):
     
 @task_prerun.connect
 def task_prerun_handler(task_id, task, *args, **kwargs):
-    
+    print task_id
     #res_file_path = r'C:\Active\Mercurial\mprocessor\test_app\video\prerun.txt'
         
     #sys.stdout = open(res_file_path, 'w')
