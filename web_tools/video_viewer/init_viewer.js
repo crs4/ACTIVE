@@ -5,7 +5,7 @@ var path = require("path");
 var url = require('url');
 
 // Give the initial folder. Change the location to whatever you want.
-var initFolder = '/home/sviluppo/nodejs/ACTIVE/video_viewer';
+var initFolder = '/home/sviluppo/ACTIVE_workspace/web_tools/video_viewer';
 
 // List filename extensions and MIME names we need as a dictionary. 
 var mimeNames = {

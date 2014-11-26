@@ -7,7 +7,7 @@ var video_line;
 var time_label;
 
 //parametro che indica la durata del summary impostata dall'utente in secondi
-var summary_duration = 20;
+var summary_duration = 40;
 
 //durata totale originaria dei segmenti
 var total_segments_duration = 60
@@ -20,6 +20,12 @@ var min_track_duration = 2
 
 //numero di segmenti troppo corti e quindi droppati
 var count_tracks_dropped = 0
+
+//indici dei video presenti relamente nel summary(insiemte compreso in video_arr)
+var distinct_video_frommap;
+
+//persona che comapre nel summary
+var person="Giovannino Chibusdeu"
 
 var time_offset = 0;
 
@@ -110,7 +116,7 @@ var video_arr = [video1,video2,video3,video4]; //4
 var countDC = 0;
 $(document).ready(function(){
 	
-
+	
 	
 	mediaPlayer = document.getElementById('media-video');
 	
@@ -300,15 +306,17 @@ $(document).on('click','li',function(e){
 	if(play == true){
 		
 		var ph_index = $(this).index();
-		if(ph_index != video_arr.length){
+		
+		if(distinct_video_frommap[ph_index] != video_arr.length){
+			
 			$(this).effect("highlight",{color:"#dcc6eo"});
-			video_index = ph_index;
+			video_index = distinct_video_frommap[ph_index];
 		
 		
 			track_id = 0;
 			track_timeout.stop();
 		
-			var time_from_map = time_video_track_map[1].indexOf(ph_index);
+			var time_from_map = time_video_track_map[1].indexOf(video_index);
 			if(time_from_map !=0){
 			
 				time_offset = time_video_track_map[0][time_from_map-1] * 1000;
@@ -332,19 +340,34 @@ $(document).on('click','li',function(e){
 
 function updateDOM(){
 	
+	
 	var lum;
-	var count_video = video_arr.length;
+	
+	// index of video after resize tracks
+	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
+	
+	//add only videos remaining after resize tracks
+	for(var i=0;i<distinct_video_frommap.length;i++){
+		$("#playlist > ol").append("<li>"+video_arr[distinct_video_frommap[i]].title+"</li>");
+	}
+	
 	var count_track = time_video_track_map[0].length;
+	
+	$("#header").text("Summary of " +person);
 	
 	$("#end_time_span").text((time_video_track_map[0][(count_track-1)]).toFixed(1));
 	if(count_tracks_dropped!=0){
-		$("#dropped").text(count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+		if(video_arr.length != distinct_video_frommap.length){
+			var diff_video_length = video_arr.length - distinct_video_frommap.length
+			$("#dropped").text(diff_video_length+" video and "+count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+		}
+		else{
+			$("#dropped").text(count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+		}
 	}
 	
-	for(var i=0;i<count_video;i++){
-		$("#playlist > ol").append("<li>"+video_arr[i].title+"</li>");		
-		
-	}
+	
+	
 	
 	for(var i=0;i<count_track;i++){
 				
@@ -643,6 +666,11 @@ function colorLuminance(hex, lum) {
 	}
 
 	return rgb;
+}
+
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
 }
 
 
