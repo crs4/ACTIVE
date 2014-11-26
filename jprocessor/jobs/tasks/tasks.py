@@ -1,10 +1,13 @@
 from __future__ import absolute_import
 import multiprocessing
 from celery import shared_task, chain
+from jprocessor.cake import CacheManager
 from jprocessor.jobs.commons.tasks import callback
 from jprocessor.tools.xmp.xmp_extractor import XMPExtractor
 from jprocessor.tools.xmp.xmp_embedder import XMPEmbedder
-from jprocessor.tools.face_extraction.utils import get_frame_list
+from jprocessor.tools.face_extraction.utils import get_frame_list, get_detected_faces
+from jprocessor.tools.face_extraction.lib_face_extraction.face_detection import detect_faces_in_image
+from jprocessor.tools.face_extraction.lib_face_extraction.face_recognition import recognize_face
 
 """
 One-shot tasks.
@@ -21,12 +24,21 @@ def embed_xmp(component_id, component_path, changes):
 	return xmpEmbedder.metadata_synch(component_id, component_path, changes)
 
 @shared_task
-def detect_faces(arg):
-	pass
+def detect_faces(frame_path):
+	return detect_faces_in_image(frame_path, None, False)
 	
 @shared_task
-def recognize_faces(arg):
-	pass
+def recognize_faces(face_images):
+	results = []
+	
+	cm = CacheManager()
+	face_models = cm.getCachedModels('faceModels')
+	
+	for face in face_images:
+		rec_result = recognize_face(face, face_models, None, False)
+		results.append(rec_result)
+		
+	return results
 
 
 """
@@ -49,8 +61,9 @@ def task_detect_faces(resource_path):
 	return detect_faces.chunks(zip(frame_list), multiprocessing.cpu_count())
 	
 @shared_task
-def task_recognize_faces():
-	pass
+def task_recognize_faces(detection_result):
+	detected_faces = get_detected_faces(detection_result)
+	return recognize_faces.chunks(zip(detected_faces), multiprocessing.cpu_count())
 	
 @shared_task
 def task_extract_faces(resource_path):

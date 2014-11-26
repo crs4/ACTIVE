@@ -22,7 +22,7 @@ class XMPExtractor(object):
                     d[x[0]].append(x[1:])
                     
             xmpfile.close_file()
-            xmpfile.terminate()
+            #xmpfile.terminate() Causa crash worker - worker exited prematurely with signal 11 - terminate chiude una libreria in uso da un altro task.
         except Exception as ex:
             print(ex)
         return d

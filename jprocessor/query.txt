@@ -11,5 +11,5 @@ curl -X POST http://localhost:5555/api/task/send-task/jprocessor.jobs.tasks.task
 
 #POST request xmp embed
 
-curl -i -H "Content-Type:application/json" -X POST http://localhost:5555/api/task/send-task/task_embed_xmp -d '{"kwargs":{"component_id":1,"component_path":"/home/federico/Scaricati/dreamcar.png","changes":{}}'
+curl -i -H "Content-Type:application/json" -X POST http://localhost:5555/api/task/send-task/task_embed_xmp -d '{"kwargs":{"component_id":1,"component_path":"/home/federico/Scaricati/dreamcar.png","changes":{}}}'
 

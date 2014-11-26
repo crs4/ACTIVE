@@ -1,7 +1,9 @@
 import cv2
 import os
+
+from jprocessor.tools.face_extraction.lib_face_extraction.Constants import ERROR_KEY, FACE_IMAGES_KEY
     
-def get_frame_list(self, resource_path):
+def get_frame_list(resource_path):
 	
 	frame_dir_path = '/home/federico/workspace-python/video/frames'
 	
@@ -34,3 +36,21 @@ def get_frame_list(self, resource_path):
 			counter = counter + 1
 	
 	return frame_list
+
+
+def get_detected_faces(detection_result):
+	
+	detect_faces = []
+        
+	for inner_list in detection_result:
+		
+		for result in inner_list:
+			print(result)
+			detection_error = result[ERROR_KEY]
+	
+			if(not(detection_error)):
+				face_images = result[FACE_IMAGES_KEY]
+				if len(face_images) > 0:
+					detect_faces.append(face_images)
+					
+	return detect_faces
