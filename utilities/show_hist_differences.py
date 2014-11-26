@@ -8,70 +8,324 @@ import numpy as np
 
 import os
 
+import pickle
 
-#images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
+import sys
 
-#images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
+sys.path.append('..')
 
-#images_path = r'C:\Users\Maurizio\Documents\Frame da video\1 fps\Fic_02'
+from tools.Constants import *
 
-images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
+from tools.face_detection import detect_faces_in_image
 
-prev_hists = None
+glob_counter = 0
 
-diff_list = []
-
-for image_name in os.listdir(images_path):
+def calc_shot_changes():
     
-    print image_name
+    load_pickle_dump = False
     
-    image_path = os.path.join(images_path, image_name)
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+    #images_path = r'C:\Users\Maurizio\Documents\Frame da video\fps originale\Chirichella'
     
-    #clothes_portion = image[270:540, 240:720]
+    #images_path = r'C:\Users\Maurizio\Documents\Frame da video\1 fps\Fic_02'
     
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
     
-    mask = cv2.inRange(hsv, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
-
-    hists = []
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    for ch in range(0, 3):
-        
-        hist = cv2.calcHist([hsv], [ch], mask, [256], [0, 255])
-        
-        cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
-        
-        hist = hist.reshape(-1)
-        
-        hists.append(hist)
-        
-    if prev_hists is not None:
-        
-        tot_diff = 0
-        
-        for ch in range(0, 3):
-        
-            diff = abs(cv2.compareHist(hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
+    images_path = r'C:\Active\Face summarization\YouTubeMix.mp4\Face tracking\Segments\32'
+    
+    file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Diff_list'
+    
+    prev_hists = None
+    
+    diff_list = []
+    
+    
+    if(not(load_pickle_dump)):
+    
+        for image_name in os.listdir(images_path):
             
-            tot_diff = tot_diff + diff
+            print image_name
+            
+            image_path = os.path.join(images_path, image_name)
+            
+            print(image_path)
+            
+            detection_result = detect_faces_in_image(
+            image_path, None, False)
+            
+            if(detection_result is None):
+                
+                continue
+            
+            det_faces = detection_result[FACES_KEY]
+            
+            if (len(det_faces) == 0):
+                
+                continue
+                
+            bbox = det_faces[0][BBOX_KEY]
+            
+            x0 = bbox[0] + 5
+            y0 = bbox[1] + 5
+            w = bbox[2] - 10
+            h = bbox[3] - 10
+            x1 = x0 + w
+            y1 = y0 + h
+            
+            image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+            
+            image = image[y0:y1, x0:x1]
+            
+            #cv2.imshow('face', image)
+            
+            #cv2.waitKey(0)
+            
+            #clothes_portion = image[270:540, 240:720]
+            
+            hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+            
+            mask = cv2.inRange(hsv, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
         
-        diff_list.append(tot_diff)
+            hists = []
+            
+            for ch in range(0, 3):
+                
+                hist = cv2.calcHist([hsv], [ch], mask, [256], [0, 255])
+                
+                cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+                
+                hist = hist.reshape(-1)
+                
+                hists.append(hist)
+                
+            if prev_hists is not None:
+                
+                tot_diff = 0
+                
+                for ch in range(0, 3):
+                
+                    diff = abs(cv2.compareHist(hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
+                    
+                    tot_diff = tot_diff + diff
+                
+                diff_list.append(tot_diff)
+            
+            prev_hists = hists
+            
+        
+        #mean = np.mean(diff_list)
+        #std = np.std(diff_list)
+        
+        #threshold = mean + std
+        
+        #print 'mean = ', mean
+        
+        #print 'std = ', std
+        
+        #print 'threshold = ', threshold 
     
-    prev_hists = hists
+        with open(file_path, 'w') as f:
+                        
+            pickle.dump(diff_list, f)
+    
+    else:
+        
+        with open(file_path, 'r') as f:
+                        
+            diff_list = pickle.load(f)
+    
+    mean = np.mean(diff_list)
+    std = np.std(diff_list)
+    
+    #if(True):
+    if(std > mean):
+        
+        threshold = mean + 1 * std
+
+        print 'mean = ', mean
+
+        print 'std = ', std
+
+        print 'threshold = ', threshold 
+    
+    idxs = get_idxs_over_thresh(diff_list, 0, threshold)
+    
+    #idxs = get_shot_changes(diff_list, 0)
+    
+    #print '\n\n### idxs ###\n\n'
+    
+    min_dist = 25
+
+    idxs = merge_near_idxs(idxs, diff_list, min_dist)
+    
+    print idxs
+    
+    plt.plot(diff_list)
+    plt.show() 
+
+def get_shot_changes(diff_list, start_idx):
+    '''
+    Get frame counters  for shot changes
+    
+    :type diff_list: list
+    :param diff_list: list with histogram differences
+    
+    :type start_idx: integer
+    :param start_idx: start of this list in original list
+    ''' 
+    all_idxs = []
+    
+    # Do not consider segments whose duration is less than 1 second
+    if(len(diff_list) < 25):
+    #if(len(diff_list) == 0): 
+        
+        return all_idxs
+    
+    #print(diff_list)
+    print('start_idx', start_idx)
+    print 'len(list):', len(diff_list)
+    
+    #plt.plot(diff_list)
+    #plt.show() 
+    
+    mean = np.mean(diff_list)
+    std = np.std(diff_list)
+    
+    #if(True):
+    if(std > mean):
+        
+        threshold = mean + 1 * std
+
+        print 'mean = ', mean
+
+        print 'std = ', std
+
+        print 'threshold = ', threshold 
+        
+        #plt.plot(diff_list)
+        #plt.show() 
+        
+        idxs = get_idxs_over_thresh(diff_list, start_idx, threshold)
+        
+        all_idxs.extend(idxs)
+        
+        sub_start_idx = 0
+        
+        for idx in idxs:
+            
+            print('idx', idx)
+            
+            sub_idx = idx - start_idx
+            
+            sub_list = diff_list[sub_start_idx:sub_idx]
+
+            sub_sub_start_idx = start_idx + sub_start_idx
+
+            sub_idxs = get_shot_changes(sub_list, sub_sub_start_idx)
+            
+            all_idxs.extend(sub_idxs)
+            
+            sub_start_idx = sub_idx + 1
+            
+        # Check last part of list
+        if(len(idxs) > 0):
+            sub_list = diff_list[sub_start_idx:]
+    
+            sub_sub_start_idx = start_idx + sub_start_idx
+    
+            sub_idxs = get_shot_changes(sub_list, sub_sub_start_idx)
+                
+            all_idxs.extend(sub_idxs)
+    
+    return all_idxs
     
 
-mean = np.mean(diff_list)
-std = np.std(diff_list)
+def get_idxs_over_thresh(lst, start_idx, threshold):
+    '''
+    Get indexes of list items that are greater than given threshold
+    '''
+    
+    idxs = []
+    
+    counter = start_idx
+    
+    for item in lst:
+        
+        if(item > threshold):
+            
+            #print 'idx = ', counter
+            
+            idxs.append(counter)
+            
+        counter = counter + 1
+        
+    print('idxs', idxs)   
+        
+    return idxs
 
-threshold = mean + std
 
-print 'mean = ', mean
+def merge_near_idxs(idxs, diff_list, min_dist):
+    '''
+    Merge near indexes according to diff_list
+    :type idxs: list
+    :param idxs: list of indexes
 
-print 'std = ', std
+    :type diff_list: list
+    :param diff_list: list of histogram differences
 
-print 'threshold = ', threshold 
+    :type min_dist: integer
+    :param min_dist: minimum distance between two indexes
+    '''
 
-plt.plot(diff_list)
-plt.show() 
+    sorted_idxs = sorted(idxs)
+
+    last_idx = len(diff_list) - 1
+
+    item_deleted = True
+
+    while(item_deleted):
+
+        counter = 0
+        prev = 0
+        item_deleted = False
+        
+        for i in sorted_idxs:
+
+            print i
+
+            if(i < (prev + min_dist)):
+
+                if((prev == 0) or (diff_list[i] <= diff_list[prev])):
+
+                    del sorted_idxs[counter]
+                    item_deleted = True
+                    break
+
+                else:
+
+                    if(diff_list[i] > diff_list[prev]):
+
+                        del sorted_idxs[counter - 1]
+                        item_deleted = True
+                        break
+
+            elif(i > (last_idx - min_dist)):
+
+                 del sorted_idxs[counter]
+                 item_deleted = True
+                 break
+                 
+            prev = i
+
+            counter = counter + 1
+
+    return sorted_idxs
+
+#lst = [2, 2, 2, 1000, 3, 3, 3, 3, 3000, 2, 3, 2, 2, 300, 2]
+#idxs = get_shot_changes(lst, 0)
+#print('idxs', idxs)
+
+calc_shot_changes()

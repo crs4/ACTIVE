@@ -3,11 +3,11 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
-#CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
+#CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
@@ -26,8 +26,8 @@ FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools
 FACE_RECOGNITION_DIR = r'Face recognition'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple snnotations' # Directory containg simple annotations
-FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
+FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
@@ -62,6 +62,7 @@ BBOX_KEY = 'bbox'
 CHECKED_KEY = 'checked'
 CONFIDENCE_KEY = 'confidence'
 DETECTED_FACES_NR_KEY = 'detected_faces_nr'
+DETECTION_BBOX_KEY = 'detection_bbox'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
 ERROR_KEY = 'error'
@@ -92,6 +93,7 @@ SEGMENTS_KEY = 'segments'
 SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
 TEST_IMAGES_NR_KEY = 'test_images_nr'
 TOT_FRAMES_NR_KEY = 'tot_frames_nr'
+TRACKING_BBOX_KEY = 'tracking_bbox'
 TRUE_POSITIVES_NR_KEY = 'true_positives_nr'
 VIDEO_COUNTER_KEY = 'video_counter'
 
@@ -142,7 +144,7 @@ ALGORITH_NAME = 'HaarCascadeFrontalFaceAlt2'
 DET_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
 					   # between two detections for merging them
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
-FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2'# TEST ONLY Default HaarCascadeFrontalFaceAlt2
+FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# Default HaarCascadeFrontalAndProfileFaces2
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 FACE_DETECTION_MIN_NEIGHBORS = 5
 FACE_DETECTION_MIN_SIZE_HEIGHT = 20
@@ -289,7 +291,8 @@ IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ?'
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
-MIN_SEGMENT_DURATION = 1 # Minimum duration (in seconds) of a segment 
+MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
+MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
