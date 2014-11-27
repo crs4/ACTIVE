@@ -186,8 +186,9 @@ $(document).on('click','#progressbar',function(e){
 	
 });
 
-$(document).on('click','div.timeline > div',function(e){
+$(document).on('click','div.timeline > div',function(){
 	var ist = $(this)[0].style.left;	
+	
 	ist = ist.replace("%","");		
 	mediaPlayer.currentTime = mediaPlayer.duration * (ist/100);
 	
