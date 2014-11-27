@@ -111,8 +111,8 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            #'filename': '/home/federico/workspace-python/debug.log', # Federico
-            'filename': 'C:\Active\Mercurial\jprocessor\debug.log' # Pc Lab
+            'filename': '/home/federico/workspace-python/debug.log', # Federico
+            #'filename': 'C:\Active\Mercurial\jprocessor\debug.log' # Pc Lab
         },
     },
     'loggers': {

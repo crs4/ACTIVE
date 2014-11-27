@@ -26,7 +26,6 @@ def get_frame_list(resource_path):
 			ret, frame = capture.read()
 			
 			if(not(ret)):
-				
 				break
 				
 			frame_name = str(counter) + '.jpg'
@@ -41,11 +40,13 @@ def get_frame_list(resource_path):
 def get_detected_faces(detection_result):
 	
 	detect_faces = []
-        
-	for inner_list in detection_result:
+	
+	for inner_list in detection_result.results:
+		
+		inner_list = inner_list.result
 		
 		for result in inner_list:
-			print(result)
+
 			detection_error = result[ERROR_KEY]
 	
 			if(not(detection_error)):
