@@ -29,12 +29,12 @@ function readTextFile(data){
 				
 			if(segments_lines[j].indexOf("segment_start") > -1){
 				var segment_start_split = segments_lines[j].split(":");
-				starts.push(segment_start_split[1]); 
+				starts.push(segment_start_split[1]/1000); 
 								
 			}
 			if(segments_lines[j].indexOf("segment_duration") > -1){
 				var segment_duration_split = segments_lines[j].split(":");
-				durations.push(segment_duration_split[1]); 
+				durations.push(segment_duration_split[1]/1000); 
 								
 			}
 		}		
