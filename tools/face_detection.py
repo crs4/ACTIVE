@@ -233,6 +233,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         error_str = "I/O error({0}): {1}".format(errno, strerror)
         print error_str
         result[ERROR_KEY] = error_str
+        
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise

@@ -5139,7 +5139,439 @@ def make_MONITOR072011_annotations(file_path):
     save_YAML_file(file_path, ann_dict)
     
     return ann_dict
-      
+
+
+def make_MONITOR272010_annotations(file_path):
+    '''
+    Make annotations for MONITOR072011.mpg video file
+    
+    :type file_path: string
+    :param file_path: path of YAML file that will contain annotations
+    '''
+    
+    audio_segments = []
+    caption_segments = []
+    video_segments = []
+    '''
+    Templates
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = ''
+    video_segment_dict[SEGMENT_START_KEY] = 
+    video_segment_dict[SEGMENT_END_KEY] = 
+    video_segments.append(video_segment_dict)
+    
+    audio_segment_dict = {}
+    audio_segment_dict[ANN_TAG_KEY] = ''
+    audio_segment_dict[SEGMENT_START_KEY] = 
+    audio_segment_dict[SEGMENT_END_KEY] = 
+    audio_segments.append(audio_segment_dict)
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = ''
+    caption_segment_dict[SEGMENT_START_KEY] = 
+    caption_segment_dict[SEGMENT_END_KEY] =  
+    caption_segments.append(caption_segment_dict)
+    '''
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 60 + 35
+    video_segment_dict[SEGMENT_END_KEY] = 60 + 59
+    video_segments.append(video_segment_dict) 
+     
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    caption_segment_dict[SEGMENT_START_KEY] = 60 + 48
+    caption_segment_dict[SEGMENT_END_KEY] =  60 + 52
+    caption_segments.append(caption_segment_dict)   
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 60 + 59
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 3
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 3
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 8
+    video_segments.append(video_segment_dict)   
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Argiolas_Valentina'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 8
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 11
+    video_segments.append(video_segment_dict)     
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 11
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 14
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Murrocu_Maria_Grazia'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 14
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 17
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 17
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 22
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Picciau_Gigi'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 22
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 24
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 24
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 28
+    video_segments.append(video_segment_dict)  
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 28
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 34
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 55
+    video_segment_dict[SEGMENT_END_KEY] = 2*60 + 59
+    video_segments.append(video_segment_dict)     
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Sechi_Egidiangela'
+    video_segment_dict[SEGMENT_START_KEY] = 2*60 + 59
+    video_segment_dict[SEGMENT_END_KEY] = 3*60 + 10
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 3*60 + 11
+    video_segment_dict[SEGMENT_END_KEY] = 4*60 + 21
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 4*60 + 25
+    video_segment_dict[SEGMENT_END_KEY] = 5*60 + 14
+    video_segments.append(video_segment_dict) 
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    caption_segment_dict[SEGMENT_START_KEY] = 4*60 + 31
+    caption_segment_dict[SEGMENT_END_KEY] =  4*60 + 38
+    caption_segments.append(caption_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 5*60 + 14
+    video_segment_dict[SEGMENT_END_KEY] = 5*60 + 17
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 5*60 + 17
+    video_segment_dict[SEGMENT_END_KEY] = 5*60 + 52
+    video_segments.append(video_segment_dict) 
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    caption_segment_dict[SEGMENT_START_KEY] = 5*60 + 24
+    caption_segment_dict[SEGMENT_END_KEY] = 5*60 + 31
+    caption_segments.append(caption_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 5*60 + 52
+    video_segment_dict[SEGMENT_END_KEY] = 6*60 + 1
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 6*60 + 1
+    video_segment_dict[SEGMENT_END_KEY] = 6*60 + 7
+    video_segments.append(video_segment_dict)  
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 6*60 + 14
+    video_segment_dict[SEGMENT_END_KEY] = 6*60 + 46
+    video_segments.append(video_segment_dict)  
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 6*60 + 59
+    video_segment_dict[SEGMENT_END_KEY] = 7*60 + 10
+    video_segments.append(video_segment_dict) 
+        
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 7*60 + 11
+    video_segment_dict[SEGMENT_END_KEY] = 7*60 + 20
+    video_segments.append(video_segment_dict) 
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Picciau_Gigi'
+    video_segment_dict[SEGMENT_START_KEY] = 7*60 + 20
+    video_segment_dict[SEGMENT_END_KEY] = 7*60 + 28
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Picciau_Gigi'
+    video_segment_dict[SEGMENT_START_KEY] = 7*60 + 33
+    video_segment_dict[SEGMENT_END_KEY] = 8*60 + 17
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Picciau_Gigi'
+    caption_segment_dict[SEGMENT_START_KEY] = 7*60 + 37
+    caption_segment_dict[SEGMENT_END_KEY] =  7*60 + 44
+    caption_segments.append(caption_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 8*60 + 20
+    video_segment_dict[SEGMENT_END_KEY] = 8*60 + 25
+    video_segments.append(video_segment_dict)     
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Murrocu_Maria_Grazia'
+    video_segment_dict[SEGMENT_START_KEY] = 8*60 + 29
+    video_segment_dict[SEGMENT_END_KEY] = 8*60 + 49
+    video_segments.append(video_segment_dict)   
+
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Murrocu_Maria_Grazia'
+    caption_segment_dict[SEGMENT_START_KEY] = 8*60 + 35
+    caption_segment_dict[SEGMENT_END_KEY] =  8*60 + 42
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 8*60 + 49
+    video_segment_dict[SEGMENT_END_KEY] = 8*60 + 59
+    video_segments.append(video_segment_dict)   
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Argiolas_Valentina'
+    video_segment_dict[SEGMENT_START_KEY] = 8*60 + 59
+    video_segment_dict[SEGMENT_END_KEY] = 9*60 + 23
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Argiolas_Valentina'
+    caption_segment_dict[SEGMENT_START_KEY] = 9*60 + 3
+    caption_segment_dict[SEGMENT_END_KEY] = 9*60 + 11
+    caption_segments.append(caption_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 9*60 + 23
+    video_segment_dict[SEGMENT_END_KEY] = 9*60 + 33
+    video_segments.append(video_segment_dict)
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Sechi_Egidiangela'
+    caption_segment_dict[SEGMENT_START_KEY] = 10 *60
+    caption_segment_dict[SEGMENT_END_KEY] = 10*60 + 7 
+    caption_segments.append(caption_segment_dict)    
+          
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Sechi_Egidiangela'
+    video_segment_dict[SEGMENT_START_KEY] = 10*60 + 51
+    video_segment_dict[SEGMENT_END_KEY] = 10*60 + 54
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 10*60 + 54
+    video_segment_dict[SEGMENT_END_KEY] = 11*60 + 2
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 11*60 + 6
+    video_segment_dict[SEGMENT_END_KEY] = 11*60 + 27
+    video_segments.append(video_segment_dict)
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 11*60 + 36
+    video_segment_dict[SEGMENT_END_KEY] = 11*60 + 42
+    video_segments.append(video_segment_dict)        
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 15*60 + 18
+    video_segment_dict[SEGMENT_END_KEY] = 15*60 + 43
+    video_segments.append(video_segment_dict) 
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Scalas_Marco'
+    caption_segment_dict[SEGMENT_START_KEY] = 15*60 + 41
+    caption_segment_dict[SEGMENT_END_KEY] = 17*60 + 12
+    caption_segments.append(caption_segment_dict)    
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 15*60 + 56
+    video_segment_dict[SEGMENT_END_KEY] = 16*60 + 34
+    video_segments.append(video_segment_dict)  
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 17*60 + 11
+    video_segment_dict[SEGMENT_END_KEY] = 17*60 + 23 
+    video_segments.append(video_segment_dict)      
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 19*60 + 57
+    video_segment_dict[SEGMENT_END_KEY] = 20*60 + 19 
+    video_segments.append(video_segment_dict)  
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 20*60 + 22
+    video_segment_dict[SEGMENT_END_KEY] = 20*60 + 30 
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 20*60 + 36
+    video_segment_dict[SEGMENT_END_KEY] = 20*60 + 49
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 22*60 + 42
+    video_segment_dict[SEGMENT_END_KEY] = 22*60 + 54
+    video_segments.append(video_segment_dict)      
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 22*60 + 54
+    video_segment_dict[SEGMENT_END_KEY] = 24*60 + 39
+    video_segments.append(video_segment_dict)   
+
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    caption_segment_dict[SEGMENT_START_KEY] = 23*60 + 2
+    caption_segment_dict[SEGMENT_END_KEY] = 23*60 + 6
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 24*60 + 41
+    video_segment_dict[SEGMENT_END_KEY] = 24*60 + 57
+    video_segments.append(video_segment_dict)  
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 25*60 + 4
+    video_segment_dict[SEGMENT_END_KEY] = 25*60 + 24
+    video_segments.append(video_segment_dict) 
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 25*60 + 47
+    video_segment_dict[SEGMENT_END_KEY] = 25*60 + 57
+    video_segments.append(video_segment_dict)          
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 26*60 + 16
+    video_segment_dict[SEGMENT_END_KEY] = 26*60 + 59
+    video_segments.append(video_segment_dict) 
+ 
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 26*60 + 59
+    video_segment_dict[SEGMENT_END_KEY] = 27*60 + 10
+    video_segments.append(video_segment_dict) 
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 27*60 + 10
+    video_segment_dict[SEGMENT_END_KEY] = 27*60 + 25
+    video_segments.append(video_segment_dict) 
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 27*60 + 31
+    video_segment_dict[SEGMENT_END_KEY] = 28*60 + 12
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Prato_Andrea'
+    video_segment_dict[SEGMENT_START_KEY] = 28*60 + 19
+    video_segment_dict[SEGMENT_END_KEY] = 28*60 + 26
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 28*60 + 28
+    video_segment_dict[SEGMENT_END_KEY] = 28*60 + 35
+    video_segments.append(video_segment_dict) 
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 32*60 + 56
+    video_segment_dict[SEGMENT_END_KEY] = 33*60 + 6
+    video_segments.append(video_segment_dict) 
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    video_segment_dict[SEGMENT_START_KEY] = 33*60 + 24
+    video_segment_dict[SEGMENT_END_KEY] = 33*60 + 34
+    video_segments.append(video_segment_dict)                      
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 33*60 + 35
+    video_segment_dict[SEGMENT_END_KEY] = 33*60 + 40
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    video_segment_dict[SEGMENT_START_KEY] = 33*60 + 48
+    video_segment_dict[SEGMENT_END_KEY] = 
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    caption_segment_dict[SEGMENT_START_KEY] = 33*60 + 55
+    caption_segment_dict[SEGMENT_END_KEY] =  
+    caption_segments.append(caption_segment_dict)
+    '''
+    Templates
+    
+    video_segment_dict = {}
+    video_segment_dict[ANN_TAG_KEY] = ''
+    video_segment_dict[SEGMENT_START_KEY] = 
+    video_segment_dict[SEGMENT_END_KEY] = 
+    video_segments.append(video_segment_dict)
+    
+    audio_segment_dict = {}
+    audio_segment_dict[ANN_TAG_KEY] = ''
+    audio_segment_dict[SEGMENT_START_KEY] = 
+    audio_segment_dict[SEGMENT_END_KEY] = 
+    audio_segments.append(audio_segment_dict)
+    
+    caption_segment_dict = {}
+    caption_segment_dict[ANN_TAG_KEY] = ''
+    caption_segment_dict[SEGMENT_START_KEY] = 
+    caption_segment_dict[SEGMENT_END_KEY] =  
+    caption_segments.append(caption_segment_dict)
+    '''                                                                 
+	}      
      
 def calculate_stats(ann_dict):
     '''

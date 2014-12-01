@@ -58,18 +58,14 @@ def task_embed_xmp(component_id, component_path, changes):
 @shared_task
 def task_detect_faces(resource_path):
 	frame_list = get_frame_list(resource_path)
-	job = detect_faces.chunks(zip(frame_list), multiprocessing.cpu_count())
-	return job.apply_async()
+	return detect_faces.chunks(zip(frame_list), multiprocessing.cpu_count())
 	
 @shared_task
 def task_recognize_faces(detection_result):
 	detected_faces = get_detected_faces(detection_result)
-	job = recognize_faces.chunks(zip(detected_faces), multiprocessing.cpu_count())
-	return job.apply_async()
+	return recognize_faces.chunks(zip(detected_faces), multiprocessing.cpu_count())
 	
 @shared_task
 def task_extract_faces(resource_path):
-	cm = CacheManager()
-	cm.checkCachedModels()
 	job = (task_detect_faces.s(resource_path) | task_recognize_faces.s() | callback.s())
 	return job.apply_async()

@@ -8,6 +8,8 @@ import face_detection as fd
 
 import math
 
+import matplotlib.pyplot as plt
+
 import numpy as np
 
 import os
@@ -18,7 +20,7 @@ import shutil
 
 from Constants import *
 
-from Utils import aggregate_frame_results, is_rect_similar, save_YAML_file
+from Utils import aggregate_frame_results, get_hist_difference, get_shot_changes, is_rect_similar, save_YAML_file
 
 class FaceSummarizer(object):
     '''
@@ -33,7 +35,12 @@ class FaceSummarizer(object):
         :param params: configuration parameters (see table)        
         '''
         
+        self.cut_idxs = [] # List of frame indexes where new shots begin
+        
         self.detected_faces = [] # List of detected faces 
+        
+        # List of tracked faces not considered
+        self.disc_tracked_faces = [] 
         
         self.frame_list = [] # List of frame paths
         
@@ -87,7 +94,40 @@ class FaceSummarizer(object):
         It works by using list of extracted frames
         '''
         
-        print '### Face detection ###\n'
+        # Check existence of frame list
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        frames_path = os.path.join(video_path, FRAMES_DIR_PATH)  
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(frames_path, file_name)
+        
+        if(len(self.frame_list) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with frame list'
+                
+                with open(file_path) as f:
+    
+                    self.frame_list = yaml.load(f) 
+                    
+                print 'YAML file with frame list loaded'
+                    
+            else:
+                
+                print 'Warning! No frame list found!'
+                
+                return         
+        
+        print '\n\n### Face detection ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount()
@@ -105,6 +145,10 @@ class FaceSummarizer(object):
         
         # Iterate through frames in frame_list
         for frame_dict in self.frame_list:
+            
+            self.progress = 100 * (frame_counter / self.video_frames)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
             
             frame_path = frame_dict[FRAME_PATH_KEY] 
             
@@ -151,20 +195,13 @@ class FaceSummarizer(object):
                 
                 print 'Warning! Number of frames is zero'
                 
-                break
-                        
-            self.progress = 100 * (frame_counter / self.video_frames)
-    
-            print('progress: ' + str(self.progress) + ' %')   
-        
-        res_name = self.resource_name
-        
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
-        
+                break   
+         
         det_path = os.path.join(video_path, FACE_DETECTION_DIR) 
         
         if(not(os.path.exists(det_path))):
+            
+            # Create directory for this video 
             
             os.makedirs(det_path) 
         
@@ -180,6 +217,7 @@ class FaceSummarizer(object):
         
         print 'Time for face detection: ', time_in_seconds, 's\n'
         
+        
     def getFrameList(self, resource):
         '''
         Get frames from one video resource.
@@ -188,7 +226,7 @@ class FaceSummarizer(object):
         :param resource: file path of resource
         '''   
         
-        print '### Frame extraction ###\n'
+        print '\n\n### Frame extraction ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount()
@@ -259,6 +297,18 @@ class FaceSummarizer(object):
                     
                     frame_path = os.path.join(frames_path, fr_name)
                     
+                    # Resize frame
+                    if(not(USE_ORIGINAL_RES)):
+						
+						fx = USED_RES_SCALE_FACTOR
+						
+						fy = USED_RES_SCALE_FACTOR
+						
+						interp = cv2.INTER_AREA
+						
+						frame = cv2.resize(src = frame, dsize = (0, 0), 
+						fx = fx, fy = fy, interpolation = interp)
+                    
                     cv2.imwrite(frame_path, frame)
                     
                     frame_dict = {}
@@ -275,7 +325,7 @@ class FaceSummarizer(object):
                 
                 self.progress = 100 * (frame_counter / self.video_frames)
     
-                print('progress: ' + str(self.progress) + '%')              
+                print('progress: ' + str(self.progress) + ' %      \r'),             
 
         # Save detection result in YAML file
         file_name = res_name + '.YAML'
@@ -295,14 +345,48 @@ class FaceSummarizer(object):
         '''
         Track faces on analyzed video.
         It works by using list of detected faces
-        '''     
+        '''
         
-        print '### Face tracking ###\n'
+        # Check existence of detection results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        det_path = os.path.join(video_path, FACE_DETECTION_DIR) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(det_path, file_name)
+        if(len(self.detected_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with detection results'
+                
+                with open(file_path) as f:
+    
+                    self.detected_faces = yaml.load(f) 
+                    
+                print 'YAML file with detection results loaded'
+                    
+            else:
+                
+                print 'Warning! No detection results found!'
+                
+                return              
+        
+        print '\n\n### Face tracking ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount()
-        
+                
         self.tracked_faces = []
+        
+        self.disc_tracked_faces = []
         
         # Counter for frames with detected faces
         frame_counter = 0
@@ -316,6 +400,10 @@ class FaceSummarizer(object):
         
         # Iterate through frames in detected_faces
         for detection_dict in detection_list:
+            
+            self.progress = 100 * (frame_counter / self.video_frames)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
             
             elapsed_s = detection_dict[ELAPSED_VIDEO_TIME_KEY]
             
@@ -351,14 +439,15 @@ class FaceSummarizer(object):
                 segment_face_counter = 1 # Counter for faces in segment
                 
                 # Counter for detected faces in segment
-                det_face_counter = 1 
+                #det_face_counter = 1 
                 
                 segment_frame_list = []
                 
                 segment_frame_dict = {}
                 segment_frame_dict[FRAME_COUNTER_KEY] = frame_counter
                 segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_s
-                segment_frame_dict[BBOX_KEY] = track_window
+                segment_frame_dict[DETECTION_BBOX_KEY] = track_window
+                segment_frame_dict[TRACKING_BBOX_KEY] = track_window
                 segment_frame_dict[LEFT_EYE_POS_KEY] = left_eye_pos
                 segment_frame_dict[RIGHT_EYE_POS_KEY] = right_eye_pos
                 segment_frame_dict[DETECTED_KEY] = True
@@ -395,6 +484,30 @@ class FaceSummarizer(object):
                 # Iterate through subsequent frames
                 for sub_det_dict in detection_list[sub_frame_counter:]:
             
+                    # TODO: TO BE DELETED
+                    #use_fixed_threshold = True
+                    
+                    #if(use_fixed_threshold):
+                        
+                        ## Check if histogram difference for this frame
+                        ## is greater than the threshold
+                        #if(self.track_threshold > 0):
+                            
+                            #diff = self.hist_diffs[sub_frame_counter]
+                            
+                            #if(diff != -1):
+                                
+                                #if(diff > self.track_threshold):
+                                    
+                                    #break 
+                                    
+                    #else:
+                        
+                    # Check if a new shot begins
+                    if(sub_frame_counter in self.cut_idxs):
+                            
+                        break
+            
                     sub_frame_path = sub_det_dict[FRAME_PATH_KEY]
                 
                     # Read image from given path
@@ -429,17 +542,12 @@ class FaceSummarizer(object):
                         
                         break
                         
-                    # Check if histogram difference for this frame
-                    # is greater than the threshold
-                    if(self.track_threshold > 0):
-                        
-                        diff = self.hist_diffs[sub_frame_counter]
-                        
-                        if(diff != -1):
-                            
-                            if(diff > self.track_threshold):
-                                
-                                break  
+                    segment_frame_dict = {}
+                    
+                    track_list = (
+                    int(track_x0), int(track_y0), int(track_w), int(track_h))
+                    
+                    segment_frame_dict[TRACKING_BBOX_KEY] = track_list 
                     
                     sub_faces = sub_det_dict[FACES_KEY]
             
@@ -464,18 +572,18 @@ class FaceSummarizer(object):
                         
                         if(sim):
                             
-                            det_face_counter = det_face_counter + 1
+                            #det_face_counter = det_face_counter + 1
                             
                             track_window = det_bbox
                             
                             break
                             
-                        sub_face_counter = sub_face_counter + 1                  
+                        sub_face_counter = sub_face_counter + 1 
+                        
+                    segment_frame_dict[DETECTION_BBOX_KEY] = det_bbox               
                 
                     # If a detected face corresponds to track window
                     # delete detected face from detection list
-                    
-                    segment_frame_dict = {}
                     
                     if(sim):
                     
@@ -498,7 +606,16 @@ class FaceSummarizer(object):
                     # Update list of frames for segment
                     segment_frame_dict[FRAME_COUNTER_KEY] = sub_frame_counter
                     segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_ms
-                    segment_frame_dict[BBOX_KEY] = track_window
+                    
+                    track_x0 = track_window[0]
+                    track_y0 = track_window[1]
+                    track_w = track_window[2]
+                    track_h = track_window[3]
+                    
+                    track_list = (
+                    int(track_x0), int(track_y0), int(track_w), int(track_h))
+                    
+                    segment_frame_dict[TRACKING_BBOX_KEY] = track_list
                     segment_frame_dict[FRAME_PATH_KEY] = sub_frame_path
                     
                     segment_frame_list.append(segment_frame_dict)
@@ -511,41 +628,45 @@ class FaceSummarizer(object):
                 # of frames is greater or equals than a minimum
                 if(segment_face_counter >= min_segment_frames):
                 
+                    segments = self.divideSegmentByFace(segment_frame_list)
+
+                    if(len(segments) > 0):
+                        
+                        self.tracked_faces.extend(segments)
+                        
+                else:
+                    
+                    segment_dict = {}
+        
                     segment_dict[FRAMES_KEY] = segment_frame_list
                     
-                    segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = (
-                    segment_face_counter)
+                    self.disc_tracked_faces.append(segment_dict)
                     
-                    # Segment duration in milliseconds
-                    duration = segment_face_counter * 1000.0 / self.fps
+                    #print 'segment_face_counter:', segment_face_counter
                     
-                    segment_dict[SEGMENT_DURATION_KEY] = duration
-                    
-                    segment_dict[ASSIGNED_TAG_KEY] = 'Undefined'
-                    
-                    segment_dict[CONFIDENCE_KEY] = -1
-                    
-                    print 'segment_face_counter:', segment_face_counter
-                    
-                    print 'det_face_counter:', det_face_counter
+                    #print 'det_face_counter:', det_face_counter
 
-                    det_pct = (float(det_face_counter) / 
-                               segment_face_counter)
+                    #det_pct = (float(det_face_counter) / 
+                               #segment_face_counter)
                     
-                    print 'det pct: ', det_pct
+                    #print 'det pct: ', det_pct
                     
-                    if(det_pct >= MIN_DETECTION_PCT):
+                    #if(det_pct >= MIN_DETECTION_PCT):
                     
-                        self.tracked_faces.append(segment_dict)
+                        #self.tracked_faces.append(segment_dict)
+                    
+                    #else:
+                        
+                        #self.disc_tracked_faces.append(segment_dict)
+                        
+                    # Check histograms of detected faces and 
+                    # divide segment accordingly   
                 
                 face_counter = face_counter + 1  
                 
             frame_counter = frame_counter + 1
 
         # Create directory for this video  
-        res_name = self.resource_name
-            
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
         
         track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
         
@@ -1101,7 +1222,41 @@ class FaceSummarizer(object):
         It works by using list of tracked faces
         '''   
         
-        print '### Face Recognition ###\n'
+        # Check existence of tracking results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(track_path, file_name)
+        
+        if(len(self.tracked_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with tracking results'
+                
+                with open(file_path) as f:
+    
+                    self.detected_faces = yaml.load(f) 
+                    
+                print 'YAML file with tracking results loaded'
+                    
+            else:
+                
+                print 'Warning! No tracking results found!'
+                
+                return              
+        
+        
+        print '\n\n### Face Recognition ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount()
@@ -1116,10 +1271,16 @@ class FaceSummarizer(object):
         segment_counter = 0
         tag = 0
         
-        # Make copy of trackedfaces
+        # Make copy of tracked faces
         tracking_list = list(self.tracked_faces)
         
+        tracked_faces_nr = len(tracking_list)
+        
         for tracking_segment_dict in tracking_list:
+            
+            self.progress = 100 * (segment_counter / tracked_faces_nr)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'), 
             
             if(segment_counter not in ann_segments):
                     
@@ -1257,15 +1418,11 @@ class FaceSummarizer(object):
                 
             segment_counter = segment_counter + 1
         
-        # Create directory for this video
-        res_name = self.resource_name
-         
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
-        
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
         if(not(os.path.exists(rec_path))):
             
+            # Create directory for this video
             os.makedirs(rec_path) 
         
         # Save recognition result in YAML file
@@ -1295,7 +1452,6 @@ class FaceSummarizer(object):
         offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y)
         dest_sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
         
-        bbox = segment_frame_dict[BBOX_KEY]
         frame_path = segment_frame_dict[FRAME_PATH_KEY]
         
         image = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE)
@@ -1322,7 +1478,7 @@ class FaceSummarizer(object):
         else:
             
             # Else, we know only the bounding box
-            bbox = segment_frame_dict[BBOX_KEY]
+            bbox = segment_frame_dict[TRACKING_BBOX_KEY]
             
             x0 = bbox[0]
             x1 = x0 + bbox[2]
@@ -1347,11 +1503,104 @@ class FaceSummarizer(object):
         return result
 
 
+    def saveDiscTrackingSegments(self):
+        '''
+        Save frames from discarded tracking segments on disk.
+        A folder contains the frames from one segment
+        '''         
+        
+        print '\n\n### Saving discarded tracking segments ###\n'
+        
+        # Create directory for this video  
+        res_name = self.resource_name
+            
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+        
+        segments_path = os.path.join(
+        track_path, FACE_TRACKING_SEGMENTS_DIR)  
+        
+        segments_path = segments_path + '_discarded'
+        
+        # Delete already saved files
+        if(os.path.exists(segments_path)):
+            
+            images_dirs = os.listdir(segments_path)
+            
+            for images_dir in images_dirs:
+                
+                images_dir_path = os.path.join(segments_path, images_dir)
+                shutil.rmtree(images_dir_path)
+        
+        disc_tracked_faces_nr = float(len(self.disc_tracked_faces))
+        
+        segment_counter = 0
+        
+        for segment_dict in self.disc_tracked_faces:
+            
+            self.progress = 100 * (segment_counter / disc_tracked_faces_nr)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
+            
+            segment_frame_list = segment_dict[FRAMES_KEY]
+            
+            segment_path = os.path.join(
+            segments_path, str(segment_counter))
+            
+            if(not(os.path.exists(segment_path))):
+                
+                os.makedirs(segment_path)
+            
+            image_counter = 0
+            
+            for segment_frame_dict in segment_frame_list:
+                
+                frame_path = segment_frame_dict[FRAME_PATH_KEY]
+                
+                image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                
+                # Add tracking window to image as red rectangle
+                track_bbox = segment_frame_dict[TRACKING_BBOX_KEY]
+                
+                x0 = track_bbox[0]
+                x1 = x0 + track_bbox[2]
+                y0 = track_bbox[1]
+                y1 = y0 + track_bbox[3]
+                              
+                cv2.rectangle(
+                image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+
+                # Add detection bbox to image as blue rectangle
+                det_bbox = segment_frame_dict[DETECTION_BBOX_KEY]
+                
+                if(det_bbox is not None):
+                    x0 = det_bbox[0]
+                    x1 = x0 + det_bbox[2]
+                    y0 = det_bbox[1]
+                    y1 = y0 + det_bbox[3]
+                                  
+                    cv2.rectangle(
+                    image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
+                
+                file_name = '%07d.bmp' % image_counter
+                
+                face_path = os.path.join(segment_path, file_name)
+                
+                cv2.imwrite(face_path, image)
+                
+                image_counter = image_counter + 1
+                
+            segment_counter = segment_counter + 1 
+
+
     def saveTrackingSegments(self):
         '''
         Save frames from tracking segments on disk.
         A folder contains the frames from one segment
         '''         
+        
+        print '\n\n### Saving tracking segments ###\n'
         
         # Create directory for this video  
         res_name = self.resource_name
@@ -1373,9 +1622,17 @@ class FaceSummarizer(object):
                 images_dir_path = os.path.join(segments_path, images_dir)
                 shutil.rmtree(images_dir_path)
         
+        tracked_faces_nr = float(len(self.tracked_faces))
+        
         segment_counter = 0
         
+        face_counter = 0
+        
         for segment_dict in self.tracked_faces:
+            
+            self.progress = 100 * (segment_counter / tracked_faces_nr)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
             
             segment_frame_list = segment_dict[FRAMES_KEY]
             
@@ -1392,17 +1649,49 @@ class FaceSummarizer(object):
                 
                 frame_path = segment_frame_dict[FRAME_PATH_KEY]
                 
-                bbox = segment_frame_dict[BBOX_KEY]
-                
-                x0 = bbox[0]
-                x1 = x0 + bbox[2]
-                y0 = bbox[1]
-                y1 = y0 + bbox[3]
-                
                 image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+
+                # Add tracking window to image as red rectangle
+                track_bbox = segment_frame_dict[TRACKING_BBOX_KEY]
+                
+                x0 = track_bbox[0]
+                x1 = x0 + track_bbox[2]
+                y0 = track_bbox[1]
+                y1 = y0 + track_bbox[3]
+                   
+                # Used to save face images
+                image_copy = copy.copy(image)   
                               
                 cv2.rectangle(
                 image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+
+                # Add detection bbox to image as blue rectangle
+                det_bbox = segment_frame_dict[DETECTION_BBOX_KEY]
+                
+                if(det_bbox is not None):
+                    x0 = det_bbox[0]
+                    x1 = x0 + det_bbox[2]
+                    y0 = det_bbox[1]
+                    y1 = y0 + det_bbox[3]
+                                  
+                    cv2.rectangle(
+                    image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
+                    
+                    # Save face image on disk
+                        
+                    file_name = '%07d.bmp' % face_counter
+                    
+                    faces_path = os.path.join(video_path, 'Faces')
+                    
+                    if(not(os.path.exists(faces_path))):
+                
+                        os.makedirs(faces_path)
+                    
+                    face_path = os.path.join(faces_path, file_name)
+                    
+                    face = image_copy[y0:y1, x0:x1]
+            
+                    cv2.imwrite(face_path, face)
                 
                 file_name = '%07d.bmp' % image_counter
                 
@@ -1412,6 +1701,8 @@ class FaceSummarizer(object):
                 
                 image_counter = image_counter + 1
                 
+                face_counter = face_counter + 1
+                
             segment_counter = segment_counter + 1  
  
  
@@ -1419,7 +1710,10 @@ class FaceSummarizer(object):
         '''
         Save frames for recognized people on disk.
         A folder contains the segments from one person
-        '''         
+        '''  
+        
+        print '\n\n### Saving recognized people ###\n'
+               
         # Create directory for this video  
         res_name = self.resource_name
             
@@ -1468,17 +1762,29 @@ class FaceSummarizer(object):
                     
                     frame_path = segment_frame_dict[FRAME_PATH_KEY]
                     
-                    bbox = segment_frame_dict[BBOX_KEY]
-                    
-                    x0 = bbox[0]
-                    x1 = x0 + bbox[2]
-                    y0 = bbox[1]
-                    y1 = y0 + bbox[3]
-                    
                     image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                                  
+                    # Add tracking window to image as red rectangle
+                    track_bbox = segment_frame_dict[TRACKING_BBOX_KEY]
+                    
+                    x0 = track_bbox[0]
+                    x1 = x0 + track_bbox[2]
+                    y0 = track_bbox[1]
+                    y1 = y0 + track_bbox[3]
                                   
                     cv2.rectangle(
                     image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+    
+                    # Add detection bbox to image as blue rectangle
+                    det_bbox = segment_frame_dict[DETECTION_BBOX_KEY]
+                    
+                    x0 = det_bbox[0]
+                    x1 = x0 + det_bbox[2]
+                    y0 = det_bbox[1]
+                    y1 = y0 + det_bbox[3]
+                                  
+                    cv2.rectangle(
+                    image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
                     
                     file_name = '%07d.bmp' % image_counter
                     
@@ -1552,15 +1858,77 @@ class FaceSummarizer(object):
                     p_counter = p_counter + 1
                     
         #print(self.recognized_faces)
+
+    def calcHistDiff(self):
+        '''
+        Calculate histogram differences between consecutive frames
+        '''
+        
+        print '\n\n### Calculating histogram differences ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+
+        # List with histogram differences (all frames)
+        self.hist_diffs = []
+        
+        prev_hists = None
+        
+        counter = 0
+        
+        # Iterate through all frames
+        for frame_dict in self.frame_list:
+            
+            self.progress = 100 * (counter / self.video_frames)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
+                
+            frame_path = frame_dict[FRAME_PATH_KEY]
+                
+            image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                    
+            #Calculate difference between histograms
+            [tot_diff, prev_hists] = get_hist_difference(
+            image, prev_hists)
+            
+            if(tot_diff is not None):
+                           
+                self.hist_diffs.append(tot_diff)
+            
+            counter = counter + 1
+                
+        # Calculate shot cuts
+        #print 'diff_list', diff_list
+        
+        if(len(self.hist_diffs) > 0):
+            
+            # Calculate size of sliding window
+            half_w_size = int(
+            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            
+            # If a reduced bitrate is used, sliding window is smaller
+            if(not(USE_ORIGINAL_FPS)):
+                
+                half_w_size = int(math.floor(
+                self.fps * USED_FPS * MIN_SEGMENT_DURATION / 2))
+            
+            self.cut_idxs = get_shot_changes(
+            self.hist_diffs, half_w_size, STD_MULTIPLIER_FRAME)    
+            
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+        
+        print 'Time for calculation of histogram differences:', time_in_seconds, 's\n'              
                     
     
-    def calcHistDiff(self):
+    def calcHistDiff_old(self):
         '''
         Calculate histogram differences between consecutive frames
         with faces and calculate threshold for tracking interruption
         '''
         
-        print '### Calculating histogram differences ###\n'
+        print '\n\n### Calculating histogram differences ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount() 
@@ -1573,8 +1941,14 @@ class FaceSummarizer(object):
         
         prev_hists = None
         
+        counter = 0
+        
         # Iterate through frames in detected_faces
         for detection_dict in self.detected_faces:
+            
+            self.progress = 100 * (counter / self.video_frames)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
             
             tot_diff = -1
             
@@ -1590,36 +1964,12 @@ class FaceSummarizer(object):
                 
                 image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
                 
-                hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+                [tot_diff, prev_hists] = get_hist_difference(
+                image, prev_hists)
                 
-                mask = cv2.inRange(hsv, 
-                np.array((0., 60., 32.)), np.array((180., 255., 255.)))
-                
-                hists = []
-                
-                for ch in range(0, 3):
-                    
-                    hist = cv2.calcHist(
-                    [hsv], [ch], mask, [256], [0, 255])
-                    
-                    cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
-                    
-                    hists.append(hist)
-                
-                if prev_hists is not None:
-                    
-                    tot_diff = 0
-                    
-                    for ch in range(0, 3):
-                        
-                        diff = abs(cv2.compareHist(
-                        hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
-                        
-                        tot_diff = tot_diff + diff
+                if(tot_diff is not None):
                         
                     diff_list.append(tot_diff)
-                    
-                prev_hists = hists
                 
             else:
                 
@@ -1627,25 +1977,40 @@ class FaceSummarizer(object):
                 prev_hists = None
                 
             self.hist_diffs.append(tot_diff)
+            
+            counter = counter + 1
                 
         # Calculate threshold
         #print 'diff_list', diff_list
         
         if(len(diff_list) > 0):
+            
+            use_fixed_threshold = True
         
-            mean = np.mean(diff_list)
+            if(use_fixed_threshold):
             
-            std = np.std(diff_list)
-            
-            threshold = mean + STD_MULTIPLIER * std
-            
-            # If standard deviation is less than mean, 
-            # there is only one shot in video
-            
-            if(std > mean):
+                mean = np.mean(diff_list)
                 
-                self.track_threshold = threshold
-        
+                std = np.std(diff_list)
+                
+                threshold = mean + STD_MULTIPLIER * std
+                
+                # If standard deviation is less than mean, 
+                # there is only one shot in video
+                
+                if(std > mean):
+                    
+                    self.track_threshold = threshold
+                
+            else:
+                
+                # Minimum duration of a shot in frames
+                min_shot_frames = int(
+                math.ceil(self.fps * MIN_SHOT_DURATION))
+                
+                self.cut_idxs = get_shot_changes(
+                diff_list, 0, min_shot_frames)    
+            
         else:
             
             print 'No consecutive frames with faces in video'
@@ -1657,7 +2022,10 @@ class FaceSummarizer(object):
         print 'Time for calculation of histogram differences:', time_in_seconds, 's\n'              
             
     
-    def savePeopleFiles(self):      
+    def savePeopleFiles(self): 
+        '''
+        Save annotation files for people in this video
+        '''     
             
         # Create directory for this video  
         res_name = self.resource_name
@@ -1744,3 +2112,374 @@ class FaceSummarizer(object):
             file_path = os.path.join(simple_ann_path, file_name)
             
             save_YAML_file(file_path, simple_dict)
+
+
+    def divideSegmentByFace(self, segment_frame_list):
+        '''
+        Divide segment accordingly to face change
+        
+        :type segment_frame_list: list
+        :param segment_frame_list: list of frames in segment
+        '''
+        
+        # List with histogram differences between consecutive frames
+        diff_list = []
+        
+        # List with histogram differences between consecutive detections
+        det_diff_list = []
+        
+        # List that will contain new lists of frames
+        sub_segment_list = [] 
+        
+        prev_hists = None
+        
+        frame_counter = 0
+        
+        det_counter = 0
+        
+        # Dictionary for storing correspondence between counter
+        counter_dict = {}
+        
+        for frame_dict in segment_frame_list:
+            
+            sim = frame_dict[DETECTED_KEY]
+            
+            if(sim):
+                
+                # Tracking window corresponds to detected face
+                frame_path = frame_dict[FRAME_PATH_KEY]
+            
+                image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                
+                bbox = frame_dict[DETECTION_BBOX_KEY]
+                
+                x0 = bbox[0]
+                y0 = bbox[1]
+                w = bbox[2]
+                h = bbox[3]
+                x1 = x0 + w
+                y1 = y0 + h
+                
+                face = image[y0:y1, x0:x1]
+                
+                [tot_diff, prev_hists] = get_hist_difference(
+                face, prev_hists)
+                
+                if(tot_diff is not None):
+                        
+                    det_diff_list.append(tot_diff)
+                    
+                    diff_list.append(tot_diff)
+                    
+                    counter_dict[det_counter] = frame_counter
+                    
+                    det_counter = det_counter + 1
+                    
+                else:
+                    
+                    diff_list.append(-1)
+            
+            else:
+                
+                diff_list.append(-1)
+                
+            frame_counter = frame_counter + 1
+        
+        segment_divided = False
+                    
+        if(len(det_diff_list) > 0):
+            
+            half_w_size = int(
+            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            
+            face_cut_idxs_temp = get_shot_changes(
+            det_diff_list, half_w_size, STD_MULTIPLIER_FACE) 
+            
+            if(len(face_cut_idxs_temp) > 0):
+                
+                segment_divided = True
+                
+                # Get real counters
+                face_cut_idxs = []
+                
+                for idx_temp in face_cut_idxs_temp:
+                    
+                    face_cut_idxs.append(counter_dict[idx_temp])
+                    
+                # Counter for all frames in original segment
+                counter = 0
+                
+                # Counter for frames with detections in new segment
+                det_counter = 0
+                
+                sub_frame_list = []
+                
+                for frame_dict in segment_frame_list:
+                    
+                    if(counter in face_cut_idxs):
+                        
+                        sub_segment_list.append(sub_frame_list)
+                        
+                        sub_frame_list = []
+                        
+                    sub_frame_list.append(frame_dict)
+                    
+                    counter = counter + 1
+                    
+                if(len(sub_frame_list) > 0):
+                    
+                    sub_segment_list.append(sub_frame_list)
+        
+        # If segment has not been divided, 
+        # list will contain only original segment
+
+        if(not(segment_divided)):
+            
+            sub_segment_list.append(segment_frame_list)
+            
+        new_segments = []   
+            
+        # Minimum duration of a segment in frames
+        min_segment_frames = int(
+        math.ceil(self.fps * MIN_SEGMENT_DURATION))    
+            
+        # Iterate through new sub segments
+        for sub_frame_list in sub_segment_list:
+            
+            frame_counter = len(sub_frame_list)
+            
+            segment_dict = {}
+        
+            segment_dict[FRAMES_KEY] = sub_frame_list
+        
+            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter         
+        
+            # Segment duration in milliseconds
+            duration = frame_counter * 1000.0 / self.fps
+        
+            segment_dict[SEGMENT_DURATION_KEY] = duration
+        
+            segment_dict[ASSIGNED_TAG_KEY] = 'Undefined'
+        
+            segment_dict[CONFIDENCE_KEY] = -1
+            
+            # Segment must be considered only if its number 
+            # of frames is greater or equals than a minimum
+            if(frame_counter >= min_segment_frames):
+                
+                # Start of segment in millisecond
+                first_frame_dict = sub_frame_list[0]
+                
+                segment_start = first_frame_dict[ELAPSED_VIDEO_TIME_KEY]
+                
+                segment_dict[SEGMENT_START_KEY] = segment_start
+                
+                det_counter = 0
+                
+                for frame_dict in sub_frame_list:
+                    
+                    sim = frame_dict[DETECTED_KEY]
+                        
+                    if(sim):
+                            
+                        det_counter = det_counter + 1
+                        
+                # Check percentage of detection
+                det_pct = (float(det_counter) / frame_counter)
+                    
+                if(det_pct >= MIN_DETECTION_PCT):   
+            
+                    new_segments.append(segment_dict)
+                    
+                else:
+                    
+                    self.disc_tracked_faces.append(segment_dict)
+            else:
+                
+                self.disc_tracked_faces.append(segment_dict)
+            
+        return new_segments
+
+
+
+    def divideSegmentByFace_old(self, segment_frame_list):
+        '''
+        Divide segment accordingly to face change
+        
+        :type segment_frame_list: list
+        :param segment_frame_list: list of frames in segment
+        '''
+        
+        # List with histogram differences between consecutive frames
+        diff_list = []
+        
+        # List with histogram differences between consecutive detections
+        det_diff_list = []
+        
+        # List that will contain new lists of frames
+        sub_segment_list = [] 
+        
+        prev_hists = None
+        
+        for frame_dict in segment_frame_list:
+            
+            sim = frame_dict[DETECTED_KEY]
+            
+            if(sim):
+                
+                # Tracking window corresponds to detected face
+                frame_path = frame_dict[FRAME_PATH_KEY]
+            
+                image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                
+                bbox = frame_dict[DETECTION_BBOX_KEY]
+                
+                x0 = bbox[0]
+                y0 = bbox[1]
+                w = bbox[2]
+                h = bbox[3]
+                x1 = x0 + w
+                y1 = y0 + h
+                
+                face = image[y0:y1, x0:x1]
+                
+                [tot_diff, prev_hists] = get_hist_difference(
+                face, prev_hists)
+                
+                if(tot_diff is not None):
+                        
+                    det_diff_list.append(tot_diff)
+                    
+                    diff_list.append(tot_diff)
+                    
+                else:
+                    
+                    diff_list.append(-1)
+            
+            else:
+                
+                diff_list.append(-1)
+        
+        segment_divided = False
+                    
+        if(len(det_diff_list) > 0):
+            
+            use_fixed_threshold = True
+        
+            if(use_fixed_threshold):
+            
+                mean = np.mean(det_diff_list)
+                
+                std = np.std(det_diff_list)
+                
+                print('mean', mean)
+                
+                print('std', std)
+                
+                plt.plot(diff_list)
+                plt.show() 
+                
+                # If standard deviation is less than mean, 
+                # there is only one shot in video
+                
+                if(std > mean):
+                    
+                    segment_divided = True
+                    
+                    threshold = mean + STD_MULTIPLIER * std
+                    
+                    # Counter for all frames in original segment
+                    counter = 0
+                    
+                    # Counter for all frames in new segment
+                    sub_counter = 0
+                    
+                    # Counter for frames with detections in new segment
+                    det_counter = 0
+                    
+                    sub_frame_list = []
+                    
+                    for frame_dict in segment_frame_list:
+                        
+                        diff = diff_list[counter]
+                        
+                        if(diff > threshold):
+                            
+                            sub_segment_list.append(sub_frame_list)
+                            
+                            sub_frame_list = []
+                            
+                            sub_counter = 0
+                            
+                        sub_frame_list.append(frame_dict)
+                        
+                        sub_counter = sub_counter + 1
+                        
+                        counter = counter + 1
+                        
+                    if(len(sub_frame_list) > 0):
+                        
+                        sub_segment_list.append(sub_frame_list)
+        
+        # If segment has not been divided, 
+        # list will contain only original segment
+
+        if(not(segment_divided)):
+            
+            sub_segment_list.append(segment_frame_list)
+            
+        new_segments = []   
+            
+        # Minimum duration of a segment in frames
+        min_segment_frames = int(
+        math.ceil(self.fps * MIN_SEGMENT_DURATION))    
+            
+        # Iterate through new sub segments
+        for sub_frame_list in sub_segment_list:
+            
+            frame_counter = len(sub_frame_list)
+            
+            segment_dict = {}
+        
+            segment_dict[FRAMES_KEY] = sub_frame_list
+        
+            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter
+        
+            # Segment duration in milliseconds
+            duration = frame_counter * 1000.0 / self.fps
+        
+            segment_dict[SEGMENT_DURATION_KEY] = duration
+        
+            segment_dict[ASSIGNED_TAG_KEY] = 'Undefined'
+        
+            segment_dict[CONFIDENCE_KEY] = -1
+            
+            # Segment must be considered only if its number 
+            # of frames is greater or equals than a minimum
+            if(frame_counter >= min_segment_frames):
+                
+                det_counter = 0
+                
+                for frame_dict in sub_frame_list:
+                    
+                    sim = frame_dict[DETECTED_KEY]
+                        
+                    if(sim):
+                            
+                        det_counter = det_counter + 1
+                        
+                # Check percentage of detection
+                det_pct = (float(det_counter) / frame_counter)
+                    
+                if(det_pct >= MIN_DETECTION_PCT):   
+            
+                    new_segments.append(segment_dict)
+                    
+                else:
+                    
+                    self.disc_tracked_faces.append(segment_dict)
+            else:
+                
+                self.disc_tracked_faces.append(segment_dict)
+            
+        return new_segments

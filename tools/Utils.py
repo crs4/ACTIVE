@@ -1,5 +1,7 @@
 import cv2
+import cv2.cv as cv
 import math
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
@@ -228,13 +230,13 @@ def aggregate_frame_results(frames, fm = None, tags = None):
     
     people_nr = 0
     if(fm is not None):
-		
-		people_nr = fm.get_people_nr()
-		tags = fm.get_tags()
+        
+        people_nr = fm.get_people_nr()
+        tags = fm.get_tags()
     
     elif(tags is not None):
-		
-		people_nr = len(tags)
+        
+        people_nr = len(tags)
     
     for tag in tags:
         assigned_frames_nr_dict[tag] = 0
@@ -496,15 +498,15 @@ def is_rect_enclosed(rect1, rect2):
 def is_rect_similar(rect1, rect2, min_int_area):
     """
     Check if a rectangle is similar to another rectangle
-	Returns True if rect 1 is similar to rect 2
+    Returns True if rect 1 is similar to rect 2
 
-	:type rect1: list
+    :type rect1: list
     :param rect1: first rectangle given as list (x, y, width, height)
     
-	:type rect2: list
+    :type rect2: list
     :param rect2: second rectangle given as list (x, y, width, height)    
     
- 	:type min_int_area: float
+    :type min_int_area: float
     :param min_int_area: minimum area of intersection between the two 
     rectangles (related to area of the smallest one) for considering
     them similar  
@@ -873,4 +875,340 @@ def add_oval_mask(image):
     cv2.ellipse(image, center, axes, 0, 0, 360, (0, 0, 0), line_w)
     
     return image
+
+
+def get_shot_changes(diff_list, half_w_size, std_mult):
+    '''
+    Get frame counters for shot changes
+    
+    :type diff_list: list
+    :param diff_list: list with frame differences
+    
+    :type half_w_size:integer
+    :param half_w_size: size of half sliding window 
+    
+    :type std_mult: float
+    :param std_mult: multiplier for standard deviation for calculating
+    threshold
+    '''
+    
+    shot_changes = []
+    
+    # Counter for frames from last shot change
+    frames_from_change = 0
+    
+    # Counter for all frames. It starts at 1 for considering first frame
+    counter = 1
+    
+    for diff in diff_list:
+        
+        # No sufficient frames remain
+        if(counter > (len(diff_list) - half_w_size - 1)):
+            
+            break
+        
+        # No new decisions are made 
+        # until half_w_size frames have elapsed
+        if(frames_from_change < half_w_size):
+            
+            frames_from_change = frames_from_change + 1
+            
+        else:
+            
+            # Left half of window
+            w_left = diff_list[(counter - half_w_size) : (counter - 1)]
+            
+            # Right half of window
+            w_right = diff_list[(counter + 1) : counter + half_w_size]
+            
+            #print('counter',counter)
+            frame_is_cut = is_cut(diff, w_left, w_right, std_mult)
+            
+            if(frame_is_cut):
+                
+                shot_changes.append(counter)
+                
+                frames_from_change = 0
+            
+        counter = counter + 1   
+        
+    return shot_changes
+        
+        
+def is_cut(diff, w_left, w_right, std_mult):
+    '''
+    Check if given difference represents a shot cut
+    
+    :type diff: float
+    :param diff: value of frame difference to be checked
+    
+    :type w_left: list
+    :param w_left: left half of sliding window
+
+    :type w_right: list
+    :param w_right: right half of sliding window
+    
+    :type std_mult: float
+    :param std_mult: multiplier for standard deviation for calculating
+    threshold
+    '''
+    
+    result = False
+    
+    # The middle sample must be the maximum in the window
+    if((diff > max(w_left)) and (diff > max(w_right))):
+        
+        threshold_left = np.mean(w_left) + (
+                         std_mult * np.std(w_left))
+    
+        threshold_right = np.mean(w_right) + (
+                          std_mult * np.std(w_right))
+                          
+        if((diff > threshold_left) and (diff > threshold_right)):
+            
+            #print('threshold_left', threshold_left)
+            #print('threshold_right', threshold_right)
+            
+            std_mult_left = (diff - np.mean(w_left)) / np.std(w_left)
+            #print('std mult left', std_mult_left)
+            std_mult_right = (diff - np.mean(w_right)) / np.std(w_right)
+            #print('std mult right', std_mult_right)
+            
+            w_left.append(diff)
+            w_left.extend(w_right)
+            #print('w_left', w_left)
+            #plt.plot(w_left)
+            #plt.show() 
+            
+            result = True
+            
+    return result
+    
+
+def get_shot_changes_old(diff_list, start_idx, min_dist):
+    '''
+    Get frame counters for shot changes
+    
+    :type diff_list: list
+    :param diff_list: list with histogram differences
+    
+    :type start_idx: integer
+    :param start_idx: start of this list in original list
+    
+    :type min_dist: integer
+    :param min_dist: minimum distance between two indexes    
+    ''' 
+    all_idxs = []
+    
+    # Do not consider segments whose duration is less than min_dist
+    if(len(diff_list) < min_dist):
+        
+        return all_idxs
+    
+    #print(diff_list)
+    #print('start_idx', start_idx)
+    #print 'len(list):', len(diff_list)
+    
+    #plt.plot(diff_list)
+    #plt.show() 
+    
+    mean = np.mean(diff_list)
+    std = np.std(diff_list)
+    
+    #if(True):
+    if(std > mean):
+        
+        threshold = mean + 1 * std
+
+        #print 'mean = ', mean
+
+        #print 'std = ', std
+
+        #print 'threshold = ', threshold 
+        
+        #plt.plot(diff_list)
+        #plt.show() 
+        
+        idxs = get_idxs_over_thresh(diff_list, start_idx, threshold)
+        
+        all_idxs.extend(idxs)
+        
+        sub_start_idx = 0
+        
+        for idx in idxs:
+            
+            print('idx', idx)
+            
+            sub_idx = idx - start_idx
+            
+            sub_list = diff_list[sub_start_idx:sub_idx]
+
+            sub_sub_start_idx = start_idx + sub_start_idx
+
+            sub_idxs = get_shot_changes(
+            sub_list, sub_sub_start_idx, min_dist)
+            
+            all_idxs.extend(sub_idxs)
+            
+            sub_start_idx = sub_idx + 1
+            
+        # Check last part of list
+        if(len(idxs) > 0):
+            sub_list = diff_list[sub_start_idx:]
+    
+            sub_sub_start_idx = start_idx + sub_start_idx
+    
+            sub_idxs = get_shot_changes(
+            sub_list, sub_sub_start_idx, min_dist)
+                
+            all_idxs.extend(sub_idxs)
+            
+    sorted_idxs = merge_near_idxs(all_idxs, diff_list, min_dist)
+    
+    # Add 1 to obtain frame indexes 
+    # (differences start from second frame)
+    
+    counter = 0
+    for i in sorted_idxs:
+        
+        sorted_idxs[counter] = sorted_idxs[counter] + 1
+        counter = counter + 1
+    
+    return sorted_idxs
+    
+
+def get_idxs_over_thresh(lst, start_idx, threshold):
+    '''
+    Get indexes of list items that are greater than given threshold
+    '''
+    
+    idxs = []
+    
+    counter = start_idx
+    
+    for item in lst:
+        
+        if(item > threshold):
+            
+            #print 'idx = ', counter
+            
+            idxs.append(counter)
+            
+        counter = counter + 1
+        
+    print('idxs', idxs)   
+        
+    return idxs
+
+
+def merge_near_idxs(idxs, diff_list, min_dist):
+    '''
+    Merge near indexes according to diff_list
+    :type idxs: list
+    :param idxs: list of indexes
+
+    :type diff_list: list
+    :param diff_list: list of histogram differences
+
+    :type min_dist: integer
+    :param min_dist: minimum distance between two indexes
+    '''
+
+    sorted_idxs = sorted(idxs)
+
+    last_idx = len(diff_list) - 1
+
+    item_deleted = True
+
+    while(item_deleted):
+
+        counter = 0
+        prev = 0
+        item_deleted = False
+        
+        for i in sorted_idxs:
+
+            print i
+
+            if(i < (prev + min_dist)):
+
+                if((prev == 0) or (diff_list[i] <= diff_list[prev])):
+
+                    del sorted_idxs[counter]
+                    item_deleted = True
+                    break
+
+                else:
+
+                    if(diff_list[i] > diff_list[prev]):
+
+                        del sorted_idxs[counter - 1]
+                        item_deleted = True
+                        break
+
+            elif(i > (last_idx - min_dist)):
+
+                 del sorted_idxs[counter]
+                 item_deleted = True
+                 break
+                 
+            prev = i
+
+            counter = counter + 1
+
+    return sorted_idxs
+    
+    
+def get_hist_difference(image, prev_hists):
+    '''
+    Get difference between histograms of given image 
+    and given histograms.
+    Returns difference and histograms of given image
+    
+    :type image: OpenCV image
+    :param image: image to be analyzed
+    
+    :type prev_hists: list
+    :param prev_hists: histograms to be compared with histograms
+                       of image
+    '''
+    
+    tot_diff = None
+    
+    hists = None
+    
+    if (image is not None):
+        
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    
+        mask = cv2.inRange(hsv, 
+        np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+        
+        hists = []
+        
+        for ch in range(0, 3):
+            
+            hist = cv2.calcHist(
+            [hsv], [ch], mask, [256], [0, 255])
+            
+            cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+            
+            hists.append(hist)
+            
+        if(prev_hists is not None):
+            
+            tot_diff = 0
+        
+            for ch in range(0, 3):
+                
+                diff = abs(cv2.compareHist(
+                hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
+                
+                tot_diff = tot_diff + diff
+            
+    else:
+        
+        hists = None
+            
+    return [tot_diff, hists]
 
