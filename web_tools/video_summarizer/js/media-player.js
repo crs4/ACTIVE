@@ -7,10 +7,10 @@ var video_line;
 var time_label;
 
 //parametro che indica la durata del summary impostata dall'utente in secondi
-var summary_duration = 50;
+var summary_duration = 60;
 
 //durata totale originaria dei segmenti
-var total_segments_duration = 60
+var total_segments_duration = 60;
 
 //durata del summary dopo eventuale drop
 var duration_after_drop;
@@ -21,17 +21,22 @@ var min_track_duration = 2
 //numero di segmenti troppo corti e quindi droppati
 var count_tracks_dropped = 0
 
-//indici dei video presenti relamente nel summary(insiemte compreso in video_arr)
+//indici dei video presenti relamente nel summary(insieme compreso in video_arr)
 var distinct_video_frommap;
 
 //persona che comapre nel summary
 var person="Giovanni Pili"
 
+//indice dell'operazione dalla time_video_track_map
+var op_index = 0;
+
 var time_offset = 0;
 
 var percentage;
 
+//video e segmanto correnti
 var video_index = 0;
+var track_id = 0;
 
 var play;
 var stop;
@@ -43,7 +48,7 @@ var player_time;
 
 var track_timeout;
 
-var track_id = 0;
+
 
 
 
@@ -89,10 +94,52 @@ var video4 = {
 }; 
 
 
+var video5 = {
+    title:"basket",
+    url: "video/basket.mp4",
+    time: [5, 20, 40],
+    duration: [10, 18, 5], // 33
+    end: 85
+}; 
 
 
+var video7 = {
+	
+    title:"Datome",
+    url: "video/sample.mp4",
+    time: [0,8],    
+    duration: [7,3], //43 
+    end: 14
+    
+}; 
+
+var video6 = {
+    
+    title:"parrots",
+    url: "video/parrots.mp4",
+    time: [8, 23],
+    duration: [4,3], //50
+    end: 33
+}; 
+ 
+var video8 = {
+    
+    title:"beli",
+    url: "video/beli.mp4",
+    time: [0,6,12],    
+    duration: [4,4,2], // 60
+    end: 78
+    
+}; 
+
+
+
+
+//~ var video_paths = ["yaml/videoXYZ.YAML"];
+//~ var video_arr = [];
 
 var video_arr = [video1,video2,video3,video4]; //4
+//~ var video_arr = [video1,video2,video3,video4,video5,video6,video7,video8]; //8
 //~ var video_arr = [video1,video2,video3,video4,video5,video6]; //6
 //~ var video_arr = [video3,video4]; //2
 
@@ -100,19 +147,16 @@ var video_arr = [video1,video2,video3,video4]; //4
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //36
 
 
-
-
-
-// Wait for the DOM to be loaded before initialising the media player
-//~ document.addEventListener("DOMContentLoaded", function() { initialiseMediaPlayer(); }, false);
-
 //~ 
-//~ $.getScript("files_management.js", function(){
+//~ $.getScript("js/files_management.js", function(){
 //~ 
    //~ 
    //~ // Here you can use anything you defined in the loaded script
-   //~ 
-   //~ console.log(readTextFile("Caredda_Giorgio.YAML"));
+   //~ for(var i=0; i<video_paths.length; i++){
+		//~ 
+	   //~ getYamlFile(video_paths[i],readTextFile)
+		//~ 
+   //~ }
 //~ });
 
 var countDC = 0;
@@ -137,10 +181,11 @@ $(document).ready(function(){
 	//creazione della sequenza dei segmenti. Vengono eliminati segmenti di durata inferiore a min_track_duration
 	resizeTracks();
 	
-	
+	// index of video after resize tracks
+	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
 	
 	for (var i = 0; i < time_video_track_map[0].length; i++) {
-		console.log(time_video_track_map[0][i]);
+		console.log(time_video_track_map[2][i]);
 	}
 	console.log("dropped: " + count_tracks_dropped);
 	
@@ -253,6 +298,7 @@ $(document).on('click','#videoline',function(e){
 		
 		video_index = video_retrieved_ind;
 		track_id = track_retrieved_ind;
+		op_index = time_index;
 		
 		//istante di tempo in cui scatta il play della prossima track, rispetto al punto cliccato
 		var next_track_time = time_video_track_map[0][time_index];
@@ -295,7 +341,7 @@ $(document).on('click','#videoline',function(e){
 		
 		
 		// incremento track_id in modo che quando scatta track_timeout venga eseguita la track successiva
-		track_id = track_id +1 ;
+		op_index = op_index + 1;
 	
 	}
 	else{
@@ -313,27 +359,27 @@ $(document).on('click','li',function(e){
 		
 		var ph_index = $(this).index();
 		
-		if(distinct_video_frommap[ph_index] != video_arr.length){
-			
-			$(this).effect("highlight",{color:"#dcc6eo"});
-			video_index = distinct_video_frommap[ph_index];
+		
+		$(this).effect("highlight",{color:"#dcc6eo"});
 		
 		
-			track_id = 0;
-			track_timeout.stop();
+		track_timeout.stop();
 		
-			var time_from_map = time_video_track_map[1].indexOf(video_index);
-			if(time_from_map !=0){
-			
-				time_offset = time_video_track_map[0][time_from_map-1] * 1000;
-			}
-			else{
-				time_offset = 0;
-			}
-			initTime.setTime(currentTime.getTime() - time_offset);
+		video_index = distinct_video_frommap[ph_index];	
+		op_index = time_video_track_map[1].indexOf(video_index);
 		
-			manageTracks();
+		
+		if(op_index !=0){
+		
+			time_offset = time_video_track_map[0][op_index-1] * 1000;
 		}
+		else{
+			time_offset = 0;
+		}
+		initTime.setTime(currentTime.getTime() - time_offset);
+	
+		manageTracks();
+		
 	}
 	else{
 		
@@ -349,8 +395,7 @@ function updateDOM(){
 	
 	var lum;
 	
-	// index of video after resize tracks
-	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
+	
 	
 	//add only videos remaining after resize tracks
 	for(var i=0;i<distinct_video_frommap.length;i++){
@@ -365,14 +410,12 @@ function updateDOM(){
 	if(count_tracks_dropped!=0){
 		if(video_arr.length != distinct_video_frommap.length){
 			var diff_video_length = video_arr.length - distinct_video_frommap.length
-			$("#dropped").text(diff_video_length+" video and "+count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+			$("#dropped").text(diff_video_length+" video and "+count_tracks_dropped+" segments omitted because too short. Select a longer summary duration for viewing them.");
 		}
 		else{
 			$("#dropped").text(count_tracks_dropped+" segments omitted because too short. Select a longer summary duration for viewing them.");
 		}
 	}
-	
-	
 	
 	
 	for(var i=0;i<count_track;i++){
@@ -391,32 +434,38 @@ function updateDOM(){
 		}
 		
 		
-		var ind_vid = time_video_track_map[1][i];
 		
-		var ind_track = time_video_track_map[2][i];
-		if(ind_vid % 2 == 0){			
-			
-			if( ind_track % 2 == 0){
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			}
-			else{
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
-				
-			}
+		if(i % 2 == 0){
+			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) });			
 		}
 		else{
-			
-			if( ind_track % 2 == 0){
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			}
-			else{
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
-				
-			}
-			
+			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
 		}
+		
+		//~ var ind_vide = time_video_track_map[1][i];
+		//~ var ind_track = time_video_track_map[2][i];
+		//~ if(ind_vid % 2 == 0){			
+			//~ 
+			//~ if( ind_track % 2 == 0){
+				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			//~ }
+			//~ else{
+				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+				//~ 
+			//~ }
+		//~ }
+		//~ else{
+			//~ 
+			//~ if( ind_track % 2 == 0){
+				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			//~ }
+			//~ else{
+				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
+				//~ 
+			//~ }
+			//~ 
+		//~ }
 	}
-	
 	
 }
 
@@ -498,8 +547,7 @@ function mediaStop(){
 	
 	track_timeout.stop();
 	time_offset = 0;
-	video_index = 0;
-	track_id = 0;
+	op_index = 0;
 	initTime = new Date();
 	updateProgressBar();
 	//~ manage_movehead();
@@ -514,63 +562,55 @@ function mediaStop(){
 	
 }
 
+
+
 function manageTracks(){
 	
 	if(play == true){
 		
-		var video = video_arr[video_index];
-	
-		var tracks_count = video.time.length;
+		if(op_index < time_video_track_map[0].length){
+			
+			$(mediaPlayer).hide();
+			
+			var video = video_arr[time_video_track_map[1][op_index]];
+			track_id = time_video_track_map[2][op_index];
+			video_index = time_video_track_map[1][op_index];
 		
-	
-		playTracks(video,tracks_count);
-	}	
-}
-
-
-function playTracks(video,tracks_count, delta_track_time, total_tracks_duration ){
-	
-	//nascondo il player per creare successivamente l'effetto di dissolvenza in entrata
-	$(mediaPlayer).hide();
-	
-	
-	
-
-	//per il video considerato, verifico se la traccia 
-	if(track_id < tracks_count){
-		
-		var trackStartTime;
-		var trackEndTime;
-		
-		track_timeout = new Timer(function(){
-				playTracks(video,tracks_count);
+			playTracks(video);
+			
+			
+			
+			track_timeout = new Timer(function(){
+				manageTracks();
 				},video.duration[track_id]*1000);
-				
-		trackStartTime = video.time[track_id];
-		trackEndTime = parseFloat(video.time[track_id]) + parseFloat(video.duration[track_id]);	
-	
-		
-		mediaPlayer.src = video.url+"#t="+trackStartTime+","+trackEndTime;
-		mediaPlayer.play();
-		
-		track_id = track_id + 1;
-		$(mediaPlayer).fadeIn("slow");
-	}
-	else{
-		//~ alert("clear");
-		track_id = 0;
-		track_timeout.stop();
-		if(video_index != (video_arr.length - 1)){
-			video_index = parseInt(video_index) + 1;
-			manageTracks();
+			 
+			op_index = op_index + 1;
 		}
 		else{
 			mediaStop();
 		}
+	}	
+}
+
+function playTracks(video){
+	
+	
+	$(mediaPlayer).fadeIn("slow");
 		
-	}
+	var trackStartTime;
+	var trackEndTime;
+			
+	trackStartTime = video.time[track_id];
+	trackEndTime = parseFloat(video.time[track_id]) + parseFloat(video.duration[track_id]);
+
+	
+	mediaPlayer.src = video.url+"#t="+trackStartTime+","+trackEndTime;
+	mediaPlayer.play();
+	
 	
 }
+
+
 
 
 function Timer(callback, delay) {
@@ -609,11 +649,14 @@ function resizeTracks(){
 		var video = video_arr[i];
 		var temp_video_duration = [];
 		
+		var temp_video_time =[];
+		
 		for(j=0; j<video.duration.length; j++){
 			
 			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration)
 			if(temp_duration >= min_track_duration){
 				
+				temp_video_time.push(video.time[j]);
 				temp_video_duration.push(temp_duration);
 				acc = acc + temp_duration;
 				timeline.push(acc);
@@ -628,6 +671,9 @@ function resizeTracks(){
 			
 		}
 		video.duration = temp_video_duration;
+		video.time = temp_video_time;
+		//~ console.log(temp_video_time)
+		//~ console.log(temp_video_duration)
 	}
 	//definisco una mappa che contiene nel 
 	//primo array tutti gli istanti di tempo in cui deve scattare il play di una track
@@ -649,7 +695,7 @@ function manage_movehead(){
 	time_label.style.left = percentage+"%";
 	var timesec = percentage*summary_duration/100;
 	$(time_label).text(timesec.toFixed(1));
-	$(movehead).html(video_arr[video_index].title + "<br>" + "segment"+track_id );
+	$(movehead).html(video_arr[video_index].title + "<br>" + "segment"+(track_id+1));
 	
 }
 
