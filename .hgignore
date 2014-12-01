@@ -33,3 +33,6 @@ data/DatasetMini/s1/3.pgm
 data/DatasetMini/s1/2.pgm
 data/DatasetMini/s1/10.pgm
 data/DatasetMini/s1/1.pgm
+
+*.pyc
+*~

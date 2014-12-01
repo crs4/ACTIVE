@@ -297,6 +297,18 @@ class FaceSummarizer(object):
                     
                     frame_path = os.path.join(frames_path, fr_name)
                     
+                    # Resize frame
+                    if(not(USE_ORIGINAL_RES)):
+						
+						fx = USED_RES_SCALE_FACTOR
+						
+						fy = USED_RES_SCALE_FACTOR
+						
+						interp = cv2.INTER_AREA
+						
+						frame = cv2.resize(src = frame, dsize = (0, 0), 
+						fx = fx, fy = fy, interpolation = interp)
+                    
                     cv2.imwrite(frame_path, frame)
                     
                     frame_dict = {}
@@ -532,7 +544,10 @@ class FaceSummarizer(object):
                         
                     segment_frame_dict = {}
                     
-                    segment_frame_dict[TRACKING_BBOX_KEY] = track_window 
+                    track_list = (
+                    int(track_x0), int(track_y0), int(track_w), int(track_h))
+                    
+                    segment_frame_dict[TRACKING_BBOX_KEY] = track_list 
                     
                     sub_faces = sub_det_dict[FACES_KEY]
             
@@ -591,7 +606,16 @@ class FaceSummarizer(object):
                     # Update list of frames for segment
                     segment_frame_dict[FRAME_COUNTER_KEY] = sub_frame_counter
                     segment_frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_ms
-                    segment_frame_dict[TRACKING_BBOX_KEY] = track_window
+                    
+                    track_x0 = track_window[0]
+                    track_y0 = track_window[1]
+                    track_w = track_window[2]
+                    track_h = track_window[3]
+                    
+                    track_list = (
+                    int(track_x0), int(track_y0), int(track_w), int(track_h))
+                    
+                    segment_frame_dict[TRACKING_BBOX_KEY] = track_list
                     segment_frame_dict[FRAME_PATH_KEY] = sub_frame_path
                     
                     segment_frame_list.append(segment_frame_dict)
@@ -1428,7 +1452,6 @@ class FaceSummarizer(object):
         offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y)
         dest_sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
         
-        bbox = segment_frame_dict[BBOX_KEY]
         frame_path = segment_frame_dict[FRAME_PATH_KEY]
         
         image = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE)
@@ -1455,7 +1478,7 @@ class FaceSummarizer(object):
         else:
             
             # Else, we know only the bounding box
-            bbox = segment_frame_dict[BBOX_KEY]
+            bbox = segment_frame_dict[TRACKING_BBOX_KEY]
             
             x0 = bbox[0]
             x1 = x0 + bbox[2]
@@ -1879,8 +1902,15 @@ class FaceSummarizer(object):
         
         if(len(self.hist_diffs) > 0):
             
+            # Calculate size of sliding window
             half_w_size = int(
             math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            
+            # If a reduced bitrate is used, sliding window is smaller
+            if(not(USE_ORIGINAL_FPS)):
+                
+                half_w_size = int(math.floor(
+                self.fps * USED_FPS * MIN_SEGMENT_DURATION / 2))
             
             self.cut_idxs = get_shot_changes(
             self.hist_diffs, half_w_size, STD_MULTIPLIER_FRAME)    
@@ -2222,7 +2252,7 @@ class FaceSummarizer(object):
         
             segment_dict[FRAMES_KEY] = sub_frame_list
         
-            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter
+            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter         
         
             # Segment duration in milliseconds
             duration = frame_counter * 1000.0 / self.fps
@@ -2236,6 +2266,13 @@ class FaceSummarizer(object):
             # Segment must be considered only if its number 
             # of frames is greater or equals than a minimum
             if(frame_counter >= min_segment_frames):
+                
+                # Start of segment in millisecond
+                first_frame_dict = sub_frame_list[0]
+                
+                segment_start = first_frame_dict[ELAPSED_VIDEO_TIME_KEY]
+                
+                segment_dict[SEGMENT_START_KEY] = segment_start
                 
                 det_counter = 0
                 

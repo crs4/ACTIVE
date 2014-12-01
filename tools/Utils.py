@@ -921,7 +921,7 @@ def get_shot_changes(diff_list, half_w_size, std_mult):
             # Right half of window
             w_right = diff_list[(counter + 1) : counter + half_w_size]
             
-            print('counter',counter)
+            #print('counter',counter)
             frame_is_cut = is_cut(diff, w_left, w_right, std_mult)
             
             if(frame_is_cut):
@@ -966,19 +966,19 @@ def is_cut(diff, w_left, w_right, std_mult):
                           
         if((diff > threshold_left) and (diff > threshold_right)):
             
-            print('threshold_left', threshold_left)
-            print('threshold_right', threshold_right)
+            #print('threshold_left', threshold_left)
+            #print('threshold_right', threshold_right)
             
             std_mult_left = (diff - np.mean(w_left)) / np.std(w_left)
-            print('std mult left', std_mult_left)
+            #print('std mult left', std_mult_left)
             std_mult_right = (diff - np.mean(w_right)) / np.std(w_right)
-            print('std mult right', std_mult_right)
+            #print('std mult right', std_mult_right)
             
             w_left.append(diff)
             w_left.extend(w_right)
-            print('w_left', w_left)
-            plt.plot(w_left)
-            plt.show() 
+            #print('w_left', w_left)
+            #plt.plot(w_left)
+            #plt.show() 
             
             result = True
             

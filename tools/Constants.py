@@ -221,9 +221,13 @@ MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 
-USE_ORIGINAL_FPS = True
-# Bitrate at which video is analyzed in face extraction
-USED_FPS = 1.0
+USE_ORIGINAL_FPS = False
+USE_ORIGINAL_RES = False
+# Bitrate at which video is analyzed (percentage of originale bitrate)
+USED_FPS = 0.25
+# Frame resolution at which video is analyzed 
+# (percentage of original width and height)
+USED_RES_SCALE_FACTOR = 0.5
 USE_ORIGINAL_FPS_IN_SHOT_DETECTIN = False
 # Bitrate at which video is analyzed in shot detection
 USED_FPS_IN_SHOT_DETECTION = 1.0
@@ -289,7 +293,7 @@ FRAME_POS_KEY = 'frame_position'
 # not considered for threshold calculation
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ?'
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
-MIN_DETECTION_PCT = 0.5 # Min percentage of detected faces out of
+MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
