@@ -7,7 +7,7 @@ var video_line;
 var time_label;
 
 //parametro che indica la durata del summary impostata dall'utente in secondi
-var summary_duration = 40;
+var summary_duration = 50;
 
 //durata totale originaria dei segmenti
 var total_segments_duration = 60
@@ -25,7 +25,7 @@ var count_tracks_dropped = 0
 var distinct_video_frommap;
 
 //persona che comapre nel summary
-var person="Giovannino Chibusdeu"
+var person="Giovanni Pili"
 
 var time_offset = 0;
 
@@ -91,7 +91,9 @@ var video4 = {
 
 
 
+
 var video_arr = [video1,video2,video3,video4]; //4
+//~ var video_arr = [video1,video2,video3,video4,video5,video6]; //6
 //~ var video_arr = [video3,video4]; //2
 
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //12
@@ -212,6 +214,10 @@ $(document).ready(function(){
 			}
 			
 	
+	});
+	
+	$( "#menu" ).click(function() {
+		$( "#playlist" ).slideToggle( "slow" );
 	});
 	
 });
@@ -353,7 +359,7 @@ function updateDOM(){
 	
 	var count_track = time_video_track_map[0].length;
 	
-	$("#header").text("Summary of " +person);
+	$("#summary_title").text("Summary of " +person);
 	
 	$("#end_time_span").text((time_video_track_map[0][(count_track-1)]).toFixed(1));
 	if(count_tracks_dropped!=0){
@@ -362,7 +368,7 @@ function updateDOM(){
 			$("#dropped").text(diff_video_length+" video and "+count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
 		}
 		else{
-			$("#dropped").text(count_tracks_dropped+" segments omitted because too brief. Select a longer summary duration for viewing them.");
+			$("#dropped").text(count_tracks_dropped+" segments omitted because too short. Select a longer summary duration for viewing them.");
 		}
 	}
 	
