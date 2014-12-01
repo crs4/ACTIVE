@@ -11,5 +11,7 @@ curl -X POST http://localhost:5555/api/task/send-task/jprocessor.jobs.tasks.task
 
 #POST request xmp embed
 
-curl -i -H "Content-Type:application/json" -X POST http://localhost:5555/api/task/send-task/task_embed_xmp -d '{"kwargs":{"component_id":1,"component_path":"/home/federico/Scaricati/dreamcar.png","changes":{}}}'
+curl -i -H "Content-Type:application/json" -X POST http://localhost:5555/api/task/send-task/jobs.tasks.tasks.task_embed_xmp -d '{"kwargs":{"component_id":1,"component_path":"/home/federico/Scaricati/dreamcar.png","changes":{}}}'
 
+#POST request face extraction
+curl -X POST http://localhost:5555/api/task/send-task/jprocessor.jobs.tasks.tasks.task_extract_faces -d '{"kwargs":{"resource_path":"/home/federico/workspace-python/video/videolina-10sec.mov"}}'
