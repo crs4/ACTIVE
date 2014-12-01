@@ -1,6 +1,7 @@
 import cv2
 import cv2.cv as cv
 import math
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
@@ -876,9 +877,117 @@ def add_oval_mask(image):
     return image
 
 
-def get_shot_changes(diff_list, start_idx, min_dist):
+def get_shot_changes(diff_list, half_w_size, std_mult):
     '''
-    Get frame counters  for shot changes
+    Get frame counters for shot changes
+    
+    :type diff_list: list
+    :param diff_list: list with frame differences
+    
+    :type half_w_size:integer
+    :param half_w_size: size of half sliding window 
+    
+    :type std_mult: float
+    :param std_mult: multiplier for standard deviation for calculating
+    threshold
+    '''
+    
+    shot_changes = []
+    
+    # Counter for frames from last shot change
+    frames_from_change = 0
+    
+    # Counter for all frames. It starts at 1 for considering first frame
+    counter = 1
+    
+    for diff in diff_list:
+        
+        # No sufficient frames remain
+        if(counter > (len(diff_list) - half_w_size - 1)):
+            
+            break
+        
+        # No new decisions are made 
+        # until half_w_size frames have elapsed
+        if(frames_from_change < half_w_size):
+            
+            frames_from_change = frames_from_change + 1
+            
+        else:
+            
+            # Left half of window
+            w_left = diff_list[(counter - half_w_size) : (counter - 1)]
+            
+            # Right half of window
+            w_right = diff_list[(counter + 1) : counter + half_w_size]
+            
+            print('counter',counter)
+            frame_is_cut = is_cut(diff, w_left, w_right, std_mult)
+            
+            if(frame_is_cut):
+                
+                shot_changes.append(counter)
+                
+                frames_from_change = 0
+            
+        counter = counter + 1   
+        
+    return shot_changes
+        
+        
+def is_cut(diff, w_left, w_right, std_mult):
+    '''
+    Check if given difference represents a shot cut
+    
+    :type diff: float
+    :param diff: value of frame difference to be checked
+    
+    :type w_left: list
+    :param w_left: left half of sliding window
+
+    :type w_right: list
+    :param w_right: right half of sliding window
+    
+    :type std_mult: float
+    :param std_mult: multiplier for standard deviation for calculating
+    threshold
+    '''
+    
+    result = False
+    
+    # The middle sample must be the maximum in the window
+    if((diff > max(w_left)) and (diff > max(w_right))):
+        
+        threshold_left = np.mean(w_left) + (
+                         std_mult * np.std(w_left))
+    
+        threshold_right = np.mean(w_right) + (
+                          std_mult * np.std(w_right))
+                          
+        if((diff > threshold_left) and (diff > threshold_right)):
+            
+            print('threshold_left', threshold_left)
+            print('threshold_right', threshold_right)
+            
+            std_mult_left = (diff - np.mean(w_left)) / np.std(w_left)
+            print('std mult left', std_mult_left)
+            std_mult_right = (diff - np.mean(w_right)) / np.std(w_right)
+            print('std mult right', std_mult_right)
+            
+            w_left.append(diff)
+            w_left.extend(w_right)
+            print('w_left', w_left)
+            plt.plot(w_left)
+            plt.show() 
+            
+            result = True
+            
+    return result
+    
+
+def get_shot_changes_old(diff_list, start_idx, min_dist):
+    '''
+    Get frame counters for shot changes
     
     :type diff_list: list
     :param diff_list: list with histogram differences

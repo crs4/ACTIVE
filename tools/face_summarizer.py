@@ -8,6 +8,8 @@ import face_detection as fd
 
 import math
 
+import matplotlib.pyplot as plt
+
 import numpy as np
 
 import os
@@ -470,28 +472,29 @@ class FaceSummarizer(object):
                 # Iterate through subsequent frames
                 for sub_det_dict in detection_list[sub_frame_counter:]:
             
-                    use_fixed_threshold = True
+                    # TODO: TO BE DELETED
+                    #use_fixed_threshold = True
                     
-                    if(use_fixed_threshold):
+                    #if(use_fixed_threshold):
                         
-                        # Check if histogram difference for this frame
-                        # is greater than the threshold
-                        if(self.track_threshold > 0):
+                        ## Check if histogram difference for this frame
+                        ## is greater than the threshold
+                        #if(self.track_threshold > 0):
                             
-                            diff = self.hist_diffs[sub_frame_counter]
+                            #diff = self.hist_diffs[sub_frame_counter]
                             
-                            if(diff != -1):
+                            #if(diff != -1):
                                 
-                                if(diff > self.track_threshold):
+                                #if(diff > self.track_threshold):
                                     
-                                    break 
+                                    #break 
                                     
-                    else:
+                    #else:
                         
-                        # Check if a new shot begins
-                        if(sub_frame_counter in self.cut_idxs):
+                    # Check if a new shot begins
+                    if(sub_frame_counter in self.cut_idxs):
                             
-                            break
+                        break
             
                     sub_frame_path = sub_det_dict[FRAME_PATH_KEY]
                 
@@ -1600,6 +1603,8 @@ class FaceSummarizer(object):
         
         segment_counter = 0
         
+        face_counter = 0
+        
         for segment_dict in self.tracked_faces:
             
             self.progress = 100 * (segment_counter / tracked_faces_nr)
@@ -1630,6 +1635,9 @@ class FaceSummarizer(object):
                 x1 = x0 + track_bbox[2]
                 y0 = track_bbox[1]
                 y1 = y0 + track_bbox[3]
+                   
+                # Used to save face images
+                image_copy = copy.copy(image)   
                               
                 cv2.rectangle(
                 image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
@@ -1645,6 +1653,22 @@ class FaceSummarizer(object):
                                   
                     cv2.rectangle(
                     image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
+                    
+                    # Save face image on disk
+                        
+                    file_name = '%07d.bmp' % face_counter
+                    
+                    faces_path = os.path.join(video_path, 'Faces')
+                    
+                    if(not(os.path.exists(faces_path))):
+                
+                        os.makedirs(faces_path)
+                    
+                    face_path = os.path.join(faces_path, file_name)
+                    
+                    face = image_copy[y0:y1, x0:x1]
+            
+                    cv2.imwrite(face_path, face)
                 
                 file_name = '%07d.bmp' % image_counter
                 
@@ -1653,6 +1677,8 @@ class FaceSummarizer(object):
                 cv2.imwrite(face_path, image)
                 
                 image_counter = image_counter + 1
+                
+                face_counter = face_counter + 1
                 
             segment_counter = segment_counter + 1  
  
@@ -1809,9 +1835,64 @@ class FaceSummarizer(object):
                     p_counter = p_counter + 1
                     
         #print(self.recognized_faces)
+
+    def calcHistDiff(self):
+        '''
+        Calculate histogram differences between consecutive frames
+        '''
+        
+        print '\n\n### Calculating histogram differences ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+
+        # List with histogram differences (all frames)
+        self.hist_diffs = []
+        
+        prev_hists = None
+        
+        counter = 0
+        
+        # Iterate through all frames
+        for frame_dict in self.frame_list:
+            
+            self.progress = 100 * (counter / self.video_frames)
+    
+            print('progress: ' + str(self.progress) + ' %          \r'),
+                
+            frame_path = frame_dict[FRAME_PATH_KEY]
+                
+            image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                    
+            #Calculate difference between histograms
+            [tot_diff, prev_hists] = get_hist_difference(
+            image, prev_hists)
+            
+            if(tot_diff is not None):
+                           
+                self.hist_diffs.append(tot_diff)
+            
+            counter = counter + 1
+                
+        # Calculate shot cuts
+        #print 'diff_list', diff_list
+        
+        if(len(self.hist_diffs) > 0):
+            
+            half_w_size = int(
+            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            
+            self.cut_idxs = get_shot_changes(
+            self.hist_diffs, half_w_size, STD_MULTIPLIER_FRAME)    
+            
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+        
+        print 'Time for calculation of histogram differences:', time_in_seconds, 's\n'              
                     
     
-    def calcHistDiff(self):
+    def calcHistDiff_old(self):
         '''
         Calculate histogram differences between consecutive frames
         with faces and calculate threshold for tracking interruption
@@ -2022,6 +2103,187 @@ class FaceSummarizer(object):
         
         prev_hists = None
         
+        frame_counter = 0
+        
+        det_counter = 0
+        
+        # Dictionary for storing correspondence between counter
+        counter_dict = {}
+        
+        for frame_dict in segment_frame_list:
+            
+            sim = frame_dict[DETECTED_KEY]
+            
+            if(sim):
+                
+                # Tracking window corresponds to detected face
+                frame_path = frame_dict[FRAME_PATH_KEY]
+            
+                image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                
+                bbox = frame_dict[DETECTION_BBOX_KEY]
+                
+                x0 = bbox[0]
+                y0 = bbox[1]
+                w = bbox[2]
+                h = bbox[3]
+                x1 = x0 + w
+                y1 = y0 + h
+                
+                face = image[y0:y1, x0:x1]
+                
+                [tot_diff, prev_hists] = get_hist_difference(
+                face, prev_hists)
+                
+                if(tot_diff is not None):
+                        
+                    det_diff_list.append(tot_diff)
+                    
+                    diff_list.append(tot_diff)
+                    
+                    counter_dict[det_counter] = frame_counter
+                    
+                    det_counter = det_counter + 1
+                    
+                else:
+                    
+                    diff_list.append(-1)
+            
+            else:
+                
+                diff_list.append(-1)
+                
+            frame_counter = frame_counter + 1
+        
+        segment_divided = False
+                    
+        if(len(det_diff_list) > 0):
+            
+            half_w_size = int(
+            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            
+            face_cut_idxs_temp = get_shot_changes(
+            det_diff_list, half_w_size, STD_MULTIPLIER_FACE) 
+            
+            if(len(face_cut_idxs_temp) > 0):
+                
+                segment_divided = True
+                
+                # Get real counters
+                face_cut_idxs = []
+                
+                for idx_temp in face_cut_idxs_temp:
+                    
+                    face_cut_idxs.append(counter_dict[idx_temp])
+                    
+                # Counter for all frames in original segment
+                counter = 0
+                
+                # Counter for frames with detections in new segment
+                det_counter = 0
+                
+                sub_frame_list = []
+                
+                for frame_dict in segment_frame_list:
+                    
+                    if(counter in face_cut_idxs):
+                        
+                        sub_segment_list.append(sub_frame_list)
+                        
+                        sub_frame_list = []
+                        
+                    sub_frame_list.append(frame_dict)
+                    
+                    counter = counter + 1
+                    
+                if(len(sub_frame_list) > 0):
+                    
+                    sub_segment_list.append(sub_frame_list)
+        
+        # If segment has not been divided, 
+        # list will contain only original segment
+
+        if(not(segment_divided)):
+            
+            sub_segment_list.append(segment_frame_list)
+            
+        new_segments = []   
+            
+        # Minimum duration of a segment in frames
+        min_segment_frames = int(
+        math.ceil(self.fps * MIN_SEGMENT_DURATION))    
+            
+        # Iterate through new sub segments
+        for sub_frame_list in sub_segment_list:
+            
+            frame_counter = len(sub_frame_list)
+            
+            segment_dict = {}
+        
+            segment_dict[FRAMES_KEY] = sub_frame_list
+        
+            segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter
+        
+            # Segment duration in milliseconds
+            duration = frame_counter * 1000.0 / self.fps
+        
+            segment_dict[SEGMENT_DURATION_KEY] = duration
+        
+            segment_dict[ASSIGNED_TAG_KEY] = 'Undefined'
+        
+            segment_dict[CONFIDENCE_KEY] = -1
+            
+            # Segment must be considered only if its number 
+            # of frames is greater or equals than a minimum
+            if(frame_counter >= min_segment_frames):
+                
+                det_counter = 0
+                
+                for frame_dict in sub_frame_list:
+                    
+                    sim = frame_dict[DETECTED_KEY]
+                        
+                    if(sim):
+                            
+                        det_counter = det_counter + 1
+                        
+                # Check percentage of detection
+                det_pct = (float(det_counter) / frame_counter)
+                    
+                if(det_pct >= MIN_DETECTION_PCT):   
+            
+                    new_segments.append(segment_dict)
+                    
+                else:
+                    
+                    self.disc_tracked_faces.append(segment_dict)
+            else:
+                
+                self.disc_tracked_faces.append(segment_dict)
+            
+        return new_segments
+
+
+
+    def divideSegmentByFace_old(self, segment_frame_list):
+        '''
+        Divide segment accordingly to face change
+        
+        :type segment_frame_list: list
+        :param segment_frame_list: list of frames in segment
+        '''
+        
+        # List with histogram differences between consecutive frames
+        diff_list = []
+        
+        # List with histogram differences between consecutive detections
+        det_diff_list = []
+        
+        # List that will contain new lists of frames
+        sub_segment_list = [] 
+        
+        prev_hists = None
+        
         for frame_dict in segment_frame_list:
             
             sim = frame_dict[DETECTED_KEY]
@@ -2072,6 +2334,13 @@ class FaceSummarizer(object):
                 mean = np.mean(det_diff_list)
                 
                 std = np.std(det_diff_list)
+                
+                print('mean', mean)
+                
+                print('std', std)
+                
+                plt.plot(diff_list)
+                plt.show() 
                 
                 # If standard deviation is less than mean, 
                 # there is only one shot in video

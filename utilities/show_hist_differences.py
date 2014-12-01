@@ -18,11 +18,13 @@ from tools.Constants import *
 
 from tools.face_detection import detect_faces_in_image
 
+from tools.Utils import get_shot_changes
+
 glob_counter = 0
 
 def calc_shot_changes():
     
-    load_pickle_dump = False
+    load_pickle_dump = True
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
@@ -34,14 +36,15 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    images_path = r'C:\Active\Face summarization\YouTubeMix.mp4\Face tracking\Segments\32'
+    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     
     file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Diff_list'
     
     prev_hists = None
     
     diff_list = []
-    
+    im_counter = 0
+    used_ims = []
     
     if(not(load_pickle_dump)):
     
@@ -51,33 +54,33 @@ def calc_shot_changes():
             
             image_path = os.path.join(images_path, image_name)
             
-            print(image_path)
+            #print(image_path)
             
-            detection_result = detect_faces_in_image(
-            image_path, None, False)
+            #detection_result = detect_faces_in_image(
+            #image_path, None, False)
             
-            if(detection_result is None):
+            #if(detection_result is None):
                 
-                continue
+                #continue
             
-            det_faces = detection_result[FACES_KEY]
+            #det_faces = detection_result[FACES_KEY]
             
-            if (len(det_faces) == 0):
+            #if (len(det_faces) == 0):
                 
-                continue
+                #continue
                 
-            bbox = det_faces[0][BBOX_KEY]
+            #bbox = det_faces[0][BBOX_KEY]
             
-            x0 = bbox[0] + 5
-            y0 = bbox[1] + 5
-            w = bbox[2] - 10
-            h = bbox[3] - 10
-            x1 = x0 + w
-            y1 = y0 + h
+            #x0 = bbox[0] + 5
+            #y0 = bbox[1] + 5
+            #w = bbox[2] - 10
+            #h = bbox[3] - 10
+            #x1 = x0 + w
+            #y1 = y0 + h
             
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
             
-            image = image[y0:y1, x0:x1]
+            #image = image[y0:y1, x0:x1]
             
             #cv2.imshow('face', image)
             
@@ -112,8 +115,12 @@ def calc_shot_changes():
                     tot_diff = tot_diff + diff
                 
                 diff_list.append(tot_diff)
+                
+                used_ims.append(image_name)
             
             prev_hists = hists
+            
+            im_counter = im_counter + 1
             
         
         #mean = np.mean(diff_list)
@@ -130,6 +137,12 @@ def calc_shot_changes():
         with open(file_path, 'w') as f:
                         
             pickle.dump(diff_list, f)
+            
+        im_names_file_path = file_path + '_image_names'
+        
+        with open(im_names_file_path, 'w') as f:
+            
+            pickle.dump(used_ims, f)
     
     else:
         
@@ -137,36 +150,38 @@ def calc_shot_changes():
                         
             diff_list = pickle.load(f)
     
-    mean = np.mean(diff_list)
-    std = np.std(diff_list)
+    #mean = np.mean(diff_list)
+    #std = np.std(diff_list)
     
     #if(True):
-    if(std > mean):
+    ##if(std > mean):
         
-        threshold = mean + 1 * std
+        #threshold = mean + 1 * std
 
-        print 'mean = ', mean
+        #print 'mean = ', mean
 
-        print 'std = ', std
+        #print 'std = ', std
 
-        print 'threshold = ', threshold 
+        #print 'threshold = ', threshold 
     
-    idxs = get_idxs_over_thresh(diff_list, 0, threshold)
+    #idxs = get_idxs_over_thresh(diff_list, 0, threshold)
     
-    #idxs = get_shot_changes(diff_list, 0)
+    half_window_size = 12
+    
+    idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
     
     #print '\n\n### idxs ###\n\n'
     
-    min_dist = 25
+    #min_dist = 25
 
-    idxs = merge_near_idxs(idxs, diff_list, min_dist)
+    #idxs = merge_near_idxs(idxs, diff_list, min_dist)
     
     print idxs
     
     plt.plot(diff_list)
     plt.show() 
 
-def get_shot_changes(diff_list, start_idx):
+def get_shot_changes_bad(diff_list, start_idx):
     '''
     Get frame counters  for shot changes
     

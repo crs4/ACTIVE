@@ -16,7 +16,7 @@ fs = FaceSummarizer()
 
 #resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
 
-resource = r'C:\Active\RawVideos\FicMix.mov'
+#resource = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
 
 if(frames_already_saved):
     
@@ -24,7 +24,7 @@ if(frames_already_saved):
     
     #fs.resource_name = r'FicMixSegment3'
     
-    fs.resource_name = r'YouTubeMix.mp4'
+    fs.resource_name = r'YouTubeMix'
     
     fps = 25.0
     
@@ -32,9 +32,9 @@ if(frames_already_saved):
     
     #frames_path = r'C:\Users\Maurizio\Documents\Face summarization\Videolina-2sec.mov\Frames'
     
-    #frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
+    frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    frames_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Frames'
+    #rames_path = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
     
     #frames_path = r'C:\Active\Face summarization\FicMix.mov\Frames'
     
@@ -72,7 +72,7 @@ else:
 
 #file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
 
-file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Face detection\YouTubeMix.mp4.YAML'
+file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Face detection\FicMix.YAML'
 
 with open(file_path) as f:
     

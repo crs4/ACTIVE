@@ -300,8 +300,14 @@ TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
-STD_MULTIPLIER = 1 # Standard deviation multiplier for calculating
-                    # threshold for tracking interruption
+STD_MULTIPLIER_FRAME = 50  # Standard deviation multiplier for calculating
+						# thresholds for shot cut detection
+					  # Tests on FicMix indicate that it should be 
+					  # > 350 and < 2000
+					  # Tests on YouTubeMix indicate that it should be
+					  # > 500 and 
+STD_MULTIPLIER_FACE = 50 # Standard deviation multiplier for calculating 
+					    # thresholds for dividing between faces
 TRACKED_PERSON_TAG = 'tracked_person'
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
