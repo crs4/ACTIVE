@@ -39,15 +39,17 @@ body {
 	color: #89c4f4;
 	font-size: 20px;
 	background-color:#22313f;
+	
 }
 
 #menu img {
+	
 	height: 70%;
-/*
-	width: 70%;
-*/
 	vertical-align: middle;
+	
 }
+ 
+
 
 
 #media-player {

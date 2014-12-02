@@ -1,0 +1,16 @@
+tot_segments_duration: 48000
+video_name: MONITOR292010
+video_segments:
+- ann_tag: Dessi_Emanuele
+  segment_duration: 6000
+  segment_start: 180000
+- ann_tag: Dessi_Emanuele
+  segment_duration: 3000
+  segment_start: 634000
+- ann_tag: Dessi_Emanuele
+  segment_duration: 27000
+  segment_start: 724000
+- ann_tag: Dessi_Emanuele
+  segment_duration: 12000
+  segment_start: 3341000
+video_url: ''
