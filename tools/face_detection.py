@@ -211,6 +211,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         result[FACES_KEY] = faces_final
 
         if(show_results):
+            
+            image = cv2.imread(resource_path, cv2.IMREAD_COLOR)
             for face_dict in faces_final:
                 
                 (x, y, w, h) = face_dict[BBOX_KEY]

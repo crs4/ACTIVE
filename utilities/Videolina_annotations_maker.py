@@ -5143,7 +5143,7 @@ def make_MONITOR072011_annotations(file_path):
 
 def make_MONITOR272010_annotations(file_path):
     '''
-    Make annotations for MONITOR072011.mpg video file
+    Make annotations for MONITOR272010.mpg video file
     
     :type file_path: string
     :param file_path: path of YAML file that will contain annotations

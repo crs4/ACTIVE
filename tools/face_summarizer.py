@@ -152,6 +152,8 @@ class FaceSummarizer(object):
             
             frame_path = frame_dict[FRAME_PATH_KEY] 
             
+            #print('frame_path: ' + os.path.basename(frame_path))
+            
             detection_result = fd.detect_faces_in_image(
             frame_path, detection_params, False)
 
@@ -299,15 +301,15 @@ class FaceSummarizer(object):
                     
                     # Resize frame
                     if(not(USE_ORIGINAL_RES)):
-						
-						fx = USED_RES_SCALE_FACTOR
-						
-						fy = USED_RES_SCALE_FACTOR
-						
-						interp = cv2.INTER_AREA
-						
-						frame = cv2.resize(src = frame, dsize = (0, 0), 
-						fx = fx, fy = fy, interpolation = interp)
+                        
+                        fx = USED_RES_SCALE_FACTOR
+                        
+                        fy = USED_RES_SCALE_FACTOR
+                        
+                        interp = cv2.INTER_AREA
+                        
+                        frame = cv2.resize(src = frame, dsize = (0, 0), 
+                        fx = fx, fy = fy, interpolation = interp)
                     
                     cv2.imwrite(frame_path, frame)
                     
@@ -1775,16 +1777,20 @@ class FaceSummarizer(object):
                     cv2.rectangle(
                     image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
     
-                    # Add detection bbox to image as blue rectangle
-                    det_bbox = segment_frame_dict[DETECTION_BBOX_KEY]
+                    det = segment_frame_dict[DETECTED_KEY]
                     
-                    x0 = det_bbox[0]
-                    x1 = x0 + det_bbox[2]
-                    y0 = det_bbox[1]
-                    y1 = y0 + det_bbox[3]
-                                  
-                    cv2.rectangle(
-                    image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
+                    if(det):
+    
+                        # Add detection bbox to image as blue rectangle
+                        det_bbox = segment_frame_dict[DETECTION_BBOX_KEY]
+                        
+                        x0 = det_bbox[0]
+                        x1 = x0 + det_bbox[2]
+                        y0 = det_bbox[1]
+                        y1 = y0 + det_bbox[3]
+                                      
+                        cv2.rectangle(
+                        image, (x0, y0), (x1, y1), (255, 0, 0), 3, 8, 0)
                     
                     file_name = '%07d.bmp' % image_counter
                     

@@ -27,7 +27,8 @@ FACE_RECOGNITION_DIR = r'Face recognition'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple snnotations' # Directory containg simple annotations
 #FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
-FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
@@ -312,11 +313,15 @@ STD_MULTIPLIER_FRAME = 50  # Standard deviation multiplier for calculating
 					  # > 500 and 
 STD_MULTIPLIER_FACE = 50 # Standard deviation multiplier for calculating 
 					    # thresholds for dividing between faces
+# Total duration of segments( in ms)
+TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences 
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
+VIDEO_NAME_KEY = 'video_name' # Name of video
+VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video
