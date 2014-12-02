@@ -7,10 +7,10 @@ var video_line;
 var time_label;
 
 //parametro che indica la durata del summary impostata dall'utente in secondi
-var summary_duration = 60;
+var summary_duration = 141;
 
 //durata totale originaria dei segmenti
-var total_segments_duration = 60;
+var total_segments_duration = 0;
 
 //durata del summary dopo eventuale drop
 var duration_after_drop;
@@ -25,7 +25,7 @@ var count_tracks_dropped = 0
 var distinct_video_frommap;
 
 //persona che comapre nel summary
-var person="Giovanni Pili"
+var person;
 
 //indice dell'operazione dalla time_video_track_map
 var op_index = 0;
@@ -135,10 +135,10 @@ var video8 = {
 
 
 
-//~ var video_paths = ["yaml/videoXYZ.YAML"];
-//~ var video_arr = [];
+var video_paths = ["yaml/MONITOR072011.YAML","yaml/MONITOR082011.YAML","yaml/MONITOR272010.YAML","yaml/MONITOR0292010.YAML"];
+var video_arr = [];
 
-var video_arr = [video1,video2,video3,video4]; //4
+//~ var video_arr = [video1,video2,video3,video4]; //4
 //~ var video_arr = [video1,video2,video3,video4,video5,video6,video7,video8]; //8
 //~ var video_arr = [video1,video2,video3,video4,video5,video6]; //6
 //~ var video_arr = [video3,video4]; //2
@@ -146,18 +146,19 @@ var video_arr = [video1,video2,video3,video4]; //4
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //12
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //36
 
+//~ 
 
-//~ 
-//~ $.getScript("js/files_management.js", function(){
-//~ 
-   //~ 
-   //~ // Here you can use anything you defined in the loaded script
-   //~ for(var i=0; i<video_paths.length; i++){
-		//~ 
-	   //~ getYamlFile(video_paths[i],readTextFile)
-		//~ 
-   //~ }
-//~ });
+$.getScript("js/files_management.js", function(){
+
+   
+   // Here you can use anything you defined in the loaded script
+   for(var i=0; i<video_paths.length; i++){
+		
+	   getYamlFile(video_paths[i],readTextFile)
+		
+   }
+   
+});
 
 var countDC = 0;
 $(document).ready(function(){
@@ -417,6 +418,22 @@ function updateDOM(){
 		}
 	}
 	
+	//~ for(var n=0; n<distinct_video_frommap; n++){
+		//~ var tmp_ind = distinct_video_frommap[n];
+		//~ var start = time_video_track_map[1].indexOf(tmp_ind); 
+		//~ var end = time_video_track_map[1].lastIndexOf(tmp_ind); 
+		//~ var temp_arr = time_video_track_map[0].slice(start, end+1);
+		//~ for(var j=0; j<=temp_arr.legth; j++){
+			//~ if(temp_arr[j]==0){
+				//~ time_video_track_map[0][temp_arr[j]];
+			//~ }
+			//~ else{
+				//~ 
+			//~ }
+		//~ 
+		//~ }
+		//~ 
+	//~ }
 	
 	for(var i=0;i<count_track;i++){
 				
@@ -433,38 +450,41 @@ function updateDOM(){
 			
 		}
 		
+		var ind_from_map = time_video_track_map[1][i];
+		var ind_from_dist = distinct_video_frommap.indexOf(ind_from_map);
 		
-		
-		if(i % 2 == 0){
-			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) });			
+		if(ind_from_dist % 2 == 0){			
+			
+			if( i % 2 == 0){
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			}
+			else{
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+				
+			}
 		}
 		else{
-			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+			
+			if( i % 2 == 0){
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			}
+			else{
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
+				
+			}
+			
 		}
 		
-		//~ var ind_vide = time_video_track_map[1][i];
-		//~ var ind_track = time_video_track_map[2][i];
-		//~ if(ind_vid % 2 == 0){			
-			//~ 
-			//~ if( ind_track % 2 == 0){
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			//~ }
-			//~ else{
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
-				//~ 
-			//~ }
+		
+		//~ 
+		//~ if(i % 2 == 0){
+			//~ $("#playhead"+i+video_id).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) });			
 		//~ }
 		//~ else{
-			//~ 
-			//~ if( ind_track % 2 == 0){
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			//~ }
-			//~ else{
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
-				//~ 
-			//~ }
-			//~ 
+			//~ $("#playhead"+i+video_id).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
 		//~ }
+		
+		
 	}
 	
 }
