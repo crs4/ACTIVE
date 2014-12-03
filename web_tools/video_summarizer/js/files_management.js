@@ -35,9 +35,10 @@ function readTextFile(data){
 			var person_split = rows[i].split(":");
 			person = person_split[1];
 		}
-		if(rows[i].indexOf("tot_segment_duration") > -1){
+		if(rows[i].indexOf("tot_segments_duration") > -1){
 			var acc_split = rows[i].split(":");
-			total_segments_duration = total_segments_duration + acc_split[1];
+			total_segments_duration = total_segments_duration + parseFloat(acc_split[1]/1000);
+			
 		}
 	}
 	
@@ -50,7 +51,7 @@ function readTextFile(data){
 
 function getYamlFile(path,readTextFile) {
   
-  return $.ajax({
+  $.ajax({
       url: path,
       success: readTextFile
   });

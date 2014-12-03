@@ -152,19 +152,25 @@ $.getScript("js/files_management.js", function(){
 
    
    // Here you can use anything you defined in the loaded script
-   for(var i=0; i<video_paths.length; i++){
-		
-	   getYamlFile(video_paths[i],readTextFile)
-		
-   }
    
+	for(var i=0; i<video_paths.length; i++){
+		
+	   getYamlFile(video_paths[i],readTextFile);
+		
+    }
+    
+	
+	
 });
 
+
 var countDC = 0;
-$(document).ready(function(){
+
+
+$(document).ajaxStop(function(){
 	
 	
-	
+	console.log(video_arr.length)
 	mediaPlayer = document.getElementById('media-video');
 	
 	time_label = document.getElementById('time_span');
@@ -186,7 +192,7 @@ $(document).ready(function(){
 	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
 	
 	for (var i = 0; i < time_video_track_map[0].length; i++) {
-		console.log(time_video_track_map[2][i]);
+		console.log(time_video_track_map[0][i]);
 	}
 	console.log("dropped: " + count_tracks_dropped);
 	
@@ -202,6 +208,8 @@ $(document).ready(function(){
 			updateDOM();
 	});
 	
+	$("tbody").fadeIn(2000);
+	
 	movehead = document.getElementById('move_head');
 	video_line = document.getElementById('videoline'); 
 	
@@ -211,7 +219,7 @@ $(document).ready(function(){
 		
 	});	
 	
-	$("tbody").fadeIn(2000);
+	
 	
 	
 	$("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
@@ -418,22 +426,6 @@ function updateDOM(){
 		}
 	}
 	
-	//~ for(var n=0; n<distinct_video_frommap; n++){
-		//~ var tmp_ind = distinct_video_frommap[n];
-		//~ var start = time_video_track_map[1].indexOf(tmp_ind); 
-		//~ var end = time_video_track_map[1].lastIndexOf(tmp_ind); 
-		//~ var temp_arr = time_video_track_map[0].slice(start, end+1);
-		//~ for(var j=0; j<=temp_arr.legth; j++){
-			//~ if(temp_arr[j]==0){
-				//~ time_video_track_map[0][temp_arr[j]];
-			//~ }
-			//~ else{
-				//~ 
-			//~ }
-		//~ 
-		//~ }
-		//~ 
-	//~ }
 	
 	for(var i=0;i<count_track;i++){
 				
