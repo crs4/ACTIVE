@@ -33,7 +33,8 @@ function readTextFile(data){
 		}
 		if(rows[i].indexOf("ann_tag") > -1){
 			var person_split = rows[i].split(":");
-			person = person_split[1];
+			lastName = person_split[1].split("_")[0];
+			firstName = person_split[1].split("_")[1];
 		}
 		if(rows[i].indexOf("tot_segments_duration") > -1){
 			var acc_split = rows[i].split(":");

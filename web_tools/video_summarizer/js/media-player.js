@@ -16,7 +16,7 @@ var total_segments_duration = 0;
 var duration_after_drop;
 
 //minima durata di un segmento ammessa
-var min_track_duration = 2
+var min_track_duration =2;
 
 //numero di segmenti troppo corti e quindi droppati
 var count_tracks_dropped = 0
@@ -25,7 +25,8 @@ var count_tracks_dropped = 0
 var distinct_video_frommap;
 
 //persona che comapre nel summary
-var person;
+var firstName;
+var lastName;
 
 //indice dell'operazione dalla time_video_track_map
 var op_index = 0;
@@ -158,10 +159,8 @@ $.getScript("js/files_management.js", function(){
 	   getYamlFile(video_paths[i],readTextFile);
 		
     }
-    
-	
-	
 });
+
 
 
 var countDC = 0;
@@ -170,7 +169,14 @@ var countDC = 0;
 $(document).ajaxStop(function(){
 	
 	
-	console.log(video_arr.length)
+	video_arr.sort(function compare(a,b) {
+	  if (a.title < b.title)
+		 return -1;
+	  if (a.title > b.title)
+		return 1;
+	  return 0;
+	});
+	
 	mediaPlayer = document.getElementById('media-video');
 	
 	time_label = document.getElementById('time_span');
@@ -191,9 +197,7 @@ $(document).ajaxStop(function(){
 	// index of video after resize tracks
 	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
 	
-	for (var i = 0; i < time_video_track_map[0].length; i++) {
-		console.log(time_video_track_map[0][i]);
-	}
+	console.log(time_video_track_map);
 	console.log("dropped: " + count_tracks_dropped);
 	
 	
@@ -272,6 +276,7 @@ $(document).ajaxStop(function(){
 	
 	$( "#menu" ).click(function() {
 		$( "#playlist" ).slideToggle( "slow" );
+		$(this).find('img').toggle();
 	});
 	
 });
@@ -349,7 +354,7 @@ $(document).on('click','#videoline',function(e){
 			},time_for_next_track*1000);
 		
 		
-		// incremento track_id in modo che quando scatta track_timeout venga eseguita la track successiva
+		// incremento op_index in modo che quando scatta track_timeout venga eseguita l'operazionew successiva
 		op_index = op_index + 1;
 	
 	}
@@ -413,7 +418,7 @@ function updateDOM(){
 	
 	var count_track = time_video_track_map[0].length;
 	
-	$("#summary_title").text("Summary of " +person);
+	$("#summary_title").text("Summary of " +firstName+" "+lastName);
 	
 	$("#end_time_span").text((time_video_track_map[0][(count_track-1)]).toFixed(1));
 	if(count_tracks_dropped!=0){
@@ -466,16 +471,7 @@ function updateDOM(){
 			}
 			
 		}
-		
-		
-		//~ 
-		//~ if(i % 2 == 0){
-			//~ $("#playhead"+i+video_id).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) });			
-		//~ }
-		//~ else{
-			//~ $("#playhead"+i+video_id).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
-		//~ }
-		
+	
 		
 	}
 	
@@ -662,8 +658,10 @@ function resizeTracks(){
 		var temp_video_duration = [];
 		
 		var temp_video_time =[];
+		var count_dropped_in_a_video = 0;
 		
 		for(j=0; j<video.duration.length; j++){
+			
 			
 			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration)
 			if(temp_duration >= min_track_duration){
@@ -673,11 +671,12 @@ function resizeTracks(){
 				acc = acc + temp_duration;
 				timeline.push(acc);
 				video_tempid.push(i);
-				temp_trackid.push(j);
+				temp_trackid.push(j-count_dropped_in_a_video);
 				
 			}
 			else{
-				count_tracks_dropped = count_tracks_dropped + 1;						
+				count_tracks_dropped = count_tracks_dropped + 1;	
+				count_dropped_in_a_video = count_dropped_in_a_video +1;					
 			}
 			
 			
