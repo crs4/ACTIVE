@@ -6,6 +6,7 @@ body {
 /*
 	font-family:"Impact", Charcoal, sans-serif; 
 */
+	font-size:80%;
 	font-family:sans-serif; 
 	overflow: hidden;
 	background-color: #2c3e50;
@@ -19,7 +20,7 @@ body {
 	text-align: center;
 	position: fixed; 
 	color: #89c4f4;
-	font-size: 25px;
+	font-size: 2em;
 	vertical-align: middle;
 
 	background-color: #2c3e50;
@@ -37,7 +38,7 @@ body {
 	display: inline-block;
 	text-align:center;
 	color: #89c4f4;
-	font-size: 20px;
+	font-size: 1.6em;
 	background-color:#22313f;
 	
 }
@@ -88,7 +89,7 @@ body {
 	color: #1e8bc3;
 */
 	color: #89c4f4;
-	font-size: 110%;
+	font-size: 1.3em;
 	margin-bottom: 3%;
 	margin-left: 6%;
 	text-align: left;
@@ -131,7 +132,7 @@ video {
 
 .timeline {
 	
-	width: 90%;
+	width: 95%;
 	
 	margin-bottom: 5px;
 	position: relative;	
@@ -148,17 +149,8 @@ video {
 
 
 #move_head{
-/*
-	position: absolute
-*/
-	width: 10px;
-/*
-	height: 40px;
-*/
 	
-/*
-	background-color:#3A539B;
-*/
+	font-size: 1.18em;
 	z-index: 1;
 	left: 0%;
 
@@ -236,7 +228,7 @@ video {
 }*/
 .tdspan{
 	margin-top: 0px;
-	font-size:14px;
+	font-size:1.1em;
 /*
 	height: 14px;
 */
@@ -273,7 +265,7 @@ video {
 	text-align: center;
 	margin-bottom: 10px;
 	margin-top: 5px;
-	font-size: 12px;
+	font-size: 1em;
 
 }
 

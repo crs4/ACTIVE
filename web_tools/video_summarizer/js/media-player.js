@@ -177,11 +177,10 @@ $(document).ajaxStop(function(){
 	  return 0;
 	});
 	
-	mediaPlayer = document.getElementById('media-video');
-	
+	mediaPlayer = document.getElementById('media-video');	
 	time_label = document.getElementById('time_span');
-	
-	
+	movehead = document.getElementById('move_head');
+	video_line = document.getElementById('videoline'); 
 	
 	mediaPlayer.controls = false;
 	mediaPlayer.autoplay = false;
@@ -200,22 +199,14 @@ $(document).ajaxStop(function(){
 	console.log(time_video_track_map);
 	console.log("dropped: " + count_tracks_dropped);
 	
+	updateDOM();
+	$("tbody").fadeIn("slow");
 	
 	initTime = new Date();
 	manageTracks();
 	
 	
-	$(mediaPlayer).on("durationchange", function(){
-		
-		countDC++;
-		if(countDC<2)
-			updateDOM();
-	});
 	
-	$("tbody").fadeIn(2000);
-	
-	movehead = document.getElementById('move_head');
-	video_line = document.getElementById('videoline'); 
 	
 	$(mediaPlayer).on("timeupdate",  function(){
 		
@@ -374,7 +365,7 @@ $(document).on('click','li',function(e){
 		var ph_index = $(this).index();
 		
 		
-		$(this).effect("highlight",{color:"#dcc6eo"});
+		$(this).effect("highlight",{color:"#00b16a"});
 		
 		
 		track_timeout.stop();
