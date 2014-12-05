@@ -6,6 +6,8 @@ import cv2.cv as cv
 
 import face_detection as fd
 
+import yaml
+
 import math
 
 import matplotlib.pyplot as plt
@@ -69,19 +71,26 @@ class FaceSummarizer(object):
         :param resource: file path of resource
         '''
         
-        self.getFrameList(resource)
+        # Get name of resource
+        res_name = os.path.basename(resource) 
         
-        self.detectFacesInVideo()       
+        self.resource_name = res_name
+        
+        #self.getFrameList(resource)
+        
+        #self.detectFacesInVideo()       
     
-        self.calcHistDiff()
+        #self.calcHistDiff()
         
-        self.trackFacesInVideo()
+        #self.trackFacesInVideo()
         
-        self.saveTrackingSegments()
+        #self.saveTrackingSegments()
         
-        self.recognizeFacesInVideo()
+        #self.saveDiscTrackingSegments()
         
-        self.saveRecPeople()
+        #self.recognizeFacesInVideo()
+        
+        #self.saveRecPeople()
         
         self.showRecPeople()
         
@@ -220,24 +229,15 @@ class FaceSummarizer(object):
         print 'Time for face detection: ', time_in_seconds, 's\n'
         
         
-    def getFrameList(self, resource):
+    def getFrameList(self):
         '''
-        Get frames from one video resource.
-        
-        :type resource: string
-        :param resource: file path of resource
+        Get frames from the video resource.
         '''   
         
         print '\n\n### Frame extraction ###\n'
         
         # Save processing time
-        start_time = cv2.getTickCount()
-        
-        # Get name of resource
-        res_name = os.path.basename(resource)
-         
-        # Save name of resource    
-        self.resource_name = res_name     
+        start_time = cv2.getTickCount() 
              
         # Create directory for this video     
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
@@ -1367,8 +1367,8 @@ class FaceSummarizer(object):
                         [final_tag, final_conf] = (
                         aggregate_frame_results(frames, tags = tgs))
                         
-                        print('final_tag', final_tag)
-                        print('final_confidence', final_conf)
+                        #print('final_tag', final_tag)
+                        #print('final_confidence', final_conf)
                             
                         # Person in segment is recognized
                         if(final_tag ==  TRACKED_PERSON_TAG):
@@ -1401,7 +1401,7 @@ class FaceSummarizer(object):
                             # Do not consider this segment anymore
                             ann_segments.append(sub_segment_counter)      
                              
-                    print('sub_segment_counter', sub_segment_counter)                            
+                    #print('sub_segment_counter', sub_segment_counter)                            
                     sub_segment_counter = sub_segment_counter + 1
                 
                 # Add segments to person dictionary
@@ -1806,7 +1806,40 @@ class FaceSummarizer(object):
     def showRecPeople(self):
         '''
         Show one image for each recognized people in video
-        '''         
+        '''  
+        
+        # Check existence of recognition results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(rec_path, file_name)
+        
+        if(len(self.recognized_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with recognition results'
+                
+                with open(file_path) as f:
+    
+                    self.recognized_faces = yaml.load(f) 
+                    
+                print 'YAML file with recgnition results loaded'
+                    
+            else:
+                
+                print 'Warning! No recognition results found!'
+                
+                return                      
         
         p_counter = 1
         
@@ -1834,13 +1867,19 @@ class FaceSummarizer(object):
                     
                     frame_path = middle_frame_dict[FRAME_PATH_KEY]
                     
+                    #TO BE DELETED TEST ONLY
+        
+                    frame_path = frame_path.replace('FPS_0', 'FPS_9')
+                    
+                    ########################
+                    
                     image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
                     
                     w_name = WINDOW_PERSON + ' ' + str(p_counter)
                     
                     cv2.imshow(w_name, image)
                     
-                    cv2.waitKey(3)
+                    cv2.waitKey(0)
                     
                     final_tag = UNDEFINED_TAG
                     
@@ -1916,7 +1955,7 @@ class FaceSummarizer(object):
             if(not(USE_ORIGINAL_FPS)):
                 
                 half_w_size = int(math.floor(
-                self.fps * USED_FPS * MIN_SEGMENT_DURATION / 2))
+                USED_FPS * MIN_SEGMENT_DURATION / 2))
             
             self.cut_idxs = get_shot_changes(
             self.hist_diffs, half_w_size, STD_MULTIPLIER_FRAME)    
@@ -2031,7 +2070,40 @@ class FaceSummarizer(object):
     def savePeopleFiles(self): 
         '''
         Save annotation files for people in this video
-        '''     
+        '''
+        
+        # Check existence of recognition results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(rec_path, file_name)
+        
+        if(len(self.recognized_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with recognition results'
+                
+                with open(file_path) as f:
+    
+                    self.recognized_faces = yaml.load(f) 
+                    
+                print 'YAML file with recgnition results loaded'
+                    
+            else:
+                
+                print 'Warning! No recognition results found!'
+                
+                return      
             
         # Create directory for this video  
         res_name = self.resource_name
@@ -2056,7 +2128,7 @@ class FaceSummarizer(object):
             os.makedirs(compl_ann_path)
             
         # Create or empty directory with simple annotations
-        simple_ann_path = os.path.join(video_path, FACE_ANNOTATION_DIR)
+        simple_ann_path = os.path.join(video_path, FACE_SIMPLE_ANNOTATION_DIR)
         
         # Delete already saved files
         if(os.path.exists(simple_ann_path)):
@@ -2072,48 +2144,81 @@ class FaceSummarizer(object):
             
             os.makedirs(simple_ann_path)              
             
-        # Iterate through all people in video
-    
+        # Save unique tags
+        tags = []
+        
         for person_dict in self.recognized_faces:
             
             ann_tag = person_dict[ANN_TAG_KEY]
             
-            file_name = ann_tag + '.YAML'
+            if(ann_tag not in tags):
+                
+                tags.append(ann_tag)
+        
+        annotated_faces = []
+         
+        for tag in tags:
+            
+            # Create complete annotations
+            person_dict = {}
+            
+            # Create simple annotations
+            simple_dict = {}
+            
+            person_dict[ANN_TAG_KEY] = tag
+            
+            simple_dict[ANN_TAG_KEY] = tag
+            
+            segment_list = []
+            
+            simple_segment_list = []
+            
+            tot_duration = 0
+            
+             # Iterate through all recognized people in video
+            for temp_person_dict in self.recognized_faces:
+                
+                ann_tag = temp_person_dict[ANN_TAG_KEY]
+                
+                if(ann_tag == tag):
+                    
+                    temp_segment_list = temp_person_dict[SEGMENTS_KEY]
+                    
+                    for segment_dict in temp_segment_list:
+                        
+                        segment_list.append(segment_dict)
+                
+                        simple_segment_dict = {}
+                        
+                        start = segment_dict[SEGMENT_START_KEY]
+                        
+                        simple_segment_dict[SEGMENT_START_KEY] = start
+                        
+                        duration = segment_dict[SEGMENT_DURATION_KEY]
+                        
+                        tot_duration = tot_duration + duration
+                        
+                        simple_segment_dict[SEGMENT_DURATION_KEY] = duration
+                        
+                        simple_segment_list.append(simple_segment_dict)
+                    
+            person_dict[SEGMENTS_KEY] = segment_list        
+                    
+            simple_dict[SEGMENTS_KEY] = simple_segment_list
+            
+            person_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            
+            simple_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            
+            file_name = tag + '.YAML'
             
             # Save complete annotations
             
             file_path = os.path.join(compl_ann_path, file_name)
             
             save_YAML_file(file_path, person_dict)
-            
-            # Create and save simple annotations
-            simple_dict = {}
-            
-            simple_dict[ANN_TAG_KEY] = ann_tag
-            
-            video_duration = person_dict[VIDEO_DURATION_KEY]
-            
-            simple_dict[VIDEO_DURATION_KEY] = video_duration
-            
-            segment_list = person_dict[SEGMENTS_KEY]
-            
-            simple_segment_list = []
-            
-            for segment_dict in segment_list:
-                
-                simple_segment_dict = {}
-                
-                start = segment_dict[SEGMENT_START_KEY]
-                
-                simple_segment_dict[SEGMENT_START_KEY] = start
-                
-                duration = segment_dict[SEGMENT_DURATION_KEY]
-                
-                simple_segment_dict[SEGMENT_DURATION_KEY] = duration
-                
-                simple_segment_list.append(simple_segment_dict)
-                
-            simple_dict[SEGMENTS_KEY] = simple_segment_list
+      
+            # Save simple annotations
             
             file_path = os.path.join(simple_ann_path, file_name)
             
