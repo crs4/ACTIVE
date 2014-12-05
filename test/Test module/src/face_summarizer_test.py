@@ -9,104 +9,109 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.face_summarizer import FaceSummarizer
 
-
-frames_already_saved = True
+resource_path = r'C:\Active\RawVideos\fic.02.mpg'
 
 fs = FaceSummarizer()
 
-#resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
+fs.analizeVideo(resource_path)
 
-#resource = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
+#frames_already_saved = True
 
-if(frames_already_saved):
+#fs = FaceSummarizer()
+
+##resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
+
+##resource = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
+
+#if(frames_already_saved):
     
-    #fs.resource_name = r'Videolina-2sec.mov'
+    ##fs.resource_name = r'Videolina-2sec.mov'
     
-    #fs.resource_name = r'FicMixSegment3'
+    ##fs.resource_name = r'FicMixSegment3'
     
-    fs.resource_name = r'FicMix'
+    #fs.resource_name = r'FicMix'
     
-    fps = 25.0
+    #fps = 25.0
     
-    fs.fps = fps
+    #fs.fps = fps
     
-    #frames_path = r'C:\Users\Maurizio\Documents\Face summarization\Videolina-2sec.mov\Frames'
+    ##frames_path = r'C:\Users\Maurizio\Documents\Face summarization\Videolina-2sec.mov\Frames'
     
-    frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\FicMix\Frames'
+    #frames_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\FicMix\Frames'
     
-    #rames_path = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
+    ##rames_path = r'C:\Users\Maurizio\Documents\Face summarization\Segment34\Frames'
     
-    #frames_path = r'C:\Active\Face summarization\FicMix.mov\Frames'
+    ##frames_path = r'C:\Active\Face summarization\FicMix.mov\Frames'
     
-    frame_list = []
+    #frame_list = []
     
-    counter = 0
+    #counter = 0
     
-    fps = 9
+    #fps = 9
     
-    for frame in os.listdir(frames_path):
+    #for frame in os.listdir(frames_path):
         
-        complete_path = os.path.join(frames_path, frame)
+        #complete_path = os.path.join(frames_path, frame)
         
-        frame_dict = {}
+        #frame_dict = {}
                     
-        frame_dict[FRAME_PATH_KEY] = complete_path
+        #frame_dict[FRAME_PATH_KEY] = complete_path
         
-        elapsed_s = counter / fps
+        #elapsed_s = counter / fps
         
-        frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_s
+        #frame_dict[ELAPSED_VIDEO_TIME_KEY] = elapsed_s
         
-        frame_list.append(frame_dict) 
+        #frame_list.append(frame_dict) 
         
-        counter = counter + 1
+        #counter = counter + 1
         
-    fs.frame_list = frame_list
+    #fs.frame_list = frame_list
     
-    fs.video_frames = float(counter)
+    #fs.video_frames = float(counter)
     
-else:
+#else:
 
-    fs.getFrameList(resource)
+    #fs.getFrameList(resource)
 
-#file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Face detection\FicMix.YAML'
+##file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Face detection\FicMix.YAML'
 
-#file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixSegment3\Face detection\FicMixSegment3.YAML'
+##file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixSegment3\Face detection\FicMixSegment3.YAML'
 
-#file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
+##file_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
 
-#file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Face detection\YouTubeMix.mp4.YAML'
+##file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Face detection\YouTubeMix.mp4.YAML'
 
-#with open(file_path) as f:
+##with open(file_path) as f:
     
-    #fs.detected_faces = yaml.load(f) 
+    ##fs.detected_faces = yaml.load(f) 
     
-fs.detectFacesInVideo()        
+#fs.detectFacesInVideo()        
     
-fs.calcHistDiff()
+#fs.calcHistDiff()
 
-fs.trackFacesInVideo()
+#fs.trackFacesInVideo()
 
-fs.saveTrackingSegments()
+#fs.saveTrackingSegments()
 
-fs.saveDiscTrackingSegments()
+#fs.saveDiscTrackingSegments()
 
-fs.recognizeFacesInVideo()
+#fs.recognizeFacesInVideo()
 
-fs.saveRecPeople()
+#fs.saveRecPeople()
 
-fs.showRecPeople()
-
-fs.savePeopleFiles()
-
-
-#file_path = r'C:\Active\Face summarization\FicMix.mov\Face recognition\FicMix.mov.YAML'
-
-#with open(file_path) as f:
-    
-    #fs.recognized_faces = yaml.load(f)
-    
 #fs.showRecPeople()
 
-
-
 #fs.savePeopleFiles()
+
+
+##file_path = r'C:\Active\Face summarization\FicMix.mov\Face recognition\FicMix.mov.YAML'
+
+##with open(file_path) as f:
+    
+    ##fs.recognized_faces = yaml.load(f)
+    
+##fs.showRecPeople()
+
+
+
+##fs.savePeopleFiles()

@@ -3,11 +3,11 @@ import os
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
-#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-#CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
-CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
+CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+#CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
@@ -25,10 +25,10 @@ FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FACE_RECOGNITION_DIR = r'Face recognition'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
-FACE_SIMPLE_ANNOTATION_DIR = r'Simple snnotations' # Directory containg simple annotations
-#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization' # Pc LAB
+FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
-FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
@@ -225,7 +225,7 @@ MAX_FRAMES_WITH_MISSED_DETECTION = 5
 USE_ORIGINAL_FPS = False
 USE_ORIGINAL_RES = False
 # Bitrate at which video is analyzed (percentage of originale bitrate)
-USED_FPS = 0.25
+USED_FPS = 9
 # Frame resolution at which video is analyzed 
 # (percentage of original width and height)
 USED_RES_SCALE_FACTOR = 0.5
@@ -292,7 +292,7 @@ FRAME_POS_KEY = 'frame_position'
 # TO BE DELETED
 #FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation
-IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ?'
+IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
