@@ -24,7 +24,7 @@ glob_counter = 0
 
 def calc_shot_changes():
     
-    load_pickle_dump = True
+    load_pickle_dump = False
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
@@ -34,9 +34,9 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
     
-    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
+    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     
     file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Diff_list'
     
@@ -168,7 +168,7 @@ def calc_shot_changes():
     
     half_window_size = 12
     
-    idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
+    #idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
     
     #print '\n\n### idxs ###\n\n'
     
@@ -176,9 +176,24 @@ def calc_shot_changes():
 
     #idxs = merge_near_idxs(idxs, diff_list, min_dist)
     
-    print idxs
+    #print idxs
     
-    plt.plot(diff_list)
+    x_axis = range(0, len(diff_list))  
+    
+    counter = 0
+    for x in x_axis:
+		
+		x_axis[counter] = x_axis[counter] / 25.0
+		
+		counter = counter + 1
+    
+    #print(diff_list)
+    print(x_axis)
+    plt.plot(x_axis, diff_list)
+    plt.xlabel('s')
+    plt.ylabel('Diff')
+    plt.title('Difference between neighbor frames')
+    plt.grid(True)
     plt.show() 
 
 def get_shot_changes_bad(diff_list, start_idx):

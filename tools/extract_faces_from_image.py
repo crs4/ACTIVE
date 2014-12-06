@@ -36,8 +36,21 @@ def extract_faces(image_path):
                 h = face_bbox[3];
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0);
 
-                cv2.putText(image,tag, (x,y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+                # Split tag by underscore
+                components = tag.split('_')
+                
+                # Name
+                final_tag = components[-1]
+                
+                # Surnames
+                for comp in components[0:-1]:
+					
+					final_tag = final_tag + ' ' + comp
+                
+                cv2.putText(image,final_tag, (x,y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
 
+		#path = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\other-documents\Presentazione\Immagini\Indicizzazione di contenuti video mediante riconoscimento dei volti e degli speaker\Mameli3.png'
+        #cv2.imwrite(path, image)
         cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
         cv2.imshow('Result', image);
         cv2.waitKey(0); 
@@ -51,21 +64,21 @@ def extract_faces(image_path):
     #extract_faces(training_im_path)
  
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
-    import argparse
+    #import argparse
 
-    parser = argparse.ArgumentParser(description='Extract faces from given image')
+    #parser = argparse.ArgumentParser(description='Extract faces from given image')
 
-    parser.add_argument('image_path', metavar = 'image_path',
-                        help = 'image path');
-    args = parser.parse_args()
+    #parser.add_argument('image_path', metavar = 'image_path',
+                        #help = 'image path');
+    #args = parser.parse_args()
     
-    image_path = args.image_path;
+    #image_path = args.image_path;
     
-    extract_faces(image_path)
+    #extract_faces(image_path)
     
-#image_path = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\People\fic.02\Paolo Fadda.jpg'
+image_path = r'C:\Users\Maurizio\Documents\Frame da video\1 fps\Fic_02\frame0078.jpg'
 
-#extract_faces(image_path)
+extract_faces(image_path)
 
