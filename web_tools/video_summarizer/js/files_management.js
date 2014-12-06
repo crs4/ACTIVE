@@ -9,52 +9,50 @@ function readTextFile(data){
 	var durations = [];
 	var starts = [];
 	var title;
-	var url;
-	//~ var firstName = "";
-	//~ var lastName = "";
+	var url;	
 	var vid;
 	
 	
-	var segments = data.split("-");
-	
-	for(var i = 0; i<segments.length; i++){
-		var segments_lines = segments[i].split("\n");
-		for(var j = 0; j<segments_lines.length; j++ ){
-				
-			//~ if(segments_lines[j].indexOf("ann_tag") > -1 && firstName == "" && lastName == ""){
-				//~ var ann_tag_split = segments_lines[j].split(":");
-				//~ var first_last_name = ann_tag_split[1].split("_");
-				//~ firstName = first_last_name[1];
-				//~ lastName = first_last_name[0];
-								//~ 
-			//~ }
-				
-			if(segments_lines[j].indexOf("segment_start") > -1){
-				var segment_start_split = segments_lines[j].split(":");
-				starts.push(segment_start_split[1]/1000); 
-								
-			}
-			if(segments_lines[j].indexOf("segment_duration") > -1){
-				var segment_duration_split = segments_lines[j].split(":");
-				durations.push(segment_duration_split[1]/1000); 
-								
-			}
-		}		
+	var rows = data.split("\n");
+	for(var i = 0; i< rows.length; i++){
+		if(rows[i].indexOf("segment_start") > -1){
+			var segment_start_split = rows[i].split(":");
+			starts.push(segment_start_split[1]/1000); 							
+		}
+		if(rows[i].indexOf("segment_duration") > -1){
+			var segment_duration_split = rows[i].split(":");
+			durations.push(segment_duration_split[1]/1000);
+		}
+		if(rows[i].indexOf("video_url") > -1){
+			var url_split = rows[i].split(":");
+			url = url_split[1];
+		}
+		if(rows[i].indexOf("video_name") > -1){
+			var name_split = rows[i].split(":");
+			title = name_split[1];
+		}
+		if(rows[i].indexOf("ann_tag") > -1){
+			var person_split = rows[i].split(":");
+			lastName = person_split[1].split("_")[0];
+			firstName = person_split[1].split("_")[1];
+		}
+		if(rows[i].indexOf("tot_segments_duration") > -1){
+			var acc_split = rows[i].split(":");
+			total_segments_duration = total_segments_duration + parseFloat(acc_split[1]/1000);
 			
-	}	
+		}
+	}
 	
 	vid = new Video(title, url, starts, durations);
 	video_arr.push(vid);
 	console.log(vid);
-    
-   
-    
+
     
 }
 
 function getYamlFile(path,readTextFile) {
   
-  return $.ajax({
+  $.ajax({
       url: path,
       success: readTextFile
   });

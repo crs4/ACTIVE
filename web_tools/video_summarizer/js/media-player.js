@@ -7,16 +7,16 @@ var video_line;
 var time_label;
 
 //parametro che indica la durata del summary impostata dall'utente in secondi
-var summary_duration = 60;
+var summary_duration = 141;
 
 //durata totale originaria dei segmenti
-var total_segments_duration = 60;
+var total_segments_duration = 0;
 
 //durata del summary dopo eventuale drop
 var duration_after_drop;
 
 //minima durata di un segmento ammessa
-var min_track_duration = 2
+var min_track_duration =2;
 
 //numero di segmenti troppo corti e quindi droppati
 var count_tracks_dropped = 0
@@ -25,7 +25,8 @@ var count_tracks_dropped = 0
 var distinct_video_frommap;
 
 //persona che comapre nel summary
-var person="Giovanni Pili"
+var firstName;
+var lastName;
 
 //indice dell'operazione dalla time_video_track_map
 var op_index = 0;
@@ -135,10 +136,10 @@ var video8 = {
 
 
 
-//~ var video_paths = ["yaml/videoXYZ.YAML"];
-//~ var video_arr = [];
+var video_paths = ["yaml/MONITOR072011.YAML","yaml/MONITOR082011.YAML","yaml/MONITOR272010.YAML","yaml/MONITOR0292010.YAML"];
+var video_arr = [];
 
-var video_arr = [video1,video2,video3,video4]; //4
+//~ var video_arr = [video1,video2,video3,video4]; //4
 //~ var video_arr = [video1,video2,video3,video4,video5,video6,video7,video8]; //8
 //~ var video_arr = [video1,video2,video3,video4,video5,video6]; //6
 //~ var video_arr = [video3,video4]; //2
@@ -146,29 +147,40 @@ var video_arr = [video1,video2,video3,video4]; //4
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //12
 //~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //36
 
+//~ 
 
-//~ 
-//~ $.getScript("js/files_management.js", function(){
-//~ 
-   //~ 
-   //~ // Here you can use anything you defined in the loaded script
-   //~ for(var i=0; i<video_paths.length; i++){
-		//~ 
-	   //~ getYamlFile(video_paths[i],readTextFile)
-		//~ 
-   //~ }
-//~ });
+$.getScript("js/files_management.js", function(){
+
+   
+   // Here you can use anything you defined in the loaded script
+   
+	for(var i=0; i<video_paths.length; i++){
+		
+	   getYamlFile(video_paths[i],readTextFile);
+		
+    }
+});
+
+
 
 var countDC = 0;
-$(document).ready(function(){
+
+
+$(document).ajaxStop(function(){
 	
 	
+	video_arr.sort(function compare(a,b) {
+	  if (a.title < b.title)
+		 return -1;
+	  if (a.title > b.title)
+		return 1;
+	  return 0;
+	});
 	
-	mediaPlayer = document.getElementById('media-video');
-	
+	mediaPlayer = document.getElementById('media-video');	
 	time_label = document.getElementById('time_span');
-	
-	
+	movehead = document.getElementById('move_head');
+	video_line = document.getElementById('videoline'); 
 	
 	mediaPlayer.controls = false;
 	mediaPlayer.autoplay = false;
@@ -184,25 +196,17 @@ $(document).ready(function(){
 	// index of video after resize tracks
 	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
 	
-	for (var i = 0; i < time_video_track_map[0].length; i++) {
-		console.log(time_video_track_map[2][i]);
-	}
+	console.log(time_video_track_map);
 	console.log("dropped: " + count_tracks_dropped);
 	
+	updateDOM();
+	$("tbody").fadeIn("slow");
 	
 	initTime = new Date();
 	manageTracks();
 	
 	
-	$(mediaPlayer).on("durationchange", function(){
-		
-		countDC++;
-		if(countDC<2)
-			updateDOM();
-	});
 	
-	movehead = document.getElementById('move_head');
-	video_line = document.getElementById('videoline'); 
 	
 	$(mediaPlayer).on("timeupdate",  function(){
 		
@@ -210,7 +214,7 @@ $(document).ready(function(){
 		
 	});	
 	
-	$("tbody").fadeIn(2000);
+	
 	
 	
 	$("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
@@ -263,6 +267,7 @@ $(document).ready(function(){
 	
 	$( "#menu" ).click(function() {
 		$( "#playlist" ).slideToggle( "slow" );
+		$(this).find('img').toggle();
 	});
 	
 });
@@ -340,7 +345,7 @@ $(document).on('click','#videoline',function(e){
 			},time_for_next_track*1000);
 		
 		
-		// incremento track_id in modo che quando scatta track_timeout venga eseguita la track successiva
+		// incremento op_index in modo che quando scatta track_timeout venga eseguita l'operazionew successiva
 		op_index = op_index + 1;
 	
 	}
@@ -360,7 +365,7 @@ $(document).on('click','li',function(e){
 		var ph_index = $(this).index();
 		
 		
-		$(this).effect("highlight",{color:"#dcc6eo"});
+		$(this).effect("highlight",{color:"#00b16a"});
 		
 		
 		track_timeout.stop();
@@ -404,7 +409,7 @@ function updateDOM(){
 	
 	var count_track = time_video_track_map[0].length;
 	
-	$("#summary_title").text("Summary of " +person);
+	$("#summary_title").text("Summary of " +firstName+" "+lastName);
 	
 	$("#end_time_span").text((time_video_track_map[0][(count_track-1)]).toFixed(1));
 	if(count_tracks_dropped!=0){
@@ -433,38 +438,32 @@ function updateDOM(){
 			
 		}
 		
+		var ind_from_map = time_video_track_map[1][i];
+		var ind_from_dist = distinct_video_frommap.indexOf(ind_from_map);
 		
-		
-		if(i % 2 == 0){
-			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) });			
+		if(ind_from_dist % 2 == 0){			
+			
+			if( i % 2 == 0){
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			}
+			else{
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+				
+			}
 		}
 		else{
-			$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+			
+			if( i % 2 == 0){
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
+			}
+			else{
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
+				
+			}
+			
 		}
+	
 		
-		//~ var ind_vide = time_video_track_map[1][i];
-		//~ var ind_track = time_video_track_map[2][i];
-		//~ if(ind_vid % 2 == 0){			
-			//~ 
-			//~ if( ind_track % 2 == 0){
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			//~ }
-			//~ else{
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
-				//~ 
-			//~ }
-		//~ }
-		//~ else{
-			//~ 
-			//~ if( ind_track % 2 == 0){
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
-			//~ }
-			//~ else{
-				//~ $("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
-				//~ 
-			//~ }
-			//~ 
-		//~ }
 	}
 	
 }
@@ -650,8 +649,10 @@ function resizeTracks(){
 		var temp_video_duration = [];
 		
 		var temp_video_time =[];
+		var count_dropped_in_a_video = 0;
 		
 		for(j=0; j<video.duration.length; j++){
+			
 			
 			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration)
 			if(temp_duration >= min_track_duration){
@@ -661,11 +662,12 @@ function resizeTracks(){
 				acc = acc + temp_duration;
 				timeline.push(acc);
 				video_tempid.push(i);
-				temp_trackid.push(j);
+				temp_trackid.push(j-count_dropped_in_a_video);
 				
 			}
 			else{
-				count_tracks_dropped = count_tracks_dropped + 1;						
+				count_tracks_dropped = count_tracks_dropped + 1;	
+				count_dropped_in_a_video = count_dropped_in_a_video +1;					
 			}
 			
 			

@@ -9,14 +9,15 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.face_summarizer import FaceSummarizer
 
-
-frames_already_saved = True
+resource_path = r'C:\Active\RawVideos\fic.02.mpg'
 
 fs = FaceSummarizer()
 
-resource = r'C:\Active\Mercurial\jprocessor\Video\Fic.02.mpg'
+fs.analizeVideo(resource_path)
 
-fs.analizeVideo(resource)
+#frames_already_saved = True
+
+#fs = FaceSummarizer()
 
 ##resource = r'C:\Active\Mercurial\jprocessor\Video\YouTubeMix.mp4'
 
