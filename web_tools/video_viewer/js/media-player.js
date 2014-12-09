@@ -81,9 +81,18 @@ var person9 = {
 
 //~ var people = [person1, person2, person3, person4,person5,person6, person7, person8, person9];
 var people = [];
-var people_paths = ["yaml/Carrus_Elena.YAML","yaml/Cotza_Carlo.YAML", "yaml/Cugusi_Claudio.YAML","yaml/Dessi_Emanuele.YAML",
-					"yaml/Fulghieri_Marco.YAML","yaml/Grasso_Laura.YAML","yaml/Mele_Massimo.YAML","yaml/Ortu_Marina.YAML","yaml/Savona_Paolo.YAML"];
+
+var people_paths = ["yaml/FicMix/Carrus_Elena.YAML","yaml/FicMix/Cotza_Carlo.YAML", "yaml/FicMix/Cugusi_Claudio.YAML","yaml/FicMix/Dessi_Emanuele.YAML",
+					"yaml/FicMix/Fulghieri_Marco.YAML","yaml/FicMix/Grasso_Laura.YAML","yaml/FicMix/Mele_Massimo.YAML","yaml/FicMix/Ortu_Marina.YAML","yaml/FicMix/Savona_Paolo.YAML"];
 var video_path = 'video/FicMix2.mp4';
+
+//~ 
+//~ var people_paths = ["yaml/MONITOR072011/MONITOR072011.mpg-Corona_Giorgia.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Dessi_Emanuele.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Giagnoli_Gerardo.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Luciano_Nicola.YAML",
+					//~ "yaml/MONITOR072011/MONITOR072011.mpg-Minutti_Giampaola.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Pinna_Laura.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Pisano_Francesco.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Sanna_Luisa.YAML",
+					//~ "yaml/MONITOR072011/MONITOR072011.mpg-Sassu_Mario.YAML","yaml/MONITOR072011/MONITOR072011.mpg-Vacca_Elias.YAML"];
+//~ var video_path = "video/monitor.mp4";
+
+
 
 
 // Wait for the DOM to be loaded before initialising the media player

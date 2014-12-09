@@ -50,7 +50,7 @@ var player_time;
 var track_timeout;
 
 
-
+var temp;
 
 
 var time_video_track_map;
@@ -196,6 +196,7 @@ $(document).ajaxStop(function(){
 	// index of video after resize tracks
 	distinct_video_frommap = time_video_track_map[1].filter(onlyUnique);
 	
+	
 	console.log(time_video_track_map);
 	console.log("dropped: " + count_tracks_dropped);
 	
@@ -220,6 +221,7 @@ $(document).ajaxStop(function(){
 	$("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
 	$("#videoline").css({"cursor":"pointer"});
 	$("#time_label span").css({"cursor":"pointer"});
+	
 	
 	
 	$("#icons img").click(function(){
@@ -395,6 +397,8 @@ $(document).on('click','li',function(e){
 
 
 
+
+
 function updateDOM(){
 	
 	
@@ -447,7 +451,7 @@ function updateDOM(){
 				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
 			}
 			else{
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#06699c",0.03) });
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100).toFixed(1)+"%","background":colorLuminance("#06699c",0.03) });
 				
 			}
 		}
@@ -457,13 +461,25 @@ function updateDOM(){
 				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.2) }); //1e8bc3   446cb3 colorLuminance("#1e8bc3",i*lum)
 			}
 			else{
-				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100)+"%","background":colorLuminance("#1e8bc3",0.03) });
+				$("#playhead"+i).css({ "left": (ph_istant*100)+"%","width": (ph_istant_width*100).toFixed(1)+"%","background":colorLuminance("#1e8bc3",0.03) });
 				
 			}
 			
 		}
 	
 		
+	}
+	
+	$("#videoline").append('<img id="marker0" class="videomarker" src="icons/v.png">');
+	$("#marker0").css({"left": "0%"});
+	for(var i=1; i<distinct_video_frommap.length; i++){
+		var time_video_change = time_video_track_map[0][time_video_track_map[1].indexOf(distinct_video_frommap[i])-1];
+		var percent_time_video_change = time_video_change/summary_duration;
+		$("#videoline").append('<img id="marker'+i+'" class="videomarker" src="icons/v.png">');
+		var marker_width = $("#marker"+i).css("width").split("%")[0];
+		console.log(marker_width);
+		
+		$("#marker"+i).css({"left": (percent_time_video_change*100)+"%"}); //-parseFloat(marker_width)/2)
 	}
 	
 }
