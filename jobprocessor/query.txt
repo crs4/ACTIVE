@@ -1,0 +1,17 @@
+#Avvio celery
+#Portarsi nella cartella contenente il package principale.
+celery -A jprocessor worker -l info
+
+#Avvio flower
+flower --port:5555
+
+#POST request xmp extraction
+
+curl -X POST http://localhost:5555/api/task/send-task/xmp.tasks.task_extract_xmp -d '{"kwargs":{"resource_path":"xmp/test_data/dam_image.jpg"}}'
+
+#POST request xmp embed
+
+curl -i -H "Content-Type:application/json" -X POST http://localhost:5555/api/task/send-task/xmp.tasks.task_embed_xmp -d '{"kwargs":{"component_id":1,"component_path":"xmp/test_data/dam_image.jpg","changes":{}}}'
+
+
+http://localhost:5555/api/task/info/8e56f99b-6fb5-4c26-96c1-ef2842b7a747
