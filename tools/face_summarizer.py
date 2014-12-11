@@ -74,23 +74,45 @@ class FaceSummarizer(object):
         # Get name of resource
         res_name = os.path.basename(resource) 
         
+        # Check if a file with parameters of this video exists   
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        file_name = res_name + '_parameters.YAML'
+        
+        file_path = os.path.join(video_path, file_name)
+        
+        # Try to load YAML file
+        if(os.path.exists(file_path)):
+            
+            print 'Loading YAML file with video parameters'
+            
+            with open(file_path) as f:
+            
+                self.fps = param_dict[VIDEO_FPS_KEY]
+                
+                tot_frames = param_dict[VIDEO_TOT_FRAMES_KEY]
+                
+                self.video_frames = float(tot_frames)
+                    
+                print 'YAML file with frame list loaded'
+        
         self.resource_name = res_name
         
-        #self.getFrameList(resource)
+        self.getFrameList(resource)
         
-        #self.detectFacesInVideo()       
+        self.detectFacesInVideo()       
     
-        #self.calcHistDiff()
+        self.calcHistDiff()
         
-        #self.trackFacesInVideo()
+        self.trackFacesInVideo()
         
-        #self.saveTrackingSegments()
+        self.saveTrackingSegments()
         
-        #self.saveDiscTrackingSegments()
+        self.saveDiscTrackingSegments()
         
-        #self.recognizeFacesInVideo()
+        self.recognizeFacesInVideo()
         
-        #self.saveRecPeople()
+        self.saveRecPeople()
         
         self.showRecPeople()
         
@@ -229,7 +251,7 @@ class FaceSummarizer(object):
         print 'Time for face detection: ', time_in_seconds, 's\n'
         
         
-    def getFrameList(self):
+    def getFrameList(self, resource):
         '''
         Get frames from the video resource.
         '''   
@@ -238,6 +260,8 @@ class FaceSummarizer(object):
         
         # Save processing time
         start_time = cv2.getTickCount() 
+           
+        res_name = self.resource_name   
              
         # Create directory for this video     
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
@@ -259,6 +283,9 @@ class FaceSummarizer(object):
         
         self.frame_list = []
         
+        # Save parameters for this video
+        param_dict = {}
+        
         if capture is None or not capture.isOpened():
             
             error = 'Error in opening video file'
@@ -269,7 +296,11 @@ class FaceSummarizer(object):
             
             video_fps = capture.get(cv2.cv.CV_CAP_PROP_FPS)
             
+            param_dict[VIDEO_FPS_KEY] = video_fps
+            
             tot_frames = capture.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+            
+            param_dict[VIDEO_TOT_FRAMES_KEY] = tot_frames
             
             self.fps = video_fps
             
@@ -295,7 +326,7 @@ class FaceSummarizer(object):
                     
                     #print 'elapsed video s =', elapsed_video_s             
                     
-                    fr_name = '%07d.bmp' % frame_counter
+                    fr_name = '%07d.png' % frame_counter
                     
                     frame_path = os.path.join(frames_path, fr_name)
                     
@@ -311,7 +342,7 @@ class FaceSummarizer(object):
                         frame = cv2.resize(src = frame, dsize = (0, 0), 
                         fx = fx, fy = fy, interpolation = interp)
                     
-                    cv2.imwrite(frame_path, frame)
+                    cv2.imwrite(frame_path, frame, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
                     
                     frame_dict = {}
                     
@@ -329,12 +360,20 @@ class FaceSummarizer(object):
     
                 print('progress: ' + str(self.progress) + ' %      \r'),             
 
-        # Save detection result in YAML file
+        # Save frame list in YAML file
         file_name = res_name + '.YAML'
             
         file_path = os.path.join(frames_path, file_name)
         
-        save_YAML_file(file_path, self.frame_list) 
+        save_YAML_file(file_path, self.frame_list)
+        
+        # Save video parameters in YAML file
+        
+        file_name = res_name + '_parameters.YAML'
+        
+        file_path = os.path.join(video_path, file_name)
+        
+        save_YAML_file(file_path, param_dict) 
 
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
@@ -396,6 +435,12 @@ class FaceSummarizer(object):
         # Minimum duration of a segment in frames
         min_segment_frames = int(
         math.ceil(self.fps * MIN_SEGMENT_DURATION))
+        
+        # If a reduced bitrate is used, frames are less
+        if(not(USE_ORIGINAL_FPS)):
+            
+            min_segment_frames = int(
+            math.ceil(USED_FPS * MIN_SEGMENT_DURATION))
         
         # Make copy of detected faces
         detection_list = list(self.detected_faces)
@@ -1180,7 +1225,7 @@ class FaceSummarizer(object):
         :param segment_dict: video segment relative to tracked face
         ''' 
         
-        print 'Creating model'
+        #print 'Creating model'
         
         # Extract list of frames from dictionary
         segment_frame_list = segment_dict[FRAMES_KEY]
@@ -1276,7 +1321,7 @@ class FaceSummarizer(object):
         # Make copy of tracked faces
         tracking_list = list(self.tracked_faces)
         
-        tracked_faces_nr = len(tracking_list)
+        tracked_faces_nr = float(len(tracking_list))
         
         for tracking_segment_dict in tracking_list:
             
@@ -1909,6 +1954,39 @@ class FaceSummarizer(object):
         Calculate histogram differences between consecutive frames
         '''
         
+        # Check existence of frame list
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        frame_path = os.path.join(video_path, FRAMES_DIR_PATH) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(frame_path, file_name)
+        
+        if(len(self.frame_list) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with frame list'
+                
+                with open(file_path) as f:
+    
+                    self.frame_list = yaml.load(f) 
+                    
+                print 'YAML file with frame list loaded'
+                    
+            else:
+                
+                print 'Warning! No frame list found!'
+                
+                return         
+        
         print '\n\n### Calculating histogram differences ###\n'
         
         # Save processing time
@@ -2303,6 +2381,12 @@ class FaceSummarizer(object):
             half_w_size = int(
             math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
             
+            # If a reduced bitrate is used, sliding window is smaller
+            if(not(USE_ORIGINAL_FPS)):
+                
+                half_w_size = int(math.floor(
+                USED_FPS * MIN_SEGMENT_DURATION / 2))
+            
             face_cut_idxs_temp = get_shot_changes(
             det_diff_list, half_w_size, STD_MULTIPLIER_FACE) 
             
@@ -2352,7 +2436,13 @@ class FaceSummarizer(object):
             
         # Minimum duration of a segment in frames
         min_segment_frames = int(
-        math.ceil(self.fps * MIN_SEGMENT_DURATION))    
+        math.ceil(self.fps * MIN_SEGMENT_DURATION))   
+        
+        # If a reduced bitrate is used, frames are less
+        if(not(USE_ORIGINAL_FPS)):
+            
+            min_segment_frames = int(
+            math.ceil(USED_FPS * MIN_SEGMENT_DURATION)) 
             
         # Iterate through new sub segments
         for sub_frame_list in sub_segment_list:
