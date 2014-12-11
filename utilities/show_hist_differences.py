@@ -34,7 +34,11 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
     
-    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\Fic.02.mpg\Test'
+    
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
+    
+    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\Fic.02.mpg\Dissolve\1'
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     
@@ -46,6 +50,8 @@ def calc_shot_changes():
     im_counter = 0
     used_ims = []
     
+    x_axis = []
+    
     if(not(load_pickle_dump)):
     
         for image_name in os.listdir(images_path):
@@ -54,7 +60,7 @@ def calc_shot_changes():
             
             image_path = os.path.join(images_path, image_name)
             
-            #print(image_path)
+            print(image_path)
             
             #detection_result = detect_faces_in_image(
             #image_path, None, False)
@@ -116,6 +122,8 @@ def calc_shot_changes():
                 
                 diff_list.append(tot_diff)
                 
+                x_axis.append(image_name)
+                
                 used_ims.append(image_name)
             
             prev_hists = hists
@@ -166,33 +174,34 @@ def calc_shot_changes():
     
     #idxs = get_idxs_over_thresh(diff_list, 0, threshold)
     
-    half_window_size = 12
+    half_window_size = 9
     
-    #idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
+    idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
     
-    #print '\n\n### idxs ###\n\n'
+    print '\n\n### idxs ###\n\n'
     
     #min_dist = 25
 
     #idxs = merge_near_idxs(idxs, diff_list, min_dist)
     
-    #print idxs
+    print idxs
     
-    x_axis = range(0, len(diff_list))  
+    #x_axis = range(0, len(diff_list))  
     
-    counter = 0
-    for x in x_axis:
+    #counter = 0
+    #for x in x_axis:
 		
-		x_axis[counter] = x_axis[counter] / 25.0
+		#x_axis[counter] = x_axis[counter] / 9.0
 		
-		counter = counter + 1
+		#counter = counter + 1
     
     #print(diff_list)
-    print(x_axis)
-    plt.plot(x_axis, diff_list)
-    plt.xlabel('s')
-    plt.ylabel('Diff')
-    plt.title('Difference between neighbor frames')
+    #print(x_axis)
+    plt.plot(diff_list)
+    #plt.xticks(range(0, len(diff_list)), x_axis)
+    #plt.xlabel('s')
+    plt.ylabel('Diff', fontsize = 20)
+    #plt.title('Difference between neighbor frames')
     plt.grid(True)
     plt.show() 
 
