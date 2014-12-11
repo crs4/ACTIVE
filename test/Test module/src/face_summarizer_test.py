@@ -9,7 +9,7 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.face_summarizer import FaceSummarizer
 
-resource_path = r'C:\Active\RawVideos\fic.02.mpg'
+resource_path = r'C:\Active\Dataset\Videolina - Primi 20 minuti\MONITOR082011.mp4'
 
 fs = FaceSummarizer()
 

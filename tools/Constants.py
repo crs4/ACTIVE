@@ -26,7 +26,7 @@ FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools
 FACE_RECOGNITION_DIR = r'Face recognition'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
-FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Pc LAB
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
@@ -223,13 +223,13 @@ MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
 MAX_FRAMES_WITH_MISSED_DETECTION = 5 
 USE_ORIGINAL_FPS = False
-USE_ORIGINAL_RES = False
-# Bitrate at which video is analyzed (percentage of originale bitrate)
-USED_FPS = 9
+USE_ORIGINAL_RES = True
+# Bitrate at which video is analyzed (in frames per second)
+USED_FPS = 6
 # Frame resolution at which video is analyzed 
 # (percentage of original width and height)
 USED_RES_SCALE_FACTOR = 0.5
-USE_ORIGINAL_FPS_IN_SHOT_DETECTIN = False
+USE_ORIGINAL_FPS_IN_SHOT_DETECTION = False
 # Bitrate at which video is analyzed in shot detection
 USED_FPS_IN_SHOT_DETECTION = 1.0
 USE_ORIGINAL_FPS_IN_TRAINING = False 
@@ -283,7 +283,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Face summarization
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 4 # Threshold for retaining prediction 
+CONF_THRESHOLD = 5 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
@@ -294,7 +294,7 @@ FRAME_POS_KEY = 'frame_position'
 # not considered for threshold calculation
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
-MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
+MIN_DETECTION_PCT = 0.1 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
@@ -305,13 +305,9 @@ TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
-STD_MULTIPLIER_FRAME = 50  # Standard deviation multiplier for calculating
-						# thresholds for shot cut detection
-					  # Tests on FicMix indicate that it should be 
-					  # > 350 and < 2000
-					  # Tests on YouTubeMix indicate that it should be
-					  # > 500 and 
-STD_MULTIPLIER_FACE = 50 # Standard deviation multiplier for calculating 
+STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
+						  #calculating thresholds for shot cut detection
+STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
 					    # thresholds for dividing between faces
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
@@ -321,7 +317,9 @@ UNDEFINED_TAG = 'undefined'
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences 
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
+VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
+VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video
