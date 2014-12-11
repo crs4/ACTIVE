@@ -22,7 +22,7 @@ import shutil
 
 from Constants import *
 
-from Utils import aggregate_frame_results, get_hist_difference, get_shot_changes, is_rect_similar, save_YAML_file
+from Utils import aggregate_frame_results, get_hist_difference, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
 
 class FaceSummarizer(object):
     '''
@@ -74,6 +74,8 @@ class FaceSummarizer(object):
         # Get name of resource
         res_name = os.path.basename(resource) 
         
+        self.resource_name = res_name
+        
         # Check if a file with parameters of this video exists   
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
         
@@ -81,12 +83,14 @@ class FaceSummarizer(object):
         
         file_path = os.path.join(video_path, file_name)
         
-        # Try to load YAML file
+        # Try to load YAML file with video parameters
         if(os.path.exists(file_path)):
             
             print 'Loading YAML file with video parameters'
             
-            with open(file_path) as f:
+            param_dict = load_YAML_file(file_path)
+            
+            if(param_dict):
             
                 self.fps = param_dict[VIDEO_FPS_KEY]
                 
@@ -94,21 +98,21 @@ class FaceSummarizer(object):
                 
                 self.video_frames = float(tot_frames)
                     
-                print 'YAML file with frame list loaded'
+                print 'YAML file with video parameters loaded'
         
-        self.resource_name = res_name
+        else:
         
-        self.getFrameList(resource)
+            self.getFrameList(resource)
         
-        self.detectFacesInVideo()       
+        #self.detectFacesInVideo()       
     
         self.calcHistDiff()
         
-        self.trackFacesInVideo()
+        #self.trackFacesInVideo()
         
-        self.saveTrackingSegments()
+        #self.saveTrackingSegments()
         
-        self.saveDiscTrackingSegments()
+        #self.saveDiscTrackingSegments()
         
         self.recognizeFacesInVideo()
         
