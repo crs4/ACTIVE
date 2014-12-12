@@ -300,8 +300,6 @@ MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
-TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-							# between detection bbox and tracking window
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
@@ -312,6 +310,10 @@ STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
+TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
+								# (difference between H histograms)
+TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
+							# between detection bbox and tracking window
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
@@ -323,3 +325,11 @@ VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video
+					     
+# Video analysis times
+FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
+FACE_DETECTION_TIME_KEY = 'face_detection_time'
+SHOT_CUT_DETECTION_TIME_KEY = r'shot_cut_detection_time'
+FACE_TRACKING_TIME_KEY = r'face_tracking_time'
+FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
+ 
