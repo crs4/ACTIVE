@@ -20,6 +20,8 @@ import pickle as pk
 
 import shutil
 
+import sys
+
 from Constants import *
 
 from Utils import aggregate_frame_results, get_hist_difference, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
@@ -501,9 +503,6 @@ class FaceSummarizer(object):
                 track_loaded = True
                 
         if(not(track_loaded)):
-            
-            # Get shot cuts
-            self.calcHistDiff()
         
             # Check existence of detection results
             det_path = os.path.join(video_path, FACE_DETECTION_DIR) 
@@ -528,6 +527,9 @@ class FaceSummarizer(object):
                     print 'Warning! No detection results found!'
                     
                     return              
+            
+            # Get shot cuts
+            self.calcHistDiff()
             
             print '\n\n### Face tracking ###\n'
             
@@ -1351,8 +1353,7 @@ class FaceSummarizer(object):
         time_in_seconds = time_in_clocks / cv2.getTickFrequency()
         
         print 'Time for face tracking:', time_in_seconds, 's\n'
-  
-        
+      
     
     def createFaceModel(self, segment_dict):
         '''
@@ -1399,7 +1400,344 @@ class FaceSummarizer(object):
         
         return model
         
+        
+    def saveFaceModels(self, segments)
+        '''
+        Save face models for each tracked face
+        
+        :type segments: list
+        :param segments: list of segments
+        '''
+        
+        print '\n\n### Crating face models ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+        
+        counter = 0
+        
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        models_path = os.path.join(video_path, FACE_MODELS_DIR) 
+        
+        for segment_dict in segments:
+            
+            model = self.createFaceModel(segment_dict)
+            
+            db_path =  os.path.join(models_path, str(counter))
+
+            model.save(db_path)
+            
+        self.anal_times[FACE_MODELS_CREATION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)
+                
+            
+    def searchFace(ann_segments, train_model):
+        '''        
+        Search tracked faces that are similar to face in model
+        
+        :type ann_segments: list
+        :param ann_segments: list of already checked segments
+        
+        :type train_model: LBPHFaceRecognizer
+        :param train_model: model of searched face
+        '''
+
+        train_hists = train_model.getMatVector("histograms")
+
+        sub_segment_counter = 0
+        for sub_segment_dict in self.tracked_faces:
+            
+            #print('ann_segments', ann_segments)
+            
+            if(sub_segment_counter not in ann_segments):
+                
+                db_path= os.path.join(models_path, str(sub_segment_counter))
+                        
+                if(os.path.isfile(db_path)):
+                    
+                    model = cv2.createLBPHFaceRecognizer()
+                    
+                    model.load(db_path)
+                
+                    if(model):
+                        
+                        # Get histograms from model
+                                
+                        model_hists = model.getMatVector("histograms")
+                
+                        # Iterate through models related to this segment
+                        for i in range(0,len(model_hists)):
+                
+                            hist = model_hists[i][0]
+                            
+                            # Confidence value
+                            conf = sys.maxint
+                    
+                            # Iterate through training model
+                            for t in range(0, len(train_hists)):
+                                
+                                train_hist = train_hists[t][0]
+                            
+                                diff = cv2.compareHist(
+                                hist, train_hist, cv.CV_COMP_CHISQR)
+                                
+                                if(diff < conf):
+                                    
+                                    conf = diff
+                            
+                            #print ('conf', conf)
+                            frame_dict = {}
+                            frame_dict[CONFIDENCE_KEY] = conf
+                            ass_tag = UNDEFINED_TAG
+                            
+                            if(conf < CONF_THRESHOLD):
+                                
+                                ass_tag = TRACKED_PERSON_TAG
+                                
+                            frame_dict[ASSIGNED_TAG_KEY] = ass_tag
+                            
+                            frames.append(frame_dict)
+                    
+                        tgs = (TRACKED_PERSON_TAG, UNDEFINED_TAG)
+                        
+                        [final_tag, final_conf] = (
+                        aggregate_frame_results(frames, tags = tgs))
+                        
+                        #print('final_tag', final_tag)
+                        #print('final_confidence', final_conf)
+                            
+                        # Person in segment is recognized
+                        if(final_tag ==  TRACKED_PERSON_TAG):
+                            
+                            segment_dict = {}
+                            
+                            sub_fr_list = sub_segment_dict[FRAMES_KEY]
+                            
+                            segment_dict[FRAMES_KEY] = sub_fr_list
+                            
+                            segment_dict[ASSIGNED_TAG_KEY] = tag
+                            
+                            segment_dict[CONFIDENCE_KEY] = final_conf
+                            
+                            # Start of segment in milliseconds 
+                            # of elapsed time in video
+                            
+                            start = sub_segment_dict[SEGMENT_START_KEY]
+                            
+                            segment_dict[SEGMENT_START_KEY] = start
+                            
+                            # Duration of segment in milliseconds
+                            
+                            duration = sub_segment_dict[SEGMENT_DURATION_KEY]
+                            
+                            segment_dict[SEGMENT_DURATION_KEY] = duration
+                            
+                            segment_list.append(segment_dict) 
+                            
+                            # Do not consider this segment anymore
+                            ann_segments.append(sub_segment_counter)      
+                     
+            #print('sub_segment_counter', sub_segment_counter)                            
+            sub_segment_counter = sub_segment_counter + 1
+
+
     def recognizeFacesInVideo(self):       
+        '''
+        Recognize distinct faces on analyzed video,
+        assigning a generic tag to each face
+        It works by using list of tracked faces
+        '''   
+        
+        res_name = self.resource_name
+        
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for recognition results
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)  
+        
+        # Directory for face models
+        models_path = os.path.join(video_path, FACE_MODELS_DIR)
+        
+        rec_file_path = os.path.join(rec_path, file_name)
+        
+        rec_loaded = False
+        
+        # Try to load YAML file with recognition results
+        if(os.path.exists(rec_file_path)):
+            
+            print 'Loading YAML file with recognition results'
+            
+            rec_faces = load_YAML_file(rec_file_path)
+            
+            if(rec_faces):
+                
+                self.recognized_faces = rec_faces
+                
+                print 'YAML file with recognition results loaded'
+                
+                rec_loaded = True
+                
+        if(not(rec_loaded)):
+        
+            # Check existence of tracking results
+            track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+            
+            # Save detection result in YAML file
+            file_name = res_name + '.YAML'
+                
+            file_path = os.path.join(track_path, file_name)
+            
+            if(len(self.tracked_faces) == 0):
+                
+                # Try to load YAML file
+                if(os.path.exists(file_path)):
+                    
+                    print 'Loading YAML file with tracking results'
+                    
+                    with open(file_path) as f:
+        
+                        self.tracked_faces = yaml.load(f) 
+                        
+                    print 'YAML file with tracking results loaded'
+                        
+                else:
+                    
+                    print 'Warning! No tracking results found!'
+                    
+                    return              
+            
+            # Make copy of tracked faces
+            tracking_list = list(self.tracked_faces)
+            
+            # Save face models
+            self.saveFaceModels(tracking_list)
+            
+            print '\n\n### Face Recognition ###\n'
+            
+            # Save processing time
+            start_time = cv2.getTickCount()
+            
+            self.recognized_faces = []
+            
+            # List of segments already analyzed and annotated
+            ann_segments = []
+            
+            # Iterate through tracked faces
+    
+            segment_counter = 0
+            tag = 0
+  
+            tracked_faces_nr = float(len(tracking_list))
+            
+            for tracking_segment_dict in tracking_list:
+                
+                self.progress = 100 * (segment_counter / tracked_faces_nr)
+        
+                print('progress: ' + str(self.progress) + ' %          \r'), 
+                
+                if(segment_counter not in ann_segments):
+                        
+                    # Save all segments relative 
+                    # to one person in person_dict
+                    person_dict = {}
+                    
+                    person_dict[ASSIGNED_TAG_KEY] = tag
+                    
+                    segment_list = []
+                    
+                    segment_dict = {}
+                    
+                    segment_frame_list = tracking_segment_dict[FRAMES_KEY]
+                    
+                    segment_dict[FRAMES_KEY] = segment_frame_list
+                    
+                    segment_dict[ASSIGNED_TAG_KEY] = tag
+                    
+                    segment_dict[CONFIDENCE_KEY] = 0
+                    
+                    # Start of segment in milliseconds 
+                    # of elapsed time in video
+                    
+                    start = tracking_segment_dict[SEGMENT_START_KEY]
+                    
+                    segment_dict[SEGMENT_START_KEY] = start
+                    
+                    # Duration of segment in milliseconds
+                    
+                    duration = tracking_segment_dict[SEGMENT_DURATION_KEY]
+                    
+                    segment_dict[SEGMENT_DURATION_KEY] = duration
+                    
+                    segment_list.append(segment_dict)
+                    
+                    ann_segments.append(segment_counter)
+                    
+                    db_path= os.path.join(models_path, str(segment_counter))
+                    
+                    if(os.path.isfile(db_path)):
+                        
+                        model = cv2.createLBPHFaceRecognizer()
+                        
+                        model.load(db_path)
+                    
+                        if(model):
+
+                            # Use model of this segment 
+                            # to recognize faces of remaining segments
+                            ann_segments = self.searchFace(
+                            ann_segments, model)
+                            
+                            # Add segments to person dictionary
+                            
+                            person_dict[SEGMENTS_KEY] = segment_list
+                            
+                            # Save total duration of video in milliseconds
+                            
+                            tot_duration = self.video_frames * 1000.0 / self.fps
+                            
+                            person_dict[VIDEO_DURATION_KEY] = tot_duration
+                            
+                            self.recognized_faces.append(person_dict)
+                            
+                            tag = tag + 1
+                    
+                segment_counter = segment_counter + 1 
+            
+            if(not(os.path.exists(rec_path))):
+                
+                # Create directory for this video
+                os.makedirs(rec_path) 
+            
+            # Save recognition result in YAML file
+            save_YAML_file(rec_file_path, self.recognized_faces) 
+            
+            # Save processing time
+            time_in_clocks = cv2.getTickCount() - start_time
+            time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            
+            print 'Time for face recognition:', time_in_seconds, 's\n'
+            
+            self.anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
+            
+            anal_file_name = res_name + '_anal_times.YAML'
+            
+            anal_file_path = os.path.join(video_path, anal_file_name)
+            
+            save_YAML_file(anal_file_path, self.anal_times)
+  
+        
+    def recognizeFacesInVideo_old(self):       
         '''
         Recognize distinct faces on analyzed video,
         assigning a generic tag to each face

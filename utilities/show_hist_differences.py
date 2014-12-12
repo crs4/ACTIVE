@@ -38,7 +38,7 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\Fic.02.mpg\Dissolve\1'
+    images_path = r'F:\Face summarization\9 fps - scale factor 0.5\fic.02.mpg\Faces'
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     
@@ -100,7 +100,7 @@ def calc_shot_changes():
         
             hists = []
             
-            for ch in range(0, 3):
+            for ch in range(0, 1):
                 
                 hist = cv2.calcHist([hsv], [ch], mask, [256], [0, 255])
                 
@@ -114,7 +114,7 @@ def calc_shot_changes():
                 
                 tot_diff = 0
                 
-                for ch in range(0, 3):
+                for ch in range(0, 1):
                 
                     diff = abs(cv2.compareHist(hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
                     
@@ -176,7 +176,7 @@ def calc_shot_changes():
     
     half_window_size = 9
     
-    idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
+    #idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
     
     print '\n\n### idxs ###\n\n'
     
@@ -184,7 +184,7 @@ def calc_shot_changes():
 
     #idxs = merge_near_idxs(idxs, diff_list, min_dist)
     
-    print idxs
+    #print idxs
     
     #x_axis = range(0, len(diff_list))  
     
@@ -202,7 +202,6 @@ def calc_shot_changes():
     #plt.xlabel('s')
     plt.ylabel('Diff', fontsize = 20)
     #plt.title('Difference between neighbor frames')
-    plt.grid(True)
     plt.show() 
 
 def get_shot_changes_bad(diff_list, start_idx):
