@@ -295,13 +295,13 @@ class FaceSummarizer(object):
             
             print 'Time for face detection: ', time_in_seconds, 's\n'
             
-            anal_times[FACE_DETECTION_TIME_KEY] = time_in_seconds
+            self.anal_times[FACE_DETECTION_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
             anal_file_path = os.path.join(video_path, anal_file_name)
             
-            save_YAML_file(anal_file_path, anal_times)
+            save_YAML_file(anal_file_path, self.anal_times)
             
             
     def getFrameList(self, resource):
@@ -455,13 +455,13 @@ class FaceSummarizer(object):
             
             print 'Time for frame extraction:', str(time_in_seconds), 's\n'
 
-            anal_times[FRAME_EXTRACTION_TIME_KEY] = time_in_seconds
+            self.anal_times[FRAME_EXTRACTION_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
             anal_file_path = os.path.join(video_path, anal_file_name)
             
-            save_YAML_file(anal_file_path, anal_times)
+            save_YAML_file(anal_file_path, self.anal_times)
 
 
     def trackFacesInVideo(self):
@@ -863,13 +863,13 @@ class FaceSummarizer(object):
             
             print 'Time for face tracking:', time_in_seconds, 's\n'
  
-            anal_times[FRAME_TRACKING_TIME_KEY] = time_in_seconds
+            self.anal_times[FRAME_TRACKING_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
             anal_file_path = os.path.join(video_path, anal_file_name)
             
-            save_YAML_file(anal_file_path, anal_times)
+            save_YAML_file(anal_file_path, self.anal_times)
             
 
     def trackFacesInVideo_old(self):
@@ -1642,13 +1642,13 @@ class FaceSummarizer(object):
             
             print 'Time for face recognition:', time_in_seconds, 's\n'
             
-            anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
+            self.anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
             anal_file_path = os.path.join(video_path, anal_file_name)
             
-            save_YAML_file(anal_file_path, anal_times)
+            save_YAML_file(anal_file_path, self.anal_times)
 
 
     def getFaceFromSegmentFrame(self, segment_frame_dict):
@@ -2203,13 +2203,13 @@ class FaceSummarizer(object):
         
         print 'Time for calculation of histogram differences:', time_in_seconds, 's\n'
         
-        anal_times[SHOT_CUT_DETECTION_TIME_KEY] = time_in_seconds
+        self.anal_times[SHOT_CUT_DETECTION_TIME_KEY] = time_in_seconds
             
         anal_file_name = res_name + '_anal_times.YAML'
             
         anal_file_path = os.path.join(video_path, anal_file_name)
             
-        save_YAML_file(anal_file_path, anal_times)              
+        save_YAML_file(anal_file_path, self.anal_times)              
                     
     
     def calcHistDiff_old(self):
