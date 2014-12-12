@@ -1,4 +1,4 @@
-#! /bin/bash
+	#! /bin/bash
 # Questo file contiene la lista di comandi che devono essere eseguiti su ciascun nodo per 
 # effettuare l'installazione dei pacchetti/librerie necessarie per le computazioni successive
 # Questo file viene eseguito in locale e consente di ripere i comandi all'interno del ciclo while
@@ -20,13 +20,15 @@ password='mediadart'
 for node in ${NODES[*]}
 do
 	echo 'Caricamento script sul nodo ' $node
+	#sshpass -p $password ssh $username@$node $"echo "$password$" | sudo ls"
 	sshpass -p $password scp ./install_local.sh $username@$node:.
+	sshpass -p $password scp -r ../jobprocessor $username@$node:.
 	#sshpass -p $password scp ./Download/opencv-2.4.10.zip $username@$node:.
 	
 	#echo 'Caricamento Hadoop sul nodo'
 	#sshpass -p $password scp ./hadoop-2.6.0.tar.gz $username@$node:.
 
-	echo 'Esecuzione script installazione sul nodo ' $node
-	sshpass -p $password ssh $username@$node "rm -f log.txt"
+	#echo 'Esecuzione script installazione sul nodo ' $node
+	#sshpass -p $password ssh $username@$node "rm -f log.txt"
 	sshpass -p $password ssh $username@$node $"echo "$password$" | sudo -S bash ./install_local.sh > log.txt"
 done
