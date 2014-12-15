@@ -38,7 +38,7 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    images_path = r'F:\Face summarization\9 fps - scale factor 0.5\fic.02.mpg\Faces'
+    images_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Faces'
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     

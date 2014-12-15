@@ -134,6 +134,8 @@ class FaceSummarizer(object):
         
         self.recognizeFacesInVideo()
         
+        self.saveTempPeopleFiles()
+        
         self.saveRecPeople() # TEST ONLY
         
         self.showRecPeople()
@@ -865,7 +867,7 @@ class FaceSummarizer(object):
             
             print 'Time for face tracking:', time_in_seconds, 's\n'
  
-            self.anal_times[FRAME_TRACKING_TIME_KEY] = time_in_seconds
+            self.anal_times[FACE_TRACKING_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
@@ -1401,7 +1403,7 @@ class FaceSummarizer(object):
         return model
         
         
-    def saveFaceModels(self, segments)
+    def saveFaceModels(self, segments):
         '''
         Save face models for each tracked face
         
@@ -1409,17 +1411,24 @@ class FaceSummarizer(object):
         :param segments: list of segments
         '''
         
-        print '\n\n### Crating face models ###\n'
+        print '\n\n### Creating face models ###\n'
         
         # Save processing time
         start_time = cv2.getTickCount() 
-        
-        counter = 0
+
+        res_name = self.resource_name
         
         # Directory for this video     
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
         
+        # Directory for face models
         models_path = os.path.join(video_path, FACE_MODELS_DIR) 
+        
+        if(not(os.path.exists(models_path))):
+                
+            os.makedirs(models_path) 
+        
+        counter = 0
         
         for segment_dict in segments:
             
@@ -1428,6 +1437,14 @@ class FaceSummarizer(object):
             db_path =  os.path.join(models_path, str(counter))
 
             model.save(db_path)
+            
+            counter = counter + 1
+            
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            
+        print 'Time for calculating face models:', str(time_in_seconds), 's\n'    
             
         self.anal_times[FACE_MODELS_CREATION_TIME_KEY] = time_in_seconds
         
@@ -1438,16 +1455,27 @@ class FaceSummarizer(object):
         save_YAML_file(anal_file_path, self.anal_times)
                 
             
-    def searchFace(ann_segments, train_model):
+    def searchFace(self, ann_segments, segment_list, train_model):
         '''        
         Search tracked faces that are similar to face in model
         
         :type ann_segments: list
         :param ann_segments: list of already checked segments
         
+        :type segment_list: list
+        :param segment_list: list of segments related to the same person
+        
         :type train_model: LBPHFaceRecognizer
         :param train_model: model of searched face
         '''
+
+        res_name = self.resource_name
+
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for face models
+        models_path = os.path.join(video_path, FACE_MODELS_DIR)
 
         train_hists = train_model.getMatVector("histograms")
 
@@ -1471,8 +1499,11 @@ class FaceSummarizer(object):
                         # Get histograms from model
                                 
                         model_hists = model.getMatVector("histograms")
-                
+                        
                         # Iterate through models related to this segment
+                        
+                        frames =  []
+                        
                         for i in range(0,len(model_hists)):
                 
                             hist = model_hists[i][0]
@@ -1492,7 +1523,7 @@ class FaceSummarizer(object):
                                     
                                     conf = diff
                             
-                            #print ('conf', conf)
+                            print ('conf', conf)
                             frame_dict = {}
                             frame_dict[CONFIDENCE_KEY] = conf
                             ass_tag = UNDEFINED_TAG
@@ -1510,7 +1541,7 @@ class FaceSummarizer(object):
                         [final_tag, final_conf] = (
                         aggregate_frame_results(frames, tags = tgs))
                         
-                        #print('final_tag', final_tag)
+                        print('final_tag', final_tag)
                         #print('final_confidence', final_conf)
                             
                         # Person in segment is recognized
@@ -1522,7 +1553,7 @@ class FaceSummarizer(object):
                             
                             segment_dict[FRAMES_KEY] = sub_fr_list
                             
-                            segment_dict[ASSIGNED_TAG_KEY] = tag
+                            segment_dict[ASSIGNED_TAG_KEY] = final_tag
                             
                             segment_dict[CONFIDENCE_KEY] = final_conf
                             
@@ -1546,7 +1577,8 @@ class FaceSummarizer(object):
                      
             #print('sub_segment_counter', sub_segment_counter)                            
             sub_segment_counter = sub_segment_counter + 1
-
+    
+        return ann_segments
 
     def recognizeFacesInVideo(self):       
         '''
@@ -1696,7 +1728,7 @@ class FaceSummarizer(object):
                             # Use model of this segment 
                             # to recognize faces of remaining segments
                             ann_segments = self.searchFace(
-                            ann_segments, model)
+                            ann_segments, segment_list, model)
                             
                             # Add segments to person dictionary
                             
@@ -2650,6 +2682,147 @@ class FaceSummarizer(object):
         print 'Time for calculation of histogram differences:', time_in_seconds, 's\n'              
             
     
+    def saveTempPeopleFiles(self): 
+        '''
+        Save annotation files for people in this video
+        with temporary tags
+        '''
+        
+        # Check existence of recognition results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        # Save detection result in YAML file
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(rec_path, file_name)
+        
+        if(len(self.recognized_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with recognition results'
+                
+                with open(file_path) as f:
+    
+                    self.recognized_faces = yaml.load(f) 
+                    
+                print 'YAML file with recgnition results loaded'
+                    
+            else:
+                
+                print 'Warning! No recognition results found!'
+                
+                return      
+            
+        # Create directory for this video  
+        res_name = self.resource_name
+            
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
+        
+        # Create or empty directory with complete annotations
+        compl_ann_path = os.path.join(video_path, FACE_TEMP_ANN_DIR)
+        
+        # Delete already saved files
+        if(os.path.exists(compl_ann_path)):
+            
+            ann_files = os.listdir(compl_ann_path)
+            
+            for ann_file in ann_files:
+                
+                ann_file_path = os.path.join(compl_ann_path, ann_file)
+                os.remove(ann_file_path)  
+                
+        else:
+            
+            os.makedirs(compl_ann_path)
+            
+        # Create or empty directory with simple annotations
+        simple_ann_path = os.path.join(video_path, FACE_TEMP_SIMPLE_ANN_DIR)
+        
+        # Delete already saved files
+        if(os.path.exists(simple_ann_path)):
+            
+            ann_files = os.listdir(simple_ann_path)
+            
+            for ann_file in ann_files:
+                
+                ann_file_path = os.path.join(simple_ann_path, ann_file)
+                os.remove(ann_file_path)  
+                
+        else:
+            
+            os.makedirs(simple_ann_path)              
+        
+        counter = 1
+         
+        for temp_person_dict in self.recognized_faces:
+            
+            # Create complete annotations
+            person_dict = {}
+            
+            # Create simple annotations
+            simple_dict = {}
+            
+            person_dict[ANN_TAG_KEY] = str(counter)
+            
+            simple_dict[ANN_TAG_KEY] = str(counter)
+            
+            segment_list = []
+            
+            simple_segment_list = []
+            
+            tot_duration = 0
+            
+             # Iterate through all recognized people in video
+                    
+            temp_segment_list = temp_person_dict[SEGMENTS_KEY]
+            
+            for segment_dict in temp_segment_list:
+                
+                segment_list.append(segment_dict)
+        
+                simple_segment_dict = {}
+                
+                start = segment_dict[SEGMENT_START_KEY]
+                
+                simple_segment_dict[SEGMENT_START_KEY] = start
+                
+                duration = segment_dict[SEGMENT_DURATION_KEY]
+                
+                tot_duration = tot_duration + duration
+                
+                simple_segment_dict[SEGMENT_DURATION_KEY] = duration
+                
+                simple_segment_list.append(simple_segment_dict)       
+                    
+            simple_dict[SEGMENTS_KEY] = simple_segment_list
+            
+            person_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            
+            simple_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            
+            file_name = str(counter) + '.YAML'
+            
+            # Save complete annotations
+            
+            file_path = os.path.join(compl_ann_path, file_name)
+            
+            save_YAML_file(file_path, person_dict)
+      
+            # Save simple annotations
+            
+            file_path = os.path.join(simple_ann_path, file_name)
+            
+            save_YAML_file(file_path, simple_dict)
+    
+    
     def savePeopleFiles(self): 
         '''
         Save annotation files for people in this video
@@ -2720,7 +2893,7 @@ class FaceSummarizer(object):
             
             for ann_file in ann_files:
                 
-                ann_file_path = os.path.join(ann_path, ann_file)
+                ann_file_path = os.path.join(simple_ann_path, ann_file)
                 os.remove(ann_file_path)  
                 
         else:
