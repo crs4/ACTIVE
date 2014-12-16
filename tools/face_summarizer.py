@@ -134,9 +134,9 @@ class FaceSummarizer(object):
         
         self.recognizeFacesInVideo()
         
-        self.saveTempPeopleFiles()
-        
         self.saveRecPeople() # TEST ONLY
+        
+        self.saveTempPeopleFiles()
         
         self.showRecPeople()
         
