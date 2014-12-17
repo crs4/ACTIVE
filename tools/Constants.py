@@ -25,10 +25,12 @@ FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FACE_RECOGNITION_DIR = r'Face recognition'
+FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
+FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
-FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
@@ -273,7 +275,7 @@ LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 # Video annotations
-VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Dataset\Dataset Videolina 1\Video'
+VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Annotations'
 SEGMENT_START_KEY = 'segment_start'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_DURATION_KEY = 'segment_duration'
@@ -334,4 +336,4 @@ SHOT_CUT_DETECTION_TIME_KEY = r'shot_cut_detection_time'
 FACE_TRACKING_TIME_KEY = r'face_tracking_time'
 FACE_MODELS_CREATION_TIME_KEY = r'face_models_creation_time'
 FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
- 
+USER_ANNOTATION_TIME_KEY = 'user_annotation_time'

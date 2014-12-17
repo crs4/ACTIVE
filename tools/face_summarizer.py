@@ -128,17 +128,19 @@ class FaceSummarizer(object):
         
         self.trackFacesInVideo()
         
-        self.saveTrackingSegments() # TEST ONLY
+        #self.saveTrackingSegments() # TEST ONLY
         
-        self.saveDiscTrackingSegments() # TEST ONLY
+        #self.saveDiscTrackingSegments() # TEST ONLY
         
         self.recognizeFacesInVideo()
         
-        self.saveTempPeopleFiles()
+        #self.saveTempPeopleFiles()
         
-        self.saveRecPeople() # TEST ONLY
+        #self.saveRecPeople() # TEST ONLY
         
         self.showRecPeople()
+        
+        self.readUserAnnotations()
         
         self.savePeopleFiles()
         
@@ -2385,8 +2387,11 @@ class FaceSummarizer(object):
                 
     def showRecPeople(self):
         '''
-        Show one image for each recognized people in video
-        '''  
+        Show and save one image for each recognized people in video
+        ''' 
+        
+        # If show is True, show image
+        show = False 
         
         # Check existence of recognition results
         
@@ -2397,7 +2402,13 @@ class FaceSummarizer(object):
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
-        # Save detection result in YAML file
+        key_frames_path = os.path.join(
+        rec_path, FACE_RECOGNITION_KEY_FRAMES_DIR)
+        
+        if(not(os.path.exists(key_frames_path))):
+            
+            os.makedirs(key_frames_path)
+
         file_name = res_name + '.YAML'
             
         file_path = os.path.join(rec_path, file_name)
@@ -2425,8 +2436,6 @@ class FaceSummarizer(object):
         
         for person_dict in self.recognized_faces:
             
-            person_dict[ANN_TAG_KEY] = UNDEFINED_TAG
-            
             segment_list = person_dict[SEGMENTS_KEY]
             
             # Get first segment
@@ -2449,35 +2458,139 @@ class FaceSummarizer(object):
                     
                     image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
                     
-                    w_name = WINDOW_PERSON + ' ' + str(p_counter)
+                    # Save image
+                    fr_name = '%07d.png' % p_counter
                     
-                    cv2.imshow(w_name, image)
+                    fr_path = os.path.join(key_frames_dir, fr_name)
                     
-                    cv2.waitKey(0)
+                    cv2.imwrite(
+                    fr_path, image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
                     
-                    final_tag = UNDEFINED_TAG
-                    
-                    print '### ' + w_name + ' ###\n'
-                    ans = ''
-                    
-                    # Ask contributor if shown person is known
-                    while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
+                    if(show):
                         
-                        ans = raw_input(IS_KNOWN_PERSON_ASK)
-                        
-                    if(ans == ANSWER_YES):
-                        name = raw_input(PERSON_NAME + ': ')
-                        surname = raw_input(PERSON_SURNAME + ': ')
-                        final_tag = surname + '_' + name
-                        
-                    print '\n'
+                        person_dict[ANN_TAG_KEY] = UNDEFINED_TAG
                     
-                    person_dict[ANN_TAG_KEY] = final_tag
+                        w_name = WINDOW_PERSON + ' ' + str(p_counter)
+                        
+                        cv2.imshow(w_name, image)
+                        
+                        cv2.waitKey(0)
+                        
+                        final_tag = UNDEFINED_TAG
+                        
+                        print '### ' + w_name + ' ###\n'
+                        ans = ''
+                        
+                        # Ask contributor if shown person is known
+                        while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
+                            
+                            ans = raw_input(IS_KNOWN_PERSON_ASK)
+                            
+                        if(ans == ANSWER_YES):
+                            name = raw_input(PERSON_NAME + ': ')
+                            surname = raw_input(PERSON_SURNAME + ': ')
+                            final_tag = surname + '_' + name
+                            
+                        print '\n'
+                        
+                        person_dict[ANN_TAG_KEY] = final_tag
                     
                     p_counter = p_counter + 1
                     
         #print(self.recognized_faces)
 
+    def readUserAnnotations(self):
+        '''
+        Read annotations by user from disk
+        '''
+
+        # Check existence of recognition results
+        
+        res_name = self.resource_name
+        
+        # Create directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(rec_path, file_name)
+        
+        if(len(self.recognized_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with recognition results'
+                
+                with open(file_path) as f:
+    
+                    self.recognized_faces = yaml.load(f) 
+                    
+                print 'YAML file with recgnition results loaded'
+                    
+            else:
+                
+                print 'Warning! No recognition results found!'
+                
+                return 
+
+        user_ann_path = os.path.join(rec_path, user_ann_path)
+        
+        if(not(os.path.exists(user_ann_path))):
+            
+            print 'Warning! No user annotations found!'
+                
+            return                  
+        
+        print '\n\n### User annotations ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+        
+        raw_input("Order key frames, than press Enter to continue...")
+    
+        auto_p_counter = 1
+        
+        user_rec_faces = []
+        
+        # Iterate through automatic recognized faces
+        for auto_p_dict in self.recognized_faces:
+            
+            # Search person in directory with user annotations
+            for user_tag in os.listdir(user_ann_path)
+            
+                user_p_path = os.path.join(user_ann_path, user_tag)
+                
+                # Iterate though all images in directory
+                for user_p_image in os.listdir(user_p_path):
+                    
+                    user_p_counter = os.path.splitext(user_p_image)[0]
+                    
+                    if(user_p_counter == auto_p_counter):
+                        
+                        auto_p_dict[ANN_TAG_KEY] = user_tag
+                        
+                        user_rec_faces.append(auto_p_dict)
+                    
+        self.recognized_faces = user_rec_faces
+        
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+        
+        print 'Time for user annotation:', time_in_seconds, 's\n'
+
+        self.anal_times[USER_ANNOTATION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)
+        
+    
     def calcHistDiff(self):
         '''
         Calculate histogram differences between consecutive frames
@@ -2821,6 +2934,8 @@ class FaceSummarizer(object):
             file_path = os.path.join(simple_ann_path, file_name)
             
             save_YAML_file(file_path, simple_dict)
+            
+            counter = counter + 1
     
     
     def savePeopleFiles(self): 
@@ -3134,7 +3249,14 @@ class FaceSummarizer(object):
             segment_dict[SEGMENT_TOT_FRAMES_NR_KEY] = frame_counter         
         
             # Segment duration in milliseconds
+            
             duration = frame_counter * 1000.0 / self.fps
+            
+            # If a reduced bitrate is used, frames are less
+            
+            if(not(USE_ORIGINAL_FPS)):
+            
+                duration = frame_counter * 1000.0 / USED_FPS
         
             segment_dict[SEGMENT_DURATION_KEY] = duration
         
