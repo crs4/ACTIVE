@@ -2,9 +2,9 @@ import yaml
 
 import os
 
-old_path = r'F:\Face summarization\6 fps - res originale - std mult 10 - conf 4\MONITOR072011.mp4\Simple annotations_old'
+old_path = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5\MONITOR072011.mpg\Simple annotations\old'
 
-new_path = r'F:\Face summarization\6 fps - res originale - std mult 10 - conf 4\MONITOR072011.mp4\Simple annotations'
+new_path = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5\MONITOR072011.mpg\Simple annotations'
 
 for file_name in os.listdir(old_path):
             

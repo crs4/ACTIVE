@@ -10,7 +10,7 @@ from tools.face_summarizer import FaceSummarizer
 from tools.Utils import * 
 
 
-man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\MONITOR072011'
+man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02'
 
 #resource_path = r''
 
@@ -20,7 +20,7 @@ man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\MONI
 
 ## Get name of resource
 #res_name = os.path.basename(resource_path) 
-res_name = 'MONITOR072011.mp4'
+res_name = 'fic.02.mpg'
 
 ## Directory for this video     
 video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)

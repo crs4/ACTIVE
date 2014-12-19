@@ -128,15 +128,15 @@ class FaceSummarizer(object):
         
         self.trackFacesInVideo()
         
-        #self.saveTrackingSegments() # TEST ONLY
+        self.saveTrackingSegments() # TEST ONLY
         
-        #self.saveDiscTrackingSegments() # TEST ONLY
+        self.saveDiscTrackingSegments() # TEST ONLY
         
         self.recognizeFacesInVideo()
+
+        self.saveRecPeople() # TEST ONLY
         
-        #self.saveTempPeopleFiles()
-        
-        #self.saveRecPeople() # TEST ONLY
+        self.saveTempPeopleFiles()
         
         self.showRecPeople()
         
@@ -643,6 +643,8 @@ class FaceSummarizer(object):
                     
                     sub_frame_counter = frame_counter + 1
                     
+                    missed_det_counter = 0
+                    
                     # Iterate through subsequent frames
                     for sub_det_dict in detection_list[sub_frame_counter:]:
                 
@@ -743,7 +745,6 @@ class FaceSummarizer(object):
                                 
                             sub_face_counter = sub_face_counter + 1 
                             
-                        # Check difference between histograms
                         t_x0 = track_window[0]
                         t_y0 = track_window[1]
                         t_w = track_window[2]
@@ -751,23 +752,25 @@ class FaceSummarizer(object):
                         t_x1 = t_x0 + t_w
                         t_y1 = t_y0 + t_h
                         
-                        sub_hsv_roi = hsv[t_y0:t_y1, t_x0:t_x1]
-               
-                        sub_mask_roi = mask[t_y0:t_y1, t_x0:t_x1]
-                    
-                        sub_hist = cv2.calcHist(
-                        [sub_hsv_roi], [0], sub_mask_roi, [16], [0, 180])
-                
-                        cv2.normalize(
-                        sub_hist, sub_hist, 0, 255, cv2.NORM_MINMAX)
-                        sub_hist = sub_hist.reshape(-1)  
-                            
-                        diff = abs(cv2.compareHist(
-                        sub_hist, hist, cv.CV_COMP_CHISQR))
+                        ## Check difference between histograms
                         
-                        if(diff > TRACKING_DIFF_THRESHOLD):
+                        #sub_hsv_roi = hsv[t_y0:t_y1, t_x0:t_x1]
+               
+                        #sub_mask_roi = mask[t_y0:t_y1, t_x0:t_x1]
+                    
+                        #sub_hist = cv2.calcHist(
+                        #[sub_hsv_roi], [0], sub_mask_roi, [16], [0, 180])
+                
+                        #cv2.normalize(
+                        #sub_hist, sub_hist, 0, 255, cv2.NORM_MINMAX)
+                        #sub_hist = sub_hist.reshape(-1)  
                             
-                            break
+                        #diff = abs(cv2.compareHist(
+                        #sub_hist, hist, cv.CV_COMP_CHISQR))
+                        
+                        #if(diff > TRACKING_DIFF_THRESHOLD):
+                            
+                            #break
                             
                         segment_frame_dict[DETECTION_BBOX_KEY] = det_bbox               
                     
@@ -775,6 +778,8 @@ class FaceSummarizer(object):
                         # delete detected face from detection list
                         
                         if(sim):
+                        
+                            missed_det_counter = 0
                         
                             segment_frame_dict[DETECTED_KEY] = True
                             
@@ -788,8 +793,25 @@ class FaceSummarizer(object):
                             
                         else:
                             
-                            segment_frame_dict[DETECTED_KEY] = False    
-                          
+                            # Check if distance from last detection
+                            # is too big
+                            missed_det_counter = missed_det_counter + 1
+                            
+                            if(missed_det_counter > MAX_FR_WITH_MISSED_DET):
+                                
+                                # Remove last frames and 
+                                # interrupt tracking
+                                for i in range(0, MAX_FR_WITH_MISSED_DET):
+                                
+                                    segment_frame_list.pop()
+                                    
+                                segment_face_counter = (
+                                segment_face_counter - MAX_FR_WITH_MISSED_DET)
+                                
+                                break
+                            
+                            segment_frame_dict[DETECTED_KEY] = False  
+                            
                         elapsed_ms = sub_det_dict[ELAPSED_VIDEO_TIME_KEY]  
                             
                         # Update list of frames for segment
@@ -1504,46 +1526,74 @@ class FaceSummarizer(object):
                         
                         # Iterate through models related to this segment
                         
-                        frames =  []
+                        final_tag = UNDEFINED_TAG
                         
-                        for i in range(0,len(model_hists)):
-                
-                            hist = model_hists[i][0]
+                        final_conf = sys.maxint
+                        
+                        if(USE_AGGREGATION):
                             
-                            # Confidence value
-                            conf = sys.maxint
+                            frames =  []
+                            
+                            for i in range(0,len(model_hists)):
                     
-                            # Iterate through training model
-                            for t in range(0, len(train_hists)):
+                                hist = model_hists[i][0]
                                 
-                                train_hist = train_hists[t][0]
-                            
-                                diff = cv2.compareHist(
-                                hist, train_hist, cv.CV_COMP_CHISQR)
-                                
-                                if(diff < conf):
+                                # Confidence value
+                                conf = sys.maxint
+                        
+                                # Iterate through LBP histograms in training model
+                                for t in range(0, len(train_hists)):
                                     
-                                    conf = diff
-                            
-                            print ('conf', conf)
-                            frame_dict = {}
-                            frame_dict[CONFIDENCE_KEY] = conf
-                            ass_tag = UNDEFINED_TAG
-                            
-                            if(conf < CONF_THRESHOLD):
+                                    train_hist = train_hists[t][0]
                                 
-                                ass_tag = TRACKED_PERSON_TAG
+                                    diff = cv2.compareHist(
+                                    hist, train_hist, cv.CV_COMP_CHISQR)
+                                    
+                                    if(diff < conf):
+                                        
+                                        conf = diff
                                 
-                            frame_dict[ASSIGNED_TAG_KEY] = ass_tag
+                                #print ('conf', conf)
+                                frame_dict = {}
+                                frame_dict[CONFIDENCE_KEY] = conf
+                                ass_tag = UNDEFINED_TAG
+                                
+                                if(conf < CONF_THRESHOLD):
+                                    
+                                    ass_tag = TRACKED_PERSON_TAG
+                                    
+                                frame_dict[ASSIGNED_TAG_KEY] = ass_tag
+                                
+                                frames.append(frame_dict)
+                        
+                            tgs = (TRACKED_PERSON_TAG, UNDEFINED_TAG)
                             
-                            frames.append(frame_dict)
+                            [final_tag, final_conf] = (
+                            aggregate_frame_results(frames, tags = tgs))
+                            
+                        else:
+                            
+                            for i in range(0,len(model_hists)):
                     
-                        tgs = (TRACKED_PERSON_TAG, UNDEFINED_TAG)
+                                hist = model_hists[i][0]
                         
-                        [final_tag, final_conf] = (
-                        aggregate_frame_results(frames, tags = tgs))
+                                # Iterate through LBP histograms in training model
+                                for t in range(0, len(train_hists)):
+                                    
+                                    train_hist = train_hists[t][0]
+                                
+                                    diff = cv2.compareHist(
+                                    hist, train_hist, cv.CV_COMP_CHISQR)
+                                    
+                                    if(diff < final_conf):
+                                        
+                                        final_conf = diff                           
                         
-                        print('final_tag', final_tag)
+                            if(final_conf < CONF_THRESHOLD):
+                                    
+                                final_tag = TRACKED_PERSON_TAG
+                                    
+                        #print('final_tag', final_tag)
                         #print('final_confidence', final_conf)
                             
                         # Person in segment is recognized
@@ -1581,6 +1631,7 @@ class FaceSummarizer(object):
             sub_segment_counter = sub_segment_counter + 1
     
         return ann_segments
+
 
     def recognizeFacesInVideo(self):       
         '''
@@ -2432,7 +2483,7 @@ class FaceSummarizer(object):
                 
                 return                      
         
-        p_counter = 1
+        p_counter = 0
         
         for person_dict in self.recognized_faces:
             
@@ -2458,10 +2509,21 @@ class FaceSummarizer(object):
                     
                     image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
                     
+                    # Add tracking window to image as red rectangle
+                    track_bbox = middle_frame_dict[TRACKING_BBOX_KEY]
+                    
+                    x0 = track_bbox[0]
+                    x1 = x0 + track_bbox[2]
+                    y0 = track_bbox[1]
+                    y1 = y0 + track_bbox[3]
+                                  
+                    cv2.rectangle(
+                    image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+                    
                     # Save image
                     fr_name = '%07d.png' % p_counter
                     
-                    fr_path = os.path.join(key_frames_dir, fr_name)
+                    fr_path = os.path.join(key_frames_path, fr_name)
                     
                     cv2.imwrite(
                     fr_path, image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
@@ -2470,7 +2532,7 @@ class FaceSummarizer(object):
                         
                         person_dict[ANN_TAG_KEY] = UNDEFINED_TAG
                     
-                        w_name = WINDOW_PERSON + ' ' + str(p_counter)
+                        w_name = WINDOW_PERSON + ' ' + str(p_counter + 1)
                         
                         cv2.imshow(w_name, image)
                         
@@ -2536,30 +2598,34 @@ class FaceSummarizer(object):
                 
                 return 
 
-        user_ann_path = os.path.join(rec_path, user_ann_path)
+        user_ann_path = os.path.join(
+        rec_path, FACE_RECOGNITION_USER_ANNOTATIONS)
+        
+        # Create directory for user annotations
         
         if(not(os.path.exists(user_ann_path))):
             
-            print 'Warning! No user annotations found!'
-                
-            return                  
+            os.makedirs(user_ann_path)                 
         
         print '\n\n### User annotations ###\n'
+        
+        raw_input("Press Enter when you are ready to order key frames...")
         
         # Save processing time
         start_time = cv2.getTickCount() 
         
         raw_input("Order key frames, than press Enter to continue...")
     
-        auto_p_counter = 1
+        auto_p_counter = 0
         
         user_rec_faces = []
         
         # Iterate through automatic recognized faces
         for auto_p_dict in self.recognized_faces:
             
+            found = False
             # Search person in directory with user annotations
-            for user_tag in os.listdir(user_ann_path)
+            for user_tag in os.listdir(user_ann_path):
             
                 user_p_path = os.path.join(user_ann_path, user_tag)
                 
@@ -2568,13 +2634,28 @@ class FaceSummarizer(object):
                     
                     user_p_counter = os.path.splitext(user_p_image)[0]
                     
-                    if(user_p_counter == auto_p_counter):
+                    formatted_auto_p_counter = '%07d' % auto_p_counter
+                    
+                    if(user_p_counter == formatted_auto_p_counter):
                         
                         auto_p_dict[ANN_TAG_KEY] = user_tag
                         
                         user_rec_faces.append(auto_p_dict)
+                        
+                        found = True
+                        
+                        break
+                        
+                if(found):
+                    
+                    break
+                        
+            auto_p_counter = auto_p_counter + 1          
                     
         self.recognized_faces = user_rec_faces
+        
+        # Save recognition result in YAML file
+        save_YAML_file(file_path, self.recognized_faces) 
         
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
@@ -2873,7 +2954,7 @@ class FaceSummarizer(object):
             
             os.makedirs(simple_ann_path)              
         
-        counter = 1
+        counter = 0
          
         for temp_person_dict in self.recognized_faces:
             

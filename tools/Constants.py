@@ -26,11 +26,13 @@ FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
 FACE_RECOGNITION_DIR = 'Face recognition'
 FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
-FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
+FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
+FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
-#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
-FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+#FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
@@ -45,7 +47,7 @@ SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' 
 SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Face groups'
 SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
-SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
+SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.bmp'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
@@ -158,7 +160,6 @@ FACE_DETECTION_MIN_SIZE_WIDTH = 20
 FACE_DETECTION_SCALE_FACTOR = 1.1
 MOUTH_DETECTION_CLASSIFIER = 'haarcascade_mcs_mouth.xml'
 NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
-DET_MIN_INT_AREA
 
 # Experiment parameters
 
@@ -226,7 +227,7 @@ MAX_DELTA_PCT_W = 0.1
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
-MAX_FRAMES_WITH_MISSED_DETECTION = 5 
+MAX_FR_WITH_MISSED_DET = 5 
 USE_ORIGINAL_FPS = False
 USE_ORIGINAL_RES = True
 # Bitrate at which video is analyzed (in frames per second)
@@ -299,7 +300,7 @@ FRAME_POS_KEY = 'frame_position'
 # not considered for threshold calculation
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
-MIN_DETECTION_PCT = 0.1 # Min percentage of detected faces out of
+MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
@@ -322,7 +323,9 @@ TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
-					  # histogram differences 
+					  # histogram differences
+USE_AGGREGATION = False # True if final tag for a tracked face is obtained
+						# by aggregation of results for single frames
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
