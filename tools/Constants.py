@@ -1,5 +1,7 @@
 import os
 
+import sys
+
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
@@ -324,8 +326,8 @@ UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences
-USE_AGGREGATION = False # True if final tag for a tracked face is obtained
-						# by aggregation of results for single frames
+USE_AGGREGATION = True # True if final tag for a tracked face is obtained
+					   # by aggregation of results for single frames
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
