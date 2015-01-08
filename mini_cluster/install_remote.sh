@@ -20,13 +20,14 @@ password='mediadart'
 for node in ${NODES[*]}
 do
 	echo 'Caricamento script sul nodo ' $node
-	sshpass -p $password scp ./install_local.sh $username@$node:.
+	sshpass -p $password ssh $username@$node "sudo pip install cachecore Django"
+	#scp -r /home/federico/workspace-python/video $username@$node:.
 	#sshpass -p $password scp ./Download/opencv-2.4.10.zip $username@$node:.
 	
 	#echo 'Caricamento Hadoop sul nodo'
 	#sshpass -p $password scp ./hadoop-2.6.0.tar.gz $username@$node:.
 
-	echo 'Esecuzione script installazione sul nodo ' $node
-	sshpass -p $password ssh $username@$node "rm -f log.txt"
-	sshpass -p $password ssh $username@$node $"echo "$password$" | sudo -S bash ./install_local.sh > log.txt"
+	#echo 'Esecuzione script installazione sul nodo ' $node
+	#sshpass -p $password ssh $username@$node "rm -f log.txt"
+	#sshpass -p $password ssh $username@$node $"echo "$password$" | sudo -S bash ./install_local.sh > log.txt"
 done

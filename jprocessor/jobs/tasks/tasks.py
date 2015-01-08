@@ -39,7 +39,12 @@ def recognize_faces(face_images):
 		results.append(rec_result)
 		
 	return results
-
+	
+"""
+@shared_task
+def recognition_voice(singola-sub-track):
+	pass
+"""
 
 """
 Workflows - pipes and chunks.
@@ -69,3 +74,16 @@ def task_recognize_faces(detection_result):
 def task_extract_faces(resource_path):
 	job = (task_detect_faces.s(resource_path) | task_recognize_faces.s() | callback.s())
 	return job.apply_async()
+	
+"""
+@shared_task
+def task_voice_extraction():
+	#get list
+	job = recognition_voice.chunks(zip(voice_list), multiprocessing.cpu_count())
+	return job.apply_async()
+
+@shared_task
+def task_voice_extraction_callback():
+	job = (task_voice_extraction.s(resource_path) | callback.s())
+	return job.apply_async()
+"""

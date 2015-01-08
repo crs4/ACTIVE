@@ -37,7 +37,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     file_check = os.path.isfile(resource_path)
     if(not(file_check)):
         print('Image file does not exist')
-        result[FACE_DETECTION_ERROR_KEY] = 'Image file does not exist'
+        result[ERROR_KEY] = 'Image file does not exist'
         return result
     try:
         image = cv2.imread(resource_path, cv2.IMREAD_GRAYSCALE)
