@@ -785,7 +785,7 @@ def make_fic02_annotations(file_path):
     video_segment_dict = {}
     video_segment_dict[ANN_TAG_KEY] = 'Mameli_Giacomo'
     video_segment_dict[SEGMENT_START_KEY] = 33 * 60 + 46
-    video_segment_dict[SEGMENT_END_KEY] = 34 * 60 + 53
+    video_segment_dict[SEGMENT_END_KEY] = 33 * 60 + 53
     video_segments.append(video_segment_dict)
     
     audio_segment_dict = {}
@@ -1141,7 +1141,7 @@ def make_fic02_annotations(file_path):
     video_segment_dict = {}
     video_segment_dict[ANN_TAG_KEY] = 'Giannotta_Michele'
     video_segment_dict[SEGMENT_START_KEY] = 42 * 60 + 59
-    video_segment_dict[SEGMENT_END_KEY] = 42 * 60 + 46
+    video_segment_dict[SEGMENT_END_KEY] = 43 * 60 + 46
     video_segments.append(video_segment_dict)
     
     audio_segment_dict = {}
@@ -1338,7 +1338,30 @@ def make_fic02_annotations(file_path):
     
     ann_dict = {}
     
-    # Add durations
+    # Add durations and transform seconds in milliseconds
+       
+    new_video_segments = []
+    
+    tot_segment_duration = 0
+       
+    for video_segment in video_segments:
+        
+        new_video_segment =  {}
+        ann_tag = video_segment[ANN_TAG_KEY]
+        start_time = video_segment[SEGMENT_START_KEY]
+        end_time = video_segment[SEGMENT_END_KEY]
+        duration = end_time - start_time
+        tot_segment_duration = tot_segment_duration + duration
+        new_video_segment[ANN_TAG_KEY] = ann_tag   
+        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        new_video_segments.append(new_video_segment)
+    
+    ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
+    
+    ann_dict[TOT_SEGMENT_DURATION_KEY] = tot_segment_duration
+    
+    # Add durations for audio and caption segments
     
     for i in range(0, len(audio_segments)):
         audio_segment = audio_segments[i]
@@ -1354,16 +1377,8 @@ def make_fic02_annotations(file_path):
         duration = end_time - start_time
         caption_segments[i][SEGMENT_DURATION_KEY] = duration
         
-    for i in range(0, len(video_segments)):
-        video_segment = video_segments[i]
-        start_time = video_segment[SEGMENT_START_KEY]
-        end_time = video_segment[SEGMENT_END_KEY]
-        duration = end_time - start_time
-        video_segments[i][SEGMENT_DURATION_KEY] = duration      
-        
     ann_dict[AUDIO_SEGMENTS_KEY] = audio_segments
     ann_dict[CAPTION_SEGMENTS_KEY] = caption_segments
-    ann_dict[VIDEO_SEGMENTS_KEY] = video_segments
     
     save_YAML_file(file_path, ann_dict)
     
@@ -4441,7 +4456,7 @@ def make_MONITOR072011_annotations(file_path):
     audio_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
     audio_segment_dict[SEGMENT_START_KEY] = 3*60 + 6
     audio_segment_dict[SEGMENT_END_KEY] = 3*60 + 41
-    audio_segments.append(audio_segment_dict)	
+    audio_segments.append(audio_segment_dict)   
 
     audio_segment_dict = {}
     audio_segment_dict[ANN_TAG_KEY] = 'Pisano_Francesco'
@@ -4453,7 +4468,7 @@ def make_MONITOR072011_annotations(file_path):
     audio_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
     audio_segment_dict[SEGMENT_START_KEY] = 5*60 + 38
     audio_segment_dict[SEGMENT_END_KEY] = 5*60 + 55
-    audio_segments.append(audio_segment_dict)	
+    audio_segments.append(audio_segment_dict)   
 
     audio_segment_dict = {}
     audio_segment_dict[ANN_TAG_KEY] = 'Corona_Giorgia'
@@ -4937,7 +4952,7 @@ def make_MONITOR072011_annotations(file_path):
     audio_segment_dict[SEGMENT_END_KEY] = 3600 + 15*60 + 5
     audio_segments.append(audio_segment_dict)
     
-	# Pubblicità    
+    # Pubblicita'   
     
     audio_segment_dict = {}
     audio_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
@@ -5043,47 +5058,47 @@ def make_MONITOR072011_annotations(file_path):
     audio_segment_dict[SEGMENT_END_KEY] = 3600 + 28*60 + 25
     audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
-    audio_segment_dict[SEGMENT_START_KEY] = 3600 + 28*60 + 25
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = 'Dessi_Emanuele'
+    #audio_segment_dict[SEGMENT_START_KEY] = 3600 + 28*60 + 25
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)  
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)  
 
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict)
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict)
     
-    audio_segment_dict = {}
-    audio_segment_dict[ANN_TAG_KEY] = ''
-    audio_segment_dict[SEGMENT_START_KEY] = 
-    audio_segment_dict[SEGMENT_END_KEY] = 
-    audio_segments.append(audio_segment_dict) 
+    #audio_segment_dict = {}
+    #audio_segment_dict[ANN_TAG_KEY] = ''
+    #audio_segment_dict[SEGMENT_START_KEY] = 
+    #audio_segment_dict[SEGMENT_END_KEY] = 
+    #audio_segments.append(audio_segment_dict) 
 
     '''
     Templates
@@ -5109,7 +5124,30 @@ def make_MONITOR072011_annotations(file_path):
     
     ann_dict = {}
     
-    # Add durations
+    # Add durations and transform seconds in milliseconds
+       
+    new_video_segments = []
+    
+    tot_segment_duration = 0
+       
+    for video_segment in video_segments:
+        
+        new_video_segment =  {}
+        ann_tag = video_segment[ANN_TAG_KEY]
+        start_time = video_segment[SEGMENT_START_KEY]
+        end_time = video_segment[SEGMENT_END_KEY]
+        duration = end_time - start_time
+        tot_segment_duration = tot_segment_duration + duration
+        new_video_segment[ANN_TAG_KEY] = ann_tag   
+        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        new_video_segments.append(new_video_segment)
+    
+    ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
+    
+    ann_dict[TOT_SEGMENT_DURATION_KEY] = tot_segment_duration
+    
+    # Add durations for audio and caption segments
     
     for i in range(0, len(audio_segments)):
         audio_segment = audio_segments[i]
@@ -5125,16 +5163,8 @@ def make_MONITOR072011_annotations(file_path):
         duration = end_time - start_time
         caption_segments[i][SEGMENT_DURATION_KEY] = duration
         
-    for i in range(0, len(video_segments)):
-        video_segment = video_segments[i]
-        start_time = video_segment[SEGMENT_START_KEY]
-        end_time = video_segment[SEGMENT_END_KEY]
-        duration = end_time - start_time
-        video_segments[i][SEGMENT_DURATION_KEY] = duration      
-        
     ann_dict[AUDIO_SEGMENTS_KEY] = audio_segments
     ann_dict[CAPTION_SEGMENTS_KEY] = caption_segments
-    ann_dict[VIDEO_SEGMENTS_KEY] = video_segments
     
     save_YAML_file(file_path, ann_dict)
     
@@ -5539,17 +5569,17 @@ def make_MONITOR272010_annotations(file_path):
     video_segment_dict[SEGMENT_END_KEY] = 33*60 + 40
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {}
-    video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
-    video_segment_dict[SEGMENT_START_KEY] = 33*60 + 48
-    video_segment_dict[SEGMENT_END_KEY] = 
-    video_segments.append(video_segment_dict)
+    #video_segment_dict = {}
+    #video_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    #video_segment_dict[SEGMENT_START_KEY] = 33*60 + 48
+    #video_segment_dict[SEGMENT_END_KEY] = 
+    #video_segments.append(video_segment_dict)
 
-    caption_segment_dict = {}
-    caption_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
-    caption_segment_dict[SEGMENT_START_KEY] = 33*60 + 55
-    caption_segment_dict[SEGMENT_END_KEY] =  
-    caption_segments.append(caption_segment_dict)
+    #caption_segment_dict = {}
+    #caption_segment_dict[ANN_TAG_KEY] = 'Ladu_Fortunato'
+    #caption_segment_dict[SEGMENT_START_KEY] = 33*60 + 55
+    #caption_segment_dict[SEGMENT_END_KEY] =  
+    #caption_segments.append(caption_segment_dict)
     '''
     Templates
     
@@ -5570,8 +5600,7 @@ def make_MONITOR272010_annotations(file_path):
     caption_segment_dict[SEGMENT_START_KEY] = 
     caption_segment_dict[SEGMENT_END_KEY] =  
     caption_segments.append(caption_segment_dict)
-    '''                                                                 
-	}      
+    '''                                                                      
      
 def calculate_stats(ann_dict):
     '''
@@ -5616,19 +5645,41 @@ def get_video_annotations_for_person(ann_dict, person_tag):
     :param person_tag: tag of person
     ''' 
     
+    person_dict = {}
+    
+    person_dict[ANN_TAG_KEY] = person_tag
+    
     person_segments =  []
     
     video_segments = ann_dict[VIDEO_SEGMENTS_KEY]
     
-    for i in range(0, len(video_segments)):
+    tot_duration = 0
+    
+    for video_segment in video_segments:
         
-        ann_tag = video_segments[i][ANN_TAG_KEY]
+        ann_tag = video_segment[ANN_TAG_KEY]
         
         if(ann_tag == person_tag):
             
-            person_segments.append(video_segments[i])  
+            new_person_segment = {}
             
-    return person_segments
+            start = video_segment[SEGMENT_START_KEY]
+            
+            new_person_segment[SEGMENT_START_KEY] = start
+            
+            duration = video_segment[SEGMENT_DURATION_KEY] 
+            
+            tot_duration = tot_duration + duration
+            
+            new_person_segment[SEGMENT_DURATION_KEY] = duration 
+            
+            person_segments.append(new_person_segment)
+            
+    person_dict[SEGMENTS_KEY] = person_segments        
+            
+    person_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            
+    return person_dict
     
     
 def save_people_files(ann_dict, video_ann_file_path):
@@ -5643,25 +5694,27 @@ def save_people_files(ann_dict, video_ann_file_path):
     ''' 
     
     tags = get_tags(ann_dict)
+    print(tags)
     
     for tag in tags:
         
-        segments = get_video_annotations_for_person(ann_dict, tag)
-        person_dict = {}
-        person_dict[VIDEO_SEGMENTS_KEY] = segments
+        person_dict = get_video_annotations_for_person(ann_dict, tag)
         
-        file_path = video_ann_file_path + '-' + tag + '.YAML'
+        file_name = tag + '.YAML'
+        
+        file_path = os.path.join(video_ann_file_path, file_name)
         
         save_YAML_file(file_path, person_dict)
-        
-        
+               
     
-file_path_no_ext = os.path.join(VIDEO_ANN_PATH, 'MONITOR072011.mpg')
+video_dir = os.path.join(VIDEO_ANN_PATH, 'MONITOR072011')    
+    
+file_path_no_ext = os.path.join(video_dir, 'MONITOR072011.mp4')
 
 file_path = file_path_no_ext + '.YAML'
     
 ann_dict = make_MONITOR072011_annotations(file_path)
 
-save_people_files(ann_dict, file_path_no_ext)
+save_people_files(ann_dict, video_dir)
     
     

@@ -16,6 +16,10 @@ sudo apt-get install -y build-essential python-dev
 sudo apt-get install -y python-setuptools
 sudo easy_install pip
 
+echo "Installazione di: Django"
+sudo pip install django
+sudo pip install requests
+
 echo "Installazione di: RabbitMQ, Celery e Flower"
 echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update

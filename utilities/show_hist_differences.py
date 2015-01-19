@@ -24,7 +24,7 @@ glob_counter = 0
 
 def calc_shot_changes():
     
-    load_pickle_dump = True
+    load_pickle_dump = False
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
@@ -34,9 +34,13 @@ def calc_shot_changes():
     
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMixTest1\Frames'
     
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5\Fic.02.mpg\Test'
+    
     #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Frames'
     
-    images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
+    images_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Faces'
+    
+    #images_path = r'C:\Users\Maurizio\Documents\Face summarization\FicMix\Faces'
     
     file_path = r'C:\Users\Maurizio\Documents\Face summarization\YouTubeMix.mp4\Diff_list'
     
@@ -46,6 +50,8 @@ def calc_shot_changes():
     im_counter = 0
     used_ims = []
     
+    x_axis = []
+    
     if(not(load_pickle_dump)):
     
         for image_name in os.listdir(images_path):
@@ -54,7 +60,7 @@ def calc_shot_changes():
             
             image_path = os.path.join(images_path, image_name)
             
-            #print(image_path)
+            print(image_path)
             
             #detection_result = detect_faces_in_image(
             #image_path, None, False)
@@ -94,7 +100,7 @@ def calc_shot_changes():
         
             hists = []
             
-            for ch in range(0, 3):
+            for ch in range(0, 1):
                 
                 hist = cv2.calcHist([hsv], [ch], mask, [256], [0, 255])
                 
@@ -108,13 +114,15 @@ def calc_shot_changes():
                 
                 tot_diff = 0
                 
-                for ch in range(0, 3):
+                for ch in range(0, 1):
                 
                     diff = abs(cv2.compareHist(hists[ch], prev_hists[ch], cv.CV_COMP_CHISQR))
                     
                     tot_diff = tot_diff + diff
                 
                 diff_list.append(tot_diff)
+                
+                x_axis.append(image_name)
                 
                 used_ims.append(image_name)
             
@@ -166,19 +174,34 @@ def calc_shot_changes():
     
     #idxs = get_idxs_over_thresh(diff_list, 0, threshold)
     
-    half_window_size = 12
+    half_window_size = 9
     
-    idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
+    #idxs = get_shot_changes(diff_list, half_window_size, STD_MULTIPLIER_FRAME)
     
-    #print '\n\n### idxs ###\n\n'
+    print '\n\n### idxs ###\n\n'
     
     #min_dist = 25
 
     #idxs = merge_near_idxs(idxs, diff_list, min_dist)
     
-    print idxs
+    #print idxs
     
+    #x_axis = range(0, len(diff_list))  
+    
+    #counter = 0
+    #for x in x_axis:
+		
+		#x_axis[counter] = x_axis[counter] / 9.0
+		
+		#counter = counter + 1
+    
+    #print(diff_list)
+    #print(x_axis)
     plt.plot(diff_list)
+    #plt.xticks(range(0, len(diff_list)), x_axis)
+    #plt.xlabel('s')
+    plt.ylabel('Diff', fontsize = 20)
+    #plt.title('Difference between neighbor frames')
     plt.show() 
 
 def get_shot_changes_bad(diff_list, start_idx):

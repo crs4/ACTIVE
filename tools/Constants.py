@@ -1,5 +1,7 @@
 import os
 
+import sys
+
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
@@ -9,26 +11,33 @@ ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 #CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
-DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
+#DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models' TO BE DELETED
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
-FACE_ANNOTATION_DIR = r'Annotations' # Directory containg complete annotations
-FACE_DETECTION_DIR = r'Face detection'
+FACE_ANNOTATION_DIR = 'Annotations' # Directory containg complete annotations
+FACE_DETECTION_DIR = 'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
+FACE_MODELS_DIR = 'Face models'
 #FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
 FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Indipendent frames'
 #FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FACE_RECOGNITION_DIR = r'Face recognition'
+FACE_RECOGNITION_DIR = 'Face recognition'
+FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
+FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
+FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
-FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization' # Maurizio Pintus
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+#FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
+FACE_TEMP_ANN_DIR = 'Temp annotations'
+FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
@@ -40,7 +49,7 @@ SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' 
 SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Face groups'
 SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
-SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
+SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.bmp'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
@@ -153,7 +162,6 @@ FACE_DETECTION_MIN_SIZE_WIDTH = 20
 FACE_DETECTION_SCALE_FACTOR = 1.1
 MOUTH_DETECTION_CLASSIFIER = 'haarcascade_mcs_mouth.xml'
 NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
-DET_MIN_INT_AREA
 
 # Experiment parameters
 
@@ -221,7 +229,7 @@ MAX_DELTA_PCT_W = 0.1
 MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
-MAX_FRAMES_WITH_MISSED_DETECTION = 5 
+MAX_FR_WITH_MISSED_DET = 5 
 USE_ORIGINAL_FPS = False
 USE_ORIGINAL_RES = True
 # Bitrate at which video is analyzed (in frames per second)
@@ -272,7 +280,7 @@ LBP_HIST_DIFF_THRESHOLD = 3
 HSV_HIST_DIFF_THRESHOLD = 1000000
 
 # Video annotations
-VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\Dataset\Dataset Videolina 1\Video'
+VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Annotations'
 SEGMENT_START_KEY = 'segment_start'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_DURATION_KEY = 'segment_duration'
@@ -294,14 +302,12 @@ FRAME_POS_KEY = 'frame_position'
 # not considered for threshold calculation
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
-MIN_DETECTION_PCT = 0.1 # Min percentage of detected faces out of
+MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
-TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-							# between detection bbox and tracking window
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
@@ -312,10 +318,16 @@ STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
+TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
+								# (difference between H histograms)
+TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
+							# between detection bbox and tracking window
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
-					  # histogram differences 
+					  # histogram differences
+USE_AGGREGATION = True # True if final tag for a tracked face is obtained
+					   # by aggregation of results for single frames
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
@@ -323,3 +335,12 @@ VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
 					     # a person in video
+					     
+# Video analysis times
+FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
+FACE_DETECTION_TIME_KEY = 'face_detection_time'
+SHOT_CUT_DETECTION_TIME_KEY = r'shot_cut_detection_time'
+FACE_TRACKING_TIME_KEY = r'face_tracking_time'
+FACE_MODELS_CREATION_TIME_KEY = r'face_models_creation_time'
+FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
+USER_ANNOTATION_TIME_KEY = 'user_annotation_time'
