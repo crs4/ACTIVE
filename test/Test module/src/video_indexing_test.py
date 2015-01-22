@@ -6,17 +6,17 @@ path_to_be_appended = ".." + os.sep + ".." + os.sep + ".."
 sys.path.append(path_to_be_appended)
 
 from tools.Constants import *
-from tools.face_summarizer import FaceSummarizer
+from tools.face_extractor import FaceExtractor
 from tools.Utils import * 
 
 
 man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02'
 
-#resource_path = r''
+resource_path = r'fic.02.mpg'
 
-#fs = FaceSummarizer()
+fs = FaceExtractor()
 
-#fs.analizeVideo(resource_path)
+fs.analizeVideo(resource_path)
 
 ## Get name of resource
 #res_name = os.path.basename(resource_path) 

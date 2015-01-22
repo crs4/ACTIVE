@@ -197,6 +197,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
                 
                 face_dict[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
                 
+                face_dict[NOSE_POSITION_KEY] = crop_result[NOSE_POSITION_KEY]
+                
                 faces_final.append(face_dict)
 
                 #faces_final.append(face_list)
@@ -638,20 +640,23 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         # Open whole image as PIL Image
         img = Image.open(image_path)
 
-        # Align face image
+        # Store eye positions related to whole image
         eye_left = (int(x_left_eye_center + face_position[0]), int(y_left_eye_center + face_position[1]))
         eye_right = (int(x_right_eye_center + face_position[0]), int(y_right_eye_center + face_position[1]))
 
         result[LEFT_EYE_POS_KEY] = eye_left
         result[RIGHT_EYE_POS_KEY] = eye_right
+        
+        result[NOSE_POSITION_KEY] = None
 
+		# Align face image
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
 
         face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
         
         # Check nose position
         nose_check_ok = True
-        if(USE_NOSE_POSITION):
+        if(USE_NOSE_POS_IN_DETECTION or USE_NOSE_POS_IN_RECOGNITION):
             noses = detect_nose_in_image(face_image, nose_cascade_classifier)
             
             x_right_eye = offset_pct[0] * dest_size[0]
@@ -662,8 +667,15 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
             
             for(x_nose, y_nose, w_nose, h_nose) in noses:
                 
-                x_center = x_nose + w_nose / 2
-                y_center = y_nose + h_nose / 2
+                # Coordinates of bounding box center in face image
+                x_center = float(x_nose + w_nose / 2)
+                y_center = float(y_nose + h_nose / 2)
+                
+                # Store nose position relative to face image
+                nose_x_pct = x_center / CROPPED_FACE_WIDTH
+                nose_y_pct = y_center / CROPPED_FACE_HEIGHT
+                nose = (nose_x_pct, nose_y_pct)
+                result[NOSE_POSITION_KEY] = nose
                 
                 # Nose must be between eyes in horizontal direction
                 # and below eyes in vertical direction
@@ -674,9 +686,11 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
                         good_noses = good_noses + 1
                         
             if(good_noses != 1):
+                
                 nose_check_ok = False
+                result[NOSE_POSITION_KEY] = None
         
-        if(nose_check_ok):
+        if(nose_check_ok or not(USE_NOSE_POS_IN_DETECTION)):
         
             if(USE_HIST_EQ_IN_CROPPED_FACES):
                face_image = cv2.equalizeHist(face_image)
