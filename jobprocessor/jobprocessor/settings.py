@@ -36,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cluster_test', 
     'skeleton',
     'xmp',
     'face_extraction',
