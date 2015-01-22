@@ -6,6 +6,10 @@ from Utils import add_oval_mask, detect_mouth_in_image, detect_nose_in_image, de
 from PIL import Image
 from crop_face import CropFace
 
+
+import random
+import uuid
+
 # Face detectors
 HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER = 'haarcascade_frontalface_alt.xml'
 HAARCASCADE_FRONTALFACE_ALT_TREE_CLASSIFIER = 'haarcascade_frontalface_alt_tree.xml'
@@ -217,10 +221,11 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             cv2.imshow('Result', image)
             cv2.waitKey(0)
 
-    except IOError, (errno, strerror):
-        error_str = "I/O error({0}): {1}".format(errno, strerror)
-        print error_str
-        result[ERROR_KEY] = error_str
+    except IOError as e:# as (errno, strerror):
+    #    error_str = "I/O error({0}): {1}".format(errno, strerror)
+    #    print error_str
+	print e, resource_path
+        result[ERROR_KEY] = "File non trovato"
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise
@@ -436,9 +441,17 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
 
         eye_right = (2 * width/GRID_CELLS_Y, height/GRID_CELLS_Y)
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
 
-        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+
+
+	temp_file_path = TMP_FILE_PATH % (str(uuid.uuid4()))
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(temp_file_path)
+        face_image = cv2.imread(temp_file_path, cv2.IMREAD_GRAYSCALE)
+
+
+
+
+
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
             face_image = cv2.equalizeHist(face_image)
@@ -595,10 +608,20 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         # Align face image
         eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1])
         eye_right = (x_right_eye_center + face_position[0],y_right_eye_center + face_position[1])
+	
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
 
-        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+
+
+
+	temp_file_path = TMP_FILE_PATH % (str(uuid.uuid4()))
+
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(temp_file_path)
+        face_image = cv2.imread(temp_file_path, cv2.IMREAD_GRAYSCALE)
+
+
+
+
         
         # Check nose position
         nose_check_ok = True

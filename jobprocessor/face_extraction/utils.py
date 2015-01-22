@@ -55,12 +55,12 @@ def get_detected_faces(detection_results):
 	
 	detected_faces = []
 
-	for detection_result in detection_results:
-		for dict_result in detection_result:
-			detection_error = dict_result[ERROR_KEY]
-			if(not(detection_error)):
-				face_images = dict_result[FACE_IMAGES_KEY]
-				if len(face_images) > 0:
-					detected_faces.append(face_images)
-					
+	#for detection_result in detection_results:
+	for dict_result in detection_results: #
+		detection_error = dict_result[ERROR_KEY]
+		if(not(detection_error)):
+			face_images = dict_result[FACE_IMAGES_KEY]
+			if len(face_images) > 0:
+				detected_faces.append(face_images)
+				
 	return detected_faces
