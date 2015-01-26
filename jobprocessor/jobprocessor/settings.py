@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sample_app',
+    'skeleton',
     'xmp',
     'face_extraction',
 )
@@ -66,14 +66,14 @@ DATABASES = {
     }
 }
 
-# Cache
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/spool/active/data/cache',
-    }
-}
 
+# Cache manager
+CACHES = {
+	'default' : {
+		'BACKEND' : 'django.core.cache.backends.filebased.FileBasedCache',
+		'LOCATION' :  '/var/spool/active/data/cache',
+	}
+}
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -101,3 +101,5 @@ CELERY_RESULT_BACKEND = 'amqp://'
 CELERY_MESSAGE_COMPRESSION = 'gzip'
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Europe/Rome"
+#CELERY_IGNORE_RESULT = True
+CELERYD_POOL_RESTARTS = True
