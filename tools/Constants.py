@@ -32,10 +32,10 @@ FACE_RECOGNITION_PEOPLE_DIR = r'People'
 FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
 FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
 FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
-FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
+#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\FPS_9_SCALE_FACTOR_0.5' # Maurizio Pintus
+#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
@@ -54,7 +54,7 @@ TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
-TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face.bmp'
+TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
 # Face bounding box position
@@ -212,6 +212,8 @@ CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
+# Maximum difference between nose positions
+MAX_NOSE_DIFF = 0.05
 OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
 OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
@@ -219,7 +221,10 @@ USE_EYE_DETECTION = True
 USE_EYES_POSITION = True # Default True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
-USE_NOSE_POSITION = False
+# If True, detections with no good nose position are discarded
+USE_NOSE_POS_IN_DETECTION = False
+# If True, compare in recognition only faces with similar nose positions
+USE_NOSE_POS_IN_RECOGNITION = True
 USE_OVAL_MASK = False
 USE_RESIZING = True
 
@@ -291,7 +296,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Face summarization
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 5 # Threshold for retaining prediction 
+CONF_THRESHOLD = 7 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
@@ -331,6 +336,7 @@ USE_AGGREGATION = True # True if final tag for a tracked face is obtained
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
+VIDEO_SAVED_FRAMES_KEY = 'saved_frames' # Number of saved frames
 VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
