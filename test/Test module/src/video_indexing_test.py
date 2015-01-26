@@ -12,15 +12,15 @@ from tools.Utils import *
 
 man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02'
 
-#resource_path = r''
+resource_path = r'C:\Active\RawVideos\fic.02.mpg'
 
-#fs = FaceSummarizer()
+fs = FaceSummarizer()
 
-#fs.analizeVideo(resource_path)
+fs.analizeVideo(resource_path)
 
 ## Get name of resource
-#res_name = os.path.basename(resource_path) 
-res_name = 'fic.02.mpg'
+res_name = os.path.basename(resource_path) 
+#res_name = 'MONITOR072011.mpg'
 
 ## Directory for this video     
 video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
