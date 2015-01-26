@@ -36,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cluster_test', 
     'skeleton',
     'xmp',
     'face_extraction',
@@ -103,3 +102,4 @@ CELERY_MESSAGE_COMPRESSION = 'gzip'
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Europe/Rome"
 #CELERY_IGNORE_RESULT = True
+CELERYD_POOL_RESTARTS = True

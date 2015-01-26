@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from skeleton.tasks import *
 from multiprocessing.dummy import Pool as ThreadPool
+import multiprocessing
 
 """
 This module is used to create an abstracton level between how parallel and distributed computations
@@ -33,7 +34,7 @@ class ParallelRunner(SkeletonRunner):
 	def run(skeleton, values, *params):
 		# create a pool of thread, each one evaluate the skeleton
 		# on a portion of the input (supposed to be a list) and wait the computation
-		pool = ThreadPool(48)
+		pool = ThreadPool(multiprocessing.cpu_count()) ### limit imposed by available resources ###
 		results = [pool.apply_async(params[0].eval, args=(skeleton, value)) for value in values]
 		return [result.get() for result in results]
 
