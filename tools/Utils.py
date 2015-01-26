@@ -227,7 +227,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
-    
+  
     people_nr = 0
     if(fm is not None):
         
@@ -258,8 +258,9 @@ def aggregate_frame_results(frames, fm = None, tags = None):
 
     final_tag = UNDEFINED_TAG
     final_confidence = -1
+    max_frames_nr = 0
     if(USE_MAJORITY_RULE):
-        max_frames_nr = 0
+
         candidate_tags_list = []
         
         for tag in tags:
@@ -364,8 +365,10 @@ def aggregate_frame_results(frames, fm = None, tags = None):
         else:
             print('Warning! Method is not available')
         
+    # Percentage of frames assigned to most probable tag 
+    pct = float(max_frames_nr) / len(frames)           
                         
-    return [final_tag, final_confidence]
+    return [final_tag, final_confidence, pct]
         
 def normalize_illumination(img):
     

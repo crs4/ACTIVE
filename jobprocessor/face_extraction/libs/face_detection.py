@@ -1,5 +1,6 @@
 import cv2
 import os
+import uuid
 import sys
 from Constants import *
 from Utils import add_oval_mask, detect_mouth_in_image, detect_nose_in_image, detect_eyes_in_image, is_rect_enclosed, load_YAML_file, normalize_illumination
@@ -217,8 +218,8 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             cv2.imshow('Result', image)
             cv2.waitKey(0)
 
-    except IOError, (errno, strerror):
-        error_str = "I/O error({0}): {1}".format(errno, strerror)
+    except IOError as e:
+        error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
         print error_str
         result[ERROR_KEY] = error_str
     except:
@@ -435,10 +436,15 @@ def get_cropped_face_using_eyes_pos(image_path, offset_pct, dest_size):
         eye_left = (width/GRID_CELLS_X, height/GRID_CELLS_Y)
 
         eye_right = (2 * width/GRID_CELLS_Y, height/GRID_CELLS_Y)
+        
+        # Create unique file path
+        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
         face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+        
+        os.remove(tmp_file_path)
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
             face_image = cv2.equalizeHist(face_image)
@@ -595,10 +601,15 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         # Align face image
         eye_left = (x_left_eye_center + face_position[0],y_left_eye_center + face_position[1])
         eye_right = (x_right_eye_center + face_position[0],y_right_eye_center + face_position[1])
+        
+        # Create unique file path
+        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
         face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+        
+        os.remove(tmp_file_path)        
         
         # Check nose position
         nose_check_ok = True

@@ -1157,7 +1157,71 @@ class FaceExtractor(object):
                                         if((nose_diff_x > MAX_NOSE_DIFF)
                                         or (nose_diff_y > MAX_NOSE_DIFF)):
                                             
+                                            ### TEST ONLY ###
+                                            if(sub_counter == -1):
+                                                print('\n')
+                                                print('Nose position diff too big!')
+                                                print('sub_counter', sub_counter)
+                                                print('label', label)
+                                                print('idx', idx)
+                                                print('train_label', train_label)
+                                                print('nose_diff_x', nose_diff_x)
+                                                print('nose_diff_y', nose_diff_y)
+                                                
+                                                query_frames_list = sub_segment_dict[FRAMES_KEY]
+                                                query_dict = query_frames_list[sub_counter]
+                                                query_frame_path = query_dict[FRAME_PATH_KEY]
+                                                
+                                                train_segment = self.tracked_faces[idx]
+                                                train_frames_list = train_segment[FRAMES_KEY]
+                                                train_dict = train_frames_list[t]
+                                                train_frame_path = train_dict[FRAME_PATH_KEY]
+                                                
+                                                query_face = fd.detect_faces_in_image(query_frame_path, None, True)
+                                                
+                                                train_face = fd.detect_faces_in_image(train_frame_path, None, True)
+                                                
+                                                both = np.hstack((query_face, train_face))
+                                                
+                                                cv2.imshow('Different faces', both)
+                                                cv2.waitKey(0)
+                                            
+                                            ##################                                            
+                                            
                                             continue
+                                            
+                                        else:
+                                            
+                                            ### TEST ONLY ###
+                                            if(sub_counter == -1):
+                                                print('\n')
+                                                print('Nose position diff is good')
+                                                print('sub_counter', sub_counter)
+                                                print('label', label)
+                                                print('idx', idx)
+                                                print('train_label', train_label)
+                                                print('nose_diff_x', nose_diff_x)
+                                                print('nose_diff_y', nose_diff_y)
+                                                
+                                                query_frames_list = sub_segment_dict[FRAMES_KEY]
+                                                query_dict = query_frames_list[sub_counter]
+                                                query_frame_path = query_dict[FRAME_PATH_KEY]
+                                                
+                                                train_segment = self.tracked_faces[idx]
+                                                train_frames_list = train_segment[FRAMES_KEY]
+                                                train_dict = train_frames_list[t]
+                                                train_frame_path = train_dict[FRAME_PATH_KEY]
+                                                
+                                                query_face = fd.detect_faces_in_image(query_frame_path, None, True)
+                                                
+                                                train_face = fd.detect_faces_in_image(train_frame_path, None, True)
+                                                
+                                                both = np.hstack((query_face, train_face))
+                                                
+                                                cv2.imshow('Similar faces', both)
+                                                cv2.waitKey(0)
+                                            
+                                            ################## 
                                 
                                     diff = cv2.compareHist(
                                     hist, train_hist, cv.CV_COMP_CHISQR)
@@ -1181,8 +1245,16 @@ class FaceExtractor(object):
                         
                             tgs = (TRACKED_PERSON_TAG, UNDEFINED_TAG)
                             
-                            [final_tag, final_conf] = (
+                            [final_tag, final_conf, pct] = (
                             aggregate_frame_results(frames, tags = tgs))
+                            
+                            #print('train index', idx)
+                            #print('query index', sub_counter)
+                            #print('final_tag', final_tag)
+                            #print('confidence', final_conf)
+                            #print('number of frames', len(frames))
+                            #print('Percentage', pct)
+                            #print('\n')
                             
                         else:
                             

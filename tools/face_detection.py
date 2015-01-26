@@ -1,6 +1,7 @@
 import cv2
 import os
 import sys
+import uuid
 from Constants import *
 from Utils import add_oval_mask, detect_mouth_in_image, detect_nose_in_image, detect_eyes_in_image, is_rect_similar, load_YAML_file, normalize_illumination
 from PIL import Image
@@ -229,12 +230,17 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
                     cv2.rectangle(face, (x_ear,y_ear), (x_ear+w_ear, y_ear+h_ear), (0,0,255), 3, 8, 0)               
                 
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0)
-            cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
-            cv2.imshow('Result', image)
-            cv2.waitKey(0)
+            #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
+            #cv2.imshow('Result', image)
+            #cv2.waitKey(0)
+            
+            ### TEST ONLY ###
+            
+            return image
+            #################
 
-    except IOError, (errno, strerror):
-        error_str = "I/O error({0}): {1}".format(errno, strerror)
+    except IOError as e:
+        error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
         print error_str
         result[ERROR_KEY] = error_str
         
@@ -408,9 +414,14 @@ def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
 
         eye_right = (eye_pos[2], eye_pos[3])
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
+        # Create unique file path
+        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
 
-        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
+
+        face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
+        
+        os.remove(tmp_file_path)
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
             face_image = cv2.equalizeHist(face_image)
@@ -649,10 +660,16 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         
         result[NOSE_POSITION_KEY] = None
 
-		# Align face image
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
+        # Align face image
+        
+        # Create unique file path
+        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
 
-        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
+
+        face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
+        
+        os.remove(tmp_file_path)
         
         # Check nose position
         nose_check_ok = True
