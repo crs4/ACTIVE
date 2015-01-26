@@ -21,9 +21,9 @@ class SkeletonRunner:
 		"""
 		Abstract method that will implement the evaluation and execution of a skeleton
 		using some kind of parallel and distributed primitives.
-		:param skeleton Skeleton object representing how parallel computations should be done.
-		:param values Input values that will be passed to the skeleton for the correct execution.
-		:param params List of optional parameters that will be passed to enable the computation.
+		:param skeleton: Skeleton object representing how parallel computations should be done.
+		:param values: Input values that will be passed to the skeleton for the correct execution.
+		:param params: List of optional parameters that will be passed to enable the computation.
 		"""
 		pass
 

@@ -23,7 +23,7 @@ class Seq(Skeleton):
 	"""
 	def __init__(self, execute):
 		"""
-		:param execute Sequential stateless function that will be executed in
+		:param execute: Sequential stateless function that will be executed in
 				a parallel and/or distributed way oo provided paramters.
 				It must be a modular function with less dependences from
 				local resources as possibile.
@@ -40,7 +40,7 @@ class Pipe(Skeleton):
 	"""
 	def __init__(self, *stages):
 		"""
-		:param params A set of skeletons corresponding to the ordered list of stages.
+		:param params: A set of skeletons corresponding to the ordered list of stages.
 		"""
 		self.stages = []
 		for stage in stages:
@@ -55,7 +55,7 @@ class Farm(Skeleton):
  	"""
 	def __init__(self, skeleton):
 		"""
-		:param skeleton Input skeleton that will be applyed/evaluated on each input item.
+		:param skeleton: Input skeleton that will be applyed/evaluated on each input item.
 		"""
 		self.subskel = skeleton
 
@@ -69,9 +69,9 @@ class Map(Skeleton):
 	"""
 	def __init__(self, split, skeleton, merge):
 		"""
-		:param split 	Skeleton used to transform the Map skeleton input in subsets of smaller data.
-		:param skeleton	This skeleton will be applyed/evaluated on each subset of data.
-		:param merge	Skeleton used to convert the set of results in a unique data structure.
+		:param split: 	Skeleton used to transform the Map skeleton input in subsets of smaller data.
+		:param skeleton:	This skeleton will be applyed/evaluated on each subset of data.
+		:param merge:	Skeleton used to convert the set of results in a unique data structure.
 		"""
 		self.split = split
 		self.skeleton = skeleton
