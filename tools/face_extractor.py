@@ -10,8 +10,6 @@ import yaml
 
 import math
 
-import matplotlib.pyplot as plt
-
 import numpy as np
 
 import os
@@ -146,11 +144,11 @@ class FaceExtractor(object):
         
         self.saveTempPeopleFiles()
         
-        self.showRecPeople()
+        #self.showRecPeople()
         
-        self.readUserAnnotations()
+        #self.readUserAnnotations()
         
-        self.savePeopleFiles()
+        #self.savePeopleFiles()
         
         
     def detectFacesInVideo(self):
@@ -169,6 +167,8 @@ class FaceExtractor(object):
         
         # Directory for detection results
         det_path = os.path.join(video_path, FACE_DETECTION_DIR) 
+        
+        align_path = os.path.join(det_path, ALIGNED_FACES_DIR)        
         
         det_file_path = os.path.join(det_path, file_name)
         
@@ -192,7 +192,7 @@ class FaceExtractor(object):
         if(not(det_loaded)):
         
             # Directory for frame list
-            frames_path = os.path.join(video_path, FRAMES_DIR_PATH)  
+            frames_path = os.path.join(video_path, FRAMES_DIR)  
                 
             frames_file_path = os.path.join(frames_path, file_name)
             
@@ -235,6 +235,18 @@ class FaceExtractor(object):
                 
                 detection_params = self.params[FACE_DETECTION_KEY]
             
+            if(not(os.path.exists(det_path))):
+                
+                # Create directory for this video 
+                
+                os.makedirs(det_path)
+                
+            if(not(os.path.exists(align_path))):
+                    
+                # Create directory with aligned faces 
+                
+                os.makedirs(align_path)
+            
             frame_counter = 0
             self.detected_faces = []
             
@@ -250,7 +262,7 @@ class FaceExtractor(object):
                 #print('frame_path: ' + os.path.basename(frame_path))
                 
                 detection_result = fd.detect_faces_in_image(
-                frame_path, detection_params, False)
+                frame_path, align_path, detection_params, False)
     
                 detection_error = detection_result[ERROR_KEY]
                 
@@ -296,12 +308,6 @@ class FaceExtractor(object):
                     print 'Warning! Number of frames is zero'
                     
                     break   
-             
-            if(not(os.path.exists(det_path))):
-                
-                # Create directory for this video 
-                
-                os.makedirs(det_path) 
             
             # Save detection results in YAML file
             
@@ -332,7 +338,7 @@ class FaceExtractor(object):
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
         
         # Directory for frame_list
-        frames_path = os.path.join(video_path, FRAMES_DIR_PATH) 
+        frames_path = os.path.join(video_path, FRAMES_DIR) 
         
         file_name = res_name + '.YAML'
         
@@ -945,12 +951,32 @@ class FaceExtractor(object):
         offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y)
         dest_sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
         
+        res_name = self.resource_name
+        
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for recognition results
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        align_path = os.path.join(rec_path, ALIGNED_FACES_DIR)   
+ 
+        if(not(os.path.exists(align_path))):
+                
+            # Create directory with aligned faces 
+            
+            os.makedirs(align_path) 
+        
         # Iterate through list of frames
         face_counter = 0
         segment_nose_pos_dict = {}
         for segment_frame_dict in segment_frame_list:
             
-            face = self.getFaceFromSegmentFrame(segment_frame_dict)
+            face = self.getFaceFromSegmentFrame(
+            segment_frame_dict, align_path)
             
             if(face is not None):
                 
@@ -1507,12 +1533,16 @@ class FaceExtractor(object):
             save_YAML_file(anal_file_path, self.anal_times)
   
         
-    def getFaceFromSegmentFrame(self, segment_frame_dict):
+    def getFaceFromSegmentFrame(self, segment_frame_dict, align_path):
         '''
         Get face from frame of one tracking segment.
         
         :type segment_frame_dict: dictionary
         :param segment_frame_dict: frame containing face
+        
+        :type align_path: string
+        :param align_path: path of directory 
+        where aligned faces are saved        
         ''' 
         
         result = None
@@ -1537,7 +1567,7 @@ class FaceExtractor(object):
                        right_eye_pos[0], right_eye_pos[1])
                        
             face = fd.get_cropped_face_using_eye_pos(
-            frame_path, eye_pos, offset_pct, dest_sz)
+            frame_path, align_path, eye_pos, offset_pct, dest_sz)
             
             if(face is not None):
                 
@@ -1562,7 +1592,7 @@ class FaceExtractor(object):
                 cv2.imwrite(TMP_TRACKED_FACE_FILE_PATH, tracked_face)
     
                 crop_result = fd.get_cropped_face(
-                TMP_TRACKED_FACE_FILE_PATH, offset_pct, dest_sz, False)
+                TMP_TRACKED_FACE_FILE_PATH, align_path, offset_pct, dest_sz, False)
                 
                 if(crop_result):
                     
@@ -2121,7 +2151,7 @@ class FaceExtractor(object):
         # Create directory for this video     
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
         
-        frame_path = os.path.join(video_path, FRAMES_DIR_PATH) 
+        frame_path = os.path.join(video_path, FRAMES_DIR) 
         
         # Save detection result in YAML file
         file_name = res_name + '.YAML'

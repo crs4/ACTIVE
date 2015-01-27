@@ -16,12 +16,15 @@ HAARCASCADE_PROFILEFACE_CLASSIFIER = 'haarcascade_profileface.xml'
 LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml'
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml'
 
-def detect_faces_in_image(resource_path, params, show_results, return_always_faces = False):
+def detect_faces_in_image(resource_path, align_path, params, show_results, return_always_faces = False):
     '''
     Detect faces in image
 
     :type resource_path: string
     :param resource_path: path of image to be analyzed
+    
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved
     
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face detection
@@ -29,6 +32,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
     :type showResult: boolean
     :param showResult: show (true) or do not show (false) image with detected faces
     '''
+    
     # Saving processing time for face detection
     start_time = cv2.getTickCount()
 
@@ -180,7 +184,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
             face_image = image[y:y+height, x:x+width]
 
             if(USE_EYES_POSITION):
-                crop_result = get_cropped_face_from_image(face_image, resource_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
+                crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
 
             if(crop_result):
                 
@@ -377,7 +381,7 @@ def get_detected_cropped_face(image_path, return_always_face):
         return None
 
 
-def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
+def get_cropped_face_using_eye_pos(image_path, align_path, eye_pos, offset_pct, dest_size):
     '''
     Get face cropped and aligned to eyes from image file
     Eye positions are known and given as a list 
@@ -385,6 +389,9 @@ def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
 
     :type image_path: string
     :param image_path: path of image to be cropped
+    
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved     
     
     :type eye_pos: list
     :param eye_pos: list containing eye positions
@@ -415,13 +422,12 @@ def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
         eye_right = (eye_pos[2], eye_pos[3])
 
         # Create unique file path
-        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
+        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_path = os.path.join(align_path, tmp_file_name)
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
         face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
-        
-        os.remove(tmp_file_path)
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
             face_image = cv2.equalizeHist(face_image)
@@ -448,13 +454,16 @@ def get_cropped_face_using_eye_pos(image_path, eye_pos, offset_pct, dest_size):
         raise
 
 
-def get_cropped_face_using_fixed_eye_pos(image_path, offset_pct, dest_size):
+def get_cropped_face_using_fixed_eye_pos(image_path, align_path, offset_pct, dest_size):
     '''
     Get face cropped and aligned to eyes from image file
     Eye positions are known and corresponds to intersection in grid
 
     :type image_path: string
     :param image_path: path of image to be cropped
+    
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved      
 
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
@@ -480,10 +489,15 @@ def get_cropped_face_using_fixed_eye_pos(image_path, offset_pct, dest_size):
         eye_left = (width/GRID_CELLS_X, height/GRID_CELLS_Y)
 
         eye_right = (2 * width/GRID_CELLS_Y, height/GRID_CELLS_Y)
+        
+        # Create unique file path
+        
+        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_path = os.path.join(align_path, tmp_file_name)
+        
+        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
-        CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(TMP_FILE_PATH)
-
-        face_image = cv2.imread(TMP_FILE_PATH, cv2.IMREAD_GRAYSCALE)
+        face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
 
         if(USE_HIST_EQ_IN_CROPPED_FACES):
             face_image = cv2.equalizeHist(face_image)
@@ -510,13 +524,16 @@ def get_cropped_face_using_fixed_eye_pos(image_path, offset_pct, dest_size):
         raise
 
 
-def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
+def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_always_face):
     '''
     Get face cropped and aligned to eyes from image file
     Position of eyes is automatically detected
 
     :type image_path: string
     :param image_path: path of image to be cropped
+    
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved     
 
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
@@ -562,7 +579,7 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
             print('Error loading nose cascade classifier file')
             return None
 
-        crop_result = get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
+        crop_result = get_cropped_face_from_image(image, image_path, align_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
 
         result = None
 
@@ -600,18 +617,37 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
-def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, face_position, return_always_face):
+def get_cropped_face_from_image(image, image_path, align_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, face_position, return_always_face):
     '''
     Get face cropped and aligned to eyes from image
 
     :type image: openCV image
     :param image: image to be cropped
+    
+    :type image_path: string
+    :param image_path: path of image to be analyzed
+    
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved   
+
+    :eye_cascade_classifier: CascadeClassifier
+    :eye_cascade_classifier: classifier for detecting eyes
+    
+    :nose_cascade_classifier: CascadeClassifier
+    :nose_cascade_classifier: classifier for detecting nose
 
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
 
     :type dest_size: 2-element tuple
     :param dest_size: size of result
+    
+    :type face_position: 2-element tuple
+    :type face_position: position of face in original image
+    
+    :type return_always_face: boolean
+    :type return_always_face: if true, 
+    return face even if no eyes are detected  
     '''
 
     result = {}
@@ -663,13 +699,13 @@ def get_cropped_face_from_image(image, image_path, eye_cascade_classifier, nose_
         # Align face image
         
         # Create unique file path
-        tmp_file_path = TMP_FILE_PATH + str(uuid.uuid4()) + '.bmp'
+        
+        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_path = os.path.join(align_path, tmp_file_name)
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
         face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
-        
-        os.remove(tmp_file_path)
         
         # Check nose position
         nose_check_ok = True

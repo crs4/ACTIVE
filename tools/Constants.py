@@ -6,7 +6,8 @@ import sys
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
 #ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' # Pc Lab
+ALIGNED_FACES_DIR = 'Aligned faces'
 ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 #CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
@@ -36,12 +37,13 @@ FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple a
 #FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
+FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev246' # Pc Lab
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
-FRAMES_DIR_PATH = r'Frames'
+FRAMES_DIR = r'Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
@@ -54,7 +56,6 @@ TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
 TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
-TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 
 # Face bounding box position
@@ -152,7 +153,7 @@ SCALE_FACTOR_KEY = 'scale_factor';
 # Detection parameters
 ALGORITH_NAME = 'HaarCascadeFrontalFaceAlt2'
 DET_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-					   # between two detections for merging them
+                       # between two detections for merging them
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
 FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# Default HaarCascadeFrontalAndProfileFaces2
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
@@ -296,7 +297,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Face summarization
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 7 # Threshold for retaining prediction 
+CONF_THRESHOLD = 5 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
@@ -315,24 +316,24 @@ PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
-						# before tracking interruption is possible T
+                        # before tracking interruption is possible T
 STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
-						  #calculating thresholds for shot cut detection
+                          #calculating thresholds for shot cut detection
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
-					    # thresholds for dividing between faces
+                        # thresholds for dividing between faces
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
 TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
-								# (difference between H histograms)
+                                # (difference between H histograms)
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-							# between detection bbox and tracking window
+                            # between detection bbox and tracking window
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
-					  # histogram differences
+                      # histogram differences
 USE_AGGREGATION = True # True if final tag for a tracked face is obtained
-					   # by aggregation of results for single frames
+                       # by aggregation of results for single frames
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
@@ -340,8 +341,8 @@ VIDEO_SAVED_FRAMES_KEY = 'saved_frames' # Number of saved frames
 VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
-					     # a person in video
-					     
+                         # a person in video
+                         
 # Video analysis times
 FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
 FACE_DETECTION_TIME_KEY = 'face_detection_time'
