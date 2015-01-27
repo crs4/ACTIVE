@@ -18,5 +18,5 @@ def eval_distributed(skeleton, values):
 	"""
 	try:
 		return skeleton.execute(values)
-	except Except, ex:
+	except Exception as ex:
 		raise eval_distributed.retry(ex=ex, countdown=5)
