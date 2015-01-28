@@ -21,9 +21,9 @@ class SkeletonRunner:
 		"""
 		Abstract method that will implement the evaluation and execution of a skeleton
 		using some kind of parallel and distributed primitives.
-		:param skeleton Skeleton object representing how parallel computations should be done.
-		:param values Input values that will be passed to the skeleton for the correct execution.
-		:param params List of optional parameters that will be passed to enable the computation.
+		:param skeleton: Skeleton object representing how parallel computations should be done.
+		:param values: Input values that will be passed to the skeleton for the correct execution.
+		:param params: List of optional parameters that will be passed to enable the computation.
 		"""
 		pass
 
@@ -34,6 +34,7 @@ class ParallelRunner(SkeletonRunner):
 	def run(skeleton, values, *params):
 		# create a pool of thread, each one evaluate the skeleton
 		# on a portion of the input (supposed to be a list) and wait the computation
+
 		pool = ThreadPool(multiprocessing.cpu_count()) ### limit imposed by available resources ###
 		results = [pool.apply_async(params[0].eval, args=(skeleton, value)) for value in values]
 		return [result.get() for result in results]
