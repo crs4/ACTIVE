@@ -297,7 +297,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Face summarization
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 5 # Threshold for retaining prediction 
+CONF_THRESHOLD = 7 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'

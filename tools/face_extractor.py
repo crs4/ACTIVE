@@ -136,7 +136,7 @@ class FaceExtractor(object):
         
         self.saveTrackingSegments() # TEST ONLY
         
-        self.saveDiscTrackingSegments() # TEST ONLY
+        #self.saveDiscTrackingSegments() # TEST ONLY
         
         self.recognizeFacesInVideo()
 
