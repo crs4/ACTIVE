@@ -12,7 +12,7 @@ from tools.Utils import *
 
 man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02'
 
-resource_path = r'fic.02.mpg'
+resource_path = r'C:\Active\RawVideos\videolina-10sec.mov'
 
 fs = FaceExtractor()
 

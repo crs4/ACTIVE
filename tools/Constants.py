@@ -7,6 +7,7 @@ import sys
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
 ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
 #ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+ALIGNED_FACES_DIR = 'Aligned faces'
 #CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
