@@ -57,12 +57,12 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         # Algorithm to be used for the face detection
         algorithm = FACE_DETECTION_ALGORITHM
         if(params is not None): 
-            algorithm = params[ALGORITHM_KEY]
+            algorithm = params[FACE_DETECTION_ALGORITHM_KEY]
 
         # Path of directory containing classifier files
-        classifiers_folder_path = CLASSIFIERS_FOLDER_PATH + os.sep
+        classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep
         if(params is not None):
-            classifiers_folder_path = params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep
+            classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] +os.sep
 
         if(algorithm == 'HaarCascadeFrontalFaceAlt'):
             classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
@@ -243,6 +243,7 @@ def detect_faces_in_image(resource_path, params, show_results, return_always_fac
         error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
         print error_str
         result[ERROR_KEY] = error_str
+        return result
         
     except:
         print "Unexpected error:", sys.exc_info()[0]
@@ -538,13 +539,11 @@ def get_cropped_face(image_path, offset_pct, dest_size, return_always_face):
         params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
         
         # Path of directory containing classifier files
-        classifiers_folder_path = CLASSIFIERS_FOLDER_PATH + os.sep
+        classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep
         
         if params is not None:
-            
-            detection_params = params[FACE_DETECTION_KEY]
 
-            classifiers_folder_path = detection_params[CLASSIFIERS_FOLDER_PATH_KEY] +os.sep
+            classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] + os.sep
 
         # Cascade classifier for eye detection
         eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER

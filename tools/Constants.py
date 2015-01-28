@@ -5,18 +5,19 @@ import sys
 # Path of folders and files
 
 #ACTIVE_ROOT_DIRECTORY=os.getcwd()+os.sep+".."+os.sep
-#ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
-ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
-ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
-CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
-#CLASSIFIERS_FOLDER_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
+ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
+#ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
+#CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CSV_FILE_NAME = 'Risultati.csv'
+DATASET_PATH = ''
 #DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models' TO BE DELETED
 #DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
 DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
 FACE_ANNOTATION_DIR = 'Annotations' # Directory containg complete annotations
+FACE_DETECTION_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 FACE_DETECTION_DIR = 'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
@@ -49,13 +50,13 @@ SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' 
 SAVE_PATH_FACE_GROUPS = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Face groups'
 SAVE_PATH_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'Key frames'
 SOFTWARE_TEST_FILE_KEY = 'software_test_file'
-SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.bmp'
+SOFTWARE_TEST_FILE_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\test.jpg'
 TAGS_FILE_PATH = ACTIVE_ROOT_DIRECTORY + 'tools' + os.sep + 'Tags.txt'
-TEST_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep +  'test' + os.sep + 'Test module' + os.sep + 'src' + os.sep + 'TestConfiguration.yml'
 TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
+TRAINING_SET_PATH = ''
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -136,9 +137,8 @@ ANNOTATIONS_PERSON_TAG_KEY = 'person_tag';
 
 # Dictionary with detection parameters
 
-ALGORITHM_KEY = 'algorithm'
-CLASSIFIERS_FOLDER_PATH_KEY = 'classifiers_folder_path'
-FACE_DETECTION_KEY = 'face_detection'
+CLASSIFIERS_DIR_PATH_KEY = 'classifiers_folder_path'
+FACE_DETECTION_ALGORITHM_KEY = 'face_detection_algorithm'
 FACE_EXTRACTION_KEY = 'face_extraction'
 FACE_RECOGNITION_KEY = 'face_recognition';
 FLAGS_KEY = 'flags';
@@ -150,7 +150,6 @@ MIN_SIZE_WIDTH_KEY = 'min_size_width';
 SCALE_FACTOR_KEY = 'scale_factor';
 
 # Detection parameters
-ALGORITH_NAME = 'HaarCascadeFrontalFaceAlt2'
 DET_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
 					   # between two detections for merging them
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
@@ -165,6 +164,10 @@ NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
 
 # Experiment parameters
 
+ANNOTATIONS_PATH_KEY = 'annotations_path'
+DATASET_ALREADY_DIVIDED = True
+DATASET_ALREADY_DIVIDED_KEY = 'dataset_already_divided'
+DATASET_PATH_KEY = 'dataset_path'
 FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperimentsResults';
 FACE_RECOGNITION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceRecognitionExperimentsResults';
 FACE_EXTRACTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceExtractionExperimentResults';
@@ -174,8 +177,10 @@ EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
-RESULTS_PATH_KEY = 'resultsPath'
-TEST_SET_PATH_KEY = 'testSetPath'
+RESULTS_PATH_KEY = 'results_path'
+SIM_TRACKING = False
+TEST_SET_PATH_KEY = 'test_set_path'
+TRAINING_SET_PATH_KEY = 'training_set_path'
 
 # Face recognition parameters
 ALFA = 1
@@ -218,7 +223,9 @@ OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
 OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
+USE_EYE_DETECTION_IN_TRAINING = True
 USE_EYES_POSITION = True # Default True
+USE_EYES_POSITION_IN_TRAINING = True
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_MOUTH_POSITION = False
 # If True, detections with no good nose position are discarded
@@ -276,9 +283,6 @@ ORD_CONTOUR_IDXS_KEY = 'ord_contour_idxs'
 PELS_TO_TEXT_SIZE_RATIO = 25.7
 TOT_LETTERS_NR_KEY = 'tot_letters_nr'
 USE_LEVENSHTEIN = True
-
-# Face extraction test
-SIM_TRACKING = False
 
 # Summarization
 LBP_HIST_DIFF_THRESHOLD = 3

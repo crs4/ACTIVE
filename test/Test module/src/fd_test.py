@@ -18,6 +18,7 @@ def save_experiments_in_CSV_file(file_path, experiments):
                  MEAN_DETECTION_TIME_KEY + '\n')
 
     for experiment_dict_extended in experiments:
+        print('experiment_dict_extended', experiment_dict_extended)
         experiment_dict = experiment_dict_extended[EXPERIMENT_KEY]
         params_dict = experiment_dict[EXPERIMENT_PARAMS_KEY]
         stream.write(str(experiment_dict[EXPERIMENT_NUMBER_KEY]) + ',' +
@@ -42,14 +43,10 @@ def fd_test(params, show_results):
     :type show_results: boolean
     :param show_results: show (true) or do not show (false) image with detected faces
     '''
-
-    if(params == None):
-        # Load default configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH)
         
     image_path = SOFTWARE_TEST_FILE_PATH
     if params is not None:
-        fd_test_params = params[FACE_DETECTION_KEY]
+		
         image_path = fd_test_params[SOFTWARE_TEST_FILE_KEY]
 
     test_passed = True
@@ -64,26 +61,21 @@ def fd_test(params, show_results):
             image_width = len(image[0,:])
             image_height = len(image[:,0])
             rect_image = [0, 0, image_width, image_height]
-            
-            # Load face detection parameters
-            face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
-            
-            face_detection_params = None
-            if face_extractor_params is not None:
-                face_detection_params = face_extractor_params[FACE_DETECTION_KEY]
     
-            detection_results = detect_faces_in_image(image_path, face_detection_params, show_results)
+            detection_results = detect_faces_in_image(image_path, params, show_results)
             
             error = detection_results[ERROR_KEY]
     
             if error is None:
-                
-                face_rectangles = detection_results[FACES_KEY]
-                face_images = detection_results[FACE_IMAGES_KEY]
+    
+                faces = detection_results[FACES_KEY]
     
                 # Check that rectangles are inside the original image
                 face_counter = 0
-                for rect_face in face_rectangles:
+                for face in faces:
+                    
+                    rect_face = face[BBOX_KEY]
+                    
                     if(not(is_rect_enclosed(rect_face, rect_image))):
                         test_passed = False
                         break
@@ -115,25 +107,20 @@ def fd_experiments(params, show_results):
     :type show_results: boolean
     :param show_results: show (true) or do not show (false) image with detected faces
     '''
-
-    if(params == None):
-        # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH)
     
     # Folder with test files
     frames_path = FACE_DETECTION_TEST_SET_PATH + os.sep
     # Folder with annotation files
-    annotations_path = ANN_PATH + os.sep
+    annotations_path = FACE_DETECTION_ANN_PATH + os.sep
     #Folder with results
     results_path = FACE_DETECTION_RESULTS_PATH + os.sep
     
     if params is not None:
         
         # Get path of directories with used files from params
-        fd_test_params = params[FACE_DETECTION_KEY]
-        frames_path = fd_test_params[TEST_FILES_PATH_KEY] + os.sep 
-        annotations_path = fd_test_params[ANNOTATIONS_PATH_KEY] + os.sep
-        results_path = fd_test_params[RESULTS_PATH_KEY] + os.sep
+        frames_path = params[TEST_FILES_PATH_KEY] + os.sep 
+        annotations_path = params[ANNOTATIONS_PATH_KEY] + os.sep
+        results_path = params[RESULTS_PATH_KEY] + os.sep
     
     annotated_faces_nr = 0
     true_positives_nr = 0
@@ -143,22 +130,8 @@ def fd_experiments(params, show_results):
     detection_dict = {} # Dictionary containing all results for this experiment
     images_list_for_YAML = [] # List used for creating YAML file
     
-    # Load face detection parameters
-    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
     # Name of used algorithm for face detection
-    algorithm_name = ALGORITH_NAME
-    face_detection_params = {}
-    if face_extractor_params is not None:
-        face_detection_params = face_extractor_params[FACE_DETECTION_KEY]
-        algorithm_name = face_detection_params[ALGORITHM_KEY]
-    else:
-        face_detection_params[ALGORITHM_KEY] = FACE_DETECTION_ALGORITHM
-        face_detection_params[SCALE_FACTOR_KEY] = FACE_DETECTION_SCALE_FACTOR
-        face_detection_params[MIN_NEIGHBORS_KEY] = FACE_DETECTION_MIN_NEIGHBORS
-        face_detection_params[FLAGS_KEY] = FACE_DETECTION_FLAGS
-        face_detection_params[MIN_SIZE_WIDTH_KEY] = FACE_DETECTION_MIN_SIZE_WIDTH
-        face_detection_params[MIN_SIZE_HEIGHT_KEY] = FACE_DETECTION_MIN_SIZE_HEIGHT
-        face_detection_params[CLASSIFIERS_FOLDER_PATH_KEY] = CLASSIFIERS_FOLDER_PATH
+    algorithm_name = FACE_DETECTION_ALGORITHM_KEY
 
     video_directories = listdir(frames_path)
 
@@ -199,7 +172,7 @@ def fd_experiments(params, show_results):
                 #print(frame_path)
     
                 # Call function for face detection
-                detection_results = detect_faces_in_image(frame_path, face_detection_params, show_results)
+                detection_results = detect_faces_in_image(frame_path, params, show_results)
     
                 # Add detection time to total
                 mean_detection_time = mean_detection_time + detection_results[ELAPSED_CPU_TIME_KEY]
@@ -228,7 +201,9 @@ def fd_experiments(params, show_results):
                 detected_faces_list_for_YAML = [] # Array used for creating YAML file
     
                 # Iterate through detected faces
-                for detected_face_rectangle in detected_faces:
+                for detected_face in detected_faces:
+                    
+                    detected_face_rectangle = detected_face[BBOX_KEY]
                     
                     detected_face_width = detected_face_rectangle[2]
                     detected_face_height = detected_face_rectangle[3]
@@ -330,7 +305,17 @@ def fd_experiments(params, show_results):
         new_experiment_dict[EXPERIMENT_ALGORITHM_KEY] = algorithm_name
     
         # Save classification parameters
-        new_experiment_dict[EXPERIMENT_PARAMS_KEY] = face_detection_params
+        if(params is None):
+            params = {}
+            params[FACE_DETECTION_ALGORITHM_KEY] = FACE_DETECTION_ALGORITHM
+            params[SCALE_FACTOR_KEY] = FACE_DETECTION_SCALE_FACTOR
+            params[MIN_NEIGHBORS_KEY] = FACE_DETECTION_MIN_NEIGHBORS
+            params[FLAGS_KEY] = FACE_DETECTION_FLAGS
+            params[MIN_SIZE_WIDTH_KEY] = FACE_DETECTION_MIN_SIZE_WIDTH
+            params[MIN_SIZE_HEIGHT_KEY] = FACE_DETECTION_MIN_SIZE_HEIGHT
+            params[CLASSIFIERS_DIR_PATH_KEY] = CLASSIFIERS_DIR_PATH
+        
+        new_experiment_dict[EXPERIMENT_PARAMS_KEY] = params
     
         # Save results
         new_experiment_dict[PRECISION_KEY] = precision

@@ -12,10 +12,6 @@ from tools.Utils import load_experiment_results,load_image_annotations, load_YAM
 
 USE_FACEEXTRACTOR = False # True if recognition is carried out by using FaceExtractor class
 
-USE_RESIZING = False
-USE_EYES_POSITION = False
-USE_EYE_DETECTION = False
-
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
     stream = open(file_path, 'w')
@@ -51,17 +47,12 @@ def fr_test(params, show_results):
     :type show_results: boolean
     :param show_results: show (true) or do not show (false) image with assigned tag
     '''
-
-    if(params == None):
-        # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH)
     
     image_path = SOFTWARE_TEST_FILE_PATH
     
     if params is not None:
 
-        fr_test_params = params[FACE_RECOGNITION_KEY]
-        image_path = fr_test_params[SOFTWARE_TEST_FILE_KEY]
+        image_path = params[SOFTWARE_TEST_FILE_KEY]
     
     test_passed = True
     
@@ -72,20 +63,19 @@ def fr_test(params, show_results):
     
             # Load face recognition parameters
     
-            face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
-            fr_params = face_extractor_params[FACE_DETECTION_KEY]
+            recognition_results = recognize_face(image, None, params, show_results)
     
-            recognition_results = recognize_face(image, None, fr_params, show_results)
-    
-            error = recognition_results[FACE_RECOGNITION_ERROR_KEY]
+            error = recognition_results[ERROR_KEY]
     
             if(len(error) == 0):
     
-                label = recognition_results[PERSON_LABEL_KEY]
+                tag = recognition_results[ASSIGNED_TAG_KEY]
     
-                confidence = recognition_results[PERSON_CONFIDENCE_KEY]
+                confidence = recognition_results[CONFIDENCE_KEY]
     
-                # TO DO: CHECK THAT LABEL IS A NOT EMPTY STRING
+				if(len(tag) == 0):
+					
+					test_passed = False
     
                 if(confidence < 0):
                     test_passed = False
@@ -119,10 +109,6 @@ def fr_experiments(params, show_results):
     :param show_results: show (true) or do not show (false) images with detected faces
     '''
 
-    if(params == None):
-        # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH)
-
     rec_images_nr = 0 # Number of correctly recognized images
     test_images_nr = 0 # Number of total test images
     mean_rec_time = 0
@@ -132,13 +118,11 @@ def fr_experiments(params, show_results):
 
     fm = FaceModelsLBP()
 
-    fr_test_params = params[FACE_RECOGNITION_KEY]
-
     # Total number of images for each person
-    person_images_nr = fr_test_params[PERSON_IMAGES_NR_KEY]
+    person_images_nr = params[PERSON_IMAGES_NR_KEY]
 
     # Number of images for each person to be used for the training
-    training_images_nr = fr_test_params[TRAINING_IMAGES_NR_KEY]
+    training_images_nr = params[TRAINING_IMAGES_NR_KEY]
     
     # Number of images for each person to be used for the test
     test_images_nr = person_images_nr - training_images_nr
@@ -165,19 +149,15 @@ def fr_experiments(params, show_results):
     # Get path of directories with used files from params
     test_set_path = None # directory with test set
 
-    dataset_already_divided = fr_test_params[DATASET_ALREADY_DIVIDED_KEY]
+    dataset_already_divided = params[DATASET_ALREADY_DIVIDED_KEY]
     
     if(dataset_already_divided):
-        training_set_path = fr_test_params[TRAINING_SET_PATH_KEY] + '\\'
-        test_set_path = fr_test_params[TEST_SET_PATH_KEY] + '\\'
+        training_set_path = params[TRAINING_SET_PATH_KEY] + '\\'
+        test_set_path = params[TEST_SET_PATH_KEY] + '\\'
     else:
-        test_set_path = fr_test_params[DATASET_PATH_KEY] + '\\'
+        test_set_path = params[DATASET_PATH_KEY] + '\\'
     
-    results_path = fr_test_params[RESULTS_PATH_KEY] + '\\' # directory with results
-
-    # Load face recognition parameters
-    face_extractor_params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
-    face_rec_params = face_extractor_params[FACE_RECOGNITION_KEY]
+    results_path = params[RESULTS_PATH_KEY] + '\\' # directory with results
 
     # Iterate over all directories with images
     images_dirs = listdir(test_set_path)
@@ -243,7 +223,7 @@ def fr_experiments(params, show_results):
                             if (sz is not None):
                                 face = cv2.resize(face, sz)
                     
-                        rec_results = recognize_face(face, fm, face_rec_params, show_results)
+                        rec_results = recognize_face(face, fm, params, show_results)
 
                         # Add recognition time to total
                         mean_rec_time = mean_rec_time + rec_results[ELAPSED_CPU_TIME_KEY]
@@ -442,8 +422,7 @@ if __name__ == "__main__":
         
     print("\n ### EXECUTING SOFTWARE TEST ###\n")
 
-    #test_passed = fr_test(params, False)
-    test_passed = True # TEST ONLY
+    test_passed = fr_test(params, False)
 
     if(test_passed):
         print("\nSOFTWARE TEST PASSED\n")

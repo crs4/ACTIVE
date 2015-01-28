@@ -158,13 +158,20 @@ query_hist, train_histograms, train_labels, im_w, im_h, people_nr):
     return [label, confidence]
         
 def recognize_face_from_model_files(face, face_models, params, show_results):
-    '''Recognize given face using the face recognition model
+    '''Recognize given face using 
+    the face recognition model saved as one file per person
 
-    :type face:image
+    :type face: image
     :param face: face to be recognized
+    
+    :type face_models: LBPHFaceRecognizer
+    :param face_models: face model 
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
+    
+    :type showResult: boolean
+    :param showResult: show (true) or do not show (false) recognized face    
     '''
 
     fm = face_models
@@ -324,13 +331,18 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     return result
 
 def recognize_face_from_models_file(face, face_models, params, show_results):
-    '''Recognize given face using the face recognition model
+    '''Recognize given face using 
+    the face recognition model saved as one file, 
+    comparison between histograms is explicit
 
     :type face:image
     :param face: face to be recognized
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
+    
+    :type showResult: boolean
+    :param showResult: show (true) or do not show (false) recognized face    
     '''
     
     fm = face_models
@@ -483,13 +495,18 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     return result
 
 def recognize_face_base(face, face_models, params, show_results):
-    '''Recognize given face using the face recognition model
+    '''Recognize given face using 
+    the face recognition model saved as one file,
+    comparison between histograms is carried out by OpenCV
 
     :type face:image
     :param face: face to be recognized
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face recognition
+    
+    :type showResult: boolean
+    :param showResult: show (true) or do not show (false) recognized face    
     '''
 
     fm = face_models

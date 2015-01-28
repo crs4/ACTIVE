@@ -329,8 +329,8 @@ class FaceModelsLBP():
                 for filename in os.listdir(subject_path):
                     #print "image path", os.path.join(subject_path, filename)
                     try:
-                        if(USE_EYES_POSITION):
-                            if(USE_EYE_DETECTION):
+                        if(USE_EYES_POSITION_IN_TRAINING):
+                            if(USE_EYE_DETECTION_IN_TRAINING):
                                 im = None
                                 crop_result = get_cropped_face(os.path.join(subject_path, filename), offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False)
                                 if(crop_result):
@@ -356,31 +356,10 @@ class FaceModelsLBP():
 ##                                    cv2.imshow('Training image', im);
 ##                                    cv2.waitKey(0);
                         if(im):
-                            
-                            if(USE_BLACK_PELS):
-                                
-                                im_width = im.size_column;
-                                im_height = im_size_row;
-                                # Divide image by using a 4 x 4 grid
-                                for im_x in range(0, im_width - 1):
-                                    for im_y in range(0, im_height - 1):
-                                        if(((im_x < 50) and (im_y >= 50) and (im_y < 150)) or ((im_x >= 150) and (im_y >= 50) and (im_y < 150))):
-                                            im[im_x,im_y] = 0
-                                            
-                                #cv2.imshow(im, "face")
-                                #cv2.waitKey(0)
                                                             
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)
                             self._tags[c]=str(subdirname)
-                            
-                            if(USE_MIRRORED_FACES_IN_TRAINING):
-                                c = c + 1
-                                # Add mirrored image
-                                mirrored_im = cv2.flip(im,1);
-                                X.appen(np.asarry(flipped_im, dtype=np.uint8))
-                                y.append(c)
-                                self._tags[c] = str(subdirname)
                                 
                         else:
                             print "Image", os.path.join(subject_path, filename), "not considered" 

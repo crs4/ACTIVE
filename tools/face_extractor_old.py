@@ -118,11 +118,7 @@ class FaceExtractor(object):
         :param params: configuration parameters (see table)
         '''
 
-        if(params == None):
-            # Load configuration file
-            self.params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH);
-        else:
-            self.params = params;
+		self.params = params;
 
         self.face_models = face_models;
 
@@ -144,14 +140,8 @@ class FaceExtractor(object):
         error = None;
         
         # Face detection
-        detection_params = None
-        recognition_params = None
-        if self.params is not None:
-            
-            detection_params = self.params[FACE_DETECTION_KEY]
-            recognition_params = self.params[FACE_RECOGNITION_KEY]
 
-        detection_result = detect_faces_in_image(resource_path, detection_params, False)
+        detection_result = detect_faces_in_image(resource_path, params, False)
         
         detection_error = detection_result[ERROR_KEY]
         
@@ -179,7 +169,7 @@ class FaceExtractor(object):
                     new_size = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
                     face = cv2.resize(face, new_size)
                 
-                rec_result = recognize_face(face, self.face_models, recognition_params, False)
+                rec_result = recognize_face(face, self.face_models, params, False)
                 
                 tag = rec_result[ASSIGNED_TAG_KEY]
                 confidence = rec_result[CONFIDENCE_KEY]
