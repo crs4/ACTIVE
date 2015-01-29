@@ -21,10 +21,10 @@ class SkeletonVisitor(object):
 	__metaclass__ = ABCMeta
 	
 	@abstractmethod
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
-		:param skeleton: Skeleton that have to be evaluated.
-		:param values: Input values provided to the skeleton.
+		:param skeleton Skeleton that have to be evaluated.
+		:param values Input values provided to the skeleton.
 		"""
 		pass
 
@@ -34,50 +34,66 @@ class Executor(SkeletonVisitor):
 	This class is used to invoke the evaluation and also execution of a
 	skeleton over a set of input item(s).
 	"""
+	def __init__(self):
+		self.progress = 0
+	"""
+	def __init__(self, skeleton, values, percentage):
+		self.skeleton = skeleton
+		self.values = values
+
+	def __call__(self):
+		return self.eval(self.skeleton, self.values, percentage)
+	"""
+
 	@on('skeleton')
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
 		This is the generic method that initializes the dynamic dispatcher.
 		"""
+		print("This is the generic method that initializes the dynamic dispatcher.")
 	
 	@when(Seq)
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
 		This method is associated to the Sequential skeleton,
 		which actually is computed in a distributed way.
-		:param skeleton:	Sequential skeleton containing the function to compute.
-		:values values:	Input values necessary for function computation.
+		:param skeleton	Sequential skeleton containing the function to compute.
+		:values values	Input values necessary for function computation.
 		"""
-		return DistributedRunner.run(skeleton, values)
+		result = DistributedRunner.run(skeleton, values)
+		self.progress += percentage
+		return result
 
 	@when(Pipe)
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
 		This method is associated to the Pipeline skeleton, so it
 		scans the stages evaluating one at time.
 		At the end the final result is returned.
-		:param skeleton: Pipeline skeleton containing subskeleton (stages).
-		:param values: 	Input values for the first stage of the pipeline.
+		:param skeleton Pipeline skeleton containing subskeleton (stages).
+		:param values 	Input values for the first stage of the pipeline.
 		"""
 		result = values
 		for stage in skeleton.stages:
-			result = self.eval(stage, result)
+			result = self.eval(stage, result, percentage/len(skeleton.stages))
+		self.progress += percentage%len(skeleton.stages)
 		return result
 
 	@when(Farm)
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
-		This method is associated to the Farm skeleton, so it evaluate its
+		This method is associated to the Farm skeleton, so it evaluates its
 		sub-skeleton for each provided input.
 		Actually task parallelism is introduced as a parallel computation.
 		The output is the set of computed results.
-		:param skeleton:	Farm skeleton containing sub-skeleton that will be replicated.
-		:param values:	Input values that could be processed independently.
+		:param skeleton	Farm skeleton containing sub-skeleton that will be replicated.
+		:param values	Input values that could be processed independently.
 		"""
-		return ParallelRunner.run(skeleton.subskel, values, self)
+		result = ParallelRunner.run(skeleton.subskel, values, percentage/len(values), self)
+		return result
 
 	@when(Map)
-	def eval(self, skeleton, values):
+	def eval(self, skeleton, values, percentage=100):
 		"""
                 This method is associated to the Map skeleton, so it evaluate its
                 sub-skeletons. Also data parallelism is introduced as a parallel computation
@@ -85,9 +101,13 @@ class Executor(SkeletonVisitor):
 		This skeleton first evaluate the splitter skeleton, obtaining a set of data from
 		a single input item, compute each data and the compose all sub results.
                 The output is the computed result.
-                :param skeleton: Map skeleton containing split, merge and main sub-skeleton.
-                :param values:   Input value that will be splitted in independent subsets.
+                :param skeleton Map skeleton containing split, merge and main sub-skeleton.
+                :param values   Input value that will be splitted in independent subsets.
                 """
-		splitted_values = self.eval(skeleton.split, values)
-		mapped_values = ParallelRunner.run(skeleton.skeleton, splitted_values, self)
-		return self.eval(skeleton.merge, mapped_values)
+		splitted_values = self.eval(skeleton.split, values, percentage/3)
+		mapped_values = ParallelRunner.run(skeleton.skeleton, splitted_values, percentage/len(splitted_values), self)
+		result = self.eval(skeleton.merge, mapped_values, percentage/3)
+		self.progress += percentage%3 
+		return result
+
+
