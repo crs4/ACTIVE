@@ -12,7 +12,7 @@ from tools.Utils import *
 
 man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02'
 
-resource_path = r'C:\Active\RawVideos\videolina-10sec.mov'
+resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg'
 
 fs = FaceExtractor()
 
@@ -178,8 +178,8 @@ for ann_file in os.listdir(simple_ann_path):
         
         auto_end = auto_start + auto_duration
         
-        # In manual annotation, we consider as start previous second
-        # and as end subsequent second
+        # In manual annotation, we consider as start 
+        # end as end previous second
         
         auto_start = math.ceil(auto_start / 1000.0) * 1000
         

@@ -183,26 +183,30 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             
             face_image = image[y:y+height, x:x+width]
 
+            face_dict = {}
+            
+            face_list = (int(x), int(y), int(width), int(height))
+
+            face_dict[BBOX_KEY] = face_list
+            
             if(USE_EYES_POSITION):
                 crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
 
-            if(crop_result):
+                if(crop_result):
+                         
+                    face_dict[FACE_KEY] = crop_result[FACE_KEY]
+                    
+                    #face_images.append(face_image)
+                    
+                    face_dict[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
+                    
+                    face_dict[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
+                    
+                    face_dict[NOSE_POSITION_KEY] = crop_result[NOSE_POSITION_KEY]
+                    
+                    faces_final.append(face_dict)
                 
-                face_dict = {}
-                
-                face_dict[FACE_KEY] = crop_result[FACE_KEY]
-                
-                #face_images.append(face_image)
-
-                face_list = (int(x), int(y), int(width), int(height))
-
-                face_dict[BBOX_KEY] = face_list
-                
-                face_dict[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
-                
-                face_dict[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
-                
-                face_dict[NOSE_POSITION_KEY] = crop_result[NOSE_POSITION_KEY]
+            else:  
                 
                 faces_final.append(face_dict)
 
@@ -234,13 +238,13 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
                     cv2.rectangle(face, (x_ear,y_ear), (x_ear+w_ear, y_ear+h_ear), (0,0,255), 3, 8, 0)               
                 
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0)
-            #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
-            #cv2.imshow('Result', image)
-            #cv2.waitKey(0)
+            cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
+            cv2.imshow('Result', image)
+            cv2.waitKey(0)
             
             ### TEST ONLY ###
             
-            return image
+            #return image
             #################
 
     except IOError as e:

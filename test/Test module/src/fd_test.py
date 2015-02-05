@@ -1,5 +1,6 @@
 from os import listdir, path
 import cv2
+import shutil
 import sys
 sys.path.append("../../..")
 from tools.Constants import *
@@ -46,12 +47,10 @@ def fd_test(params, show_results):
         
     image_path = SOFTWARE_TEST_FILE_PATH
     if params is not None:
-		
-        image_path = fd_test_params[SOFTWARE_TEST_FILE_KEY]
+        
+        image_path = params[SOFTWARE_TEST_FILE_KEY]
 
     test_passed = True
-
-    print image_path
 
     if os.path.isfile(image_path):
         
@@ -62,7 +61,17 @@ def fd_test(params, show_results):
             image_height = len(image[:,0])
             rect_image = [0, 0, image_width, image_height]
     
-            detection_results = detect_faces_in_image(image_path, params, show_results)
+            aligned_faces_path = os.path.join(
+            ACTIVE_ROOT_DIRECTORY, ALIGNED_FACES_DIR)
+            
+            if(not(os.path.exists(aligned_faces_path))):
+            
+                os.makedirs(aligned_faces_path)
+    
+            detection_results = detect_faces_in_image(
+            image_path, aligned_faces_path, params, show_results)
+            
+            shutil.rmtree(aligned_faces_path)
             
             error = detection_results[ERROR_KEY]
     
@@ -150,6 +159,14 @@ def fd_experiments(params, show_results):
         
         if(frames):
 
+            # Directory where aligned faces are saved
+            aligned_faces_path = os.path.join(
+            ACTIVE_ROOT_DIRECTORY, ALIGNED_FACES_DIR)
+            
+            if(not(os.path.exists(aligned_faces_path))):
+            
+                os.makedirs(aligned_faces_path)
+
             # Iterate over all frames taken from this video
             frame_counter = 0
             for frame_file in listdir(video_dir_complete_path):
@@ -172,7 +189,8 @@ def fd_experiments(params, show_results):
                 #print(frame_path)
     
                 # Call function for face detection
-                detection_results = detect_faces_in_image(frame_path, params, show_results)
+                detection_results = detect_faces_in_image(
+                frame_path, aligned_faces_path, params, show_results)
     
                 # Add detection time to total
                 mean_detection_time = mean_detection_time + detection_results[ELAPSED_CPU_TIME_KEY]
@@ -260,6 +278,8 @@ def fd_experiments(params, show_results):
     
                 frame_counter = frame_counter + 1
                 global_frame_counter = global_frame_counter + 1
+            
+            shutil.rmtree(aligned_faces_path)
                 
     if(global_frame_counter > 0):
         

@@ -10,6 +10,8 @@ ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # 
 ALIGNED_FACES_DIR = 'Aligned faces'
 #CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
+CLOTH_MODELS_DIR = r'Cloth models'
+CLOTHING_RECOGNITION_DIR = 'Clothing recognition'
 CSV_FILE_NAME = 'Risultati.csv'
 DATASET_PATH = ''
 #DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models' TO BE DELETED
@@ -37,13 +39,13 @@ FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple a
 #FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
+FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
-FRAMES_DIR_PATH = r'Frames'
+FRAMES_DIR = r'Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
@@ -188,13 +190,15 @@ ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
 FACE_MODEL_ALGORITHM="LBP"
 LBP_RADIUS=1
+LBP_RADIUS_KEY = 'LBP_radius'
 LBP_NEIGHBORS=8
+LBP_NEIGHBORS_KEY = 'LBP_neighbors'
 LBP_GRID_X=4
+LBP_GRID_X_KEY = 'LBP_grid_x'
 LBP_GRID_Y=4
+LBP_GRID_Y_KEY = 'LBP_grid_y'
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
-# If true, pixels in some regions in face images are put equals to zero
-USE_BLACK_PELS = False 
 USE_CANNY_IN_CROPPED_FACES = False
 USE_CAPTIONS = False
 USE_HIST_EQ_IN_CROPPED_FACES = True
@@ -202,6 +206,7 @@ USE_MIRRORED_FACES_IN_TRAINING = False
 USE_NBNN = False
 USE_NORM_IN_CROPPED_FACES = False
 USE_ONE_FILE_FOR_FACE_MODELS = True
+USE_ONE_FILE_FOR_FACE_MODELS_KEY = 'use_one_file_for_face_models'
 USE_TAN_AND_TRIGG_NORM = False
 USE_WEIGHTED_KNN = False
 USE_WEIGHTED_REGIONS = False
@@ -215,26 +220,36 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 # Face alignment parameters
 
 CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_HEIGHT_KEY = 'cropped_face_height'
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
+CROPPED_FACE_WIDTH_KEY = 'cropped_face_width'
 GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 # Maximum difference between nose positions
 MAX_NOSE_DIFF = 0.05
-OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
-OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_X = 0.40 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_X_KEY = 'offset_pct_x'
+OFFSET_PCT_Y = 0.40 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_Y_KEY = 'offset_pct_y'
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
+USE_EYE_DETECTION_KEY = 'use_eye_detection'
 USE_EYE_DETECTION_IN_TRAINING = True
+USE_EYE_DETECTION_IN_TRAINING_KEY = r'use_eye_detection_in_training'
 USE_EYES_POSITION = True # Default True
+USE_EYES_POSITION_KEY = 'use_eyes_position'
 USE_EYES_POSITION_IN_TRAINING = True
+USE_EYES_POSITION_IN_TRAINING_KEY = r'use_eyes_position_in_training'
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
+USE_FACE_DETECTION_IN_TRAINING_KEY = 'use_face_detection_in_training'
 USE_MOUTH_POSITION = False
 # If True, detections with no good nose position are discarded
 USE_NOSE_POS_IN_DETECTION = False
 # If True, compare in recognition only faces with similar nose positions
-USE_NOSE_POS_IN_RECOGNITION = True
+USE_NOSE_POS_IN_RECOGNITION = False
 USE_OVAL_MASK = False
 USE_RESIZING = True
+USE_RESIZING_KEY = 'use_resizing'
 
 # Face extraction from video
 LOAD_IND_FRAMES_RESULTS = True
@@ -348,6 +363,8 @@ WINDOW_PERSON = 'Person' # Indication of person in window that shows
 					     # a person in video
 					     
 # Video analysis times
+CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
+CLOTHIN_RECOGNITION_TIME_KEY = 'clothing_recognition_time'
 FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
 FACE_DETECTION_TIME_KEY = 'face_detection_time'
 SHOT_CUT_DETECTION_TIME_KEY = r'shot_cut_detection_time'

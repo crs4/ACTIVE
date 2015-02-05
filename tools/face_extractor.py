@@ -39,6 +39,8 @@ class FaceExtractor(object):
         
         self.anal_times = {} # Dictionary with times for analysis
         
+        self.cloth_threshold = 0 # Threshold for clothing recognition
+        
         self.cut_idxs = [] # List of frame indexes where new shots begin
         
         self.detected_faces = [] # List of detected faces 
@@ -136,11 +138,15 @@ class FaceExtractor(object):
         
         self.saveTrackingSegments() # TEST ONLY
         
-        #self.saveDiscTrackingSegments() # TEST ONLY
+        self.saveDiscTrackingSegments() # TEST ONLY
         
         self.recognizeFacesInVideo()
 
-        self.saveRecPeople() # TEST ONLY
+        self.saveRecPeople(True) # TEST ONLY
+        
+        self.recognizeClothesInVideo()
+        
+        self.saveRecPeople(False) # TEST ONLY
         
         self.saveTempPeopleFiles()
         
@@ -286,14 +292,16 @@ class FaceExtractor(object):
                         
                         face_dict[BBOX_KEY] = det_face[BBOX_KEY]
                         
-                        face_dict[LEFT_EYE_POS_KEY] = (
-                        det_face[LEFT_EYE_POS_KEY])
+                        if(USE_EYES_POSITION):
                         
-                        face_dict[RIGHT_EYE_POS_KEY] = (
-                        det_face[RIGHT_EYE_POS_KEY])
-                        
-                        face_dict[NOSE_POSITION_KEY] = (
-                        det_face[NOSE_POSITION_KEY])
+                            face_dict[LEFT_EYE_POS_KEY] = (
+                            det_face[LEFT_EYE_POS_KEY])
+                            
+                            face_dict[RIGHT_EYE_POS_KEY] = (
+                            det_face[RIGHT_EYE_POS_KEY])
+                            
+                            face_dict[NOSE_POSITION_KEY] = (
+                            det_face[NOSE_POSITION_KEY])
                         
                         faces.append(face_dict)                 
                         
@@ -393,6 +401,8 @@ class FaceExtractor(object):
                 error = 'Error in opening video file'
                 
                 print error
+                
+                return
     
             else:
                 
@@ -468,9 +478,9 @@ class FaceExtractor(object):
         
                     print('progress: ' + str(self.progress) + ' %      \r'),             
     
-            self.saved_frames = saved_frames
+            self.saved_frames = float(saved_frames)
     
-            param_dict[VIDEO_SAVED_FRAMES_KEY] = saved_frames
+            param_dict[VIDEO_SAVED_FRAMES_KEY] = self.saved_frames
     
             # Save frame list in YAML file
             save_YAML_file(frames_file_path, self.frame_list)
@@ -932,6 +942,70 @@ class FaceExtractor(object):
             save_YAML_file(anal_file_path, self.anal_times)
             
     
+    def createClothModel(self, person_dict):
+        '''
+        Create cloth model of one person.
+        
+        :type person_dict: dictionary
+        :param person_dict: dictionary relative to one person
+        '''
+    
+        # List of color histograms
+        model = []
+        
+        # Extract list of segments from dictionary
+        segment_list = person_dict[SEGMENTS_KEY]
+        
+        # Iterate through list of segments
+        for segment_dict in segment_list:
+        
+            # Extract list of frames
+            frame_list = segment_dict[FRAMES_KEY]
+            
+            for frame_dict in frame_list:
+                
+                detected = frame_dict[DETECTED_KEY]
+                
+                # Consider only detected faces
+                if(detected):
+  
+                    frame_path = frame_dict[FRAME_PATH_KEY]
+                    
+                    face_bbox = frame_dict[DETECTION_BBOX_KEY]
+                    
+                    # Get region of interest for clothes
+                    x0 = face_bbox[0]
+                    x1 = x0 + face_bbox[2]
+                    y0 = face_bbox[1] + face_bbox[3]
+                    y1 = y0 + face_bbox[3]
+                    
+                    im = cv2.imread(frame_path)
+                    
+                    roi = im[y0:y1, x0:x1]
+                    
+                    roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        
+                    mask = cv2.inRange(roi_hsv, 
+                    np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+                    
+                    hists = []
+            
+                    for ch in range(0, 3):
+                
+                        hist = cv2.calcHist(
+                        [roi_hsv], [ch], mask, [16], [0, 255])
+                
+                        cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+                        
+                        hist.reshape(-1)
+                        
+                        hists.append(hist)
+                        
+                    model.append(hists)
+                
+        return model
+        
+
     def createFaceModel(self, segment_dict):
         '''
         Create face model of one tracked face.
@@ -939,7 +1013,7 @@ class FaceExtractor(object):
         :type segment_dict: dictionary
         :param segment_dict: video segment relative to tracked face
         ''' 
-        
+
         #print 'Creating model'
         
         # Extract list of frames from dictionary
@@ -1011,6 +1085,60 @@ class FaceExtractor(object):
         
         return model
         
+    
+    def saveClothModels(self, people):
+        '''
+        Save cloth models for each people recognized by face
+        
+        :type people: list
+        :param people: list of people
+        '''
+        
+        print '\n\n### Creating cloth models ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+
+        res_name = self.resource_name
+        
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for cloth models
+        models_path = os.path.join(video_path, CLOTH_MODELS_DIR)
+        
+        if(not(os.path.exists(models_path))):
+                
+            os.makedirs(models_path) 
+        
+        counter = 0
+        
+        for person_dict in people:
+            
+            model = self.createClothModel(person_dict)
+            
+            db_path =  os.path.join(models_path, str(counter))
+
+            with open(db_path, 'w') as f:
+                
+                pk.dump(model, f)
+            
+            counter = counter + 1
+            
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            
+        print 'Time for calculating cloth models:', str(time_in_seconds), 's\n'    
+            
+        self.anal_times[CLOTH_MODELS_CREATION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)
+                         
         
     def saveFaceModels(self, segments):
         '''
@@ -1066,6 +1194,114 @@ class FaceExtractor(object):
         save_YAML_file(anal_file_path, self.anal_times)
                 
             
+    def searchClothes(self, ann_people, segment_list, train_model, idx):
+        '''        
+        Search people that have similar clothes to model
+        
+        :type ann_people: list
+        :param ann_people: list of already checked people
+        
+        :type segment_list: list
+        :param segment_list: list of segments related to the same person
+        
+        :type train_model: list
+        :param train_model: list of color histograms of train clothes
+        
+        :type idx: int
+        :param idx: index of person used for creating model
+        '''     
+ 
+        res_name = self.resource_name
+
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for cloth models
+        models_path = os.path.join(video_path, CLOTH_MODELS_DIR) 
+        
+        counter = 0
+        
+        for person_dict in self.recognized_faces:
+
+            if(counter not in ann_people):
+                
+                # Check if at list one segment in person_dict 
+                # overlaps in time with at least one segment in the list
+                
+                overlap = False
+                
+                p_segment_list = person_dict[SEGMENTS_KEY]
+                
+                for p_segment_dict in p_segment_list:
+                
+                    seg_start = p_segment_dict[SEGMENT_START_KEY]
+                    
+                    seg_dur = p_segment_dict[SEGMENT_DURATION_KEY]
+                    
+                    seg_end = seg_start + seg_dur
+                    
+                    for l_segment_dict in segment_list:
+                        
+                        l_seg_start = l_segment_dict[SEGMENT_START_KEY]
+                        
+                        l_seg_dur = l_segment_dict[SEGMENT_DURATION_KEY]
+                        
+                        l_seg_end = l_seg_start + l_seg_dur
+                        
+                        if(((seg_start >= l_seg_start) and 
+                        (seg_start <= l_seg_end)) or 
+                        ((seg_end >= l_seg_start) and 
+                        (seg_end <= l_seg_end))):
+                            
+                            overlap = True
+                            break
+                            
+                    if(overlap):
+                        
+                        break
+                        
+                if(overlap):
+                
+                    counter = counter + 1
+                        
+                    continue
+                
+                
+                db_path= os.path.join(models_path, str(counter))
+                        
+                if(os.path.isfile(db_path)):
+                    
+                    model = None
+                    
+                    with open(db_path) as f:
+                
+                        model = pk.load(f) 
+                
+                    if(model):  
+                        
+                        intra_dist1 = self.getMeanIntraDistance(train_model)
+                        
+                        intra_dist2 = self.getMeanIntraDistance(model)
+                        
+                        dist = self.getMeanInterDistance(train_model, model)
+                        
+                        print('idx', idx)
+                        print('counter', counter)
+                        print('dist', dist)
+                        
+                        if(dist < min(intra_dist1, intra_dist2)):
+                            
+                            person_segments = person_dict[SEGMENTS_KEY]
+                            
+                            segment_list.extend(person_segments)
+                            
+                            ann_people.append(counter)
+                            
+            counter = counter + 1               
+         
+        return ann_people 
+                        
+    
     def searchFace(self, ann_segments, segment_list, train_model, idx):
         '''        
         Search tracked faces that are similar to face in model
@@ -1105,6 +1341,40 @@ class FaceExtractor(object):
             #print('ann_segments', ann_segments)
             
             if(sub_counter not in ann_segments):
+                
+                # Check that this segment do not overlap in time
+                # with the other segments in the list
+                
+                seg_start = sub_segment_dict[SEGMENT_START_KEY]
+                
+                seg_dur = sub_segment_dict[SEGMENT_DURATION_KEY]
+                
+                seg_end = seg_start + seg_dur
+                
+                # If true, segment do overlap
+                overlap_seg = False
+                
+                for l_segment_dict in segment_list:
+                    
+                    l_seg_start = l_segment_dict[SEGMENT_START_KEY]
+                    
+                    l_seg_dur = l_segment_dict[SEGMENT_DURATION_KEY]
+                    
+                    l_seg_end = l_seg_start + l_seg_dur
+                    
+                    if(((seg_start >= l_seg_start) and 
+                    (seg_start <= l_seg_end)) or 
+                    ((seg_end >= l_seg_start) and 
+                    (seg_end <= l_seg_end))):
+                        
+                        overlap_seg = True
+                        break
+                        
+                if(overlap_seg):
+                    
+                    sub_counter = sub_counter + 1
+                    
+                    continue
                 
                 db_path= os.path.join(models_path, str(sub_counter))
                         
@@ -1274,13 +1544,13 @@ class FaceExtractor(object):
                             [final_tag, final_conf, pct] = (
                             aggregate_frame_results(frames, tags = tgs))
                             
-                            #print('train index', idx)
-                            #print('query index', sub_counter)
-                            #print('final_tag', final_tag)
-                            #print('confidence', final_conf)
-                            #print('number of frames', len(frames))
-                            #print('Percentage', pct)
-                            #print('\n')
+                            print('train index', idx)
+                            print('query index', sub_counter)
+                            print('final_tag', final_tag)
+                            print('confidence', final_conf)
+                            print('number of frames', len(frames))
+                            print('Percentage', pct)
+                            print('\n')
                             
                         else:
                             
@@ -1344,11 +1614,192 @@ class FaceExtractor(object):
         return ann_segments
 
 
+    def recognizeClothesInVideo(self):
+        '''
+        Recognize distinct people on analyzed video
+        by using cloth color, 
+        assigning a generic tag to each person.
+        It works by using a list of people recognized by using faces
+        '''
+        
+        res_name = self.resource_name
+
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for recognition results
+        rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)  
+        
+        # Directory for face models
+        models_path = os.path.join(video_path, CLOTH_MODELS_DIR)
+        
+        rec_file_path = os.path.join(rec_path, file_name)
+        
+        rec_loaded = False      
+
+        # Try to load YAML file with clothin recognition results
+        if(os.path.exists(rec_file_path)):
+            
+            print 'Loading YAML file with recognition results'
+            
+            rec_faces = load_YAML_file(rec_file_path)
+            
+            if(rec_faces):
+                
+                self.recognized_faces = rec_faces
+                
+                print 'YAML file with recognition results loaded'
+                
+                rec_loaded = True
+                
+        if(not(rec_loaded)):
+        
+            # Check existence of face recognition results
+            track_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+            
+            file_name = res_name + '.YAML'
+                
+            file_path = os.path.join(track_path, file_name)
+            
+            if(len(self.recognized_faces) == 0):
+                
+                # Try to load YAML file
+                if(os.path.exists(file_path)):
+                    
+                    print 'Loading YAML file with face recognition results'
+                    
+                    with open(file_path) as f:
+        
+                        self.recognized_faces = yaml.load(f) 
+                        
+                    print 'YAML file with face recognition results loaded'
+                        
+                else:
+                    
+                    print 'Warning! No face recognition results found!'
+                    
+                    return   
+                    
+            # Make copy of recognized faces
+            face_rec_list = list(self.recognized_faces)
+            
+            # Save clothing models
+            self.saveClothModels(face_rec_list)
+            
+            print '\n\n### Clothing Recognition ###\n'
+            
+            # Save processing time
+            start_time = cv2.getTickCount()
+            
+            rec_faces = []
+            
+            # Get threshold
+            self.getClothThreshold()
+            
+            # List of people already analyzed and annotated
+            ann_same_face_people = []
+            
+            # Iterate through tracked faces
+    
+            same_face_person_counter = 0
+            tag = 0
+  
+            same_face_people_nr = float(len(face_rec_list))
+            
+            for same_face_person_dict in face_rec_list:
+                
+                self.progress = 100 * (
+                same_face_person_counter / same_face_people_nr)
+        
+                print('progress: ' + str(self.progress) + ' %          \r'), 
+                
+                if(same_face_person_counter not in ann_same_face_people):
+                        
+                    # Save all segments relative 
+                    # to one person in person_dict
+                    person_dict = {}
+                    
+                    person_dict[ASSIGNED_TAG_KEY] = tag
+                    
+                    ann_same_face_people.append(same_face_person_counter)
+                    
+                    segment_list = []
+                    
+                    same_face_segments = same_face_person_dict[SEGMENTS_KEY]
+                    
+                    for same_face_segment in same_face_segments:
+                    
+                        segment_list.append(same_face_segment)
+                    
+                    db_path= os.path.join(
+                    models_path, str(same_face_person_counter))
+                    
+                    if(os.path.isfile(db_path)):
+                    
+                        with open(db_path) as f:
+                    
+                            model = pk.load(f) 
+                    
+                        if(model):
+                            
+                            # Use model of this person's clothes
+                            # to recognize other people
+                            
+                            if(self.cloth_threshold > 0):
+                            
+                                ann_same_face_people = self.searchClothes(
+                                ann_same_face_people, segment_list, 
+                                model, same_face_person_counter)
+                            
+                            # Add segments to person dictionary
+                            
+                            person_dict[SEGMENTS_KEY] = segment_list
+                            
+                            # Save total duration of video in milliseconds
+                            
+                            tot_duration = self.video_frames * 1000.0 / self.fps
+                            
+                            person_dict[VIDEO_DURATION_KEY] = tot_duration
+
+                            rec_faces.append(person_dict)
+                            
+                            tag = tag + 1
+                    
+                same_face_person_counter = same_face_person_counter + 1 
+            
+            if(not(os.path.exists(rec_path))):
+                
+                # Create directory for this video
+                os.makedirs(rec_path) 
+            
+            self.recognized_faces = rec_faces
+            
+            # Save recognition result in YAML file
+            save_YAML_file(rec_file_path, self.recognized_faces) 
+            
+            # Save processing time
+            time_in_clocks = cv2.getTickCount() - start_time
+            time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            
+            print 'Time for clothing recognition:', time_in_seconds, 's\n'
+            
+            self.anal_times[CLOTHIN_RECOGNITION_TIME_KEY] = time_in_seconds
+            
+            anal_file_name = res_name + '_anal_times.YAML'
+            
+            anal_file_path = os.path.join(video_path, anal_file_name)
+            
+            save_YAML_file(anal_file_path, self.anal_times)
+    
+    
     def recognizeFacesInVideo(self):       
         '''
         Recognize distinct faces on analyzed video,
-        assigning a generic tag to each face
-        It works by using list of tracked faces
+        assigning a generic tag to each face.
+        It works by using a list of tracked faces
         '''   
         
         res_name = self.resource_name
@@ -1389,7 +1840,6 @@ class FaceExtractor(object):
             # Check existence of tracking results
             track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
             
-            # Save detection result in YAML file
             file_name = res_name + '.YAML'
                 
             file_path = os.path.join(track_path, file_name)
@@ -1794,6 +2244,34 @@ class FaceExtractor(object):
                     face = image_copy[y0:y1, x0:x1]
             
                     cv2.imwrite(face_path, face)
+                    
+                    # Save cloth image on disk
+                    
+                    clothes_path = os.path.join(video_path, 'Clothes')
+                    
+                    if(not(os.path.exists(clothes_path))):
+                
+                        os.makedirs(clothes_path)
+                    
+                    cloth_path = os.path.join(clothes_path, file_name)
+                    
+                    #print('cloth_path', cloth_path)
+                    
+                    #raw_input("Press Enter to continue...")
+                    
+                    old_y0 = y0
+                
+                    y0 = y1
+                
+                    y1 = y1 + (y1-old_y0)
+                    
+                    cloth = image_copy[y0:y1, x0:x1]
+            
+                    cv2.imwrite(cloth_path, cloth)
+                
+                # Add rectangle for clothes             
+                cv2.rectangle(
+                image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
                 
                 file_name = '%07d.bmp' % image_counter
                 
@@ -1808,10 +2286,14 @@ class FaceExtractor(object):
             segment_counter = segment_counter + 1  
  
  
-    def saveRecPeople(self):
+    def saveRecPeople(self, use_face_rec_dir):
         '''
         Save frames for recognized people on disk.
         A folder contains the segments from one person
+        
+        :type use_face_rec_dir: boolean
+        :param use_face_rec_dir: if true, use FACE_RECOGNITION_DIR, 
+        otherwise use CLOTHIN_RECOGNITION_DIR
         '''  
         
         print '\n\n### Saving recognized people ###\n'
@@ -1822,6 +2304,10 @@ class FaceExtractor(object):
         video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)
+        
+        if(not(use_face_rec_dir)):
+            
+            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
         people_path = os.path.join(rec_path, FACE_RECOGNITION_PEOPLE_DIR)
         
@@ -2749,3 +3235,247 @@ class FaceExtractor(object):
                 self.disc_tracked_faces.append(segment_dict)
             
         return new_segments
+        
+    
+    def getClothThreshold(self):
+        '''
+        Calculate threshold for cloth recognition.
+        '''
+        
+        res_name = self.resource_name
+
+        # Directory for this video     
+        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        
+        # Directory for cloth models
+        models_path = os.path.join(video_path, CLOTH_MODELS_DIR) 
+        
+        # Get mean intra-person distances
+        intra_dist_list = []
+        inter_dist_list = []
+        
+        counter = 0
+        
+        for person_dict in self.recognized_faces:
+            
+            #print('counter', counter)
+                
+            db_path= os.path.join(models_path, str(counter))
+                    
+            if(os.path.isfile(db_path)):
+                
+                model = None
+                
+                with open(db_path) as f:
+            
+                    model = pk.load(f) 
+            
+                if(model):
+                    
+                    print('counter', counter)
+                    
+                    # Get mean distance between histograms in model
+                    dist= self.getMeanIntraDistance(model)
+                    
+                    print('intra dist', dist)
+                    
+                    intra_dist_list.append(dist)
+                    
+                    # Get mean inter-person distances
+                    sub_counter = 0
+                    
+                    for sub_person_dict in self.recognized_faces:
+                        
+                        if(sub_counter != counter):
+                            
+                            # Check if at least one segment related 
+                            # to person "sub_counter" overlaps in time 
+                            # with at least one segment related 
+                            # to person "counter"
+                            
+                            overlap = False
+                            
+                            segment_list = person_dict[SEGMENTS_KEY]
+                            
+                            for segment_dict in segment_list:
+                                
+                                start = segment_dict[SEGMENT_START_KEY]
+                                
+                                dur = segment_dict[SEGMENT_DURATION_KEY]
+                                
+                                end = start + dur
+                                
+                                sub_list = sub_person_dict[SEGMENTS_KEY]
+                                
+                                for sub_dict in sub_list:
+                                    
+                                    sub_start = sub_dict[SEGMENT_START_KEY]
+                                
+                                    sub_dur = sub_dict[SEGMENT_DURATION_KEY]
+                                
+                                    sub_end = sub_start + sub_dur
+                                    
+                                    if(((start >= sub_start) and 
+                                    (start <= sub_end)) or 
+                                    ((end >= sub_start) and 
+                                    (end <= sub_end))):
+                                
+                                        overlap = True
+                                        break
+                                        
+                                if(overlap):
+                                    
+                                    break
+                                    
+                            if(overlap):
+                                
+                                #print('sub_counter', sub_counter)
+                                
+                                # Get mean distance between histograms 
+                                # in  two models
+                                sub_db_path= os.path.join(
+                                models_path, str(sub_counter))
+                    
+                                if(os.path.isfile(sub_db_path)):
+                
+                                    sub_model = None
+                
+                                    with open(sub_db_path) as f:
+            
+                                        sub_model = pk.load(f) 
+            
+                                    if(sub_model):
+                                        
+                                        # Get mean distance between 
+                                        # histograms in two models
+                                        dist= self.getMeanInterDistance(
+                                        model, sub_model)
+                                        
+                                        inter_dist_list.append(dist)
+                        
+                        sub_counter = sub_counter + 1
+                    
+            counter = counter + 1
+            
+        mean_intra_dist = np.mean(intra_dist_list)
+        
+        print('mean_intra_dist', mean_intra_dist)
+        
+        mean_inter_dist = np.mean(inter_dist_list)
+        
+        print('mean_inter_dist', mean_inter_dist)
+        
+        threshold = 0
+        
+        if(mean_inter_dist > mean_intra_dist):
+            
+            threshold = mean_intra_dist
+            
+            print('threshold', threshold)
+      
+        self.cloth_threshold = threshold
+        
+        
+    def getFaceThreshold(self):
+        '''
+        Calculate threshold for face recognition.
+        Only faces with similar nose position are considered.
+        Calculated threshold minimizes the number of 
+        same-tracked-segment face pairs whose LBPH difference 
+        is over the threshold and the number of same-frame face pairs 
+        whose LBPH difference is below the threshold
+        '''
+        
+        
+    def getMeanInterDistance(self, model1, model2):
+        '''
+        Calculate mean distance between histograms in two models
+        
+        :type model1: list
+        :param model1: list of color histograms of clothes
+        
+        :type model2: list
+        :param model2: list of color histograms of clothes 
+        to be compared with those of model1
+        '''
+        
+        mean = 0
+        
+        counter1 = 0
+        len_model1 = len(model1)
+        len_model2 = len(model2)
+        diff_list = []
+        
+        for counter1 in range(0, len_model1):
+            
+            hists1 = model1[counter1]
+            
+            counter2 = 0
+            
+            for counter2 in range(0, len_model2):
+                
+                hists2 = model2[counter2]
+                
+                tot_diff = 0
+        
+                for ch in range(0, 3):
+                    
+                    diff = abs(cv2.compareHist(
+                    hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
+                    
+                    tot_diff = tot_diff + diff  
+                    
+                diff_list.append(tot_diff)
+        
+        if(len(diff_list) > 0):
+        
+                mean = np.mean(diff_list)
+        
+        return mean 
+        
+    
+    def getMeanIntraDistance(self, model):
+        '''
+        Calculate mean distance between histograms in model
+        
+        :type model: list
+        :param model: list of color histograms of clothes
+        '''
+        
+        mean = 0
+        
+        counter = 0
+        len_model = len(model)
+        diff_list = []
+        
+        for counter in range(0, len_model):
+            
+            hists = model[counter]
+            
+            for sub_counter in range(counter + 1, len_model):
+                
+                sub_hists = model[sub_counter]
+            
+                tot_diff = 0
+        
+                for ch in range(0, 3):
+                    
+                    diff = abs(cv2.compareHist(
+                    hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
+                    
+                    tot_diff = tot_diff + diff
+                    
+                #print('\n')
+                #print('diff', tot_diff)
+                #print('counter', counter)
+                #print('sub_counter', sub_counter)
+            
+                diff_list.append(tot_diff)
+                
+        if(len(diff_list) > 0):
+        
+                mean = np.mean(diff_list)
+        
+        return mean
+        
+        
