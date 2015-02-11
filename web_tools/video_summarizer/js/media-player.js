@@ -35,6 +35,7 @@ var time_offset = 0;
 
 var percentage;
 
+
 //video e segmanto correnti
 var video_index = 0;
 var track_id = 0;
@@ -267,9 +268,12 @@ $(document).ajaxStop(function(){
 	
 	});
 	
+	
+	
 	$( "#menu" ).click(function() {
 		$( "#playlist" ).slideToggle( "slow" );
 		$(this).find('img').toggle();
+		
 	});
 	
 });
@@ -341,6 +345,8 @@ $(document).on('click','#videoline',function(e){
 		//aggiorno la progress bar
 		currentTime = new Date();
 		initTime.setTime(currentTime.getTime() - time_position*1000);
+		
+		
 		
 		track_timeout = new Timer(function(){
 			manageTracks();
@@ -482,6 +488,16 @@ function updateDOM(){
 		$("#marker"+i).css({"left": (percent_time_video_change*100)+"%"}); //-parseFloat(marker_width)/2)
 	}
 	
+	var list_width = $("#playlist").css("width");
+	list_width = list_width.replace("px","");
+	var list_pad = $("#playlist").css("padding-right");
+	list_pad = list_pad.replace("%","");
+	var head_width = $("#header").css("width");
+	head_width = head_width.replace("px","");
+	var pad_px = (list_pad*head_width)/100;
+	
+	$("#menu").css({"width":(parseFloat(list_width)+parseFloat(pad_px))+"px"})
+	
 }
 
 
@@ -582,28 +598,32 @@ function mediaStop(){
 function manageTracks(){
 	
 	if(play == true){
+			
+			if(op_index < time_video_track_map[0].length){
+				
+				$(mediaPlayer).hide();
+				
+				var video = video_arr[time_video_track_map[1][op_index]];
+				track_id = time_video_track_map[2][op_index];
+				video_index = time_video_track_map[1][op_index];
+			
+				playTracks(video);
+				
+				
+				
+				
+				track_timeout = new Timer(function(){
+					manageTracks();
+					},video.duration[track_id]*1000);
+				
+				 
+				op_index = op_index + 1;
+			}
+			else{
+				mediaStop();
+			}
 		
-		if(op_index < time_video_track_map[0].length){
-			
-			$(mediaPlayer).hide();
-			
-			var video = video_arr[time_video_track_map[1][op_index]];
-			track_id = time_video_track_map[2][op_index];
-			video_index = time_video_track_map[1][op_index];
 		
-			playTracks(video);
-			
-			
-			
-			track_timeout = new Timer(function(){
-				manageTracks();
-				},video.duration[track_id]*1000);
-			 
-			op_index = op_index + 1;
-		}
-		else{
-			mediaStop();
-		}
 	}	
 }
 

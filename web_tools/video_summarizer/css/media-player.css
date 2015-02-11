@@ -32,7 +32,7 @@ body {
 	top: 0%;
 	position: absolute;
 	height: 5%;
-	width: 17%;
+	
 	left: 0%;
 	cursor: pointer;
 	display: inline-block;
@@ -40,7 +40,6 @@ body {
 	color: #89c4f4;
 	font-size: 1.4em;
 	background-color:#22313f;
-	
 }
 
 #menu img {
@@ -70,8 +69,9 @@ body {
 	position: absolute;
 	top: 0%;
 	left: 0%;
+	padding-right:1%;
 	
-	width: 17%;
+	
 	overflow: auto;
 	display: none;
 	background-color:rgba(34,49,63,0.7);
@@ -104,7 +104,9 @@ li:hover{
 
 	cursor:pointer;
 	text-decoration: underline;
+/*
 	font-weight: bold;
+*/
 }
 
 
@@ -294,7 +296,3 @@ video {
 	
 	
 }
-
-
-
-
