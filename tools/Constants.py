@@ -8,6 +8,7 @@ import sys
 ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
 #ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
 ALIGNED_FACES_DIR = 'Aligned faces'
+CAPTION_RECOGNITION_TEST_SET_PATH = ''
 #CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CLOTH_MODELS_DIR = r'Cloth models'
@@ -25,17 +26,17 @@ FACE_DETECTION_DIR = 'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 FACE_MODELS_DIR = 'Face models'
+#FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml' To be deleted
+FACE_RECOGNITION_DIR = 'Face recognition'
+FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
+FACE_RECOGNITION_PEOPLE_DIR = r'People'
 #FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
 FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Indipendent frames'
 #FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
-FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml'
-FACE_RECOGNITION_DIR = 'Face recognition'
-FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
-FACE_RECOGNITION_PEOPLE_DIR = r'People'
+FACE_RECOGNITION_TRAINING_SET_PATH = ''
 FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
 FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
-FACE_SIMPLE_ANNOTATION_DIR = r'Simple annotations' # Directory containg simple annotations
 #FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
 #FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
@@ -59,7 +60,6 @@ TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
-TRAINING_SET_PATH = ''
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -227,9 +227,9 @@ GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 # Maximum difference between nose positions
 MAX_NOSE_DIFF = 0.05
-OFFSET_PCT_X = 0.40 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
+OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
 OFFSET_PCT_X_KEY = 'offset_pct_x'
-OFFSET_PCT_Y = 0.40 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_KEY = 'offset_pct_y'
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 USE_EYE_DETECTION = True
@@ -246,7 +246,7 @@ USE_MOUTH_POSITION = False
 # If True, detections with no good nose position are discarded
 USE_NOSE_POS_IN_DETECTION = False
 # If True, compare in recognition only faces with similar nose positions
-USE_NOSE_POS_IN_RECOGNITION = False
+USE_NOSE_POS_IN_RECOGNITION = True
 USE_OVAL_MASK = False
 USE_RESIZING = True
 USE_RESIZING_KEY = 'use_resizing'
@@ -261,7 +261,7 @@ MAX_FR_WITH_MISSED_DET = 5
 USE_ORIGINAL_FPS = False
 USE_ORIGINAL_RES = True
 # Bitrate at which video is analyzed (in frames per second)
-USED_FPS = 6
+USED_FPS = 5
 # Frame resolution at which video is analyzed 
 # (percentage of original width and height)
 USED_RES_SCALE_FACTOR = 0.5
@@ -322,6 +322,7 @@ CONF_THRESHOLD = 7 # Threshold for retaining prediction
 DETECTED_KEY = 'detected'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
+HALF_WINDOW_SIZE = 10
 # TO BE DELETED
 #FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation

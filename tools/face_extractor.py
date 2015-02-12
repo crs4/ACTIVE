@@ -150,11 +150,11 @@ class FaceExtractor(object):
         
         self.saveTempPeopleFiles()
         
-        #self.showRecPeople()
+        self.showRecPeople()
         
-        #self.readUserAnnotations()
+        self.readUserAnnotations()
         
-        #self.savePeopleFiles()
+        self.savePeopleFiles()
         
         
     def detectFacesInVideo(self):
@@ -433,7 +433,7 @@ class FaceExtractor(object):
                         break
                         
                     # Next frame to be analyzed
-                    next_frame = last_anal_frame + (video_fps/USED_FPS)
+                    next_frame = last_anal_frame + (video_fps/(USED_FPS+1))
                     
                     if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
                     
@@ -592,7 +592,7 @@ class FaceExtractor(object):
             if(not(USE_ORIGINAL_FPS)):
                 
                 min_segment_frames = int(
-                math.ceil(USED_FPS * MIN_SEGMENT_DURATION))
+                math.ceil((USED_FPS+1) * MIN_SEGMENT_DURATION))
             
             # Make copy of detected faces
             detection_list = list(self.detected_faces)
@@ -744,7 +744,7 @@ class FaceExtractor(object):
                         # Check size of track window
                         if((track_w <= FACE_DETECTION_MIN_SIZE_WIDTH) 
                         or (track_h <= FACE_DETECTION_MIN_SIZE_HEIGHT)):                    
-                            
+
                             break
                             
                         segment_frame_dict = {}
@@ -2694,25 +2694,25 @@ class FaceExtractor(object):
                            
                 self.hist_diffs.append(tot_diff)
             
-            counter = counter + 1
+            counter = counter + 1 
                 
         # Calculate shot cuts
         #print 'diff_list', diff_list
         
         if(len(self.hist_diffs) > 0):
             
-            # Calculate size of sliding window
-            half_w_size = int(
-            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            ## Calculate size of sliding window
+            #half_w_size = int(
+            #math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
             
-            # If a reduced bitrate is used, sliding window is smaller
-            if(not(USE_ORIGINAL_FPS)):
+            ## If a reduced bitrate is used, sliding window is smaller
+            #if(not(USE_ORIGINAL_FPS)):
                 
-                half_w_size = int(math.floor(
-                USED_FPS * MIN_SEGMENT_DURATION / 2))
+                #half_w_size = int(math.floor(
+                #(USED_FPS+1) * MIN_SEGMENT_DURATION / 2))
             
             self.cut_idxs = get_shot_changes(
-            self.hist_diffs, half_w_size, STD_MULTIPLIER_FRAME)    
+            self.hist_diffs, HALF_WINDOW_SIZE, STD_MULTIPLIER_FRAME)    
             
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
@@ -2726,8 +2726,7 @@ class FaceExtractor(object):
             
         anal_file_path = os.path.join(video_path, anal_file_name)
             
-        save_YAML_file(anal_file_path, self.anal_times)              
-                    
+        save_YAML_file(anal_file_path, self.anal_times)                              
            
     
     def saveTempPeopleFiles(self): 
@@ -3106,17 +3105,17 @@ class FaceExtractor(object):
                     
         if(len(det_diff_list) > 0):
             
-            half_w_size = int(
-            math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
+            #half_w_size = int(
+            #math.floor(self.fps * MIN_SEGMENT_DURATION / 2)) 
             
-            # If a reduced bitrate is used, sliding window is smaller
-            if(not(USE_ORIGINAL_FPS)):
+            ## If a reduced bitrate is used, sliding window is smaller
+            #if(not(USE_ORIGINAL_FPS)):
                 
-                half_w_size = int(math.floor(
-                USED_FPS * MIN_SEGMENT_DURATION / 2))
+                #half_w_size = int(math.floor(
+                #(USED_FPS+1) * MIN_SEGMENT_DURATION / 2))
             
             face_cut_idxs_temp = get_shot_changes(
-            det_diff_list, half_w_size, STD_MULTIPLIER_FACE) 
+            det_diff_list, HALF_WINDOW_SIZE, STD_MULTIPLIER_FACE) 
             
             if(len(face_cut_idxs_temp) > 0):
                 
@@ -3170,7 +3169,7 @@ class FaceExtractor(object):
         if(not(USE_ORIGINAL_FPS)):
             
             min_segment_frames = int(
-            math.ceil(USED_FPS * MIN_SEGMENT_DURATION)) 
+            math.ceil((USED_FPS+1) * MIN_SEGMENT_DURATION)) 
             
         # Iterate through new sub segments
         for sub_frame_list in sub_segment_list:
@@ -3191,7 +3190,7 @@ class FaceExtractor(object):
             
             if(not(USE_ORIGINAL_FPS)):
             
-                duration = frame_counter * 1000.0 / USED_FPS
+                duration = frame_counter * 1000.0 / (USED_FPS+1)
         
             segment_dict[SEGMENT_DURATION_KEY] = duration
         

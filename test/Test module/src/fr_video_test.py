@@ -460,7 +460,7 @@ def fr_video_experiments(params, show_results):
 
                             bbox = face[BBOX_KEY]
 
-                            if((frame_counter > 0) and (frame_counter <= (prev_frame_counter + MAX_FRAMES_WITH_MISSED_DETECTION + 1))):
+                            if((frame_counter > 0) and (frame_counter <= (prev_frame_counter + MAX_FR_WITH_MISSED_DET + 1))):
 
                                 bbox_x = bbox[0]
                                 bbox_y = bbox[1]
