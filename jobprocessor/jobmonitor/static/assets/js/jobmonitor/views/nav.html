@@ -1,0 +1,24 @@
+<ul ng-controller="navCtrl">
+	<li class="">
+		<a href="/jobmonitor"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+	</li>
+	<li class="">
+		<a href="/jobmonitor/workers"><i class="fa fa-lg fa-fw fa-gears"></i> <span class="menu-item-parent">Workers</span></a>
+	</li>
+	<li>
+		<a href="#">
+			<i class="fa fa-lg fa-fw fa-gear"></i>
+			<span class="menu-item-parent">Jobs</span>
+		</a>
+		<ul>
+			<li><a id="list" href="/jobmonitor/jobs">List</a></li>
+			<li><a id="start" href="/jobmonitor/startjob">Start</a></li>
+			<li><a id="purge" href="/jobmonitor/purgejobs">Purge</a></li>
+		</ul>
+	</li>
+</ul> 
+<span class="minifyme"> <i class="fa fa-arrow-circle-left hit"></i> </span>
+<script>
+	pageSetUp();
+</script>
+

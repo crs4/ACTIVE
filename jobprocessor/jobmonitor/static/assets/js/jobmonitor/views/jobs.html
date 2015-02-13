@@ -1,0 +1,64 @@
+<!-- widget grid -->
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-jobs" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>Jobs</h2>
+				</header>
+				<div>
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- widget content -->
+					<div class="widget-body">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th># ID</th>
+									<th>Name</th>
+									<th>Status</th>
+									<th>Progression</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="job in jobs">
+									<td class="vertical_align"><a ng-click="getJob(job.id)" style="cursor: pointer;">{{job.id}}</a></td>
+									<td class="vertical_align">{{job.name}}</td>
+									<td class="vertical_align">{{job.status}}</td>
+									<td>
+										<div class="row">
+											<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12 show-stats">
+												<span class="text">Percentage
+													<span class="pull-right">{{job.progression}} %</span>
+												</span>
+												<div class="progress">
+													<div class="progress-bar bg-color-blue" style="width: {{job.progression}}%;"></div>
+												</div>
+											</div>
+										</div>
+									</td>
+									<td class="vertical_align_btn">
+										<button class="btn btn-xs btn-danger" title="remove" ng-click="deleteJob(job.id)" ng-disabled="job.status == 'FAILED' || job.status == 'COMPLETED' || job.status == 'ABORTED'">
+											<i class="fa fa-lg fa-fw fa-trash-o"></i>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- end widget content -->
+				</div>
+			</div>
+		</article>
+		<!-- END NEW WIDGET START -->
+	</div>
+	<!-- end row -->
+</section>
+<!-- end widged grid -->
+

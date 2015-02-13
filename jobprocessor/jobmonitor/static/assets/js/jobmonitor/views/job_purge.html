@@ -1,0 +1,47 @@
+<!-- RIBBON -->
+<div id="ribbon" ng-controller="ribbonCtrl">
+
+	<span class="ribbon-button-alignment" ng-click="reload()"> 
+		<span id="refresh" class="btn btn-ribbon" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"><i class="fa fa-refresh"></i></span> 
+	</span>
+
+	<!-- breadcrumb -->
+	<ol class="breadcrumb">
+		<li>Home</li>
+		<li>Jobs Purge</li>
+	</ol>
+	<!-- end breadcrumb -->
+
+</div>
+<!-- END RIBBON -->
+
+<!-- MAIN CONTENT -->
+<div id="content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="text-center error-box">
+						<h2 class="font-xl"><strong><i class="fa fa-fw fa-warning fa-lg text-warning"></i> Purge Queues</strong></h2>
+						<br />
+						<p class="lead">
+							Look Out! This operation allows you to delete all the jobs in the QUEUED and COMPLETED queues.
+						</p>
+						<p class="font-md" ng-switch="info.msg">
+							<b ng-switch-when="true" class="txt-color-green">Queues have been purged!</b>
+							<b ng-switch-when="false" class="txt-color-red">Damn, that didn't work!</b>
+						</p>
+						<br>
+						<div class="error-search well well-lg padding-10">
+							<button class="btn btn-success btn-lg btn-block" type="button" ng-click="purgeQueues()"> Purge Queues </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+<script>
+	pageSetUp();
+</script>
