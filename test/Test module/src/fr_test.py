@@ -4,7 +4,7 @@ import sys
 sys.path.append("../../..")
 from os import listdir, path
 from tools.Constants import *
-from tools.face_detection import get_cropped_face, get_cropped_face_using_eyes_pos
+from tools.face_detection import get_cropped_face, get_cropped_face_using_eye_pos
 from tools.face_extractor import FaceExtractor
 from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
@@ -18,16 +18,28 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
 
     # Write csv header
     stream.write(EXPERIMENT_NUMBER_KEY + ',' + EXPERIMENT_ALGORITHM_KEY + ',' +
+                 LBP_RADIUS_KEY + ',' + LBP_NEIGHBORS_KEY + ',' +
+                 LBP_GRID_X_KEY + ',' + LBP_GRID_Y_KEY + ',' +
+                 PERSON_IMAGES_NR_KEY + ',' + TRAINING_IMAGES_NR_KEY + ',' +
                  RECOGNITION_RATE_KEY + ',' +
                  MEAN_PRECISION_KEY + ',' + STD_PRECISION_KEY + ',' +
                  MEAN_RECALL_KEY + ',' + STD_RECALL_KEY + ',' +
                  MEAN_F1_KEY + ',' + STD_F1_KEY + ',' +
-                 MEAN_RECOGNITION_TIME_KEY + '\n')
+                 MEAN_RECOGNITION_TIME_KEY + ',' +
+                 MODEL_CREATION_TIME_KEY + '\n')
 
     for experiment_dict_extended in experiments:
+        
         experiment_dict = experiment_dict_extended[EXPERIMENT_KEY]
+        
         stream.write(str(experiment_dict[EXPERIMENT_NUMBER_KEY]) + ',' +
                      experiment_dict[EXPERIMENT_ALGORITHM_KEY] + ',' +
+                     str(experiment_dict[LBP_RADIUS_KEY]) + ',' +
+                     str(experiment_dict[LBP_NEIGHBORS_KEY]) + ',' +
+                     str(experiment_dict[LBP_GRID_X_KEY]) + ',' +
+                     str(experiment_dict[LBP_GRID_Y_KEY]) + ',' +
+                     str(experiment_dict[PERSON_IMAGES_NR_KEY]) + ',' +
+                     str(experiment_dict[TRAINING_IMAGES_NR_KEY]) + ',' +
                      str(experiment_dict[RECOGNITION_RATE_KEY]) + ',' +
                      str(experiment_dict[MEAN_PRECISION_KEY]) + ',' +
                      str(experiment_dict[STD_PRECISION_KEY]) + ',' +
@@ -35,17 +47,20 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[STD_RECALL_KEY]) + ',' +
                      str(experiment_dict[MEAN_F1_KEY]) + ',' +
                      str(experiment_dict[STD_F1_KEY]) + ',' +
-                     str(experiment_dict[MEAN_RECOGNITION_TIME_KEY]) + '\n')
+                     str(experiment_dict[MEAN_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[MODEL_CREATION_TIME_KEY]) + '\n')
     stream.close()
 
 def fr_test(params, show_results):
     ''' Execute face recognition test
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for the test
+    :param params: dictionary containing the parameters to be used 
+    for the test
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false) image with assigned tag
+    :param show_results: show (true) or do not show (false) 
+    image with assigned tag
     '''
     
     image_path = SOFTWARE_TEST_FILE_PATH
@@ -61,8 +76,6 @@ def fr_test(params, show_results):
         try:
             image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     
-            # Load face recognition parameters
-    
             recognition_results = recognize_face(image, None, params, show_results)
     
             error = recognition_results[ERROR_KEY]
@@ -73,9 +86,9 @@ def fr_test(params, show_results):
     
                 confidence = recognition_results[CONFIDENCE_KEY]
     
-				if(len(tag) == 0):
-					
-					test_passed = False
+                if(len(tag) == 0):
+                    
+                    test_passed = False
     
                 if(confidence < 0):
                     test_passed = False
@@ -116,13 +129,17 @@ def fr_experiments(params, show_results):
     true_pos_confidence_list = [] # List of confidence values for true positives
     false_pos_confidence_list = [] # List of confidence values for false positives
 
-    fm = FaceModelsLBP()
+    fm = FaceModelsLBP(params)
 
-    # Total number of images for each person
-    person_images_nr = params[PERSON_IMAGES_NR_KEY]
+    person_images_nr = PERSON_IMAGES_NR
+    training_images_nr = TRAINING_IMAGES_NR
 
-    # Number of images for each person to be used for the training
-    training_images_nr = params[TRAINING_IMAGES_NR_KEY]
+    if(params is not None):
+        # Total number of images for each person
+        person_images_nr = params[PERSON_IMAGES_NR_KEY]
+    
+        # Number of images for each person to be used for the training
+        training_images_nr = params[TRAINING_IMAGES_NR_KEY]
     
     # Number of images for each person to be used for the test
     test_images_nr = person_images_nr - training_images_nr
@@ -142,22 +159,33 @@ def fr_experiments(params, show_results):
     tags = fm.get_tags()
     
     for tag in tags:
-		
+        
         people_true_positives_dict[tag] = 0
         people_false_positives_dict[tag] = 0
 
-    # Get path of directories with used files from params
-    test_set_path = None # directory with test set
+    dataset_already_divided = DATASET_ALREADY_DIVIDED
+   
+    # directory with training set
+    training_set_path = FACE_RECOGNITION_TRAINING_SET_PATH
+    # directory with test set
+    test_set_path = FACE_RECOGNITION_TEST_SET_PATH
+    
+    if(not dataset_already_divided):
+        test_set_path = FACE_RECOGNITION_DATASET_PATH
+   
+    results_path = FACE_RECOGNITION_RESULTS_PATH
 
-    dataset_already_divided = params[DATASET_ALREADY_DIVIDED_KEY]
-    
-    if(dataset_already_divided):
-        training_set_path = params[TRAINING_SET_PATH_KEY] + '\\'
-        test_set_path = params[TEST_SET_PATH_KEY] + '\\'
-    else:
-        test_set_path = params[DATASET_PATH_KEY] + '\\'
-    
-    results_path = params[RESULTS_PATH_KEY] + '\\' # directory with results
+    if(params is not None):
+        # Get path of directories with used files from params
+        dataset_already_divided = params[DATASET_ALREADY_DIVIDED_KEY]
+        
+        if(dataset_already_divided):
+            training_set_path = params[TRAINING_SET_PATH_KEY] + '\\'
+            test_set_path = params[TEST_SET_PATH_KEY] + '\\'
+        else:
+            test_set_path = params[DATASET_PATH_KEY] + '\\'
+        
+        results_path = params[FACE_RECOGNITION_RESULTS_PATH_KEY] + '\\' # directory with results
 
     # Iterate over all directories with images
     images_dirs = listdir(test_set_path)
@@ -167,7 +195,7 @@ def fr_experiments(params, show_results):
 
         ann_face_tag = images_dir
 
-        print('ann_face_tag: ', ann_face_tag)
+        #print('ann_face_tag: ', ann_face_tag)
         
         images_dir_complete_path = test_set_path + images_dir
 
@@ -238,7 +266,7 @@ def fr_experiments(params, show_results):
                     image_dict[ASSIGNED_TAG_KEY] = assigned_tag
                     image_dict[CONFIDENCE_KEY] = confidence
 
-                    print('assigned_tag = ', assigned_tag)
+                    #print('assigned_tag = ', assigned_tag)
                     
                     if(assigned_tag == ann_face_tag):
                         image_dict[PERSON_CHECK_KEY] = 'TP'
@@ -249,7 +277,7 @@ def fr_experiments(params, show_results):
                         image_dict[PERSON_CHECK_KEY] = 'FP'
                         if(assigned_tag != 'Undefined'):
                             people_false_positives_dict[assigned_tag] = people_false_positives_dict[assigned_tag] + 1
-							false_pos_confidence_list.append(confidence)
+                            false_pos_confidence_list.append(confidence)
 
                     image_dict_extended = {}
                     image_dict_extended[IMAGE_KEY] = image_dict
@@ -356,9 +384,34 @@ def fr_experiments(params, show_results):
     number_of_already_done_experiments = 0
 
     new_experiment_dict = {}
-    algorithm_name = face_rec_params[ALGORITHM_KEY]
-    new_experiment_dict[EXPERIMENT_ALGORITHM_KEY] = algorithm_name
+    
+    algorithm_name = FACE_MODEL_ALGORITHM
+    
+    radius = LBP_RADIUS
+    neighbors = LBP_NEIGHBORS
+    grid_x = LBP_GRID_X
+    grid_y = LBP_GRID_Y
+    person_images_nr = PERSON_IMAGES_NR
+    training_images_nr = TRAINING_IMAGES_NR
 
+    if(params is not None):
+        algorithm_name = params[FACE_MODEL_ALGORITHM_KEY]
+        radius = params[LBP_RADIUS_KEY]
+        neighbors = params[LBP_NEIGHBORS_KEY]
+        grid_x = params[LBP_GRID_X_KEY]
+        grid_y = params[LBP_GRID_Y_KEY]
+        person_images_nr = params[PERSON_IMAGES_NR_KEY]
+        training_images_nr = params[TRAINING_IMAGES_NR_KEY]        
+    
+    new_experiment_dict[EXPERIMENT_ALGORITHM_KEY] = algorithm_name
+    
+    new_experiment_dict[LBP_RADIUS_KEY] = radius
+    new_experiment_dict[LBP_NEIGHBORS_KEY] = neighbors  
+    new_experiment_dict[LBP_GRID_X_KEY] = grid_x
+    new_experiment_dict[LBP_GRID_Y_KEY] = grid_y
+    new_experiment_dict[PERSON_IMAGES_NR_KEY] = person_images_nr
+    new_experiment_dict[TRAINING_IMAGES_NR_KEY] = training_images_nr        
+    
     new_experiment_dict[RECOGNITION_RATE_KEY] = recognition_rate
     new_experiment_dict[MEAN_PRECISION_KEY] = mean_precision
     new_experiment_dict[STD_PRECISION_KEY] = std_precision
@@ -367,10 +420,10 @@ def fr_experiments(params, show_results):
     new_experiment_dict[MEAN_F1_KEY] = mean_f1
     new_experiment_dict[STD_F1_KEY] = std_f1
     new_experiment_dict[MEAN_RECOGNITION_TIME_KEY] = mean_rec_time
-
-    rec_dict[FACE_RECOGNITION_GLOBAL_RESULTS] = new_experiment_dict
-    rec_dict[FACE_RECOGNITION_IMAGES_KEY] = images_list_for_YAML
-    rec_dict[FACE_RECOGNITION_PEOPLE_KEY] = people_list_for_YAML
+    new_experiment_dict[MODEL_CREATION_TIME_KEY] = fm.model_creation_time
+    rec_dict[GLOBAL_RESULTS_KEY] = new_experiment_dict
+    rec_dict[IMAGES_KEY] = images_list_for_YAML
+    rec_dict[PEOPLE_KEY] = people_list_for_YAML
 
     all_results_YAML_file_path = results_path + FACE_RECOGNITION_EXPERIMENT_RESULTS_FILE_NAME + '.yml'
     file_check = path.isfile(all_results_YAML_file_path)

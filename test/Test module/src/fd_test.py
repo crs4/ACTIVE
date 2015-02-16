@@ -129,7 +129,7 @@ def fd_experiments(params, show_results):
         # Get path of directories with used files from params
         frames_path = params[TEST_FILES_PATH_KEY] + os.sep 
         annotations_path = params[ANNOTATIONS_PATH_KEY] + os.sep
-        results_path = params[RESULTS_PATH_KEY] + os.sep
+        results_path = params[FACE_DETECTION_RESULTS_PATH_KEY] + os.sep
     
     annotated_faces_nr = 0
     true_positives_nr = 0
