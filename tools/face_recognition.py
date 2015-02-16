@@ -311,7 +311,7 @@ def recognize_face_from_model_files(face, face_models, params, show_results):
     
     tag = fm.get_tag(label)
     
-    print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
+    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
@@ -475,7 +475,7 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
         
     tag = fm.get_tag(label)
     
-    print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
+    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
@@ -519,7 +519,7 @@ def recognize_face_base(face, face_models, params, show_results):
 
     tag = fm.get_tag(label)
     
-    print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
+    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()

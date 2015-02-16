@@ -8,30 +8,33 @@ import sys
 ACTIVE_ROOT_DIRECTORY=r"C:\Users\Maurizio\Documents\Progetto ACTIVE" + os.sep # Maurizio Pintus
 #ACTIVE_ROOT_DIRECTORY = r'C:\Active\Mercurial' + os.sep # Pc Lab
 ALIGNED_FACES_DIR = 'Aligned faces'
+ALIGNED_FACES_PATH = ACTIVE_ROOT_DIRECTORY + r'tools\Aligned faces'
+ALIGNED_FACES_PATH_KEY = 'aligned_faces_path'
 CAPTION_RECOGNITION_TEST_SET_PATH = ''
-#CLASSIFIERS_FOLDER_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
+#CLASSIFIERS_DIR_PATH = r'C:\opencv\sources\data\haarcascades' # Pc Lab
 CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Maurizio Pintus
 CLOTH_MODELS_DIR = r'Cloth models'
 CLOTHING_RECOGNITION_DIR = 'Clothing recognition'
 CSV_FILE_NAME = 'Risultati.csv'
-DATASET_PATH = ''
-#DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models' TO BE DELETED
-#DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'VidTIMIT'
-DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Videolina_80_LBP_1_8_4_4'
+DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
+DB_MODELS_PATH_KEY = 'db_models_path'
 DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
 FACE_ANNOTATION_DIR = 'Annotations' # Directory containg complete annotations
 FACE_DETECTION_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 FACE_DETECTION_DIR = 'Face detection'
 FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestResultsNew'
+FACE_DETECTION_RESULTS_PATH_KEY = 'face_detection_results'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 FACE_MODELS_DIR = 'Face models'
 #FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml' To be deleted
+FACE_RECOGNITION_DATASET_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T\\'
 FACE_RECOGNITION_DIR = 'Face recognition'
 FACE_RECOGNITION_KEY_FRAMES_DIR = r'Key frames'
 FACE_RECOGNITION_PEOPLE_DIR = r'People'
 #FACE_RECOGNITION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Sliding window - 5 s'
-FACE_RECOGNITION_RESULTS_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Indipendent frames'
+FACE_RECOGNITION_RESULTS_PATH = r'C:\Users\Maurizio\Documents\Risultati test\Face recognition\AT&T' + os.sep
+FACE_RECOGNITION_RESULTS_PATH_KEY = 'face_recognition_results_path'
 #FACE_RECOGNITION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Test_set'
 FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_RECOGNITION_TRAINING_SET_PATH = ''
@@ -125,6 +128,7 @@ MEAN_F1_KEY = 'mean_F1'
 STD_F1_KEY = 'std_F1'
 MEAN_DETECTION_TIME_KEY = 'mean_detection_time'
 MEAN_RECOGNITION_TIME_KEY = 'mean_recognition_time'
+MODEL_CREATION_TIME_KEY = 'model_creation_time'
 
 # Annotations
 
@@ -168,11 +172,11 @@ NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
 # Experiment parameters
 
 ANNOTATIONS_PATH_KEY = 'annotations_path'
-DATASET_ALREADY_DIVIDED = True
+DATASET_ALREADY_DIVIDED = False
 DATASET_ALREADY_DIVIDED_KEY = 'dataset_already_divided'
 DATASET_PATH_KEY = 'dataset_path'
 FACE_DETECTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperimentsResults';
-FACE_RECOGNITION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceRecognitionExperimentsResults';
+FACE_RECOGNITION_EXPERIMENT_RESULTS_FILE_NAME = 'LBP_1_8_8_8';
 FACE_EXTRACTION_EXPERIMENT_RESULTS_FILE_NAME = 'FaceExtractionExperimentResults';
 EXPERIMENTS_KEY = 'experiments';
 EXPERIMENT_KEY = 'experiment';
@@ -180,27 +184,35 @@ EXPERIMENT_NUMBER_KEY = 'experimentNumber';
 EXPERIMENT_ALGORITHM_KEY = 'algorithm';
 EXPERIMENT_PARAMS_KEY = 'parameters';
 EXPERIMENT_RESULTS_FILE_NAME = 'FaceDetectionExperiments'
+PERSON_IMAGES_NR = 10
+PERSON_IMAGES_NR_KEY = 'person_images_nr'
 RESULTS_PATH_KEY = 'results_path'
 SIM_TRACKING = False
 TEST_SET_PATH_KEY = 'test_set_path'
+TRAINING_IMAGES_NR = 2
+TRAINING_IMAGES_NR_KEY = 'training_images_nr'
 TRAINING_SET_PATH_KEY = 'training_set_path'
 
 # Face recognition parameters
 ALFA = 1
 CALCULATE_K_FROM_FEATURES = False
-FACE_MODEL_ALGORITHM="LBP"
+DB_NAME = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'ATT'
+DB_NAME_KEY = 'db_name'
+FACE_MODEL_ALGORITHM = 'LBP'
+FACE_MODEL_ALGORITHM_KEY = 'face_model_algorithm'
 LBP_RADIUS=1
 LBP_RADIUS_KEY = 'LBP_radius'
 LBP_NEIGHBORS=8
 LBP_NEIGHBORS_KEY = 'LBP_neighbors'
-LBP_GRID_X=4
+LBP_GRID_X=8
 LBP_GRID_X_KEY = 'LBP_grid_x'
-LBP_GRID_Y=4
+LBP_GRID_Y=8
 LBP_GRID_Y_KEY = 'LBP_grid_y'
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
 USE_CANNY_IN_CROPPED_FACES = False
 USE_CAPTIONS = False
+USE_CAPTIONS_KEY = 'use_captions'
 USE_HIST_EQ_IN_CROPPED_FACES = True
 USE_MIRRORED_FACES_IN_TRAINING = False
 USE_NBNN = False
@@ -232,13 +244,13 @@ OFFSET_PCT_X_KEY = 'offset_pct_x'
 OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_KEY = 'offset_pct_y'
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
-USE_EYE_DETECTION = True
+USE_EYE_DETECTION = False # Default True
 USE_EYE_DETECTION_KEY = 'use_eye_detection'
-USE_EYE_DETECTION_IN_TRAINING = True
+USE_EYE_DETECTION_IN_TRAINING = False  # Default True
 USE_EYE_DETECTION_IN_TRAINING_KEY = r'use_eye_detection_in_training'
-USE_EYES_POSITION = True # Default True
+USE_EYES_POSITION = False # Default True
 USE_EYES_POSITION_KEY = 'use_eyes_position'
-USE_EYES_POSITION_IN_TRAINING = True
+USE_EYES_POSITION_IN_TRAINING = False # Default True
 USE_EYES_POSITION_IN_TRAINING_KEY = r'use_eyes_position_in_training'
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_FACE_DETECTION_IN_TRAINING_KEY = 'use_face_detection_in_training'
@@ -248,7 +260,7 @@ USE_NOSE_POS_IN_DETECTION = False
 # If True, compare in recognition only faces with similar nose positions
 USE_NOSE_POS_IN_RECOGNITION = True
 USE_OVAL_MASK = False
-USE_RESIZING = True
+USE_RESIZING = False # Default True
 USE_RESIZING_KEY = 'use_resizing'
 
 # Face extraction from video
@@ -313,7 +325,7 @@ AUDIO_SEGMENTS_KEY = 'audio_segments'
 CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
 
-# Face summarization
+# Video indexing
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
 CONF_THRESHOLD = 7 # Threshold for retaining prediction 
@@ -331,20 +343,21 @@ MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
-MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds)
+#MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds) TO BE DELETED
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
-STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
-						  #calculating thresholds for shot cut detection
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
 					    # thresholds for dividing between faces
+STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
+						  # calculating thresholds for shot cut detection
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
-TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
+# TO BE DELETED
+#TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
 								# (difference between H histograms)
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
 							# between detection bbox and tracking window

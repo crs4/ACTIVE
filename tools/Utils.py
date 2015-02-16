@@ -49,6 +49,83 @@ def load_image_annotations(file_path):
         print 'Unable to open', file_path
         return None
 
+
+def save_model_file(X, y, params = None, db_file_name = None):
+	'''
+	Save face model
+
+	:type X: OpenCV image
+	:param X: face image
+	
+	:type y: integer
+	:param y: label of face model
+	
+	:type y: dictionary
+	:param y: used parameters     
+	
+	:type db_file_name: string
+	:param db_file_name: name of database              
+	'''
+	
+	if(len(y) > 0): 
+		
+		algorithm = FACE_MODEL_ALGORITHM
+	
+		if(params is not None):
+			
+			algorihtm = params[FACE_MODEL_ALGORITHM_KEY]
+		
+		model = None
+		
+		if(algorihtm == 'Eigenfaces'):
+			
+			model = cv2.createEigenFaceRecognizer()
+		
+		elif(algorithm == 'Fisherfaces'):
+			
+			model = cv2.createFisherFaceRecognizer()
+			
+		elif(algorithm == 'LBP'):
+			
+			model=cv2.createLBPHFaceRecognizer()
+			
+			radius = LBP_RADIUS
+			neighbors = LBP_NEIGHBORS
+			grid_x = LBP_GRID_X
+			grid_y = LBP_GRID_Y
+			
+			if(params is not None):
+
+				radius = params[LBP_RADIUS_KEY]
+				neighbors = params[LBP_NEIGHBORS_KEY]
+				grid_x = params[LBP_GRID_X_KEY]
+				grid_y = params[LBP_GRID_Y_KEY]
+			
+			model=cv2.createLBPHFaceRecognizer(
+			radius,
+			neighbors,
+			grid_x,
+			grid_y)
+			
+		models_path = DB_MODELS_PATH
+		
+		if(params is not None):
+			
+			models_path = params[DB_MODELS_PATH_KEY]  
+			
+		model.train(np.asarray(X), np.asarray(y))
+		model_folder = models_path
+		
+		if db_file_name is not None:
+			
+			model_folder = db_file_name
+			if not os.path.exists(model_folder):
+				os.makedirs(model_folder)
+		
+		model_file = model_folder + os.sep + str(y[0])
+		model.save(model_file)
+            
+
 def save_YAML_file(file_path, dictionary):
     """Save YAML file.
 
@@ -451,26 +528,8 @@ def normalize_illumination(img):
     else:
         
         return None
+       
         
-def save_model_file(X, y, db_file_name = None):
-    
-    if(len(y) > 0): 
-        model=cv2.createLBPHFaceRecognizer(
-        LBP_RADIUS, 
-        LBP_NEIGHBORS, 
-        LBP_GRID_X, 
-        LBP_GRID_Y)
-        model.train(np.asarray(X), np.asarray(y))
-        model_folder = DB_MODELS_PATH
-        
-        if db_file_name is not None:
-            
-            model_folder = db_file_name
-            if not os.path.exists(model_folder):
-                os.makedirs(model_folder)
-        
-        model_file = model_folder + os.sep + str(y[0])
-        model.save(model_file)
     
 def is_rect_enclosed(rect1, rect2):
     """Check if rectangle is inside another rectangle
@@ -555,9 +614,9 @@ def is_rect_similar(rect1, rect2, min_int_area):
             int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
             
             if(float(int_area) > (min_int_area * float(min_rect_area))):
-                # Intersection area more than 0.5 times the area 
-                # of the smallest rectangle between the two 
-                # being compared
+                # Intersection area more than min_int_area times 
+                # the area of the smallest rectangle 
+                # between the two being compared
                 
                 similar = True
                 

@@ -331,34 +331,27 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
 
     return faces
 
-def get_detected_cropped_face(image_path, return_always_face):
+def get_detected_cropped_face(image_path, align_path, params = None, return_always_face = False):
     '''
     Detect face in image and return it cropped and aligned to eyes
 
     :type image_path: string
     :param image_path: path of image to be cropped
 
+    :type align_path: string
+    :param align_path: path of directory where aligned faces are saved    
+    
+    :type params: dictionary
+    :param params: dictionary containing the parameters to be used for the face detection    
+    
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
 
     :type return_always_face: boolean
     :param return_always_face: if true, face is always returned
     '''
-    params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
 
-    detection_params = None
-
-    if params is not None:
-        
-        # Face detection
-        detection_params = params[FACE_DETECTION_KEY]
-
-    #else:
-        
-        #print 'No file with face extraction parameters available'
-        #print 'Default values will be used'
-
-    detection_result = detect_faces_in_image(image_path, detection_params, False, return_always_face)
+    detection_result = detect_faces_in_image(image_path, params, False, return_always_face)
 
     face_images = detection_result[FACE_IMAGES_KEY]
 
