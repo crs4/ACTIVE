@@ -206,7 +206,7 @@ LBP_NEIGHBORS=8
 LBP_NEIGHBORS_KEY = 'LBP_neighbors'
 LBP_GRID_X=4
 LBP_GRID_X_KEY = 'LBP_grid_x'
-LBP_GRID_Y=4
+LBP_GRID_Y=8
 LBP_GRID_Y_KEY = 'LBP_grid_y'
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
@@ -329,7 +329,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Video indexing
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 5 # Threshold for retaining prediction 
+CONF_THRESHOLD = 15 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'

@@ -190,7 +190,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             face_dict[BBOX_KEY] = face_list
             
             if(USE_EYES_POSITION):
-                crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
+                crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
 
                 if(crop_result):
                          
@@ -522,7 +522,7 @@ def get_cropped_face_using_fixed_eye_pos(image_path, align_path, offset_pct, des
         raise
 
 
-def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_always_face):
+def get_cropped_face(image_path, align_path, params, offset_pct, dest_size, return_always_face):
     '''
     Get face cropped and aligned to eyes from image file
     Position of eyes is automatically detected
@@ -532,6 +532,9 @@ def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_alway
     
     :type align_path: string
     :param align_path: path of directory where aligned faces are saved     
+
+    :type params: dictionary
+    :param params: dictionary containing the parameters to be used for the face detection
 
     :type offset_pct: 2-element tuple
     :param offset_pct: offset given as percentage of eye-to-eye distance
@@ -549,8 +552,6 @@ def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_alway
     try:
         
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-
-        params = load_YAML_file(FACE_EXTRACTOR_CONFIGURATION_FILE_PATH)
         
         # Path of directory containing classifier files
         classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep
@@ -575,7 +576,7 @@ def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_alway
             print('Error loading nose cascade classifier file')
             return None
 
-        crop_result = get_cropped_face_from_image(image, image_path, align_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
+        crop_result = get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
 
         result = None
 
@@ -613,7 +614,7 @@ def get_cropped_face(image_path, align_path, offset_pct, dest_size, return_alway
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
-def get_cropped_face_from_image(image, image_path, align_path, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, face_position, return_always_face):
+def get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, face_position, return_always_face):
     '''
     Get face cropped and aligned to eyes from image
 
@@ -625,6 +626,9 @@ def get_cropped_face_from_image(image, image_path, align_path, eye_cascade_class
     
     :type align_path: string
     :param align_path: path of directory where aligned faces are saved   
+
+    :type params: dictionary
+    :param params: dictionary containing the parameters to be used for the face detection
 
     :eye_cascade_classifier: CascadeClassifier
     :eye_cascade_classifier: classifier for detecting eyes
@@ -706,6 +710,15 @@ def get_cropped_face_from_image(image, image_path, align_path, eye_cascade_class
         # Check nose position
         nose_check_ok = True
         if(USE_NOSE_POS_IN_DETECTION or USE_NOSE_POS_IN_RECOGNITION):
+            
+            cropped_face_width = CROPPED_FACE_WIDTH
+            cropped_face_height = CROPPED_FACE_HEIGHT
+            
+            if(params is not None):
+                
+                cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]
+                cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
+            
             noses = detect_nose_in_image(face_image, nose_cascade_classifier)
             
             x_right_eye = offset_pct[0] * dest_size[0]
@@ -721,8 +734,8 @@ def get_cropped_face_from_image(image, image_path, align_path, eye_cascade_class
                 y_center = float(y_nose + h_nose / 2)
                 
                 # Store nose position relative to face image
-                nose_x_pct = x_center / CROPPED_FACE_WIDTH
-                nose_y_pct = y_center / CROPPED_FACE_HEIGHT
+                nose_x_pct = x_center / cropped_face_width
+                nose_y_pct = y_center / cropped_face_height
                 nose = (nose_x_pct, nose_y_pct)
                 result[NOSE_POSITION_KEY] = nose
                 

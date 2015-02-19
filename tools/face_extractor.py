@@ -146,9 +146,9 @@ class FaceExtractor(object):
         
         if(USE_CLOTHING_RECOGNITION):
         
-	        self.recognizeClothesInVideo()
-	        
-	        self.saveRecPeople(False) # TEST ONLY
+            self.recognizeClothesInVideo()
+            
+            self.saveRecPeople(False) # TEST ONLY
         
         self.saveTempPeopleFiles()
         
@@ -237,12 +237,6 @@ class FaceExtractor(object):
             
             error = None
             
-            detection_params = None
-            
-            if self.params is not None:
-                
-                detection_params = self.params[FACE_DETECTION_KEY]
-            
             if(not(os.path.exists(det_path))):
                 
                 # Create directory for this video 
@@ -270,7 +264,7 @@ class FaceExtractor(object):
                 #print('frame_path: ' + os.path.basename(frame_path))
                 
                 detection_result = fd.detect_faces_in_image(
-                frame_path, align_path, detection_params, False)
+                frame_path, align_path, self.params, False)
     
                 detection_error = detection_result[ERROR_KEY]
                 
@@ -2044,7 +2038,7 @@ class FaceExtractor(object):
                 cv2.imwrite(TMP_TRACKED_FACE_FILE_PATH, tracked_face)
     
                 crop_result = fd.get_cropped_face(
-                TMP_TRACKED_FACE_FILE_PATH, align_path, offset_pct, dest_sz, False)
+                TMP_TRACKED_FACE_FILE_PATH, align_path, None, offset_pct, dest_sz, False)
                 
                 if(crop_result):
                     
@@ -2409,8 +2403,8 @@ class FaceExtractor(object):
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
         if(USE_CLOTHING_RECOGNITION):
-			
-			rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
+            
+            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
         key_frames_path = os.path.join(
         rec_path, FACE_RECOGNITION_KEY_FRAMES_DIR)
@@ -2535,8 +2529,8 @@ class FaceExtractor(object):
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
 
         if(USE_CLOTHING_RECOGNITION):
-			
-			rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
+            
+            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
         file_name = res_name + '.YAML'
             
@@ -2755,8 +2749,8 @@ class FaceExtractor(object):
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
         if(USE_CLOTHING_RECOGNITION):
-			
-			rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
+            
+            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
         
         # Save detection result in YAML file
         file_name = res_name + '.YAML'
@@ -2901,8 +2895,8 @@ class FaceExtractor(object):
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
         if(USE_CLOTHING_RECOGNITION):
-			
-			rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
+            
+            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
         # Save detection result in YAML file
         file_name = res_name + '.YAML'

@@ -255,7 +255,7 @@ def fr_experiments(params, show_results):
                             use_eyes_position = params[USE_EYES_POSITION_KEY]
                             use_eye_detection = params[USE_EYE_DETECTION_KEY]
                             offset_pct_x = params[OFFSET_PCT_X_KEY]
-                            offset_pct_y = params[OFFSET_PCT_Y_KEY]
+                            offset_pct_y = params[OFFSET_PCT_Y_KEY]  
                         
                         if(use_resizing):
                             
@@ -270,10 +270,17 @@ def fr_experiments(params, show_results):
                             sz = (width,height)
 
                         if(use_eyes_position):
+							
+							align_path = ALIGNED_FACES_PATH
+							
+							if(params is not None):
+								
+								align_path = params[ALIGNED_FACES_PATH_KEY]
+							
                             if(use_eye_detection):
-                                face = get_cropped_face(image_complete_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
+                                face = get_cropped_face(image_complete_path, align_path, params offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
                             else:
-                                face = get_cropped_face_using_eyes_pos(image_complete_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)
+                                face = get_cropped_face_using_eyes_pos(image_complete_path, align_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)
                         else:
                             if (sz is not None):
                                 face = cv2.resize(face, sz)
