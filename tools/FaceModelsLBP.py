@@ -374,10 +374,10 @@ class FaceModelsLBP():
         
                 if(self._params is not None):
             
-                    width = self._params[CROPPED_FACE_HEIGHT_KEY]
-                    height = self._params[CROPPED_FACE_HEIGHT]
+                    width = self._params[CROPPED_FACE_WIDTH_KEY]
+                    height = self._params[CROPPED_FACE_HEIGHT_KEY]
                     
-                sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+                sz = (width,height)
 
             [X,y] = self.__read_images(self._dbpath, sz)
 
@@ -468,6 +468,8 @@ class FaceModelsLBP():
         c = 0
         X,y = [], []
         
+        print('size', sz)
+        
         # Set parameters
         align_path = ALIGNED_FACES_PATH
         use_eyes_pos_in_training = USE_EYES_POSITION_IN_TRAINING
@@ -487,7 +489,7 @@ class FaceModelsLBP():
         
         for dirname, dirnames, filenames in os.walk(path):
             for subdirname in dirnames:
-                print "creating model for", subdirname
+                #print "creating model for", subdirname
                 subject_path = os.path.join(dirname, subdirname)
                 #print "subject path:", subject_path
                 file_counter = 0

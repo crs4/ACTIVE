@@ -204,9 +204,9 @@ LBP_RADIUS=1
 LBP_RADIUS_KEY = 'LBP_radius'
 LBP_NEIGHBORS=8
 LBP_NEIGHBORS_KEY = 'LBP_neighbors'
-LBP_GRID_X=8
+LBP_GRID_X=4
 LBP_GRID_X_KEY = 'LBP_grid_x'
-LBP_GRID_Y=8
+LBP_GRID_Y=4
 LBP_GRID_Y_KEY = 'LBP_grid_y'
 KNN_NEIGHBORS = 1
 TAG_SEP = '_'
@@ -231,7 +231,7 @@ WEIGHT_4_REGIONS = [8, 9, 11, 12]
 
 # Face alignment parameters
 
-CROPPED_FACE_HEIGHT = 200 # Default 200, 245 for weighted LBP, 331 for oval mask
+CROPPED_FACE_HEIGHT = 400 # Default 200, 245 for weighted LBP, 331 for oval mask
 CROPPED_FACE_HEIGHT_KEY = 'cropped_face_height'
 CROPPED_FACE_WIDTH = 200 # Default 200, 215 for weighted LBP, 200 for oval mask
 CROPPED_FACE_WIDTH_KEY = 'cropped_face_width'
@@ -241,16 +241,16 @@ GRID_CELLS_Y = 3
 MAX_NOSE_DIFF = 0.05
 OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
 OFFSET_PCT_X_KEY = 'offset_pct_x'
-OFFSET_PCT_Y = 0.20 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
+OFFSET_PCT_Y = 0.50 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
 OFFSET_PCT_Y_KEY = 'offset_pct_y'
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
-USE_EYE_DETECTION = False # Default True
+USE_EYE_DETECTION = True # Default True
 USE_EYE_DETECTION_KEY = 'use_eye_detection'
-USE_EYE_DETECTION_IN_TRAINING = False  # Default True
+USE_EYE_DETECTION_IN_TRAINING = True  # Default True
 USE_EYE_DETECTION_IN_TRAINING_KEY = r'use_eye_detection_in_training'
-USE_EYES_POSITION = False # Default True
+USE_EYES_POSITION = True # Default True
 USE_EYES_POSITION_KEY = 'use_eyes_position'
-USE_EYES_POSITION_IN_TRAINING = False # Default True
+USE_EYES_POSITION_IN_TRAINING = True # Default True
 USE_EYES_POSITION_IN_TRAINING_KEY = r'use_eyes_position_in_training'
 USE_FACE_DETECTION_IN_TRAINING = False # Default False
 USE_FACE_DETECTION_IN_TRAINING_KEY = 'use_face_detection_in_training'
@@ -260,7 +260,7 @@ USE_NOSE_POS_IN_DETECTION = False
 # If True, compare in recognition only faces with similar nose positions
 USE_NOSE_POS_IN_RECOGNITION = True
 USE_OVAL_MASK = False
-USE_RESIZING = False # Default True
+USE_RESIZING = True # Default True
 USE_RESIZING_KEY = 'use_resizing'
 
 # Face extraction from video
@@ -321,6 +321,7 @@ VIDEO_ANN_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Annotations'
 SEGMENT_START_KEY = 'segment_start'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_DURATION_KEY = 'segment_duration'
+SEGMENTS_NR_KEY = 'segments_nr'
 AUDIO_SEGMENTS_KEY = 'audio_segments'
 CAPTION_SEGMENTS_KEY = 'caption_segments'
 VIDEO_SEGMENTS_KEY = 'video_segments'
@@ -328,7 +329,7 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Video indexing
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 7 # Threshold for retaining prediction 
+CONF_THRESHOLD = 5 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 DETECTED_KEY = 'detected'
@@ -367,6 +368,9 @@ UNDEFINED_TAG = 'undefined'
 					  # histogram differences
 USE_AGGREGATION = True # True if final tag for a tracked face is obtained
 					   # by aggregation of results for single frames
+USE_CLOTHING_RECOGNITION = True # True if recognition based on clothes 
+# is used
+USE_CLOTHING_RECOGNITION_KEY = 'use_clothing_recognition'
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video

@@ -21,6 +21,7 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                  LBP_RADIUS_KEY + ',' + LBP_NEIGHBORS_KEY + ',' +
                  LBP_GRID_X_KEY + ',' + LBP_GRID_Y_KEY + ',' +
                  PERSON_IMAGES_NR_KEY + ',' + TRAINING_IMAGES_NR_KEY + ',' +
+                 CROPPED_FACE_HEIGHT_KEY + ',' + CROPPED_FACE_WIDTH_KEY + ',' +
                  RECOGNITION_RATE_KEY + ',' +
                  MEAN_PRECISION_KEY + ',' + STD_PRECISION_KEY + ',' +
                  MEAN_RECALL_KEY + ',' + STD_RECALL_KEY + ',' +
@@ -40,6 +41,8 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[LBP_GRID_Y_KEY]) + ',' +
                      str(experiment_dict[PERSON_IMAGES_NR_KEY]) + ',' +
                      str(experiment_dict[TRAINING_IMAGES_NR_KEY]) + ',' +
+                     str(experiment_dict[CROPPED_FACE_HEIGHT_KEY]) + ',' +
+                     str(experiment_dict[CROPPED_FACE_WIDTH_KEY]) + ',' +
                      str(experiment_dict[RECOGNITION_RATE_KEY]) + ',' +
                      str(experiment_dict[MEAN_PRECISION_KEY]) + ',' +
                      str(experiment_dict[STD_PRECISION_KEY]) + ',' +
@@ -238,15 +241,39 @@ def fr_experiments(params, show_results):
                         #print 'test image:', image_complete_path
                         face = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE)
 
-                        sz = None
-                        if(USE_RESIZING):
-                            sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+                        sz = None;
+                        
+                        use_resizing = USE_RESIZING
+                        use_eyes_position = USE_EYES_POSITION
+                        use_eye_detection = USE_EYE_DETECTION
+                        offset_pct_x = OFFSET_PCT_X
+                        offset_pct_y = OFFSET_PCT_Y
+                    
+                        if(params is not None):
+                        
+                            use_resizing = params[USE_RESIZING_KEY] 
+                            use_eyes_position = params[USE_EYES_POSITION_KEY]
+                            use_eye_detection = params[USE_EYE_DETECTION_KEY]
+                            offset_pct_x = params[OFFSET_PCT_X_KEY]
+                            offset_pct_y = params[OFFSET_PCT_Y_KEY]
+                        
+                        if(use_resizing):
+                            
+                            width = CROPPED_FACE_WIDTH
+                            height = CROPPED_FACE_HEIGHT
+                    
+                            if(params is not None):
+                        
+                                width = params[CROPPED_FACE_WIDTH_KEY]
+                                height = params[CROPPED_FACE_HEIGHT_KEY]
+                                
+                            sz = (width,height)
 
-                        if(USE_EYES_POSITION):
-                            if(USE_EYE_DETECTION):
-                                face = get_cropped_face(image_complete_path, offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz, return_always_face = False)
+                        if(use_eyes_position):
+                            if(use_eye_detection):
+                                face = get_cropped_face(image_complete_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
                             else:
-                                face = get_cropped_face_using_eyes_pos(image_complete_path, offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y), dest_size = sz)
+                                face = get_cropped_face_using_eyes_pos(image_complete_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)
                         else:
                             if (sz is not None):
                                 face = cv2.resize(face, sz)
@@ -393,6 +420,8 @@ def fr_experiments(params, show_results):
     grid_y = LBP_GRID_Y
     person_images_nr = PERSON_IMAGES_NR
     training_images_nr = TRAINING_IMAGES_NR
+    cropped_face_height = CROPPED_FACE_HEIGHT
+    cropped_face_width = CROPPED_FACE_WIDTH
 
     if(params is not None):
         algorithm_name = params[FACE_MODEL_ALGORITHM_KEY]
@@ -401,7 +430,9 @@ def fr_experiments(params, show_results):
         grid_x = params[LBP_GRID_X_KEY]
         grid_y = params[LBP_GRID_Y_KEY]
         person_images_nr = params[PERSON_IMAGES_NR_KEY]
-        training_images_nr = params[TRAINING_IMAGES_NR_KEY]        
+        training_images_nr = params[TRAINING_IMAGES_NR_KEY]
+        cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
+        cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]        
     
     new_experiment_dict[EXPERIMENT_ALGORITHM_KEY] = algorithm_name
     
@@ -411,6 +442,9 @@ def fr_experiments(params, show_results):
     new_experiment_dict[LBP_GRID_Y_KEY] = grid_y
     new_experiment_dict[PERSON_IMAGES_NR_KEY] = person_images_nr
     new_experiment_dict[TRAINING_IMAGES_NR_KEY] = training_images_nr        
+    
+    new_experiment_dict[CROPPED_FACE_HEIGHT_KEY] = cropped_face_height
+    new_experiment_dict[CROPPED_FACE_WIDTH_KEY] = cropped_face_width
     
     new_experiment_dict[RECOGNITION_RATE_KEY] = recognition_rate
     new_experiment_dict[MEAN_PRECISION_KEY] = mean_precision

@@ -1338,7 +1338,7 @@ def make_fic02_annotations(file_path):
     
     ann_dict = {}
     
-    # Add durations and transform seconds in milliseconds
+    # Add durations for video segments
        
     new_video_segments = []
     
@@ -1352,9 +1352,13 @@ def make_fic02_annotations(file_path):
         end_time = video_segment[SEGMENT_END_KEY]
         duration = end_time - start_time
         tot_segment_duration = tot_segment_duration + duration
-        new_video_segment[ANN_TAG_KEY] = ann_tag   
-        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
-        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        new_video_segment[ANN_TAG_KEY] = ann_tag  
+        new_video_segment[SEGMENT_START_KEY] = start_time
+        new_video_segment[SEGMENT_DURATION_KEY] = duration
+        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        # transform seconds in milliseconds
+        #new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
         new_video_segments.append(new_video_segment)
     
     ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
@@ -5124,7 +5128,7 @@ def make_MONITOR072011_annotations(file_path):
     
     ann_dict = {}
     
-    # Add durations and transform seconds in milliseconds
+    # Add durations for video segments
        
     new_video_segments = []
     
@@ -5139,8 +5143,11 @@ def make_MONITOR072011_annotations(file_path):
         duration = end_time - start_time
         tot_segment_duration = tot_segment_duration + duration
         new_video_segment[ANN_TAG_KEY] = ann_tag   
-        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
-        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        # Transform seconds in milliseconds
+        new_video_segment[SEGMENT_START_KEY] = start_time
+        new_video_segment[SEGMENT_DURATION_KEY] = duration       
+        #new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
         new_video_segments.append(new_video_segment)
     
     ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
@@ -5609,7 +5616,22 @@ def calculate_stats(ann_dict):
     :type ann_dict: dictionary
     :param ann_dict: annotations for a whole video
     '''
+    tags = get_tags(ann_dict)
     
+    tags_list = []
+    for tag in sorted(tags):
+        
+        tag_dict = {}
+        tag_dict[ANN_TAG_KEY] = tag
+        person_dict = get_video_annotations_for_person(ann_dict, tag)
+        dur = person_dict[TOT_SEGMENT_DURATION_KEY]
+        tag_dict[TOT_SEGMENT_DURATION_KEY] = dur
+        segments_nr = person_dict[SEGMENTS_NR_KEY]
+        tag_dict[SEGMENTS_NR_KEY] = segments_nr
+        tags_list.append(tag_dict)
+        
+        print(tag_dict)
+        
         
 def get_tags(ann_dict):
     '''
@@ -5675,7 +5697,9 @@ def get_video_annotations_for_person(ann_dict, person_tag):
             
             person_segments.append(new_person_segment)
             
-    person_dict[SEGMENTS_KEY] = person_segments        
+    person_dict[SEGMENTS_KEY] = person_segments 
+    
+    person_dict[SEGMENTS_NR_KEY] = len(person_segments)       
             
     person_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
             
@@ -5707,14 +5731,20 @@ def save_people_files(ann_dict, video_ann_file_path):
         save_YAML_file(file_path, person_dict)
                
     
-video_dir = os.path.join(VIDEO_ANN_PATH, 'MONITOR072011')    
+#video_dir = os.path.join(VIDEO_ANN_PATH, 'MONITOR072011')    
     
-file_path_no_ext = os.path.join(video_dir, 'MONITOR072011.mp4')
+#file_path_no_ext = os.path.join(video_dir, 'MONITOR072011.mp4')
 
-file_path = file_path_no_ext + '.YAML'
+#file_path = file_path_no_ext + '.YAML'
     
+#ann_dict = make_MONITOR072011_annotations(file_path)
+
+#save_people_files(ann_dict, video_dir)
+
+file_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-15V\Annotations\MONITOR072011.YAML'
+
 ann_dict = make_MONITOR072011_annotations(file_path)
 
-save_people_files(ann_dict, video_dir)
+calculate_stats(ann_dict)
     
     
