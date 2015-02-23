@@ -177,6 +177,12 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
         # Create face images from original image
         faces_final = []
 
+        use_eyes_position = USE_EYES_POSITION
+        
+        if(params is not None):
+            
+            use_eyes_position = params[USE_EYES_POSITION_KEY]
+        
         for (x, y, width, height) in faces :
 
             image_height, image_width = image.shape
@@ -709,7 +715,16 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
         
         # Check nose position
         nose_check_ok = True
-        if(USE_NOSE_POS_IN_DETECTION or USE_NOSE_POS_IN_RECOGNITION):
+        
+        use_nose_pos_in_detection = USE_NOSE_POS_IN_DETECTION
+        use_nose_pos_in_recognition = USE_NOSE_POS_IN_RECOGNITION
+        
+        if(params is not None):
+            
+            use_nose_pos_in_detection = params[USE_NOSE_POS_IN_DETECTION_KEY]
+            use_nose_pos_in_recognition = params[USE_NOSE_POS_IN_RECOGNITION_KEY]
+        
+        if(use_nose_pos_in_detection or use_nose_pos_in_recognition):
             
             cropped_face_width = CROPPED_FACE_WIDTH
             cropped_face_height = CROPPED_FACE_HEIGHT
@@ -752,7 +767,7 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
                 nose_check_ok = False
                 result[NOSE_POSITION_KEY] = None
         
-        if(nose_check_ok or not(USE_NOSE_POS_IN_DETECTION)):
+        if(nose_check_ok or not(use_nose_pos_in_detection)):
         
             if(USE_HIST_EQ_IN_CROPPED_FACES):
                face_image = cv2.equalizeHist(face_image)

@@ -84,12 +84,24 @@ class FaceExtractor(object):
         
         self.resource_name = res_name
         
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+        
         # Check if a file with parameters of this video exists   
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_path = os.path.join(video_indexing_path, res_name)
         
         file_name = res_name + '_parameters.YAML'
         
         file_path = os.path.join(video_path, file_name)
+        
+        ### TEST ONLY ###
+        
+        file_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML'
+        
+        #################
         
         # Try to load YAML file with video parameters
         if(os.path.exists(file_path)):
@@ -136,15 +148,21 @@ class FaceExtractor(object):
         
         self.trackFacesInVideo()
         
-        self.saveTrackingSegments() # TEST ONLY
+        #self.saveTrackingSegments() # TEST ONLY
         
-        self.saveDiscTrackingSegments() # TEST ONLY
+        #self.saveDiscTrackingSegments() # TEST ONLY
         
         self.recognizeFacesInVideo()
 
         self.saveRecPeople(True) # TEST ONLY
         
-        if(USE_CLOTHING_RECOGNITION):
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        
+        if(self.params is not None):
+        
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+        
+        if(use_clothing_rec):
         
             self.recognizeClothesInVideo()
             
@@ -152,11 +170,11 @@ class FaceExtractor(object):
         
         self.saveTempPeopleFiles()
         
-        self.showRecPeople()
+        #self.showRecPeople()
         
-        self.readUserAnnotations()
+        #self.readUserAnnotations()
         
-        self.savePeopleFiles()
+        #self.savePeopleFiles()
         
         
     def detectFacesInVideo(self):
@@ -171,7 +189,15 @@ class FaceExtractor(object):
         file_name = res_name + '.YAML'
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        use_eyes_position = USE_EYES_POSITION
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            use_eyes_position = self.params[USE_EYES_POSITION_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for detection results
         det_path = os.path.join(video_path, FACE_DETECTION_DIR) 
@@ -288,7 +314,7 @@ class FaceExtractor(object):
                         
                         face_dict[BBOX_KEY] = det_face[BBOX_KEY]
                         
-                        if(USE_EYES_POSITION):
+                        if(use_eyes_position):
                         
                             face_dict[LEFT_EYE_POS_KEY] = (
                             det_face[LEFT_EYE_POS_KEY])
@@ -339,7 +365,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for frame_list
         frames_path = os.path.join(video_path, FRAMES_DIR) 
@@ -428,10 +460,22 @@ class FaceExtractor(object):
                         
                         break
                         
-                    # Next frame to be analyzed
-                    next_frame = last_anal_frame + (video_fps/(USED_FPS+1))
+                    used_fps = USED_FPS    
+                    use_or_fps = USE_ORIGINAL_FPS
+                    use_or_res = USE_ORIGINAL_RES
+                    used_res_scale_factor = USED_RES_SCALE_FACTOR
                     
-                    if(USE_ORIGINAL_FPS or (frame_counter > next_frame)):
+                    if(self.params is not None):
+                        
+                        used_fps = self.params[USED_FPS]
+                        use_or_fps = self.params[USE_ORIGINAL_FPS_KEY]
+                        use_or_res = self.params[USE_ORIGINAL_RES_KEY]
+                        used_res_scale_factor = self.params[USED_RES_SCALE_FACTOR_KEY]
+                    
+                    # Next frame to be analyzed
+                    next_frame = last_anal_frame + (video_fps/(used_fps+1))
+                    
+                    if(use_or_fps or (frame_counter > next_frame)):
                     
                         # Frame position in video in milliseconds
                         elapsed_ms = capture.get(cv2.cv.CV_CAP_PROP_POS_MSEC)
@@ -443,11 +487,11 @@ class FaceExtractor(object):
                         frame_path = os.path.join(frames_path, fr_name)
                         
                         # Resize frame
-                        if(not(USE_ORIGINAL_RES)):
+                        if(not(use_or_res)):
                             
-                            fx = USED_RES_SCALE_FACTOR
+                            fx = used_res_scale_factor
                             
-                            fy = USED_RES_SCALE_FACTOR
+                            fy = used_res_scale_factor
                             
                             interp = cv2.INTER_AREA
                             
@@ -515,7 +559,13 @@ class FaceExtractor(object):
         file_name = res_name + '.YAML'
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for tracking results
         track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
@@ -580,15 +630,25 @@ class FaceExtractor(object):
             # Counter for frames with detected faces
             frame_counter = 0
             
+            # If a reduced bitrate is used, frames are less
+            use_or_fps = USE_ORIGINAL_FPS
+            used_fps = USED_FPS
+            min_segment_duration = MIN_SEGMENT_DURATION
+            
+            if(self.params is not None):
+                
+                use_or_fps = self.params[USE_ORIGINAL_FPS_KEY]
+                used_fps = self.params[USED_FPS_KEY]
+                min_segment_duration = self.params[MIN_SEGMENT_DURATION_KEY]
+            
             # Minimum duration of a segment in frames
             min_segment_frames = int(
-            math.ceil(self.fps * MIN_SEGMENT_DURATION))
+            math.ceil(self.fps * min_segment_duration))
             
-            # If a reduced bitrate is used, frames are less
-            if(not(USE_ORIGINAL_FPS)):
+            if(not(use_or_fps)):
                 
                 min_segment_frames = int(
-                math.ceil((USED_FPS+1) * MIN_SEGMENT_DURATION))
+                math.ceil((used_fps+1) * min_segment_duration))
             
             # Make copy of detected faces
             detection_list = list(self.detected_faces)
@@ -1017,17 +1077,51 @@ class FaceExtractor(object):
         
         c = 0
         X, y = [], [] 
-        
-        offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y)
-        dest_sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
-        
+
         res_name = self.resource_name
         
         # YAML file with results
         file_name = res_name + '.YAML'
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        offset_pct = (OFFSET_PCT_X, OFFSET_PCT_Y)
+        dest_sz = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
+        
+        use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+        
+        max_faces_in_model = MAX_FACES_IN_MODEL
+        
+        algorithm = FACE_MODEL_ALGORITHM
+        
+        lbp_radius = LBP_RADIUS      
+        lbp_neighbors = LBP_NEIGHBORS     
+        lbp_grid_x = LBP_GRID_X
+        lbp_grid_y = LBP_GRID_Y
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            
+            offset_pct_x = self.params[OFFSET_PCT_X_KEY]
+            offset_pct_y = self.params[OFFSET_PCT_Y_KEY]
+            offset_pct = (offset_pct_x, offset_pct_y)
+            cropped_face_width = self.params[CROPPED_FACE_WIDTH_KEY]
+            cropped_face_height = self.params[CROPPED_FACE_HEIGHT_KEY]
+            dest_sz = (cropped_face_width, cropped_face_height)
+            
+            use_nose_pos_in_rec = self.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
+            max_faces_in_model = self.params [MAX_FACES_IN_MODEL_KEY]
+           
+            algorithm = self.params[FACE_MODEL_ALGORITHM_KEY]
+           
+            lbp_radius = self.params[LBP_RADIUS_KEY]
+            lbp_neighbors = self.params[LBP_NEIGHBORS_KEY]
+            lbp_grid_x = self.params[LBP_GRID_X_KEY]
+            lbp_grid_y = self.params[LBP_GRID_Y_KEY]        
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for recognition results
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
@@ -1055,7 +1149,7 @@ class FaceExtractor(object):
                 X.append(np.asarray(face, dtype = np.uint8))
                 y.append(c)
                 
-                if(USE_NOSE_POS_IN_RECOGNITION):  
+                if(use_nose_pos_in_rec):  
                     
                     # Save nose position in segment dictionary
                     nose_pos = segment_frame_dict[NOSE_POSITION_KEY]
@@ -1065,16 +1159,29 @@ class FaceExtractor(object):
                 c = c + 1
             
             # If maximum number of faces is reached, stop adding them
-            if(face_counter >= MAX_FACES_IN_MODEL):
+            if(face_counter >= max_faces_in_model):
                 
                 print 'Warning! Maximum number of faces in model reached'
                 break               
              
-        model = cv2.createLBPHFaceRecognizer(
-        LBP_RADIUS, LBP_NEIGHBORS, LBP_GRID_X, LBP_GRID_Y)
+        model = None
+        
+        if(algorithm == 'Eigenfaces'):
+            
+            model = cv2.createEigenFaceRecognizer()
+        
+        elif(algorithm == 'Fisherfaces'):
+            
+            model = cv2.createFisherFaceRecognizer()
+            
+        elif(algorithm == 'LBP'):
+            
+            model = cv2.createLBPHFaceRecognizer(
+            lbp_radius, lbp_neighbors, lbp_grid_x, lbp_grid_y)
+        
         model.train(np.asarray(X), np.asarray(y))
         
-        if(USE_NOSE_POS_IN_RECOGNITION):
+        if(use_nose_pos_in_rec):
         
             # Save nose positions for this segment in dictionary
             self.nose_pos_list.append(segment_nose_pos_dict)
@@ -1098,7 +1205,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for cloth models
         models_path = os.path.join(video_path, CLOTH_MODELS_DIR)
@@ -1152,7 +1265,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for face models
         models_path = os.path.join(video_path, FACE_MODELS_DIR) 
@@ -1210,7 +1329,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
 
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for cloth models
         models_path = os.path.join(video_path, CLOTH_MODELS_DIR) 
@@ -1318,7 +1443,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
 
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for face models
         models_path = os.path.join(video_path, FACE_MODELS_DIR)
@@ -1396,7 +1527,20 @@ class FaceExtractor(object):
                         
                         final_conf = sys.maxint
                         
-                        if(USE_AGGREGATION):
+                        use_aggregation = USE_AGGREGATION
+                        use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+                        max_nose_diff = MAX_NOSE_DIFF
+                        conf_threshold = CONF_THRESHOLD_KEY
+                        
+                        if(self.params is not None):
+                            
+                            use_aggregation = self.params[USE_AGGREGATION_KEY]
+                            use_nose_pos_in_rec = (
+                            self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
+                            max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
+                            conf_threshold = self.params[CONF_THRESHOLD_KEY]
+                        
+                        if(use_aggregation):
                             
                             frames =  []
                             
@@ -1408,7 +1552,7 @@ class FaceExtractor(object):
                                 
                                 nose_pos = None
                                 
-                                if(USE_NOSE_POS_IN_RECOGNITION):
+                                if(use_nose_pos_in_rec):
                                     
                                     nose_pos = (
                                     self.nose_pos_list[sub_counter][label])
@@ -1426,12 +1570,12 @@ class FaceExtractor(object):
                                     
                                     train_nose_pos = None
                                     
-                                    if(USE_NOSE_POS_IN_RECOGNITION):
+                                    if(use_nose_pos_in_rec):
                                         
                                         train_nose_pos = (
                                         self.nose_pos_list[idx][train_label])
                                     
-                                    if(USE_NOSE_POS_IN_RECOGNITION):
+                                    if(use_nose_pos_in_rec):
                                         
                                         # Compare only faces with
                                         # similar nose position
@@ -1446,8 +1590,8 @@ class FaceExtractor(object):
                                         nose_diff_y = (
                                         abs(nose_pos[1] - train_nose_pos[1]))
                                         
-                                        if((nose_diff_x > MAX_NOSE_DIFF)
-                                        or (nose_diff_y > MAX_NOSE_DIFF)):
+                                        if((nose_diff_x > max_nose_diff)
+                                        or (nose_diff_y > max_nose_diff)):
                                             
                                             ### TEST ONLY ###
                                             if(sub_counter == -1):
@@ -1527,7 +1671,7 @@ class FaceExtractor(object):
                                 frame_dict[CONFIDENCE_KEY] = conf
                                 ass_tag = UNDEFINED_TAG
                                 
-                                if(conf < CONF_THRESHOLD):
+                                if(conf < conf_threshold):
                                     
                                     ass_tag = TRACKED_PERSON_TAG
                                     
@@ -1566,7 +1710,7 @@ class FaceExtractor(object):
                                         
                                         final_conf = diff                           
                         
-                            if(final_conf < CONF_THRESHOLD):
+                            if(final_conf < conf_threshold):
                                     
                                 final_tag = TRACKED_PERSON_TAG
                                     
@@ -1624,7 +1768,13 @@ class FaceExtractor(object):
         file_name = res_name + '.YAML'
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for recognition results
         rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)  
@@ -1804,7 +1954,13 @@ class FaceExtractor(object):
         file_name = res_name + '.YAML'
         
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for recognition results
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)  
@@ -1839,6 +1995,12 @@ class FaceExtractor(object):
             file_name = res_name + '.YAML'
                 
             file_path = os.path.join(track_path, file_name)
+            
+            ### TEST ONLY ###
+        
+            file_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML'
+        
+            #################
             
             if(len(self.tracked_faces) == 0):
                 
@@ -2062,7 +2224,14 @@ class FaceExtractor(object):
         # Create directory for this video  
         res_name = self.resource_name
             
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
         
@@ -2153,7 +2322,14 @@ class FaceExtractor(object):
         # Create directory for this video  
         res_name = self.resource_name
             
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
         
@@ -2297,7 +2473,14 @@ class FaceExtractor(object):
         # Create directory for this video  
         res_name = self.resource_name
             
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)       
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)
         
@@ -2397,12 +2580,22 @@ class FaceExtractor(object):
         
         res_name = self.resource_name
         
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
-        if(USE_CLOTHING_RECOGNITION):
+        if(use_clothing_rec):
             
             rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
@@ -2523,12 +2716,21 @@ class FaceExtractor(object):
         
         res_name = self.resource_name
         
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
 
-        if(USE_CLOTHING_RECOGNITION):
+        if(use_clothing_rec):
             
             rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
@@ -2638,8 +2840,14 @@ class FaceExtractor(object):
         
         res_name = self.resource_name
         
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         frame_path = os.path.join(video_path, FRAMES_DIR) 
         
@@ -2743,12 +2951,22 @@ class FaceExtractor(object):
         
         res_name = self.resource_name
         
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
-        if(USE_CLOTHING_RECOGNITION):
+        if(use_clothing_rec):
             
             rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
         
@@ -2779,7 +2997,14 @@ class FaceExtractor(object):
         # Create directory for this video  
         res_name = self.resource_name
             
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)      
         
         # Create or empty directory with complete annotations
         compl_ann_path = os.path.join(video_path, FACE_TEMP_ANN_DIR)
@@ -2889,12 +3114,22 @@ class FaceExtractor(object):
         
         res_name = self.resource_name
         
-        # Create directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
         
-        if(USE_CLOTHING_RECOGNITION):
+        if(use_clothing_rec):
             
             rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
         
@@ -2925,7 +3160,14 @@ class FaceExtractor(object):
         # Create directory for this video  
         res_name = self.resource_name
             
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)       
         
         # Create or empty directory with complete annotations
         compl_ann_path = os.path.join(video_path, FACE_ANNOTATION_DIR)
@@ -3173,15 +3415,27 @@ class FaceExtractor(object):
             
         new_segments = []   
             
+        use_or_fps = USE_ORIGINAL_FPS
+        used_fps = USED_FPS
+        min_detection_pct = MIN_DETECTION_PCT
+        min_segment_duration = MIN_SEGMENT_DURATION
+        
+        if(self.params is not None):
+            
+            use_or_fps = self.params[USE_ORIGINAL_FPS_KEY]
+            used_fps = self.params[USED_FPS_KEY]
+            min_detection_pct = self.params[MIN_DETECTION_PCT_KEY]
+            min_segment_duration = self.params[MIN_SEGMENT_DURATION_KEY]    
+            
         # Minimum duration of a segment in frames
         min_segment_frames = int(
-        math.ceil(self.fps * MIN_SEGMENT_DURATION))   
+        math.ceil(self.fps * min_segment_duration))   
         
         # If a reduced bitrate is used, frames are less
-        if(not(USE_ORIGINAL_FPS)):
+        if(not(use_or_fps)):
             
             min_segment_frames = int(
-            math.ceil((USED_FPS+1) * MIN_SEGMENT_DURATION)) 
+            math.ceil((used_fps+1) * min_segment_duration)) 
             
         # Iterate through new sub segments
         for sub_frame_list in sub_segment_list:
@@ -3200,9 +3454,9 @@ class FaceExtractor(object):
             
             # If a reduced bitrate is used, frames are less
             
-            if(not(USE_ORIGINAL_FPS)):
+            if(not(use_or_fps)):
             
-                duration = frame_counter * 1000.0 / (USED_FPS+1)
+                duration = frame_counter * 1000.0 / (used_fps+1)
         
             segment_dict[SEGMENT_DURATION_KEY] = duration
         
@@ -3234,7 +3488,7 @@ class FaceExtractor(object):
                 # Check percentage of detection
                 det_pct = (float(det_counter) / frame_counter)
                     
-                if(det_pct >= MIN_DETECTION_PCT):   
+                if(det_pct >= min_detection_pct):   
             
                     new_segments.append(segment_dict)
                     
@@ -3256,7 +3510,13 @@ class FaceExtractor(object):
         res_name = self.resource_name
 
         # Directory for this video     
-        video_path = os.path.join(FACE_SUMMARIZATION_PATH, res_name)
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for cloth models
         models_path = os.path.join(video_path, CLOTH_MODELS_DIR) 

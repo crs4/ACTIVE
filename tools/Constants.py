@@ -40,10 +40,6 @@ FACE_RECOGNITION_TEST_SET_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Test set'
 FACE_RECOGNITION_TRAINING_SET_PATH = ''
 FACE_RECOGNITION_USER_ANNOTATIONS = r'User annotations'
 FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple annotations
-#FACE_SUMMARIZATION_PATH = r'C:\Active\Face summarization\Rev229\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
-#FACE_SUMMARIZATION_PATH = R'C:\Active\Face summarization\FPS_6_RES_ORIG_STDMULT_20_CONF_5' # Pc LAB
-#FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\6 fps - res originale - std mult 10 - conf 4' # Maurizio Pintus
-FACE_SUMMARIZATION_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
@@ -63,6 +59,8 @@ TEST_VIDEO_PATH = r'C:\Active\RawVideos' +  os.sep + TEST_VIDEO_NAME + '.mpg'
 TMP_TRACKED_FACE_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'tracked_face.bmp'
 TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_face'
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
+VIDEO_INDEXING_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
+VIDEO_INDEXING_PATH_KEY = 'video_indexing_path'
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -160,6 +158,7 @@ SCALE_FACTOR_KEY = 'scale_factor';
 DET_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
 					   # between two detections for merging them
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
+EYE_DETECTION_CLASSIFIER_KEY = 'eye_detection_classifier'
 FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# Default HaarCascadeFrontalAndProfileFaces2
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 FACE_DETECTION_MIN_NEIGHBORS = 5
@@ -168,6 +167,7 @@ FACE_DETECTION_MIN_SIZE_WIDTH = 20
 FACE_DETECTION_SCALE_FACTOR = 1.1
 MOUTH_DETECTION_CLASSIFIER = 'haarcascade_mcs_mouth.xml'
 NOSE_DETECTION_CLASSIFIER = 'haarcascade_mcs_nose.xml'
+NOSE_DETECTION_CLASSIFIER_KEY = 'nose_detection_classifier'
 
 # Experiment parameters
 
@@ -239,6 +239,7 @@ GRID_CELLS_X = 3
 GRID_CELLS_Y = 3
 # Maximum difference between nose positions
 MAX_NOSE_DIFF = 0.05
+MAX_NOSE_DIFF_KEY = 'max_nose_diff'
 OFFSET_PCT_X = 0.20 # Default 0.20, 0.20 for weighted LBP, 0.24 for oval mask
 OFFSET_PCT_X_KEY = 'offset_pct_x'
 OFFSET_PCT_Y = 0.50 # Default 0.20, 0.29 for weighted LBP, 0.42 for oval mask 
@@ -257,8 +258,10 @@ USE_FACE_DETECTION_IN_TRAINING_KEY = 'use_face_detection_in_training'
 USE_MOUTH_POSITION = False
 # If True, detections with no good nose position are discarded
 USE_NOSE_POS_IN_DETECTION = False
+USE_NOSE_POS_IN_DETECTION_KEY = 'use_nose_pos_in_detection'
 # If True, compare in recognition only faces with similar nose positions
-USE_NOSE_POS_IN_RECOGNITION = True
+USE_NOSE_POS_IN_RECOGNITION = False
+USE_NOSE_POS_IN_RECOGNITION_KEY = 'use_nose_pos_in_recognition'
 USE_OVAL_MASK = False
 USE_RESIZING = True # Default True
 USE_RESIZING_KEY = 'use_resizing'
@@ -271,12 +274,16 @@ MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
 MAX_FR_WITH_MISSED_DET = 5 
 USE_ORIGINAL_FPS = False
+USE_ORIGINAL_FPS_KEY = 'use_original_fps'
 USE_ORIGINAL_RES = True
+USE_ORIGINAL_RES_KEY = 'use_original_res'
 # Bitrate at which video is analyzed (in frames per second)
 USED_FPS = 5
+USED_FPS_KEY = 'used_fps'
 # Frame resolution at which video is analyzed 
 # (percentage of original width and height)
 USED_RES_SCALE_FACTOR = 0.5
+USED_RES_SCALE_FACTOR_KEY = 'used_res_scale_factor'
 USE_ORIGINAL_FPS_IN_SHOT_DETECTION = False
 # Bitrate at which video is analyzed in shot detection
 USED_FPS_IN_SHOT_DETECTION = 1.0
@@ -332,18 +339,23 @@ ANSWER_YES = 'y'
 CONF_THRESHOLD = 15 # Threshold for retaining prediction 
 # (faces whose prediction ha a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
+CONF_THRESHOLD_KEY = 'conf_threshold'
 DETECTED_KEY = 'detected'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
 HALF_WINDOW_SIZE = 10
+HALF_WINDOW_SIZE_KEY = 'half_window_size'
 # TO BE DELETED
 #FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
+MAX_FACES_IN_MODEL_KEY = 'max_faces_in_model'
 MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
+MIN_DETECTION_PCT_KEY = 'min_detection_pct'
 # total faces in tracking segment in order to retain segment
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
+MIN_SEGMENT_DURATION_KEY = 'min_segment_duration'
 #MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds) TO BE DELETED
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
@@ -352,8 +364,10 @@ PERSON_SURNAME = 'Surname'
 						# before tracking interruption is possible T
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
 					    # thresholds for dividing between faces
+STD_MULTIPLIER_FACE_KEY = 'std_multiplier_face'
 STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
 						  # calculating thresholds for shot cut detection
+STD_MULTIPLIER_FRAME_KEY = 'std_multiplier_frame'
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
@@ -366,8 +380,9 @@ UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences
-USE_AGGREGATION = True # True if final tag for a tracked face is obtained
+USE_AGGREGATION = False # True if final tag for a tracked face is obtained
 					   # by aggregation of results for single frames
+USE_AGGREGATION_KEY = 'use_aggregation'
 USE_CLOTHING_RECOGNITION = True # True if recognition based on clothes 
 # is used
 USE_CLOTHING_RECOGNITION_KEY = 'use_clothing_recognition'
