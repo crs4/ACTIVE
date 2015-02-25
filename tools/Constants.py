@@ -61,6 +61,8 @@ TMP_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'aligned_fac
 TMP_FRAME_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'frame.bmp'
 VIDEO_INDEXING_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Maurizio Pintus
 VIDEO_INDEXING_PATH_KEY = 'video_indexing_path'
+VIDEO_INDEXING_RESULTS_PATH = r''
+VIDEO_INDEXING_RESULTS_PATH_KEY = 'video_indexing_results'
 
 # Face bounding box position
 FACE_X_KEY = 'x'
@@ -172,6 +174,7 @@ NOSE_DETECTION_CLASSIFIER_KEY = 'nose_detection_classifier'
 # Experiment parameters
 
 ANNOTATIONS_PATH_KEY = 'annotations_path'
+CODE_VERSION_KEY = 'code_version'
 DATASET_ALREADY_DIVIDED = False
 DATASET_ALREADY_DIVIDED_KEY = 'dataset_already_divided'
 DATASET_PATH_KEY = 'dataset_path'
@@ -192,6 +195,7 @@ TEST_SET_PATH_KEY = 'test_set_path'
 TRAINING_IMAGES_NR = 2
 TRAINING_IMAGES_NR_KEY = 'training_images_nr'
 TRAINING_SET_PATH_KEY = 'training_set_path'
+VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME = 'MONITOR072011'
 
 # Face recognition parameters
 ALFA = 1
@@ -273,6 +277,7 @@ MAX_DELTA_PCT_X = 0.1
 MAX_DELTA_PCT_Y = 0.1
 # Maximum number of frames with missed detection that does not interrupt tracking
 MAX_FR_WITH_MISSED_DET = 5 
+MAX_FR_WITH_MISSED_DET_KEY = 'max_frames_with_missed_detections'
 USE_ORIGINAL_FPS = False
 USE_ORIGINAL_FPS_KEY = 'use_original_fps'
 USE_ORIGINAL_RES = True
@@ -336,8 +341,8 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Video indexing
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
-CONF_THRESHOLD = 15 # Threshold for retaining prediction 
-# (faces whose prediction ha a confidence value 
+CONF_THRESHOLD = 0 # Threshold for retaining prediction 
+# (faces whose prediction has a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
 CONF_THRESHOLD_KEY = 'conf_threshold'
 DETECTED_KEY = 'detected'
@@ -359,6 +364,9 @@ MIN_SEGMENT_DURATION_KEY = 'min_segment_duration'
 #MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds) TO BE DELETED
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
+PEOPLE_CLUSTERS_NR_KEY = 'people_clusters_nr'
+RELEVANT_PEOPLE_NR_KEY = 'relevant_people_nr'
+SAVED_FRAMES_NR_KEY = 'saved_frames_nr' 
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
@@ -376,6 +384,7 @@ TRACKED_PERSON_TAG = 'tracked_person'
 								# (difference between H histograms)
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
 							# between detection bbox and tracking window
+TRACKING_MIN_INT_AREA_KEY = 'tracking_min_int_area'
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
@@ -383,9 +392,11 @@ UNDEFINED_TAG = 'undefined'
 USE_AGGREGATION = False # True if final tag for a tracked face is obtained
 					   # by aggregation of results for single frames
 USE_AGGREGATION_KEY = 'use_aggregation'
-USE_CLOTHING_RECOGNITION = True # True if recognition based on clothes 
+USE_CLOTHING_RECOGNITION = False # True if recognition based on clothes 
 # is used
 USE_CLOTHING_RECOGNITION_KEY = 'use_clothing_recognition'
+USE_PEOPLE_CLUSTERING = True # If True, people clustering is used
+USE_PEOPLE_CLUSTERING_KEY = 'use_people_clustering'
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video

@@ -37,6 +37,8 @@ class FaceExtractor(object):
         :param params: configuration parameters (see table)        
         '''
         
+        self.anal_results = {} # Dictionary with analysis results
+        
         self.anal_times = {} # Dictionary with times for analysis
         
         self.cloth_threshold = 0 # Threshold for clothing recognition
@@ -152,29 +154,47 @@ class FaceExtractor(object):
         
         #self.saveDiscTrackingSegments() # TEST ONLY
         
-        self.recognizeFacesInVideo()
-
-        self.saveRecPeople(True) # TEST ONLY
-        
-        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        use_people_clustering = USE_PEOPLE_CLUSTERING
         
         if(self.params is not None):
-        
-            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
-        
-        if(use_clothing_rec):
-        
-            self.recognizeClothesInVideo()
             
-            self.saveRecPeople(False) # TEST ONLY
+            use_people_clustering = self.params[USE_PEOPLE_CLUSTERING_KEY]
         
-        self.saveTempPeopleFiles()
-        
-        #self.showRecPeople()
-        
-        #self.readUserAnnotations()
-        
-        #self.savePeopleFiles()
+        if(use_people_clustering):    
+            
+            self.recognizeFacesInVideo()
+    
+            #self.saveRecPeople(True) # TEST ONLY
+            
+            use_clothing_rec = USE_CLOTHING_RECOGNITION
+            
+            if(self.params is not None):
+            
+                use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+            
+            if(use_clothing_rec):
+            
+                self.recognizeClothesInVideo()
+                
+                self.saveRecPeople(False) # TEST ONLY
+            
+            self.saveTempPeopleFiles()
+            
+            self.showRecPeople()
+            
+            #self.readUserAnnotations()
+            
+            self.simulateUserAnnotations() # TEST ONLY
+            
+            self.savePeopleFiles()
+            
+        else:
+            
+            self.showTrackedPeople()
+            
+            self.readTrackUserAnnotations()
+            
+        self.saveAnalysisResults()
         
         
     def detectFacesInVideo(self):
@@ -634,12 +654,20 @@ class FaceExtractor(object):
             use_or_fps = USE_ORIGINAL_FPS
             used_fps = USED_FPS
             min_segment_duration = MIN_SEGMENT_DURATION
+            tracking_min_int_area = TRACKING_MIN_INT_AREA
+            min_size_width = FACE_DETECTION_MIN_SIZE_WIDTH
+            min_size_height = FACE_DETECTION_MIN_SIZE_HEIGHT
+            max_fr_with_miss_det = MAX_FR_WITH_MISSED_DET
             
             if(self.params is not None):
                 
                 use_or_fps = self.params[USE_ORIGINAL_FPS_KEY]
                 used_fps = self.params[USED_FPS_KEY]
                 min_segment_duration = self.params[MIN_SEGMENT_DURATION_KEY]
+                tracking_min_int_area = self.params[TRACKING_MIN_INT_AREA_KEY]
+                min_size_width = self.params[MIN_SIZE_WIDTH_KEY]
+                min_size_height = self.params[MIN_SIZE_HEIGHT_KEY]
+                max_fr_with_miss_det = self.params[MAX_FR_WITH_MISSED_DET_KEY]
             
             # Minimum duration of a segment in frames
             min_segment_frames = int(
@@ -798,8 +826,8 @@ class FaceExtractor(object):
                         track_y1 = track_y0 + track_h
                         
                         # Check size of track window
-                        if((track_w <= FACE_DETECTION_MIN_SIZE_WIDTH) 
-                        or (track_h <= FACE_DETECTION_MIN_SIZE_HEIGHT)):                    
+                        if((track_w <= min_size_width) 
+                        or (track_h <= min_size_height)):                    
 
                             break
                             
@@ -829,7 +857,7 @@ class FaceExtractor(object):
                             # delete detection from list
                             
                             sim = is_rect_similar(
-                            track_window, det_bbox, TRACKING_MIN_INT_AREA)
+                            track_window, det_bbox, tracking_min_int_area)
                             
                             if(sim):
                                 
@@ -895,16 +923,16 @@ class FaceExtractor(object):
                             # is too big
                             missed_det_counter = missed_det_counter + 1
                             
-                            if(missed_det_counter > MAX_FR_WITH_MISSED_DET):
+                            if(missed_det_counter > max_fr_with_miss_det):
                                 
                                 # Remove last frames and 
                                 # interrupt tracking
-                                for i in range(0, MAX_FR_WITH_MISSED_DET):
+                                for i in range(0, max_fr_with_miss_det):
                                 
                                     segment_frame_list.pop()
                                     
                                 segment_face_counter = (
-                                segment_face_counter - MAX_FR_WITH_MISSED_DET)
+                                segment_face_counter - max_fr_with_miss_det)
                                 
                                 break
                             
@@ -1530,7 +1558,7 @@ class FaceExtractor(object):
                         use_aggregation = USE_AGGREGATION
                         use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
                         max_nose_diff = MAX_NOSE_DIFF
-                        conf_threshold = CONF_THRESHOLD_KEY
+                        conf_threshold = CONF_THRESHOLD
                         
                         if(self.params is not None):
                             
@@ -1684,13 +1712,13 @@ class FaceExtractor(object):
                             [final_tag, final_conf, pct] = (
                             aggregate_frame_results(frames, tags = tgs))
                             
-                            print('train index', idx)
-                            print('query index', sub_counter)
-                            print('final_tag', final_tag)
-                            print('confidence', final_conf)
-                            print('number of frames', len(frames))
-                            print('Percentage', pct)
-                            print('\n')
+                            #print('train index', idx)
+                            #print('query index', sub_counter)
+                            #print('final_tag', final_tag)
+                            #print('confidence', final_conf)
+                            #print('number of frames', len(frames))
+                            #print('Percentage', pct)
+                            #print('\n')
                             
                         else:
                             
@@ -1708,7 +1736,10 @@ class FaceExtractor(object):
                                     
                                     if(diff < final_conf):
                                         
-                                        final_conf = diff                           
+                                        final_conf = diff  
+                                        
+                            #print('final_conf', final_conf)
+                            #print('conf_threshold', conf_threshold)                         
                         
                             if(final_conf < conf_threshold):
                                     
@@ -2083,6 +2114,13 @@ class FaceExtractor(object):
                     
                     segment_dict[SEGMENT_DURATION_KEY] = duration
                     
+                    # Add annotation for segment
+                    if(ANN_TAG_KEY in tracking_segment_dict):
+                    
+                        segment_ann = tracking_segment_dict[ANN_TAG_KEY]
+                    
+                        segment_dict[ANN_TAG_KEY] = segment_ann
+                    
                     segment_list.append(segment_dict)
                     
                     ann_segments.append(segment_counter)
@@ -2131,6 +2169,11 @@ class FaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
             
             print 'Time for face recognition:', time_in_seconds, 's\n'
+            
+            # Delete directory with aligned faces
+            align_path = os.path.join(rec_path, ALIGNED_FACES_DIR) 
+            
+            shutil.rmtree(align_path)
             
             self.anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
             
@@ -2843,9 +2886,17 @@ class FaceExtractor(object):
         # Directory for this video     
         video_indexing_path = VIDEO_INDEXING_PATH
         
+        half_window_size = HALF_WINDOW_SIZE
+        
+        std_mult_frame = STD_MULTIPLIER_FRAME
+        
         if(self.params is not None):
             
             video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+            
+            half_window_size = self.params[HALF_WINDOW_SIZE_KEY]
+            
+            std_mult_frame = self.params[STD_MULTIPLIER_FRAME_KEY]
            
         video_path = os.path.join(video_indexing_path, res_name)
         
@@ -2924,7 +2975,7 @@ class FaceExtractor(object):
                 #(USED_FPS+1) * MIN_SEGMENT_DURATION / 2))
             
             self.cut_idxs = get_shot_changes(
-            self.hist_diffs, HALF_WINDOW_SIZE, STD_MULTIPLIER_FRAME)    
+            self.hist_diffs, half_window_size, std_mult_frame)    
             
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
@@ -3368,8 +3419,19 @@ class FaceExtractor(object):
                 #half_w_size = int(math.floor(
                 #(USED_FPS+1) * MIN_SEGMENT_DURATION / 2))
             
+            
+            half_window_size = HALF_WINDOW_SIZE
+        
+            std_mult_face = STD_MULTIPLIER_FACE
+        
+            if(self.params is not None):
+                
+                half_window_size = self.params[HALF_WINDOW_SIZE_KEY]
+                
+                std_mult_face = self.params[STD_MULTIPLIER_FACE_KEY]
+            
             face_cut_idxs_temp = get_shot_changes(
-            det_diff_list, HALF_WINDOW_SIZE, STD_MULTIPLIER_FACE) 
+            det_diff_list, half_window_size, std_mult_face) 
             
             if(len(face_cut_idxs_temp) > 0):
                 
@@ -3750,3 +3812,303 @@ class FaceExtractor(object):
         return mean
         
         
+    def showTrackedPeople(self):
+        '''
+        Show and save one image for each tracked people in video
+        ''' 
+        
+        # Check existence of tracking results
+        
+        res_name = self.resource_name
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+        
+        key_frames_path = os.path.join(
+        track_path, FACE_RECOGNITION_KEY_FRAMES_DIR)
+        
+        if(not(os.path.exists(key_frames_path))):
+            
+            os.makedirs(key_frames_path)
+
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(track_path, file_name)
+        
+        if(len(self.tracked_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with tracking results'
+                
+                with open(file_path) as f:
+    
+                    self.tracked_faces = yaml.load(f) 
+                    
+                print 'YAML file with tracking results loaded'
+                    
+            else:
+                
+                print 'Warning! No tracking results found!'
+                
+                return                      
+        
+        p_counter = 0
+        
+        for segment_dict in self.tracked_faces:
+                
+            frame_list = segment_dict[FRAMES_KEY]      
+    
+            # Choose central frame in segment
+            frames_nr = len(frame_list)
+            
+            if(frames_nr >= 1):
+                
+                middle_idx = int(math.ceil(frames_nr/2.0) - 1)
+                
+                middle_frame_dict = frame_list[middle_idx]
+                
+                frame_path = middle_frame_dict[FRAME_PATH_KEY]
+                
+                image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
+                
+                # Add tracking window to image as red rectangle
+                track_bbox = middle_frame_dict[TRACKING_BBOX_KEY]
+                
+                x0 = track_bbox[0]
+                x1 = x0 + track_bbox[2]
+                y0 = track_bbox[1]
+                y1 = y0 + track_bbox[3]
+                              
+                cv2.rectangle(
+                image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+                
+                # Save image
+                fr_name = '%07d.png' % p_counter
+                
+                fr_path = os.path.join(key_frames_path, fr_name)
+                
+                cv2.imwrite(
+                fr_path, image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
+                
+                p_counter = p_counter + 1
+                    
+
+    def readTrackUserAnnotations(self):
+        '''
+        Read annotations by user from disk
+        '''
+
+        # Check existence of tracking results
+        
+        res_name = self.resource_name
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+        
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(track_path, file_name)
+        
+        if(len(self.tracked_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with tracking results'
+                
+                with open(file_path) as f:
+    
+                    self.tracked_faces = yaml.load(f) 
+                    
+                print 'YAML file with tracking results loaded'
+                    
+            else:
+                
+                print 'Warning! No tracking results found!'
+                
+                return 
+
+        user_ann_path = os.path.join(
+        track_path, FACE_RECOGNITION_USER_ANNOTATIONS)
+        
+        # Create directory for user annotations
+        
+        if(not(os.path.exists(user_ann_path))):
+            
+            os.makedirs(user_ann_path)                 
+        
+        print '\n\n### User annotations ###\n'
+        
+        raw_input("Press Enter when you are ready to order key frames...")
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+        
+        raw_input("Order key frames, than press Enter to continue...")
+    
+        auto_p_counter = 0
+        
+        user_rec_faces = []
+        
+        # Iterate through tracked faces
+        for auto_p_dict in self.tracked_faces:
+            
+            found = False
+            # Search person in directory with user annotations
+            for user_tag in os.listdir(user_ann_path):
+            
+                user_p_path = os.path.join(user_ann_path, user_tag)
+                
+                # Iterate though all images in directory
+                for user_p_image in os.listdir(user_p_path):
+                    
+                    user_p_counter = os.path.splitext(user_p_image)[0]
+                    
+                    formatted_auto_p_counter = '%07d' % auto_p_counter
+                    
+                    if(user_p_counter == formatted_auto_p_counter):
+                        
+                        auto_p_dict[ANN_TAG_KEY] = user_tag
+                        
+                        user_rec_faces.append(auto_p_dict)
+                        
+                        found = True
+                        
+                        break
+                        
+                if(found):
+                    
+                    break
+                        
+            auto_p_counter = auto_p_counter + 1          
+                    
+        self.tracked_faces = user_rec_faces
+        
+        # Save recognition result in YAML file
+        save_YAML_file(file_path, self.tracked_faces) 
+        
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+        
+        print 'Time for user annotation:', time_in_seconds, 's\n'
+
+        self.anal_times[USER_ANNOTATION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)
+
+
+    def simulateUserAnnotations(self):
+        '''
+        Simulate user annotations by tacking tags from first segments
+        '''     
+        
+        # Check existence of recognition results
+        
+        res_name = self.resource_name
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+
+        file_name = res_name + '.YAML'
+            
+        file_path = os.path.join(rec_path, file_name)
+        
+        if(len(self.recognized_faces) == 0):
+            
+            # Try to load YAML file
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with recognition results'
+                
+                with open(file_path) as f:
+    
+                    self.recognized_faces = yaml.load(f) 
+                    
+                print 'YAML file with recgnition results loaded'
+                    
+            else:
+                
+                print 'Warning! No recognition results found!'
+                
+                return                      
+         
+        auto_p_counter = 0
+        
+        user_rec_faces = []
+        
+        # Iterate through automatic recognized faces
+        for auto_p_dict in self.recognized_faces:
+            
+            segment_list = auto_p_dict[SEGMENTS_KEY]
+            
+            # Get first segment
+            if(len(segment_list) >= 1):
+                
+                first_segment = segment_list[0]
+                
+                segment_ann_tag = first_segment[ANN_TAG_KEY]            
+                        
+                auto_p_dict[ANN_TAG_KEY] = segment_ann_tag
+                        
+                user_rec_faces.append(auto_p_dict)
+                        
+            auto_p_counter = auto_p_counter + 1          
+                    
+        self.recognized_faces = user_rec_faces
+        
+        # Save recognition result in YAML file
+        save_YAML_file(file_path, self.recognized_faces)                
+                
+                                 
+    def saveAnalysisResults(self):
+        '''
+        Save results of anlysis in dictionary
+        '''  
+        segments_nr = len(self.tracked_faces)
+        self.anal_results[SEGMENTS_NR_KEY] = segments_nr
+        
+        people_clusters_nr = len(self.recognized_faces)
+        self.anal_results[PEOPLE_CLUSTERS_NR_KEY] = people_clusters_nr
+        
+        # Count relevant tags
+        relevant_people_nr = 0
+        for person_dict in self.recognized_faces:
+            
+            tag = person_dict[ANN_TAG_KEY]
+            
+            if(tag!= UNDEFINED_TAG):
+                
+                relevant_people_nr = relevant_people_nr + 1
+                
+        self.anal_results[RELEVANT_PEOPLE_NR_KEY] = relevant_people_nr
