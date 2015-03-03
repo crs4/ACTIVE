@@ -1,4 +1,5 @@
 from django.db import models
+# importare riferimenti
 
 # le classi riportate in questo file corrispondono a dei
 # wrapper di quelle originarie utilizzate all'interno di notreDAM
@@ -41,34 +42,6 @@ class Person(models.Model):
         return list
 
 """
-This class contains all information about an item (a generic digital content) stored,
-catalogued and indexed by the DAM.
-Here only main attributes has been specified; a more complete data model is provided by the DAM
-"""
-class Item(models.Model):
-    name     = models.CharField(max_length=200)
-    path     = models.CharField(max_length=200)
-    # per semplicita' i metadati vengono riporatati come una stringa
-    metadata = models.CharField(max_length=200, blank=True)
-    # mancano i metodi per la manipolazione degli attributi degli item
-
-    def __unicode__(self):
-        return " ".join((self.path, self.name))
-
-    def __str__(self):
-        return " ".join((self.path, self.name))
-
-    # funzione utilizzata per ovviare al problema della serializzazione (non consente un controllo
-    # totale sugli attributi generati) da correggere/rimuovere!
-    def __json__(self):
-        list = {}
-        list['id']          = self.pk
-        list['name']        = self.name
-        list['path']        = self.path
-        list['metadata']    = self.metadata
-        return list
-
-"""
 This class is used to organize metadata referred to persons detected inside a digital content (item)
 Some attributes could bu null, depending on digital content type.
 For example images and videos it is useful to specify position data; for audio files any kind of positional
@@ -77,15 +50,11 @@ data is useless and nonsense.
 class Occurrence(models.Model):
     person      = models.ForeignKey(Person)
     item        = models.ForeignKey(Item)
-    # posizione all'interno di un'immagine in cui viene determinato un volto
-    position_x  = models.PositiveIntegerField(blank=True)
-    position_y  = models.PositiveIntegerField(blank=True)
-    position_width  = models.PositiveIntegerField(blank=True)
-    position_height = models.PositiveIntegerField(blank=True)
     # millisecondi trascorsi dall'inizio del video/audio????
     start_time  = models.BigIntegerField(blank=True, null=True)
     # durata di un'apparizione espressa in millisecondi???
     length      = models.BigIntegerField(blank=True, null=True)
+    keyframe    = models.CharField(max_length=200, blank=True)
 
     def __unicode__(self):
         return " - ".join((self.person.__str__(), self.item.__str__()))

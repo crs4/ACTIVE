@@ -5,7 +5,7 @@ the correct functionality when an HTTP request is done.
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from core.models      import Person, Item, Occurrence
+from core.models      import Person, Occurrence
 import json
 from django.core import serializers
 
@@ -37,24 +37,6 @@ def get_person(request):
             data = Person.objects.get(id=person_id).__json__()
         except:
             print("Selected person doesn't exist")
-    # return converted result (if any)
-    return HttpResponse(json.dumps(data), content_type = "application/json")
-
-"""
-Function used to obtain information of a specific Item object.
-All attributes are serialized and returned in JSON format.
-"""
-def get_item(request):
-    # variable for result data
-    data = {}
-    # check if an Item id has been specified
-    if "item_id" in request.GET :
-        item_id = request.GET.__getitem__("item_id")
-        try:
-            data = Item.objects.get(id=item_id).__json__()
-        except:
-            print("Selected item doesn't exist")
-
     # return converted result (if any)
     return HttpResponse(json.dumps(data), content_type = "application/json")
 
