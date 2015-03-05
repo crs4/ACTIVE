@@ -42,6 +42,10 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  USE_NOSE_POS_IN_DETECTION_KEY + ',' +
                  USE_NOSE_POS_IN_RECOGNITION_KEY + ',' + 
                  MAX_NOSE_DIFF_KEY + ',' +
+                 UPDATE_FACE_MODEL_AFTER_MERGING_KEY + ',' + 
+                 USE_MAJORITY_RULE_KEY + ',' + 
+                 USE_MEAN_CONFIDENCE_RULE_KEY + ',' + 
+                 USE_MIN_CONFIDENCE_RULE_KEY + ',' +                 
                  FRAME_EXTRACTION_TIME_KEY + ',' + 
                  FACE_DETECTION_TIME_KEY + ',' +
                  SHOT_CUT_DETECTION_TIME_KEY + ',' + 
@@ -92,7 +96,11 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[USE_AGGREGATION_KEY]) + ',' + 
                      str(experiment_dict[USE_NOSE_POS_IN_DETECTION_KEY]) + ',' +
                      str(experiment_dict[USE_NOSE_POS_IN_RECOGNITION_KEY]) + ',' + 
-                     str(experiment_dict[MAX_NOSE_DIFF_KEY]) + ',' +
+                     str(experiment_dict[MAX_NOSE_DIFF_KEY]) + ',' +    
+                     str(experiment_dict[UPDATE_FACE_MODEL_AFTER_MERGING_KEY]) + ',' +
+                     str(experiment_dict[USE_MAJORITY_RULE_KEY]) + ',' +
+                     str(experiment_dict[USE_MEAN_CONFIDENCE_RULE_KEY]) + ',' +
+                     str(experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY]) + ',' +                   
                      str(experiment_dict[FRAME_EXTRACTION_TIME_KEY]) + ',' + 
                      str(experiment_dict[FACE_DETECTION_TIME_KEY]) + ',' +
                      str(experiment_dict[SHOT_CUT_DETECTION_TIME_KEY]) + ',' + 
@@ -127,17 +135,18 @@ def video_indexing_experiments(resource_path, params):
     :param params: dictionary containing the parameters to be used for the test 
     '''
 
-    man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test'
+    man_ann_path = ANNOTATIONS_PATH
     
-    resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg'
+    if(params is not None):
+        
+        man_ann_path = params[ANNOTATIONS_PATH_KEY]
     
     fs = FaceExtractor(params)
         
     fs.analizeVideo(resource_path)
     
     ## Get name of resource
-    #res_name = os.path.basename(resource_path) 
-    res_name = 'fic.02.mpg'
+    res_name = os.path.basename(resource_path) 
     
     ## Directory for this video  
     video_indexing_path = VIDEO_INDEXING_PATH
@@ -460,6 +469,10 @@ def video_indexing_experiments(resource_path, params):
     new_experiment_dict[USE_NOSE_POS_IN_DETECTION_KEY] = fs.params[USE_NOSE_POS_IN_DETECTION_KEY]
     new_experiment_dict[USE_NOSE_POS_IN_RECOGNITION_KEY] = fs.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
     new_experiment_dict[MAX_NOSE_DIFF_KEY] = fs.params[MAX_NOSE_DIFF_KEY]
+    new_experiment_dict[UPDATE_FACE_MODEL_AFTER_MERGING_KEY] = fs.params[UPDATE_FACE_MODEL_AFTER_MERGING_KEY]
+    new_experiment_dict[USE_MAJORITY_RULE_KEY] = fs.params[USE_MAJORITY_RULE_KEY]
+    new_experiment_dict[USE_MEAN_CONFIDENCE_RULE_KEY] = fs.params[USE_MEAN_CONFIDENCE_RULE_KEY]
+    new_experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY] = fs.params[USE_MIN_CONFIDENCE_RULE_KEY]    
     
     frame_extr_time = 0
     if(FRAME_EXTRACTION_TIME_KEY in fs.anal_times):

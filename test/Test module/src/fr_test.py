@@ -278,7 +278,7 @@ def fr_experiments(params, show_results):
 								align_path = params[ALIGNED_FACES_PATH_KEY]
 							
                             if(use_eye_detection):
-                                face = get_cropped_face(image_complete_path, align_path, params offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
+                                face = get_cropped_face(image_complete_path, align_path, params, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
                             else:
                                 face = get_cropped_face_using_eyes_pos(image_complete_path, align_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)
                         else:

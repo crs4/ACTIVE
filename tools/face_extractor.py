@@ -12,6 +12,8 @@ import math
 
 import numpy as np
 
+import operator
+
 import os
 
 import pickle as pk
@@ -99,11 +101,11 @@ class FaceExtractor(object):
         
         file_path = os.path.join(video_path, file_name)
         
-        ### TEST ONLY ###
-        
-        file_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML'
-        
-        #################
+        if(self.params is not None):
+            
+            if(VIDEO_PARAMS_FILE_PATH_KEY in self.params):
+                
+                file_path = self.params[VIDEO_PARAMS_FILE_PATH_KEY]
         
         # Try to load YAML file with video parameters
         if(os.path.exists(file_path)):
@@ -144,11 +146,19 @@ class FaceExtractor(object):
                     
                 print 'YAML file with analysis times loaded'               
         
-        self.getFrameList(resource)
+        sim_user_ann = SIMULATE_USER_ANNOTATIONS
         
-        self.detectFacesInVideo()       
-        
-        self.trackFacesInVideo()
+        if(self.params is not None):
+            
+            sim_user_ann = self.params[SIMULATE_USER_ANNOTATIONS_KEY]
+            
+        if(not(sim_user_ann)):
+            
+            self.getFrameList(resource)
+            
+            self.detectFacesInVideo()       
+            
+            self.trackFacesInVideo()
         
         #self.saveTrackingSegments() # TEST ONLY
         
@@ -182,9 +192,13 @@ class FaceExtractor(object):
             
             self.showRecPeople()
             
-            #self.readUserAnnotations()
+            if(sim_user_ann):
             
-            self.simulateUserAnnotations() # TEST ONLY
+                self.simulateUserAnnotations()
+            
+            else:
+                
+                self.readUserAnnotations()
             
             self.savePeopleFiles()
             
@@ -1322,6 +1336,12 @@ class FaceExtractor(object):
             
             counter = counter + 1
             
+        # Save nose positions
+        nose_pos_file_path = os.path.join(video_path, 'noses')
+        with open(nose_pos_file_path, 'w') as f:
+                
+            pk.dump(self.nose_pos_list, f)                
+            
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
         time_in_seconds = time_in_clocks / cv2.getTickFrequency()
@@ -1453,7 +1473,10 @@ class FaceExtractor(object):
     
     def searchFace(self, ann_segments, segment_list, train_model, idx):
         '''        
-        Search tracked faces that are similar to face in model
+        Search tracked faces that are similar to face in model.
+        Segments to be checked are treated indipendently:
+        a new segment is merged with reference segment 
+        if final confidence is below a fixed threshold.
         
         :type ann_segments: list
         :param ann_segments: list of already checked segments
@@ -1481,6 +1504,12 @@ class FaceExtractor(object):
         
         # Directory for face models
         models_path = os.path.join(video_path, FACE_MODELS_DIR)
+        
+        if(self.params is not None):
+            
+            if(FACE_MODELS_DIR_PATH_KEY in self.params):
+                
+                models_path = self.params[FACE_MODELS_DIR_PATH_KEY]
 
         # Get histograms from model
         
@@ -1596,17 +1625,14 @@ class FaceExtractor(object):
                                     
                                     train_label = train_labels[t][0]
                                     
-                                    train_nose_pos = None
-                                    
-                                    if(use_nose_pos_in_rec):
-                                        
-                                        train_nose_pos = (
-                                        self.nose_pos_list[idx][train_label])
-                                    
                                     if(use_nose_pos_in_rec):
                                         
                                         # Compare only faces with
                                         # similar nose position
+                                        
+                                        train_nose_pos = (
+                                        self.nose_pos_list[idx][train_label])                                        
+                                        
                                         if((nose_pos is None) or
                                         (train_nose_pos is None)):
                                             
@@ -1710,7 +1736,8 @@ class FaceExtractor(object):
                             tgs = (TRACKED_PERSON_TAG, UNDEFINED_TAG)
                             
                             [final_tag, final_conf, pct] = (
-                            aggregate_frame_results(frames, tags = tgs))
+                            aggregate_frame_results(
+                            frames, tags = tgs, params = self.params))
                             
                             #print('train index', idx)
                             #print('query index', sub_counter)
@@ -1725,12 +1752,47 @@ class FaceExtractor(object):
                             for i in range(0,len(model_hists)):
                     
                                 hist = model_hists[i][0]
+                                
+                                label = model_labels[i][0]
+                                
+                                nose_pos = None
+                                
+                                if(use_nose_pos_in_rec):
+                                    
+                                    nose_pos = (
+                                    self.nose_pos_list[sub_counter][label])                                
                         
                                 # Iterate through LBP histograms in training model
                                 for t in range(0, len(train_hists)):
                                     
                                     train_hist = train_hists[t][0]
-                                
+                                    
+                                    train_label = train_labels[t][0]
+                                    
+                                    if(use_nose_pos_in_rec):
+                                        
+                                        # Compare only faces with
+                                        # similar nose position
+                                        
+                                        train_nose_pos = (
+                                        self.nose_pos_list[idx][train_label])                                        
+                                        
+                                        if((nose_pos is None) or
+                                        (train_nose_pos is None)):
+                                            
+                                            continue
+                                            
+                                        nose_diff_x = (
+                                        abs(nose_pos[0] - train_nose_pos[0]))
+                                        
+                                        nose_diff_y = (
+                                        abs(nose_pos[1] - train_nose_pos[1]))
+                                        
+                                        if((nose_diff_x > max_nose_diff)
+                                        or (nose_diff_y > max_nose_diff)):
+                                            
+                                            continue
+                                                                           
                                     diff = cv2.compareHist(
                                     hist, train_hist, cv.CV_COMP_CHISQR)
                                     
@@ -1781,6 +1843,324 @@ class FaceExtractor(object):
                      
             #print('sub_counter', sub_counter)                            
             sub_counter = sub_counter + 1
+    
+        return ann_segments
+
+
+    def searchFaceWithUpdating(
+    self, ann_segments, segment_list, train_hists, train_labels, idx):
+        '''        
+        Search tracked faces that are similar to face in model.
+        Reference segment is merged with more similar segment.
+        After each merging, reference segment is updated
+        
+        :type ann_segments: list
+        :param ann_segments: list of already checked segments
+        
+        :type segment_list: list
+        :param segment_list: list of segments related to the same person
+        
+        :type train_hists: list
+        :param train_hists: list of LBP histograms of searched face
+        
+        :type train_labels: list
+        :param train_labels: list of model labels of searched face     
+        
+        :type idx: int
+        :param idx: index of segment used for creating model
+        '''
+
+        res_name = self.resource_name
+
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        # Directory for face models
+        models_path = os.path.join(video_path, FACE_MODELS_DIR)
+
+        if(self.params is not None):
+            
+            if(FACE_MODELS_DIR_PATH_KEY in self.params):
+                
+                models_path = self.params[FACE_MODELS_DIR_PATH_KEY] 
+
+        # Save a list of confidence values for each hist in train model
+        conf_list_list = []
+        
+        for t in range(0, len(train_hists)):
+            
+            # Create a list for each hist in train model
+            # and initialize it with sys.maxint
+            conf_list = []
+            
+            for s in range(0, len(self.tracked_faces)):
+                
+                conf_list.append(sys.maxint)
+                
+            conf_list_list.append(conf_list)
+            
+        use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+        max_nose_diff = MAX_NOSE_DIFF
+        conf_threshold = CONF_THRESHOLD
+        
+        if(self.params is not None):
+            
+            use_nose_pos_in_rec = (
+            self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
+            max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
+            conf_threshold = self.params[CONF_THRESHOLD_KEY]              
+
+        there_are_good_segments = False
+
+        tgs = [] # List of tags
+        sub_counter = 0
+        for sub_segment_dict in self.tracked_faces:
+            
+            tgs.append(sub_counter)
+            
+            #print('ann_segments', ann_segments)
+            
+            if(sub_counter not in ann_segments):
+                
+                # Check that this segment do not overlap in time
+                # with the other segments in the list
+                
+                seg_start = sub_segment_dict[SEGMENT_START_KEY]
+                
+                seg_dur = sub_segment_dict[SEGMENT_DURATION_KEY]
+                
+                seg_end = seg_start + seg_dur
+                
+                # If true, segment do overlap
+                overlap_seg = False
+                
+                for l_segment_dict in segment_list:
+                    
+                    l_seg_start = l_segment_dict[SEGMENT_START_KEY]
+                    
+                    l_seg_dur = l_segment_dict[SEGMENT_DURATION_KEY]
+                    
+                    l_seg_end = l_seg_start + l_seg_dur
+                    
+                    if(((seg_start >= l_seg_start) and 
+                    (seg_start <= l_seg_end)) or 
+                    ((seg_end >= l_seg_start) and 
+                    (seg_end <= l_seg_end))):
+                        
+                        overlap_seg = True
+                        
+                if(overlap_seg):
+                    
+                    sub_counter = sub_counter + 1
+                    
+                    continue
+                
+                db_path= os.path.join(models_path, str(sub_counter))
+                        
+                if(os.path.isfile(db_path)):
+                    
+                    model = cv2.createLBPHFaceRecognizer()
+                    
+                    model.load(db_path)
+                
+                    if(model):
+                        
+                        there_are_good_segments = True
+                        
+                        # Get histograms from model      
+                        model_hists = model.getMatVector("histograms")
+                        
+                        # Get labels from model
+                        model_labels = model.getMat("labels")
+                        
+                        # Iterate through models related to this segment                      
+                        final_tag = UNDEFINED_TAG
+                        
+                        final_conf = sys.maxint    
+                        
+                        # Iterate through LBP histograms in training model
+                        for t in range(0, len(train_hists)):
+                            
+                            train_hist = train_hists[t][0]
+                            
+                            train_label = train_labels[t][0]
+                            
+                            conf = sys.maxint
+                            
+                            train_nose_pos = None
+                            
+                            if(use_nose_pos_in_rec):
+                                
+                                # Compare only faces with
+                                # similar nose position
+                                
+                                train_nose_pos = (
+                                self.nose_pos_list[idx][train_label])
+                                
+                            for i in range(0,len(model_hists)):
+                    
+                                hist = model_hists[i][0]
+                                
+                                label = model_labels[i][0]
+                                
+                                nose_pos = None
+                                
+                                if(use_nose_pos_in_rec):
+                                    
+                                    nose_pos = (
+                                    self.nose_pos_list[sub_counter][label])                                         
+                                                                    
+                                
+                                    if((nose_pos is None) or
+                                    (train_nose_pos is None)):
+                                        
+                                        continue
+                                        
+                                    nose_diff_x = (
+                                    abs(nose_pos[0] - train_nose_pos[0]))
+                                    
+                                    nose_diff_y = (
+                                    abs(nose_pos[1] - train_nose_pos[1]))
+                                    
+                                    if((nose_diff_x > max_nose_diff)
+                                    or (nose_diff_y > max_nose_diff)):
+                                        
+                                        continue
+                                                                   
+                                diff = cv2.compareHist(
+                                hist, train_hist, cv.CV_COMP_CHISQR)
+                                
+                                if(diff < conf):
+                                    
+                                    conf = diff
+                            
+                            conf_list_list[t][sub_counter] = conf
+            
+            sub_counter = sub_counter + 1
+        
+        # Assign final tags to frames              
+        
+        if(there_are_good_segments):
+            #At least one segment has been checked
+            frames = []
+            
+            #print('conf_list_list', conf_list_list)
+            
+            for t in range(0, len(train_hists)): 
+                
+                frame_dict = {}
+                
+                conf_list = conf_list_list[t]
+                
+                [assigned_tag, conf] = min(enumerate(conf_list), 
+                key=operator.itemgetter(1))
+                
+                frame_dict[ASSIGNED_TAG_KEY] = assigned_tag
+                frame_dict[CONFIDENCE_KEY] = conf
+                
+                frames.append(frame_dict)
+                
+            # Aggregate frame results             
+            [final_tag, final_conf, pct] = (
+            aggregate_frame_results(
+            frames, tags = tgs, params = self.params))
+            
+            #print('idx', idx)
+            
+            #print('conf_list_list', conf_list_list)
+            
+            #print('frames', frames)
+            
+            #print('final_tag', final_tag)
+            
+            #print('final_conf', final_conf)
+                
+            new_segment_merged =  False   
+                
+            # There is a sufficiently similar segment
+            if(final_conf < conf_threshold):
+                
+                new_segment_merged = True
+                
+                segment_dict = {}
+                
+                sub_segment_dict = self.tracked_faces[final_tag]
+                
+                sub_fr_list = sub_segment_dict[FRAMES_KEY]
+                
+                segment_dict[FRAMES_KEY] = sub_fr_list
+                
+                segment_dict[ASSIGNED_TAG_KEY] = final_tag
+                
+                segment_dict[CONFIDENCE_KEY] = final_conf
+                
+                # Start of segment in milliseconds 
+                # of elapsed time in video
+                
+                start = sub_segment_dict[SEGMENT_START_KEY]
+                
+                segment_dict[SEGMENT_START_KEY] = start
+                
+                # Duration of segment in milliseconds
+                
+                duration = sub_segment_dict[SEGMENT_DURATION_KEY]
+                
+                segment_dict[SEGMENT_DURATION_KEY] = duration
+                
+                segment_list.append(segment_dict) 
+                
+                # Do not consider this segment anymore
+                ann_segments.append(final_tag)      
+                         
+                #print('sub_counter', sub_counter)                            
+                sub_counter = sub_counter + 1
+        
+            #print('len(segment_list)', len(segment_list))
+            
+            #print('ann_segments', ann_segments)
+            
+            #raw_input("Press Enter to continue...")
+            
+            if(new_segment_merged):
+                
+                # Update reference segment
+                db_path= os.path.join(models_path, str(final_tag))
+                    
+                model = cv2.createLBPHFaceRecognizer()
+                
+                model.load(db_path)
+                
+                if(model):  
+                    
+                    # Get histograms from model      
+                    model_hists = model.getMatVector("histograms")
+                    
+                    # Get labels from model
+                    model_labels = model.getMat("labels")
+                    
+                    # Update list of labels
+                    train_hist_nr = len(train_hists)
+                    for lbl in model_labels:
+                        
+                        new_lbl = lbl + train_hist_nr
+                        
+                        np.append(train_labels, new_lbl)
+                        
+                    # Update list of histograms
+                    np.append(train_hists, model_hists)     
+                    
+                    # Update nose positions
+                    if(use_nose_pos_in_rec):
+                        self.nose_pos_list[idx].extend(self.nose_pos_list[final_tag])
+                    
+                    ann_segments = self.searchFaceWithUpdating(ann_segments, 
+                    segment_list, train_hists, train_labels, idx)             
     
         return ann_segments
 
@@ -1999,6 +2379,12 @@ class FaceExtractor(object):
         # Directory for face models
         models_path = os.path.join(video_path, FACE_MODELS_DIR)
         
+        if(self.params is not None):
+            
+            if(FACE_MODELS_DIR_PATH_KEY in self.params):
+                
+                models_path = self.params[FACE_MODELS_DIR_PATH_KEY]     
+        
         rec_file_path = os.path.join(rec_path, file_name)
         
         rec_loaded = False
@@ -2027,11 +2413,11 @@ class FaceExtractor(object):
                 
             file_path = os.path.join(track_path, file_name)
             
-            ### TEST ONLY ###
-        
-            file_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML'
-        
-            #################
+            if(self.params is not None):
+                
+                if(FACE_TRACKING_FILE_PATH_KEY in self.params):
+                    
+                    file_path = self.params[FACE_TRACKING_FILE_PATH_KEY]
             
             if(len(self.tracked_faces) == 0):
                 
@@ -2055,8 +2441,19 @@ class FaceExtractor(object):
             # Make copy of tracked faces
             tracking_list = list(self.tracked_faces)
             
-            # Save face models
-            self.saveFaceModels(tracking_list)
+            if((self.params is not None)
+            and (NOSE_POS_FILE_PATH_KEY in self.params)):
+                    
+                nose_pos_file_path = self.params[NOSE_POS_FILE_PATH_KEY]
+                
+                with open(nose_pos_file_path) as f:
+                    
+                    self.nose_pos_list = pk.load(f)
+                    
+            else:
+                    
+                # Save face models
+                self.saveFaceModels(tracking_list)
             
             print '\n\n### Face Recognition ###\n'
             
@@ -2064,6 +2461,13 @@ class FaceExtractor(object):
             start_time = cv2.getTickCount()
             
             self.recognized_faces = []
+            
+            update_after_merging = UPDATE_FACE_MODEL_AFTER_MERGING
+            
+            if(self.params is not None):
+            
+                update_after_merging = (
+                self.params[UPDATE_FACE_MODEL_AFTER_MERGING_KEY])
             
             # List of segments already analyzed and annotated
             ann_segments = []
@@ -2137,9 +2541,25 @@ class FaceExtractor(object):
 
                             # Use model of this segment 
                             # to recognize faces of remaining segments
-                            ann_segments = self.searchFace(ann_segments, 
-                            segment_list, model, segment_counter)
                             
+                            if(update_after_merging):
+                                
+                                # Get histograms from model
+                                train_hists = (
+                                model.getMatVector("histograms"))
+        
+                                # Get labels from model
+                                train_labels = model.getMat("labels")
+                                
+                                ann_segments = self.searchFaceWithUpdating(
+                                ann_segments, segment_list, train_hists,
+                                train_labels, segment_counter)
+                                
+                            else:
+                                
+                                ann_segments = self.searchFace(ann_segments, 
+                                segment_list, model, segment_counter)
+
                             # Add segments to person dictionary
                             
                             person_dict[SEGMENTS_KEY] = segment_list
@@ -2173,7 +2593,9 @@ class FaceExtractor(object):
             # Delete directory with aligned faces
             align_path = os.path.join(rec_path, ALIGNED_FACES_DIR) 
             
-            shutil.rmtree(align_path)
+            if(os.path.exists(align_path)):
+            
+                shutil.rmtree(align_path)
             
             self.anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
             
@@ -2193,7 +2615,7 @@ class FaceExtractor(object):
         
         :type align_path: string
         :param align_path: path of directory 
-        where aligned faces are saved        
+        where aligned faces are saved               
         ''' 
         
         result = None
@@ -2229,7 +2651,13 @@ class FaceExtractor(object):
             # Else, we know only the bounding box
             # If nose position is used, only detected faces can be used
             
-            if(not(USE_NOSE_POS_IN_RECOGNITION)):
+            use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+            
+            if(self.params is not None):
+            
+                use_nose_pos_in_rec = self.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
+            
+            if(not(use_nose_pos_in_rec)):
                 
                 bbox = segment_frame_dict[TRACKING_BBOX_KEY]
                 

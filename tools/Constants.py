@@ -27,6 +27,7 @@ FACE_DETECTION_RESULTS_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face det
 FACE_DETECTION_RESULTS_PATH_KEY = 'face_detection_results'
 FACE_DETECTION_TEST_SET_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\TestSet'
 FACE_MODELS_DIR = 'Face models'
+FACE_MODELS_DIR_PATH_KEY = r'face_models_dir_path'
 #FACE_EXTRACTOR_CONFIGURATION_FILE_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'FaceExtractorConfiguration.yml' To be deleted
 FACE_RECOGNITION_DATASET_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Dataset AT&T\\'
 FACE_RECOGNITION_DIR = 'Face recognition'
@@ -43,10 +44,12 @@ FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations' # Directory containg simple an
 FACE_TEMP_ANN_DIR = 'Temp annotations'
 FACE_TEMP_SIMPLE_ANN_DIR = 'Temp simple annotations'
 FACE_TRACKING_DIR = r'Face tracking'
+FACE_TRACKING_FILE_PATH_KEY = r'face_tracking_file_path'
 FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 #FRAMES_FILES_PATH = ACTIVE_ROOT_DIRECTORY + r'data\YouTube\Risultati\LBP_2_12_6_6_nose_position_oval_mask\Frames'
 FRAMES_DIR = r'Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
+NOSE_POS_FILE_PATH_KEY = 'nose_pos_file_path'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
 SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All key frames'
@@ -173,6 +176,7 @@ NOSE_DETECTION_CLASSIFIER_KEY = 'nose_detection_classifier'
 
 # Experiment parameters
 
+ANNOTATIONS_PATH = r''
 ANNOTATIONS_PATH_KEY = 'annotations_path'
 CODE_VERSION_KEY = 'code_version'
 DATASET_ALREADY_DIVIDED = False
@@ -297,10 +301,13 @@ USE_ORIGINAL_FPS_IN_TRAINING = False
 USED_FPS_IN_TRAINING = 1.0
 # Assigne tag that whose assigned to the majority of frames
 USE_MAJORITY_RULE = True 
+USE_MAJORITY_RULE_KEY = 'use_majority_rule'
 # Assigne tag that received the minimum value for the mean of confidences among frames
 USE_MEAN_CONFIDENCE_RULE = False 
+USE_MEAN_CONFIDENCE_RULE_KEY = 'use_mean_confidence_rule'
 # Assigne tag that received the minimum value of confidence
 USE_MIN_CONFIDENCE_RULE = True
+USE_MIN_CONFIDENCE_RULE_KEY = 'use_min_confidence_rule'
 USE_SLIDING_WINDOW = False
 SLIDING_WINDOW_SIZE = 5.0 # Size of sliding window in seconds
 USE_TRACKING = False
@@ -370,6 +377,8 @@ SAVED_FRAMES_NR_KEY = 'saved_frames_nr'
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
 						# before tracking interruption is possible T
+SIMULATE_USER_ANNOTATIONS = True
+SIMULATE_USER_ANNOTATIONS_KEY = 'simulate_user_annotations'
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
 					    # thresholds for dividing between faces
 STD_MULTIPLIER_FACE_KEY = 'std_multiplier_face'
@@ -389,6 +398,8 @@ UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
 					  # histogram differences
+UPDATE_FACE_MODEL_AFTER_MERGING = True
+UPDATE_FACE_MODEL_AFTER_MERGING_KEY = 'update_face_model_after_merging'
 USE_AGGREGATION = False # True if final tag for a tracked face is obtained
 					   # by aggregation of results for single frames
 USE_AGGREGATION_KEY = 'use_aggregation'
@@ -400,6 +411,7 @@ USE_PEOPLE_CLUSTERING_KEY = 'use_people_clustering'
 VIDEO_DURATION_KEY = 'video_duration' # Total duration of video (in ms)
 VIDEO_FPS_KEY = 'video_fps' # Original bitrate of video
 VIDEO_NAME_KEY = 'video_name' # Name of video
+VIDEO_PARAMS_FILE_PATH_KEY = 'video_parameters_file_path'
 VIDEO_SAVED_FRAMES_KEY = 'saved_frames' # Number of saved frames
 VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video

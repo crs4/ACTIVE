@@ -51,79 +51,79 @@ def load_image_annotations(file_path):
 
 
 def save_model_file(X, y, params = None, db_file_name = None):
-	'''
-	Save face model
+    '''
+    Save face model
 
-	:type X: OpenCV image
-	:param X: face image
-	
-	:type y: integer
-	:param y: label of face model
-	
-	:type y: dictionary
-	:param y: used parameters     
-	
-	:type db_file_name: string
-	:param db_file_name: name of database              
-	'''
-	
-	if(len(y) > 0): 
-		
-		algorithm = FACE_MODEL_ALGORITHM
-	
-		if(params is not None):
-			
-			algorihtm = params[FACE_MODEL_ALGORITHM_KEY]
-		
-		model = None
-		
-		if(algorihtm == 'Eigenfaces'):
-			
-			model = cv2.createEigenFaceRecognizer()
-		
-		elif(algorithm == 'Fisherfaces'):
-			
-			model = cv2.createFisherFaceRecognizer()
-			
-		elif(algorithm == 'LBP'):
-			
-			model=cv2.createLBPHFaceRecognizer()
-			
-			radius = LBP_RADIUS
-			neighbors = LBP_NEIGHBORS
-			grid_x = LBP_GRID_X
-			grid_y = LBP_GRID_Y
-			
-			if(params is not None):
+    :type X: OpenCV image
+    :param X: face image
+    
+    :type y: integer
+    :param y: label of face model
+    
+    :type y: dictionary
+    :param y: used parameters     
+    
+    :type db_file_name: string
+    :param db_file_name: name of database              
+    '''
+    
+    if(len(y) > 0): 
+        
+        algorithm = FACE_MODEL_ALGORITHM
+    
+        if(params is not None):
+            
+            algorihtm = params[FACE_MODEL_ALGORITHM_KEY]
+        
+        model = None
+        
+        if(algorihtm == 'Eigenfaces'):
+            
+            model = cv2.createEigenFaceRecognizer()
+        
+        elif(algorithm == 'Fisherfaces'):
+            
+            model = cv2.createFisherFaceRecognizer()
+            
+        elif(algorithm == 'LBP'):
+            
+            model=cv2.createLBPHFaceRecognizer()
+            
+            radius = LBP_RADIUS
+            neighbors = LBP_NEIGHBORS
+            grid_x = LBP_GRID_X
+            grid_y = LBP_GRID_Y
+            
+            if(params is not None):
 
-				radius = params[LBP_RADIUS_KEY]
-				neighbors = params[LBP_NEIGHBORS_KEY]
-				grid_x = params[LBP_GRID_X_KEY]
-				grid_y = params[LBP_GRID_Y_KEY]
-			
-			model=cv2.createLBPHFaceRecognizer(
-			radius,
-			neighbors,
-			grid_x,
-			grid_y)
-			
-		models_path = DB_MODELS_PATH
-		
-		if(params is not None):
-			
-			models_path = params[DB_MODELS_PATH_KEY]  
-			
-		model.train(np.asarray(X), np.asarray(y))
-		model_folder = models_path
-		
-		if db_file_name is not None:
-			
-			model_folder = db_file_name
-			if not os.path.exists(model_folder):
-				os.makedirs(model_folder)
-		
-		model_file = model_folder + os.sep + str(y[0])
-		model.save(model_file)
+                radius = params[LBP_RADIUS_KEY]
+                neighbors = params[LBP_NEIGHBORS_KEY]
+                grid_x = params[LBP_GRID_X_KEY]
+                grid_y = params[LBP_GRID_Y_KEY]
+            
+            model=cv2.createLBPHFaceRecognizer(
+            radius,
+            neighbors,
+            grid_x,
+            grid_y)
+            
+        models_path = DB_MODELS_PATH
+        
+        if(params is not None):
+            
+            models_path = params[DB_MODELS_PATH_KEY]  
+            
+        model.train(np.asarray(X), np.asarray(y))
+        model_folder = models_path
+        
+        if db_file_name is not None:
+            
+            model_folder = db_file_name
+            if not os.path.exists(model_folder):
+                os.makedirs(model_folder)
+        
+        model_file = model_folder + os.sep + str(y[0])
+        model.save(model_file)
             
 
 def save_YAML_file(file_path, dictionary):
@@ -258,7 +258,7 @@ def detect_mouth_in_image(image, mouth_cascade_classifier):
 
     ''' 
     
-    min_neighbors = 5
+    min_neighbors = 1
     haar_scale = 1.1
     haar_flags = cv2.CASCADE_DO_CANNY_PRUNING
     
@@ -300,7 +300,22 @@ def detect_nose_in_image(image, nose_cascade_classifier):
         
     return nose_list
 
-def aggregate_frame_results(frames, fm = None, tags = None):
+def aggregate_frame_results(frames, fm = None, tags = None, params = None):
+    '''
+    Aggregate results of several frames
+    
+    :type frames: list of dictionaries
+    :param frames: frames to be aggregated
+    
+    :type fm: LBPHFaceRecognizer
+    :param fm: face model
+    
+    :type tags: list
+    :param tags: tags in the face model
+    
+    :type  params: dictionary 
+    :param params: configuration parameters
+    '''
 
     assigned_frames_nr_dict = {}
     confidence_lists_dict = {}
@@ -336,7 +351,18 @@ def aggregate_frame_results(frames, fm = None, tags = None):
     final_tag = UNDEFINED_TAG
     final_confidence = -1
     max_frames_nr = 0
-    if(USE_MAJORITY_RULE):
+    
+    use_majority_rule = USE_MAJORITY_RULE
+    use_mean_conf_rule = USE_MEAN_CONFIDENCE_RULE
+    use_min_conf_rule = USE_MIN_CONFIDENCE_RULE
+    
+    if(params is not None):
+        
+        use_majority_rule = params[USE_MAJORITY_RULE_KEY]
+        use_mean_conf_rule = params[USE_MEAN_CONFIDENCE_RULE_KEY]
+        use_min_conf_rule = params[USE_MIN_CONFIDENCE_RULE_KEY]
+        
+    if(use_majority_rule):
 
         candidate_tags_list = []
         
@@ -360,7 +386,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
 
             final_tag = candidate_tags_list[0]
 
-            if(USE_MIN_CONFIDENCE_RULE):
+            if(use_min_conf_rule):
 
                 final_confidence = float(np.min(confidence_lists_dict[final_tag]))
 
@@ -374,7 +400,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
 
                         final_confidence = min_confidence
 
-            elif(USE_MEAN_CONFIDENCE_RULE):
+            elif(use_mean_conf_rule):
 
                 #print('\nCONFIDENCE LIST\n')
                 #print(confidence_lists_dict[final_tag])
@@ -395,7 +421,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
                 print('Warning! Method is not available')
 
     else:
-        if(USE_MIN_CONFIDENCE_RULE):
+        if(use_min_conf_rule):
 
             if(people_nr > 0):
 
@@ -417,7 +443,7 @@ def aggregate_frame_results(frames, fm = None, tags = None):
 
                             final_confidence = min_confidence
 
-        elif(USE_MEAN_CONFIDENCE_RULE):
+        elif(use_mean_conf_rule):
 
             if(people_nr > 0):
 
