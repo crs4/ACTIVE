@@ -1,0 +1,2 @@
+
+<cluster><speacker>PieroBaldini</speacker><start> 00:00:00,000 </start><stop> 00:00:05,940 </stop></cluster>

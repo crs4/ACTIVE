@@ -1,0 +1,1 @@
+java -Xmx2G -Xms2G -cp ./lium_spkdiarization-8.4.1.jar  fr.lium.spkDiarization.programs.Identification --help --sInputMask=%s.seg --fInputMask=%s.wav  --sOutputMask=%s.ident.seg --fInputDesc="audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4" --tInputMask=speakers.gmm --sTop=5,ubm.gmm  --sSetLabel=add angelina

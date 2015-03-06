@@ -1,0 +1,9 @@
+;; cluster S0 
+angelina 1 6 412 U U U S0 [ initial = 6 ]
+;; cluster S1 
+angelina 1 418 1877 U U U S1 [ initial = 6 ]
+angelina 1 10881 467 U U U S1 [ initial = 6 ]
+;; cluster S11 
+angelina 1 2295 5164 U U U S11 [ initial = 6 ]
+;; cluster S12 
+angelina 1 7459 3446 U U U S12 [ initial = 6 ]

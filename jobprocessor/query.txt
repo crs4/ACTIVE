@@ -1,0 +1,10 @@
+#Avvio celery
+#Portarsi nella cartella contenente il package principale.
+celery -A jprocessor worker -l info
+
+#Avvio django
+python manage.py runserver 156.148.132.228:8000
+
+#POST request xmp extraction
+curl --data 'name=skeleton.tests.fun_skel' http://156.148.132.228:8000/api/job/start/
+

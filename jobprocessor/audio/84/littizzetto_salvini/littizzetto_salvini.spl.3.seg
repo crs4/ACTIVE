@@ -1,0 +1,32 @@
+;; cluster S0 
+littizzetto_salvini 1 2030 412 U U U S0
+littizzetto_salvini 1 5459 378 U U U S0
+littizzetto_salvini 1 5990 208 U U U S0
+littizzetto_salvini 1 6241 512 U U U S0
+;; cluster S1 
+littizzetto_salvini 1 471 1361 U U U S1
+;; cluster S10 
+littizzetto_salvini 1 6 368 U U U S10
+littizzetto_salvini 1 7511 308 U U U S10
+littizzetto_salvini 1 7926 493 U U U S10
+littizzetto_salvini 1 9601 192 U U U S10
+littizzetto_salvini 1 10039 217 U U U S10
+littizzetto_salvini 1 10599 270 U U U S10
+littizzetto_salvini 1 14014 223 U U U S10
+littizzetto_salvini 1 17735 254 U U U S10
+littizzetto_salvini 1 18176 319 U U U S10
+;; cluster S12 
+littizzetto_salvini 1 3346 261 U U U S12
+littizzetto_salvini 1 3698 1761 U U U S12
+littizzetto_salvini 1 7008 503 U U U S12
+littizzetto_salvini 1 8636 914 U U U S12
+littizzetto_salvini 1 11265 239 U U U S12
+littizzetto_salvini 1 11574 369 U U U S12
+littizzetto_salvini 1 12921 418 U U U S12
+littizzetto_salvini 1 13357 304 U U U S12
+littizzetto_salvini 1 13679 327 U U U S12
+littizzetto_salvini 1 14247 742 U U U S12
+littizzetto_salvini 1 15025 215 U U U S12
+littizzetto_salvini 1 15605 539 U U U S12
+;; cluster S16 
+littizzetto_salvini 1 11943 967 U U U S16

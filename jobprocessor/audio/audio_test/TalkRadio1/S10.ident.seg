@@ -1,0 +1,6 @@
+;; cluster:TalkRadioSpeaker [ score:FS = -33.248279392373384 ] [ score:FT = -33.779417511983894 ] [ score:MS = -32.72963748009575 ] [ score:MT = -33.30925800089877 ]
+../audio_test/TalkRadio1/TalkRadioSpeaker0 1 0 394 M S U TalkRadioSpeaker
+../audio_test/TalkRadio1/TalkRadioSpeaker0 1 1198 1738 M S U TalkRadioSpeaker
+;; cluster:TalkRadioSpeaker [ score:FS = -33.14821294901133 ] [ score:FT = -33.4881490179031 ] [ score:MS = -32.80021792957365 ] [ score:MT = -33.138810727181394 ]
+../audio_test/TalkRadio1/TalkRadioSpeaker0 1 394 804 M S U TalkRadioSpeaker
+../audio_test/TalkRadio1/TalkRadioSpeaker0 1 2941 833 M S U TalkRadioSpeaker

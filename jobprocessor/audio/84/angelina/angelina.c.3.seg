@@ -1,0 +1,18 @@
+;; cluster S0 
+angelina 1 6 280 F S U S0
+;; cluster S1 
+angelina 1 554 1012 F S U S1
+angelina 1 1567 537 F S U S1
+angelina 1 10921 427 F S U S1
+;; cluster S11 
+angelina 1 2194 963 F S U S11
+angelina 1 3202 1069 F S U S11
+angelina 1 4375 189 F S U S11
+angelina 1 4658 181 F S U S11
+angelina 1 4931 294 F S U S11
+angelina 1 5283 1269 F S U S11
+angelina 1 6610 849 F S U S11
+;; cluster S12 
+angelina 1 7459 1997 F S U S12
+angelina 1 9456 395 F S U S12
+angelina 1 9968 940 F S U S12

@@ -1,0 +1,37 @@
+
+<cluster><speacker>mmdb1</speacker><start> 00:02:47,420 </start><stop> 00:02:50,780 </stop><start> 00:02:57,740 </start><stop> 00:03:01,220 </stop></cluster>
+<cluster><speacker>mcem0</speacker><start> 00:00:16,470 </start><stop> 00:00:18,170 </stop></cluster>
+<cluster><speacker>AlessandroSassu</speacker><start> 00:00:09,460 </start><stop> 00:00:14,080 </stop></cluster>
+<cluster><speacker>AlessandroSassu</speacker><start> 00:00:00,070 </start><stop> 00:00:06,120 </stop></cluster>
+<cluster><speacker>fram1</speacker><start> 00:00:48,070 </start><stop> 00:00:52,800 </stop><start> 00:00:53,810 </start><stop> 00:01:04,220 </stop></cluster>
+<cluster><speacker>fdms0</speacker><start> 00:03:20,520 </start><stop> 00:03:24,010 </stop><start> 00:04:36,190 </start><stop> 00:04:45,210 </stop></cluster>
+<cluster><speacker>Laurafaggin</speacker><start> 00:06:25,390 </start><stop> 00:06:29,660 </stop><start> 00:06:29,680 </start><stop> 00:06:31,460 </stop><start> 00:06:31,590 </start><stop> 00:06:33,890 </stop></cluster>
+<cluster><speacker>GianniLocatelli</speacker><start> 00:06:21,450 </start><stop> 00:06:25,390 </stop></cluster>
+<cluster><speacker>mtas1</speacker><start> 00:06:15,790 </start><stop> 00:06:21,450 </stop><start> 00:06:34,040 </start><stop> 00:06:40,010 </stop></cluster>
+<cluster><speacker>fkms0</speacker><start> 00:05:56,030 </start><stop> 00:06:00,180 </stop><start> 00:06:02,700 </start><stop> 00:06:07,580 </stop><start> 00:06:07,930 </start><stop> 00:06:10,700 </stop><start> 00:06:12,440 </start><stop> 00:06:14,810 </stop><start> 00:06:52,600 </start><stop> 00:06:55,930 </stop></cluster>
+<cluster><speacker>GiovanniBietti</speacker><start> 00:05:51,270 </start><stop> 00:05:55,650 </stop></cluster>
+<cluster><speacker>fdms0</speacker><start> 00:07:58,370 </start><stop> 00:08:04,890 </stop><start> 00:08:38,470 </start><stop> 00:08:44,110 </stop><start> 00:08:44,280 </start><stop> 00:08:49,140 </stop><start> 00:08:52,080 </start><stop> 00:08:56,150 </stop><start> 00:08:58,340 </start><stop> 00:09:01,260 </stop><start> 00:09:02,360 </start><stop> 00:09:03,940 </stop></cluster>
+<cluster><speacker>fdms0</speacker><start> 00:03:31,210 </start><stop> 00:03:45,410 </stop></cluster>
+<cluster><speacker>fdac1</speacker><start> 00:07:07,230 </start><stop> 00:07:16,950 </stop></cluster>
+<cluster><speacker>EnnioFantastichiniYOUTUBE</speacker><start> 00:06:40,010 </start><stop> 00:06:45,290 </stop><start> 00:06:50,550 </start><stop> 00:06:52,600 </stop></cluster>
+<cluster><speacker>Laurafaggin</speacker><start> 00:02:03,530 </start><stop> 00:02:09,440 </stop><start> 00:02:16,660 </start><stop> 00:02:25,930 </stop><start> 00:02:31,760 </start><stop> 00:02:36,910 </stop></cluster>
+<cluster><speacker>mtas1</speacker><start> 00:03:13,350 </start><stop> 00:03:20,520 </stop></cluster>
+<cluster><speacker>fdms0</speacker><start> 00:01:28,040 </start><stop> 00:01:33,600 </stop><start> 00:05:23,560 </start><stop> 00:05:42,850 </stop><start> 00:06:45,290 </start><stop> 00:06:50,050 </stop></cluster>
+<cluster><speacker>mmdb1</speacker><start> 00:08:22,250 </start><stop> 00:08:24,640 </stop><start> 00:09:03,940 </start><stop> 00:09:07,830 </stop></cluster>
+<cluster><speacker>Laurafaggin</speacker><start> 00:04:02,150 </start><stop> 00:04:12,460 </stop></cluster>
+<cluster><speacker>mmdb1</speacker><start> 00:03:50,050 </start><stop> 00:03:54,910 </stop><start> 00:03:55,850 </start><stop> 00:04:02,150 </stop><start> 00:04:15,730 </start><stop> 00:04:20,560 </stop></cluster>
+<cluster><speacker>faks0</speacker><start> 00:03:24,010 </start><stop> 00:03:28,990 </stop><start> 00:05:12,450 </start><stop> 00:05:14,350 </stop><start> 00:05:15,100 </start><stop> 00:05:19,790 </stop></cluster>
+<cluster><speacker>Laurafaggin</speacker><start> 00:01:46,640 </start><stop> 00:01:49,370 </stop><start> 00:01:50,070 </start><stop> 00:02:03,170 </stop><start> 00:05:19,790 </start><stop> 00:05:23,560 </stop><start> 00:05:42,850 </start><stop> 00:05:48,720 </stop></cluster>
+<cluster><speacker>fram1</speacker><start> 00:01:33,600 </start><stop> 00:01:46,640 </stop></cluster>
+<cluster><speacker>fram1</speacker><start> 00:07:32,230 </start><stop> 00:07:33,870 </stop><start> 00:07:34,890 </start><stop> 00:07:42,420 </stop></cluster>
+<cluster><speacker>mbdg0</speacker><start> 00:02:25,930 </start><stop> 00:02:31,760 </stop></cluster>
+<cluster><speacker>GiovanniGhiselli</speacker><start> 00:05:04,900 </start><stop> 00:05:11,920 </stop></cluster>
+<cluster><speacker>fjem0</speacker><start> 00:02:09,440 </start><stop> 00:02:14,860 </stop></cluster>
+<cluster><speacker>Laurafaggin</speacker><start> 00:04:45,210 </start><stop> 00:04:54,060 </stop></cluster>
+<cluster><speacker>mmdb1</speacker><start> 00:04:54,060 </start><stop> 00:05:04,900 </stop><start> 00:09:46,030 </start><stop> 00:09:52,750 </stop></cluster>
+<cluster><speacker>mmdb1</speacker><start> 00:07:19,630 </start><stop> 00:07:24,140 </stop><start> 00:07:24,590 </start><stop> 00:07:31,980 </stop></cluster>
+<cluster><speacker>fdms0</speacker><start> 00:00:29,940 </start><stop> 00:00:31,960 </stop><start> 00:00:32,090 </start><stop> 00:00:37,610 </stop><start> 00:00:38,190 </start><stop> 00:00:40,950 </stop></cluster>
+<cluster><speacker>mmdb1</speacker><start> 00:06:55,930 </start><stop> 00:07:07,230 </stop></cluster>
+<cluster><speacker>fkms0</speacker><start> 00:03:48,040 </start><stop> 00:03:50,050 </stop><start> 00:04:27,800 </start><stop> 00:04:35,990 </stop></cluster>
+<cluster><speacker>PieroBaldini</speacker><start> 00:09:07,830 </start><stop> 00:09:15,030 </stop></cluster>
+<cluster><speacker>mcem0</speacker><start> 00:09:42,760 </start><stop> 00:09:45,780 </stop></cluster>
