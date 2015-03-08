@@ -209,6 +209,12 @@ def video_indexing_experiments(resource_path, params):
         
         auto_dict = load_YAML_file(auto_ann_file)
         
+        if((auto_dict is None) or (ANN_TAG_KEY not in auto_dict)):
+			
+			print 'Warning! Automatic annotation file does not exist!'
+			
+			break        
+        
         auto_tag = auto_dict[ANN_TAG_KEY]
         
         if(man_tag != auto_tag):
@@ -293,6 +299,12 @@ def video_indexing_experiments(resource_path, params):
         man_ann_file = os.path.join(man_ann_path, ann_file)
             
         man_dict = load_YAML_file(man_ann_file)
+        
+        if((man_dict is None) or (ANN_TAG_KEY not in man_dict)):
+			
+			print 'Warning! Manual annotation file does not exist!'
+			
+			break
         
         man_tag = man_dict[ANN_TAG_KEY]
         
@@ -443,7 +455,7 @@ def video_indexing_experiments(resource_path, params):
     
     new_experiment_dict[VIDEO_NAME_KEY] =  fs.resource_name
     
-    duration = fs.video_frames * fs.fps
+    duration = fs.video_frames / fs.fps
     
     new_experiment_dict[VIDEO_DURATION_KEY] = duration
     new_experiment_dict[VIDEO_FPS_KEY] = fs.fps

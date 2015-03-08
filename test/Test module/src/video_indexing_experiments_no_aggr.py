@@ -29,8 +29,8 @@ use_aggregation = False # Portatile MP
 use_nose_pos = False # Portatile MP
 # use_nose_pos = True # Palladim
 
-#conf_threshold = 12 # Portatile MP
-conf_threshold_list = [5, 10, 15, 20] # Palladium
+conf_threshold_list = [12] # Portatile MP
+#conf_threshold_list = [5, 10, 15, 20] # Palladium
 for resource_path in resource_paths:
     
     res_name = os.path.basename(resource_path) 
@@ -156,10 +156,10 @@ for resource_path in resource_paths:
             params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Portatile MP
             #params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\Face tracking\MONITOR072011.mpg.YAML' # Palladium
             
-            params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
+            #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
             #params[FACE_MODELS_DIR_PATH_KEY] = r'' # Palladium
             
-            params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
+            #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
             #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\noses' # Palladium
             
             man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP

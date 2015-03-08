@@ -1189,6 +1189,19 @@ def get_idxs_over_thresh(lst, start_idx, threshold):
     return idxs
 
 
+def get_image_simmetry(image):
+    '''
+    Get an indication of image simmetry.
+    Lower the value greater the simmetry
+    '''
+    
+    moments = cv2.moments(im)
+    
+    nu_3_0 = moments['nu30']
+    
+    return abs(nu_3_0)
+
+
 def merge_near_idxs(idxs, diff_list, min_dist):
     '''
     Merge near indexes according to diff_list
