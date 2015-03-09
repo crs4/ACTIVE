@@ -133,6 +133,18 @@ def fr_experiments(params, show_results):
     false_pos_confidence_list = [] # List of confidence values for false positives
 
     fm = FaceModelsLBP(params)
+    
+    ### TEST ONLY ###
+    
+    #hist = fm.model.getMatVector("histograms")[0]
+    
+    #print('hist', hist)
+    
+    #print('sum', sum(sum(hist)))
+    
+    #raw_input('Press Enter to continue ...')
+    
+    #################
 
     person_images_nr = PERSON_IMAGES_NR
     training_images_nr = TRAINING_IMAGES_NR
@@ -270,13 +282,13 @@ def fr_experiments(params, show_results):
                             sz = (width,height)
 
                         if(use_eyes_position):
-							
-							align_path = ALIGNED_FACES_PATH
-							
-							if(params is not None):
-								
-								align_path = params[ALIGNED_FACES_PATH_KEY]
-							
+                            
+                            align_path = ALIGNED_FACES_PATH
+                            
+                            if(params is not None):
+                                
+                                align_path = params[ALIGNED_FACES_PATH_KEY]
+                            
                             if(use_eye_detection):
                                 face = get_cropped_face(image_complete_path, align_path, params, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
                             else:

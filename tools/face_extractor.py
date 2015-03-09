@@ -1920,6 +1920,7 @@ class FaceExtractor(object):
 
         tgs = [] # List of tags
         sub_counter = 0
+        print('len tracked', len(self.tracked_faces))
         for sub_segment_dict in self.tracked_faces:
             
             tgs.append(sub_counter)
@@ -1999,7 +2000,7 @@ class FaceExtractor(object):
                                 
                                 # Compare only faces with
                                 # similar nose position
-                                
+                                                     
                                 train_nose_pos = (
                                 self.nose_pos_list[idx][train_label])
                                 
@@ -2012,7 +2013,7 @@ class FaceExtractor(object):
                                 nose_pos = None
                                 
                                 if(use_nose_pos_in_rec):
-                                    
+                                        
                                     nose_pos = (
                                     self.nose_pos_list[sub_counter][label])                                         
                                                                     
@@ -2157,7 +2158,15 @@ class FaceExtractor(object):
                     
                     # Update nose positions
                     if(use_nose_pos_in_rec):
-                        self.nose_pos_list[idx].extend(self.nose_pos_list[final_tag])
+
+                        new_segment_nose_pos = self.nose_pos_list[final_tag]
+                        new_segment_keys = new_segment_nose_pos.keys()
+                        
+                        for new_segment_key in new_segment_keys:
+                            
+                            nose_pos = new_segment_nose_pos[new_segment_key]
+                            new_key = new_segment_key + train_hist_nr
+                            self.nose_pos_list[idx][new_key] = nose_pos
                     
                     ann_segments = self.searchFaceWithUpdating(ann_segments, 
                     segment_list, train_hists, train_labels, idx)             
@@ -3253,6 +3262,8 @@ class FaceExtractor(object):
         # Iterate through automatic recognized faces
         for auto_p_dict in self.recognized_faces:
             
+            auto_p_dict[ANN_TAG_KEY] = UNDEFINED_TAG
+            
             found = False
             # Search person in directory with user annotations
             for user_tag in os.listdir(user_ann_path):
@@ -3270,8 +3281,6 @@ class FaceExtractor(object):
                         
                         auto_p_dict[ANN_TAG_KEY] = user_tag
                         
-                        user_rec_faces.append(auto_p_dict)
-                        
                         found = True
                         
                         break
@@ -3279,6 +3288,8 @@ class FaceExtractor(object):
                 if(found):
                     
                     break
+                        
+            user_rec_faces.append(auto_p_dict)            
                         
             auto_p_counter = auto_p_counter + 1          
                     
@@ -3689,7 +3700,7 @@ class FaceExtractor(object):
             
             ann_tag = person_dict[ANN_TAG_KEY]
             
-            if(ann_tag not in tags):
+            if((ann_tag != UNDEFINED_TAG) and (ann_tag not in tags)):
                 
                 tags.append(ann_tag)
         
@@ -4399,6 +4410,8 @@ class FaceExtractor(object):
         # Iterate through tracked faces
         for auto_p_dict in self.tracked_faces:
             
+            auto_p_dict[ANN_TAG_KEY] = UNDEFINED_TAG
+            
             found = False
             # Search person in directory with user annotations
             for user_tag in os.listdir(user_ann_path):
@@ -4416,8 +4429,6 @@ class FaceExtractor(object):
                         
                         auto_p_dict[ANN_TAG_KEY] = user_tag
                         
-                        user_rec_faces.append(auto_p_dict)
-                        
                         found = True
                         
                         break
@@ -4425,6 +4436,8 @@ class FaceExtractor(object):
                 if(found):
                     
                     break
+                        
+            user_rec_faces.append(auto_p_dict)            
                         
             auto_p_counter = auto_p_counter + 1          
                     

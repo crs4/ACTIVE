@@ -17,19 +17,20 @@ man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.
 resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
 #resource_path = r'C:\Active\RawVideos\MONITOR072011.mpg' # Palladium
 
-video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
+video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Portatile MP
 #video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
 test_counter = 0 # Portatile MP
 #test_counter = 0 # Palladium
 
 use_nose_pos = True # Palladim    
-    
-print('conf_threshold', conf_threshold)
 			
 dir_name = 'TEST ID ' + str(test_counter)
 
-video_idx_path = os.path.join(video_idx_path_base, dir_name)
+conf_threshold = 0
+
+#video_idx_path = os.path.join(video_idx_path_base, dir_name)
+video_idx_path = video_idx_path_base
 
 params = {}
 

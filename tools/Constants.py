@@ -428,3 +428,12 @@ FACE_TRACKING_TIME_KEY = r'face_tracking_time'
 FACE_MODELS_CREATION_TIME_KEY = r'face_models_creation_time'
 FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
 USER_ANNOTATION_TIME_KEY = 'user_annotation_time'
+
+
+# Global face recognition
+GLOBAL_FACE_MODELS_MIN_DIFF = 5
+GLOBAL_FACE_MODELS_MIN_DIFF_KEY = 'global_face_models_min_diff'
+GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'
+GLOBAL_FACE_REC_DATA_DIR_PATH_KEY = r'global_face_recognition_dir_path'
+GLOBAL_FACE_REC_TAGS_FILE = 'Tags'
+GLOBAL_FACE_REC_TRAINING_SET_DIR = 'Training set'

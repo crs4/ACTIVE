@@ -32,8 +32,8 @@ use_aggregation = False # Portatile MP
 use_nose_pos_list = [True, False] # Portatile MP
 #use_nose_pos_list = [True, False] # Palladium
 
-#conf_threshold = 12 # Portatile MP
-conf_threshold_list = [5, 10, 15, 20] # Palladium
+conf_threshold_list = [120] # Portatile MP
+#conf_threshold_list = [5, 10, 15, 20] # Palladium
 for resource_path in resource_paths:
     
     res_name = os.path.basename(resource_path) 
