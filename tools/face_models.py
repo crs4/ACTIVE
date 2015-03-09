@@ -36,16 +36,30 @@ class FaceModels():
             pass
             
             
-    def addFace(self, image_path, ):
+    def addFace(self, im, ):
 		'''
 		Add face into face model.
+		Check that face is sufficiently different
+		from other faces already in model.
 		If there are too much images in the face model,
 		check which are the two most similar images 
-		and delete the image among the two that is less simmetric
+		and delete the image among the two that is less simmetric.
 		
-		:type image_path: string
-		:param image_path: path of image to be added
+		:type im: OpenCV image
+		:param im: image to be added
 		'''
+		
+		X, y = [], []
+		
+		X.append(np.asarray(im, dtype = np.uint8))
+        y.append(0)
+        
+        face_model = model.train(np.asarray(X), np.asarray(y))
+        
+        hists = face_model.getMatVector("histograms")
+        
+        hist = hists[0][0]
+		
     
     def createModel(self, subject_path, model_id):
         '''
@@ -62,7 +76,18 @@ class FaceModels():
         file_counter = 0
         X, y = [], []
         
-        max_faces_in_model = 
+        max_faces_in_model = MAX_FACES_IN_MODEL
+        min_diff = GLOBAL_FACE_MODELS_MIN_DIFF
+        
+        if(self.params is not None):
+			
+		if(MAX_FACES_IN_MODEL_KEY in self.params):	
+			
+			max_faces_in_model = self.params[MAX_FACES_IN_MODEL_KEY]
+			
+		if(GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self.params):
+			
+			min_diff = self.params[GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
         
         for filename in os.listdir(subject_path):
             
