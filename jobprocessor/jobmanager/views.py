@@ -49,17 +49,18 @@ def start_job(request):
 	# get the current user job manager if available, otherwise create a new one
 	
 	try:
-		data = json.loads(request.body)
-		print data['func_name']
-		print data['params']
-		print data['name']
+		print request.body
+		#data = json.loads(request.body)
+		print request.POST['func_name']
+		print request.POST['params']
+		print request.POST['name']
 
 		user_id = 'root' # request.user.get_username()
 		jmd = get_job_manager(user_id)	
 
 
-		func_name = data['func_name']
-		func_input = data['params']
+		func_name = request.POST['func_name']
+		func_input = request.POST['params']
 		splits = func_name.split('.')
 		func = getattr(import_module('.'.join(splits[:-1])), splits[-1])
 		job = func(*func_input)
@@ -68,7 +69,7 @@ def start_job(request):
 		#print "nome plugin", plugin
 		#job = PlainJob(plugin().perform, tuple(func_input))
 
-		job.name = data['name']
+		job.name = request.POST['func_name']#data['name']
 		job.func_name = func_name
 		job_id = jmd.addJob(job)
 		return HttpResponse(json.dumps({'id': job_id}))
