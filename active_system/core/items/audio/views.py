@@ -48,7 +48,7 @@ class AudioItemDetail(EventView):
         :returns: User data update status.
 	"""
         item = self.get_object(pk)
-        serializer = AudioItemSerializer(item, data=request.data)
+        serializer = AudioItemSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

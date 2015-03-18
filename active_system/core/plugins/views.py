@@ -1,12 +1,9 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
-from core.plugins.models import View
-from core.plugins.models import Event
-from core.plugins.models import Plugin
-
-from core.plugins.serializers import EventSerializer
 from core.plugins.decorators import generate_event
+from core.plugins.models import View, Event, Script, Plugin
+from core.plugins.serializers import EventSerializer
 
 
 from rest_framework.response import Response
@@ -15,35 +12,24 @@ from rest_framework import status
 from core.views import EventView
 
 
-
-
-######### spostare nel file __init__.py ###############
-"""
-from plugin_mount_point import ActionProvider
-from plugins import *
-
-def run_plugins(request):
-    
-    result= []
-    actions = ActionProvider.get_plugins()
-
-    for a in actions:
-        a.perform()
-        result.append(a.configuration)    
- 
-    return HttpResponse(result)
-""" 
-#####################################################
-
-
 class EventList(EventView): 
-
+    """
+    List all existing Events or create/save a new one.
+    """
     def get(self, request, format=None):
+	"""
+        This method will be converted in a HTTP GET API and it
+        will allow to list all already stored Event objects in the database.
+        """
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
+	"""
+	This method will be converted in a HTTP POST API and it
+	will allow to save new Event objects in the database.
+	"""
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

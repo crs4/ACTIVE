@@ -5,13 +5,13 @@ from core.items.models import Item
 class AudioItem(Item):
     """
     """
-    bitrate = models.IntegerField(null = False)
-    duration = models.BigIntegerField(null = False)
-    format = models.CharField(max_length = 100)
+    sample_rate = models.IntegerField(null=True)
+    bits_per_sample = models.IntegerField(null=True)
+    num_channels = models.IntegerField(null=True)
+    duration = models.BigIntegerField(null=True)
+    format = models.CharField(max_length=100, null=True)
     
     def __init__(self, *args, **kwargs):
         super(AudioItem,self).__init__(*args, **kwargs)
         self.type = 'audio'
 
-    def __repr__(self):
-        return 'AudioItem ', self.filename, ' ', self.type

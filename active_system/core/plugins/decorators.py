@@ -14,13 +14,21 @@ def generate_event(func):
 	:returns: the result of the invoked function.
 	"""
         def wrap(*args, **kwargs):
-		# obtains the complete absolute path of the considered function
-                func_path = '.'.join((func.__module__, args[0].__class__.__name__, func.__name__))
-		print "E' stata invocata la funzione ", func_path
+                func_path = '.'.join((func.__module__, type(func.__self__).__name__, func.__name__))
 		# execute the function and collect the result
 		res = func(*args, **kwargs)
+		# add function results to available keyword arguments
+		#kwargs['func_res'] = res
+		#args =args + (res.data, )
+		
+		
+		#args = (args[0].data, res.data, )
+		#print args
+		
+		
                 # generate an event passing as argument the function name and the result
-                EventManager().start_plugins_by_view(func_path) #, res)
-                return res
+                EventManager().start_scripts_by_view(func_path, args[0].data, res.data)
+                print "E' stata invocata la funzione ", func_path
+		return res
 
         return wrap

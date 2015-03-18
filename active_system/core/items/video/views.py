@@ -64,7 +64,10 @@ class VideoItemDetail(EventView):
         :returns: User data update status.
 	"""
         item = self.get_object(pk)
-        serializer = VideoItemSerializer(item, data=request.data)
+
+        serializer = VideoItemSerializer(item, data=request.data, partial = True)
+	
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

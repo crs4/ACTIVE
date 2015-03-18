@@ -1,8 +1,5 @@
 from rest_framework import serializers
-
-from models import Plugin
-from models import Event
-from models import View
+from core.plugins.models import Event
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:

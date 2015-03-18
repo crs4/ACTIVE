@@ -8,15 +8,15 @@ class VideoItem(Item):
     """
     # TODO decidere se i campi sono obbligatori o possono essere nulli
     # inizialmente per poi essere compilati da appositi script
-    bitrate = models.IntegerField(null = False)
-    frame_width = models.IntegerField(null = False)
-    frame_height = models.IntegerField(null = False)
-    duration = models.BigIntegerField(null = False)
-    format = models.CharField(max_length = 100)
+    frame_rate = models.IntegerField(null=True)
+    frame_width = models.IntegerField(null=True)
+    frame_height = models.IntegerField(null=True)
+    duration = models.BigIntegerField(null=True) #seconds
+    format = models.CharField(max_length = 100, null=True)
     
     def __init__(self, *args, **kwargs):
         super(VideoItem,self).__init__(*args, **kwargs)
         self.type = 'video'
 
     def __repr__(self):
-        return 'VideoItem ', self.filename, ' ', self.type
+        return 'VideoItem ', self.filename

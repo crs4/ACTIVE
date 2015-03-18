@@ -1,20 +1,8 @@
 from django.conf.urls import patterns, include, url
+
 from rest_framework.urlpatterns import format_suffix_patterns
-from core.plugins.serializers import EventSerializer
-from core.plugins.views import EventDetail
-from core.plugins.views import EventList
+from core.plugins.views import EventDetail, EventList
 
-
-"""	
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'plugin_system.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
-    #url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', run_plugins, name='run_plugins'),
-)
-"""
 
 urlpatterns = [
     url(r'^events/$', EventList.as_view()),
