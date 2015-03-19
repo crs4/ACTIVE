@@ -409,8 +409,6 @@ class FaceModelsLBP():
                         
                     elif(algorithm == 'LBP'):
                         
-                        model=cv2.createLBPHFaceRecognizer()
-                        
                         radius = LBP_RADIUS
                         neighbors = LBP_NEIGHBORS
                         grid_x = LBP_GRID_X
@@ -500,7 +498,7 @@ class FaceModelsLBP():
                         if(use_eyes_pos_in_training):
                             if(use_eye_det_in_training):
                                 im = None
-                                crop_result = get_cropped_face(os.path.join(subject_path, filename), align_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
+                                crop_result = get_cropped_face(os.path.join(subject_path, filename), align_path, self._params, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
                                 if(crop_result):
                                     im = crop_result[FACE_KEY]
 

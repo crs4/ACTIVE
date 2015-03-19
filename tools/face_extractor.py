@@ -24,7 +24,7 @@ import sys
 
 from Constants import *
 
-from Utils import aggregate_frame_results, get_hist_difference, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
+from Utils import aggregate_frame_results, compare_clothes, get_dominant_color, get_hist_difference, get_mean_intra_distance, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
 
 class FaceExtractor(object):
     '''
@@ -176,17 +176,20 @@ class FaceExtractor(object):
     
             #self.saveRecPeople(True) # TEST ONLY
             
-            use_clothing_rec = USE_CLOTHING_RECOGNITION
+            ### TO BE DELETED ###
+            #use_clothing_rec = USE_CLOTHING_RECOGNITION
             
-            if(self.params is not None):
+            #if(self.params is not None):
             
-                use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+                #use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
             
-            if(use_clothing_rec):
+            #if(use_clothing_rec):
             
-                self.recognizeClothesInVideo()
+                #self.recognizeClothesInVideo()
                 
-                self.saveRecPeople(False) # TEST ONLY
+                #self.saveRecPeople(False) # TEST ONLY
+                
+            #####################
             
             self.saveTempPeopleFiles()
             
@@ -1040,7 +1043,140 @@ class FaceExtractor(object):
             save_YAML_file(anal_file_path, self.anal_times)
             
     
-    def createClothModel(self, person_dict):
+    
+    def createClothModel(self, segment_dict):
+        '''
+        Create cloth model of one tracked face.
+        
+        :type segment_dict: dictionary
+        :param segment_dict: video segment relative to tracked face
+        '''
+    
+        # List of color histograms
+        model = []
+        
+        # Extract list of frames from dictionary
+        frame_list = segment_dict[FRAMES_KEY]
+        
+        cl_pct_height = CLOTHES_BBOX_HEIGHT
+        cl_pct_width = CLOTHES_BBOX_WIDTH
+        neck_pct_height = NECK_HEIGHT
+        use_dom_color = CLOTHING_REC_USE_DOMINANT_COLOR
+        use_mean_x = CLOTHING_REC_USE_MEAN_X_OF_FACES
+        kernel_size = HIST_SMOOTHING_KERNEL_SIZE
+        
+        if(self.params is not None):
+            
+            cl_pct_height = self.params[CLOTHES_BBOX_HEIGHT_KEY]
+            cl_pct_width = self.params[CLOTHES_BBOX_WIDTH_KEY]
+            neck_pct_height = self.params[NECK_HEIGHT_KEY]
+            use_dom_color = self.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY]
+            use_mean_x = self.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]
+            kernel_size = self.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]
+        
+        min_x = sys.maxint
+        max_x = 0
+        mean_x = 0
+        if(use_mean_x):
+            
+            # Calculate mean position of face in x axis
+            for frame_dict in frame_list:
+                
+                detected = frame_dict[DETECTED_KEY]
+                
+                if(detected):
+                    
+                    face_bbox = frame_dict[DETECTION_BBOX_KEY]
+                    face_x = face_bbox[0]
+                    
+                    if(face_x < min_x):
+                        
+                        min_x = face_x
+                        
+                    if(face_x > max_x):
+                        
+                        max_x = face_x
+                        
+            mean_x = int((max_x + min_x)/2.0)
+        
+        for frame_dict in frame_list:
+            
+            detected = frame_dict[DETECTED_KEY]
+            
+            # Consider only detected faces
+            if(detected):
+
+                frame_path = frame_dict[FRAME_PATH_KEY]
+                
+                face_bbox = frame_dict[DETECTION_BBOX_KEY]
+                            
+                face_x = face_bbox[0]
+                face_y = face_bbox[1]
+                face_width = face_bbox[2]
+                face_height = face_bbox[3]
+                
+                #x0 = face_bbox[0]
+                #x1 = x0 + face_bbox[2]
+                #y0 = face_bbox[1] + face_bbox[3]
+                #y1 = y0 + face_bbox[3]
+                
+                # Get region of interest for clothes
+                clothes_width = int(face_width * cl_pct_width)
+                clothes_height = int(face_height * cl_pct_height)
+                clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                
+                if(use_mean_x):
+                    
+                    # Bounding box for clothes 
+                    # has fixed position in x axis
+                    clothes_x0 = int(mean_x + face_width/2.0 - clothes_width/2.0)
+                    
+                clothes_y0 = int(
+                face_y + face_height + (face_height * neck_pct_height))
+                clothes_x1 = clothes_x0 + clothes_width
+                clothes_y1 = clothes_y0 + clothes_height
+                
+                # Bounding box cannot start out of image
+                if(clothes_x0 < 0):
+                    clothes_x0 = 0
+                
+                im = cv2.imread(frame_path)
+                
+                roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
+                #cv2.imshow('Clothes', roi)
+                #cv2.waitKey(0)
+                
+                roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    
+                hists = []
+                
+                if(use_dom_color):
+                    
+                    mask = get_dominant_color(roi_hsv, kernel_size)
+                    
+                else:
+                    
+                    mask = cv2.inRange(roi_hsv, 
+                    np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+            
+                for ch in range(0, 3):
+            
+                    hist = cv2.calcHist(
+                    [roi_hsv], [ch], mask, [16], [0, 255])
+            
+                    cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+                    
+                    hist.reshape(-1)
+                    
+                    hists.append(hist)
+                        
+                model.append(hists)
+                
+        return model
+        
+        
+    
+    def createClothModel_old(self, person_dict):
         '''
         Create cloth model of one person.
         
@@ -1102,7 +1238,8 @@ class FaceExtractor(object):
                     model.append(hists)
                 
         return model
-        
+   
+           
 
     def createFaceModel(self, segment_dict):
         '''
@@ -1115,7 +1252,7 @@ class FaceExtractor(object):
         #print 'Creating model'
         
         # Extract list of frames from dictionary
-        segment_frame_list = segment_dict[FRAMES_KEY]
+        frame_list = segment_dict[FRAMES_KEY]
         
         c = 0
         X, y = [], [] 
@@ -1166,7 +1303,7 @@ class FaceExtractor(object):
         video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for recognition results
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
         
         align_path = os.path.join(rec_path, ALIGNED_FACES_DIR)   
  
@@ -1179,10 +1316,9 @@ class FaceExtractor(object):
         # Iterate through list of frames
         face_counter = 0
         segment_nose_pos_dict = {}
-        for segment_frame_dict in segment_frame_list:
+        for frame_dict in frame_list:
             
-            face = self.getFaceFromSegmentFrame(
-            segment_frame_dict, align_path)
+            face = self.getFaceFromSegmentFrame(frame_dict, align_path)
             
             if(face is not None):
                 
@@ -1194,7 +1330,7 @@ class FaceExtractor(object):
                 if(use_nose_pos_in_rec):  
                     
                     # Save nose position in segment dictionary
-                    nose_pos = segment_frame_dict[NOSE_POSITION_KEY]
+                    nose_pos = frame_dict[NOSE_POSITION_KEY]
                     segment_nose_pos_dict[c] = nose_pos
                     
                 face_counter = face_counter + 1
@@ -1230,8 +1366,70 @@ class FaceExtractor(object):
         
         return model
         
+        
     
-    def saveClothModels(self, people):
+    def saveClothModels(self, segments):
+        '''
+        Save cloth models for each tracked face
+        
+        :type segments: list
+        :param segments: list of segments
+        '''
+        
+        print '\n\n### Creating cloth models ###\n'
+        
+        # Save processing time
+        start_time = cv2.getTickCount() 
+
+        res_name = self.resource_name
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        # Directory for cloth models
+        models_path = os.path.join(video_path, CLOTH_MODELS_DIR)
+        
+        if(not(os.path.exists(models_path))):
+                
+            os.makedirs(models_path) 
+        
+        counter = 0
+        
+        for segment_dict in segments:
+            
+            model = self.createClothModel(segment_dict)
+            
+            db_path =  os.path.join(models_path, str(counter))
+
+            with open(db_path, 'w') as f:
+                
+                pk.dump(model, f)
+            
+            counter = counter + 1
+            
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            
+        print 'Time for calculating cloth models:', str(time_in_seconds), 's\n'    
+            
+        self.anal_times[CLOTH_MODELS_CREATION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)
+
+
+
+    def saveClothModels_old(self, people):
         '''
         Save cloth models for each people recognized by face
         
@@ -1357,7 +1555,7 @@ class FaceExtractor(object):
         save_YAML_file(anal_file_path, self.anal_times)
                 
             
-    def searchClothes(self, ann_people, segment_list, train_model, idx):
+    def searchClothes_old(self, ann_people, segment_list, train_model, idx):
         '''        
         Search people that have similar clothes to model
         
@@ -1502,14 +1700,38 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)
         
+        use_aggregation = USE_AGGREGATION
+        use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+        max_nose_diff = MAX_NOSE_DIFF
+        conf_threshold = CONF_THRESHOLD
+        
+        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        cl_ch_method = CLOTHES_CHECK_METHOD
+        
         # Directory for face models
-        models_path = os.path.join(video_path, FACE_MODELS_DIR)
+        face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
+        
+        # Directory for cloth models
+        cloth_models_path = os.path.join(video_path, CLOTH_MODELS_DIR)
         
         if(self.params is not None):
+        
+            use_aggregation = self.params[USE_AGGREGATION_KEY]
+            use_nose_pos_in_rec = (
+            self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
+            max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
+            conf_threshold = self.params[CONF_THRESHOLD_KEY]
+            
+            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+            cl_ch_method = self.params[CLOTHES_CHECK_METHOD_KEY]
             
             if(FACE_MODELS_DIR_PATH_KEY in self.params):
                 
-                models_path = self.params[FACE_MODELS_DIR_PATH_KEY]
+                face_models_path = self.params[FACE_MODELS_DIR_PATH_KEY]
+            
+            if(CLOTH_MODELS_DIR_PATH_KEY in self.params):
+                
+                cloth_models_path = self.params[CLOTH_MODELS_DIR_PATH_KEY]
 
         # Get histograms from model
         
@@ -1518,6 +1740,26 @@ class FaceExtractor(object):
         # Get labels from model
         
         train_labels = train_model.getMat("labels")
+        
+        intra_dist1 = None
+        
+        if(use_clothing_rec):
+            
+            # Get models for clothing recognition
+            db_path_1= os.path.join(cloth_models_path, str(idx))
+            
+            if(os.path.isfile(db_path_1)):
+        
+                model1 = None
+                model2 = None
+        
+                with open(db_path_1, 'r') as f1:
+        
+                    model1 = pk.load(f1) 
+        
+                    if(model1): 
+                        
+                        intra_dist1 = get_mean_intra_distance(model1)           
 
         sub_counter = 0
         for sub_segment_dict in self.tracked_faces:
@@ -1560,7 +1802,7 @@ class FaceExtractor(object):
                     
                     continue
                 
-                db_path= os.path.join(models_path, str(sub_counter))
+                db_path= os.path.join(face_models_path, str(sub_counter))
                         
                 if(os.path.isfile(db_path)):
                     
@@ -1583,19 +1825,6 @@ class FaceExtractor(object):
                         final_tag = UNDEFINED_TAG
                         
                         final_conf = sys.maxint
-                        
-                        use_aggregation = USE_AGGREGATION
-                        use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
-                        max_nose_diff = MAX_NOSE_DIFF
-                        conf_threshold = CONF_THRESHOLD
-                        
-                        if(self.params is not None):
-                            
-                            use_aggregation = self.params[USE_AGGREGATION_KEY]
-                            use_nose_pos_in_rec = (
-                            self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
-                            max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
-                            conf_threshold = self.params[CONF_THRESHOLD_KEY]
                         
                         if(use_aggregation):
                             
@@ -1804,8 +2033,24 @@ class FaceExtractor(object):
                             #print('conf_threshold', conf_threshold)                         
                         
                             if(final_conf < conf_threshold):
+                                
+                                if(use_clothing_rec):
+                                
+                                    # Check clothing similarity
+
+                                    db_path_2 = os.path.join(
+                                    cloth_models_path, str(sub_counter))
+
+                                    similar = compare_clothes(db_path_1, 
+                                    db_path_2, cl_ch_method, intra_dist1)
+                    
+                                    if(similar):
+                            
+                                        final_tag = TRACKED_PERSON_TAG
                                     
-                                final_tag = TRACKED_PERSON_TAG
+                                else:
+                                    
+                                    final_tag = TRACKED_PERSON_TAG
                                     
                         #print('final_tag', final_tag)
                         #print('final_confidence', final_conf)
@@ -2174,7 +2419,7 @@ class FaceExtractor(object):
         return ann_segments
 
 
-    def recognizeClothesInVideo(self):
+    def recognizeClothesInVideo_old(self):
         '''
         Recognize distinct people on analyzed video
         by using cloth color, 
@@ -2352,7 +2597,7 @@ class FaceExtractor(object):
             
             print 'Time for clothing recognition:', time_in_seconds, 's\n'
             
-            self.anal_times[CLOTHIN_RECOGNITION_TIME_KEY] = time_in_seconds
+            self.anal_times[CLOTHING_RECOGNITION_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
@@ -2383,16 +2628,16 @@ class FaceExtractor(object):
         video_path = os.path.join(video_indexing_path, res_name)
         
         # Directory for recognition results
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)  
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR)  
         
         # Directory for face models
-        models_path = os.path.join(video_path, FACE_MODELS_DIR)
+        face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
         
         if(self.params is not None):
             
             if(FACE_MODELS_DIR_PATH_KEY in self.params):
                 
-                models_path = self.params[FACE_MODELS_DIR_PATH_KEY]     
+                face_models_path = self.params[FACE_MODELS_DIR_PATH_KEY]     
         
         rec_file_path = os.path.join(rec_path, file_name)
         
@@ -2463,8 +2708,21 @@ class FaceExtractor(object):
                     
                 # Save face models
                 self.saveFaceModels(tracking_list)
+                
+            use_clothing_rec = USE_CLOTHING_RECOGNITION
             
-            print '\n\n### Face Recognition ###\n'
+            if(self.params is not None):
+            
+                use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]    
+                
+            if(use_clothing_rec and 
+            ((self.params is None) or 
+            (CLOTH_MODELS_DIR_PATH_KEY not in self.params))):
+                
+                # Save cloth models
+                self.saveClothModels(tracking_list)
+            
+            print '\n\n### People clustering ###\n'
             
             # Save processing time
             start_time = cv2.getTickCount()
@@ -2538,7 +2796,8 @@ class FaceExtractor(object):
                     
                     ann_segments.append(segment_counter)
                     
-                    db_path= os.path.join(models_path, str(segment_counter))
+                    db_path= os.path.join(
+                    face_models_path, str(segment_counter))
                     
                     if(os.path.isfile(db_path)):
                         
@@ -2575,7 +2834,8 @@ class FaceExtractor(object):
                             
                             # Save total duration of video in milliseconds
                             
-                            tot_duration = self.video_frames * 1000.0 / self.fps
+                            tot_duration = (
+                            self.video_frames * 1000.0 / self.fps)
                             
                             person_dict[VIDEO_DURATION_KEY] = tot_duration
                             
@@ -2606,7 +2866,7 @@ class FaceExtractor(object):
             
                 shutil.rmtree(align_path)
             
-            self.anal_times[FACE_RECOGNITION_TIME_KEY] = time_in_seconds
+            self.anal_times[PEOPLE_CLUSTERING_TIME_KEY] = time_in_seconds
             
             anal_file_name = res_name + '_anal_times.YAML'
             
@@ -2944,7 +3204,7 @@ class FaceExtractor(object):
         A folder contains the segments from one person
         
         :type use_face_rec_dir: boolean
-        :param use_face_rec_dir: if true, use FACE_RECOGNITION_DIR, 
+        :param use_face_rec_dir: if true, use PEOPLE_CLUSTERING_DIR, 
         otherwise use CLOTHIN_RECOGNITION_DIR
         '''  
         
@@ -2962,7 +3222,7 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)       
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR)
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR)
         
         if(not(use_face_rec_dir)):
             
@@ -3063,21 +3323,25 @@ class FaceExtractor(object):
         # Directory for this video     
         video_indexing_path = VIDEO_INDEXING_PATH
         
-        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        #use_clothing_rec = USE_CLOTHING_RECOGNITION
         
         if(self.params is not None):
             
             video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
             
-            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+            #use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
         
-        if(use_clothing_rec):
+        ### TO BE DELETED ###
+        
+        #if(use_clothing_rec):
             
-            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR)
+        #    rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
+            
+        #####################
         
         key_frames_path = os.path.join(
         rec_path, FACE_RECOGNITION_KEY_FRAMES_DIR)
@@ -3208,7 +3472,7 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
 
         if(use_clothing_rec):
             
@@ -3444,21 +3708,25 @@ class FaceExtractor(object):
         # Directory for this video     
         video_indexing_path = VIDEO_INDEXING_PATH
         
-        use_clothing_rec = USE_CLOTHING_RECOGNITION
+        #use_clothing_rec = USE_CLOTHING_RECOGNITION
         
         if(self.params is not None):
             
             video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
            
-            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+            #use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
         
-        if(use_clothing_rec):
+        ### TO BE DELETED ###
+        
+        #if(use_clothing_rec):
             
-            rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
+        #    rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
+            
+        #####################
         
         # Save detection result in YAML file
         file_name = res_name + '.YAML'
@@ -3617,7 +3885,7 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
         
         if(use_clothing_rec):
             
@@ -4003,7 +4271,7 @@ class FaceExtractor(object):
         return new_segments
         
     
-    def getClothThreshold(self):
+    def getClothThreshold_old(self):
         '''
         Calculate threshold for cloth recognition.
         '''
@@ -4159,96 +4427,6 @@ class FaceExtractor(object):
         '''
         
         
-    def getMeanInterDistance(self, model1, model2):
-        '''
-        Calculate mean distance between histograms in two models
-        
-        :type model1: list
-        :param model1: list of color histograms of clothes
-        
-        :type model2: list
-        :param model2: list of color histograms of clothes 
-        to be compared with those of model1
-        '''
-        
-        mean = 0
-        
-        counter1 = 0
-        len_model1 = len(model1)
-        len_model2 = len(model2)
-        diff_list = []
-        
-        for counter1 in range(0, len_model1):
-            
-            hists1 = model1[counter1]
-            
-            counter2 = 0
-            
-            for counter2 in range(0, len_model2):
-                
-                hists2 = model2[counter2]
-                
-                tot_diff = 0
-        
-                for ch in range(0, 3):
-                    
-                    diff = abs(cv2.compareHist(
-                    hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
-                    
-                    tot_diff = tot_diff + diff  
-                    
-                diff_list.append(tot_diff)
-        
-        if(len(diff_list) > 0):
-        
-                mean = np.mean(diff_list)
-        
-        return mean 
-        
-    
-    def getMeanIntraDistance(self, model):
-        '''
-        Calculate mean distance between histograms in model
-        
-        :type model: list
-        :param model: list of color histograms of clothes
-        '''
-        
-        mean = 0
-        
-        counter = 0
-        len_model = len(model)
-        diff_list = []
-        
-        for counter in range(0, len_model):
-            
-            hists = model[counter]
-            
-            for sub_counter in range(counter + 1, len_model):
-                
-                sub_hists = model[sub_counter]
-            
-                tot_diff = 0
-        
-                for ch in range(0, 3):
-                    
-                    diff = abs(cv2.compareHist(
-                    hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
-                    
-                    tot_diff = tot_diff + diff
-                    
-                #print('\n')
-                #print('diff', tot_diff)
-                #print('counter', counter)
-                #print('sub_counter', sub_counter)
-            
-                diff_list.append(tot_diff)
-                
-        if(len(diff_list) > 0):
-        
-                mean = np.mean(diff_list)
-        
-        return mean
         
         
     def showTrackedPeople(self):
@@ -4479,7 +4657,7 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
 
         file_name = res_name + '.YAML'
             

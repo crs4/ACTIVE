@@ -45,13 +45,24 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  UPDATE_FACE_MODEL_AFTER_MERGING_KEY + ',' + 
                  USE_MAJORITY_RULE_KEY + ',' + 
                  USE_MEAN_CONFIDENCE_RULE_KEY + ',' + 
-                 USE_MIN_CONFIDENCE_RULE_KEY + ',' +                 
+                 USE_MIN_CONFIDENCE_RULE_KEY + ',' +
+                 
+                 USE_CLOTHING_RECOGNITION_KEY + ',' +
+                 CLOTHES_BBOX_HEIGHT_KEY + ',' +
+                 CLOTHES_BBOX_WIDTH_KEY + ',' +
+                 CLOTHES_CHECK_METHOD_KEY + ',' +
+                 CLOTHING_REC_USE_DOMINANT_COLOR_KEY + ',' +
+                 CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY + ',' +
+                 NECK_HEIGHT_KEY + ',' +
+                 HIST_SMOOTHING_KERNEL_SIZE_KEY + ',' +
+                                  
                  FRAME_EXTRACTION_TIME_KEY + ',' + 
                  FACE_DETECTION_TIME_KEY + ',' +
                  SHOT_CUT_DETECTION_TIME_KEY + ',' + 
                  FACE_TRACKING_TIME_KEY + ',' +
                  FACE_MODELS_CREATION_TIME_KEY + ',' + 
-                 FACE_RECOGNITION_TIME_KEY + ',' + 
+                 CLOTH_MODELS_CREATION_TIME_KEY + ',' +
+                 PEOPLE_CLUSTERING_TIME_KEY + ',' +  
                  SEGMENTS_NR_KEY + ',' + 
                  PEOPLE_CLUSTERS_NR_KEY + ',' +
                  RELEVANT_PEOPLE_NR_KEY + ',' + 
@@ -100,13 +111,24 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[UPDATE_FACE_MODEL_AFTER_MERGING_KEY]) + ',' +
                      str(experiment_dict[USE_MAJORITY_RULE_KEY]) + ',' +
                      str(experiment_dict[USE_MEAN_CONFIDENCE_RULE_KEY]) + ',' +
-                     str(experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY]) + ',' +                   
+                     str(experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY]) + ',' +
+                     
+                     str(experiment_dict[USE_CLOTHING_RECOGNITION_KEY]) + ',' +
+                     str(experiment_dict[CLOTHES_BBOX_HEIGHT_KEY]) + ',' +
+                     str(experiment_dict[CLOTHES_BBOX_WIDTH_KEY]) + ',' +
+                     str(experiment_dict[CLOTHES_CHECK_METHOD_KEY]) + ',' +
+                     str(experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY]) + ',' +
+                     str(experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]) + ',' +
+                     str(experiment_dict[NECK_HEIGHT_KEY]) + ',' +
+                     str(experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY]) + ',' +
+                                        
                      str(experiment_dict[FRAME_EXTRACTION_TIME_KEY]) + ',' + 
                      str(experiment_dict[FACE_DETECTION_TIME_KEY]) + ',' +
                      str(experiment_dict[SHOT_CUT_DETECTION_TIME_KEY]) + ',' + 
                      str(experiment_dict[FACE_TRACKING_TIME_KEY]) + ',' +
                      str(experiment_dict[FACE_MODELS_CREATION_TIME_KEY]) + ',' + 
-                     str(experiment_dict[FACE_RECOGNITION_TIME_KEY]) + ',' + 
+                     str(experiment_dict[CLOTH_MODELS_CREATION_TIME_KEY]) + ',' + 
+                     str(experiment_dict[PEOPLE_CLUSTERING_TIME_KEY]) + ',' + 
                      str(experiment_dict[SEGMENTS_NR_KEY]) + ',' + 
                      str(experiment_dict[PEOPLE_CLUSTERS_NR_KEY]) + ',' +
                      str(experiment_dict[RELEVANT_PEOPLE_NR_KEY]) + ',' + 
@@ -210,10 +232,10 @@ def video_indexing_experiments(resource_path, params):
         auto_dict = load_YAML_file(auto_ann_file)
         
         if((auto_dict is None) or (ANN_TAG_KEY not in auto_dict)):
-			
-			print 'Warning! Automatic annotation file does not exist!'
-			
-			break        
+            
+            print 'Warning! Automatic annotation file does not exist!'
+            
+            break        
         
         auto_tag = auto_dict[ANN_TAG_KEY]
         
@@ -301,10 +323,10 @@ def video_indexing_experiments(resource_path, params):
         man_dict = load_YAML_file(man_ann_file)
         
         if((man_dict is None) or (ANN_TAG_KEY not in man_dict)):
-			
-			print 'Warning! Manual annotation file does not exist!'
-			
-			break
+            
+            print 'Warning! Manual annotation file does not exist!'
+            
+            break
         
         man_tag = man_dict[ANN_TAG_KEY]
         
@@ -484,7 +506,16 @@ def video_indexing_experiments(resource_path, params):
     new_experiment_dict[UPDATE_FACE_MODEL_AFTER_MERGING_KEY] = fs.params[UPDATE_FACE_MODEL_AFTER_MERGING_KEY]
     new_experiment_dict[USE_MAJORITY_RULE_KEY] = fs.params[USE_MAJORITY_RULE_KEY]
     new_experiment_dict[USE_MEAN_CONFIDENCE_RULE_KEY] = fs.params[USE_MEAN_CONFIDENCE_RULE_KEY]
-    new_experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY] = fs.params[USE_MIN_CONFIDENCE_RULE_KEY]    
+    new_experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY] = fs.params[USE_MIN_CONFIDENCE_RULE_KEY] 
+    
+    new_experiment_dict[USE_CLOTHING_RECOGNITION_KEY] = fs.params[USE_CLOTHING_RECOGNITION_KEY]
+    new_experiment_dict[CLOTHES_BBOX_HEIGHT_KEY] = fs.params[CLOTHES_BBOX_HEIGHT_KEY]
+    new_experiment_dict[CLOTHES_BBOX_WIDTH_KEY] = fs.params[CLOTHES_BBOX_WIDTH_KEY] 
+    new_experiment_dict[CLOTHES_CHECK_METHOD_KEY] = fs.params[CLOTHES_CHECK_METHOD_KEY] 
+    new_experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = fs.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] 
+    new_experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = fs.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] 
+    new_experiment_dict[NECK_HEIGHT_KEY] = fs.params[NECK_HEIGHT_KEY] 
+    new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = fs.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]    
     
     frame_extr_time = 0
     if(FRAME_EXTRACTION_TIME_KEY in fs.anal_times):
@@ -511,10 +542,21 @@ def video_indexing_experiments(resource_path, params):
         face_models_creation_time = fs.anal_times[FACE_MODELS_CREATION_TIME_KEY]
     new_experiment_dict[FACE_MODELS_CREATION_TIME_KEY] = face_models_creation_time    
     
-    face_rec_time = 0
-    if(FACE_RECOGNITION_TIME_KEY in fs.anal_times):
-        face_rec_time = fs.anal_times[FACE_RECOGNITION_TIME_KEY]
-    new_experiment_dict[FACE_RECOGNITION_TIME_KEY] = face_rec_time    
+    # TO BE DELETED
+    #face_rec_time = 0
+    #if(FACE_RECOGNITION_TIME_KEY in fs.anal_times):
+        #face_rec_time = fs.anal_times[FACE_RECOGNITION_TIME_KEY]
+    #new_experiment_dict[FACE_RECOGNITION_TIME_KEY] = face_rec_time 
+    
+    cloth_models_creation_time = 0
+    if(CLOTH_MODELS_CREATION_TIME_KEY in fs.anal_times):
+        cloth_models_creation_time = fs.anal_times[CLOTH_MODELS_CREATION_TIME_KEY]
+    new_experiment_dict[CLOTH_MODELS_CREATION_TIME_KEY] = cloth_models_creation_time
+    
+    people_clustering_time = 0
+    if(PEOPLE_CLUSTERING_TIME_KEY in fs.anal_times):
+        people_clustering_time = fs.anal_times[PEOPLE_CLUSTERING_TIME_KEY]
+    new_experiment_dict[PEOPLE_CLUSTERING_TIME_KEY] = people_clustering_time    
     
     new_experiment_dict[SEGMENTS_NR_KEY] = fs.anal_results[SEGMENTS_NR_KEY]
     new_experiment_dict[PEOPLE_CLUSTERS_NR_KEY] = fs.anal_results[PEOPLE_CLUSTERS_NR_KEY]

@@ -18,8 +18,9 @@ CLOTHING_RECOGNITION_DIR = 'Clothing recognition'
 CSV_FILE_NAME = 'Risultati.csv'
 DB_MODELS_PATH = ACTIVE_ROOT_DIRECTORY + os.sep + 'tools' + os.sep + 'Models'
 DB_MODELS_PATH_KEY = 'db_models_path'
-DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
+#DB_PATH = r'C:\Active\Dataset\Videolina - Fotogrammi non annotati\Dataset_80\Training_set_ordered'
 #DB_PATH = r'C:\Active\Dataset\VidTIMIT\Video\Training set'
+DB_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition\Training set'
 FACE_ANNOTATION_DIR = 'Annotations' # Directory containg complete annotations
 FACE_DETECTION_ANN_PATH = ACTIVE_ROOT_DIRECTORY + r'test\Test files\Face detection\Annotations'
 FACE_DETECTION_DIR = 'Face detection'
@@ -50,6 +51,7 @@ FACE_TRACKING_SEGMENTS_DIR = r'Segments'
 FRAMES_DIR = r'Frames'
 FRAMES_FILES_PATH = r'C:\Active\Dataset\VidTIMIT\Risultati\LBP_1_8_4_4\Frames'
 NOSE_POS_FILE_PATH_KEY = 'nose_pos_file_path'
+PEOPLE_CLUSTERING_DIR = 'People clustering'
 TEST_VIDEO_NAME = 'test1'
 SAVE_PATH_ALL_FACES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All faces'
 SAVE_PATH_ALL_KEY_FRAMES = r'C:\Active\Mercurial\test\Test files\Summarization' +  os.sep + TEST_VIDEO_NAME + os.sep + 'All key frames'
@@ -348,6 +350,21 @@ VIDEO_SEGMENTS_KEY = 'video_segments'
 # Video indexing
 ANSWER_NO = 'n'
 ANSWER_YES = 'y'
+CLOTH_MODELS_DIR_PATH_KEY = 'cloth_models_dir_path'
+# Height of bounding box for clothes
+# (in percentage of the face bounding box height)
+CLOTHES_BBOX_HEIGHT = 1.5 
+CLOTHES_BBOX_HEIGHT_KEY = 'clothes_bounding_box_height'
+# Width of bounding box for clothes
+# (in percentage of the face bounding box width)
+CLOTHES_BBOX_WIDTH = 2.0 
+CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
+CLOTHES_CHECK_METHOD = 'Min' # 'Min', 'Mean' or 'Max'
+CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
+CLOTHING_REC_USE_DOMINANT_COLOR = True
+CLOTHING_REC_USE_DOMINANT_COLOR_KEY = 'use_dominant_color_in_clothing_recognition'
+CLOTHING_REC_USE_MEAN_X_OF_FACES = True
+CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY = 'use_mean_x_of_faces_in_clothing_recognition'
 CONF_THRESHOLD = 0 # Threshold for retaining prediction 
 # (faces whose prediction has a confidence value 
 # greater than CONF_THRESHOLD will be considered 'Undefined')
@@ -357,6 +374,8 @@ FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
 HALF_WINDOW_SIZE = 10
 HALF_WINDOW_SIZE_KEY = 'half_window_size'
+HIST_SMOOTHING_KERNEL_SIZE = 25
+HIST_SMOOTHING_KERNEL_SIZE_KEY = 'kernel_size_for_histogram_smoothing'
 # TO BE DELETED
 #FRAMES_TO_DISCARD = 2 # Number of initial frames in tracking segment
 # not considered for threshold calculation
@@ -369,6 +388,8 @@ MIN_DETECTION_PCT_KEY = 'min_detection_pct'
 MIN_SEGMENT_DURATION = 1 # Minimum duration of a segment (in seconds)
 MIN_SEGMENT_DURATION_KEY = 'min_segment_duration'
 #MIN_SHOT_DURATION = 1 # Minimum duration of a shot (in seconds) TO BE DELETED
+NECK_HEIGHT = 0.0
+NECK_HEIGHT_KEY = 'neck_height'
 PERSON_NAME = 'Name'
 PERSON_SURNAME = 'Surname' 
 PEOPLE_CLUSTERS_NR_KEY = 'people_clusters_nr'
@@ -420,20 +441,30 @@ WINDOW_PERSON = 'Person' # Indication of person in window that shows
 					     
 # Video analysis times
 CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
-CLOTHIN_RECOGNITION_TIME_KEY = 'clothing_recognition_time'
+CLOTHING_RECOGNITION_TIME_KEY = 'clothing_recognition_time'
 FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
 FACE_DETECTION_TIME_KEY = 'face_detection_time'
 SHOT_CUT_DETECTION_TIME_KEY = r'shot_cut_detection_time'
-FACE_TRACKING_TIME_KEY = r'face_tracking_time'
-FACE_MODELS_CREATION_TIME_KEY = r'face_models_creation_time'
+FACE_TRACKING_TIME_KEY = 'face_tracking_time'
+FACE_MODELS_CREATION_TIME_KEY = 'face_models_creation_time'
 FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
 USER_ANNOTATION_TIME_KEY = 'user_annotation_time'
+PEOPLE_CLUSTERING_TIME_KEY = 'people_clustering_time'
 
 
 # Global face recognition
+GLOBAL_FACE_REC_MODELS_DIR = 'Face models'
 GLOBAL_FACE_MODELS_MIN_DIFF = 5
 GLOBAL_FACE_MODELS_MIN_DIFF_KEY = 'global_face_models_min_diff'
 GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'
-GLOBAL_FACE_REC_DATA_DIR_PATH_KEY = r'global_face_recognition_dir_path'
+GLOBAL_FACE_REC_DATA_DIR_PATH_KEY = 'global_face_recognition_dir_path'
+GLOBAL_FACE_REC_DISC_IMAGES_DIR = 'Discarded images'
 GLOBAL_FACE_REC_TAGS_FILE = 'Tags'
 GLOBAL_FACE_REC_TRAINING_SET_DIR = 'Training set'
+GLOBAL_FACE_REC_DIFFS_FILE = 'Diffs.yaml'
+GLOBAL_FACE_REC_MIN_DIFFS_FILE = 'Min_diffs.yaml'
+HIST_KEY = 'histogram'
+DIFF_KEY = 'diff'
+IMAGE_1_KEY = 'image1'
+IMAGE_2_KEY = 'image2'
+IMAGE_SCORE_KEY = 'score'

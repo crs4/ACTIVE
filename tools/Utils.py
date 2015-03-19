@@ -4,20 +4,23 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import pickle as pk
 import sys
 import time
 import yaml
 from Constants import * 
 
 def load_YAML_file(file_path):
-    """Load YAML file.
+    '''
+    Load YAML file.
 
-    Args:
-        file_path = path of YAML file to be loaded
-
-    Returns:
-        A dictionary with the contents of the file
-    """
+    :type file_path: string
+    :param file_path: path of YAML file to be loaded  
+    
+    :return: a dictionary with the contents of the file
+    :rtype: dictionary
+    '''
+    
     try:
         
         with open(file_path, 'r') as stream:
@@ -60,24 +63,41 @@ def save_model_file(X, y, params = None, db_file_name = None):
     :type y: integer
     :param y: label of face model
     
-    :type y: dictionary
-    :param y: used parameters     
+    :type params: dictionary
+    :param params: used parameters (see table)    
     
     :type db_file_name: string
-    :param db_file_name: name of database              
+    :param db_file_name: path of directory where models are saved             
+
+    ========================  =========================================
+    Key                       Value
+    ========================  =========================================
+    FACE_MODEL_ALGORITHM_KEY  Algorithm (it can be 'Eigenfaces', 
+                              'Fisherfaces' or 'LBP')
+    LBP_RADIUS_KEY            Radius (used only if algorithm is 'LBP')
+    LBP_NEIGHBORS_KEY         Number of neighbors 
+                              (used only if algorithm is 'LBP')
+    LBP_GRID_X_KEY            Number of columns in LBP grid 
+                              (used only if algorithm is 'LBP')
+    LBP_GRID_Y_KEY            Number of rows in LBP grid 
+                              (used only if algorithm is 'LBP')
+    DB_MODELS_PATH_KEY        Path of directory where models are saved 
+                              (used if db_file_name is not provided)
+    ========================  =========================================
     '''
     
     if(len(y) > 0): 
         
         algorithm = FACE_MODEL_ALGORITHM
     
-        if(params is not None):
+        if((params is not None) 
+        and (FACE_MODEL_ALGORITHM_KEY in params)):
             
             algorihtm = params[FACE_MODEL_ALGORITHM_KEY]
         
         model = None
         
-        if(algorihtm == 'Eigenfaces'):
+        if(algorithm == 'Eigenfaces'):
             
             model = cv2.createEigenFaceRecognizer()
         
@@ -87,8 +107,6 @@ def save_model_file(X, y, params = None, db_file_name = None):
             
         elif(algorithm == 'LBP'):
             
-            model=cv2.createLBPHFaceRecognizer()
-            
             radius = LBP_RADIUS
             neighbors = LBP_NEIGHBORS
             grid_x = LBP_GRID_X
@@ -96,10 +114,17 @@ def save_model_file(X, y, params = None, db_file_name = None):
             
             if(params is not None):
 
-                radius = params[LBP_RADIUS_KEY]
-                neighbors = params[LBP_NEIGHBORS_KEY]
-                grid_x = params[LBP_GRID_X_KEY]
-                grid_y = params[LBP_GRID_Y_KEY]
+                if(LBP_RADIUS_KEY in params):
+                    radius = params[LBP_RADIUS_KEY]
+                
+                if(LBP_NEIGHBORS_KEY in params):
+                    neighbors = params[LBP_NEIGHBORS_KEY]
+                    
+                if(LBP_GRID_X_KEY in params):
+                    grid_x = params[LBP_GRID_X_KEY]
+                    
+                if(LBP_GRID_Y_KEY in params):
+                    grid_y = params[LBP_GRID_Y_KEY]
             
             model=cv2.createLBPHFaceRecognizer(
             radius,
@@ -109,7 +134,8 @@ def save_model_file(X, y, params = None, db_file_name = None):
             
         models_path = DB_MODELS_PATH
         
-        if(params is not None):
+        if((params is not None)
+        and (DB_MODELS_PATH_KEY in params)):
             
             models_path = params[DB_MODELS_PATH_KEY]  
             
@@ -127,15 +153,18 @@ def save_model_file(X, y, params = None, db_file_name = None):
             
 
 def save_YAML_file(file_path, dictionary):
-    """Save YAML file.
-
-    Args:
-        file_path = path of YAML file to be saved
-        dictionary = dictionary with data to be saved
-
-    Returns:
-        A boolean indicating the result of the write operation
-    """
+    '''
+    Save YAML file.
+    
+    :type file_path: string
+    :param file_path: path of YAML file to be saved
+    
+    :type dictionary: dictionary
+    :param dictionary: dictionary with data to be saved  
+    
+    :return: a boolean indicating the result of the write operation
+    :rtype: boolean     
+    '''
     with open(file_path, 'w') as stream:
         result = stream.write(yaml.dump(dictionary, default_flow_style = False))
         return result
@@ -196,6 +225,15 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     return eyes_final_list   
 
 def get_best_eye(eyes_list):
+    '''
+    Get best eye from given list
+    
+    :type eyes_list: list
+    :param eyes_list: list of eyes given as list (x, y, w, h)
+    
+    :rtype: list or None
+    :return: best eye
+    '''
     # Calculate confidence for each eye rectangle
     eyes_confidences = []
 
@@ -245,6 +283,84 @@ def get_best_eye(eyes_list):
         return eyes_list[eye_index]
     else:
         return None
+
+
+def get_dominant_color(hsv_image, kernel_size):
+    '''
+    Get dominant color from image
+    
+    :type hsv_image: OpenCV image in HSV space
+    :param hsv_image: image to be analyzed
+    
+    :type kernel_size: odd integer
+    :param kernel_size: size of kernel used to smooth histogram
+    
+    :rtype: OpenCV mask
+    :return: mask for dominant color
+    '''
+    
+    
+    h_hist = cv2.calcHist([hsv_image],[0],None,[255],[0,256])
+    
+    (h_left_idx, h_right_idx) = find_dominant_region(h_hist, kernel_size)
+    
+    #lines = hist_lines(hsv, 0, kernel_size, None)
+    #cv2.imshow('histogram',lines)
+    
+    mask_s = cv2.inRange(hsv_image, np.array((h_left_idx, 0., 0.)), np.array((h_right_idx, 255., 255.)))
+    
+    #im_copy = im.copy()
+    
+    #for row in range(0, im_height):
+        #for col in range(0, im_width):
+            #if(mask_s[row, col] == 0):
+                #im_copy[row, col] = [0, 0, 0]
+    
+    #cv2.imshow('image',im_copy)
+    #cv2.waitKey(0)
+    
+    s_hist = cv2.calcHist([hsv_image], [1], mask_s, [255], [0, 256])
+    
+    (s_left_idx, s_right_idx) = find_dominant_region(s_hist, kernel_size)
+    
+    #lines = hist_lines(hsv, 1, kernel_size, mask_s)
+    #cv2.imshow('histogram',lines)
+    
+    mask_v = cv2.inRange(hsv_image, np.array((h_left_idx, s_left_idx, 0.)), np.array((h_right_idx, s_right_idx, 255.)))
+
+    #im_copy = im.copy()
+    
+    #for row in range(0, im_height):
+        #for col in range(0, im_width):
+            #if(mask_v[row, col] == 0):
+                #im_copy[row, col] = [0, 0, 0]
+    
+    #cv2.imshow('image',im_copy)
+    #cv2.waitKey(0)
+    
+    v_hist = cv2.calcHist([hsv_image], [2], mask_v, [255], [0, 256])
+    
+    (v_left_idx, v_right_idx) = find_dominant_region(v_hist, kernel_size)
+    
+    #lines = hist_lines(hsv, 2, kernel_size, mask_v)
+    #cv2.imshow('histogram',lines)
+    
+    final_mask = cv2.inRange(hsv_image, np.array((h_left_idx, s_left_idx, v_left_idx)), np.array((h_right_idx, s_right_idx, v_right_idx)))
+    
+    # Show dominant color areas
+    
+    #im_copy = im.copy()
+    
+    #for row in range(0, im_height):
+        #for col in range(0, im_width):
+            #if(final_mask[row, col] == 0):
+                #im_copy[row, col] = [0, 0, 0]
+    
+    #cv2.imshow('image',im_copy)
+    #cv2.waitKey(0)
+    
+    return final_mask
+
 
 def detect_mouth_in_image(image, mouth_cascade_classifier):
     '''
@@ -558,15 +674,18 @@ def normalize_illumination(img):
         
     
 def is_rect_enclosed(rect1, rect2):
-    """Check if rectangle is inside another rectangle
+    '''
+    Check if rectangle is inside another rectangle
+    
+    :param rect1: first rectangle given as list (x, y, width, height)
+    :type rect1: list
+    
+    :param rect1: second rectangle given as list (x, y, width, height)
+    :type rect1: list   
 
-    Args:
-        rect1 = first rectangle given as list (x, y, width, height)
-        rect2 = second rectangle given as list (x, y, width, height)
-
-    Returns:
-        True if rect 1 is inside rect 2
-    """ 
+    :return: True if rect 1 is inside rect 2
+    :rtype: boolean
+    ''' 
     x11 = rect1[0]
     y11 = rect1[1]
     x12 = x11 + rect1[2]
@@ -596,8 +715,8 @@ def is_rect_similar(rect1, rect2, min_int_area):
     
     :type min_int_area: float
     :param min_int_area: minimum area of intersection between the two 
-    rectangles (related to area of the smallest one) for considering
-    them similar  
+                         rectangles (related to area of the smallest one) 
+                         for considering them similar  
     """             
     
     similar = False
@@ -972,12 +1091,12 @@ def get_shot_changes(diff_list, half_w_size, std_mult):
     :type diff_list: list
     :param diff_list: list with frame differences
     
-    :type half_w_size:integer
+    :type half_w_size: integer
     :param half_w_size: size of half sliding window 
     
     :type std_mult: float
     :param std_mult: multiplier for standard deviation for calculating
-    threshold
+                     threshold
     '''
     
     shot_changes = []
@@ -1038,7 +1157,7 @@ def is_cut(diff, w_left, w_right, std_mult):
     
     :type std_mult: float
     :param std_mult: multiplier for standard deviation for calculating
-    threshold
+                     threshold
     '''
     
     result = False
@@ -1193,13 +1312,35 @@ def get_image_simmetry(image):
     '''
     Get an indication of image simmetry.
     Lower the value greater the simmetry
+    
+    :type image: OpenCV image
+    :param image: image to be checked
+    
+    :return: simmetry value
+    :rtype: float
     '''
     
-    moments = cv2.moments(im)
+    moments = cv2.moments(image)
     
     nu_3_0 = moments['nu30']
     
     return abs(nu_3_0)
+    
+
+def get_image_score(image):
+    '''
+    Get a score for this image.
+    Best images have lower scores
+    
+    :type image: OpenCV image
+    :param image: image to be checked
+    
+    :return: score
+    :rtype: float       
+    '''
+    score = get_image_simmetry(image)
+    
+    return score
 
 
 def merge_near_idxs(idxs, diff_list, min_dist):
@@ -1312,4 +1453,282 @@ def get_hist_difference(image, prev_hists):
         hists = None
             
     return [tot_diff, hists]
+    
+    
+def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None):
+    '''
+    Compare two cloth models
+    
+    :type db_path_1: string
+    :param db_path_1: path containing file with list 
+                      of color histograms of clothes
+    
+    :type db_path_2: string
+    :param db_path_2: path containing file with list of color histograms
+                    of clothes to be compared with those of db_path_1
+                   
+    :type method: string
+    :param method: method for comparing clothes ('Min', 'Mean' or 'Max')
+            
+    :type intra_dist1: float
+    :param intra_dist1: mean of intra distances for db_path_1, 
+                         if already computed        
+                   
+    :rtype: boolean
+    :returns: True if two models are similar
+    '''
+    sim = False
+        
+    if(os.path.isfile(db_path_1) and
+    os.path.isfile(db_path_2)):
+
+        model1 = None
+        model2 = None
+
+        with open(db_path_1, 'r') as f1, open(db_path_2, 'r') as f2:
+
+            model1 = pk.load(f1) 
+            
+            model2 = pk.load(f2)
+
+            if(model1 and model2):     
+    
+                if(intra_dist1 is None):
+                    
+                    intra_dist1 = get_mean_intra_distance(model1)
+                
+                #print('db_path_1', os.path.basename(db_path_1))
+                #print('db_path_2', os.path.basename(db_path_2))
+                
+                #print('intra_dist1', intra_dist1)
+                                
+                intra_dist2 = get_mean_intra_distance(model2)
+                
+                #print('intra_dist2', intra_dist2)
+                                
+                dist = get_mean_inter_distance(model1, model2)
+                
+                #print('dist', dist)
+    
+                chosen_value = 0
+                
+                if(method.lower() == 'min'):
+                        
+                    chosen_value = min(intra_dist1, intra_dist2)
+                        
+                elif(method.lower() == 'mean'):
+                    
+                    chosen_value = np.mean(intra_dist1, intra_dist2)
+                    
+                elif(method.lower() == 'max'):
+                    
+                    chosen_value = max(intra_dist1, intra_dist2)
+                    
+                else:
+                    
+                    print('Warning! Method for comparing clothes not available')
+                    
+                if(dist < chosen_value):
+                    
+                    sim = True
+                    
+                #else:
+                    
+                    #raw_input('Aspetta poco poco ...') # TEST ONLY
+        
+    return sim
+    
+    
+def get_mean_inter_distance(model1, model2):
+    '''
+    Calculate mean distance between histograms in two models
+    
+    :type model1: list
+    :param model1: list of color histograms
+    
+    :type model2: list
+    :param model2: list of color histograms
+                  to be compared with those of model1
+                  
+    :rtype: float
+    :returns: distance value
+    '''
+    
+    mean = 0
+    
+    counter1 = 0
+    len_model1 = len(model1)
+    len_model2 = len(model2)
+    mins_list = []
+    
+    for counter1 in range(0, len_model1):
+        
+        hists1 = model1[counter1]
+        
+        diff_list = []
+        
+        counter2 = 0
+        
+        for counter2 in range(0, len_model2):
+            
+            hists2 = model2[counter2]
+            
+            tot_diff = 0
+    
+            for ch in range(0, 3):
+                
+                diff = abs(cv2.compareHist(
+                hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
+                
+                tot_diff = tot_diff + diff  
+                
+            diff_list.append(tot_diff)
+            
+        if(len(diff_list) > 0):
+            
+            # Get minimum distance between considered frame in model1 
+            # and all frames in model2
+            model_min = min(diff_list)
+            mins_list.append(model_min)
+    
+    if(len(mins_list) > 0):
+    
+            mean = np.mean(mins_list)
+    
+    return mean 
+    
+    
+def get_mean_intra_distance(model):
+    '''
+    Calculate mean distance between histograms in model
+    
+    :type model: list
+    :param model: list of color histograms
+    
+    :rtype: float
+    :returns: distance value
+    '''
+    
+    mean = 0
+    
+    counter = 0
+    len_model = len(model)
+    
+    means_list = []
+    
+    for counter in range(0, len_model):
+        
+        hists = model[counter]
+        
+        diff_list = []
+        
+        for sub_counter in range(counter + 1, len_model):
+            
+            sub_hists = model[sub_counter]
+        
+            tot_diff = 0
+    
+            for ch in range(0, 3):
+                
+                diff = abs(cv2.compareHist(
+                hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
+                
+                tot_diff = tot_diff + diff
+                
+            #print('\n')
+            #print('diff', tot_diff)
+            #print('counter', counter)
+            #print('sub_counter', sub_counter)
+        
+            diff_list.append(tot_diff)
+            
+        if(len(diff_list) > 0):
+            
+            model_mean = np.mean(diff_list)
+            
+            means_list.append(model_mean)
+            
+    if(len(means_list) > 0):
+    
+            mean = np.mean(means_list)
+    
+    return mean
+    
+    
+def find_dominant_region(hist, kernel_size, max_sum_items = 0):
+    '''
+    Find dominant region in given histogram
+    
+    :type hist: numpy array
+    :param hist: histogram 
+    
+    :type max_sum_items: integer
+    :param max_sum_items: max sum of items in histogram regions 
+    
+    :rtype: list
+    :return: locations of region borders 
+             given as list of two integer elements
+             and sum of elements in region
+    '''
+    
+    # Smooth histogram to eliminate local minima
+    
+    hist_item = cv2.GaussianBlur(hist, (kernel_size,kernel_size), 0)
+
+    # Find maximum location
+    
+    (minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(hist_item, mask=None)
+
+    max_idx = int(maxLoc[1])
+    
+    # Sum of elements in region
+    
+    #sum_items = maxVal
+    
+    # Find minimum adjacent neighbors to maximum location
+    
+    # Find left minimum
+    left_idx = max_idx
+    
+    last_hist_value = maxVal
+    for left_idx in range(max_idx - 1, -1, -1):
+        
+        hist_value = hist_item.item((left_idx, 0))
+        
+        #sum_items = sum_items + hist_value
+        
+        if(hist_value > last_hist_value):
+            
+            break
+        
+        else:
+            
+            last_hist_value = hist_value
+            
+    # Find right minimum
+    
+    hist_size = hist_item.shape[0]
+    
+    right_idx = max_idx
+    
+    last_hist_value = maxVal
+    for right_idx in range(max_idx + 1, hist_size, 1):
+        
+        hist_value = hist_item.item((right_idx, 0))
+        
+        #sum_items = sum_items + hist_value
+        
+        if(hist_value > last_hist_value):
+            
+            break
+            
+        else:
+            
+            last_hist_value = hist_value
+            
+    locs = (left_idx, right_idx)
+    
+    return locs
+
+
 

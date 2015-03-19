@@ -234,6 +234,12 @@ def check_permutations(lett_counter, label_parts, words):
     return lett_counter
 
 def get_tag_from_image(image_path):
+    '''
+    Find tag in image captions
+    
+    :param image_path: string
+    :type image_path: path of image to be analyzed
+    '''
     
     # Tesseract init
     api = tesseract.TessBaseAPI()
