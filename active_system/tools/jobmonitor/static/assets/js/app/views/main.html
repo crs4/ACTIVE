@@ -1,0 +1,21 @@
+<!-- HEADER -->
+<header id="header"></header>
+<!-- END HEADER -->
+
+<!-- NAVIGATION -->
+<aside id="left-panel">
+	<nav>
+		<ul>
+			<li ng-repeat="item in menu" >
+				<a ng-click="setScreen($index)"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{item}}</span></a>
+			</li>
+		</ul>
+	</nav>
+</aside>
+<!-- END NAVIGATION -->
+
+<!-- MAIN PANEL -->
+<div id="main" role="main">
+	<div ng-include="getScreen()" />
+</div>
+<!-- END MAIN PANEL -->
