@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from core.items.video_views import VideoItemList
-from core.items.video_views import VideoItemDetail
-from core.items.image_views import ImageItemList
-from core.items.image_views import ImageItemDetail
-from core.items.audio_views import AudioItemList
-from core.items.audio_views import AudioItemDetail
+from core.items.video.views import VideoItemList
+from core.items.video.views import VideoItemDetail
+from core.items.image.views import ImageItemList
+from core.items.image.views import ImageItemDetail
+from core.items.audio.views import AudioItemList
+from core.items.audio.views import AudioItemDetail

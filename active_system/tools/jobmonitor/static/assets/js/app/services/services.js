@@ -10,8 +10,8 @@ angular.module("jobmonitorServices", [])
     pollerConfig.resetOnRouteChange = true;
 })
 .constant("wsUrl", "ws://localhost:12345")
-.constant("jobmonitorUrl", "http://156.148.132.228:8000/jobmonitor/")
-.constant("clusterUrl", "http://156.148.132.228:8000/cluster/")
+.constant("jobmonitorUrl", "http://" + window.location.host + "/jobmonitor/")
+.constant("clusterUrl", "http://"  + window.location.host + "/cluster/")
 .factory("jobService", function($http, $websocket, $timeout, poller, jobmonitorUrl, wsUrl){
 	
 	return {
@@ -57,13 +57,6 @@ angular.module("jobmonitorServices", [])
 				argumentsArray: [{params:{status:jobsStatus}}]
 			});
 			p.promise.then(null, null, callback);
-			/*p.promise.then(null, null, function(result){
-				if(result.status === 200 || result.status === 301){
-					callback(result);
-				}else{
-					p.stop();
-				}
-			});*/
 		},
 		
 		purgeQueues: function(callback){

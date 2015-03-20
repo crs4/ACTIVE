@@ -1,9 +1,6 @@
 from django.conf.urls import patterns, include, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from core.items.views import VideoItemList
-from core.items.views import VideoItemDetail
-
 from core.items.routers import routerDetail
 from core.items.routers import routerList
 

@@ -107,7 +107,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/var/spool/active/jobprocessor/templates',
+    '/home/active/jobprocessor/templates',
 )
 
 
@@ -121,4 +121,4 @@ CELERY_TIMEZONE = "Europe/Rome"
 CELERYD_POOL_RESTARTS = True
 
 # Cors settings
-CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_ALLOW_ALL = True

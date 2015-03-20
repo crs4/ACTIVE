@@ -11,17 +11,17 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.Utils import * 
 
-man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
-#man_ann_path = r'C:\Active\Face summarization\Annotations\MONITOR072011' #Palladium
+#man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
+man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02' #Palladium
 
-resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
-#resource_path = r'C:\Active\RawVideos\MONITOR072011.mpg' # Palladium
+#resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
+resource_path = r'C:\Active\RawVideos\fic.02.mpg' # Palladium
 
-video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Portatile MP
-#video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
+#video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test' # Portatile MP
+video_idx_path_base = r'C:\Active\Face summarization' # Palladium
 
-test_counter = 0 # Portatile MP
-#test_counter = 0 # Palladium
+#test_counter = 0 # Portatile MP
+test_counter = 0 # Palladium
 
 use_nose_pos = True # Palladim    
 			
@@ -38,13 +38,13 @@ params = {}
 
 params[ANNOTATIONS_PATH_KEY] = man_ann_path
 
-params[CODE_VERSION_KEY] = -1 # Portatile MP
-#params[CODE_VERSION_KEY] = # Palladium
+#params[CODE_VERSION_KEY] = -1 # Portatile MP
+params[CODE_VERSION_KEY] = 280# Palladium
 
 # Face detection
 
-params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
-#params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
+#params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
+params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
 
 params[EYE_DETECTION_CLASSIFIER_KEY] = 'haarcascade_mcs_lefteye.xml'
 
@@ -132,7 +132,4 @@ params[SIMULATE_USER_ANNOTATIONS_KEY] = False
 test_counter = test_counter + 1
 
 video_indexing_experiments(resource_path, params)
-
-# Make beep
-winsound.Beep(frequency, duration)
     

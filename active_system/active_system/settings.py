@@ -27,6 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -40,6 +41,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'core',
+    'core.plugins.apps.PluginConfig', # collect plugin data
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,6 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 )
 
 ROOT_URLCONF = 'active_system.urls'
@@ -104,6 +107,30 @@ TEMPLATE_DIRS = (
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ALLOW_METHODS = (
+	'GET',
+	'POST',
+	'PUT',
+	'PATCH',
+	'DELETE',
+	'OPTIONS'
+)
+
+CORS_ALLOW_HEADERS = (
+	'x-requested-with',
+	'content-type',
+	'accept',
+	'origin',
+	'authorization',
+	'x-csrftoken',
+	'cache-control'
+)
 
 # directory where uploaded files will be saved
-MEDIA_ROOT = '/var/spool/active/data/temp/'
+MEDIA_ROOT = '/var/spool/active/data/items'
+
+# directory where must be saved all plugin manifest files
+PLUGIN_MANIFEST_PATH = '/var/spool/active/active_system/plugin_manifest'
+
+# endpoint where will be executed a job processor
+JOB_PROCESSOR_ENDPOINT = "http://156.148.132.79:9000/"

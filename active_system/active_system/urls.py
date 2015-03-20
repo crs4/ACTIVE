@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
 import core.users.urls
 import core.items.urls
+import core.plugins.urls
 
 #import jobmonitor.urls
 
@@ -33,5 +34,6 @@ urlpatterns = patterns('',
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/', include(core.users.urls)),
     url(r'^api/', include(core.items.urls)),
+    url(r'^api/', include(core.plugins.urls)),
    # url(r'^jobmonitor/', include(jobmonitor.urls)),
 )
