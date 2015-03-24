@@ -532,10 +532,10 @@ class FaceModels():
             
             
     def __update_min_diff(self, tag):
-		'''
-		Update minimum difference between pair of images for given tag
-		
-		:type tag: string
+        '''
+        Update minimum difference between pair of images for given tag
+        
+        :type tag: string
         :param tag: tag of subject for whom difference is being updated
         '''
         

@@ -163,7 +163,7 @@ SCALE_FACTOR_KEY = 'scale_factor';
 
 # Detection parameters
 DET_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-					   # between two detections for merging them
+                       # between two detections for merging them
 EYE_DETECTION_CLASSIFIER = 'haarcascade_mcs_lefteye.xml'
 EYE_DETECTION_CLASSIFIER_KEY = 'eye_detection_classifier'
 FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalAndProfileFaces2'# Default HaarCascadeFrontalAndProfileFaces2
@@ -361,9 +361,11 @@ CLOTHES_BBOX_WIDTH = 2.0
 CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD = 'Min' # 'Min', 'Mean' or 'Max'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
+CLOTHING_REC_USE_3_BBOXES = False
+CLOTHING_REC_USE_3_BBOXES_KEY = 'use_3_bboxes_in_clothing_recognition'
 CLOTHING_REC_USE_DOMINANT_COLOR = True
 CLOTHING_REC_USE_DOMINANT_COLOR_KEY = 'use_dominant_color_in_clothing_recognition'
-CLOTHING_REC_USE_MEAN_X_OF_FACES = True
+CLOTHING_REC_USE_MEAN_X_OF_FACES = False
 CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY = 'use_mean_x_of_faces_in_clothing_recognition'
 CONF_THRESHOLD = 0 # Threshold for retaining prediction 
 # (faces whose prediction has a confidence value 
@@ -397,32 +399,32 @@ RELEVANT_PEOPLE_NR_KEY = 'relevant_people_nr'
 SAVED_FRAMES_NR_KEY = 'saved_frames_nr' 
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
-						# before tracking interruption is possible T
+                        # before tracking interruption is possible T
 SIMULATE_USER_ANNOTATIONS = True
 SIMULATE_USER_ANNOTATIONS_KEY = 'simulate_user_annotations'
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
-					    # thresholds for dividing between faces
+                        # thresholds for dividing between faces
 STD_MULTIPLIER_FACE_KEY = 'std_multiplier_face'
 STD_MULTIPLIER_FRAME = 20 # Standard deviation multiplier for 
-						  # calculating thresholds for shot cut detection
+                          # calculating thresholds for shot cut detection
 STD_MULTIPLIER_FRAME_KEY = 'std_multiplier_frame'
 # Total duration of segments( in ms)
 TOT_SEGMENT_DURATION_KEY = 'tot_segments_duration' 
 TRACKED_PERSON_TAG = 'tracked_person'
 # TO BE DELETED
 #TRACKING_DIFF_THRESHOLD = 10000 # Threshold for interrupt tracking
-								# (difference between H histograms)
+                                # (difference between H histograms)
 TRACKING_MIN_INT_AREA = 0.5 # Minimum value for intersection area 
-							# between detection bbox and tracking window
+                            # between detection bbox and tracking window
 TRACKING_MIN_INT_AREA_KEY = 'tracking_min_int_area'
 UNDEFINED_TAG = 'undefined'
 # TO BE DELETED
 #USE_3_CHANNELS = False # True if all 3 channels must be used in checking
-					  # histogram differences
+                      # histogram differences
 UPDATE_FACE_MODEL_AFTER_MERGING = True
 UPDATE_FACE_MODEL_AFTER_MERGING_KEY = 'update_face_model_after_merging'
 USE_AGGREGATION = False # True if final tag for a tracked face is obtained
-					   # by aggregation of results for single frames
+                       # by aggregation of results for single frames
 USE_AGGREGATION_KEY = 'use_aggregation'
 USE_CLOTHING_RECOGNITION = False # True if recognition based on clothes 
 # is used
@@ -437,8 +439,8 @@ VIDEO_SAVED_FRAMES_KEY = 'saved_frames' # Number of saved frames
 VIDEO_TOT_FRAMES_KEY = 'tot_frames' # Total number of frames in video
 VIDEO_URL_KEY = 'video_url' # URL of video
 WINDOW_PERSON = 'Person' # Indication of person in window that shows 
-					     # a person in video
-					     
+                         # a person in video
+                         
 # Video analysis times
 CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
 CLOTHING_RECOGNITION_TIME_KEY = 'clothing_recognition_time'

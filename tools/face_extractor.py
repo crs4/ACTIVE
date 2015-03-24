@@ -555,6 +555,8 @@ class FaceExtractor(object):
         
                     print('progress: ' + str(self.progress) + ' %      \r'),             
     
+            del(capture)
+            
             self.saved_frames = float(saved_frames)
     
             param_dict[VIDEO_SAVED_FRAMES_KEY] = self.saved_frames
@@ -969,6 +971,8 @@ class FaceExtractor(object):
                         
                         segment_frame_list.append(segment_frame_dict)
                         
+                        del(sub_image)
+                        
                         sub_frame_counter = sub_frame_counter + 1   
                         
                         segment_face_counter = segment_face_counter + 1                 
@@ -1013,6 +1017,8 @@ class FaceExtractor(object):
                     
                     face_counter = face_counter + 1  
                     
+                del(image)
+                
                 frame_counter = frame_counter + 1
     
             # Create directory for this video  
@@ -1063,6 +1069,7 @@ class FaceExtractor(object):
         neck_pct_height = NECK_HEIGHT
         use_dom_color = CLOTHING_REC_USE_DOMINANT_COLOR
         use_mean_x = CLOTHING_REC_USE_MEAN_X_OF_FACES
+        use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
         kernel_size = HIST_SMOOTHING_KERNEL_SIZE
         
         if(self.params is not None):
@@ -1072,6 +1079,7 @@ class FaceExtractor(object):
             neck_pct_height = self.params[NECK_HEIGHT_KEY]
             use_dom_color = self.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY]
             use_mean_x = self.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]
+            use_3_bboxes = self.params[CLOTHING_REC_USE_3_BBOXES_KEY]
             kernel_size = self.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]
         
         min_x = sys.maxint
@@ -1120,57 +1128,129 @@ class FaceExtractor(object):
                 #y0 = face_bbox[1] + face_bbox[3]
                 #y1 = y0 + face_bbox[3]
                 
-                # Get region of interest for clothes
-                clothes_width = int(face_width * cl_pct_width)
-                clothes_height = int(face_height * cl_pct_height)
-                clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
-                
-                if(use_mean_x):
+                if(use_3_bboxes):
                     
-                    # Bounding box for clothes 
-                    # has fixed position in x axis
-                    clothes_x0 = int(mean_x + face_width/2.0 - clothes_width/2.0)
+                    frame_hists = []
                     
-                clothes_y0 = int(
-                face_y + face_height + (face_height * neck_pct_height))
-                clothes_x1 = clothes_x0 + clothes_width
-                clothes_y1 = clothes_y0 + clothes_height
-                
-                # Bounding box cannot start out of image
-                if(clothes_x0 < 0):
-                    clothes_x0 = 0
-                
-                im = cv2.imread(frame_path)
-                
-                roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
-                #cv2.imshow('Clothes', roi)
-                #cv2.waitKey(0)
-                
-                roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    
-                hists = []
-                
-                if(use_dom_color):
+                    for i in range(0,3):
+                        
+                        # Get region of interest for clothes
+                        clothes_width = int(face_width * cl_pct_width)
+                        clothes_height = int(face_height * cl_pct_height)
+                        clothes_x0 = 0
+                        
+                        if(i == 0):
+                            # Leftmost bounding box for clothes
+                            clothes_x0 = int(face_x - clothes_width/2.0)
+                            
+                        elif(i == 1):
+                            # Central boundinb box for clothes
+                            clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                            
+                        elif(i == 2):
+                            # Rightmost bounding box for clothes
+                            clothes_x0 = int(face_x + face_width - clothes_width/2.0)
+                            
+                        clothes_y0 = int(
+                        face_y + face_height + (face_height * neck_pct_height))
+                        clothes_x1 = clothes_x0 + clothes_width
+                        clothes_y1 = clothes_y0 + clothes_height
+                        
+                        # Bounding box cannot start out of image
+                        if(clothes_x0 < 0):
+                            clothes_x0 = 0
+                        
+                        im = cv2.imread(frame_path)
+                        
+                        roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
+                        #cv2.imshow('Clothes', roi)
+                        #cv2.waitKey(0)
+                        
+                        roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+            
+                        hists = []
+                        
+                        if(use_dom_color):
+                            
+                            mask = get_dominant_color(roi_hsv, kernel_size)
+                            
+                        else:
+                            
+                            mask = cv2.inRange(roi_hsv, 
+                            np.array((0., 60., 32.)), np.array((180., 255., 255.)))
                     
-                    mask = get_dominant_color(roi_hsv, kernel_size)
+                        for ch in range(0, 3):
+                    
+                            hist = cv2.calcHist(
+                            [roi_hsv], [ch], mask, [16], [0, 255])
+                    
+                            cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+                            
+                            hist.reshape(-1)
+                            
+                            hists.append(hist)
+                                
+                        frame_hists.append(hists)
+                        
+                        del(im)
+                        
+                    model.append(frame_hists)
                     
                 else:
+                
+                    # Get region of interest for clothes
+                    clothes_width = int(face_width * cl_pct_width)
+                    clothes_height = int(face_height * cl_pct_height)
+                    clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
                     
-                    mask = cv2.inRange(roi_hsv, 
-                    np.array((0., 60., 32.)), np.array((180., 255., 255.)))
-            
-                for ch in range(0, 3):
-            
-                    hist = cv2.calcHist(
-                    [roi_hsv], [ch], mask, [16], [0, 255])
-            
-                    cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
-                    
-                    hist.reshape(-1)
-                    
-                    hists.append(hist)
+                    if(use_mean_x):
                         
-                model.append(hists)
+                        # Bounding box for clothes 
+                        # has fixed position in x axis
+                        clothes_x0 = int(mean_x + face_width/2.0 - clothes_width/2.0)
+                        
+                    clothes_y0 = int(
+                    face_y + face_height + (face_height * neck_pct_height))
+                    clothes_x1 = clothes_x0 + clothes_width
+                    clothes_y1 = clothes_y0 + clothes_height
+                    
+                    # Bounding box cannot start out of image
+                    if(clothes_x0 < 0):
+                        clothes_x0 = 0
+                    
+                    im = cv2.imread(frame_path)
+                    
+                    roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
+                    #cv2.imshow('Clothes', roi)
+                    #cv2.waitKey(0)
+                    
+                    roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        
+                    hists = []
+                    
+                    if(use_dom_color):
+                        
+                        mask = get_dominant_color(roi_hsv, kernel_size)
+                        
+                    else:
+                        
+                        mask = cv2.inRange(roi_hsv, 
+                        np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+                
+                    for ch in range(0, 3):
+                
+                        hist = cv2.calcHist(
+                        [roi_hsv], [ch], mask, [16], [0, 255])
+                
+                        cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+                        
+                        hist.reshape(-1)
+                        
+                        hists.append(hist)
+                            
+                    model.append(hists)
+                    
+                    del(im)
                 
         return model
         
@@ -1707,6 +1787,7 @@ class FaceExtractor(object):
         
         use_clothing_rec = USE_CLOTHING_RECOGNITION
         cl_ch_method = CLOTHES_CHECK_METHOD
+        use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
         
         # Directory for face models
         face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
@@ -1724,6 +1805,7 @@ class FaceExtractor(object):
             
             use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
             cl_ch_method = self.params[CLOTHES_CHECK_METHOD_KEY]
+            use_3_bboxes = self.params[CLOTHING_REC_USE_3_BBOXES_KEY]
             
             if(FACE_MODELS_DIR_PATH_KEY in self.params):
                 
@@ -1759,7 +1841,8 @@ class FaceExtractor(object):
         
                     if(model1): 
                         
-                        intra_dist1 = get_mean_intra_distance(model1)           
+                        intra_dist1 = get_mean_intra_distance(
+                        model1, use_3_bboxes)           
 
         sub_counter = 0
         for sub_segment_dict in self.tracked_faces:
@@ -2042,7 +2125,8 @@ class FaceExtractor(object):
                                     cloth_models_path, str(sub_counter))
 
                                     similar = compare_clothes(db_path_1, 
-                                    db_path_2, cl_ch_method, intra_dist1)
+                                    db_path_2, cl_ch_method, intra_dist1,
+                                    use_3_bboxes)
                     
                                     if(similar):
                             
@@ -2857,7 +2941,7 @@ class FaceExtractor(object):
             time_in_clocks = cv2.getTickCount() - start_time
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
             
-            print 'Time for face recognition:', time_in_seconds, 's\n'
+            print 'Time for people clustering:', time_in_seconds, 's\n'
             
             # Delete directory with aligned faces
             align_path = os.path.join(rec_path, ALIGNED_FACES_DIR) 
@@ -2950,6 +3034,8 @@ class FaceExtractor(object):
                         
                         result = face
                     
+        del(image)
+        
         return result
 
 
@@ -3045,6 +3131,8 @@ class FaceExtractor(object):
                 face_path = os.path.join(segment_path, file_name)
                 
                 cv2.imwrite(face_path, image)
+                
+                del(image)
                 
                 image_counter = image_counter + 1
                 
@@ -3191,6 +3279,8 @@ class FaceExtractor(object):
                 
                 cv2.imwrite(face_path, image)
                 
+                del(image)
+                
                 image_counter = image_counter + 1
                 
                 face_counter = face_counter + 1
@@ -3302,6 +3392,8 @@ class FaceExtractor(object):
                     face_path = os.path.join(segment_path, file_name)
                     
                     cv2.imwrite(face_path, image)
+                    
+                    del(image)
                     
                     image_counter = image_counter + 1
                     
@@ -3446,6 +3538,8 @@ class FaceExtractor(object):
                         print '\n'
                         
                         person_dict[ANN_TAG_KEY] = final_tag
+                    
+                    del(image)
                     
                     p_counter = p_counter + 1
                     
@@ -3659,6 +3753,8 @@ class FaceExtractor(object):
             if(tot_diff is not None):
                            
                 self.hist_diffs.append(tot_diff)
+            
+            del(image)
             
             counter = counter + 1 
                 
@@ -4106,6 +4202,8 @@ class FaceExtractor(object):
                 else:
                     
                     diff_list.append(-1)
+                    
+                del(image)
             
             else:
                 
@@ -4516,6 +4614,8 @@ class FaceExtractor(object):
                 
                 cv2.imwrite(
                 fr_path, image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
+                
+                del(image)
                 
                 p_counter = p_counter + 1
                     

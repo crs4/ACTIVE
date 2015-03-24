@@ -1455,7 +1455,7 @@ def get_hist_difference(image, prev_hists):
     return [tot_diff, hists]
     
     
-def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None):
+def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bboxes = False):
     '''
     Compare two cloth models
     
@@ -1472,7 +1472,10 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None):
             
     :type intra_dist1: float
     :param intra_dist1: mean of intra distances for db_path_1, 
-                         if already computed        
+                         if already computed 
+                         
+    :type used_3_bboxes: boolean
+    :param used_3_bboxes: True if 3 bboxes per frame are used       
                    
     :rtype: boolean
     :returns: True if two models are similar
@@ -1495,18 +1498,18 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None):
     
                 if(intra_dist1 is None):
                     
-                    intra_dist1 = get_mean_intra_distance(model1)
+                    intra_dist1 = get_mean_intra_distance(model1, used_3_bboxes)
                 
                 #print('db_path_1', os.path.basename(db_path_1))
                 #print('db_path_2', os.path.basename(db_path_2))
                 
                 #print('intra_dist1', intra_dist1)
                                 
-                intra_dist2 = get_mean_intra_distance(model2)
+                intra_dist2 = get_mean_intra_distance(model2, used_3_bboxes)
                 
                 #print('intra_dist2', intra_dist2)
                                 
-                dist = get_mean_inter_distance(model1, model2)
+                dist = get_mean_inter_distance(model1, model2, used_3_bboxes)
                 
                 #print('dist', dist)
     
@@ -1539,7 +1542,7 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None):
     return sim
     
     
-def get_mean_inter_distance(model1, model2):
+def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
     '''
     Calculate mean distance between histograms in two models
     
@@ -1548,7 +1551,10 @@ def get_mean_inter_distance(model1, model2):
     
     :type model2: list
     :param model2: list of color histograms
-                  to be compared with those of model1
+                   to be compared with those of model1
+                  
+    :type used_3_bboxes: boolean
+    :param used_3_bboxes: True if 3 bboxes per frame are used
                   
     :rtype: float
     :returns: distance value
@@ -1574,13 +1580,44 @@ def get_mean_inter_distance(model1, model2):
             hists2 = model2[counter2]
             
             tot_diff = 0
+            
+            if(used_3_bboxes):
+                
+                calc_diffs = []
+                
+                for i in range(0,3):
+                    # For every bounding box in hists1
+                    
+                    hists1_i = hists1[i]
+                    
+                    for j in range(0,3):
+                        
+                        # For every bounding box in hists2
+                        
+                        hists2_j = hists2[j]
+                        
+                        tot_diff_i_j = 0
+                        
+                        for ch in range(0,3):
+                            
+                            diff = abs(cv2.compareHist(
+                            hists1_i[ch], hists2_j[ch], cv.CV_COMP_CHISQR))
+                            
+                            tot_diff_i_j = tot_diff_i_j + diff
+                            
+                        calc_diffs.append(tot_diff_i_j)
+                        
+                # Minimum difference is chosen
+                tot_diff = np.min(calc_diffs)        
+                
+            else:
     
-            for ch in range(0, 3):
-                
-                diff = abs(cv2.compareHist(
-                hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
-                
-                tot_diff = tot_diff + diff  
+                for ch in range(0, 3):
+                    
+                    diff = abs(cv2.compareHist(
+                    hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
+                    
+                    tot_diff = tot_diff + diff  
                 
             diff_list.append(tot_diff)
             
@@ -1598,12 +1635,15 @@ def get_mean_inter_distance(model1, model2):
     return mean 
     
     
-def get_mean_intra_distance(model):
+def get_mean_intra_distance(model, used_3_bboxes = False):
     '''
     Calculate mean distance between histograms in model
     
     :type model: list
     :param model: list of color histograms
+    
+    :type used_3_bboxes: boolean
+    :param used_3_bboxes: True if 3 bboxes per frame are used    
     
     :rtype: float
     :returns: distance value
@@ -1627,13 +1667,44 @@ def get_mean_intra_distance(model):
             sub_hists = model[sub_counter]
         
             tot_diff = 0
+            
+            if(used_3_bboxes):
+                
+                calc_diffs = []
+                
+                for i in range(0,3):
+                    # For every bounding box in hists1
+                    
+                    hists_i = hists[i]
+                    
+                    for j in range(0,3):
+                        
+                        # For every bounding box in hists2
+                        
+                        sub_hists_j = sub_hists[j]
+                        
+                        tot_diff_i_j = 0
+                        
+                        for ch in range(0,3):
+                            
+                            diff = abs(cv2.compareHist(
+                            hists_i[ch], sub_hists_j[ch], cv.CV_COMP_CHISQR))
+                            
+                            tot_diff_i_j = tot_diff_i_j + diff
+                            
+                        calc_diffs.append(tot_diff_i_j)
+                        
+                # Minimum difference is chosen
+                tot_diff = np.min(calc_diffs)           
+            
+            else:
     
-            for ch in range(0, 3):
-                
-                diff = abs(cv2.compareHist(
-                hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
-                
-                tot_diff = tot_diff + diff
+                for ch in range(0, 3):
+                    
+                    diff = abs(cv2.compareHist(
+                    hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
+                    
+                    tot_diff = tot_diff + diff
                 
             #print('\n')
             #print('diff', tot_diff)

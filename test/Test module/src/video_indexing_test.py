@@ -53,6 +53,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  CLOTHES_CHECK_METHOD_KEY + ',' +
                  CLOTHING_REC_USE_DOMINANT_COLOR_KEY + ',' +
                  CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY + ',' +
+                 CLOTHING_REC_USE_3_BBOXES_KEY + ',' +
                  NECK_HEIGHT_KEY + ',' +
                  HIST_SMOOTHING_KERNEL_SIZE_KEY + ',' +
                                   
@@ -119,6 +120,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[CLOTHES_CHECK_METHOD_KEY]) + ',' +
                      str(experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY]) + ',' +
                      str(experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]) + ',' +
+                     str(experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY]) + ',' +
                      str(experiment_dict[NECK_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY]) + ',' +
                                         
@@ -514,6 +516,7 @@ def video_indexing_experiments(resource_path, params):
     new_experiment_dict[CLOTHES_CHECK_METHOD_KEY] = fs.params[CLOTHES_CHECK_METHOD_KEY] 
     new_experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = fs.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] 
     new_experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = fs.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] 
+    new_experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY] = fs.params[CLOTHING_REC_USE_3_BBOXES_KEY]
     new_experiment_dict[NECK_HEIGHT_KEY] = fs.params[NECK_HEIGHT_KEY] 
     new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = fs.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]    
     
