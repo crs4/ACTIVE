@@ -134,3 +134,6 @@ PLUGIN_MANIFEST_PATH = '/var/spool/active/active_system/plugin_manifest'
 
 # endpoint where will be executed a job processor
 JOB_PROCESSOR_ENDPOINT = "http://156.148.132.79:9000/"
+
+# current version of the ACTIVE core
+ACTIVE_VERSION = '0.1.1'

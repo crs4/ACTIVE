@@ -2,9 +2,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
 from core.plugins.decorators import generate_event
-from core.plugins.models import View, Event, Script, Plugin
+from core.plugins.models import Action, Event, Script, Plugin
 from core.plugins.serializers import EventSerializer
-
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -44,8 +43,8 @@ class EventDetail(EventView):
     def get_object(self, pk):
         """
         Method used to obtain event data by its id.
-        :param pk: Event's id.
-        :returns: Object containing event data if any, HTTP error otherwise.
+        @param pk: Event's id.
+        @returns: Object containing event data if any, HTTP error otherwise.
         """
         try:
             return Event.objects.get(pk=pk)
@@ -55,9 +54,9 @@ class EventDetail(EventView):
     def get(self, request, pk, format=None):
         """
         Method used to return serialized data of a event.
-        :param pk: Event's id.
-        :param format: Format used for data serialization.
-        :returns: Event serialized data.
+        @param pk: Event's id.
+        @param format: Format used for data serialization.
+        @returns: Event serialized data.
         """
         event = self.get_object(pk)
         serializer = EventSerializer(event)
@@ -67,9 +66,9 @@ class EventDetail(EventView):
         """
         Method used to update event information providing
         serialized data.
-        :param pk: event id.
-        :param format: Format used for data serialization.
-        :returns: Event data update status.
+        @param pk: event id.
+        @param format: Format used for data serialization.
+        @returns: Event data update status.
         """
         event = self.get_object(pk)
         serializer = EventSerializer(event, data=request.data)
@@ -81,9 +80,9 @@ class EventDetail(EventView):
     def delete(self, request, pk, format=None):
         """
         Method used to delete event information providing his ID.
-        :param pk: Event id.
-        :param format: Format used for data serialization.
-        :returns: Event data deletion status.
+        @param pk: Event id.
+        @param format: Format used for data serialization.
+        @returns: Event data deletion status.
         """
         event = self.get_object(pk)
         event.delete()

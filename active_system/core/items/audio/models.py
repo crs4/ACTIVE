@@ -4,6 +4,9 @@ from core.items.models import Item
 
 class AudioItem(Item):
     """
+    This class is used to define the content model for
+    audio digital items extending all fields provided by
+    a generic Item object.
     """
     sample_rate = models.IntegerField(null=True)
     bits_per_sample = models.IntegerField(null=True)

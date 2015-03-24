@@ -10,12 +10,39 @@ from core.items.image.serializers import ImageItemSerializer
 
 
 class ImageItemList(EventView):
+    """
+    This class provides all views necessary to list all available
+    ImageItems and to create and store a new one, providing necessary data.
+    """
+
     def get(self, request, format=None):
+	"""
+	Method used to retrieve all stored ImageItems.
+	These objects are serialized in a JSON format and then returned.
+
+	@param request: HttpRequest use to retrieve all ImageItems.
+	@type request: HttpRequest
+	@param format: The format used for object serialization.
+	@type format: string
+	@return: HttpResponse containing all serialized ImageItems.
+	@rtype: HttpResponse
+	"""
 	items = ImageItem.objects.all()
         serializer = ImageItemSerializer(items, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
+	"""
+	Method used to create a new ImageItem object.
+	The object data is provided in a serialized format.
+
+        @param request: HttpRequest used to provide item data.
+        @type request: HttpRequest
+        @param format: The format used for object serialization.
+        @type format: string
+        @return: HttpResponse containing the id of the new ImageItem object, error otherwise.
+        @rtype: HttpResponse
+        """
 	serializer = ImageItemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -27,12 +54,16 @@ class ImageItemDetail(EventView):
     """
     Retrieve, update or delete a ImageItem instance.
     """
+
     def get_object(self, pk):
 	"""
-	Method used to obtain item data by his id.
-	:param pk: Image's id.
-	:returns: Object containing user data if any, HTTP error otherwise.
-	"""
+	Method used to retrieve an ImageItem object by its id.
+
+	@param pk: ImageItem's primary key.
+	@type pk: int
+	@return: Object containing the item retrieve data, error otherwise.
+	@rtype: ImageItem
+        """
         try:
             return ImageItem.objects.get(item_ptr_id = pk)
         except ImageItem.DoesNotExist:
@@ -40,23 +71,36 @@ class ImageItemDetail(EventView):
 
     def get(self, request, pk, format=None):
 	"""
-	Method used to return serialized data of a user.
-	:param pk: User's id.
-	:param format: Format used for data serialization.
-	:returns: Image serialized data.
-	"""
+	Method used to retrieve all data about a specific ImageItem object.
+	Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of an ImageItem object.
+        @type request: HttpRequest
+        @param pk: ImageItem primary key, used to retrieve object data.
+        @type pk: int
+	@param format: Format used for data serialization.
+	@type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
         item = self.get_object(pk)
         serializer = ImageItemSerializer(item)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
 	"""
-	Method used to update user information providing
-	serialized data.
-	:param pk: Image id.
-	:param format: Format used for data serialization.
-        :returns: User data update status.
-	"""
+	Method used to update an ImageItem object data, providing all
+	fresh data in a serialized form.
+
+        @param request: HttpRequest containing the updated ImageItem field data.
+        @type request: HttpRequest
+        @param pk: ImageItem primary key, used to retrieve object data.
+        @type pk: int
+	@param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
         item = self.get_object(pk)
         serializer = ImageItemSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
@@ -66,10 +110,16 @@ class ImageItemDetail(EventView):
 
     def delete(self, request, pk, format=None):
 	"""
-        Method used to delete user information providing his ID.
-        :param pk: Image id.
-        :param format: Format used for data serialization.
-        :returns: User data deletion status.
+        Method used to delete an ImageItem object providing its id.
+
+        @param request: HttpRequest used to delete an ImageItem object.
+        @type request: HttpRequest
+        @param pk: ImageItem primary key, used to retrieve object data.
+        @type pk: int
+	@param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing the result of object deletion.
+        @rtype: HttpResponse
         """
         item = self.get_object(pk)
         item.delete()

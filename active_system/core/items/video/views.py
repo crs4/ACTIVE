@@ -9,19 +9,39 @@ from core.items.video.models import VideoItem
 from core.items.video.serializers import VideoItemSerializer
 
 
-
 class VideoItemList(EventView):
     """
-    This class implements two methods necessary to list all video items data
-    and to insert new video item data, using different HTTP methods. 
+    This class implements two methods necessary to list all VideoItems objects
+    and to create and store a new VideoItem object. 
     """
 
     def get(self, request, format=None):
+	"""
+	Method used to list all stored VideoItem objects.
+	Objects data is returned in a JSON serialized format.
+
+	@param request: HttpRequest used to retrieve VideoItem data.
+        @type request: HttpRequest
+	@param format: The format used to serialize objects data, JSON by default.
+	@type format: string
+	@return: HttpResponse containing all serialized data of retrieved VideoItem objects.
+        @rtype: HttpResponse
+	"""
 	items = VideoItem.objects.all()
         serializer = VideoItemSerializer(items, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
+	"""
+	Method used to create and store a new VideoItem object with the provided data.
+
+	@param request: HttpRequest containing the serialized data that will be used to create a new VideoItem object.
+        @type request: HttpRequest
+	@param format: The format used to serialize objects data, JSON by default.
+        @type format: string
+	@return: HttpResponse containing the id of the new created VideoItem object, error otherwise.
+        @rtype: HttpResponse
+	"""
 	serializer = VideoItemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -33,11 +53,17 @@ class VideoItemDetail(EventView):
     """
     Retrieve, update or delete a video item instance.
     """
+
     def get_object(self, pk):
 	"""
-	Method used to obtain item data by his id.
-	:param pk: User's id.
-	:returns: Object containing user data if any, HTTP error otherwise.
+	Method used to retrieve a VideoItem object using its id.
+	
+	@param request: HttpRequest containing the updated VideoItem field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a VideoItem object.
+	@type pk: int
+	@return: VideoItem object retrieved by the provided id, error if it isn't available.
+        @rtype: VideoItem
 	"""
         try:
             return VideoItem.objects.get(item_ptr_id = pk)
@@ -46,10 +72,17 @@ class VideoItemDetail(EventView):
 
     def get(self, request, pk, format=None):
 	"""
-	Method used to return serialized data of a user.
-	:param pk: User's id.
-	:param format: Format used for data serialization.
-	:returns: User's serialized data.
+	Method used to retrieve data of an existing VideoItem object.
+	The retrieved data is returned in a serialized format, JSON by default.
+
+	@param request: HttpRequest containing the updated VideoItem field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a VideoItem object.
+        @type pk: int
+	@param format: Format used for data serialization.
+	@type format: string
+	@return: HttpResponse containing all serialized data of a VideoItem, error if it isn't available.
+        @rtype: HttpResponse
 	"""
         item = self.get_object(pk)
         serializer = VideoItemSerializer(item)
@@ -57,17 +90,20 @@ class VideoItemDetail(EventView):
 
     def put(self, request, pk, format=None):
 	"""
-	Method used to update user information providing
-	serialized data.
-	:param pk: User's id.
-	:param format: Format used for data serialization.
-        :returns: User data update status.
+	Method used to update stored information of a specific VideoItem object.
+	The fresh data is provided in a serialized format.
+
+	@param request: HttpRequest containing the updated VideoItem field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a VideoItem object.
+        @type pk: int
+	@param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing all update object data.
+        @rtype: HttpResponse
 	"""
         item = self.get_object(pk)
-
         serializer = VideoItemSerializer(item, data=request.data, partial = True)
-	
-
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -75,11 +111,19 @@ class VideoItemDetail(EventView):
 
     def delete(self, request, pk, format=None):
 	"""
-        Method used to delete user information providing his ID.
-        :param pk: User's id.
-        :param format: Format used for data serialization.
-        :returns: User data deletion status.
+        Method used to delete data about a specific VideoItem object, providing its id.
+
+	@param request: HttpRequest used to delete a specific VideoItem.
+        @type request: HttpRequest
+        @param pk: Primary key used to retrieve a VideoItem object.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing the result of object deletion.
+	@rtype: HttpResponse
         """
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+

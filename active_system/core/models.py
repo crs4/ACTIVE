@@ -7,4 +7,4 @@ from core.items.video.models import VideoItem
 from core.items.image.models import ImageItem
 from core.items.audio.models import AudioItem
 
-from core.plugins.models import Plugin, Script, Event, View
+from core.plugins.models import Plugin, Script, Event, Action

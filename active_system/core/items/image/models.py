@@ -1,11 +1,10 @@
 from django.db import models
 from core.items.models import Item
 
-
 class ImageItem(Item):
     """
     This class has been defined in order to extend a generic
-    item and support image specific data.
+    item metadata and support image specific data.
     """
     frame_width = models.IntegerField(null=True)
     frame_height = models.IntegerField(null=True)

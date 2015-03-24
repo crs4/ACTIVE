@@ -27,9 +27,13 @@ class ActiveUserList(APIView):
     def get(self, request, format=None):
 	"""
 	Method used to list all available platform users.
-	:param request: HTTP request.
-	:param format: Format used for data serialization.
-	:returns: List of serialized user information.
+	
+	@param request: HttpRequest used to retrieve User data.
+        @type request: HttpRequest
+	@param format: The format used to serialize objects data, JSON by default.
+	@type format: string
+	@return: HttpResponse containing all serialized data of retrieved User objects.
+        @rtype: HttpResponse
 	"""
         users = ActiveUser.objects.all()
         serializer = ActiveUserSerializer(users, many=True)
@@ -37,10 +41,14 @@ class ActiveUserList(APIView):
 
     def post(self, request, format=None):
 	"""
-	Method used to add infomation about a new user.
-	:param request: HTTP request containing user data.
-        :param format: Format used for data serialization.
-        :returns: List of serialized user information.
+	Method used to create and store a new User object.
+
+	@param request: HttpRequest containing the serialized data that will be used to create a new User object.
+        @type request: HttpRequest
+	@param format: The format used to serialize objects data, JSON by default.
+        @type format: string
+	@return: HttpResponse containing the id of the new created User object, error otherwise.
+        @rtype: HttpResponse	
 	"""
         serializer = ActiveUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -58,8 +66,12 @@ class ActiveUserDetail(APIView):
     def get_object(self, pk):
 	"""
 	Method used to obtain user data by his id.
-	:param pk: User's id.
-	:returns: Object containing user data if any, HTTP error otherwise.
+	@param request: HttpRequest containing the updated User field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a User object.
+	@type pk: int
+	@return: User object retrieved by the provided id, error if it isn't available.
+	@rtype: User
 	"""
         try:
             return ActiveUser.objects.get(pk=pk)
@@ -67,11 +79,18 @@ class ActiveUserDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+	
 	"""
 	Method used to return serialized data of a user.
-	:param pk: User's id.
-	:param format: Format used for data serialization.
-	:returns: User's serialized data.
+
+	@param request: HttpRequest containing the updated User field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a User object.
+        @type pk: int
+	@param format: Format used for data serialization.
+	@type format: string
+	@return: HttpResponse containing all serialized data of a User, error if it isn't available.
+        @rtype: HttpResponse
 	"""
         user = self.get_object(pk)
         serializer = ActiveUserSerializer(user)
@@ -81,9 +100,15 @@ class ActiveUserDetail(APIView):
 	"""
 	Method used to update user information providing
 	serialized data.
-	:param pk: User's id.
-	:param format: Format used for data serialization.
-        :returns: User data update status.
+
+	@param request: HttpRequest containing the updated User field data.
+        @type request: HttpRequest
+	@param pk: Primary key used to retrieve a User object.
+        @type pk: int
+	@param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing all update object data.
+        @rtype: HttpResponse
 	"""
         user = self.get_object(pk)
         serializer = ActiveUserSerializer(user, data=request.data)
@@ -95,9 +120,15 @@ class ActiveUserDetail(APIView):
     def delete(self, request, pk, format=None):
 	"""
         Method used to delete user information providing his ID.
-        :param pk: User's id.
-        :param format: Format used for data serialization.
-        :returns: User data deletion status.
+
+        @param request: HttpRequest used to delete a specific User.
+        @type request: HttpRequest
+        @param pk: Primary key used to retrieve a User object.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing the result of object deletion.
+	@rtype: HttpResponse
         """
         user = self.get_object(pk)
         user.delete()

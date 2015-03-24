@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Event(models.Model):
     """
     This class is used to provide an object representation to
@@ -27,13 +26,13 @@ class Event(models.Model):
 	return self.name
 
 
-class View(models.Model):
+class Action(models.Model):
     """
     This class is used to provide an object representation to
-    Views objects providing all necessary data. A View object
+    Views objects providing all necessary data. A Action object
     is the entity which trigger one or more Event objects.
     In this case it is a function that is called and executed correctely.
-    Moreover a View could trigger ONLY one Event.
+    Moreover a Action could trigger ONLY one Event.
     """
     path_abs = models.CharField(max_length=300)
     event = models.ForeignKey(Event)
@@ -43,6 +42,7 @@ class View(models.Model):
 
     def __unicode__(self):
         return self.path_abs
+
 
 
 class Plugin(models.Model):
@@ -85,7 +85,3 @@ class Script(models.Model):
 
     def __repr__(self):
         return self.title
-
-
-
-

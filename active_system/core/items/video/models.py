@@ -3,11 +3,9 @@ from core.items.models import Item
 
 class VideoItem(Item):
     """
-    This class is used to provide an object representation to a generic
-    video item, extending the base attributes of an item with specific ones.
+    This class is used to define the content model of video digital item, 
+    extending the base attributes provided by a generic digital item.
     """
-    # TODO decidere se i campi sono obbligatori o possono essere nulli
-    # inizialmente per poi essere compilati da appositi script
     frame_rate = models.IntegerField(null=True)
     frame_width = models.IntegerField(null=True)
     frame_height = models.IntegerField(null=True)
@@ -17,6 +15,3 @@ class VideoItem(Item):
     def __init__(self, *args, **kwargs):
         super(VideoItem,self).__init__(*args, **kwargs)
         self.type = 'video'
-
-    def __repr__(self):
-        return 'VideoItem ', self.filename

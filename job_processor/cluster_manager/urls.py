@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from cluster_manager.views import ClusterDetail, NodeDetail
 
 urlpatterns = [
-    url(r'^node/(?P<id>\S+)/$', NodeDetail.as_view()),
+    url(r'^node/(?P<id>[a-zA-Z0-9\@]+)/$', NodeDetail.as_view()),
     url(r'^cluster/$', ClusterDetail.as_view()),
 ]
 

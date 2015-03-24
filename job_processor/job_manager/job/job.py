@@ -1,6 +1,8 @@
+from abc import abstractmethod
+from skeleton.visitors import Executor
+from skeleton.skeletons import Seq
 import uuid
 import time
-from abc import abstractmethod
 
 class Job:
 	"""
@@ -40,6 +42,7 @@ class Job:
 			self.set_start_end()
 			self.result = apply(self.executor, self.args)
 		except Exception as ex:
+			print ex
 			self.error_info =  ex
 			self.result = None
 		finally:
@@ -109,6 +112,42 @@ class PlainJob(Job):
 	def stop(self, info=None):
 		if(info):
 			self.error_info = info
+
+# TODO provare ad integrare in modo trasparente la computazione distribuita
+class DistributedJob(Job):
+        """
+        This class is used as a wrapper for the distributed computing of a function over
+	one of the available cluster nodes (workers). It used the skeleton framework to
+	ensure that the function is distributed over the cluster.
+        """
+
+	def __call__(self, args=None):
+                try:
+                        self.set_start_end()
+			# function that must be executed
+			f = Executor().eval
+			# parameters that will be passed
+			p = [Seq(self.executor), self.args]
+                        self.result = apply(f, p)
+                except Exception as ex:
+                        print ex
+                        self.error_info =  ex
+                        self.result = None
+                finally:
+                        self.set_start_end()
+                return self.result
+
+        def compute_progress(self):
+                """
+                Basic function used to detect processing progress.
+                """
+                if(self.result):
+                        return 100
+                return 0
+
+        def stop(self, info=None):
+                if(info):
+                        self.error_info = info
 
 class SkeletonJob(Job):
 	"""

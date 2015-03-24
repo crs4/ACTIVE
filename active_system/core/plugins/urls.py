@@ -1,14 +1,11 @@
 from django.conf.urls import patterns, include, url
-
 from rest_framework.urlpatterns import format_suffix_patterns
-from core.plugins.views import EventDetail, EventList
+
+from core.plugins.plugin.urls import urlpatterns as plugin_patterns
+from core.plugins.event.urls  import urlpatterns as event_patterns
+from core.plugins.script.urls import urlpatterns as script_patterns
+from core.plugins.action.urls import urlpatterns as action_patterns
 
 
-urlpatterns = [
-    url(r'^events/$', EventList.as_view()),
-    url(r'^events/(?P<pk>[0-9]+)/$', EventDetail.as_view()),
-]
-
+urlpatterns = plugin_patterns + event_patterns + script_patterns + action_patterns
 urlpatterns = format_suffix_patterns(urlpatterns)
-
-

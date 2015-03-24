@@ -93,11 +93,11 @@ CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Europe/Rome"
 CELERYD_POOL_RESTARTS = True
 
-# path where all plugins will be stored and searched
-PLUGIN_SCRIPT_DIRECTORY = '/var/spool/active/job_processor/plugins_script/'
+# python module containing plugins that will be stored and searched
+PLUGIN_SCRIPT_MODULE = 'plugins_script'
 
 # endpoint associated to the ACTIVE core instance
 ACTIVE_CORE_ENDPOINT = "http://156.148.132.79:8000/"
 
-
-MEDIA_ROOT="/var/spool/active/data/items/"
+# dictetory where all digital items are stored and shared among the cluster
+MEDIA_ROOT="/var/spool/active/data/items"

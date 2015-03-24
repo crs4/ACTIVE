@@ -1,12 +1,9 @@
 from django.http import HttpResponse, Http404, HttpRequest
 from core.items.models import Item
 
-from core.items.video.views import VideoItemList
-from core.items.video.views import VideoItemDetail
-from core.items.audio.views import AudioItemList
-from core.items.audio.views import AudioItemDetail
-from core.items.image.views import ImageItemList
-from core.items.image.views import ImageItemDetail
+from core.items.video.views import VideoItemList, VideoItemDetail
+from core.items.audio.views import AudioItemList, AudioItemDetail
+from core.items.image.views import ImageItemList, ImageItemDetail
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view 
@@ -15,11 +12,6 @@ from rest_framework import status
 
 import json
 
-"""
-stringa per testare l'upload di elementi distinti
-curl -F "filename=dfdf" -F "owner=1" -F "duration=34567" -F "bitrate=454" -F "format=mpeg4" -F "file=@/var/spool/active/data/hand.png;type=image/video" 156.148.132.79:8000/api/items/
-"""
-
 
 """
 This file contains all methods necessary to invoke the correct view
@@ -27,22 +19,23 @@ for each digital item. The decision is based on the file type.
 
 There are two view routers, one for CRUD operations while the other for
 list all items togheter and for create a new item.
-
-when a digital item is uploaded:
- - a unique id is created
- - a directory with this id as name is created on the file system
- - item creation and file storing is responsibility of the specific
-   item view, that is invoked by file type.
-
 """
 
 
 @csrf_exempt
 @api_view(('GET','POST'))
-def routerList(request):
+def routerList(request, items_type='ALL'):
 	"""
 	Function used to invoke the correct view based on the
 	type of the multimedia file.
+	It is possible to filter stored items by their file type.
+
+	@param request: The HttpRequest used to retrieve items data.
+	@type request: HttpRequest
+	@param items_type: A field used to retrieve only specific types of digital items
+	@type items_type: string
+	@return: The HttpResponse object containing all retrieved items data.
+	@rtype: HttpResponse
 	"""
 	# dictionary used to invoke the correct set of views
 	mapping = {'video': VideoItemList.as_view(),
@@ -58,10 +51,11 @@ def routerList(request):
 			return mapping[type](request)
 		return HttpResponse('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
 
-	# return the list of items, serialized by type
+	# return the list of items, serialized and filtered by type
 	res = []
 	for type in mapping.keys():
-		res += mapping[type](request).data
+		if items_type == 'ALL' or items_type == type:
+			res += mapping[type](request).data
 	return Response(res)
 
 
@@ -70,11 +64,19 @@ def routerDetail(request, pk):
 	"""
 	Function used to invoke the correct CRUD view based on the
 	type of the multimedia file.
+
+	@param request: The HttpRequest used to retrieve item data.
+	@type request: HttpRequest
+	@param pk: Primary key of the requested digital item
+	@type pk: int
+	@return: An HttpResponse object containing item data or an error.
+	@rtype: HttpResponse
 	"""
 	# dictionary used to invoke the correct set of views
 	mapping = {'video': VideoItemDetail.as_view(),
 		   'image': ImageItemDetail.as_view(),
                    'audio': AudioItemDetail.as_view()}
+	
 	# obtain an item and its specific data type
 	try:
 		i = Item.objects.get(pk=pk)

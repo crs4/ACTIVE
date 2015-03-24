@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 import core.users.urls
 import core.items.urls
 import core.plugins.urls
-
 #import jobmonitor.urls
 
 

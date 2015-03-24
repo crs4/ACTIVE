@@ -49,8 +49,11 @@ class ClusterManager:
                 """
                 Method used to obtain some information about a specific node of the cluster.
 		It is necessary to provide the name (ID) of the cluster node.
+		
 		:param id: The name used to identify a specific node of the cluster.
-		:returns: A dictionary with all informations associated to the specified node. None in case of error.
+		:type id: string
+		:return: A dictionary with all informations associated to the specified node. None in case of error.
+		:rtype: dictionary
                 """
                 pass
 
@@ -66,7 +69,7 @@ class CeleryManager(ClusterManager):
 		# TODO!!!!!!!!!!!
 		# unfortunately there is no way to start
 		# celery nodes programmatically but they must be
-		# started by command line or in deamon mode
+		# started by command line or in deamon mode on each node
 		return False
 
 	def stop(self):
