@@ -118,7 +118,7 @@ class FaceExtractor(object):
         :param params: configuration parameters (see table)
         '''
 
-		self.params = params;
+        self.params = params;
 
         self.face_models = face_models;
 
@@ -140,8 +140,13 @@ class FaceExtractor(object):
         error = None;
         
         # Face detection
+        align_path = ALIGNED_FACES_PATH
+        if((self.params is not None) and 
+        (ALIGNED_FACES_PATH_KEY in self.params)):
+			
+			align_path = self.params[ALIGNED_FACES_PATH_KEY]
 
-        detection_result = detect_faces_in_image(resource_path, params, False)
+        detection_result = detect_faces_in_image(resource_path, align_path, self.params, False)
         
         detection_error = detection_result[ERROR_KEY]
         
@@ -156,20 +161,37 @@ class FaceExtractor(object):
             faces = []
             #face=cv2.imread(resource_path,cv2.IMREAD_GRAYSCALE);
             #face_images=[face]
-            for dec_face_dict in face_images:
+            for det_face_dict in face_images:
                 
                 face_dict = {}
                 
-                face = dec_face_dict[FACE_KEY]
-                bbox = dec_face_dict[BBOX_KEY]
+                face = det_face_dict[FACE_KEY]
+                bbox = det_face_dict[BBOX_KEY]
                 
                 # Resize face
-                resize_face = False
+                resize_face = USE_RESIZING
+                
+                if((self.params is not None) and 
+                (USE_RESIZING_KEY in self.params)):
+                    
+                    resize_face = self.params[USE_RESIZING_KEY]
+                
                 if(resize_face):
-                    new_size = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
+                    
+                    face_width = CROPPED_FACE_WIDTH
+                    face_height = CROPPED_FACE_HEIGHT
+                    
+                    if((self.params is not None) and 
+                    (CROPPED_FACE_WIDTH_KEY in self.params) and
+                    (CROPPED_FACE_HEIGHT_KEY in self.params)):
+                        
+                        face_width = self.params[CROPPED_FACE_WIDTH_KEY]
+                        face_height = self.params[CROPPED_FACE_HEIGHT_KEY]
+                    
+                    new_size = (face_width, face_height)
                     face = cv2.resize(face, new_size)
                 
-                rec_result = recognize_face(face, self.face_models, params, False)
+                rec_result = recognize_face(face, self.face_models, self.params, False)
                 
                 tag = rec_result[ASSIGNED_TAG_KEY]
                 confidence = rec_result[CONFIDENCE_KEY]

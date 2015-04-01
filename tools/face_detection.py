@@ -195,7 +195,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
 
             face_dict[BBOX_KEY] = face_list
             
-            if(USE_EYES_POSITION):
+            if(use_eyes_position):
                 crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
 
                 if(crop_result):
@@ -226,7 +226,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             #################
         #result[FACE_IMAGES_KEY] = face_images
         result[FACES_KEY] = faces_final
-
+        #show_results = True #TEST ONLY
         if(show_results):
             
             image = cv2.imread(resource_path, cv2.IMREAD_COLOR)
@@ -357,30 +357,35 @@ def get_detected_cropped_face(image_path, align_path, params = None, return_alwa
     :param return_always_face: if true, face is always returned
     '''
 
-    detection_result = detect_faces_in_image(image_path, params, False, return_always_face)
-
-    face_images = detection_result[FACE_IMAGES_KEY]
-
-    if(len(face_images) == 1):
-
-        face_image = face_images[0]
-        if(USE_HIST_EQ_IN_CROPPED_FACES):
-           face_image = cv2.equalizeHist(face_image)
-
-        if(USE_NORM_IN_CROPPED_FACES):
-           face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
-
-        if(USE_CANNY_IN_CROPPED_FACES):
-           face_image = cv2.Canny(face_image, 0.1,100)
-           
-        if(USE_TAN_AND_TRIGG_NORM):
-           face_image = normalize_illumination(face_image)
-           
-        # Insert oval mask in image
-        if(USE_OVAL_MASK):
-            face_image = add_oval_mask(face_image)
+    detection_result = detect_faces_in_image(image_path, align_path, params, False, return_always_face)
+    
+    if(detection_result and (FACES_KEY in detection_result)):
         
-        return face_image
+        faces = detection_result[FACES_KEY]
+    
+        if((len(faces) == 1) and (FACE_KEY in faces[0])):
+    
+            face_image = faces[0][FACE_KEY]
+            if(USE_HIST_EQ_IN_CROPPED_FACES):
+               face_image = cv2.equalizeHist(face_image)
+    
+            if(USE_NORM_IN_CROPPED_FACES):
+               face_image = cv2.normalize(face_image, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
+    
+            if(USE_CANNY_IN_CROPPED_FACES):
+               face_image = cv2.Canny(face_image, 0.1,100)
+               
+            if(USE_TAN_AND_TRIGG_NORM):
+               face_image = normalize_illumination(face_image)
+               
+            # Insert oval mask in image
+            if(USE_OVAL_MASK):
+                face_image = add_oval_mask(face_image)
+            
+            return face_image
+        else:
+            return None
+            
     else:
         return None
 
@@ -721,8 +726,11 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
         
         if(params is not None):
             
-            use_nose_pos_in_detection = params[USE_NOSE_POS_IN_DETECTION_KEY]
-            use_nose_pos_in_recognition = params[USE_NOSE_POS_IN_RECOGNITION_KEY]
+            if(USE_NOSE_POS_IN_DETECTION_KEY in params):
+                use_nose_pos_in_detection = params[USE_NOSE_POS_IN_DETECTION_KEY]
+                
+            if(USE_NOSE_POS_IN_RECOGNITION_KEY in params):
+                use_nose_pos_in_recognition = params[USE_NOSE_POS_IN_RECOGNITION_KEY]
         
         if(use_nose_pos_in_detection or use_nose_pos_in_recognition):
             
