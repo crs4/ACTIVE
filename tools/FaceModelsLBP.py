@@ -44,7 +44,7 @@ class FaceModelsLBP():
 
         use_captions = USE_CAPTIONS
         
-        if(params is not None):
+        if((params is not None) and (USE_CAPTIONS_KEY in params)):
             
             use_captions = params[USE_CAPTIONS_KEY]
 
@@ -340,7 +340,7 @@ class FaceModelsLBP():
 
         use_captions = USE_CAPTIONS
         
-        if(self._params is not None):
+        if((self._params is not None) and (USE_CAPTIONS_KEY in self._params)):
             
             use_captions = self._params[USE_CAPTIONS_KEY]
 
@@ -466,7 +466,7 @@ class FaceModelsLBP():
         c = 0
         X,y = [], []
         
-        print('size', sz)
+        #print('size', sz)
         
         # Set parameters
         align_path = ALIGNED_FACES_PATH
@@ -495,7 +495,15 @@ class FaceModelsLBP():
                     #print "image path", os.path.join(subject_path, filename)
                     try:
                         
-                        if(use_eyes_pos_in_training):
+                        if(use_face_det_in_training):
+                            im = get_detected_cropped_face(os.path.join(subject_path, filename), align_path, self._params, return_always_face = False)
+##                                if(not(im == None)):
+##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
+##                                    cv2.imshow('Training image', im);
+##                                    cv2.waitKey(0);
+                        
+                        elif(use_eyes_pos_in_training):
+                            
                             if(use_eye_det_in_training):
                                 im = None
                                 crop_result = get_cropped_face(os.path.join(subject_path, filename), align_path, self._params, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
@@ -503,25 +511,21 @@ class FaceModelsLBP():
                                     im = crop_result[FACE_KEY]
 
                             else:
-                                im = get_cropped_face_using_fixed_eye_pos(os.path.join(subject_path, filename), align_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)
-
+                                im = get_cropped_face_using_fixed_eye_pos(os.path.join(subject_path, filename), align_path, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz)                               
+                        
                         else:
-                            if(use_face_det_in_training):
-                                im = get_detected_cropped_face(os.path.join(subject_path, filename), align_path, self._params, return_always_face = False)
-##                                if(not(im == None)):
-##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
-##                                    cv2.imshow('Training image', im);
-##                                    cv2.waitKey(0);
-                            else:
-                                im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
-                                #resize to given size (if given)
-                                if ((im is not None) and (sz is not None)):
-                                    im = cv2.resize(im, sz)
+                            im = cv2.imread(os.path.join(subject_path, filename), cv2.IMREAD_GRAYSCALE)
+                            #resize to given size (if given)
+                            if ((im is not None) and (sz is not None)):
+                                im = cv2.resize(im, sz)
 ##                                if(not(im == None)):
 ##                                    cv2.namedWindow('Training image', cv2.WINDOW_AUTOSIZE);
 ##                                    cv2.imshow('Training image', im);
 ##                                    cv2.waitKey(0);
                         if(im is not None):
+                            
+                            #cv2.imshow('im', im)
+                            #cv2.waitKey(0)
 
                             X.append(np.asarray(im, dtype=np.uint8))
                             y.append(c)

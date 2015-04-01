@@ -5,19 +5,20 @@ sys.path.append("../../..")
 from os import listdir, path
 from tools.Constants import *
 from tools.face_detection import get_cropped_face, get_cropped_face_using_eye_pos
-from tools.face_extractor import FaceExtractor
+from tools.face_extractor_old import FaceExtractor
 from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
-USE_FACEEXTRACTOR = False # True if recognition is carried out by using FaceExtractor class
+USE_FACEEXTRACTOR = True # True if recognition is carried out by using FaceExtractor class
 
 # Save in csv file given list of experiments
 def save_rec_experiments_in_CSV_file(file_path, experiments):
     stream = open(file_path, 'w')
 
     # Write csv header
-    stream.write(EXPERIMENT_NUMBER_KEY + ',' + EXPERIMENT_ALGORITHM_KEY + ',' +
+    stream.write(EXPERIMENT_NUMBER_KEY + ',' + TEST_SET_PATH_KEY + ',' +
+                 EXPERIMENT_ALGORITHM_KEY + ',' +
                  LBP_RADIUS_KEY + ',' + LBP_NEIGHBORS_KEY + ',' +
                  LBP_GRID_X_KEY + ',' + LBP_GRID_Y_KEY + ',' +
                  PERSON_IMAGES_NR_KEY + ',' + TRAINING_IMAGES_NR_KEY + ',' +
@@ -34,6 +35,7 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
         experiment_dict = experiment_dict_extended[EXPERIMENT_KEY]
         
         stream.write(str(experiment_dict[EXPERIMENT_NUMBER_KEY]) + ',' +
+                     experiment_dict[TEST_SET_PATH_KEY] + ',' +
                      experiment_dict[EXPERIMENT_ALGORITHM_KEY] + ',' +
                      str(experiment_dict[LBP_RADIUS_KEY]) + ',' +
                      str(experiment_dict[LBP_NEIGHBORS_KEY]) + ',' +
@@ -81,22 +83,28 @@ def fr_test(params, show_results):
     
             recognition_results = recognize_face(image, None, params, show_results)
     
-            error = recognition_results[ERROR_KEY]
-    
-            if(len(error) == 0):
-    
-                tag = recognition_results[ASSIGNED_TAG_KEY]
-    
-                confidence = recognition_results[CONFIDENCE_KEY]
-    
-                if(len(tag) == 0):
+            if(recognition_results is not None):
+                
+                error = recognition_results[ERROR_KEY]
+        
+                if(len(error) == 0):
+        
+                    tag = recognition_results[ASSIGNED_TAG_KEY]
+        
+                    confidence = recognition_results[CONFIDENCE_KEY]
+        
+                    if(len(tag) == 0):
+                        
+                        test_passed = False
+        
+                    if(confidence < 0):
+                        test_passed = False
+                else:
+        
+                    test_passed = False
                     
-                    test_passed = False
-    
-                if(confidence < 0):
-                    test_passed = False
             else:
-    
+                
                 test_passed = False
     
         except IOError, (errno, strerror):
@@ -233,7 +241,7 @@ def fr_experiments(params, show_results):
 
                     if(USE_FACEEXTRACTOR):
 
-                        fe = FaceExtractor(fm)
+                        fe = FaceExtractor(fm, params)
 
                         handle = fe.extractFacesFromImage(image_complete_path)
 
@@ -296,14 +304,17 @@ def fr_experiments(params, show_results):
                         else:
                             if (sz is not None):
                                 face = cv2.resize(face, sz)
-                    
-                        rec_results = recognize_face(face, fm, params, show_results)
+                        
+                        if(face is not None):
+                            face = face[FACE_KEY]
+                        
+                            rec_results = recognize_face(face, fm, params, show_results)
 
-                        # Add recognition time to total
-                        mean_rec_time = mean_rec_time + rec_results[ELAPSED_CPU_TIME_KEY]
-                    
-                        assigned_tag = rec_results[ASSIGNED_TAG_KEY]
-                        confidence = rec_results[CONFIDENCE_KEY]
+                            assigned_tag = rec_results[ASSIGNED_TAG_KEY]
+                            confidence = rec_results[CONFIDENCE_KEY]
+                        
+                            # Add recognition time to total
+                            mean_rec_time = mean_rec_time + rec_results[ELAPSED_CPU_TIME_KEY]
 
                     image_dict = {}
 
@@ -394,12 +405,6 @@ def fr_experiments(params, show_results):
 
     mean_rec_time = mean_rec_time / total_test_images_nr
 
-    mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list))
-    std_true_pos_confidence = float(numpy.std(true_pos_confidence_list))
-
-    mean_false_pos_confidence = float(numpy.mean(false_pos_confidence_list))
-    std_false_pos_confidence = float(numpy.std(false_pos_confidence_list))
-
     print("\n ### RESULTS ###\n")
 
     print('Recognition rate: ' + str(recognition_rate*100) + '%')
@@ -420,12 +425,18 @@ def fr_experiments(params, show_results):
     print('Standard deviation of f1: ' + str(std_f1))
     print('Mean recognition time: ' + str(mean_rec_time) + ' s\n')
     
-    print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence))
-    print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence))
-    print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence))
-    print('Standard deviation of confidence for false positives: ' + str(std_false_pos_confidence))
+    if(len(true_pos_confidence_list) > 0):
+        mean_true_pos_confidence = float(numpy.mean(true_pos_confidence_list))
+        std_true_pos_confidence = float(numpy.std(true_pos_confidence_list))
+        print('Mean of confidence for true positives: ' + str(mean_true_pos_confidence))
+        print('Standard deviation of confidence for true positives: ' + str(std_true_pos_confidence))
     
-
+    if(len(false_pos_confidence_list) > 0): 
+        mean_false_pos_confidence = float(numpy.mean(false_pos_confidence_list))
+        std_false_pos_confidence = float(numpy.std(false_pos_confidence_list))  
+        print('Mean of confidence for false positives: ' + str(mean_false_pos_confidence))
+        print('Standard deviation of confidence for false positives: ' + str(std_false_pos_confidence))
+    
     # Update YAML file with results related to all the experiments
     number_of_already_done_experiments = 0
 
@@ -441,6 +452,7 @@ def fr_experiments(params, show_results):
     training_images_nr = TRAINING_IMAGES_NR
     cropped_face_height = CROPPED_FACE_HEIGHT
     cropped_face_width = CROPPED_FACE_WIDTH
+    test_set_path = FACE_RECOGNITION_TEST_SET_PATH
 
     if(params is not None):
         algorithm_name = params[FACE_MODEL_ALGORITHM_KEY]
@@ -451,7 +463,8 @@ def fr_experiments(params, show_results):
         person_images_nr = params[PERSON_IMAGES_NR_KEY]
         training_images_nr = params[TRAINING_IMAGES_NR_KEY]
         cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
-        cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]        
+        cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]
+        test_set_path = params[TEST_SET_PATH_KEY]        
     
     new_experiment_dict[EXPERIMENT_ALGORITHM_KEY] = algorithm_name
     
@@ -474,6 +487,7 @@ def fr_experiments(params, show_results):
     new_experiment_dict[STD_F1_KEY] = std_f1
     new_experiment_dict[MEAN_RECOGNITION_TIME_KEY] = mean_rec_time
     new_experiment_dict[MODEL_CREATION_TIME_KEY] = fm.model_creation_time
+    new_experiment_dict[TEST_SET_PATH_KEY] = test_set_path
     rec_dict[GLOBAL_RESULTS_KEY] = new_experiment_dict
     rec_dict[IMAGES_KEY] = images_list_for_YAML
     rec_dict[PEOPLE_KEY] = people_list_for_YAML

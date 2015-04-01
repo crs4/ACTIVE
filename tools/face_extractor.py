@@ -22,6 +22,8 @@ import shutil
 
 import sys
 
+from caption_recognition import get_tag_from_image
+
 from Constants import *
 
 from Utils import aggregate_frame_results, compare_clothes, get_dominant_color, get_hist_difference, get_mean_intra_distance, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
@@ -51,6 +53,8 @@ class FaceExtractor(object):
         
         # List of tracked faces not considered
         self.disc_tracked_faces = [] 
+        
+        self.faces_nr = {} # Number of faces for each frame
         
         self.frame_list = [] # List of frame paths
         
@@ -172,7 +176,7 @@ class FaceExtractor(object):
         
         if(use_people_clustering):    
             
-            self.recognizeFacesInVideo()
+            self.clusterFacesInVideo()
     
             #self.saveRecPeople(True) # TEST ONLY
             
@@ -194,6 +198,8 @@ class FaceExtractor(object):
             self.saveTempPeopleFiles()
             
             self.showRecPeople()
+            
+            #self.recognizeFacesInVideo()
             
             if(sim_user_ann):
             
@@ -586,6 +592,70 @@ class FaceExtractor(object):
             save_YAML_file(anal_file_path, self.anal_times)
 
 
+    def getFacesNr(self):
+        '''
+        Get number of faces in each frame
+        It works by using list of tracked faces
+        '''
+        
+        res_name = self.resource_name
+        
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        if(len(self.tracked_faces) == 0):
+            
+            # Try to load YAML file
+            track_path = os.path.join(video_path, FACE_TRACKING_DIR) 
+            
+            file_name = res_name + '.YAML'
+                
+            file_path = os.path.join(track_path, file_name)
+            
+            if(os.path.exists(file_path)):
+                
+                print 'Loading YAML file with tracking results'
+                
+                with open(file_path) as f:
+    
+                    self.tracked_faces = yaml.load(f) 
+                    
+                print 'YAML file with tracking results loaded'
+                    
+            else:
+                
+                print 'Warning! No tracking results found!'
+                
+                return  
+                
+        self.faces_nr = {}
+        
+        for segment_dict in self.tracked_faces:
+            
+            frame_list = segment_dict[FRAMES_KEY]
+            
+            for frame_dict in frame_list:
+            
+                frame_path = frame_dict[FRAME_PATH_KEY]
+            
+                if(frame_path in self.faces_nr):
+                
+                    self.faces_nr[frame_path] = self.faces_nr[frame_path] + 1
+                
+                else:
+                
+                    self.faces_nr[frame_path] = 1 
+    
+    
     def trackFacesInVideo(self):
         '''
         Track faces on analyzed video.
@@ -2690,9 +2760,9 @@ class FaceExtractor(object):
             save_YAML_file(anal_file_path, self.anal_times)
     
     
-    def recognizeFacesInVideo(self):       
+    def clusterFacesInVideo(self):       
         '''
-        Recognize distinct faces on analyzed video,
+        Cluster faces on analyzed video,
         assigning a generic tag to each face.
         It works by using a list of tracked faces
         '''   
@@ -2711,7 +2781,7 @@ class FaceExtractor(object):
            
         video_path = os.path.join(video_indexing_path, res_name)
         
-        # Directory for recognition results
+        # Directory for clustering results
         rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR)  
         
         # Directory for face models
@@ -2957,8 +3027,120 @@ class FaceExtractor(object):
             anal_file_path = os.path.join(video_path, anal_file_name)
             
             save_YAML_file(anal_file_path, self.anal_times)
-  
+    
         
+    def recognizeFacesInVideo(self):
+        '''
+        Recognize faces on analyzed video,
+        assigning a tag to each face.
+        It works by using a list of people clusters
+        '''  
+        
+        res_name = self.resource_name
+        
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        # Directory for recognition results
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        rec_file_path = os.path.join(rec_path, file_name)
+        
+        rec_loaded = False
+        
+        # Try to load YAML file with recognition results
+        if(os.path.exists(rec_file_path)):
+            
+            print 'Loading YAML file with recognition results'
+            
+            rec_faces = load_YAML_file(rec_file_path)
+            
+            if(rec_faces):
+                
+                self.recognized_faces = rec_faces
+                
+                print 'YAML file with recognition results loaded'
+                
+                rec_loaded = True   
+                
+        if(not(rec_loaded)):
+            
+            # Check existence of clustering results
+            
+            cluster_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR)
+            
+            file_name = res_name + '.YAML'
+            
+            file_path = os.path.join(cluster_path, file_name)
+            
+            if(len(self.recognized_faces) == 0):
+            
+                # Try to load YAML file
+                if(os.path.exists(file_path)):
+                    
+                    print 'Loading YAML file with recognition results'
+                    
+                    with open(file_path) as f:
+        
+                        self.recognized_faces = yaml.load(f) 
+                        
+                    print 'YAML file with recognition results loaded'
+                        
+                else:
+                    
+                    print 'Warning! No recognition results found!'
+                    
+                    return 
+                    
+        print '\n\n### People recognition ###\n'
+            
+        # Save processing time
+        start_time = cv2.getTickCount()            
+                    
+        # Get number of faces in each frame
+        self.getFacesNr()
+        
+        print(self.faces_nr)
+        
+        p_counter = 0
+        
+        clusters_nr = float(len(self.recognized_faces))
+        
+        # Iterate through people clusters
+        for person_dict in self.recognized_faces:
+            
+            self.progress = 100 * (p_counter / clusters_nr)
+        
+            print('progress: ' + str(self.progress) + ' %          \r'),
+            
+            segment_list = person_dict[SEGMENTS_KEY]
+            
+            # Iterate through segments related to this person
+            for segment_dict in segment_list:
+				
+				frame_list = segment_dict[FRAMES_KEY]
+				
+				for frame_dict in frame_list:
+					
+					frame_path = frame_dict[FRAME_PATH_KEY]
+					
+					# Check if this is the only face in this frame
+					if((frame_path in self.faces_nr) 
+					and (self.faces_nr[frame_path] == 1)):
+						
+						# Execute caption recognition
+						gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)       
+    
+    
     def getFaceFromSegmentFrame(self, segment_frame_dict, align_path):
         '''
         Get face from frame of one tracking segment.

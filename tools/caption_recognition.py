@@ -6,13 +6,13 @@ import tesseract
 from Constants import *
 from itertools import permutations
 
-def get_tags_from_file():
+def get_tags_from_file(tags_file_path):
     
-    with open(TAGS_FILE_PATH, 'r') as file:
+    with open(TAGS_FILE_PATH, 'r') as f:
     
-        tags = file.read().splitlines()
+        tags = f.read().splitlines()
         
-    file.close()
+    f.close()
     
     if(len(tags) > 0):
     
@@ -233,12 +233,23 @@ def check_permutations(lett_counter, label_parts, words):
                 
     return lett_counter
 
-def get_tag_from_image(image_path):
+
+def get_tag_from_image_old(image_path):
     '''
     Find tag in image captions
     
     :param image_path: string
     :type image_path: path of image to be analyzed
+    '''
+    gray
+
+
+def get_tag_from_image(gray_im):
+    '''
+    Find tag in image captions
+    
+    :param gray_im: image to be analyzed
+    :type gray_im: OpenCV grayscale image
     '''
     
     # Tesseract init
@@ -248,9 +259,7 @@ def get_tag_from_image(image_path):
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
     api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
     
-    rgb_im = cv2.imread(image_path) # TEST ONLY
-    
-    gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE);
+    #rgb_im = cv2.imread(image_path) # TEST ONLY
     
     #print(im_height)
     

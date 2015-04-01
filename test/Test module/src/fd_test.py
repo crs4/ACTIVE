@@ -48,7 +48,7 @@ def fd_test(params, show_results):
     image_path = SOFTWARE_TEST_FILE_PATH
     if params is not None:
         
-        image_path = params[SOFTWARE_TEST_FILE_KEY]
+        image_path = params[SOFTWARE_TEST_FILE_PATH_KEY]
 
     test_passed = True
 

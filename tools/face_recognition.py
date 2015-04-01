@@ -511,7 +511,7 @@ def recognize_face_base(face, face_models, params, show_results):
 
     fm = face_models
     if(face_models == None):
-        fm = FaceModelsLBP()
+        fm = FaceModelsLBP(params)
 
     start_time = cv2.getTickCount()
     
@@ -519,7 +519,7 @@ def recognize_face_base(face, face_models, params, show_results):
 
     tag = fm.get_tag(label)
     
-    #print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
+    print "Predicted tag = %s (confidence=%.2f)" % (tag, confidence) # TEST ONLY
 
     rec_time_in_clocks = cv2.getTickCount() - start_time
     rec_time_in_seconds = rec_time_in_clocks / cv2.getTickFrequency()
@@ -553,16 +553,20 @@ def recognize_face(face, face_models, params, show_results):
     
     result = None
     
-    if(USE_ONE_FILE_FOR_FACE_MODELS):
-        
-        #result = recognize_face_from_models_file(
-        #face, face_models, params, show_results)
-        result = recognize_face_base(
-        face, face_models, params, show_results)
-        
-    else:
-        
-        result = recognize_face_from_model_files(
-        face, face_models, params, show_results)
+    use_one_file = USE_ONE_FILE_FOR_FACE_MODELS
+    
+    if((params is not None) and (USE_ONE_FILE_FOR_FACE_MODELS_KEY in params)):
+    
+	    if(USE_ONE_FILE_FOR_FACE_MODELS):
+	        
+	        #result = recognize_face_from_models_file(
+	        #face, face_models, params, show_results)
+	        result = recognize_face_base(
+	        face, face_models, params, show_results)
+	        
+	    else:
+	        
+	        result = recognize_face_from_model_files(
+	        face, face_models, params, show_results)
 
     return result

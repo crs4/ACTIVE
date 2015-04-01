@@ -1535,9 +1535,7 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bbo
                     
                     sim = True
                     
-                #else:
-                    
-                    #raw_input('Aspetta poco poco ...') # TEST ONLY
+                #raw_input('Aspetta poco poco ...') # TEST ONLY
         
     return sim
     
@@ -1560,7 +1558,7 @@ def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
     :returns: distance value
     '''
     
-    mean = 0
+    min_distance = 0
     
     counter1 = 0
     len_model1 = len(model1)
@@ -1630,9 +1628,11 @@ def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
     
     if(len(mins_list) > 0):
     
-            mean = np.mean(mins_list)
+            min_distance = min(mins_list)
+            #print('mean inter distance', np.mean(mins_list))
+            #print('min inter distance', min_distance)
     
-    return mean 
+    return min_distance 
     
     
 def get_mean_intra_distance(model, used_3_bboxes = False):
