@@ -15,42 +15,42 @@ from tools.Utils import *
 resource_paths = [r'C:\Active\RawVideos\fic.02.mpg', r'C:\Active\RawVideos\MONITOR072011.mpg'] # Palladium
 
 #video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
-video_idx_path_base = r'C:\Active\Face summarization' # Palladium
+video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
 #test_counter = 0 # Portatile MP
 test_counter = 109 # Palladium
      
-#update_after_merging = True # Portatile MP
-update_after_merging = False # Palladium
+update_after_merging = False
             
-#use_aggregation = False # Portatile MP
-use_aggregation = False # Palladium
+use_aggregation = False
 
-#use_nose_pos = False # Portatile MP
-use_nose_pos = False # Palladium
+use_nose_pos = False
 
-#use_dom_color_list = [False, True] # Portatile MP
-use_dom_color_list = [False, True] # Palladium
+use_dom_color_list = [True, False]
 
-#use_mean_x_list = [False, True] # Portatile MP
-use_mean_x_list = [False, True] # Palladium
+use_mean_x_list = [False, True]
 
-#conf_threshold_list = range(10, 31, 5) # Portatile MP
-conf_threshold_list = range(10, 31, 2) # Palladium
+conf_threshold_list = range(10, 31, 2)
 for resource_path in resource_paths:
     
     res_name = os.path.basename(resource_path) 
     
-    for use_dom_color in use_dom_color_list:
-        
-        for use_mean_x in use_mean_x_list:
+    for use_mean_x in use_mean_x_list:
+            
+        for use_dom_color in use_dom_color_list:
     
             for conf_threshold in conf_threshold_list:
                 
+                if(test_counter <= 171):
+                    
+                    test_counter = test_counter + 1
+                    
+                    continue
+                
                 # Make beep
-                frequency = 404
-                duration = 2000
-                winsound.Beep(frequency, duration)
+                #frequency = 404
+                #duration = 2000
+                #winsound.Beep(frequency, duration)
                 
                 print('conf_threshold', conf_threshold)
                             
@@ -58,15 +58,15 @@ for resource_path in resource_paths:
                 
                 print('test_counter', test_counter)
                 
-                #video_idx_path = os.path.join(video_idx_path_base, dir_name)
-                video_idx_path = video_idx_path_base
+                video_idx_path = os.path.join(video_idx_path_base, dir_name)
+                #video_idx_path = video_idx_path_base
                 
                 params = {}
                 
                 # Definition of parameters
         
-                params[CODE_VERSION_KEY] = 286 # Portatile MP
-                #params[CODE_VERSION_KEY] = # Palladium
+                #params[CODE_VERSION_KEY] = 286 # Portatile MP
+                params[CODE_VERSION_KEY] = 295# Palladium
                 
                 # Face detection
                 
@@ -153,6 +153,8 @@ for resource_path in resource_paths:
                 
                 params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = use_mean_x
                 
+                params[CLOTHING_REC_USE_3_BBOXES_KEY] = False
+                
                 params[HIST_SMOOTHING_KERNEL_SIZE_KEY] = 25
                 
                 params[USED_FPS_KEY] = 5
@@ -184,10 +186,10 @@ for resource_path in resource_paths:
                     params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Palladium
                     
                     #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
-                    #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face models' # Palladium
+                    params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face models' # Palladium
                     
                     #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
-                    #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\noses' # Palladium
+                    params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\noses' # Palladium
                     
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Cloth models' # Portatile MP
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Cloth models' # Palladium
@@ -209,10 +211,10 @@ for resource_path in resource_paths:
                     params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\Face tracking\MONITOR072011.mpg.YAML' # Palladium
                     
                     #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
-                    #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\Face models' # Palladium
+                    params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\Face models' # Palladium
                     
                     #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
-                    #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\noses' # Palladium
+                    params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\noses' # Palladium
                     
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Cloth models' # Portatile MP
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\MONITOR072011.mpg\Cloth models' # Palladium                    
@@ -229,5 +231,5 @@ for resource_path in resource_paths:
                 video_indexing_experiments(resource_path, params)
                 
                 # Make beep
-                winsound.Beep(frequency, duration)
+                #winsound.Beep(frequency, duration)
         

@@ -15,10 +15,10 @@ from tools.Utils import *
 resource_paths = [r'C:\Active\RawVideos\fic.02.mpg', r'C:\Active\RawVideos\MONITOR072011.mpg'] # Palladium
 
 #video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
-video_idx_path_base = r'C:\Active\Face summarization' # Palladium
+video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
-test_counter = 0 # Portatile MP
-#test_counter = 109 # Palladium
+#test_counter = 0 # Portatile MP
+test_counter = 263 # Palladium
      
 update_after_merging = False
             
@@ -69,8 +69,8 @@ for resource_path in resource_paths:
                     
                     # Definition of parameters
             
-                    params[CODE_VERSION_KEY] = 286 # Portatile MP
-                    #params[CODE_VERSION_KEY] = # Palladium
+                    #params[CODE_VERSION_KEY] = 286 # Portatile MP
+                    params[CODE_VERSION_KEY] = 295# Palladium
                     
                     # Face detection
                     

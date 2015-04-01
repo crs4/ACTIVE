@@ -15,25 +15,25 @@ from tools.Utils import *
 resource_paths = [r'C:\Active\RawVideos\fic.02.mpg', r'C:\Active\RawVideos\MONITOR072011.mpg'] # Palladium
 
 #video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
-video_idx_path_base = r'C:\Active\Face summarization' # Palladium
+video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
-test_counter = 0 # Portatile MP
-#test_counter = 109 # Palladium
+#test_counter = 0 # Portatile MP
+test_counter = 219 # Palladium
      
-update_after_merging = False # Palladium
+update_after_merging = False
             
-use_aggregation = False # Palladium
+use_aggregation = False
 
-use_nose_pos = False # Palladium
+use_nose_pos = False
 
-use_dom_color_list = [False, True] # Palladium
+use_dom_color_list = [False, True]
 
-use_mean_x = False # Palladium
+use_mean_x = False
 
 use_3_bboxes = True 
 
-#conf_threshold_list = range(10, 31, 5) # Portatile MP
-conf_threshold_list = range(10, 31, 2) # Palladium
+conf_threshold_list = range(10, 31, 2)
+
 for resource_path in resource_paths:
     
     res_name = os.path.basename(resource_path) 
@@ -61,7 +61,7 @@ for resource_path in resource_paths:
             # Definition of parameters
     
             #params[CODE_VERSION_KEY] = 286 # Portatile MP
-            params[CODE_VERSION_KEY] = # Palladium
+            params[CODE_VERSION_KEY] = 295# Palladium
             
             # Face detection
             
@@ -189,8 +189,8 @@ for resource_path in resource_paths:
                 #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Cloth models' # Portatile MP
                 #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Cloth models' # Palladium
                 
-                man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
-                #man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02' #Palladium
+                #man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
+                man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02' #Palladium
                 
                 params[ANNOTATIONS_PATH_KEY] = man_ann_path
                 
