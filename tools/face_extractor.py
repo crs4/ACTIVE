@@ -1859,6 +1859,7 @@ class FaceExtractor(object):
         use_clothing_rec = USE_CLOTHING_RECOGNITION
         cl_ch_method = CLOTHES_CHECK_METHOD
         use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
+        clothes_conf_th_pct = CLOTHES_CONF_THRESH_PCT
         
         # Directory for face models
         face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
@@ -1897,6 +1898,13 @@ class FaceExtractor(object):
             if(CLOTH_MODELS_DIR_PATH_KEY in self.params):
                 
                 cloth_models_path = self.params[CLOTH_MODELS_DIR_PATH_KEY]
+                
+            if(CLOTHES_CONF_THRESH_PCT_KEY in self.params):
+                
+                clothes_conf_th_pct = self.params[CLOTHES_CONF_THRESH_PCT_KEY]
+                
+        # Threshold for using clothing recognition
+        clothes_conf_th = conf_threshold * clothes_conf_th_pct
 
         # Get histograms from model
         
@@ -2134,14 +2142,14 @@ class FaceExtractor(object):
                             aggregate_frame_results(
                             frames, tags = tgs, params = self.params))
                             
-                            print('train index', idx)
-                            print('query index', sub_counter)
-                            print('final_tag', final_tag)
-                            print('confidence', final_conf)
-                            print('number of frames', len(frames))
-                            print('Percentage', pct)
-                            print('\n')
-                            raw_input('Aspetta poco poco ...') 
+                            #print('train index', idx)
+                            #print('query index', sub_counter)
+                            #print('final_tag', final_tag)
+                            #print('confidence', final_conf)
+                            #print('number of frames', len(frames))
+                            #print('Percentage', pct)
+                            #print('\n')
+                            #raw_input('Aspetta poco poco ...') 
                             
                         else:
                             
@@ -2196,28 +2204,37 @@ class FaceExtractor(object):
                                         
                                         final_conf = diff  
                                         
-                            print('idx', idx)
-                            print('sub_counter', sub_counter)
-                            print('final_conf', final_conf)
-                            print('conf_threshold', conf_threshold)
-                            raw_input('Aspetta poco poco ...')                         
+                            #print('idx', idx)
+                            #print('sub_counter', sub_counter)
+                            #print('final_conf', final_conf)
+                            #print('clothes_conf_th', clothes_conf_th)
+                            #print('conf_threshold', conf_threshold)
+                            #raw_input('Aspetta poco poco ...')                         
                         
                             if(final_conf < conf_threshold):
                                 
                                 if(use_clothing_rec):
                                 
-                                    # Check clothing similarity
-
-                                    db_path_2 = os.path.join(
-                                    cloth_models_path, str(sub_counter))
-
-                                    similar = compare_clothes(db_path_1, 
-                                    db_path_2, cl_ch_method, intra_dist1,
-                                    use_3_bboxes)
-                    
-                                    if(similar):
-                            
+                                    # If final confidence is very low
+                                    # do not use clothing recognition
+                                    if(final_conf < clothes_conf_th):
+                                        
                                         final_tag = TRACKED_PERSON_TAG
+                                        
+                                    else:
+                                    
+                                        # Check clothing similarity
+    
+                                        db_path_2 = os.path.join(
+                                        cloth_models_path, str(sub_counter))
+    
+                                        similar = compare_clothes(db_path_1, 
+                                        db_path_2, cl_ch_method, intra_dist1,
+                                        use_3_bboxes)
+                        
+                                        if(similar):
+                                
+                                            final_tag = TRACKED_PERSON_TAG
                                     
                                 else:
                                     
