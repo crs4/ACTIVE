@@ -22,6 +22,7 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                  LBP_RADIUS_KEY + ',' + LBP_NEIGHBORS_KEY + ',' +
                  LBP_GRID_X_KEY + ',' + LBP_GRID_Y_KEY + ',' +
                  PERSON_IMAGES_NR_KEY + ',' + TRAINING_IMAGES_NR_KEY + ',' +
+                 OFFSET_PCT_X_KEY + ',' + OFFSET_PCT_Y_KEY + ',' +
                  CROPPED_FACE_HEIGHT_KEY + ',' + CROPPED_FACE_WIDTH_KEY + ',' +
                  RECOGNITION_RATE_KEY + ',' +
                  MEAN_PRECISION_KEY + ',' + STD_PRECISION_KEY + ',' +
@@ -43,6 +44,8 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[LBP_GRID_Y_KEY]) + ',' +
                      str(experiment_dict[PERSON_IMAGES_NR_KEY]) + ',' +
                      str(experiment_dict[TRAINING_IMAGES_NR_KEY]) + ',' +
+                     str(experiment_dict[OFFSET_PCT_X_KEY] + ',' +
+                     str(experiment_dict[OFFSET_PCT_Y_KEY] + ',' +
                      str(experiment_dict[CROPPED_FACE_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[CROPPED_FACE_WIDTH_KEY]) + ',' +
                      str(experiment_dict[RECOGNITION_RATE_KEY]) + ',' +
@@ -450,6 +453,8 @@ def fr_experiments(params, show_results):
     grid_y = LBP_GRID_Y
     person_images_nr = PERSON_IMAGES_NR
     training_images_nr = TRAINING_IMAGES_NR
+    offset_pct_x = OFFSET_PCT_X
+    offset_pct_y = OFFSET_PCT_Y
     cropped_face_height = CROPPED_FACE_HEIGHT
     cropped_face_width = CROPPED_FACE_WIDTH
     test_set_path = FACE_RECOGNITION_TEST_SET_PATH
@@ -462,6 +467,8 @@ def fr_experiments(params, show_results):
         grid_y = params[LBP_GRID_Y_KEY]
         person_images_nr = params[PERSON_IMAGES_NR_KEY]
         training_images_nr = params[TRAINING_IMAGES_NR_KEY]
+        offset_pct_x = params[OFFSET_PCT_X_KEY]
+        offset_pct_y = params[OFFSET_PCT_Y_KEY]
         cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
         cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]
         test_set_path = params[TEST_SET_PATH_KEY]        
@@ -475,6 +482,8 @@ def fr_experiments(params, show_results):
     new_experiment_dict[PERSON_IMAGES_NR_KEY] = person_images_nr
     new_experiment_dict[TRAINING_IMAGES_NR_KEY] = training_images_nr        
     
+    new_experiment_dict[OFFSET_PCT_X_KEY] = offset_pct_x
+    new_experiment_dict[OFFSET_PCT_Y_KEY] = offset_pct_y
     new_experiment_dict[CROPPED_FACE_HEIGHT_KEY] = cropped_face_height
     new_experiment_dict[CROPPED_FACE_WIDTH_KEY] = cropped_face_width
     

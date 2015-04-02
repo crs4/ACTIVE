@@ -46,7 +46,7 @@ def fd_test(params, show_results):
     '''
         
     image_path = SOFTWARE_TEST_FILE_PATH
-    if params is not None:
+    if ((params is not None) and (SOFTWARE_TEST_FILE_PATH_KEY in params)):
         
         image_path = params[SOFTWARE_TEST_FILE_PATH_KEY]
 
@@ -63,6 +63,10 @@ def fd_test(params, show_results):
     
             aligned_faces_path = os.path.join(
             ACTIVE_ROOT_DIRECTORY, ALIGNED_FACES_DIR)
+            
+            if((params is not None) and (ALIGNED_FACES_PATH_KEY in params)):
+                
+                aligned_faces_path = params[ALIGNED_FACES_PATH_KEY]
             
             if(not(os.path.exists(aligned_faces_path))):
             
@@ -106,6 +110,7 @@ def fd_test(params, show_results):
     
     return test_passed
 
+
 def fd_experiments(params, show_results):
     '''
     Execute face detection experiments
@@ -127,9 +132,9 @@ def fd_experiments(params, show_results):
     if params is not None:
         
         # Get path of directories with used files from params
-        frames_path = params[TEST_FILES_PATH_KEY] + os.sep 
+        frames_path = params[TEST_SET_PATH_KEY] + os.sep 
         annotations_path = params[ANNOTATIONS_PATH_KEY] + os.sep
-        results_path = params[FACE_DETECTION_RESULTS_PATH_KEY] + os.sep
+        results_path = params[RESULTS_PATH_KEY] + os.sep
     
     annotated_faces_nr = 0
     true_positives_nr = 0
@@ -141,6 +146,10 @@ def fd_experiments(params, show_results):
     
     # Name of used algorithm for face detection
     algorithm_name = FACE_DETECTION_ALGORITHM_KEY
+    
+    if((params is not None) and (FACE_DETECTION_ALGORITHM_KEY in params)):
+        
+        algorithm_name = params[FACE_DETECTION_ALGORITHM_KEY]
 
     video_directories = listdir(frames_path)
 
@@ -162,6 +171,10 @@ def fd_experiments(params, show_results):
             # Directory where aligned faces are saved
             aligned_faces_path = os.path.join(
             ACTIVE_ROOT_DIRECTORY, ALIGNED_FACES_DIR)
+            
+            if((params is not None) and (ALIGNED_FACES_PATH_KEY in params)):
+                
+                aligned_faces_path = params[ALIGNED_FACES_PATH_KEY]
             
             if(not(os.path.exists(aligned_faces_path))):
             

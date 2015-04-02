@@ -1540,7 +1540,7 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bbo
     return sim
     
     
-def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
+def get_mean_inter_distance(model1, model2, use_3_bboxes = False):
     '''
     Calculate mean distance between histograms in two models
     
@@ -1551,8 +1551,8 @@ def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
     :param model2: list of color histograms
                    to be compared with those of model1
                   
-    :type used_3_bboxes: boolean
-    :param used_3_bboxes: True if 3 bboxes per frame are used
+    :type use_3_bboxes: boolean
+    :param use_3_bboxes: True if 3 bboxes per frame are used
                   
     :rtype: float
     :returns: distance value
@@ -1579,7 +1579,7 @@ def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
             
             tot_diff = 0
             
-            if(used_3_bboxes):
+            if(use_3_bboxes):
                 
                 calc_diffs = []
                 
@@ -1606,7 +1606,7 @@ def get_mean_inter_distance(model1, model2, used_3_bboxes = False):
                         calc_diffs.append(tot_diff_i_j)
                         
                 # Minimum difference is chosen
-                tot_diff = np.min(calc_diffs)        
+                tot_diff = min(calc_diffs)        
                 
             else:
     

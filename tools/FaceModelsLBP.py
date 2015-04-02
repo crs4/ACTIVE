@@ -444,7 +444,7 @@ class FaceModelsLBP():
             else:
 
                 print "No model was created"
-
+        
         return model
 
     def clear(self):
