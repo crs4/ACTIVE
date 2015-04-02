@@ -20,7 +20,7 @@ def plot_people_clustering():
     
     #yaml_path3 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-172-.yml'
     
-    yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\MONITOR072011 - no clothing recognition.yml'
+    yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\fic.02 - no clothing recognition.yml'
     
     yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-263-.yml'
     
@@ -37,7 +37,7 @@ def plot_people_clustering():
     #experiments_list.extend(dic3[c.EXPERIMENTS_KEY])
     
     # Video for which plots are to be made
-    rel_video_name = 'MONITOR072011.mpg'
+    rel_video_name = 'fic.02.mpg'
     
     x_lists = {}
     
@@ -46,6 +46,8 @@ def plot_people_clustering():
     rec_lists = {}
     
     f_measure_lists = {}
+    
+    time_lists = {}
     
     #method_names = ['Only face recognition', 'Dominant color - Fixed x position', 'Dominant color - Variable x position', 'Whole bbox - Fixed x position', 'Whole bbox - Variable x position','Dominant color - 3 bboxes', 'Whole bbox - 3 bboxes']
      
@@ -68,6 +70,8 @@ def plot_people_clustering():
         rec_lists[method_names[i]] = []
         
         f_measure_lists[method_names[i]] = []
+        
+        time_lists[method_names[i]] = []
     
     for exp_extended in experiments_list:
         
@@ -88,6 +92,8 @@ def plot_people_clustering():
             rec = exp[c.MEAN_RECALL_KEY]
             
             f_measure = exp[c.F1_KEY]
+            
+            time = exp[c.PEOPLE_CLUSTERING_TIME_KEY]
             
             use_clothing = exp[c.USE_CLOTHING_RECOGNITION_KEY]
             
@@ -118,6 +124,8 @@ def plot_people_clustering():
                 rec_lists[method_names[0]].append(rec)  
                 
                 f_measure_lists[method_names[0]].append(f_measure)
+                
+                time_lists[method_names[0]].append(time)
                 
             else:  
                 
@@ -155,6 +163,8 @@ def plot_people_clustering():
                         
                         f_measure_lists[method_names[1]].append(f_measure)
                         
+                        time_lists[method_names[1]].append(time)
+                        
                     elif(use_dom_color and not(big_bbox)):
                         
                         x_lists[method_names[2]].append(nr_clusters)
@@ -164,6 +174,8 @@ def plot_people_clustering():
                         rec_lists[method_names[2]].append(rec)
                         
                         f_measure_lists[method_names[2]].append(f_measure)
+                        
+                        time_lists[method_names[2]].append(time)
                         
                     elif(not(use_dom_color) and big_bbox):
                         
@@ -175,6 +187,8 @@ def plot_people_clustering():
                         
                         f_measure_lists[method_names[3]].append(f_measure)
                         
+                        time_lists[method_names[3]].append(time)
+                        
                     elif(not(use_dom_color) and not(big_bbox)):
                         
                         x_lists[method_names[4]].append(nr_clusters)
@@ -184,6 +198,8 @@ def plot_people_clustering():
                         rec_lists[method_names[4]].append(rec)
                         
                         f_measure_lists[method_names[4]].append(f_measure)
+                        
+                        time_lists[method_names[4]].append(time)
                     
                     else:
                     
@@ -277,7 +293,37 @@ def plot_people_clustering():
     
     plt.grid(True)
             
-    plt.show()    
+    plt.show()  
+    
+
+    plt.figure()
+    #plt.subplot(2,2,3)
+
+    plt.plot(
+    x_lists[method_names[0]], time_lists[method_names[0]], 'ks-', label = method_names[0])
+    plt.plot(
+    x_lists[method_names[1]], time_lists[method_names[1]], 'g+--', label = method_names[1])
+    plt.plot(
+    x_lists[method_names[2]], time_lists[method_names[2]], 'r*-.', label = method_names[2])
+    plt.plot(
+    x_lists[method_names[3]], time_lists[method_names[3]], 'cv-', label = method_names[3])
+    plt.plot(
+    x_lists[method_names[4]], f_measure_lists[method_names[4]], 'bo:', label = method_names[4])   
+    #plt.plottime_lists
+    #x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])        
+    
+    plt.xlabel('Number of clustes')
+    plt.ylabel('s')
+    #plt.title('Precision')
+    #plt.ylim([0,1])
+    
+    plt.legend(bbox_to_anchor=(1, 0.3))
+    
+    plt.grid(True)
+            
+    plt.show()         
 
 
 def plot_people_clustering_with_only_face_rec_experiments():
