@@ -25,10 +25,15 @@ class SkeletonRunner:
 		"""
 		Abstract method that will implement the evaluation and execution of a skeleton
 		using some kind of parallel and distributed primitives.
-		:param skeleton: Skeleton object representing how parallel computations should be done.
-		:param values: Input values that will be passed to the skeleton for the correct execution.
-		:param params: List of optional parameters that will be passed to enable the computation.
-		:returns: The result provided by skeleton evaluation.
+
+		@param skeleton: Skeleton object representing how parallel computations should be done.
+		@type skeleton: Skeleton
+		@param values: Input values that will be passed to the skeleton for the correct execution.
+		@type values: List of objects
+		@param params: List of optional parameters that will be passed to enable the computation.
+		@type params: list of generic parameters.
+		@return: The result provided by skeleton evaluation.
+		@rtype: Object
 		"""
 		pass
 
@@ -39,17 +44,15 @@ class eval_parallel():
         This class is used to solve the pickle problem introduced by Celery
         when it tries to spread the function over cluster nodes.
         It simply evaluates a skeleton with its parameters and return the results
-        :param skeleton: Skeleton that will be evaluated.
-        :param values: Input values that will be provided to that skeleton.
-        :param executor: Instance of SkeletonRunner that will execute skeleton evaluation.
-        :param percentage: Percentage associated to this skeleton (fraction of the total progress portion).
-        :returns: The result of the skeleton evaluation with provided parameters.
         """
 	def __init__(self, skeleton, executor, percentage):
 		"""
-		:param skeleton: Skeleton that will be evaluated.
-	        :param executor: Instance of SkeletonRunner that will execute skeleton evaluation.
-	        :param percentage: Percentage associated to this skeleton (fraction of the total progress portion).
+		@param skeleton: Skeleton that will be evaluated.
+		@type skeleton: Skeleton
+	        @param executor: Instance of SkeletonVisitor that will execute skeleton evaluation.
+		@type executor: SkeletonVisitor
+	        @param percentage: Percentage associated to this skeleton (fraction of the total progress portion).
+		@type percentage: int
 		"""
 		self.skeleton = skeleton
 		self.executor = executor
@@ -57,8 +60,10 @@ class eval_parallel():
 
 	def __call__(self, values):
 		"""
-		:param values: Input values that will be provided to that skeleton.
-		:returns: The result of the skeleton evaluation over the provided input.
+		@param values: Input values that will be provided to that skeleton.
+		@type values: List of objects
+		@return: The result of the skeleton evaluation over the provided input.
+		@rtype: Object
 		"""
 		return self.executor.eval(self.skeleton, values, self.percentage)
 
@@ -100,7 +105,6 @@ class DistributedRunner(SkeletonRunner):
 		self.result = None
 
 	def __del__(self):
-		# problema se i task durano poco
 		if(not self.result.ready()):
 			self.result.revoke(terminate=True)
 

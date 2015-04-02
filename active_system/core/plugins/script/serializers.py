@@ -8,5 +8,5 @@ class ScriptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Script
         fields = ('id', 'details', 'path', 'job_name', 'plugin', 'events', 'item_type')
-
+	depth = 2
 

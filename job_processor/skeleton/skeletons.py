@@ -23,10 +23,11 @@ class Seq(Skeleton):
 	"""
 	def __init__(self, execute):
 		"""
-		:param execute Sequential stateless function that will be executed in
+		@param execute: Sequential stateless function that will be executed in
 				a parallel and/or distributed way oo provided paramters.
 				It must be a modular function with less dependences from
 				local resources as possibile.
+		@type execute: function
 		"""
 		self.execute = execute
 
@@ -40,7 +41,8 @@ class Pipe(Skeleton):
 	"""
 	def __init__(self, *stages):
 		"""
-		:param stages: A set of skeletons corresponding to the ordered list of stages.
+		@param stages: A set of skeletons corresponding to the ordered list of stages.
+		@type stages: List of Skeleton
 		"""
 		self.stages = []
 		for stage in stages:
@@ -55,7 +57,8 @@ class Farm(Skeleton):
  	"""
 	def __init__(self, skeleton):
 		"""
-		:param skeleton: Input skeleton that will be applyed/evaluated on each input item.
+		@param skeleton: Input skeleton that will be applyed/evaluated on each input item.
+		@type skeleton: Skeleton
 		"""
 		self.subskel = skeleton
 
@@ -69,9 +72,12 @@ class Map(Skeleton):
 	"""
 	def __init__(self, split, skeleton, merge):
 		"""
-		:param split: 	 Skeleton used to transform the Map skeleton input in subsets of smaller data.
-		:param skeleton: This skeleton will be applyed/evaluated on each subset of data.
-		:param merge:	 Skeleton used to convert the set of results in a unique data structure.
+		@param split: Skeleton used to transform the Map skeleton input in subsets of smaller data.
+		@type split: Skeleton
+		@param skeleton: This skeleton will be applyed/evaluated on each subset of data.
+		@type skeleton: Skeleton
+		@param merge: Skeleton used to convert the set of results in a unique data structure.
+		@type merge: Skeleton
 		"""
 		self.split = split
 		self.skeleton = skeleton
@@ -90,9 +96,12 @@ class If(Skeleton):
         """
         def __init__(self, cond_skel, true_skel, false_skel):
                 """
-                :param cond_skel: Skeleton used to decide which one will be used
-                :param true_skel: Skeleton evaluated if the boolean condition returns a True value.
-                :param false_skel: Skeleton evaluated if the boolean condition returns a False value.
+                @param cond_skel: Skeleton used to decide which one will be used
+		@type cond_skel: Skeleton
+                @param true_skel: Skeleton evaluated if the boolean condition returns a True value.
+		@type true_skel: Skeleton
+                @param false_skel: Skeleton evaluated if the boolean condition returns a False value.
+		@type false_skel: Skeleton
                 """
                 self.condition = cond_skel
                 self.true_skeleton = true_skel

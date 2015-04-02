@@ -52,7 +52,7 @@ def extract_video_data(func_in, func_out):
 	:param func_in: Input parameters of the function that generate this function call
 	:param func_out: Output parameters of the function that generate this function call
 	"""
-	file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
 
 	item_info = get_exif_metadata(file_path)
 	convert_duration(item_info)
@@ -67,7 +67,6 @@ def extract_video_data(func_in, func_out):
 					'filesize': item_info['File Size']})
 
 
-
 def extract_image_data(func_in, func_out):
 	"""
         This function is used to extract relevant metadata from a image item
@@ -75,7 +74,7 @@ def extract_image_data(func_in, func_out):
         :param func_in: Input parameters of the function that generate this function call
         :param func_out: Output parameters of the function that generate this function call
         """
-	file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
 
 	item_info = get_exif_metadata(file_path)
 
@@ -94,7 +93,7 @@ def extract_audio_data(func_in, func_out):
         :param func_in: Input parameters of the function that generate this function call
         :param func_out: Output parameters of the function that generate this function call
 	"""
-	file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
 
         item_info = get_exif_metadata(file_path)
         convert_duration(item_info)

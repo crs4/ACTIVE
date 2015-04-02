@@ -33,10 +33,17 @@ class SkeletonVisitor(object):
 	@abstractmethod
 	def eval(self, skeleton, values, percentage=100):
 		"""
-		:param skeleton: Skeleton that have to be evaluated.
-		:param values: Input values provided to the skeleton.
-		:param percentage: The percentage of the total progress associated to each skeleton.
-		:returns: The result of skeleton evaluation.
+		This function is used to evaluate a generic skeleton.
+		Given a set of function (one per skeleton) a recursive evaluation is applied.
+
+		@param skeleton: Skeleton that have to be evaluated.
+		@type skeleton: Skeleton
+		@param values: Input values provided to the skeleton.
+		@type values: List of objetcs
+		@param percentage: The percentage of the total progress associated to each skeleton.
+		@type percentage: int
+		@return: The result of skeleton evaluation.
+		@rtype: Object
 		"""
 		pass
 
@@ -69,6 +76,13 @@ class Executor(SkeletonVisitor):
 		"""
 		This method makes the evaluator a callable object.
 		It is the same as invoking the 'eval' function.
+
+		@param skeleton: Skeletom that must be evaluated.
+		@type skeleton: Skeleton
+		@param values: The input parameter for skeleton evaluation.
+		@type values: List of objects
+		@return: The result of skeleton evaluation.
+		@rtype: Object
 		"""
 		return self.eval(skeleton, values)
 	
@@ -77,7 +91,9 @@ class Executor(SkeletonVisitor):
 		This method is used to increase the value
 		of the processing progress, adding the parameter
 		to the progress queue. Only positive integers are allowed.
-		:param val: The value that will increase the progress.
+
+		@param val: The value that will increase the progress.
+		@type val: int
 		"""
 		try:
 			if(val > 0):
@@ -89,7 +105,9 @@ class Executor(SkeletonVisitor):
 		"""
 		Method used to compute and return the current value
 		of computational progress, in the skeleton evaluation.
-		:returns: The current computational progress value.
+
+		@return: The current computational progress value.
+		@rtype: int
 		"""
 		try:
 			# check for any update in the shared queue and sum it to the shared variable

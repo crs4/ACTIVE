@@ -125,3 +125,37 @@ class AudioItemDetail(EventView):
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# classe temporanea utilizzata per restituire i file e i rispettivi thumbnail
+class AudioItemFile(EventView):
+    def get(self, request, pk):
+        """
+        Method used to retrieve the original file created for a video item or its thumbnail
+
+        @param request: HttpRequest used to delete a specific VideoItem.
+        @type request: HttpRequest
+        @param pk: Primary key used to retrieve a VideoItem object.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing the result of object deletion.
+        @rtype: HttpResponse
+        """
+
+        try:
+            audio = AudioItem.objects.get(item_ptr_id =pk)
+            type = request.GET.get('type', 'original')
+
+            response = None
+            if(type == 'original'):
+                response = HttpResponse(audio.file, content_type = 'audio/' + audio.format)
+                response['Content-Disposition'] = 'attachment; filename="' + audio.file.name + '"'
+                return response
+
+            if (type == 'thumb'):
+                response = HttpResponse(audio.thumb, content_type = 'image/png')
+                return response
+
+        except AudioItem.DoesNotExist:
+            raise Http404
