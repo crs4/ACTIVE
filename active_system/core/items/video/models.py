@@ -6,7 +6,7 @@ class VideoItem(Item):
     This class is used to define the content model of video digital item, 
     extending the base attributes provided by a generic digital item.
     """
-    frame_rate = models.IntegerField(null=True)
+    frame_rate = models.FloatField(null=True)
     frame_width = models.IntegerField(null=True)
     frame_height = models.IntegerField(null=True)
     duration = models.BigIntegerField(null=True) #seconds

@@ -196,7 +196,9 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             face_dict[BBOX_KEY] = face_list
             
             if(use_eyes_position):
-                crop_result = get_cropped_face_from_image(face_image, resource_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, (OFFSET_PCT_X, OFFSET_PCT_Y), (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT), (x,y), return_always_faces)
+                crop_result = get_cropped_face_from_image(face_image, 
+                resource_path, align_path, params, eye_cascade_classifier, 
+                nose_cascade_classifier, (x,y), return_always_faces)
 
                 if(crop_result):
                          
@@ -625,7 +627,7 @@ def get_cropped_face(image_path, align_path, params, offset_pct, dest_size, retu
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
-def get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, face_position, return_always_face):
+def get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, face_position, return_always_face):
     '''
     Get face cropped and aligned to eyes from image
 
@@ -646,12 +648,6 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
     
     :nose_cascade_classifier: CascadeClassifier
     :nose_cascade_classifier: classifier for detecting nose
-
-    :type offset_pct: 2-element tuple
-    :param offset_pct: offset given as percentage of eye-to-eye distance
-
-    :type dest_size: 2-element tuple
-    :param dest_size: size of result
     
     :type face_position: 2-element tuple
     :type face_position: position of face in original image
@@ -662,6 +658,32 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
     '''
 
     result = {}
+    
+    # Offset given as percentage of eye-to-eye distance
+    offset_pct_x = OFFSET_PCT_X
+    offset_pct_y = OFFSET_PCT_Y
+    
+    # Final size of cropped face
+    cropped_face_width = CROPPED_FACE_WIDTH
+    cropped_face_height = CROPPED_FACE_HEIGHT
+            
+    if(params is not None):
+                
+        if(CROPPED_FACE_WIDTH_KEY in params):
+            cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]
+                
+        if(CROPPED_FACE_HEIGHT_KEY in params):
+            cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
+            
+        if(OFFSET_PCT_X_KEY in params):
+            offset_pct_x = params[OFFSET_PCT_X_KEY]
+            
+        if(OFFSET_PCT_Y_KEY in params):
+            offset_pct_y = params[OFFSET_PCT_Y_KEY]
+    
+    offset_pct = (offset_pct_x, offset_pct_y)
+
+    dest_size = (cropped_face_width, cropped_face_height)
 
     # Detect eyes in face
     eye_rects = detect_eyes_in_image(image, eye_cascade_classifier)
@@ -733,14 +755,6 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
                 use_nose_pos_in_recognition = params[USE_NOSE_POS_IN_RECOGNITION_KEY]
         
         if(use_nose_pos_in_detection or use_nose_pos_in_recognition):
-            
-            cropped_face_width = CROPPED_FACE_WIDTH
-            cropped_face_height = CROPPED_FACE_HEIGHT
-            
-            if(params is not None):
-                
-                cropped_face_width = params[CROPPED_FACE_WIDTH_KEY]
-                cropped_face_height = params[CROPPED_FACE_HEIGHT_KEY]
             
             noses = detect_nose_in_image(face_image, nose_cascade_classifier)
             

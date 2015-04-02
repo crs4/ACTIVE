@@ -1844,7 +1844,8 @@ class FaceExtractor(object):
         # Directory for this video     
         video_indexing_path = VIDEO_INDEXING_PATH
         
-        if(self.params is not None):
+        if((self.params is not None) and 
+        (VIDEO_INDEXING_PATH_KEY in self.params)):
             
             video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
            
@@ -1867,15 +1868,27 @@ class FaceExtractor(object):
         
         if(self.params is not None):
         
-            use_aggregation = self.params[USE_AGGREGATION_KEY]
-            use_nose_pos_in_rec = (
-            self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
-            max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
-            conf_threshold = self.params[CONF_THRESHOLD_KEY]
+            if(USE_AGGREGATION_KEY in self.params):
+                use_aggregation = self.params[USE_AGGREGATION_KEY]
             
-            use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
-            cl_ch_method = self.params[CLOTHES_CHECK_METHOD_KEY]
-            use_3_bboxes = self.params[CLOTHING_REC_USE_3_BBOXES_KEY]
+            if(USE_NOSE_POS_IN_RECOGNITION_KEY in self.params):
+                use_nose_pos_in_rec = (
+                self.params[USE_NOSE_POS_IN_RECOGNITION_KEY])
+            
+            if(MAX_NOSE_DIFF_KEY in self.params):
+                max_nose_diff = self.params[MAX_NOSE_DIFF_KEY]
+            
+            if(CONF_THRESHOLD_KEY in self.params):
+                conf_threshold = self.params[CONF_THRESHOLD_KEY]
+            
+            if(USE_CLOTHING_RECOGNITION_KEY in self.params):
+                use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
+            
+            if(CLOTHES_CHECK_METHOD_KEY in self.params):
+                cl_ch_method = self.params[CLOTHES_CHECK_METHOD_KEY]
+                
+            if(CLOTHING_REC_USE_3_BBOXES_KEY in self.params):   
+                use_3_bboxes = self.params[CLOTHING_REC_USE_3_BBOXES_KEY]
             
             if(FACE_MODELS_DIR_PATH_KEY in self.params):
                 
@@ -2121,13 +2134,14 @@ class FaceExtractor(object):
                             aggregate_frame_results(
                             frames, tags = tgs, params = self.params))
                             
-                            #print('train index', idx)
-                            #print('query index', sub_counter)
-                            #print('final_tag', final_tag)
-                            #print('confidence', final_conf)
-                            #print('number of frames', len(frames))
-                            #print('Percentage', pct)
-                            #print('\n')
+                            print('train index', idx)
+                            print('query index', sub_counter)
+                            print('final_tag', final_tag)
+                            print('confidence', final_conf)
+                            print('number of frames', len(frames))
+                            print('Percentage', pct)
+                            print('\n')
+                            raw_input('Aspetta poco poco ...') 
                             
                         else:
                             
@@ -2182,8 +2196,11 @@ class FaceExtractor(object):
                                         
                                         final_conf = diff  
                                         
-                            #print('final_conf', final_conf)
-                            #print('conf_threshold', conf_threshold)                         
+                            print('idx', idx)
+                            print('sub_counter', sub_counter)
+                            print('final_conf', final_conf)
+                            print('conf_threshold', conf_threshold)
+                            raw_input('Aspetta poco poco ...')                         
                         
                             if(final_conf < conf_threshold):
                                 
@@ -3126,19 +3143,19 @@ class FaceExtractor(object):
             
             # Iterate through segments related to this person
             for segment_dict in segment_list:
-				
-				frame_list = segment_dict[FRAMES_KEY]
-				
-				for frame_dict in frame_list:
-					
-					frame_path = frame_dict[FRAME_PATH_KEY]
-					
-					# Check if this is the only face in this frame
-					if((frame_path in self.faces_nr) 
-					and (self.faces_nr[frame_path] == 1)):
-						
-						# Execute caption recognition
-						gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)       
+                
+                frame_list = segment_dict[FRAMES_KEY]
+                
+                for frame_dict in frame_list:
+                    
+                    frame_path = frame_dict[FRAME_PATH_KEY]
+                    
+                    # Check if this is the only face in this frame
+                    if((frame_path in self.faces_nr) 
+                    and (self.faces_nr[frame_path] == 1)):
+                        
+                        # Execute caption recognition
+                        gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)       
     
     
     def getFaceFromSegmentFrame(self, segment_frame_dict, align_path):

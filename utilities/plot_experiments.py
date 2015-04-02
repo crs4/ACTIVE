@@ -14,23 +14,27 @@ def plot_people_clustering():
     and clothing recognition
     '''
 
-    yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST 109-119 e 153-163.yml'
+    #yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST 109-119 e 153-163.yml'
     
-    yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-109-.yml'
+    #yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-109-.yml'
     
-    yaml_path3 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-172-.yml'
+    #yaml_path3 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-172-.yml'
+    
+    yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\MONITOR072011 - no clothing recognition.yml'
+    
+    yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-263-.yml'
     
     dic1 = utils.load_YAML_file(yaml_path1)
     
     dic2 = utils.load_YAML_file(yaml_path2)
     
-    dic3 = utils.load_YAML_file(yaml_path3)
+    #dic3 = utils.load_YAML_file(yaml_path3)
     
     experiments_list = dic1[c.EXPERIMENTS_KEY]
     
     experiments_list.extend(dic2[c.EXPERIMENTS_KEY])
     
-    experiments_list.extend(dic3[c.EXPERIMENTS_KEY])
+    #experiments_list.extend(dic3[c.EXPERIMENTS_KEY])
     
     # Video for which plots are to be made
     rel_video_name = 'MONITOR072011.mpg'
@@ -43,7 +47,9 @@ def plot_people_clustering():
     
     f_measure_lists = {}
     
-    method_names = ['Only face recognition', 'Dominant color - Fixed x position', 'Dominant color - Variable x position', 'Whole bbox - Fixed x position', 'Whole bbox - Variable x position','Dominant color - 3 bboxes', 'Whole bbox - 3 bboxes']
+    #method_names = ['Only face recognition', 'Dominant color - Fixed x position', 'Dominant color - Variable x position', 'Whole bbox - Fixed x position', 'Whole bbox - Variable x position','Dominant color - 3 bboxes', 'Whole bbox - 3 bboxes']
+     
+    method_names = ['Only face recognition', '2 x 1.5 - dominant color','1 x 1 - dominant color', '2 x 1.5 - whole bbox' , '1 x 1 - whole bbox'] 
      
     method_2 = [True, True]
     
@@ -89,6 +95,14 @@ def plot_people_clustering():
             
             mean_x_of_faces = exp[c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]
             
+            clothes_width = exp[c.CLOTHES_BBOX_WIDTH_KEY]
+            
+            big_bbox = False
+            
+            if(clothes_width == 2.0):
+                
+                big_bbox = True
+            
             use_3_bboxes = False
             
             if(c.CLOTHING_REC_USE_3_BBOXES_KEY in exp):
@@ -131,7 +145,7 @@ def plot_people_clustering():
                         
                 else:
             
-                    if(use_dom_color and mean_x_of_faces):
+                    if(use_dom_color and big_bbox):
                         
                         x_lists[method_names[1]].append(nr_clusters)
                     
@@ -141,7 +155,7 @@ def plot_people_clustering():
                         
                         f_measure_lists[method_names[1]].append(f_measure)
                         
-                    elif(use_dom_color and not(mean_x_of_faces)):
+                    elif(use_dom_color and not(big_bbox)):
                         
                         x_lists[method_names[2]].append(nr_clusters)
                         
@@ -151,7 +165,7 @@ def plot_people_clustering():
                         
                         f_measure_lists[method_names[2]].append(f_measure)
                         
-                    elif(not(use_dom_color) and mean_x_of_faces):
+                    elif(not(use_dom_color) and big_bbox):
                         
                         x_lists[method_names[3]].append(nr_clusters)
                     
@@ -161,7 +175,7 @@ def plot_people_clustering():
                         
                         f_measure_lists[method_names[3]].append(f_measure)
                         
-                    elif(not(use_dom_color) and not(mean_x_of_faces)):
+                    elif(not(use_dom_color) and not(big_bbox)):
                         
                         x_lists[method_names[4]].append(nr_clusters)
                         
@@ -189,10 +203,10 @@ def plot_people_clustering():
     x_lists[method_names[3]], prec_lists[method_names[3]], 'cv-', label = method_names[3])
     plt.plot(
     x_lists[method_names[4]], prec_lists[method_names[4]], 'bo:', label = method_names[4])
-    plt.plot(
-    x_lists[method_names[5]], prec_lists[method_names[5]], 'm^-', label = method_names[5])
-    plt.plot(
-    x_lists[method_names[6]], prec_lists[method_names[6]], 'k1:', label = method_names[6])    
+    #plt.plot(
+    #x_lists[method_names[5]], prec_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], prec_lists[method_names[6]], 'k1:', label = method_names[6])    
     
     
     plt.xlabel('Number of clustes')
@@ -220,10 +234,10 @@ def plot_people_clustering():
     x_lists[method_names[3]], rec_lists[method_names[3]], 'cv-', label = method_names[3])
     plt.plot(
     x_lists[method_names[4]], rec_lists[method_names[4]], 'bo:', label = method_names[4])   
-    plt.plot(
-    x_lists[method_names[5]], rec_lists[method_names[5]], 'm^-', label = method_names[5])
-    plt.plot(
-    x_lists[method_names[6]], rec_lists[method_names[6]], 'k1:', label = method_names[6])        
+    #plt.plot(
+    #x_lists[method_names[5]], rec_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], rec_lists[method_names[6]], 'k1:', label = method_names[6])        
     
     plt.xlabel('Number of clustes')
     plt.ylabel('Recall')
@@ -249,10 +263,10 @@ def plot_people_clustering():
     x_lists[method_names[3]], f_measure_lists[method_names[3]], 'cv-', label = method_names[3])
     plt.plot(
     x_lists[method_names[4]], f_measure_lists[method_names[4]], 'bo:', label = method_names[4])   
-    plt.plot(
-    x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
-    plt.plot(
-    x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])        
+    #plt.plot(
+    #x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])        
     
     plt.xlabel('Number of clustes')
     plt.ylabel('F-measure')
@@ -383,20 +397,27 @@ def plot_face_rec_Videolina_1040I_80P():
     
     experiments_list = dic[c.EXPERIMENTS_KEY]
     
-    method_names = [r'$LBP_{1,8},\ grid\ 4x4, x\ offset\ 20\%, y\ offset\ 20\%$', 
-                    r'$LBP_{1,8},\ grid\ 4x4, x\ offset\ 30\%, y\ offset\ 30\%$',
-                    r'$LBP_{1,8},\ grid\ 8x8, x\ offset\ 20\%, y\ offset\ 20\%$',
-                    r'$LBP_{1,8},\ grid\ 8x8, x\ offset\ 30\%, y\ offset\ 30\%$',
-                    r'$LBP_{1,8},\ grid\ 4x8, x\ offset\ 20\%, y\ offset\ 50\%$']
+    method_names = [r'$LBP_{1,8},\ grid\ 4x4,\ x\ offset\ 20\%,\ y\ offset\ 20\%$', 
+                    r'$LBP_{1,8},\ grid\ 4x4,\ x\ offset\ 30\%,\ y\ offset\ 30\%$',
+                    r'$LBP_{1,8},\ grid\ 8x8,\ x\ offset\ 20\%,\ y\ offset\ 20\%$',
+                    r'$LBP_{1,8},\ grid\ 8x8,\ x\ offset\ 30\%,\ y\ offset\ 30\%$',
+                    r'$LBP_{1,8},\ grid\ 4x8,\ x\ offset\ 20\%,\ y\ offset\ 50\%$']
    
+    x_list = [5,10,20,40,80]
     
     rec_lists = {}
     
-    x_list = [5,10,20,40,80]
+    model_creation_time_lists = {}
+    
+    mean_rec_time_lists = {}
     
     for i in range(0, len(method_names)):
         
         rec_lists[method_names[i]] = []
+        
+        model_creation_time_lists[method_names[i]] = []
+        
+        mean_rec_time_lists[method_names[i]] = [] 
         
     for exp_extended in experiments_list:
         
@@ -404,47 +425,147 @@ def plot_face_rec_Videolina_1040I_80P():
         
         rec = exp[c.RECOGNITION_RATE_KEY]
         
+        model_creation_time = exp[c.MODEL_CREATION_TIME_KEY]
+        
+        mean_rec_time = exp[c.MEAN_RECOGNITION_TIME_KEY]
+        
         grid_y = exp[c.LBP_GRID_Y_KEY]
         
-        offset_pct_y = exp[c.OFFSET_PCT_Y_KEY]
+        grid_offset_pct_y = exp[c.OFFSET_PCT_Y_KEY]
         
         if((grid_y == 4) and (grid_offset_pct_y == 0.20)):
             
             rec_lists[method_names[0]].append(rec)
             
+            model_creation_time_lists[method_names[0]].append(model_creation_time)
+            
+            mean_rec_time_lists[method_names[0]].append(mean_rec_time)
+            
         elif((grid_y == 4) and (grid_offset_pct_y == 0.30)):
             
             rec_lists[method_names[1]].append(rec)
+            
+            model_creation_time_lists[method_names[1]].append(model_creation_time)
+            
+            mean_rec_time_lists[method_names[1]].append(mean_rec_time)            
 
         elif((grid_y == 8) and (grid_offset_pct_y == 0.20)):
             
             rec_lists[method_names[2]].append(rec)
             
+            model_creation_time_lists[method_names[2]].append(model_creation_time)
+            
+            mean_rec_time_lists[method_names[2]].append(mean_rec_time)            
+            
         elif((grid_y == 8) and (grid_offset_pct_y == 0.30)):
             
-            rec_lists[method_names[3]].append(rec)  
+            rec_lists[method_names[3]].append(rec)
+            
+            model_creation_time_lists[method_names[3]].append(model_creation_time)
+            
+            mean_rec_time_lists[method_names[3]].append(mean_rec_time)              
             
         elif((grid_y == 8) and (grid_offset_pct_y == 0.50)):
             
-            rec_lists[method_names[4]].append(rec)          
+            rec_lists[method_names[4]].append(rec)
+            
+            model_creation_time_lists[method_names[4]].append(model_creation_time)
+            
+            mean_rec_time_lists[method_names[4]].append(mean_rec_time)                     
 
         else:
                 
             print('Warning! Method not available')          
             
+    # Recognition rate
+    
+    plt.figure()
+    
     plt.plot(
-    x_list, rec_lists[method_names[0]], 'ko-', label = method_names[0])
+    x_list, rec_lists[method_names[0]], 'bs:', label = method_names[0])
+    
+    plt.plot(
+    x_list, rec_lists[method_names[1]], 'g+--', label = method_names[1])
+    
+    plt.plot(
+    x_list, rec_lists[method_names[2]], 'r*-.', label = method_names[2])
+    
+    plt.plot(
+    x_list, rec_lists[method_names[3]], 'cv-', label = method_names[3])
+    
+    plt.plot(
+    x_list, rec_lists[method_names[4]], 'ko-', label = method_names[4])
     
     plt.xlabel('Number of people')
     plt.ylabel('Recognition rate')
     #plt.title('Precision')
     plt.ylim([0,1])
     
-    plt.legend(bbox_to_anchor=(1, 0.3))
+    plt.legend(bbox_to_anchor=(1, 0.43))
     
     plt.grid(True)
             
     plt.show()
+    
+    # Model creation time
+    
+    plt.figure()
+    
+    plt.plot(
+    x_list, model_creation_time_lists[method_names[0]], 'bs:', label = method_names[0])
+    
+    plt.plot(
+    x_list, model_creation_time_lists[method_names[1]], 'g+--', label = method_names[1])
+    
+    plt.plot(
+    x_list, model_creation_time_lists[method_names[2]], 'r*-.', label = method_names[2])
+    
+    plt.plot(
+    x_list, model_creation_time_lists[method_names[3]], 'cv-', label = method_names[3])
+    
+    plt.plot(
+    x_list, model_creation_time_lists[method_names[4]], 'ko-', label = method_names[4])
+    
+    plt.xlabel('Number of people')
+    plt.ylabel('s')
+    #plt.title('Precision')
+    #plt.ylim([0,1])
+    
+    plt.legend(bbox_to_anchor=(1, 0.43))
+    
+    plt.grid(True)
+            
+    plt.show()  
+    
+    # Mean recognition time
+    
+    plt.figure()
+    
+    plt.plot(
+    x_list, mean_rec_time_lists[method_names[0]], 'bs:', label = method_names[0])
+    
+    plt.plot(
+    x_list, mean_rec_time_lists[method_names[1]], 'g+--', label = method_names[1])
+    
+    plt.plot(
+    x_list, mean_rec_time_lists[method_names[2]], 'r*-.', label = method_names[2])
+    
+    plt.plot(
+    x_list, mean_rec_time_lists[method_names[3]], 'cv-', label = method_names[3])
+    
+    plt.plot(
+    x_list, mean_rec_time_lists[method_names[4]], 'ko-', label = method_names[4])
+    
+    plt.xlabel('Number of people')
+    plt.ylabel('s')
+    #plt.title('Precision')
+    plt.ylim([0,1.2])
+    
+    plt.legend(bbox_to_anchor=(1, 0.43))
+    
+    plt.grid(True)
+            
+    plt.show()        
     
    
 plot_people_clustering()

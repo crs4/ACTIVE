@@ -24,6 +24,7 @@ class Item(models.Model):
     published_at = models.DateTimeField(null=True, blank=True)
     owner = models.ForeignKey(User)
     file = models.FileField(null=True)
+    thumb = models.FileField(null=True)
     
     def __repr__(self):
         return 'Item ', self.filename, ' ', self.type
@@ -42,10 +43,12 @@ class Item(models.Model):
 	super(Item, self).save(*args, **kwargs)
 	
 	# create the path where the file will be stored
+	# TODO	save the thumbnail image in a folder named "thumbnail"
 	self.file = temp
 	for field in self._meta.fields:
-		if field.name == 'file':
+		if field.name == 'file' or field.name == 'thumb' :
 			field.upload_to = str(self.id) + '/'
+			
 
 	# delete the file if it already exists
 	#if os.path.exists(self.file.path):

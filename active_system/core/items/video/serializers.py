@@ -1,4 +1,3 @@
-
 from core.items.serializers import ItemSerializer
 from core.items.video.models import VideoItem
 
@@ -10,4 +9,4 @@ class VideoItemSerializer(ItemSerializer):
     class Meta(ItemSerializer.Meta):
         model = VideoItem
         fields = ('id', 'type', 'filename', 'filesize', 'visibility', 'uploaded_at', 'published_at', 'owner', 
-		  'frame_rate', 'frame_width', 'frame_height', 'duration', 'format', 'file')
+		  'frame_rate', 'frame_width', 'frame_height', 'duration', 'format', 'file', 'thumb')

@@ -9,4 +9,4 @@ class ImageItemSerializer(ItemSerializer):
     class Meta(ItemSerializer.Meta):
         model = ImageItem
         fields = ('id', 'type', 'filename', 'filesize', 'visibility', 'uploaded_at',
-		  'published_at', 'owner', 'frame_width', 'frame_height', 'format', 'file')
+		  'published_at', 'owner', 'frame_width', 'frame_height', 'format', 'file', 'thumb')

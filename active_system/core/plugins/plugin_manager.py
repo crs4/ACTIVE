@@ -1,8 +1,8 @@
 from django.conf import settings
 from ConfigParser import ConfigParser
-from core.plugins.models import Plugin, Script, Event
+from core.plugins.models import Plugin, Script, Event, Action
 import os
-
+import ast
 
 class PluginManager():
     """
@@ -68,7 +68,37 @@ class PluginManager():
 	return p
 
 
-    def extract_events(self, section):
+    def extract_actions(self, action_names, event):
+        """
+        This method is used to extract all events associated to a plugin
+        from a given sections. If an Event name has already been stored in
+        the database it is retrieved otherwise a new Event object is created.
+
+        @param section: Dictionary containing all extracted section, including data related to scripts, such as the event list.
+        @type section: dictionary
+        @return: A list of Event objects associated to the considered script.
+        @rtype: list of Event
+        """
+        action_list = []
+        # extract the list of event identifiers
+        for action in action_names:
+                action = action.replace(' ', '')
+                if(len(action) == 0):
+                        continue
+                # save the event if it doesn't exist
+                if(Action.objects.filter(path_abs = action).count() == 0):
+                        a = Action(path_abs=action, event=event)
+                        a.save()
+		# check if the action had been associated to multiple events
+		if(Action.objects.filter(path_abs = action).count() > 1 ):
+			print 'This action has already been associated to an event!'
+			continue
+                # retrieve the saved event
+                action_list.append(Action.objects.get(path_abs = action))
+        return action_list
+    
+
+    def extract_events(self, event_names):
 	"""
 	This method is used to extract all events associated to a plugin
 	from a given sections. If an Event name has already been stored in
@@ -81,7 +111,7 @@ class PluginManager():
 	"""
 	event_list = []
 	# extract the list of event identifiers
-	for event in section['events'].split(','):
+	for event in event_names:
 		event = event.replace(' ', '').upper()
 		if(len(event) == 0):
 			continue
@@ -138,10 +168,14 @@ class PluginManager():
 			if not section_name.startswith('SCRIPT'):
 				continue
 
-			event_list = self.extract_events(config[section_name])
+			# extract all events and related actions
+			triggers = ast.literal_eval(config[section_name]['triggers'])
+			event_list = self.extract_events(triggers.keys())
+			for event in event_list:
+				self.extract_actions(triggers[str(event)], event)
 
-			# replace a string with a list of event objects
-                        del config[section_name]['events']
+			# remove the list of events and actions
+                        del config[section_name]['triggers']
 			
 			# add a reference to its plugin
 			config[section_name]['plugin'] = p

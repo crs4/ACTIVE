@@ -21,7 +21,15 @@ def generate_event(func):
 		# execute the function and collect the result
 		res = func(*args, **kwargs)
                 # generate an event over the called function and its parameters
-                EventManager().start_scripts_by_action(func_path, args[0].data, res.data)
+		input_data = {}
+		output_data ={}		
+		try:
+			input_data = args[0].data
+			output_data = res.data
+		except Exception as e:
+			print(e)
+                
+		EventManager().start_scripts_by_action(func_path, input_data, output_data )
                 print 'Function ', func_path, 'triggered some event'
 		return res
 

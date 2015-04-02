@@ -511,14 +511,38 @@ def video_indexing_experiments(resource_path, params):
     new_experiment_dict[USE_MIN_CONFIDENCE_RULE_KEY] = fs.params[USE_MIN_CONFIDENCE_RULE_KEY] 
     
     new_experiment_dict[USE_CLOTHING_RECOGNITION_KEY] = fs.params[USE_CLOTHING_RECOGNITION_KEY]
-    new_experiment_dict[CLOTHES_BBOX_HEIGHT_KEY] = fs.params[CLOTHES_BBOX_HEIGHT_KEY]
-    new_experiment_dict[CLOTHES_BBOX_WIDTH_KEY] = fs.params[CLOTHES_BBOX_WIDTH_KEY] 
-    new_experiment_dict[CLOTHES_CHECK_METHOD_KEY] = fs.params[CLOTHES_CHECK_METHOD_KEY] 
-    new_experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = fs.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] 
-    new_experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = fs.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] 
-    new_experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY] = fs.params[CLOTHING_REC_USE_3_BBOXES_KEY]
-    new_experiment_dict[NECK_HEIGHT_KEY] = fs.params[NECK_HEIGHT_KEY] 
-    new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = fs.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]    
+    
+    new_experiment_dict[CLOTHES_BBOX_HEIGHT_KEY] = CLOTHES_BBOX_HEIGHT
+    if(CLOTHES_BBOX_HEIGHT_KEY in fs.params):
+        new_experiment_dict[CLOTHES_BBOX_HEIGHT_KEY] = fs.params[CLOTHES_BBOX_HEIGHT_KEY]
+    
+    new_experiment_dict[CLOTHES_BBOX_WIDTH_KEY] = CLOTHES_BBOX_WIDTH
+    if(CLOTHES_BBOX_WIDTH_KEY in fs.params):
+        new_experiment_dict[CLOTHES_BBOX_WIDTH_KEY] = fs.params[CLOTHES_BBOX_WIDTH_KEY] 
+    
+    new_experiment_dict[CLOTHES_CHECK_METHOD_KEY] = CLOTHES_CHECK_METHOD
+    if(CLOTHES_CHECK_METHOD_KEY in fs.params):
+        new_experiment_dict[CLOTHES_CHECK_METHOD_KEY] = fs.params[CLOTHES_CHECK_METHOD_KEY] 
+    
+    new_experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = CLOTHING_REC_USE_DOMINANT_COLOR
+    if(CLOTHING_REC_USE_DOMINANT_COLOR_KEY in fs.params):
+        new_experiment_dict[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = fs.params[CLOTHING_REC_USE_DOMINANT_COLOR_KEY] 
+    
+    new_experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = CLOTHING_REC_USE_MEAN_X_OF_FACES
+    if(CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY in fs.params):
+        new_experiment_dict[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] = fs.params[CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY] 
+    
+    new_experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY] = CLOTHING_REC_USE_3_BBOXES
+    if(CLOTHING_REC_USE_3_BBOXES_KEY in fs.params):
+        new_experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY] = fs.params[CLOTHING_REC_USE_3_BBOXES_KEY]
+    
+    new_experiment_dict[NECK_HEIGHT_KEY] = NECK_HEIGHT
+    if(NECK_HEIGHT_KEY in fs.params):
+        new_experiment_dict[NECK_HEIGHT_KEY] = fs.params[NECK_HEIGHT_KEY] 
+    
+    new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = HIST_SMOOTHING_KERNEL_SIZE
+    if(HIST_SMOOTHING_KERNEL_SIZE_KEY in fs.params):
+        new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = fs.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]    
     
     frame_extr_time = 0
     if(FRAME_EXTRACTION_TIME_KEY in fs.anal_times):

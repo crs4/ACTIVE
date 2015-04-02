@@ -1,9 +1,9 @@
 from django.http import HttpResponse, Http404, HttpRequest
 from core.items.models import Item
 
-from core.items.video.views import VideoItemList, VideoItemDetail
-from core.items.audio.views import AudioItemList, AudioItemDetail
-from core.items.image.views import ImageItemList, ImageItemDetail
+from core.items.video.views import VideoItemList, VideoItemDetail, VideoItemFile
+from core.items.audio.views import AudioItemList, AudioItemDetail, AudioItemFile 
+from core.items.image.views import ImageItemList, ImageItemDetail, ImageItemFile
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view 
@@ -24,7 +24,7 @@ list all items togheter and for create a new item.
 
 @csrf_exempt
 @api_view(('GET','POST'))
-def routerList(request, items_type='ALL'):
+def routerList(request):
 	"""
 	Function used to invoke the correct view based on the
 	type of the multimedia file.
@@ -41,6 +41,9 @@ def routerList(request, items_type='ALL'):
 	mapping = {'video': VideoItemList.as_view(),
                    'image': ImageItemList.as_view(),
                    'audio': AudioItemList.as_view()}
+
+	# obtain the filter type
+	items_type = request.GET.get('type', 'ALL')
 
 	# handle the upload of a new item
 	if(request.FILES):
@@ -76,6 +79,33 @@ def routerDetail(request, pk):
 	mapping = {'video': VideoItemDetail.as_view(),
 		   'image': ImageItemDetail.as_view(),
                    'audio': AudioItemDetail.as_view()}
+	
+	# obtain an item and its specific data type
+	try:
+		i = Item.objects.get(pk=pk)
+		return mapping[i.type](request, pk)
+	except Item.DoesNotExist:
+		return HttpResponse(json.dumps({'error' : 'Item not found'}), status=status.HTTP_404_NOT_FOUND)
+
+
+
+@csrf_exempt
+def routerRendition(request, pk):
+	"""
+	Function used to invoke the correct CRUD view based on the
+	type of the multimedia file.
+
+	@param request: The HttpRequest used to retrieve item data.
+	@type request: HttpRequest
+	@param pk: Primary key of the requested digital item
+	@type pk: int
+	@return: An HttpResponse object containing item data or an error.
+	@rtype: HttpResponse
+	"""
+	# dictionary used to invoke the correct set of views
+	mapping = {'video': VideoItemFile.as_view(),
+		   'image': ImageItemFile.as_view(),
+                   'audio': AudioItemFile.as_view()}
 	
 	# obtain an item and its specific data type
 	try:

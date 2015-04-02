@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, StreamingHttpResponse, Http404
+
+from django.core.servers.basehttp import FileWrapper
 
 from core.views import EventView
 from rest_framework.response import Response
@@ -126,4 +128,40 @@ class VideoItemDetail(EventView):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+# classe temporanea utilizzata per restituire i file e i rispettivi thumbnail
+class VideoItemFile(EventView):
+    def get(self, request, pk):
+	"""
+        Method used to retrieve the original file created for a video item or its thumbnail
+
+        @param request: HttpRequest used to delete a specific VideoItem.
+        @type request: HttpRequest
+        @param pk: Primary key used to retrieve a VideoItem object.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse containing the result of object deletion.
+        @rtype: HttpResponse
+        """
+
+	try:
+            video = VideoItem.objects.get(item_ptr_id =pk)
+            type = request.GET.get('type', 'original')
+
+            response = None
+            if(type == 'original'):
+		# TODO risolvere il problema del caricamento lato web server
+                response = HttpResponse(FileWrapper(video.file), content_type = 'video/quicktime')
+                #response = StreamingHttpResponse(FileWrapper(video.file))
+		#response.streaming_content = ['video/quicktime']
+                response['Content-Disposition'] = 'attachment; filename="' + video.file.name + '"'
+                return response
+
+            if (type == 'thumb'):
+                response = HttpResponse(video.thumb, content_type = 'image/png')
+            	return response
+
+        except VideoItem.DoesNotExist:
+            raise Http404
 

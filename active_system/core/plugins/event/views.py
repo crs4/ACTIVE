@@ -4,6 +4,8 @@ from django.shortcuts import render
 from core.plugins.models import Event
 from core.plugins.event.serializers import EventSerializer
 
+from core.plugins.script.serializers import ScriptSerializer
+
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
@@ -122,3 +124,21 @@ class EventDetail(EventView):
         event = self.get_object(pk)
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_event_scripts(self, request, pk, format=None):
+	"""
+        This method is used to retrieve all Script objects associated with a given Event object.
+	Objects are returned in a serialized format, JSON by default.
+
+	@param request: HttpRequest used to retrieve all stored Script objects.
+	@type request: HttpRequest
+	@param format: The format used to serialize objects data.
+	@type format: string
+	@return: HttpResponse containing all serialized data.
+	@rtype: HttpResponse
+        """
+	
+	event = self.get_object(pk)
+	scripts = Script.objects.filter(events__name = event.name)
+	serializer = ScriptSerializer(scripts, many=True)
+        return Response(serializer.data)

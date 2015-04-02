@@ -31,10 +31,10 @@ class ClusterDetail(APIView):
 	"""
 	Method used to get information about the cluster.
 
-	:param request: HttpRequest used to retrieve cluster main information.
-	:type request: HttpRequest
-	:return: A JSON representation of cluster information.
-	:rtype: HttpResponse containing the serialized cluster data.
+	@param request: HttpRequest used to retrieve cluster main information.
+	@type request: HttpRequest
+	@return: A JSON representation of cluster information.
+	@rtype: HttpResponse containing the serialized cluster data.
 	"""
         list = cm.list_nodes()
         global nodes
@@ -52,10 +52,10 @@ class ClusterDetail(APIView):
         """
         Method used to startup the cluster (its nodes).
 
-	:param request: HttpRequest used to startup cluster nodes.
-	:type request: HttpRequest
-        :return: HttpResponse embedding the result of cluster startup.
-	:rtype: HttpResponse
+	@param request: HttpRequest used to startup cluster nodes.
+	@type request: HttpRequest
+        @return: HttpResponse embedding the result of cluster startup.
+	@rtype: HttpResponse
         """
 	print "Cluster startup..."
         res = cm.start()
@@ -66,10 +66,10 @@ class ClusterDetail(APIView):
         """
         Method used to restart the cluster (its nodes).
 
-       	:param request: HttpRequest used to restart all cluster nodes.
-	:type request: HttpRequest
-        :return: HttpResponse containing the restart status.
-	:rtype: HttpResponse
+       	@param request: HttpRequest used to restart all cluster nodes.
+	@type request: HttpRequest
+        @return: HttpResponse containing the restart status.
+	@rtype: HttpResponse
         """
 	print "Cluster restart..."
 	res = cm.restart()
@@ -79,10 +79,10 @@ class ClusterDetail(APIView):
         """
         Method used to stop the cluster (its nodes).
 
-        :param request: HttpRequest used to stop the cluster.
-	:type request: HttpRequest
-        :return: HttpResponse containing the result of the cluster stop.
-	:rtype: HttpResponse
+        @param request: HttpRequest used to stop the cluster.
+	@type request: HttpRequest
+        @return: HttpResponse containing the result of the cluster stop.
+	@rtype: HttpResponse
         """
 	print "Cluster shutdown"
 	res = cm.stop()
@@ -99,12 +99,12 @@ class NodeDetail(APIView):
         """
         Method used to get information about the cluster.
 
-        :param request: HttpRequest used to retrieve cluster node data.
-        :type request: HttpRequest
-	:param id: The node id used to extract serialized data of a cluster node.
-	:type id: int
-        :return: HttpResponse containing the serialized cluster data.
-        :rtype: HttpResponse
+        @param request: HttpRequest used to retrieve cluster node data.
+        @type request: HttpRequest
+	@param id: The node id used to extract serialized data of a cluster node.
+	@type id: int
+        @return: HttpResponse containing the serialized cluster data.
+        @rtype: HttpResponse
         """
 	print 'Node details ', id
         node = cm.get_node(id)
@@ -120,10 +120,10 @@ class NodeDetail(APIView):
         Replace (recursively) minus characters with underscore for
         all dict keys. Needed by AngularJS.
 
-	:param d: Data that must be converted in a dictionary.
-        :type d: string
-        :return: HttpResponse containing the serialized cluster data.
-        :rtype: dictionary
+	@param d: Data that must be converted in a dictionary.
+        @type d: string
+        @return: HttpResponse containing the serialized cluster data.
+        @rtype: dictionary
         """
         new = {}
         for k, v in d.iteritems():
