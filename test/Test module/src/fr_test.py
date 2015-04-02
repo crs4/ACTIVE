@@ -44,8 +44,8 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[LBP_GRID_Y_KEY]) + ',' +
                      str(experiment_dict[PERSON_IMAGES_NR_KEY]) + ',' +
                      str(experiment_dict[TRAINING_IMAGES_NR_KEY]) + ',' +
-                     str(experiment_dict[OFFSET_PCT_X_KEY] + ',' +
-                     str(experiment_dict[OFFSET_PCT_Y_KEY] + ',' +
+                     str(experiment_dict[OFFSET_PCT_X_KEY]) + ',' +
+                     str(experiment_dict[OFFSET_PCT_Y_KEY]) + ',' +
                      str(experiment_dict[CROPPED_FACE_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[CROPPED_FACE_WIDTH_KEY]) + ',' +
                      str(experiment_dict[RECOGNITION_RATE_KEY]) + ',' +
