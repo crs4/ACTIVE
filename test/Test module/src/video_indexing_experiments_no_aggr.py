@@ -52,7 +52,7 @@ for use_aggregation in use_aggregation_list:
 	        # Definition of parameters
 	
 	        #params[CODE_VERSION_KEY] = 1000 # Portatile MP
-	        params[CODE_VERSION_KEY] = 298 # Palladium
+	        params[CODE_VERSION_KEY] = 308 # Palladium
 	        
 	        # Face detection
 	        

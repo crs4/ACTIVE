@@ -1343,6 +1343,132 @@ def get_image_score(image):
     return score
 
 
+def merge_consecutive_segments(segments, min_duration):
+    '''
+    Merge consecutive video segments
+    
+    :type segments: list
+    :param segments: list of dictionaries representing video segments
+    
+    :type min_duration:float
+    :param min_duration: minimum duration of segments (in seconds)
+    
+    :rtype: tuple
+    :return: a list of merged segments and total duration of segments
+    '''
+    
+    print('segments', segments)
+    
+    merged_segments = []
+    
+    # Order segments by starting time
+    ord_segments = []
+    
+    idx = 0
+    
+    while(len(segments) > 0):
+        
+        counter = 0
+        
+        min_start = sys.maxint
+        for segment_dict in segments:
+            
+            start = segment_dict[SEGMENT_START_KEY]
+                                
+            if(start < min_start):
+                
+                min_start = start
+                
+                idx = counter
+                
+            counter = counter + 1
+                
+        ord_segments.append(segments[idx])
+
+        del segments[idx]
+        
+    # Merge consecutive segments
+        
+    tot_dur = 0
+        
+    prev_end = -sys.maxint
+    first_start = 0
+    tot_seg_dur = 0
+    prev_dict = None
+    last_segment_appended = True
+    
+    # Iterate through ordered segments
+    
+    counter = 0
+
+    for segment_dict in ord_segments:
+
+        start = segment_dict[SEGMENT_START_KEY]
+        
+        dur = segment_dict[SEGMENT_DURATION_KEY]
+        
+        # First segment
+        if(counter == 0):
+            
+            first_start = start
+            
+            tot_seg_dur = dur
+            
+            prev_end = start + dur
+            
+            last_segment_appended = False
+            
+            counter = counter + 1
+            
+            continue
+
+        # Merge consecutive segments
+        if(start < (prev_end + (min_duration * 1000.0))):
+            
+            tot_seg_dur = (
+            tot_seg_dur + (prev_end - start) + dur)
+            
+            last_segment_appended = False
+        
+        else:
+            
+            tot_dur = tot_dur + tot_seg_dur
+            
+            simple_seg_dict = {}
+            
+            simple_seg_dict[SEGMENT_START_KEY] = first_start
+            
+            simple_seg_dict[SEGMENT_DURATION_KEY] = tot_seg_dur
+            
+            merged_segments.append(simple_seg_dict)
+            
+            first_start = start
+            
+            tot_seg_dur = dur
+            
+            last_segment_appended = True
+        
+        prev_end = start + dur
+        
+        counter = counter + 1
+        
+    if(not(last_segment_appended)):
+        
+        simple_seg_dict = {}
+        
+        simple_seg_dict[SEGMENT_START_KEY] = first_start
+        
+        simple_seg_dict[SEGMENT_DURATION_KEY] = tot_seg_dur
+        
+        merged_segments.append(simple_seg_dict)   
+        
+        tot_dur = tot_dur + tot_seg_dur    
+        
+    print('merged segments', merged_segments) 
+        
+    return (merged_segments, tot_dur)                
+        
+
 def merge_near_idxs(idxs, diff_list, min_dist):
     '''
     Merge near indexes according to diff_list
