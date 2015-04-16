@@ -63,7 +63,7 @@ for resource_path in resource_paths:
         # Definition of parameters
 
         #params[CODE_VERSION_KEY] = 286 # Portatile MP
-        params[CODE_VERSION_KEY] = 308# Palladium
+        params[CODE_VERSION_KEY] = 311# Palladium
         
         # Face detection
         
@@ -114,7 +114,7 @@ for resource_path in resource_paths:
         # Video indexing
         params[CONF_THRESHOLD_KEY] = conf_threshold
         
-        params[CLOTHES_CONF_THRESH_KEY] = conf_threshold * 0.5
+        params[CLOTHES_CONF_THRESH_KEY] = clothes_conf_threshold
         
         params[HALF_WINDOW_SIZE_KEY] = 10
         

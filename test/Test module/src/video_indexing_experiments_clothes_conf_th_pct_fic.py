@@ -61,7 +61,7 @@ for resource_path in resource_paths:
         # Definition of parameters
 
         #params[CODE_VERSION_KEY] = 286 # Portatile MP
-        params[CODE_VERSION_KEY] = 308# Palladium
+        params[CODE_VERSION_KEY] = 311# Palladium
         
         # Face detection
         
