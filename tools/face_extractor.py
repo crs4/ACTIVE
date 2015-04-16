@@ -1886,7 +1886,8 @@ class FaceExtractor(object):
         use_clothing_rec = USE_CLOTHING_RECOGNITION
         cl_ch_method = CLOTHES_CHECK_METHOD
         use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
-        clothes_conf_th_pct = CLOTHES_CONF_THRESH_PCT
+        # Threshold for using clothing recognition
+        clothes_conf_th = CLOTHES_CONF_THRESH
         
         # Directory for face models
         face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
@@ -1926,12 +1927,9 @@ class FaceExtractor(object):
                 
                 cloth_models_path = self.params[CLOTH_MODELS_DIR_PATH_KEY]
                 
-            if(CLOTHES_CONF_THRESH_PCT_KEY in self.params):
+            if(CLOTHES_CONF_THRESH_KEY in self.params):
                 
-                clothes_conf_th_pct = self.params[CLOTHES_CONF_THRESH_PCT_KEY]
-                
-        # Threshold for using clothing recognition
-        clothes_conf_th = conf_threshold * clothes_conf_th_pct
+                clothes_conf_th = self.params[CLOTHES_CONF_THRESH_KEY]
 
         # Get histograms from model
         

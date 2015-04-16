@@ -202,7 +202,7 @@ TEST_SET_PATH_KEY = 'test_set_path'
 TRAINING_IMAGES_NR = 2
 TRAINING_IMAGES_NR_KEY = 'training_images_nr'
 TRAINING_SET_PATH_KEY = 'training_set_path'
-VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME = 'ID-TEST-324-'
+VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME = 'ID-TEST-574-'
 
 # Face recognition parameters
 ALFA = 1
@@ -362,8 +362,8 @@ CLOTHES_BBOX_WIDTH = 2.0
 CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD = 'Min' # 'Min', 'Mean' or 'Max'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
-CLOTHES_CONF_THRESH_PCT = 0 # Default 0.5
-CLOTHES_CONF_THRESH_PCT_KEY = 'conf_threshold_pct_for_clothing_recognition'
+CLOTHES_CONF_THRESH = 0 # Default 0.5
+CLOTHES_CONF_THRESH_KEY = 'conf_threshold_for_clothing_recognition'
 CLOTHING_REC_USE_3_BBOXES = False
 CLOTHING_REC_USE_3_BBOXES_KEY = 'use_3_bboxes_in_clothing_recognition'
 CLOTHING_REC_USE_DOMINANT_COLOR = True
