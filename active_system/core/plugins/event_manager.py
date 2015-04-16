@@ -27,10 +27,6 @@ class EventManager():
 		if (Script.objects.filter(events__name = event_name).count() > 0):
 			for script in Script.objects.filter(events__name = event_name):
 				self.execute_script(script, input_dict, output_dict)
-
-		######### TODO determinare che non si tratta di un plugin ############
-		else:
-			pass
 	
 	
 	def start_scripts_by_action(self, action_name, input_dict={}, output_dict={}):
@@ -49,8 +45,23 @@ class EventManager():
 			print 'The action ', action.path_abs, 'has been triggered'
 			self.start_scripts(action.event.name, input_dict, output_dict)
 	
-	
-	def execute_script(self, script, input_dict, output_dict):
+	def execute_script_by_id(self, script_id, input_dict={}, output_dict={}):
+		"""
+		This method is used to execute a script by its id.
+		All input parameters must be specified, otherwise they will be empty.
+
+                @param script_id: The id of the script that will be executed.
+                @type action_name: int
+                @param input_dict: Optional dictionary containing inputs that will be provided to the script.
+                @type input_dict: dictionary
+                @param output_dict: Optional dictionary containing inputs that will be provided to the script.
+                @type output_dict: dictionary
+		"""
+		script = Script.objects.get(pk=script_id)
+
+		self.execute_script(script, input_dict, output_dict)
+
+	def execute_script(self, script, input_dict={}, output_dict={}):
 		"""
 		This method is used to execute a provided plugin script,embedding
 		all necessary information.
@@ -65,10 +76,11 @@ class EventManager():
                 @type output_dict: dictionary
 		"""
 		server_url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/'
-		#print server_url, script.path, script.job_name
+		# problema TemporaryUploadedFile!
 		r = requests.post(server_url,	{'func_name': script.path,
 						 'job_name': script.job_name,
 						 'event_in_params' : json.dumps(input_dict),
 						 'event_out_params' : json.dumps(output_dict),
 						 'name' : 'Event generated job'})		
 		print 'Running ', script.details, 'script...'
+		

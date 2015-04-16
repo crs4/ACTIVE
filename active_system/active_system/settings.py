@@ -38,9 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'oauth2_provider',
-    'corsheaders',
+#    'oauth2_provider',
+#    'corsheaders',
     'core',
+    'tools.navigator',
+    'tools.job_monitor',
     'core.plugins.apps.PluginConfig', # collect plugin data
 )
 
@@ -77,7 +79,6 @@ DATABASES = {
    }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -97,12 +98,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",
+ "django.contrib.staticfiles.finders.AppDirectoriesFinder")
+
+
 # Template directory
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/te$
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/var/spool/active/active_system/templates',
+    os.path.join(BASE_DIR,'templates'),
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -130,7 +135,7 @@ CORS_ALLOW_HEADERS = (
 MEDIA_ROOT = '/var/spool/active/data/items'
 
 # directory where must be saved all plugin manifest files
-PLUGIN_MANIFEST_PATH = '/var/spool/active/active_system/plugin_manifest'
+PLUGIN_MANIFEST_PATH = os.path.join(BASE_DIR, 'plugin_manifest')
 
 # endpoint where will be executed a job processor
 JOB_PROCESSOR_ENDPOINT = "http://156.148.132.79:9000/"

@@ -1,0 +1,15 @@
+ann_tag: Giagnoli_Gerardo
+segments:
+- segment_duration: 2166.6666666666665
+  segment_start: 44411
+- segment_duration: 13833.333333333334
+  segment_start: 68268
+- segment_duration: 3000.0
+  segment_start: 317684
+- segment_duration: 3333.3333333333335
+  segment_start: 421955
+- segment_duration: 5333.333333333334
+  segment_start: 452318
+- segment_duration: 2833.3333333333335
+  segment_start: 690056
+tot_segments_duration: 30499.999999999996

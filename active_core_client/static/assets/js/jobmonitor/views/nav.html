@@ -1,0 +1,23 @@
+<ul>
+	<li class="">
+		<a href="/jobmonitor"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+	</li>
+	<li class="">
+		<a href="/jobmonitor/workers"><i class="fa fa-lg fa-fw fa-server"></i> <span class="menu-item-parent">Cluster</span></a>
+	</li>
+	<li>
+		<a href="#">
+			<i class="fa fa-lg fa-fw fa-gears"></i>
+			<span class="menu-item-parent">Jobs</span>
+		</a>
+		<ul>
+			<li><a id="list" href="/jobmonitor/jobs">List</a></li>
+			<li><a id="start" href="/jobmonitor/startjob">Start</a></li>
+			<li><a id="purge" href="#" ng-click="">Purge</a></li>
+		</ul>
+	</li>
+</ul> 
+<span class="minifyme"> <i class="fa fa-arrow-circle-left hit"></i> </span>
+<script>
+	pageSetUp();
+</script>

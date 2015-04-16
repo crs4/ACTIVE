@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from core.items.audio.models import AudioItem
-from core.items.audio.serializers import AudioItemSerializer
+from core.items.audio.serializers import AudioItemSerializer, AudioItemPagination
+from rest_framework.pagination import PageNumberPagination
 
 
 class AudioItemList(EventView):
@@ -28,9 +29,15 @@ class AudioItemList(EventView):
         @return: HttpResponse containing all requested audio items data.
         @rtype: HttpResponse
         """
-	items = AudioItem.objects.all()
-        serializer = AudioItemSerializer(items, many=True)
-        return Response(serializer.data)
+	#items = AudioItem.objects.all()
+        #serializer = AudioItemSerializer(items, many=True)
+        #return Response(serializer.data)
+	
+	audio = AudioItem.objects.all()
+	paginator = AudioItemPagination()
+	result = paginator.paginate_queryset(audio, request)
+	serializer = AudioItemSerializer(result, many=True)
+	return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
 	"""
@@ -46,6 +53,8 @@ class AudioItemList(EventView):
         @rtype: HttpResponse
         """
 	serializer = AudioItemSerializer(data=request.data)
+	if(request.FILES and request.FILES['file'].content_type.split('/')[0] != 'audio'):
+            return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -102,7 +111,11 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the uploaded audio item data, error if it doesn't exists.
 	@rtype: HttpResponse
 	"""
+	print "Input ", pk, request.data
+
         item = self.get_object(pk)
+
+	print "Output ", item
         serializer = AudioItemSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -125,37 +138,3 @@ class AudioItemDetail(EventView):
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# classe temporanea utilizzata per restituire i file e i rispettivi thumbnail
-class AudioItemFile(EventView):
-    def get(self, request, pk):
-        """
-        Method used to retrieve the original file created for a video item or its thumbnail
-
-        @param request: HttpRequest used to delete a specific VideoItem.
-        @type request: HttpRequest
-        @param pk: Primary key used to retrieve a VideoItem object.
-        @type pk: int
-        @param format: Format used for data serialization.
-        @type format: string
-        @return: HttpResponse containing the result of object deletion.
-        @rtype: HttpResponse
-        """
-
-        try:
-            audio = AudioItem.objects.get(item_ptr_id =pk)
-            type = request.GET.get('type', 'original')
-
-            response = None
-            if(type == 'original'):
-                response = HttpResponse(audio.file, content_type = 'audio/' + audio.format)
-                response['Content-Disposition'] = 'attachment; filename="' + audio.file.name + '"'
-                return response
-
-            if (type == 'thumb'):
-                response = HttpResponse(audio.thumb, content_type = 'image/png')
-                return response
-
-        except AudioItem.DoesNotExist:
-            raise Http404

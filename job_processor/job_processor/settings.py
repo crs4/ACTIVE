@@ -97,7 +97,7 @@ CELERYD_POOL_RESTARTS = True
 PLUGIN_SCRIPT_MODULE = 'plugins_script'
 
 # endpoint associated to the ACTIVE core instance
-ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:8000/'
+ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:80/'
 
 # dictetory where all digital items are stored and shared among the cluster
 MEDIA_ROOT = '/var/spool/active/data/'

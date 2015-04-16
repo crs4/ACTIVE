@@ -6,9 +6,19 @@ import datetime
 import os
 import shutil
 
+from django.utils.encoding import force_unicode
+
 """
 Module used to define the ACTIVE core data model.
 """
+
+
+def compute_upload_path(instance, filename):
+	"""
+	Function used to upload all digital items inside the correct
+	folder avoiding path overlapping between different items. 
+	"""
+	return os.path.join(str(instance.id), filename)
 
 class Item(models.Model):
     """
@@ -16,6 +26,7 @@ class Item(models.Model):
     any multimediafile that could be stored by the platform.
     """
     type = models.CharField(max_length=100, blank=True)
+    mime_type = models.CharField(max_length=100, blank=True)
     filename = models.CharField(max_length=100, blank=False)
     description = models.CharField(max_length=300, blank=True)
     filesize = models.CharField(max_length = 10, blank=True)
@@ -23,8 +34,8 @@ class Item(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True, blank=True)
     owner = models.ForeignKey(User)
-    file = models.FileField(null=True)
-    thumb = models.FileField(null=True)
+    file = models.FileField(upload_to=compute_upload_path, null=True)
+    thumb = models.FileField(upload_to=compute_upload_path, null=True)
     
     def __repr__(self):
         return 'Item ', self.filename, ' ', self.type
@@ -36,7 +47,7 @@ class Item(models.Model):
 	"""
 	Method overrided in order to correctely store a digital item.
 	"""
-
+	
 	# save the item without a file
 	temp = self.file
 	self.file = None
@@ -45,21 +56,11 @@ class Item(models.Model):
 	# create the path where the file will be stored
 	# TODO	save the thumbnail image in a folder named "thumbnail"
 	self.file = temp
-	for field in self._meta.fields:
-		if field.name == 'file' or field.name == 'thumb' :
-			field.upload_to = str(self.id) + '/'
-			
 
-	# delete the file if it already exists
-	#if os.path.exists(self.file.path):
-	#	shutil.rmtree(self.file.path)
-
-	# set plublish data on item visibility
 	self.__set_visibility()
 
 	# save the item with a file associated
         super(Item, self).save()
-	
 	
 
     def delete(self, *args, **kwargs):
