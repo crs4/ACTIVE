@@ -6,7 +6,8 @@ import tesseract
 from Constants import *
 from itertools import permutations
 
-def get_tags_from_file(tags_file_path):
+def get_tags_from_file():
+    print(TAGS_FILE_PATH)
     
     with open(TAGS_FILE_PATH, 'r') as f:
     
@@ -33,8 +34,12 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
     flags = cv2.THRESH_BINARY | cv2.THRESH_OTSU
     th, bw_im = cv2.threshold(gray_im, 128, 255, flags)
     
-    #cv2.imshow('bw_im', bw_im)
-    #cv2.waitKey(0)
+    cv2.imshow('bw_im', bw_im)
+    cv2.waitKey(0)
+    
+    # TEST ONLY
+    path = r'C:\Users\Maurizio\Documents\File di test\Caption recognition\bw_caption_block.png'
+    cv2.imwrite(path, bw_im)
     
     # Find contours in image
     mode = cv2.RETR_TREE
@@ -241,7 +246,7 @@ def get_tag_from_image_old(image_path):
     :param image_path: string
     :type image_path: path of image to be analyzed
     '''
-    gray
+    pass
 
 
 def get_tag_from_image(gray_im):
