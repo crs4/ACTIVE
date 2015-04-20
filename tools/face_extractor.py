@@ -1232,21 +1232,35 @@ class FaceExtractor(object):
                     for i in range(0,3):
                         
                         # Get region of interest for clothes
-                        clothes_width = int(face_width * cl_pct_width)
+                        clothes_width = int(
+                        (face_width * cl_pct_width) / 3.0)
                         clothes_height = int(face_height * cl_pct_height)
-                        clothes_x0 = 0
                         
-                        if(i == 0):
-                            # Leftmost bounding box for clothes
-                            clothes_x0 = int(face_x - clothes_width/2.0)
+                        # Leftmost bounding box for clothes
+                        clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                        
+                        # OLD IMPLEMENTATION
+                        # (final distance between two frames is the distance 
+                        # between the two nearest bounding boxes)
+                        #if(i == 0):
+                            ## Leftmost bounding box for clothes
+                            #clothes_x0 = int(face_x - clothes_width/2.0)
                             
-                        elif(i == 1):
-                            # Central boundinb box for clothes
-                            clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                        #elif(i == 1):
+                            ## Central bounding box for clothes
+                            #clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                            
+                        #elif(i == 2):
+                            ## Rightmost bounding box for clothes
+                            #clothes_x0 = int(face_x + face_width - clothes_width/2.0)
+                            
+                        if(i == 1):
+                            # Central bounding box for clothes
+                            clothes_x0 = clothes_x0 +  clothes_width
                             
                         elif(i == 2):
                             # Rightmost bounding box for clothes
-                            clothes_x0 = int(face_x + face_width - clothes_width/2.0)
+                            clothes_x0 = clothes_x0 + 2 * clothes_width                          
                             
                         clothes_y0 = int(
                         face_y + face_height + (face_height * neck_pct_height))
@@ -1279,11 +1293,11 @@ class FaceExtractor(object):
                         for ch in range(0, 3):
                     
                             hist = cv2.calcHist(
-                            [roi_hsv], [ch], mask, [16], [0, 255])
+                            [roi_hsv], [ch], mask, [255], [0, 255])
                     
                             cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
                             
-                            hist.reshape(-1)
+                            #hist.reshape(-1)
                             
                             hists.append(hist)
                                 
@@ -1336,12 +1350,15 @@ class FaceExtractor(object):
                 
                     for ch in range(0, 3):
                 
+                        #hist = cv2.calcHist(
+                        #[roi_hsv], [ch], mask, [16], [0, 255])
+                        
                         hist = cv2.calcHist(
-                        [roi_hsv], [ch], mask, [16], [0, 255])
+                        [roi_hsv], [ch], mask, [255], [0, 255])
                 
                         cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
                         
-                        hist.reshape(-1)
+                        #hist.reshape(-1)
                         
                         hists.append(hist)
                             
