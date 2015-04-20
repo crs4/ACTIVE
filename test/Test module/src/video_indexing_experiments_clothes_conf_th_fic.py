@@ -34,15 +34,15 @@ use_mean_x = False
 
 use_3_bboxes = False
 
-conf_threshold = 8
+clothes_conf_threshold = 8
 
-clothes_conf_threshold_list = range(10, 51, 2) # Palladium
+conf_threshold_list = range(10, 51, 2)
 
 for resource_path in resource_paths:
     
     res_name = os.path.basename(resource_path) 
         
-    for clothes_conf_threshold in clothes_conf_threshold_list:
+    for conf_threshold in conf_threshold_list:
         
         # Make beep
         #frequency = 404
