@@ -1,0 +1,89 @@
+<div class="row hidden-mobile">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+		<ul class="no-padding basket">
+			<li class="no-padding col col-lg-2">
+				<div class="input-group col col-lg-12 smart-form">
+					<label class="select">
+						<select class="input" ng-model="selectedType" ng-options="type.option for type in types"></select>
+						<i></i>
+					</label>
+				</div>
+			</li>
+			<li>
+				<span id="activity" class="activity-dropdown selected-items">
+					<i class="fa fa-photo"></i>
+					<b class="badge bounceIn animated" ng-class="selectedItems.length == 0 ? 'bg-color-red' : ''"> {{selectedItems.length}} </b>
+				</span>
+				<div id="project-context">
+					<span class="label">Items:</span>
+					<span id="project-selector" class="popover-trigger-element dropdown-toggle" data-toggle="dropdown">Selected items <i class="fa fa-angle-down"></i></span>
+					<ul class="dropdown-menu">
+						<li ng-repeat="item in selectedItems">
+							<a href="javascript:void(0);">{{item.id}} - {{item.filename}}</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="javascript:void(0);" ng-click="unselectItems()">
+								<i class="fa fa-power-off"></i>
+								Clear
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-align-right">
+		<div class="page-title">
+			<div class="input-group col col-lg-4 smart-form my-select2">
+				<select id="select_plugin" style="width:100%" smart-select2 class="select2" ng-model="selectedScript">
+					<option value="" style="font-size:10px;"> Actions </option>
+				</select>
+			</div>
+			<a ng-click="startScript()" class="btn btn-default" ng-show="selectedScript"> Start </a>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div id="items" class="superbox col-sm-12" infinite-scroll="nextPage()" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false">
+		<div id="item_{{item.id}}" class="superbox-list" ng-repeat="item in items" ng-click="selectItem($event, item)">
+			<img ng-src="http://156.148.132.79:80/api/items/file/{{item.id}}/?type=thumb" alt="{{item.id}}" title="{{item.filename}}" class="superbox-img">
+			<span class="suberbox">{{item.filename | limitTo:13}}</span>
+		</div>
+		<div class="superbox-float"></div>
+	</div>
+	<div class="superbox-show" style="height:300px; display: none"></div>
+
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						×
+					</button>
+					<h4 class="modal-title">Delete item</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						WARNING: the item will be permanently deleted from the system.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Close
+					</button>
+					<button type="button" class="btn btn-danger" ng-click="deleteItem(currentItem)">
+						Confirm changes
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div>
+	</div><!-- /.modal-dialog -->
+	
+</div>
+
+<script type="text/javascript">
+	pageSetUp();
+</script>

@@ -56,7 +56,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  CLOTHING_REC_USE_3_BBOXES_KEY + ',' +
                  NECK_HEIGHT_KEY + ',' +
                  HIST_SMOOTHING_KERNEL_SIZE_KEY + ',' +
-                 CLOTHES_CONF_THRESH_PCT_KEY + ',' +
+                 CLOTHES_CONF_THRESH_KEY + ',' +
                                   
                  FRAME_EXTRACTION_TIME_KEY + ',' + 
                  FACE_DETECTION_TIME_KEY + ',' +
@@ -124,7 +124,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[CLOTHING_REC_USE_3_BBOXES_KEY]) + ',' +
                      str(experiment_dict[NECK_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY]) + ',' +
-                     str(experiment_dict[CLOTHES_CONF_THRESH_PCT_KEY]) + ',' +
+                     str(experiment_dict[CLOTHES_CONF_THRESH_KEY]) + ',' +
                                         
                      str(experiment_dict[FRAME_EXTRACTION_TIME_KEY]) + ',' + 
                      str(experiment_dict[FACE_DETECTION_TIME_KEY]) + ',' +
@@ -546,9 +546,9 @@ def video_indexing_experiments(resource_path, params):
     if(HIST_SMOOTHING_KERNEL_SIZE_KEY in fs.params):
         new_experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY] = fs.params[HIST_SMOOTHING_KERNEL_SIZE_KEY]    
     
-    new_experiment_dict[CLOTHES_CONF_THRESH_PCT_KEY] = CLOTHES_CONF_THRESH_PCT
-    if(CLOTHES_CONF_THRESH_PCT_KEY in fs.params):
-        new_experiment_dict[CLOTHES_CONF_THRESH_PCT_KEY] = fs.params[CLOTHES_CONF_THRESH_PCT_KEY]
+    new_experiment_dict[CLOTHES_CONF_THRESH_KEY] = CLOTHES_CONF_THRESH
+    if(CLOTHES_CONF_THRESH_KEY in fs.params):
+        new_experiment_dict[CLOTHES_CONF_THRESH_KEY] = fs.params[CLOTHES_CONF_THRESH_KEY]
     
     # Analysis time
     

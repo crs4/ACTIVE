@@ -26,7 +26,7 @@ from caption_recognition import get_tag_from_image
 
 from Constants import *
 
-from Utils import aggregate_frame_results, compare_clothes, get_dominant_color, get_hist_difference, get_mean_intra_distance, get_shot_changes, is_rect_similar, load_YAML_file, save_YAML_file
+from Utils import aggregate_frame_results, compare_clothes, get_dominant_color, get_hist_difference, get_mean_intra_distance, get_shot_changes, is_rect_similar, load_YAML_file, merge_consecutive_segments, save_YAML_file
 
 class FaceExtractor(object):
     '''
@@ -510,7 +510,7 @@ class FaceExtractor(object):
                     
                     if(self.params is not None):
                         
-                        used_fps = self.params[USED_FPS]
+                        used_fps = self.params[USED_FPS_KEY]
                         use_or_fps = self.params[USE_ORIGINAL_FPS_KEY]
                         use_or_res = self.params[USE_ORIGINAL_RES_KEY]
                         used_res_scale_factor = self.params[USED_RES_SCALE_FACTOR_KEY]
@@ -784,6 +784,14 @@ class FaceExtractor(object):
                 # Read image from given path
                 image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
                 
+                if(image is None):
+                    
+                    print('Warning! Image is None (1)')
+                    
+                    frame_counter = frame_counter + 1
+                    
+                    continue
+                
                 # Convert image to hsv
                 hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
                 
@@ -882,6 +890,8 @@ class FaceExtractor(object):
                             
                         # Check if a new shot begins
                         if(sub_frame_counter in self.cut_idxs):
+                            
+                            #print('new shot begins', sub_frame_counter)
                                 
                             break
                 
@@ -890,7 +900,13 @@ class FaceExtractor(object):
                         # Read image from given path
                         sub_image = cv2.imread(
                         sub_frame_path, cv2.IMREAD_COLOR)
-                
+
+                        if(sub_image is None):
+                            
+                            print('Warning! Image is None (2)')
+                            
+                            continue
+                        
                         # Convert image to hsv
                         sub_hsv = cv2.cvtColor(sub_image, cv2.COLOR_BGR2HSV)
                 
@@ -914,9 +930,18 @@ class FaceExtractor(object):
                         track_x1 = track_x0 + track_w
                         track_y1 = track_y0 + track_h
                         
+                        # TEST ONLY
+                        #cv2.rectangle(
+                        #sub_image, (track_x0, track_y0), (track_x1, track_y1), (0, 0, 255), 3, 8, 0)
+                        
+                        #cv2.imshow('tracking', sub_image)
+                        #cv2.waitKey(0)
+                        
                         # Check size of track window
                         if((track_w <= min_size_width) 
-                        or (track_h <= min_size_height)):                    
+                        or (track_h <= min_size_height)):   
+                            
+                            #print('Track window too small', sub_frame_counter)                 
 
                             break
                             
@@ -1022,6 +1047,8 @@ class FaceExtractor(object):
                                     
                                 segment_face_counter = (
                                 segment_face_counter - max_fr_with_miss_det)
+                                
+                                #print('Too many missed detections', sub_frame_counter)
                                 
                                 break
                             
@@ -1859,7 +1886,8 @@ class FaceExtractor(object):
         use_clothing_rec = USE_CLOTHING_RECOGNITION
         cl_ch_method = CLOTHES_CHECK_METHOD
         use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
-        clothes_conf_th_pct = CLOTHES_CONF_THRESH_PCT
+        # Threshold for using clothing recognition
+        clothes_conf_th = CLOTHES_CONF_THRESH
         
         # Directory for face models
         face_models_path = os.path.join(video_path, FACE_MODELS_DIR)
@@ -1899,12 +1927,9 @@ class FaceExtractor(object):
                 
                 cloth_models_path = self.params[CLOTH_MODELS_DIR_PATH_KEY]
                 
-            if(CLOTHES_CONF_THRESH_PCT_KEY in self.params):
+            if(CLOTHES_CONF_THRESH_KEY in self.params):
                 
-                clothes_conf_th_pct = self.params[CLOTHES_CONF_THRESH_PCT_KEY]
-                
-        # Threshold for using clothing recognition
-        clothes_conf_th = conf_threshold * clothes_conf_th_pct
+                clothes_conf_th = self.params[CLOTHES_CONF_THRESH_KEY]
 
         # Get histograms from model
         
@@ -3486,8 +3511,8 @@ class FaceExtractor(object):
                     cv2.imwrite(cloth_path, cloth)
                 
                 # Add rectangle for clothes             
-                cv2.rectangle(
-                image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+                #cv2.rectangle(
+                #image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
                 
                 file_name = '%07d.bmp' % image_counter
                 
@@ -3741,7 +3766,7 @@ class FaceExtractor(object):
                         print '### ' + w_name + ' ###\n'
                         ans = ''
                         
-                        # Ask contributor if shown person is known
+                        # Ask user if shown person is known
                         while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
                             
                             ans = raw_input(IS_KNOWN_PERSON_ASK)
@@ -3990,7 +4015,7 @@ class FaceExtractor(object):
                 #(USED_FPS+1) * MIN_SEGMENT_DURATION / 2))
             
             self.cut_idxs = get_shot_changes(
-            self.hist_diffs, half_window_size, std_mult_frame)    
+            self.hist_diffs, half_window_size, std_mult_frame)      
             
         # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
@@ -4273,6 +4298,14 @@ class FaceExtractor(object):
             
             os.makedirs(simple_ann_path)              
             
+        # Get minimum segment duration
+        min_duration = MIN_SEGMENT_DURATION
+        
+        if((self.params is not None) and
+        (MIN_SEGMENT_DURATION_KEY in self.params)):
+            
+            min_duration = self.params[MIN_SEGMENT_DURATION_KEY]
+        
         # Save unique tags
         tags = []
         
@@ -4302,7 +4335,7 @@ class FaceExtractor(object):
             
             simple_segment_list = []
             
-            tot_duration = 0
+            tot_dur = 0
             
              # Iterate through all recognized people in video
             for temp_person_dict in self.recognized_faces:
@@ -4312,32 +4345,38 @@ class FaceExtractor(object):
                 if(ann_tag == tag):
                     
                     temp_segment_list = temp_person_dict[SEGMENTS_KEY]
-                    
-                    for segment_dict in temp_segment_list:
                         
+                    for segment_dict in temp_segment_list:
+                    
                         segment_list.append(segment_dict)
                 
-                        simple_segment_dict = {}
+                        simple_seg_dict = {}
                         
                         start = segment_dict[SEGMENT_START_KEY]
                         
-                        simple_segment_dict[SEGMENT_START_KEY] = start
+                        simple_seg_dict[SEGMENT_START_KEY] = start
                         
-                        duration = segment_dict[SEGMENT_DURATION_KEY]
+                        dur = segment_dict[SEGMENT_DURATION_KEY]
                         
-                        tot_duration = tot_duration + duration
+                        tot_dur = tot_dur + dur
                         
-                        simple_segment_dict[SEGMENT_DURATION_KEY] = duration
+                        simple_seg_dict[SEGMENT_DURATION_KEY] = dur
                         
-                        simple_segment_list.append(simple_segment_dict)
+                        simple_segment_list.append(simple_seg_dict)
                     
-            person_dict[SEGMENTS_KEY] = segment_list        
+            person_dict[SEGMENTS_KEY] = segment_list
                     
+            MERGE_CONSECUTIVE_SEGMENTS = False # TODO SET TRUE (AFTER EXPERIMENTS)
+            if(MERGE_CONSECUTIVE_SEGMENTS):
+                    
+                (simple_segment_list, tot_dur) = merge_consecutive_segments(
+                simple_segment_list, min_duration)
+            
             simple_dict[SEGMENTS_KEY] = simple_segment_list
             
-            person_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            person_dict[TOT_SEGMENT_DURATION_KEY] = tot_dur
             
-            simple_dict[TOT_SEGMENT_DURATION_KEY] = tot_duration
+            simple_dict[TOT_SEGMENT_DURATION_KEY] = tot_dur
             
             file_name = tag + '.YAML'
             
@@ -4570,6 +4609,8 @@ class FaceExtractor(object):
                         
                 # Check percentage of detection
                 det_pct = (float(det_counter) / frame_counter)
+                
+                #print('det_pct', det_pct)
                     
                 if(det_pct >= min_detection_pct):   
             

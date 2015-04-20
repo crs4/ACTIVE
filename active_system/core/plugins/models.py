@@ -73,6 +73,7 @@ class Script(models.Model):
     a reference to a function saved inside a module, this reference
     will be used to invoke that function when needed.
     """
+    title = models.CharField(max_length=300)
     details = models.CharField(max_length=300) 
     path = models.CharField(max_length=100, unique=True)
     job_name = models.CharField(max_length=100)

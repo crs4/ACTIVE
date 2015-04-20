@@ -3,12 +3,13 @@ from django.shortcuts import render
 
 from core.plugins.models import Event
 from core.plugins.event.serializers import EventSerializer
-
+from core.plugins.event_manager import EventManager
 from core.plugins.script.serializers import ScriptSerializer
 
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
+
 
 
 class EventList(EventView): 
@@ -27,11 +28,11 @@ class EventList(EventView):
 	@type format: string
 	@return: HttpResponse containing all serialized data.
 	@rtype: HttpResponse
-        """
+	"""
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
-
+	
     def post(self, request, format=None):
 	"""
 	This method is used to create and store a new Event object.

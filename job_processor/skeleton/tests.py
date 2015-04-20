@@ -72,7 +72,9 @@ def fun_skel(values):
         farm = Farm(pipe)
 	res = Executor().eval(farm, values)
 	return res
-
+def diarization(val):
+	sleep(delay)
+	return val
 
 # test for the sequential skeleton (only distributed)
 class TestSeq(TestCase):
@@ -101,6 +103,12 @@ class TestSeq(TestCase):
                 res = ex.eval(seq, 8)
                 self.assertEqual(100, ex.get_progress())
 
+	def test_dia(self):
+		# check
+                seq = Seq(diarization)
+		ex = Executor()
+                res = ex.eval(seq, "2sec.properties")
+                self.assertEqual(100, 100)
 
 # tests for the pipeline skeleton
 class TestPipe(TestCase):

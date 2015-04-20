@@ -1,0 +1,75 @@
+<div class="row">
+	<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div id="wid-id-nullaosta-list" class="jarviswidget jarviswidget-color-darken jarviswidget-sortable" data-widget-editbutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+				<h2>Job list</h2>
+			</header>
+			<div>
+				<div class="jarviswidget-editbox"> </div>
+				<div class="widget-body">
+					<div class="widget-body-toolbar"> </div>
+					<div id="datatable_tabletools_wrapper" class="dataTables_wrapper form-inline" role="grid">
+						<div class="dt-top-row">
+							<div id="dt_basic_filter" class="filter-select">
+								<div class="input-group reg-form smart-form">
+									<label class="select">
+										<select class="input-sm" ng-model="jobsStatus" ng-change="filterByStatus(jobsStatus)">
+											<option value="ALL">ALL</option>
+											<option value="ABORTED">ABORTED</option>
+											<option value="COMPLETED">COMPLETED</option>
+											<option value="FAILED">FAILED</option>
+											<option value="QUEUED">QUEUED</option>
+											<option value="RUNNING">RUNNING</option>
+										</select>
+										<i></i>
+									</label>
+								</div>
+							</div>
+							<div class="purge-btn btn-group">
+								<a ng-click="purgeQueues()" class="btn btn-default txt-color-dark btn-sm DTTT_button_text"><span>Purge Queues</span></a>
+							</div>
+						</div>
+						<div class="dt-wrapper">
+							<table id="datatable_tabletools" class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th># ID</th>
+										<th>Name</th>
+										<th>Status</th>
+										<th>Progression</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="job in jobs">
+										<td class="vertical_align"><a ng-click="getJob(job.id)" style="cursor: pointer;">{{job.id}}</a></td>
+										<td class="vertical_align">{{job.name}}</td>
+										<td class="vertical_align">{{job.status}}</td>
+										<td>
+											<div class="row">
+												<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12 show-stats">
+													<span class="text">Percentage
+														<span class="pull-right">{{job.progress[job.progress.length-1]}} %</span>
+													</span>
+													<div class="progress">
+														<div class="progress-bar bg-color-blue" style="width: {{job.progress[job.progress.length-1]}}%;"></div>
+													</div>
+												</div>
+											</div>
+										</td>
+										<td class="vertical_align_btn">
+											<button class="btn btn-xs btn-danger" title="remove" ng-click="deleteJob(job.id)" ng-disabled="job.status == 'FAILED' || job.status == 'COMPLETED'">
+												<i class="fa fa-lg fa-fw fa-trash-o"></i>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>

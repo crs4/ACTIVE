@@ -1,0 +1,43 @@
+ann_tag: Vacca_Elias
+segments:
+- segment_duration: 1666.6666666666667
+  segment_start: 891257
+- segment_duration: 1333.3333333333335
+  segment_start: 891591
+- segment_duration: 1500.0
+  segment_start: 891424
+- segment_duration: 1166.6666666666667
+  segment_start: 891758
+- segment_duration: 1000.0
+  segment_start: 891925
+- segment_duration: 1666.6666666666667
+  segment_start: 1190890
+- segment_duration: 1500.0
+  segment_start: 1191057
+- segment_duration: 1166.6666666666667
+  segment_start: 1191391
+- segment_duration: 1333.3333333333335
+  segment_start: 1193727
+- segment_duration: 1000.0
+  segment_start: 1194060
+- segment_duration: 1666.6666666666667
+  segment_start: 1197564
+- segment_duration: 1500.0
+  segment_start: 1197731
+- segment_duration: 1333.3333333333335
+  segment_start: 1191224
+- segment_duration: 1000.0
+  segment_start: 1191558
+- segment_duration: 1500.0
+  segment_start: 1193560
+- segment_duration: 1666.6666666666667
+  segment_start: 1193393
+- segment_duration: 1166.6666666666667
+  segment_start: 1193893
+- segment_duration: 1333.3333333333335
+  segment_start: 1197897
+- segment_duration: 1166.6666666666667
+  segment_start: 1198064
+- segment_duration: 1000.0
+  segment_start: 1198231
+tot_segments_duration: 26666.666666666668
