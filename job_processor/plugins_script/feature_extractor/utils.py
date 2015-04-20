@@ -14,6 +14,7 @@ def get_exif_metadata(item_path):
 	:returns: A dictionary containing all extracted item metadata.
 	:rtype: dictionary
 	"""
+	
 	res = subprocess.check_output("/usr/bin/exiftool " + item_path, shell=True)
 
 	item_info = {}
@@ -37,10 +38,19 @@ def convert_duration(item_info):
 	# when the duration is low it is represented as seconds
 	if(item_info['Duration'].endswith('s')):
                 item_info['Duration'] = int(float(item_info['Duration'].strip('s')))
+
+
+
 	# when duration is high it is represented in the format H:MM:SS 
         else:
+		item_info['Duration'] = item_info['Duration'].strip('(approx)')
                 l = item_info['Duration'].split(':')
                 item_info['Duration'] = int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
+
+
+	# make a check for the number of channels
+	#if 'Num Channels' not in item_info:
+	#	item_info['Num Channels'] = 1
 
 	return item_info
 
@@ -52,20 +62,37 @@ def extract_video_data(func_in, func_out):
 	:param func_in: Input parameters of the function that generate this function call
 	:param func_out: Output parameters of the function that generate this function call
 	"""
-	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
+	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file']).encode('utf-8')
+
+	print '\n\n\n', func_out['filename'], func_out['filename'].encode('utf-8')
 
 	item_info = get_exif_metadata(file_path)
 	convert_duration(item_info)
 
-	server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(func_out['id']) + '/'
+	server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/video/' + str(func_out['id']) + '/'
 	print "Chiamata a ", server_url
-    	r = requests.put(server_url,   {'frame_width' : item_info['Image Width'],
+	keys = [('mime_type', 'MIME Type'),
+		('frame_width', 'Image Width'),
+		('frame_height', 'Image Height'),
+		('duration', 'Duration'),
+		('format', 'File Type'),
+		('frame_rate', 'Video Frame Rate'),
+		('filesize', 'File Size')]
+
+	res_dict = {}
+	for k in keys:
+		if k[1] in item_info:
+			res_dict[k[0]] = item_info[k[1]]
+	r = requests.put(server_url, res_dict)
+	"""
+    	r = requests.put(server_url,   {'mime_type' : item_info['MIME Type'],
+					'frame_width' : item_info['Image Width'],
                                       	'frame_height' : item_info['Image Height'],
 					'duration' : item_info['Duration'],
 					'format': item_info['File Type'],
 					'frame_rate': item_info['Video Frame Rate'],
 					'filesize': item_info['File Size']})
-
+	"""
 
 def extract_image_data(func_in, func_out):
 	"""
@@ -78,9 +105,10 @@ def extract_image_data(func_in, func_out):
 
 	item_info = get_exif_metadata(file_path)
 
-	server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(func_out['id']) + '/'
+	server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(func_out['id']) + '/'
 	print "Chiamata a ", server_url
-    	r = requests.put(server_url,  { 'frame_width' : item_info['Image Width'],
+    	r = requests.put(server_url,  { 'mime_type' : item_info['MIME Type'],
+					'frame_width' : item_info['Image Width'],
 					'frame_height' : item_info['Image Height'],
 					'format': item_info['File Type'],
 					'filesize': item_info['File Size']})
@@ -98,9 +126,10 @@ def extract_audio_data(func_in, func_out):
         item_info = get_exif_metadata(file_path)
         convert_duration(item_info)
 
-        server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(func_out['id']) + '/'
+        server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/audio/' + str(func_out['id']) + '/'
 	print "Chiamata a ", server_url
-    	r = requests.put(server_url, {	'duration': item_info['Duration'],  
+    	r = requests.put(server_url, {	'mime_type' : item_info['MIME Type'],
+					'duration': item_info['Duration'],  
 					'format': item_info['File Type'],
 					'sample_rate': item_info['Sample Rate'],
 					'num_channels': item_info['Num Channels'],

@@ -24,7 +24,7 @@ def generate_event(func):
 		input_data = {}
 		output_data ={}		
 		try:
-			input_data = args[0].data
+			input_data = {} #args[0].data
 			output_data = res.data
 		except Exception as e:
 			print(e)

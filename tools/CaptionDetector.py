@@ -1,9 +1,11 @@
+import cv2
+import cv2.cv as cv
 import os
 from caption_recognition import get_tag_from_image
 
 ####    TEST ONLY      ####
 
-use_all_images = True
+use_all_images = False
 
 if (use_all_images):
    
@@ -75,5 +77,9 @@ else:
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\OCR\Fotogrammi da video Videolina\Originali\CabrasTest1.jpg'
     #image_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Training_set_ordered\Caredda_Giorgio\frame1216.jpg'
     
-    get_tag_from_image(image_path)
+    image_path = r'C:\Users\Maurizio\Documents\File di test\Caption recognition\Caption_orig.jpg'
+    #fm = FaceModelsLBP()
+    
+    gray_im = cv2.imread(image_path, cv2.cv.CV_LOAD_IMAGE_GRAYSCALE)
+    get_tag_from_image(gray_im)
     

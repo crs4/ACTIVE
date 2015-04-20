@@ -362,9 +362,28 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     
     w, h = face.shape
            
+    lbp_radius = LBP_RADIUS      
+    lbp_neighbors = LBP_NEIGHBORS     
+    lbp_grid_x = LBP_GRID_X
+    lbp_grid_y = LBP_GRID_Y
+        
+    if(params is not None):
+       
+        if(LBP_RADIUS_KEY is not None):
+            lbp_radius = params[LBP_RADIUS_KEY]
+        
+        if(LBP_NEIGHBORS_KEY is not None):
+            lbp_neighbors = params[LBP_NEIGHBORS_KEY]
+        
+        if(LBP_GRID_X_KEY is not None):
+            lbp_grid_x = params[LBP_GRID_X_KEY]
+        
+        if(LBP_GRID_Y_KEY is not None): 
+            lbp_grid_y = params[LBP_GRID_Y_KEY]        
+           
     query_model = cv2.createLBPHFaceRecognizer(
-    LBP_RADIUS, LBP_NEIGHBORS, 
-    LBP_GRID_X, LBP_GRID_Y)
+    lbp_radius, lbp_neighbors, 
+    lbp_grid_x, lbp_grid_y)
         
     query_model.train(
     np.asarray([np.asarray(face, dtype=np.uint8)]), np.asarray(0))
@@ -372,6 +391,17 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     query_histograms = query_model.getMatVector("histograms")
     
     query_hist = query_histograms[0][0]
+    
+    len_query_hist = int(len(query_hist))
+    
+    query_hist_EMD = np.zeros((len_query_hist,2))
+    
+    for i in range(0, len_query_hist):
+        
+        query_hist_EMD[i][0] = query_hist[i]
+        query_hist_EMD[i][1] = i + 1
+    
+    USE_EMD = False
     
     if(USE_NBNN):
         
@@ -386,7 +416,18 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     
         for i in range(0,len(train_histograms)):
             
+            print('i', i)
+            
             train_hist = train_histograms[i][0]
+            
+            len_train_hist = int(len(train_hist))
+            
+            train_hist_EMD = np.zeros((len_train_hist,2))
+            
+            for i in range(0, len_train_hist):
+
+                train_hist_EMD[i][0] = train_hist[i]
+                train_hist_EMD[i][1] = i + 1            
             
             diff = 0
             
@@ -396,8 +437,24 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
                                 
             else:
         
-                diff = cv2.compareHist(
-                query_hist, train_hist, cv.CV_COMP_CHISQR)  
+                if(USE_EMD):
+ 
+                    # Convert from numpy array to CV_32FC1 Mat
+                    a64 = cv.fromarray(query_hist_EMD)
+                    a32 = cv.CreateMat(a64.rows, a64.cols, cv.CV_32FC1)
+                    cv.Convert(a64, a32)
+                    
+                    b64 = cv.fromarray(train_hist_EMD)
+                    b32 = cv.CreateMat(b64.rows, b64.cols, cv.CV_32FC1)
+                    cv.Convert(b64, b32)
+                    
+                    # Calculate Earth Mover's distance
+                    diff = cv.CalcEMD2(a32,b32,cv.CV_DIST_L2)
+                    
+                else:
+                
+                    diff = cv2.compareHist(
+                    query_hist, train_hist, cv.CV_COMP_CHISQR)  
                 
             diff_list.append(diff)  
             
@@ -557,16 +614,16 @@ def recognize_face(face, face_models, params, show_results):
     
     if((params is not None) and (USE_ONE_FILE_FOR_FACE_MODELS_KEY in params)):
     
-	    if(USE_ONE_FILE_FOR_FACE_MODELS):
-	        
-	        #result = recognize_face_from_models_file(
-	        #face, face_models, params, show_results)
-	        result = recognize_face_base(
-	        face, face_models, params, show_results)
-	        
-	    else:
-	        
-	        result = recognize_face_from_model_files(
-	        face, face_models, params, show_results)
+        if(USE_ONE_FILE_FOR_FACE_MODELS):
+            
+            #result = recognize_face_from_models_file(
+            #face, face_models, params, show_results)
+            result = recognize_face_base(
+            face, face_models, params, show_results)
+            
+        else:
+            
+            result = recognize_face_from_model_files(
+            face, face_models, params, show_results)
 
     return result

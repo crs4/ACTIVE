@@ -1,89 +1,56 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
-from core.plugins.decorators import generate_event
-from core.plugins.models import Action, Event, Script, Plugin
-from core.plugins.serializers import EventSerializer
+from core.plugins.event_manager import EventManager
+from core.plugins.models import Event
 
 from rest_framework.response import Response
 from rest_framework import status
 
 from core.views import EventView
 
+import json
 
-class EventList(EventView): 
-    """
-    List all existing Events or create/save a new one.
-    """
-    def get(self, request, format=None):
-	"""
-        This method will be converted in a HTTP GET API and it
-        will allow to list all already stored Event objects in the database.
+##### classi ed metodi necessari per l'avvio di eventi e script attraverso l'API REST
+
+class EventTrigger(EventView):
+    def post(self, request, event_id, format=None):
         """
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+        Method used to trigger an event by its id.
 
-    def post(self, request, format=None):
-	"""
-	This method will be converted in a HTTP POST API and it
-	will allow to save new Event objects in the database.
-	"""
-        serializer = EventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class EventDetail(EventView): 
-    """
-    Retrieve, update or delete a event instance.
-    """
-    def get_object(self, pk):
-        """
-        Method used to obtain event data by its id.
-        @param pk: Event's id.
-        @returns: Object containing event data if any, HTTP error otherwise.
+        @param pk: Primary key used to retrieve a Event object.
+        @type pk: int
         """
         try:
-            return Event.objects.get(pk=pk)
+            # retrieve event data
+            e = Event.objects.get(pk=event_id)
+            # retrieve script parameters
+            input_dict = request.POST.get('input_dict', {})
+            output_dict = request.POST.get('output_dict', {})
+            # trigger the specified event
+            EventManager().start_scripts(e.name, input_dict, output_dict)
         except Event.DoesNotExist:
-            raise Http404
+            print "Event does not exist!"
 
-    def get(self, request, pk, format=None):
-        """
-        Method used to return serialized data of a event.
-        @param pk: Event's id.
-        @param format: Format used for data serialization.
-        @returns: Event serialized data.
-        """
-        event = self.get_object(pk)
-        serializer = EventSerializer(event)
-        return Response(serializer.data)
+	return Response(status=status.HTTP_200_OK)
 
-    def put(self, request, pk, format=None):
+class EventExec(EventView):
+    def post(self, request, script_id, format=None):
         """
-        Method used to update event information providing
-        serialized data.
-        @param pk: event id.
-        @param format: Format used for data serialization.
-        @returns: Event data update status.
-        """
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        Method used to execute a script by its id.
 
-    def delete(self, request, pk, format=None):
+        @param pk: Primary key used to retrieve a Script object.
+        @type pk: int
         """
-        Method used to delete event information providing his ID.
-        @param pk: Event id.
-        @param format: Format used for data serialization.
-        @returns: Event data deletion status.
-        """
-        event = self.get_object(pk)
-        event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        # retrieve script parameters
+	data = json.loads(request.body)
+	print data["output_dict"]['file'], '\n\n\n'
+        input_dict = request.POST.get('input_dict', data["input_dict"])
+        output_dict = request.POST.get('output_dict', data["output_dict"])
+
+        # trigger the specified event
+        #EventManager().execute_script_by_id(script_id, data["input_dict"], data["output_dict"])
+	#print '\n\n\n', input_dict, output_dict, '\n\n\n'
+        EventManager().execute_script_by_id(script_id, input_dict, output_dict)
+
+        return Response(status=status.HTTP_200_OK)

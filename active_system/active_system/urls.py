@@ -2,10 +2,13 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
+
 import core.users.urls
 import core.items.urls
 import core.plugins.urls
-#import jobmonitor.urls
+import core.tags.urls
+import tools.navigator.urls
+import tools.job_monitor.urls
 
 
 urlpatterns = patterns('',
@@ -30,9 +33,11 @@ urlpatterns = patterns('',
     ),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+#    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/', include(core.users.urls)),
     url(r'^api/', include(core.items.urls)),
     url(r'^api/', include(core.plugins.urls)),
-   # url(r'^jobmonitor/', include(jobmonitor.urls)),
+    url(r'^api/', include(core.tags.urls)),
+    url(r'^jobmonitor/', include(tools.job_monitor.urls)),
+    url(r'^navigator/', include(tools.navigator.urls)),
 )

@@ -5,6 +5,10 @@ from core.items.video.models import VideoItem
 from core.items.image.models import ImageItem
 from core.items.audio.models import AudioItem
 from core.plugins.models import Event, Action, Plugin, Script
+from core.tags.models import Tag,Entity
+from core.tags.dynamic_tags.models import DynamicTag
+from core.tags.person.models import Person
+
 
 # Register your models here.
 admin.site.register(ActiveUser)
@@ -16,3 +20,7 @@ admin.site.register(Plugin)
 admin.site.register(Script)
 admin.site.register(Event)
 admin.site.register(Action)
+admin.site.register(Tag)
+admin.site.register(DynamicTag)
+admin.site.register(Entity)
+admin.site.register(Person)

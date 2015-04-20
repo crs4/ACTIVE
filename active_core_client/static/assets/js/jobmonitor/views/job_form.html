@@ -1,0 +1,78 @@
+<!-- RIBBON -->
+<div id="ribbon" ng-controller="ribbonCtrl">
+
+	<span class="ribbon-button-alignment" ng-click="reload()"> 
+		<span id="refresh" class="btn btn-ribbon" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"><i class="fa fa-refresh"></i></span> 
+	</span>
+
+	<!-- breadcrumb -->
+	<ol class="breadcrumb">
+		<li>Home</li>
+		<li>Job form</li>
+	</ol>
+	<!-- end breadcrumb -->
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+	<div class="row">
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<div class="jarviswidget jarviswidget-color-darken" id="wid-id-form-job" data-widget-editbutton="false" data-widget-custombutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Job Form </h2>				
+				</header>
+				<div>
+					<div class="jarviswidget-editbox"> </div>
+					<div class="widget-body no-padding">
+						<form name="jobForm" ng-submit="startJob()" id="job-form" class="reg-form smart-form" novalidate>
+						
+							<fieldset>
+								<div class="row">
+									<section class="col col-6">
+										<label class="label">Algorithm</label>
+										<label class="select">
+											<select class="input" ng-model="algorithm">
+												<option value="xmp.xmp_extractor.extract">Xmp Extractor</option>
+												<option value="face_extraction.skeleton.detect">Face Detection</option>
+											</select>
+											<i></i>
+										</label>
+									</section>
+									<section class="col col-6">
+										<label class="label">Resource</label>
+										<!--<label for="file" class="input input-file">
+											<div class="button"><input type="file" name="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</div><input type="text" id="resource" ng-model="file" placeholder="Include some files" readonly="">
+										</label>-->
+										<label class="select select-multiple">
+											<select multiple="" class="custom-scroll" ng-model="params">
+												<option value="/var/spool/active/data/image.jpg">image.jpg</option>
+												<option value="/var/spool/active/data/videolina-10sec.mov/">videolina-10sec.mov</option>
+												<option value="/var/spool/active/data/video-02.mov">video-02.mov</option>
+												<option value="/var/spool/active/data/video-03.mov">video-03.mov</option>
+												<option value="/var/spool/active/data/video-04.mov">video-04.mov</option>
+												<option value="/var/spool/active/data/video-05.mov">video-05.mov</option>
+											</select> </label>
+										<div class="note">
+											<strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
+										</div>
+									</section>
+								</div>
+							</fieldset>
+							
+							<footer>
+								<button type="submit" class="btn btn-primary"> Start </button>
+							</footer>
+						</form>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+</div>
+<!-- MAIN CONTENT -->
+
+<script type="text/javascript">
+	pageSetUp();
+</script>

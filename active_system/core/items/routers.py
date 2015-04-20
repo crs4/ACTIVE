@@ -5,10 +5,12 @@ from core.items.video.views import VideoItemList, VideoItemDetail, VideoItemFile
 from core.items.audio.views import AudioItemList, AudioItemDetail, AudioItemFile 
 from core.items.image.views import ImageItemList, ImageItemDetail, ImageItemFile
 
+
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
 from rest_framework import status
+#from rest_framework.pagination import PageNumberPagination
 
 import json
 
@@ -48,18 +50,22 @@ def routerList(request):
 	# handle the upload of a new item
 	if(request.FILES):
 		type = request.FILES['file'].content_type.split('/')[0]
-                print(type)
+                print type, request.FILES['file']
 		if type in mapping:
 			# file upload is redirected to the new directory
 			return mapping[type](request)
 		return HttpResponse('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
+
 
 	# return the list of items, serialized and filtered by type
 	res = []
 	for type in mapping.keys():
 		if items_type == 'ALL' or items_type == type:
 			res += mapping[type](request).data
+
 	return Response(res)
+	#paginator = PageNumberPagination()
+	#return paginator.get_paginated_response(res)
 
 
 @csrf_exempt

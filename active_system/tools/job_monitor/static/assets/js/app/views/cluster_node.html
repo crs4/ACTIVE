@@ -1,0 +1,144 @@
+<!-- RIBBON -->
+<div id="ribbon" ng-controller="ribbonCtrl">
+
+	<span class="ribbon-button-alignment" ng-click="reload()"> 
+		<span id="refresh" class="btn btn-ribbon" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"><i class="fa fa-refresh"></i></span> 
+	</span>
+
+	<!-- breadcrumb -->
+	<ol class="breadcrumb">
+		<li>Home</li>
+		<li>Node details</li>
+	</ol>
+	<!-- end breadcrumb -->
+
+</div>
+<!-- END RIBBON -->
+
+<!-- MAIN CONTENT -->
+<div id="content">
+	
+	<div class="row">
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+			<div id="wid-id-nodetails" class="jarviswidget jarviswidget-color-blueDark" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-search-plus"></i> </span>
+					<h2>Node details</h2>
+				</header>
+				<div>
+					<div class="jarviswidget-editbox"> </div>
+					<div class="widget-body no-padding">
+						
+						<div class="tabs col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<h2 class="text-info">Node {{node.id}}</h2>
+							<ul class="nav nav-tabs" id="myTab" role="tablist">
+								<li class="active">
+									<!-- TO FIX: inline style! -->
+									<a style="color:#333 !important" href="#tab1">Pool <span class="badge bg-color-blue txt-color-white">{{node.pool_length}}</span></a>
+								</li>
+								<li>
+									<a style="color:#333 !important" href="#tab2">Broker <span class="badge bg-color-blueDark txt-color-white">{{node.broker_length}}</span></a>
+								</li>
+							</ul>
+							<div class="tab-content padding-10">
+								<div class="tab-pane fade in active" id="tab1">
+									<ul class="list-unstyled ul-custom">
+										<li ng-show="node.pool.timeouts">
+											<div class="col-md-2 col-lg-2"><strong>Timeouts</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.timeouts}}</div>
+										</li>
+										<li ng-show="node.pool.processes">
+											<div class="col-md-2 col-lg-2"><strong>Processes</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.processes}}</div>
+										</li>
+										<li ng-show="node.pool.max_concurrency">
+											<div class="col-md-2 col-lg-2"><strong>Max concurrency</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.max_concurrency}}</div>
+										</li>
+										<li ng-show="node.pool.max_tasks_per_child">
+											<div class="col-md-2 col-lg-2"><strong>Max tasks per child</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.max_tasks_per_child}}</div>
+										</li>
+										<li ng-show="node.pool.put_guarded_by_semaphore">
+											<div class="col-md-2 col-lg-2"><strong>Guarded by semaphore</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.put_guarded_by_semaphore}}</div>
+										</li>
+										<li ng-show="node.pool.write">
+											<div class="col-md-2 col-lg-2"><strong>Writes</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pool.writes}}</div>
+										</li>
+										<li ng-show="node.pid">
+											<div class="col-md-2 col-lg-2"><strong>Worker PID</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.pid}}</div>
+										</li>
+									</ul>
+								</div>
+								<div class="tab-pane fade" id="tab2">
+									<ul class="list-unstyled ul-custom">
+										<li ng-show="node.broker.transport_options">
+											<div class="col-md-2 col-lg-2"><strong>Transport options</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.transport_options}}</div>
+										</li>
+										<li ng-show="node.broker.login_method">
+											<div class="col-md-2 col-lg-2"><strong>Login method</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.login_method}}</div>
+										</li>
+										<li ng-show="node.broker.hostname">
+											<div class="col-md-2 col-lg-2"><strong>Hostname</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.hostname}}</div>
+										</li>
+										<li ng-show="node.broker.userid">
+											<div class="col-md-2 col-lg-2"><strong>UserId</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.userid}}</div>
+										</li>
+										<li ng-show="node.broker.connect_timeout">
+											<div class="col-md-2 col-lg-2"><strong>Connect timeout</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.connect_timeout}}</div>
+										</li>
+										<li ng-show="node.broker.ssl">
+											<div class="col-md-2 col-lg-2"><strong>SSL</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.ssl}}</div>
+										</li>
+										<li ng-show="node.broker.virtual_host">
+											<div class="col-md-2 col-lg-2"><strong>Virtual host</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.virtual_host}}</div>
+										</li>
+										<li ng-show="node.broker.heartbeat">
+											<div class="col-md-2 col-lg-2"><strong>Heartbeat</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.heartbeat}}</div>
+										</li>
+										<li ng-show="node.broker.uri_prefix">
+											<div class="col-md-2 col-lg-2"><strong>Uri prefix</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.uri_prefix}}</div>
+										</li>
+										<li ng-show="node.broker.port">
+											<div class="col-md-2 col-lg-2"><strong>Port</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.port}}</div>
+										</li>
+										<li ng-show="node.broker.transport">
+											<div class="col-md-2 col-lg-2"><strong>Transport</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.transport}}</div>
+										</li>
+										<li ng-show="node.broker.alternates">
+											<div class="col-md-2 col-lg-2"><strong>Alternates</strong></div>
+											<div class="col-md-10 col-lg-10">{{node.broker.alternates}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 button-footer-custom">
+							<a class="btn btn-success" href="javascript:void(0);" ng-click="getBack()"> Back to cluster </a>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</article>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<script type="text/javascript">
+	pageSetUp();
+</script>
