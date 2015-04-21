@@ -36,6 +36,7 @@ class Item(models.Model):
     owner = models.ForeignKey(User)
     file = models.FileField(upload_to=compute_upload_path, null=True)
     thumb = models.FileField(upload_to=compute_upload_path, null=True)
+    preview = models.FileField(upload_to=compute_upload_path, null=True)
     
     def __repr__(self):
         return 'Item ', self.filename, ' ', self.type
@@ -47,8 +48,6 @@ class Item(models.Model):
 	"""
 	Method overrided in order to correctely store a digital item.
 	"""
-	
-	# save the item without a file
 	temp = self.file
 	self.file = None
 	super(Item, self).save(*args, **kwargs)

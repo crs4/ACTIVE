@@ -8,11 +8,11 @@
 	<head>
 		<meta charset='utf-8' />
 		 
-		<link href='/static/css/media-player.css' rel='stylesheet' />		
-		<script src="/static/jquery-ui-1.10.4/js/jquery-1.10.2.js"></script>
-		<script src="/static/jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>		
+		<link href='/static/navigator/css/media-player.css' rel='stylesheet' />		
+		<script src="/static/navigator/jquery-ui-1.10.4/js/jquery-1.10.2.js"></script>
+		<script src="/static/navigator/jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>		
 		<script language="javascript">var item_id = {{itemid}};</script>
-		<script src='/static/js/media-player.js'></script>
+		<script src='/static/navigator/js/media-player.js'></script>
 		
 		
 	</head>
@@ -27,10 +27,12 @@
 			
 	</div>	
 	<div class="center" id = "icons">
-		<img src="/static/icons/play.png">
-		<img src="/static/icons/pause.png">
-		<img src="/static/icons/stop.png">
-		<img src="/static/icons/volon.png">
+		<img src="/static/navigator/icons/play.png">
+		<img src="/static/navigator/icons/pause.png">
+		<img src="/static/navigator/icons/stop.png">
+		<img src="/static/navigator/icons/volon.png">
+		<img src="/static/navigator/icons/zoom_in.png">
+		<img src="/static/navigator/icons/zoom_out.png">
 
 	</div>	
 
@@ -38,8 +40,8 @@
 		<table id="timetable">
 			<tbody style = "display: none">
 				<tr> 
-					<td><span style="font-weight:bold; background-color:#89c4f4 ;">Time: [s]</span></td>
-					<td>
+					<td style="width:15%"><span style="font-weight:bold; background-color:#89c4f4;">Time: [s]</span></td>
+					<td style="width:85%">
 						<div id="progressbar" class="timeline center">
 							<div id="move_head" ><span class="tdspan" id="time_span" ></span></div>
 							<span class="tdspan" id="end_time_span"></span>

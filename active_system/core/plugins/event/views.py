@@ -3,13 +3,12 @@ from django.shortcuts import render
 
 from core.plugins.models import Event
 from core.plugins.event.serializers import EventSerializer
-from core.plugins.event_manager import EventManager
-from core.plugins.script.serializers import ScriptSerializer
+from core.plugins.event_manager import EventManager # da rimuoivere?
+from core.plugins.script.serializers import ScriptSerializer # da rimuovere?
 
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
-
 
 
 class EventList(EventView): 
@@ -126,6 +125,9 @@ class EventDetail(EventView):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+    # metodo da rimuovere??????????? e' utilizzato da qualche parte?
     def get_event_scripts(self, request, pk, format=None):
 	"""
         This method is used to retrieve all Script objects associated with a given Event object.

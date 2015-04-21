@@ -12,9 +12,9 @@ Moreover it is possible to trigger events and scripts by id.
 
 
 urlpatterns = (
-    url(r'^dtags/$', DynamicTagList.as_view()),
-    url(r'^dtags/(?P<pk>[0-9]+)/$', DynamicTagDetail.as_view()),   
-    url(r'^dtags/search/item/(?P<pk>[0-9]+)/$', SearchDynamicTagItem.as_view()),
-    url(r'^dtags/search/person/(?P<pk>[0-9]+)/$', SearchDynamicTagPerson.as_view()),
+    url(r'^$', DynamicTagList.as_view()),
+    url(r'^(?P<pk>[0-9]+)/$', DynamicTagDetail.as_view()),   
+    url(r'^search/item/(?P<pk>[0-9]+)/$', SearchDynamicTagItem.as_view()),
+    url(r'^search/person/(?P<pk>[0-9]+)/$', SearchDynamicTagPerson.as_view()),
 )
 

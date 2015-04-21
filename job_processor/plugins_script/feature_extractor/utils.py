@@ -4,7 +4,6 @@ import subprocess
 import time
 import os
 
-
 def get_exif_metadata(item_path):
 	"""
 	Function used to extract the metadata associated to a given digital item.
@@ -15,7 +14,7 @@ def get_exif_metadata(item_path):
 	:rtype: dictionary
 	"""
 	
-	res = subprocess.check_output("/usr/bin/exiftool " + item_path, shell=True)
+	res = subprocess.check_output('/usr/bin/exiftool "' + item_path + '"' , shell=True)
 
 	item_info = {}
         for row in res.split('\n')[:-1]:
@@ -62,9 +61,7 @@ def extract_video_data(func_in, func_out):
 	:param func_in: Input parameters of the function that generate this function call
 	:param func_out: Output parameters of the function that generate this function call
 	"""
-	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file']).encode('utf-8')
-
-	print '\n\n\n', func_out['filename'], func_out['filename'].encode('utf-8')
+	file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
 
 	item_info = get_exif_metadata(file_path)
 	convert_duration(item_info)

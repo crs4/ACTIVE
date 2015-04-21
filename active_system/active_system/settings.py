@@ -42,6 +42,7 @@ INSTALLED_APPS = (
 #    'corsheaders',
     'core',
     'tools.navigator',
+    'tools.summarizer',
     'tools.job_monitor',
     'core.plugins.apps.PluginConfig', # collect plugin data
 )
@@ -68,14 +69,13 @@ WSGI_APPLICATION = 'active_system.wsgi.application'
 
 DATABASES = {
     'default': {
-	'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'active',
-#	'USER': 'active',
-#	'PASSWORD': 'evitca',
-#	'HOST': '156.148.132.223',
-#	'PORT': '3306'
+	'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
+        'NAME': 'active_db', #os.path.join(BASE_DIR, 'db.sqlite3'),
+
+	'USER': 'active',
+	'PASSWORD': 'evitca',
+	'HOST': '156.148.132.80',
+	'PORT': '5432'
    }
 }
 
@@ -130,6 +130,12 @@ CORS_ALLOW_HEADERS = (
 	'x-csrftoken',
 	'cache-control'
 )
+
+# django rest framework settings
+REST_FRAMEWORK = {
+	'UPLOADED_FILES_USE_URL' : False
+}
+
 
 # directory where uploaded files will be saved
 MEDIA_ROOT = '/var/spool/active/data/items'

@@ -76,10 +76,6 @@ class JobList(APIView):
 		try:
 			# get the plugin script function
 			complete_path = settings.PLUGIN_SCRIPT_MODULE + '.' + func_name
-			print complete_path
-			print func_in1
-			print func_in2
-			print '\n\n\n'
                         splits = complete_path.split('.')
                         func = getattr(import_module('.'.join(splits[:-1])), splits[-1])
 			# get the job wrapper function

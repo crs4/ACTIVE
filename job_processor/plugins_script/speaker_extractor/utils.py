@@ -4,21 +4,34 @@ import shlex
 import subprocess
 import sys
 from django.conf import  settings
-"""Module containing some utilities about subprocess,
-threading and file checking."""
+
+"""
+Module containing some utilities about subprocess, threading and file checking.
+"""
    
 
 
 def speaker_diarization(func_in, func_out):
 	try:
-		file_path=os.path.join(settings.MEDIA_ROOT,"items",func_out["file"])	
+		file_path=os.path.join(settings.MEDIA_ROOT, "items", func_out["file"])	
+		file_root=os.path.join(settings.MEDIA_ROOT, "items", str(func_out["id"])) # e' necessario il casting esplicito degli interi?
+
 		_convert_with_ffmpeg(file_path)
-	   	f=open(file_path.split(".")[0]+'.properties', "w")
-    		with open('/var/spool/active/data/models/audio/globals/settings.properties') as fp:
-        		for line in fp:
-            			f.write(line)
-    		f.close()
-	
+
+		os.mkdir(file_root + "/out")		
+	   	with open(file_path.split(".")[0]+'.properties', "w") as f:
+                        f.write("fileName="+file_path.split(".")[0]+".wav")
+                        #f.write("outputRoot="+file_root+"/")
+	    		with open('/var/spool/active/data/models/audio/globals/settings.properties') as fp:
+        			for line in fp:
+            				f.write(line)
+					print line
+			#f.writelines("fileName="+file_path.split(".")[0]+".wav")
+			f.writelines("outputRoot="+file_root+"/out/")
+		#f.flush()
+		f.close()
+		#fp.close()    		
+		diarization(file_path.split(".")[0]+'.properties')
 	except Exception as e:
 		print e
 
@@ -30,9 +43,10 @@ def _convert_with_ffmpeg(file_name):
 
 
 def diarization(file_properties):
+    cd_go="cd /var/spool/active/job_processor/plugins_script/speaker_extractor/;"
     java="java -Xmx2048m " #da definire in base alla macchina
-    java_classpath=" -classpath ./lium_spkdiarization-8.4.1.jar " 
-    commandline=java+java_classpath+" it.crs4.active.diarization.Diarization "+"./data/properties/"+file_properties 
+    java_classpath=" -classpath /var/spool/active/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
+    commandline=java+java_classpath+" it.crs4.active.diarization.Diarization "+file_properties 
     print "diarization -- command \n"
     print commandline
     start_subprocess(commandline)
