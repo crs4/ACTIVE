@@ -1707,32 +1707,50 @@ def get_mean_inter_distance(model1, model2, use_3_bboxes = False):
             
             if(use_3_bboxes):
                 
-                calc_diffs = []
+                # OLD IMPLEMENTATION
+                # (final distance between two frames is the distance 
+                # between the two nearest bounding boxes)
+                #calc_diffs = []
                 
-                for i in range(0,3):
-                    # For every bounding box in hists1
+                #for i in range(0,3):
+                    ## For every bounding box in hists1
                     
+                    #hists1_i = hists1[i]
+                    
+                    #for j in range(0,3):
+                        
+                        ## For every bounding box in hists2
+                        
+                        #hists2_j = hists2[j]
+                        
+                        #tot_diff_i_j = 0
+                        
+                        #for ch in range(0,3):
+                            
+                            #diff = abs(cv2.compareHist(
+                            #hists1_i[ch], hists2_j[ch], cv.CV_COMP_CHISQR))
+                            
+                            #tot_diff_i_j = tot_diff_i_j + diff
+                            
+                        #calc_diffs.append(tot_diff_i_j)
+                        
+                ## Minimum difference is chosen
+                #tot_diff = min(calc_diffs)   
+                
+                # For every bounding box in the same frame
+                for i in range(0,3):
+                
                     hists1_i = hists1[i]
                     
-                    for j in range(0,3):
+                    hists2_i = hists2[i] 
+                    
+                    # For every color channel
+                    for ch in range(0,3):
                         
-                        # For every bounding box in hists2
+                        diff = abs(cv2.compareHist(
+                        hists1_i[ch], hists2_i[ch], cv.CV_COMP_CHISQR))
                         
-                        hists2_j = hists2[j]
-                        
-                        tot_diff_i_j = 0
-                        
-                        for ch in range(0,3):
-                            
-                            diff = abs(cv2.compareHist(
-                            hists1_i[ch], hists2_j[ch], cv.CV_COMP_CHISQR))
-                            
-                            tot_diff_i_j = tot_diff_i_j + diff
-                            
-                        calc_diffs.append(tot_diff_i_j)
-                        
-                # Minimum difference is chosen
-                tot_diff = min(calc_diffs)        
+                        tot_diff = tot_diff + diff     
                 
             else:
     
@@ -1796,36 +1814,54 @@ def get_mean_intra_distance(model, used_3_bboxes = False):
             
             if(used_3_bboxes):
                 
-                calc_diffs = []
+                # OLD IMPLEMENTATION
+                # (final distance between two frames is the distance 
+                # between the two nearest bounding boxes)
+                #calc_diffs = []
                 
-                for i in range(0,3):
-                    # For every bounding box in hists1
+                #for i in range(0,3):
+                    ## For every bounding box in hists1
                     
+                    #hists_i = hists[i]
+                    
+                    #for j in range(0,3):
+                        
+                        ## For every bounding box in hists2
+                        
+                        #sub_hists_j = sub_hists[j]
+                        
+                        #tot_diff_i_j = 0
+                        
+                        #for ch in range(0,3):
+                            
+                            #diff = abs(cv2.compareHist(
+                            #hists_i[ch], sub_hists_j[ch], cv.CV_COMP_CHISQR))
+                            
+                            #tot_diff_i_j = tot_diff_i_j + diff
+                            
+                        #calc_diffs.append(tot_diff_i_j)
+                        
+                ## Minimum difference is chosen
+                #tot_diff = np.min(calc_diffs)
+                
+                # For every bounding box in the same frame
+                for i in range(0,3):
+
                     hists_i = hists[i]
                     
-                    for j in range(0,3):
+                    sub_hists_i = sub_hists[i] 
+                    
+                    # For every color channel
+                    for ch in range(0,3):
                         
-                        # For every bounding box in hists2
+                        diff = abs(cv2.compareHist(
+                        hists_i[ch], sub_hists_i[ch], cv.CV_COMP_CHISQR))
                         
-                        sub_hists_j = sub_hists[j]
-                        
-                        tot_diff_i_j = 0
-                        
-                        for ch in range(0,3):
-                            
-                            diff = abs(cv2.compareHist(
-                            hists_i[ch], sub_hists_j[ch], cv.CV_COMP_CHISQR))
-                            
-                            tot_diff_i_j = tot_diff_i_j + diff
-                            
-                        calc_diffs.append(tot_diff_i_j)
-                        
-                # Minimum difference is chosen
-                tot_diff = np.min(calc_diffs)           
+                        tot_diff = tot_diff + diff
             
             else:
     
-                for ch in range(0, 3):
+                for ch in range(0,3):
                     
                     diff = abs(cv2.compareHist(
                     hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
