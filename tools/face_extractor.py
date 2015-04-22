@@ -1229,6 +1229,8 @@ class FaceExtractor(object):
                     
                     frame_hists = []
                     
+                    im = cv2.imread(frame_path)
+                    
                     for i in range(0,3):
                         
                         # Get region of interest for clothes
@@ -1237,7 +1239,7 @@ class FaceExtractor(object):
                         clothes_height = int(face_height * cl_pct_height)
                         
                         # Leftmost bounding box for clothes
-                        clothes_x0 = int(face_x + face_width/2.0 - clothes_width/2.0)
+                        clothes_x0 = int(face_x + face_width/2.0 - 1.5*clothes_width)
                         
                         # OLD IMPLEMENTATION
                         # (final distance between two frames is the distance 
@@ -1271,11 +1273,9 @@ class FaceExtractor(object):
                         if(clothes_x0 < 0):
                             clothes_x0 = 0
                         
-                        im = cv2.imread(frame_path)
-                        
                         roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
-                        #cv2.imshow('Clothes', roi)
-                        #cv2.waitKey(0)
+                        
+                        #cv2.rectangle(im, (clothes_x0, clothes_y0), (clothes_x0+clothes_width, clothes_y0+clothes_height), (255,255,255))
                         
                         roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
             
@@ -1293,7 +1293,7 @@ class FaceExtractor(object):
                         for ch in range(0, 3):
                     
                             hist = cv2.calcHist(
-                            [roi_hsv], [ch], mask, [255], [0, 255])
+                            [roi_hsv], [ch], mask, [256], [0, 255])
                     
                             cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
                             
@@ -1303,9 +1303,13 @@ class FaceExtractor(object):
                                 
                         frame_hists.append(hists)
                         
-                        del(im)
-                        
+                    #cv2.imshow('Image', im)
+                        #cv2.imshow('Clothes', roi)
+                    #cv2.waitKey(0)
+                    
                     model.append(frame_hists)
+                    
+                    del(im)
                     
                 else:
                 
@@ -1354,7 +1358,7 @@ class FaceExtractor(object):
                         #[roi_hsv], [ch], mask, [16], [0, 255])
                         
                         hist = cv2.calcHist(
-                        [roi_hsv], [ch], mask, [255], [0, 255])
+                        [roi_hsv], [ch], mask, [256], [0, 255])
                 
                         cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
                         
