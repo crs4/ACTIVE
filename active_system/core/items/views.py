@@ -135,6 +135,8 @@ class ItemFile(EventView):
         @rtype: HttpResponse
         """
         # TODO errore 416 se il range richiesto non e' valido
+
+        # TODO restituire l'originale per il download e la preview per lo streaming
         try:
             item =  Item.objects.get(pk=pk)
             type = request.GET.get('type', 'original')
@@ -146,7 +148,7 @@ class ItemFile(EventView):
                 response = HttpResponse(item.thumb, content_type = 'image/png')
                 return response
 
-            if(type == 'original'):
+            if(type == 'original' or type == 'preview'):
                 # detect what kind of request has been
                 # if the entire item is requested
                 if('HTTP_RANGE' not in request.META):
