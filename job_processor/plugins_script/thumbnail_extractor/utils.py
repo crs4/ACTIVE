@@ -83,6 +83,7 @@ def extract_image_thumbnail(func_in, func_out):
         file = open(thumb_path, 'rb')
         multiple_files = [('thumb', ('thumb.jpeg', file, 'image/jpeg')), ]
         server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(func_out['id']) + '/'
+        
         r = requests.put(server_url, files=multiple_files)
         print 'Sending thumbnail to ', server_url
 

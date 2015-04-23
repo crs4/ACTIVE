@@ -10,6 +10,10 @@ from core.views import EventView
 from core.items.models import Item
 from core.items.serializers import ItemSerializer, ItemPagination
 
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
+
 """
 This module is used to define a REST API for generic items.
 """
@@ -89,12 +93,14 @@ class ItemDetail(EventView):
         @return: HttpResponse containing the uploaded item data, error if it doesn't exists.
 	@rtype: HttpResponse
 	"""
-        item = self.get_object(pk)
-        serializer = AudioItemSerializer(item, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            item = self.get_object(pk)
+            serializer = ItemSerializer(item, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                print serializer.data, '\n\n\n'
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
 	"""
@@ -145,35 +151,39 @@ class ItemFile(EventView):
 
             # return the requested thumbnail
             if (type == 'thumb'):
-                response = HttpResponse(item.thumb, content_type = 'image/png')
+                response = HttpResponse(item.thumb, content_type = 'image/jpeg')
                 return response
 
-            if(type == 'original' or type == 'preview'):
+            if(type == 'original'):
+                response = HttpResponse(item.file, content_type = item.mime_type)
+                return response
+
+            if(type == 'preview'):
                 # detect what kind of request has been
                 # if the entire item is requested
                 if('HTTP_RANGE' not in request.META):
-                    response = HttpResponse(FileWrapper(item.file))
+                    response = HttpResponse(FileWrapper(item.preview))
                     response['Content-Disposition'] = 'attachment; filename="' + item.file.name + '"'
                     response['Accept-Ranges'] = "bytes"
-                    response['Content-Type'] = item.mime_type
-                    response['Content-Length'] = item.file.size
+                    response['Content-Type'] = 'video/mp4' #item.mime_type
+                    response['Content-Length'] = item.preview.size
                     return response
                 # otherwise the requested amount of bytes is returned
                 else:
                     range = request.META['HTTP_RANGE']
                     start = int(range.split('=')[1].split('-')[0])
-                    end   = item.file.size
+                    end   = item.preview.size
                     if(len(range.split('=')[1].split('-')[1]) > 0):
                         end = int(range.split('=')[1].split('-')[1])
 
                     response = HttpResponse(status=206)
                     response['Accept-Ranges'] = 'bytes'
-                    response['Content-Type'] = item.mime_type
-                    response['Content-Range'] = "bytes %d-%d/%d" %(start , end-1, item.file.size) # the range of data returned
+                    response['Content-Type'] = 'video/mp4' #item.mime_type
+                    response['Content-Range'] = "bytes %d-%d/%d" %(start , end-1, item.preview.size) # the range of data returned
                     response['Content-Length'] = end - start # amount of data returned
                     
                     # extract and return the amount of requested bytes
-                    f = open(item.file.path, 'rb')
+                    f = open(item.preview.path, 'rb')
                     f.seek(start)
                     response.content = f.read(end - start)
                     f.close()

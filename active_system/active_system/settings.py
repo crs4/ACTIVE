@@ -131,6 +131,11 @@ CORS_ALLOW_HEADERS = (
 	'cache-control'
 )
 
+# uploades that will be used by the 
+FILE_UPLOAD_HANDLERS = (#"django.core.files.uploadhandler.MemoryFileUploadHandler",
+			"django.core.files.uploadhandler.TemporaryFileUploadHandler",)
+
+
 # django rest framework settings
 REST_FRAMEWORK = {
 	'UPLOADED_FILES_USE_URL' : False

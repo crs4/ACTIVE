@@ -12,7 +12,7 @@ So it is possibile to obtain job objects queued, in a running status,
 completed or failed due to some computation error.
 """
 class JobManager:
-	def __init__(self, max_jobs=5):
+	def __init__(self, max_jobs=12):
 		"""
 		A Job Managar is able to manage a limited number
 		of job at the same time. This degree of parallelism

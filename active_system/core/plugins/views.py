@@ -11,6 +11,7 @@ from core.views import EventView
 
 import json
 
+
 ##### classi e metodi necessari per l'avvio di eventi e script attraverso l'API REST
 
 class EventTrigger(EventView):

@@ -19,6 +19,11 @@ from core.users.models import ActiveUser
 from core.users.serializers import ActiveUserSerializer
 
 
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
+
+
 # methods used to list all user data or insert a new one
 class ActiveUserList(APIView):
     """
@@ -110,12 +115,13 @@ class ActiveUserDetail(APIView):
         @return: HttpResponse containing all update object data.
         @rtype: HttpResponse
 	"""
-        user = self.get_object(pk)
-        serializer = ActiveUserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            user = self.get_object(pk)
+            serializer = ActiveUserSerializer(user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
 	"""
