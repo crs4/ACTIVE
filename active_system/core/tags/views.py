@@ -8,6 +8,11 @@ from rest_framework import status
 from core.tags.models import Tag
 from core.tags.serializers import TagSerializer
 
+
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
+
 """
 This module contains all class that will implement all methods required by the
 REST API for tags object data.
@@ -96,12 +101,13 @@ class TagDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        tag = self.get_object(pk)
-        serializer = TagSerializer(tag, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            tag = self.get_object(pk)
+            serializer = TagSerializer(tag, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
 	"""

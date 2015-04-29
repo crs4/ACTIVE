@@ -9,6 +9,10 @@ from core.items.image.models import ImageItem
 from core.items.image.serializers import ImageItemSerializer, ImageItemPagination
 from rest_framework.pagination import PageNumberPagination
 
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
+
 class ImageItemList(EventView):
     """
     This class provides all views necessary to list all available
@@ -109,12 +113,14 @@ class ImageItemDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        item = self.get_object(pk)
-        serializer = ImageItemSerializer(item, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            item = self.get_object(pk)
+            serializer = ImageItemSerializer(item, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                print serializer.data, '\n\n\n'
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
 	"""

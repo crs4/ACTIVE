@@ -10,7 +10,7 @@ class VideoItemSerializer(ItemSerializer):
     class Meta(ItemSerializer.Meta):
         model = VideoItem
         fields = ('id', 'description', 'type', 'mime_type', 'filename', 'filesize', 'visibility', 'uploaded_at', 'published_at', 'owner', 
-		  'frame_rate', 'frame_width', 'frame_height', 'duration', 'format', 'file', 'thumb')
+		  'frame_rate', 'frame_width', 'frame_height', 'duration', 'format', 'file', 'thumb', 'preview')
 
 
 class VideoItemPagination(PageNumberPagination):

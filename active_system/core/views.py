@@ -9,7 +9,9 @@ class EventView(APIView):
         Extending this class it is possible to generate an event every time that one of the main methods
         are called and executed without any thrown (unhandled) exception.
         """
-
+		
+		
+		
         def __init__(self):
                 """
                 Constructor used to associate the generate_event decorator to any overrided function.

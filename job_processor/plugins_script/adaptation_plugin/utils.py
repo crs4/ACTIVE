@@ -27,10 +27,10 @@ def convert_video(func_in, func_out):
 
     try:
         # detect start and final absolute paths of video resources
-        file_path = os.path.join(settings.MEDIA_ROOT, 'items', str(func_out['id']), func_out['file'])
+        file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
         preview_path = os.path.join('/tmp', str(func_out['id']) + '_preview.mp4')
         # execute video conversion
-        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -movflags faststart -i  "' + file_path + '" -vc mp4 -r 5' + preview_path
+        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -codec:v libx264 -preset fast -movflags +faststart ' + preview_path
         subprocess.check_output(cmd, shell=True)
         # check if the preview has been generated
         if (not os.path.exists(preview_path)):
@@ -42,7 +42,10 @@ def convert_video(func_in, func_out):
         # send updated data to the core using the REST API
         server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/video/' + str(func_out['id']) + '/'
         r = requests.put(server_url, files=multiple_files)
-        print "Invio della preview a ", server_url
+        print "Sending video preview to ", server_url
+
+        # remove the preview file from the local filesystem
+        os.remove(preview_path)
 
     except Exception as e:
         print e
@@ -59,11 +62,11 @@ def convert_image(func_in, func_out):
 
     try:
         # create the start and final path for the image digital items
-        file_path = os.path.join(settings.MEDIA_ROOT, 'items', str(func_out['id']), func_out['file'])
+        file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
         preview_path = os.path.join('/tmp', str(func_out['id']) + 'preview.jpeg')
         # extract image thumbnail
-        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -vc png ' + preview_path
-        subprocess.check_output(cmd, shell=True)
+        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -vf scale=-1:600 ' + preview_path
+        subprocess.check_output (cmd, shell=True)
         # check if the preview has been created
         if (not os.path.exists(preview_path)):
             raise Exception("Preview image not generated")
@@ -74,7 +77,10 @@ def convert_image(func_in, func_out):
         # send updated data to the core using the REST API
         server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(func_out['id']) + '/'
         r = requests.put(server_url, files=multiple_files)
-        print "Invio della preview a ", server_url
+        print "Sending image preview to ", server_url
+
+        # remove the preview file from the local filesystem
+        os.remove(preview_path)
 
     except Exception as e:
         print e
@@ -82,9 +88,9 @@ def convert_image(func_in, func_out):
 
 def convert_audio(func_in, func_out):
     try:
-        file_path = os.path.join(settings.MEDIA_ROOT, 'items', str(func_out['id']), func_out['file'])
+        file_path = os.path.join(settings.MEDIA_ROOT, 'items', func_out['file'])
         preview_path = os.path.join('/tmp', str(func_out['id']) + 'preview.mp3')
-        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -b 128k -i "' + file_path + '" ' + preview_path
+        cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -ab 128k ' + preview_path
         subprocess.check_output(cmd, shell=True)
         if (not os.path.exists(preview_path)):
             raise Exception("Audio preview not generated for item " + str(func_out['id']))
@@ -95,7 +101,10 @@ def convert_audio(func_in, func_out):
         # send updated data to the core using the REST API
         server_url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/audio/' + str(func_out['id']) + '/'
         r = requests.put(server_url, files=multiple_files)
-        print "Invio della preview a ", server_url
+        print "Sending audio preview to ", server_url
+
+        # remove the preview file from the local filesystem
+	os.remove(preview_path)
 
     except Exception as e:
         print e
