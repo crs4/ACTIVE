@@ -6,7 +6,8 @@
 #import video_indexing_experiments_clothes_conf_th_pct_MONITOR
 #import video_indexing_experiments_clothes_check_method_min
 
+#import video_indexing_experiments_clothes_conf_th_fic
 import video_indexing_experiments_clothes_conf_th_MONITOR
-import video_indexing_experiments_clothes_conf_th_fic
+
 
 

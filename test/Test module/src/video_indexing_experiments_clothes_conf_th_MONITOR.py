@@ -26,14 +26,14 @@ use_aggregation = False
 
 use_nose_pos = False
 
-clothes_bbox_size_list = ((1.0, 2.0), (2.0, 1.0), (1.0, 1.0), (2.0, 2.0))
+clothes_bbox_size_list = ((1.0, 2.0), (2.0, 1.0), (2.0, 2.0), (1.0, 1.0))
 
 use_dom_color = False
 
 use_mean_x = False
 
-#use_3_bboxes_list = (False, True)
-use_3_bboxes_list = (True, False)
+use_3_bboxes_list = (False, True)
+
 clothes_conf_threshold = 8
 
 conf_threshold_list = range(10, 51, 2)
@@ -47,6 +47,11 @@ for resource_path in resource_paths:
         for use_3_bboxes in use_3_bboxes_list:     
         
             for conf_threshold in conf_threshold_list:
+                
+                if(test_counter <= 1075):
+                    
+                    test_counter = test_counter + 1
+                    continue
                 
                 # Make beep
                 #frequency = 404
