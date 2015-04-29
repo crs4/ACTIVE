@@ -8,6 +8,10 @@ from rest_framework import status
 from core.tags.person.models import Person
 from core.tags.person.serializers import PersonSerializer
 
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
+
 """
 This module contains all class that will implement methods required by the
 REST API for Person object data.
@@ -105,12 +109,13 @@ class PersonDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        person = self.get_object(pk)
-        serializer = PersonSerializer(person, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            person = self.get_object(pk)
+            serializer = PersonSerializer(person, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
 	"""

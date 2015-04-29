@@ -3,13 +3,18 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
 
-import core.users.urls
-import core.items.urls
-import core.plugins.urls
-import core.tags.urls
+import core.urls
+
 import tools.navigator.urls
+import tools.summarizer.urls
 import tools.job_monitor.urls
 
+
+"""
+This module is used to define the API REST of the entire ACTIVE system.
+For each module embedded in the system (core, tools, authentication) a include
+directive is reported, collecting the corresponding available URL patterns (APIs).
+"""
 
 urlpatterns = patterns('',
     # Examples:
@@ -34,10 +39,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 #    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^api/', include(core.users.urls)),
-    url(r'^api/', include(core.items.urls)),
-    url(r'^api/', include(core.plugins.urls)),
-    url(r'^api/', include(core.tags.urls)),
+    url(r'^api/', include(core.urls)),
     url(r'^jobmonitor/', include(tools.job_monitor.urls)),
     url(r'^navigator/', include(tools.navigator.urls)),
+    url(r'^summarizer/', include(tools.summarizer.urls)),
 )

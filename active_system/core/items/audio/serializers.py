@@ -10,7 +10,7 @@ class AudioItemSerializer(ItemSerializer):
     class Meta(ItemSerializer.Meta):
         model = AudioItem
         fields = ('id', 'description', 'type', 'mime_type', 'filename', 'filesize', 'visibility', 'uploaded_at', 'published_at', 
-		  'owner', 'bits_per_sample', 'sample_rate', 'num_channels', 'duration', 'format', 'file', 'thumb')
+		  'owner', 'bits_per_sample', 'sample_rate', 'num_channels', 'duration', 'format', 'file', 'thumb', 'preview')
 
 
 class AudioItemPagination(PageNumberPagination):

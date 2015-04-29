@@ -9,7 +9,7 @@ This module is used to unify the REST API necessary to access Person object data
 
 
 urlpatterns = (
-    url(r'^people/$', PersonList.as_view()),
-    url(r'^people/(?P<pk>[0-9]+)/$', PersonDetail.as_view()),
+    url(r'^$', PersonList.as_view()),
+    url(r'^(?P<pk>[0-9]+)/$', PersonDetail.as_view()),
 )
 

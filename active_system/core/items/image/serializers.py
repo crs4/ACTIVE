@@ -1,6 +1,7 @@
 from core.items.serializers import ItemSerializer
 from core.items.image.models import ImageItem
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import serializers
 
 class ImageItemSerializer(ItemSerializer):
     """
@@ -10,7 +11,7 @@ class ImageItemSerializer(ItemSerializer):
     class Meta(ItemSerializer.Meta):
         model = ImageItem
         fields = ('id', 'description', 'type', 'mime_type', 'filename', 'filesize', 'visibility', 'uploaded_at',
-		  'published_at', 'owner', 'frame_width', 'frame_height', 'format', 'file', 'thumb')
+		  'published_at', 'owner', 'frame_width', 'frame_height', 'format', 'file', 'thumb', 'preview')
 
 
 

@@ -3,14 +3,16 @@ from django.shortcuts import render
 
 from core.plugins.models import Event
 from core.plugins.event.serializers import EventSerializer
-from core.plugins.event_manager import EventManager
-from core.plugins.script.serializers import ScriptSerializer
+from core.plugins.event_manager import EventManager # da rimuoivere?
+from core.plugins.script.serializers import ScriptSerializer # da rimuovere?
 
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
 
-
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import threading
+edit_lock = threading.Lock();
 
 class EventList(EventView): 
     """
@@ -102,12 +104,13 @@ class EventDetail(EventView):
         @return: HttpResponse containing the Event updated serialized data, error otherwise.
         @rtype: HttpResponse
         """
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with edit_lock:
+            event = self.get_object(pk)
+            serializer = EventSerializer(event, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         """
@@ -126,6 +129,9 @@ class EventDetail(EventView):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+    # metodo da rimuovere??????????? e' utilizzato da qualche parte?
     def get_event_scripts(self, request, pk, format=None):
 	"""
         This method is used to retrieve all Script objects associated with a given Event object.
