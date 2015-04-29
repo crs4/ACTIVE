@@ -1581,7 +1581,7 @@ def get_hist_difference(image, prev_hists):
     return [tot_diff, hists]
     
     
-def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bboxes = False):
+def compare_clothes(db_path_1, db_path_2, face_conf, intra_dist1 = None, params = None):
     '''
     Compare two cloth models
     
@@ -1592,22 +1592,57 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bbo
     :type db_path_2: string
     :param db_path_2: path containing file with list of color histograms
                     of clothes to be compared with those of db_path_1
-                   
-    :type method: string
-    :param method: method for comparing clothes ('Min', 'Mean' or 'Max')
             
+    :type face_conf: float
+    :param face_conf: confidence with face recognition    
+    
     :type intra_dist1: float
     :param intra_dist1: mean of intra distances for db_path_1, 
                          if already computed 
-                         
-    :type used_3_bboxes: boolean
-    :param used_3_bboxes: True if 3 bboxes per frame are used       
+                
+    :type params: dictionary 
+    :param params: configuration parameters               
                    
     :rtype: boolean
     :returns: True if two models are similar
     '''
+    
+    # Method for comparing clothes ('Min', 'Mean' or 'Max')
+    method = CLOTHES_CHECK_METHOD
+    
+    # True if 3 bboxes per frame are used  
+    used_3_bboxes = CLOTHING_REC_USE_3_BBOXES
+    
+    # Threshold for merging face tracks (threshold_face high)
+    conf_threshold = CONF_THRESHOLD
+    
+    # Threshold for using clothing recognition (threshold_face low)
+    clothes_conf_th = CLOTHES_CONF_THRESH
+    
+    # True if threshold for clothing is variable
+    variable_clothing_th = VARIABLE_CLOTHING_THRESHOLD
+    
+    if(params is not None):
+        
+        if(CONF_THRESHOLD_KEY in params):
+            conf_threshold = params[CONF_THRESHOLD_KEY]
+        
+        if(CLOTHES_CHECK_METHOD_KEY in params):
+            method = params[CLOTHES_CHECK_METHOD_KEY]
+            
+        if(CLOTHING_REC_USE_3_BBOXES_KEY in params):   
+            used_3_bboxes = params[CLOTHING_REC_USE_3_BBOXES_KEY]
+            
+        if(CLOTHES_CONF_THRESH_KEY in params):
+            clothes_conf_th = params[CLOTHES_CONF_THRESH_KEY]
+            
+        if(VARIABLE_CLOTHING_THRESHOLD_KEY in params):
+            variable_clothing_th = params[VARIABLE_CLOTHING_THRESHOLD_KEY]
+    
     sim = False
         
+    #print('db_path_1', db_path_1)    
+    #print('db_path_2', db_path_2)   
     if(os.path.isfile(db_path_1) and
     os.path.isfile(db_path_2)):
 
@@ -1641,21 +1676,33 @@ def compare_clothes(db_path_1, db_path_2, method, intra_dist1 = None, used_3_bbo
     
                 chosen_value = 0
                 
+                k = 1
+                
+                if(variable_clothing_th):
+                    k =  (conf_threshold - clothes_conf_th) / (
+                    face_conf - clothes_conf_th)
+                
+                #print('conf_face', face_conf)
+                #print('k', k)
+                
                 if(method.lower() == 'min'):
                         
-                    chosen_value = min(intra_dist1, intra_dist2)
+                    chosen_value = k * min(intra_dist1, intra_dist2)
                         
                 elif(method.lower() == 'mean'):
                     
-                    chosen_value = np.mean(intra_dist1, intra_dist2)
+                    chosen_value = k * np.mean(intra_dist1, intra_dist2)
                     
                 elif(method.lower() == 'max'):
                     
-                    chosen_value = max(intra_dist1, intra_dist2)
+                    chosen_value = k * max(intra_dist1, intra_dist2)
                     
                 else:
                     
                     print('Warning! Method for comparing clothes not available')
+                    
+                #print('chosen_value', chosen_value)
+                #print('dist', dist)    
                     
                 if(dist < chosen_value):
                     

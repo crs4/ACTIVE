@@ -654,6 +654,11 @@ class FaceExtractor(object):
                 else:
                 
                     self.faces_nr[frame_path] = 1 
+                    
+        # Save YAML file
+        faces_nr_path = os.path.join(video_path, FACES_NR_IN_FRAMES_FILE)
+        
+        save_YAML_file(faces_nr_path, self.faces_nr)
     
     
     def trackFacesInVideo(self):
@@ -1459,9 +1464,6 @@ class FaceExtractor(object):
         # Directory for this video     
         video_indexing_path = VIDEO_INDEXING_PATH
         
-        offset_pct = (OFFSET_PCT_X, OFFSET_PCT_Y)
-        dest_sz = (CROPPED_FACE_WIDTH, CROPPED_FACE_HEIGHT)
-        
         use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
         
         max_faces_in_model = MAX_FACES_IN_MODEL
@@ -1476,13 +1478,6 @@ class FaceExtractor(object):
         if(self.params is not None):
             
             video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
-            
-            offset_pct_x = self.params[OFFSET_PCT_X_KEY]
-            offset_pct_y = self.params[OFFSET_PCT_Y_KEY]
-            offset_pct = (offset_pct_x, offset_pct_y)
-            cropped_face_width = self.params[CROPPED_FACE_WIDTH_KEY]
-            cropped_face_height = self.params[CROPPED_FACE_HEIGHT_KEY]
-            dest_sz = (cropped_face_width, cropped_face_height)
             
             use_nose_pos_in_rec = self.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
             max_faces_in_model = self.params [MAX_FACES_IN_MODEL_KEY]
@@ -1901,8 +1896,9 @@ class FaceExtractor(object):
         conf_threshold = CONF_THRESHOLD
         
         use_clothing_rec = USE_CLOTHING_RECOGNITION
-        cl_ch_method = CLOTHES_CHECK_METHOD
+        
         use_3_bboxes = CLOTHING_REC_USE_3_BBOXES
+
         # Threshold for using clothing recognition
         clothes_conf_th = CLOTHES_CONF_THRESH
         
@@ -1929,9 +1925,6 @@ class FaceExtractor(object):
             
             if(USE_CLOTHING_RECOGNITION_KEY in self.params):
                 use_clothing_rec = self.params[USE_CLOTHING_RECOGNITION_KEY]
-            
-            if(CLOTHES_CHECK_METHOD_KEY in self.params):
-                cl_ch_method = self.params[CLOTHES_CHECK_METHOD_KEY]
                 
             if(CLOTHING_REC_USE_3_BBOXES_KEY in self.params):   
                 use_3_bboxes = self.params[CLOTHING_REC_USE_3_BBOXES_KEY]
@@ -2244,14 +2237,7 @@ class FaceExtractor(object):
                                     
                                     if(diff < final_conf):
                                         
-                                        final_conf = diff  
-                                        
-                            #print('idx', idx)
-                            #print('sub_counter', sub_counter)
-                            #print('final_conf', final_conf)
-                            #print('clothes_conf_th', clothes_conf_th)
-                            #print('conf_threshold', conf_threshold)
-                            #raw_input('Aspetta poco poco ...')                         
+                                        final_conf = diff                        
                         
                             if(final_conf < conf_threshold):
                                 
@@ -2267,12 +2253,19 @@ class FaceExtractor(object):
                                     
                                         # Check clothing similarity
     
+                                        #print('idx', idx)
+                                        #print('sub_counter', sub_counter)
+                                        #print('final_conf', final_conf)
+                                        #print('clothes_conf_th', clothes_conf_th)
+                                        #print('conf_threshold', conf_threshold)
+                                        #raw_input('Aspetta poco poco ...')   
+                                        
                                         db_path_2 = os.path.join(
                                         cloth_models_path, str(sub_counter))
     
                                         similar = compare_clothes(db_path_1, 
-                                        db_path_2, cl_ch_method, intra_dist1,
-                                        use_3_bboxes)
+                                        db_path_2, final_conf,
+                                        intra_dist1, self.params)
                         
                                         if(similar):
                                 
@@ -2876,7 +2869,7 @@ class FaceExtractor(object):
         # Try to load YAML file with recognition results
         if(os.path.exists(rec_file_path)):
             
-            print 'Loading YAML file with recognition results'
+            print 'Loading YAML file with clustering results'
             
             rec_faces = load_YAML_file(rec_file_path)
             
@@ -2884,7 +2877,7 @@ class FaceExtractor(object):
                 
                 self.recognized_faces = rec_faces
                 
-                print 'YAML file with recognition results loaded'
+                print 'YAML file with clustering results loaded'
                 
                 rec_loaded = True
                 
@@ -3163,58 +3156,75 @@ class FaceExtractor(object):
                 # Try to load YAML file
                 if(os.path.exists(file_path)):
                     
-                    print 'Loading YAML file with recognition results'
+                    print 'Loading YAML file with clustering results'
                     
                     with open(file_path) as f:
         
                         self.recognized_faces = yaml.load(f) 
                         
-                    print 'YAML file with recognition results loaded'
+                    print 'YAML file with clustering results loaded'
                         
                 else:
                     
-                    print 'Warning! No recognition results found!'
+                    print 'Warning! No clustering results found!'
                     
                     return 
                     
-        print '\n\n### People recognition ###\n'
-            
-        # Save processing time
-        start_time = cv2.getTickCount()            
-                    
-        # Get number of faces in each frame
-        self.getFacesNr()
-        
-        print(self.faces_nr)
-        
-        p_counter = 0
-        
-        clusters_nr = float(len(self.recognized_faces))
-        
-        # Iterate through people clusters
-        for person_dict in self.recognized_faces:
-            
-            self.progress = 100 * (p_counter / clusters_nr)
-        
-            print('progress: ' + str(self.progress) + ' %          \r'),
-            
-            segment_list = person_dict[SEGMENTS_KEY]
-            
-            # Iterate through segments related to this person
-            for segment_dict in segment_list:
+            print '\n\n### People recognition ###\n'
                 
-                frame_list = segment_dict[FRAMES_KEY]
-                
-                for frame_dict in frame_list:
-                    
-                    frame_path = frame_dict[FRAME_PATH_KEY]
-                    
-                    # Check if this is the only face in this frame
-                    if((frame_path in self.faces_nr) 
-                    and (self.faces_nr[frame_path] == 1)):
+            # Save processing time
+            start_time = cv2.getTickCount()            
                         
-                        # Execute caption recognition
-                        gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)       
+            # Try to load YAML file with number of faces in frames
+            faces_nr_file_path = os.path.join(
+            video_path, FACES_NR_IN_FRAMES_FILE)
+            
+            if(os.path.exists(faces_nr_file_path)):
+                
+                print 'Loading YAML file with number of faces in frames'
+                
+                with open(faces_nr_file_path) as f:
+                    
+                    self.faces_nr = yaml.load(f)
+                    
+                print ' YAML file with number of faces in frames loaded'
+            
+            else:
+                # Get number of faces in each frame
+                self.getFacesNr()
+            
+            print(self.faces_nr)
+            
+            p_counter = 0
+            
+            clusters_nr = float(len(self.recognized_faces))
+            
+            # Iterate through people clusters
+            for person_dict in self.recognized_faces:
+                
+                self.progress = 100 * (p_counter / clusters_nr)
+            
+                print('progress: ' + str(self.progress) + ' %          \r'),
+                
+                segment_list = person_dict[SEGMENTS_KEY]
+                
+                # Iterate through segments related to this person
+                for segment_dict in segment_list:
+                    
+                    frame_list = segment_dict[FRAMES_KEY]
+                    
+                    for frame_dict in frame_list:
+                        
+                        frame_path = frame_dict[FRAME_PATH_KEY]
+                        
+                        # Check if this is the only face in this frame
+                        if((frame_path in self.faces_nr) 
+                        and (self.faces_nr[frame_path] == 1)):
+                            
+                            # Execute caption recognition
+                            gray_im = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE) 
+                            
+                            get_tag_from_image(gray_im, self.params)      
     
     
     def getFaceFromSegmentFrame(self, segment_frame_dict, align_path):
@@ -3231,8 +3241,28 @@ class FaceExtractor(object):
         
         result = None
         
-        offset_pct = (OFFSET_PCT_X,OFFSET_PCT_Y)
-        dest_sz = (CROPPED_FACE_WIDTH,CROPPED_FACE_HEIGHT)
+        offset_pct_x = OFFSET_PCT_X
+        offset_pct_y = OFFSET_PCT_Y
+        
+        cropped_face_width = CROPPED_FACE_WIDTH
+        cropped_face_height = CROPPED_FACE_HEIGHT
+        
+        if(self.params is not None):
+            
+            if(OFFSET_PCT_X_KEY in self.params):
+                offset_pct_x = self.params[OFFSET_PCT_X_KEY]
+                
+            if(OFFSET_PCT_Y_KEY in self.params):
+                offset_pct_y = self.params[OFFSET_PCT_Y_KEY]
+            
+            if(CROPPED_FACE_WIDTH_KEY in self.params):
+                cropped_face_width = self.params[CROPPED_FACE_WIDTH_KEY]
+                
+            if(CROPPED_FACE_HEIGHT_KEY in self.params):
+                cropped_face_height = self.params[CROPPED_FACE_HEIGHT_KEY]           
+        
+        offset_pct = (offset_pct_x, offset_pct_y)
+        dest_sz = (cropped_face_width, cropped_face_height)
         
         frame_path = segment_frame_dict[FRAME_PATH_KEY]
         
@@ -3282,7 +3312,7 @@ class FaceExtractor(object):
                 cv2.imwrite(TMP_TRACKED_FACE_FILE_PATH, tracked_face)
     
                 crop_result = fd.get_cropped_face(
-                TMP_TRACKED_FACE_FILE_PATH, align_path, None, offset_pct, dest_sz, False)
+                TMP_TRACKED_FACE_FILE_PATH, align_path, self.params, False)
                 
                 if(crop_result):
                     

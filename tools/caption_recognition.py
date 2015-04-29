@@ -6,10 +6,17 @@ import tesseract
 from Constants import *
 from itertools import permutations
 
-def get_tags_from_file():
-    print(TAGS_FILE_PATH)
+def get_tags_from_file(tags_file_path):
+    '''
+    Get tags from text file
     
-    with open(TAGS_FILE_PATH, 'r') as f:
+    :type tags_file_path: string
+    :param tags_file_path: path of file with tags    
+    '''
+    
+    #print(TAGS_FILE_PATH)
+    
+    with open(tags_file_path, 'r') as f:
     
         tags = f.read().splitlines()
         
@@ -34,12 +41,12 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
     flags = cv2.THRESH_BINARY | cv2.THRESH_OTSU
     th, bw_im = cv2.threshold(gray_im, 128, 255, flags)
     
-    cv2.imshow('bw_im', bw_im)
-    cv2.waitKey(0)
+    #cv2.imshow('bw_im', bw_im)
+    #cv2.waitKey(0)
     
     # TEST ONLY
-    path = r'C:\Users\Maurizio\Documents\File di test\Caption recognition\bw_caption_block.png'
-    cv2.imwrite(path, bw_im)
+    #path = r'C:\Users\Maurizio\Documents\File di test\Caption recognition\bw_caption_block.png'
+    #cv2.imwrite(path, bw_im)
     
     # Find contours in image
     mode = cv2.RETR_TREE
@@ -229,6 +236,10 @@ def check_permutations(lett_counter, label_parts, words):
         for word in words:
             
             word_lev_ratio = lev.ratio(perm.lower(), word.lower())
+            
+            #max_length = float(max(len(perm), len(word)))
+            #lev_distance = lev.distance(perm.lower(), word.lower())
+            #word_lev_ratio = 1 - (lev_distance / max_length)
     
             w_word_lev_ratio = word_lev_ratio * label_parts_nr
             
@@ -243,19 +254,47 @@ def get_tag_from_image_old(image_path):
     '''
     Find tag in image captions
     
-    :param image_path: string
-    :type image_path: path of image to be analyzed
+    :type image_path: string
+    :params image_path: path of image to be analyzed
     '''
     pass
 
 
-def get_tag_from_image(gray_im):
+def get_tag_from_image(gray_im, params):
     '''
     Find tag in image captions
     
-    :param gray_im: image to be analyzed
     :type gray_im: OpenCV grayscale image
+    :param gray_im: image to be analyzed
+    
+    :type params: dictionary
+    :param params: dictionary containing the parameters to be used for
+    the caption recognition  
     '''
+    
+    # Get values from params
+    use_levenshtein = USE_LEVENSHTEIN
+    lev_thresh = LEV_RATIO_PCT_THRESH
+    min_tag_length = MIN_TAG_LENGTH
+    tags_file_path = TAGS_FILE_PATH
+        
+    if(params is not None):
+        
+        if(USE_LEVENSHTEIN_KEY in params):
+            
+            use_levenshtein = params[USE_LEVENSHTEIN_KEY]
+        
+        if(LEV_RATIO_PCT_THRESH_KEY in params):
+            
+            lev_thresh = params[LEV_RATIO_PCT_THRESH_KEY]
+            
+        if(MIN_TAG_LENGTH_KEY in params):
+            
+            min_tag_length = params[MIN_TAG_LENGTH_KEY]
+            
+        if(TAGS_FILE_PATH_KEY in params):
+            
+            tags_file_path = params[TAGS_FILE_PATH_KEY]
     
     # Tesseract init
     api = tesseract.TessBaseAPI()
@@ -572,7 +611,7 @@ def get_tag_from_image(gray_im):
     #print('words', words)
     rows = words
     
-    tags = get_tags_from_file()
+    tags = get_tags_from_file(tags_file_path)
     
     if(tags != -1):
         assigned_label = -1
@@ -586,6 +625,17 @@ def get_tag_from_image(gray_im):
         for tag in tags:
             # Divide name(s) and surname(s)
             tag_parts = tag.split(TAG_SEP)
+            
+            #Skip tags that are too short
+            tot_len = 0
+            for tag_part in tag_parts:
+                
+                tot_len = tot_len + len(tag_part)
+                
+            if(tot_len < min_tag_length):
+                
+                continue
+            
             lett_counter = 0
             tag_parts_len = 0
             tag_parts_nr = len(tag_parts)
@@ -607,13 +657,17 @@ def get_tag_from_image(gray_im):
                     
                     # Index of letters that must not be considered anymore
                     
-                    if(USE_LEVENSHTEIN):
+                    if(use_levenshtein):
                         
                         word_lev_ratio = lev.ratio(tag_part.lower(), word.lower())
                         
+                        #max_length = float(max(len(tag_part), len(word)))
+                        #lev_distance = lev.distance(tag_part.lower(), word.lower())
+                        #word_lev_ratio = 1 - (lev_distance / max_length)
+                        
                         if(word_lev_ratio == 1):
                             lett_counter = lett_counter + word_lev_ratio
-                            print('')
+                            #print('')
                             complete_check_found = True
                             
                         word_lett_counter_l.append(word_lev_ratio)
@@ -660,7 +714,7 @@ def get_tag_from_image(gray_im):
                     if(len(word_lett_counter_l) > 0):
                         lett_counter = lett_counter + max(word_lett_counter_l)
             
-            if(USE_LEVENSHTEIN):
+            if(use_levenshtein):
                 
                 if(lett_counter == tag_parts_nr):
                    
@@ -693,7 +747,7 @@ def get_tag_from_image(gray_im):
                     lett_pct = float(lett_counter) / tag_parts_len
                     lett_pct_list.append(lett_pct)
                
-            #if(USE_LEVENSHTEIN):
+            #if(use_levenshtein):
                 
                 #print "Tag = %s (Levenshtein ratio of %f on %f)" % (tag, lett_counter, tag_parts_nr) # TEST ONLY
             
@@ -713,18 +767,23 @@ def get_tag_from_image(gray_im):
         # Do not consider recognitions below threshold
         lev_ratio_pct = float(eq_letters_nr) / tot_letters_nr
         
-        if(lev_ratio_pct < LEV_RATIO_PCT_THRESH):
+        if(lev_ratio_pct < lev_thresh):
             
             assigned_label = -1
             assigned_tag = -1 
         
-        #if(USE_LEVENSHTEIN):
+        else:
             
-            #print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
-        
-        #else:
+            if(use_levenshtein):
+                
+                print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
             
-            #print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
+            else:
+                
+                print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
+                
+            #cv2.imshow('frame', gray_im)
+            #cv2.waitKey(0)
         
         #if(assigned_tag == "Leoni_Mario"):
     
@@ -741,5 +800,7 @@ def get_tag_from_image(gray_im):
         result_dict[EQ_LETTERS_NR_KEY] = eq_letters_nr
         
         result_dict[TOT_LETTERS_NR_KEY] = tot_letters_nr
+        
+        result_dict[CONFIDENCE_KEY] = lev_ratio_pct
         
         return result_dict

@@ -535,7 +535,7 @@ def get_cropped_face_using_fixed_eye_pos(image_path, align_path, offset_pct, des
         raise
 
 
-def get_cropped_face(image_path, align_path, params, offset_pct, dest_size, return_always_face):
+def get_cropped_face(image_path, align_path, params, return_always_face):
     '''
     Get face cropped and aligned to eyes from image file
     Position of eyes is automatically detected
@@ -549,11 +549,9 @@ def get_cropped_face(image_path, align_path, params, offset_pct, dest_size, retu
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the face detection
 
-    :type offset_pct: 2-element tuple
-    :param offset_pct: offset given as percentage of eye-to-eye distance
-
-    :type dest_size: 2-element tuple
-    :param dest_size: size of result
+    :type return_always_face: boolean
+    :type return_always_face: if true, 
+    return face even if no eyes are detected  
     '''
 
     # Open image
@@ -569,27 +567,39 @@ def get_cropped_face(image_path, align_path, params, offset_pct, dest_size, retu
         # Path of directory containing classifier files
         classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep
         
-        if params is not None:
-
-            classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] + os.sep
-
         # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER
+        eye_detection_classifier = EYE_DETECTION_CLASSIFIER
+        
+        # Cascade classifier for nose detection
+        nose_detection_classifier = NOSE_DETECTION_CLASSIFIER
+        
+        if (params is not None):
+            
+            if(CLASSIFIERS_DIR_PATH_KEY in params):
+                classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] + os.sep
+                
+            if(EYE_DETECTION_CLASSIFIER_KEY in params):
+                eye_detection_classifier = params[EYE_DETECTION_CLASSIFIER_KEY]
+        
+            if(NOSE_DETECTION_CLASSIFIER_KEY in params):
+                nose_detection_classifier = params[NOSE_DETECTION_CLASSIFIER_KEY]
+        
+        eye_classifier_file = classifiers_folder_path + eye_detection_classifier
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file)
         
         if(eye_cascade_classifier.empty()):
             print('Error loading eye cascade classifier file')
             return None
             
-        # Cascade classifier for nose detection
-        nose_classifier_file = classifiers_folder_path + NOSE_DETECTION_CLASSIFIER
+        
+        nose_classifier_file = classifiers_folder_path + nose_detection_classifier
         nose_cascade_classifier = cv2.CascadeClassifier(nose_classifier_file)     
             
         if(nose_cascade_classifier.empty()):
             print('Error loading nose cascade classifier file')
             return None
 
-        crop_result = get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, offset_pct, dest_size, (0,0), return_always_face)
+        crop_result = get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, (0,0), return_always_face)
 
         result = None
 

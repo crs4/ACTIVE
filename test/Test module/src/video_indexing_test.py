@@ -57,6 +57,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  NECK_HEIGHT_KEY + ',' +
                  HIST_SMOOTHING_KERNEL_SIZE_KEY + ',' +
                  CLOTHES_CONF_THRESH_KEY + ',' +
+                 VARIABLE_CLOTHING_THRESHOLD_KEY + ',' +
                                   
                  FRAME_EXTRACTION_TIME_KEY + ',' + 
                  FACE_DETECTION_TIME_KEY + ',' +
@@ -84,7 +85,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
         experiment_dict = experiment_dict_extended[EXPERIMENT_KEY]
         
         stream.write(str(experiment_dict[CODE_VERSION_KEY]) + ',' +
-                     str(experiment_dict[EXPERIMENT_NUMBER_KEY]) + ',' + 
+                     str(experiment_dict[EXPERIMENT_NUMBER_KEY]) + ',' +
                      str(experiment_dict[VIDEO_NAME_KEY]) + ',' +  
                      str(experiment_dict[VIDEO_DURATION_KEY]) + ',' + 
                      str(experiment_dict[VIDEO_FPS_KEY]) + ',' +
@@ -125,6 +126,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[NECK_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[HIST_SMOOTHING_KERNEL_SIZE_KEY]) + ',' +
                      str(experiment_dict[CLOTHES_CONF_THRESH_KEY]) + ',' +
+                     str(experiment_dict[VARIABLE_CLOTHING_THRESHOLD_KEY]) + ',' +
                                         
                      str(experiment_dict[FRAME_EXTRACTION_TIME_KEY]) + ',' + 
                      str(experiment_dict[FACE_DETECTION_TIME_KEY]) + ',' +
@@ -549,6 +551,10 @@ def video_indexing_experiments(resource_path, params):
     new_experiment_dict[CLOTHES_CONF_THRESH_KEY] = CLOTHES_CONF_THRESH
     if(CLOTHES_CONF_THRESH_KEY in fs.params):
         new_experiment_dict[CLOTHES_CONF_THRESH_KEY] = fs.params[CLOTHES_CONF_THRESH_KEY]
+        
+    new_experiment_dict[VARIABLE_CLOTHING_THRESHOLD_KEY] = False
+    if(VARIABLE_CLOTHING_THRESHOLD_KEY in fs.params):
+        new_experiment_dict[VARIABLE_CLOTHING_THRESHOLD_KEY] = fs.params[VARIABLE_CLOTHING_THRESHOLD_KEY]
     
     # Analysis time
     

@@ -2,14 +2,18 @@ import cv2
 import cv2.cv as cv
 import os
 from caption_recognition import get_tag_from_image
+from Constants import *
 
 ####    TEST ONLY      ####
 
-use_all_images = False
+use_all_images = True
 
 if (use_all_images):
    
-    folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.06\Training_set_ordered\Simonazzi_Aurelio'
+    #folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.06\Training_set_ordered\Simonazzi_Aurelio'
+    #folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\Fic.02\Training_set_ordered\Fadda_Paolo'
+    #folder = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\data\Videolina - Training set da testo\SPALTI3_230907\Training_set_ordered\Giampaolo_Marco'
+    folder = r'C:\Users\Maurizio\Documents\Dataset\Videolina-798I-28P\Foschi_Luciano'
     
     folder_list = folder.split('\\')
     annotated_label = folder_list[len(folder_list) - 1]
@@ -29,8 +33,12 @@ if (use_all_images):
         
         #print(image_complete_path)
         
-        result_dict = get_tag_from_image(image_complete_path)
-        assigned_label = result_dict[ASSIGNED_LABEL_KEY]
+        gray_im = cv2.imread(image_complete_path, cv2.IMREAD_GRAYSCALE)
+        
+        result_dict = get_tag_from_image(gray_im, None)
+        #print(result_dict)
+        
+        assigned_label = result_dict[ASSIGNED_TAG_KEY]
         
         eq_letters_nr = result_dict[EQ_LETTERS_NR_KEY]
         

@@ -130,7 +130,7 @@ def fr_experiments(params, show_results):
     Execute face recognition experiments
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for the test
+    :param params: dictionary containing the parameters to be used for the experiments
 
     :type show_results: boolean
     :param show_results: show (true) or do not show (false) images with detected faces
