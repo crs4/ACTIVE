@@ -1,0 +1,89 @@
+<!-- RIBBON -->
+<div id="ribbon" ng-controller="ribbonCtrl">
+
+	<span class="ribbon-button-alignment" ng-click="reload()"> 
+		<span id="refresh" class="btn btn-ribbon" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"><i class="fa fa-refresh"></i></span> 
+	</span>
+
+	<!-- breadcrumb -->
+	<ol class="breadcrumb">
+		<li>Home</li>
+		<li>Job details</li>
+	</ol>
+	<!-- end breadcrumb -->
+
+</div>
+<!-- END RIBBON -->
+
+<!-- MAIN CONTENT -->
+<div id="content">
+	
+	<div class="row">
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div id="wid-id-jobdetails" class="jarviswidget jarviswidget-color-darken jarviswidget-sortable" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-search-plus"></i> </span>
+					<h2>Job details</h2>
+				</header>
+				<div>
+					<div class="jarviswidget-editbox"> </div>
+					<div class="widget-body no-padding">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><h2 class="text-info">Job {{job.id}}</h2></div>
+						<div id="job-details">
+							<ul class="list-unstyled ul-custom">
+								<li ng-hide="job.name == job.func_name">
+									<div class="col-md-2 col-lg-2"><strong>Name</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.name}}</div>
+								</li>
+								<li ng-show="job.func_name">
+									<div class="col-md-2 col-lg-2"><strong>Description</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.func_name}}</div>
+								</li>
+								<li ng-show="job.status">
+									<div class="col-md-2 col-lg-2"><strong>Status</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.status}}</div>
+								</li>
+								<li ng-show="job.error_info">
+									<div class="col-md-2 col-lg-2"><strong>Error</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.error_info}}</div>
+								</li>
+								<li ng-show="job.start_timestamp">
+									<div class="col-md-2 col-lg-2"><strong>Start time</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.start_timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+								</li>
+								<li ng-show="job.end_timestamp">
+									<div class="col-md-2 col-lg-2"><strong>End time</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.end_timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+								</li>
+								<li ng-show="job.end_timestamp">
+									<div class="col-md-2 col-lg-2"><strong>Duration</strong></div>
+									<div class="col-md-10 col-lg-10">{{(job.end_timestamp - job.start_timestamp)*0.001}} sec</div>
+								</li>
+								<li ng-show="job.progression">
+									<div class="col-md-2 col-lg-2"><strong>Completion</strong></div>
+									<div class="col-md-10 col-lg-10">{{job.progression}} %</div>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<h3 class="text-info">Result</h3>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding_bottom_15">
+							<div class="well">{{job.result}}</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 button-footer-custom">
+							<a class="btn btn-success" href="javascript:void(0);" ng-click="getBack()"> Back to jobs </a>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</article>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<script type="text/javascript">
+	pageSetUp();
+</script>
