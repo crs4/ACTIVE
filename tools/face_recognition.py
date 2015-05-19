@@ -552,7 +552,8 @@ def recognize_face_from_models_file(face, face_models, params, show_results):
     return result
 
 def recognize_face_base(face, face_models, params, show_results):
-    '''Recognize given face using 
+    '''
+    Recognize given face using 
     the face recognition model saved as one file,
     comparison between histograms is carried out by OpenCV
 
@@ -571,7 +572,7 @@ def recognize_face_base(face, face_models, params, show_results):
         fm = FaceModelsLBP(params)
 
     start_time = cv2.getTickCount()
-    
+
     [label, confidence] = fm.model.predict(np.asarray(face, dtype=np.uint8))
 
     tag = fm.get_tag(label)

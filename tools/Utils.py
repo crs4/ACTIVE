@@ -166,14 +166,17 @@ def save_YAML_file(file_path, dictionary):
     :rtype: boolean     
     '''
     with open(file_path, 'w') as stream:
-        result = stream.write(yaml.dump(dictionary, default_flow_style = False))
+        result = stream.write(
+        yaml.dump(dictionary, default_flow_style = False))
         return result
+        
 
 # Load file with results of all experiments and return list of experiments
 def load_experiment_results(filePath):
     data = load_YAML_file(filePath)
     experiments = data[EXPERIMENTS_KEY]
     return experiments
+    
 
 def detect_eyes_in_image(image, eye_cascade_classifier):
     '''

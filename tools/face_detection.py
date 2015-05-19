@@ -60,13 +60,34 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
 
         # Algorithm to be used for the face detection
         algorithm = FACE_DETECTION_ALGORITHM
-        if(params is not None): 
-            algorithm = params[FACE_DETECTION_ALGORITHM_KEY]
-
+        
         # Path of directory containing classifier files
-        classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep
-        if(params is not None):
-            classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] +os.sep
+        classifiers_folder_path = CLASSIFIERS_DIR_PATH + os.sep 
+        
+        # Cascade classifier for eye detection
+        eye_detection_classifier = EYE_DETECTION_CLASSIFIER  
+        
+        # Cascade classifiers for nose detection
+        nose_detection_classifier = NOSE_DETECTION_CLASSIFIER
+        
+        use_eyes_position = USE_EYES_POSITION
+        
+        if(params is not None): 
+            if(FACE_DETECTION_ALGORITHM_KEY in params):
+                algorithm = params[FACE_DETECTION_ALGORITHM_KEY]
+                
+            if(CLASSIFIERS_DIR_PATH_KEY in params):
+                classifiers_folder_path = params[CLASSIFIERS_DIR_PATH_KEY] +os.sep    
+                
+            if(EYE_DETECTION_CLASSIFIER_KEY in params):
+                eye_detection_classifier = params[EYE_DETECTION_CLASSIFIER_KEY]
+                
+            if(NOSE_DETECTION_CLASSIFIER_KEY in params):
+                nose_detection_classifier = params[NOSE_DETECTION_CLASSIFIER_KEY]
+                
+            if(USE_EYES_POSITION_KEY in params):
+                use_eyes_position = params[USE_EYES_POSITION_KEY]                   
+                
 
         if(algorithm == 'HaarCascadeFrontalFaceAlt'):
             classifier_file = classifiers_folder_path + HAARCASCADE_FRONTALFACE_ALT_CLASSIFIER
@@ -100,6 +121,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             return result
 
         faces = []
+
         if(use_one_classifier_file):
             face_cascade_classifier = cv2.CascadeClassifier(classifier_file)
 
@@ -150,13 +172,13 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
 
         detection_time_in_clocks = cv2.getTickCount() - start_time
         detection_time_in_seconds = detection_time_in_clocks / cv2.getTickFrequency()
-
+    
         # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + EYE_DETECTION_CLASSIFIER
+        eye_classifier_file = classifiers_folder_path + eye_detection_classifier
         eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file)
         
         # Cascade classifiers for nose detection
-        nose_classifier_file = classifiers_folder_path + NOSE_DETECTION_CLASSIFIER
+        nose_classifier_file = classifiers_folder_path + nose_detection_classifier
         nose_cascade_classifier = cv2.CascadeClassifier(nose_classifier_file)     
 
         if(eye_cascade_classifier.empty()):
@@ -176,12 +198,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
 
         # Create face images from original image
         faces_final = []
-
-        use_eyes_position = USE_EYES_POSITION
-        
-        if(params is not None):
-            
-            use_eyes_position = params[USE_EYES_POSITION_KEY]
         
         for (x, y, width, height) in faces :
 
@@ -244,8 +260,9 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
                 noses = detect_nose_in_image(face, nose_cascade_classifier)
                 for(x_ear, y_ear, w_ear, h_ear) in noses:
                     cv2.rectangle(face, (x_ear,y_ear), (x_ear+w_ear, y_ear+h_ear), (0,0,255), 3, 8, 0)               
-                
+                    
                 cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 3, 8, 0)
+                 
             cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
             cv2.imshow('Result', image)
             cv2.waitKey(0)
@@ -286,10 +303,17 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     min_size = (FACE_DETECTION_MIN_SIZE_WIDTH, FACE_DETECTION_MIN_SIZE_HEIGHT)
     
     if(params is not None):
-        haar_scale = params[SCALE_FACTOR_KEY]
-        min_neighbors = params[MIN_NEIGHBORS_KEY]
-        haar_flags_str = params[FLAGS_KEY]
-        min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY])
+        if(SCALE_FACTOR_KEY in params):
+            haar_scale = params[SCALE_FACTOR_KEY]
+            
+        if(MIN_NEIGHBORS_KEY in params):
+            min_neighbors = params[MIN_NEIGHBORS_KEY]
+            
+        if(FLAGS_KEY in params):
+            haar_flags_str = params[FLAGS_KEY]
+        
+        if((MIN_SIZE_WIDTH_KEY in params) and (MIN_SIZE_HEIGHT_KEY in params)):
+            min_size = (params[MIN_SIZE_WIDTH_KEY], params[MIN_SIZE_HEIGHT_KEY])
         
     haar_flags = cv2.CASCADE_DO_CANNY_PRUNING
     if(haar_flags_str == 'DoRoughSearch'):
@@ -433,7 +457,7 @@ def get_cropped_face_using_eye_pos(image_path, align_path, eye_pos, offset_pct, 
         eye_right = (eye_pos[2], eye_pos[3])
 
         # Create unique file path
-        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_name = str(uuid.uuid4()) + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name)
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
@@ -503,7 +527,7 @@ def get_cropped_face_using_fixed_eye_pos(image_path, align_path, offset_pct, des
         
         # Create unique file path
         
-        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_name = str(uuid.uuid4()) + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name)
         
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
@@ -743,7 +767,7 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
         
         # Create unique file path
         
-        tmp_file_name = str(uuid.uuid4()) + '.bmp'
+        tmp_file_name = str(uuid.uuid4()) + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name)
 
         CropFace(img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)

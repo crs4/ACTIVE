@@ -11,14 +11,14 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.Utils import * 
 
-#resource_paths = [r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg'] # Portatile MP
-resource_paths = [r'C:\Active\RawVideos\fic.02.mpg'] # Palladium
+resource_paths = [r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg'] # Portatile MP
+#resource_paths = [r'C:\Active\RawVideos\fic.02.mpg'] # Palladium
 
-#video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
-video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
+video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Soglia variabile' # Portatile MP
+#video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
-#test_counter = 0 # Portatile MP
-test_counter = 1200 # Palladium
+test_counter = 0 # Portatile MP
+#test_counter = 1200 # Palladium
      
 update_after_merging = False
             
@@ -26,17 +26,19 @@ use_aggregation = False
 
 use_nose_pos = False
 
-clothes_bbox_size_list = ((1.0, 2.0), (2.0, 1.0), (1.0, 1.0), (2.0, 2.0))
+clothes_bbox_size_list = ((1.0, 2.0),)
+#clothes_bbox_size_list = ((1.0, 2.0), (2.0, 1.0), (1.0, 1.0), (2.0, 2.0))
 
 use_dom_color = False
 
 use_mean_x = False
 
-use_3_bboxes_list = (False, True)
+use_3_bboxes_list = (False, )
+#use_3_bboxes_list = (False, True)
 
 clothes_conf_threshold = 8
 
-conf_threshold_list = range(10, 51, 2)
+conf_threshold_list = range(10, 51, 20)
 
 for resource_path in resource_paths:
     
@@ -75,8 +77,8 @@ for resource_path in resource_paths:
                 
                 # Face detection
                 
-                #params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
-                params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
+                params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
+                #params[CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
                 
                 params[EYE_DETECTION_CLASSIFIER_KEY] = 'haarcascade_mcs_lefteye.xml'
                 
@@ -183,26 +185,26 @@ for resource_path in resource_paths:
                 
                 if(res_name == 'fic.02.mpg'):
                     
-                    #params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\Results' # Portatile MP
-                    params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Active\Face summarization\File YAML e CSV con risultati' # Palladium
+                    params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\Results' # Portatile MP
+                    #params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Active\Face summarization\File YAML e CSV con risultati' # Palladium
                     
-                    #params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML' # Portatile MP
-                    params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\fic.02.mpg_parameters.YAML' # Palladium
+                    params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML' # Portatile MP
+                    #params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\fic.02.mpg_parameters.YAML' # Palladium
                     
-                    #params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Portatile MP
-                    params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Palladium
+                    params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Portatile MP
+                    #params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Palladium
                     
-                    #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
-                    params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face models' # Palladium
+                    params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
+                    #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face models' # Palladium
                     
-                    #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
-                    params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\noses' # Palladium
+                    params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
+                    #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\noses' # Palladium
                     
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Cloth models' # Portatile MP
                     #params[CLOTH_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Cloth models' # Palladium
                     
-                    #man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
-                    man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02' #Palladium
+                    man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.02 Test' # Portatile MP
+                    #man_ann_path = r'C:\Active\Face summarization\Annotations\fic.02' #Palladium
                     
                     params[ANNOTATIONS_PATH_KEY] = man_ann_path
                     

@@ -1,6 +1,9 @@
+# -*##- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 import os
 import sys
+
+from matplotlib import rcParams
 
 sys.path.append("..")
 
@@ -14,14 +17,17 @@ def plot_people_clustering_3_bboxes():
     and clothing recognition with 3 bounding boxes
     '''
 
-    COMPARE_ONLY_BBOX_SIZES = True
-    ITALIAN = True # True -> Italian, False -> English
+    COMPARE_ONLY_BBOX_SIZES = False
+    ITALIAN = False # True -> Italian, False -> English
     ORDER_LISTS = False
 
     yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-324-.yml'
-
-    yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1000-.yml'
+    # File with corrected results for MONITOR072011
+    #yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-449-473-corretti-.yml'
+    
+    #yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1000-.yml'
     #yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1200-.yml'
+    yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1700-.yml'
 
     dic1 = utils.load_YAML_file(yaml_path1)
 
@@ -47,6 +53,14 @@ def plot_people_clustering_3_bboxes():
 
     unv_time = 0
     
+    if(rel_video_name == 'fic.02.mpg'):
+
+        unv_time = 1650.53 + 12689.56 + 822.92 + 1176.06 + 1848.82
+
+    elif(rel_video_name == 'MONITOR072011.mpg'):
+
+        unv_time = 3143.2 + 28188.89 + 1518.76 + 2648.58 + 4498.50
+    
     method_names = []
 
     if(COMPARE_ONLY_BBOX_SIZES):
@@ -66,7 +80,8 @@ def plot_people_clustering_3_bboxes():
             
         else:
             
-            method_names = ['Only face features', 'Face + clothing features', '', '', '']
+            #method_names = ['Only face features', 'Face + clothing features', '', '', '']
+            method_names = ['Solo face recognition', 'Face + clothing recognition', '', '', '']
 
     for i in range(0, len(method_names)):
 
@@ -96,7 +111,7 @@ def plot_people_clustering_3_bboxes():
 
             rec = exp[c.MEAN_RECALL_KEY]
 
-            f_measure = exp[c.F1_KEY]
+            f_measure = exp[c.MEAN_F1_KEY]
 
             models_creation_time = exp[c.CLOTH_MODELS_CREATION_TIME_KEY]
 
@@ -117,6 +132,8 @@ def plot_people_clustering_3_bboxes():
             use_aggr = exp[c.USE_AGGREGATION_KEY]
 
             code_version = exp[c.CODE_VERSION_KEY]
+            
+            conf_threshold = exp[c.CONF_THRESHOLD_KEY]
 
             if(not(use_clothing)):
 
@@ -133,6 +150,18 @@ def plot_people_clustering_3_bboxes():
                     f_measure_lists[method_names[0]].append(f_measure)
 
                     time_lists[method_names[0]].append(time)
+                    
+                    if(conf_threshold < 10):
+                        
+                        x_lists[method_names[1]].append(nr_clusters)
+
+                        prec_lists[method_names[1]].append(prec)
+        
+                        rec_lists[method_names[1]].append(rec)
+        
+                        f_measure_lists[method_names[1]].append(f_measure)
+        
+                        time_lists[method_names[1]].append(time)
 
             elif(code_version >= 317):
 
@@ -300,7 +329,8 @@ def plot_people_clustering_3_bboxes():
             
             #raw_input('Aspetta poco poco')
     
-    plt.figure()
+    plt.figure(figsize = (8,4))
+    #rcParams.update({'figure.autolayout': True})
 
     #plt.subplot(2,2,1)
     font_dict = {'fontsize':15}
@@ -316,6 +346,447 @@ def plot_people_clustering_3_bboxes():
         x_lists[method_names[3]], prec_lists[method_names[3]], 'cv-', label = method_names[3])
         plt.plot(
         x_lists[method_names[4]], prec_lists[method_names[4]], 'bo:', label = method_names[4])
+    else:
+        plt.plot(
+        x_lists[method_names[0]], prec_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], prec_lists[method_names[1]], 'bo--', label = method_names[1])          
+     
+    #plt.plot(
+    #x_lists[method_names[5]], prec_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], prec_lists[method_names[6]], 'k1:', label = method_names[6])
+
+    if(ITALIAN):
+        title_str = base_video_name + ' - Precision media al variare del numero di cluster'
+        plt.title(title_str)
+
+    if(ITALIAN):
+        plt.xlabel('Numero di cluster')
+    else:
+        plt.xlabel('Number of clusters', font_dict)
+    
+    if(ITALIAN):
+        plt.ylabel('Precision')
+    else:
+        plt.ylabel('Precision', font_dict)
+    #plt.title('Precision')
+    plt.ylim([0,1])
+
+    if(ITALIAN):
+        plt.legend(bbox_to_anchor=(1, 0.34))
+    else:
+        plt.legend(bbox_to_anchor=(1, 0.23), fontsize = 15)
+        #plt.tick_params(axis='both', which='major', labelsize=15)
+        #plt.legend(bbox_to_anchor=(1, 0.35), fontsize = 15)
+
+    plt.grid(True)
+
+    plt.show()
+
+
+    plt.figure(figsize = (8,4))
+    #plt.subplot(2,2,2)
+
+    if(ITALIAN):
+        plt.plot(
+        x_lists[method_names[0]], rec_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], rec_lists[method_names[1]], 'g+--', label = method_names[1])
+        plt.plot(
+        x_lists[method_names[2]], rec_lists[method_names[2]], 'r*-.', label = method_names[2])
+        plt.plot(
+        x_lists[method_names[3]], rec_lists[method_names[3]], 'cv-', label = method_names[3])
+        plt.plot(
+        x_lists[method_names[4]], rec_lists[method_names[4]], 'bo:', label = method_names[4])
+    else:
+        plt.plot(
+        x_lists[method_names[0]], rec_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], rec_lists[method_names[1]], 'bo--', label = method_names[1])  
+    #plt.plot(
+    #x_lists[method_names[5]], rec_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], rec_lists[method_names[6]], 'k1:', label = method_names[6])
+
+    if(ITALIAN):
+        title_str = base_video_name + ' - Recall media al variare del numero di cluster'
+        plt.title(title_str)
+
+    if(ITALIAN):
+        plt.xlabel('Numero di cluster')
+    else:
+        plt.xlabel('Number of clusters', font_dict)
+
+    if(ITALIAN):
+        plt.ylabel('Recall')
+    else:
+        plt.ylabel('Recall', font_dict)
+    #plt.title('Precision')
+    plt.ylim([0,1])
+
+    if(ITALIAN):
+        plt.legend(bbox_to_anchor=(1, 0.34))
+    else:
+        plt.legend(bbox_to_anchor=(1, 0.23), fontsize = 15)      
+        #plt.legend(bbox_to_anchor=(1, 0.35), fontsize = 15)
+
+    plt.grid(True)
+
+    plt.show()
+
+    plt.figure(figsize = (8,4))
+    #plt.subplot(2,2,3)
+
+    if(ITALIAN):
+        plt.plot(
+        x_lists[method_names[0]], f_measure_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], f_measure_lists[method_names[1]], 'g+--', label = method_names[1])
+        plt.plot(
+        x_lists[method_names[2]], f_measure_lists[method_names[2]], 'r*-.', label = method_names[2])
+        plt.plot(
+        x_lists[method_names[3]], f_measure_lists[method_names[3]], 'cv-', label = method_names[3])
+        plt.plot(
+        x_lists[method_names[4]], f_measure_lists[method_names[4]], 'bo:', label = method_names[4])
+        #plt.plot(
+        #x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
+        #plt.plot(
+        #x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])
+    else:
+        plt.plot(
+        x_lists[method_names[0]], f_measure_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], f_measure_lists[method_names[1]], 'bo--', label = method_names[1])  
+        
+    if(ITALIAN):
+        title_str = base_video_name + ' - $F_1$ media al variare del numero di cluster'
+        plt.title(title_str)
+
+    if(ITALIAN):
+        plt.xlabel('Numero di cluster')
+    else:
+        #plt.xlabel('Number of clusters', font_dict)
+        plt.xlabel('Numero di cluster', font_dict)
+    
+    if(ITALIAN):
+        plt.ylabel('$F_1$')
+    else:   
+        plt.ylabel('F-measure', font_dict)
+    plt.ylim([0,1])
+
+    if(ITALIAN):
+        plt.legend(bbox_to_anchor=(1, 0.34))
+    else:
+        #plt.legend(bbox_to_anchor=(1, 0.23), fontsize = 15)
+        #plt.legend(bbox_to_anchor=(1, 0.35), fontsize = 15)
+        plt.legend(bbox_to_anchor = (1,0.15), fontsize = 15)
+
+    plt.grid(True)
+
+    plt.show()
+
+
+    fig =plt.figure(figsize = (8,4))
+    #plt.subplot(2,2,3)
+    ax = fig.add_subplot(111)
+    
+    if(ITALIAN):
+        ax.plot(
+        x_lists[method_names[0]], time_lists[method_names[0]], 'ks-', label = method_names[0])
+        ax.plot(
+        x_lists[method_names[1]], time_lists[method_names[1]], 'g+--', label = method_names[1])
+        ax.plot(
+        x_lists[method_names[2]], time_lists[method_names[2]], 'r*-.', label = method_names[2])
+        ax.plot(
+        x_lists[method_names[3]], time_lists[method_names[3]], 'cv-', label = method_names[3])
+        ax.plot(
+        x_lists[method_names[4]], time_lists[method_names[4]], 'bo:', label = method_names[4])
+    else:
+        plt.plot(
+        x_lists[method_names[0]], time_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], time_lists[method_names[1]], 'bo--', label = method_names[1])  
+    #plt.plottime_lists
+    #x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
+    #plt.plot(
+    #x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])
+
+    if(ITALIAN):
+        title_str = base_video_name + ' - Tempo per il people clustering al variare del numero di cluster'
+
+        # Change font size
+        font_dict = {'fontsize':10}
+        plt.title(title_str, font_dict)
+
+    if(ITALIAN):
+        plt.xlabel('Numero di cluster')
+    else:
+        #plt.xlabel('Number of clusters', font_dict)
+        plt.xlabel('Numero di cluster', font_dict)
+    
+    plt.ylabel('s', font_dict)
+    #plt.title('Precision')
+
+    if(rel_video_name == 'fic.02.mpg'):
+
+        plt.ylim([0,25000])
+
+    elif(rel_video_name == 'MONITOR072011.mpg'):
+
+        plt.ylim([0,70000])
+
+    ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+
+    ax.get_yaxis().major.formatter._useMathText = True
+    
+    if(ITALIAN):
+        plt.legend(bbox_to_anchor=(1, 0.34))
+    else:
+        #plt.legend(bbox_to_anchor=(1, 0.23), fontsize = 15)
+        #plt.legend(bbox_to_anchor=(1, 0.35), fontsize = 15)
+        plt.legend(bbox_to_anchor = (1,0.15), fontsize = 15)
+    
+    plt.title('"Monitor" - Tempo totale per l\'analisi')
+    
+    plt.grid(True)
+
+    plt.show()
+
+def plot_people_clustering_variable_threshold():
+    '''
+    Plot experiments for people clustering with face recognition
+    and clothing recognition with variable/fixed threshold
+    '''
+
+    ITALIAN = True # True -> Italian, False -> English
+    ORDER_LISTS = False
+
+    yaml_path1 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-324-.yml'
+
+    yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1000-.yml'
+    #yaml_path2 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1200-.yml'
+    
+    yaml_path3 = r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\YAML annotazione semi-automatica\ID-TEST-1400-.yml'
+
+    dic1 = utils.load_YAML_file(yaml_path1)
+
+    dic2 = utils.load_YAML_file(yaml_path2)
+    
+    dic3 = utils.load_YAML_file(yaml_path3)
+
+    experiments_list = dic1[c.EXPERIMENTS_KEY]
+
+    experiments_list.extend(dic2[c.EXPERIMENTS_KEY])
+    
+    experiments_list.extend(dic3[c.EXPERIMENTS_KEY])
+
+    rel_video_name = 'MONITOR072011.mpg'
+
+    base_video_name = os.path.splitext(rel_video_name)[0]
+
+    x_lists = {}
+
+    prec_lists = {}
+
+    rec_lists = {}
+
+    f_measure_lists = {}
+
+    time_lists = {}
+
+    unv_time = 0
+    
+    #if(rel_video_name == 'fic.02.mpg'):
+
+        #unv_time = 1650.53 + 12689.56 + 822.92 + 1176.06 + 1848.82
+
+    #elif(rel_video_name == 'MONITOR072011.mpg'):
+
+        #unv_time = 3143.2 + 28188.89 + 1518.76 + 2648.58 + 4498.50
+    
+    method_names = []
+        
+    if(ITALIAN):
+    
+        method_names = ['Solo face recognition', 'k = 1', 'k variabile']
+        
+    else:
+        
+        method_names = ['Only face features', 'Face + clothing features', '', '', '']
+
+    for i in range(0, len(method_names)):
+
+        x_lists[method_names[i]] = []
+
+        prec_lists[method_names[i]] = []
+
+        rec_lists[method_names[i]] = []
+
+        f_measure_lists[method_names[i]] = []
+
+        time_lists[method_names[i]] = []
+
+    for exp_extended in experiments_list:
+
+        exp = exp_extended[c.EXPERIMENT_KEY]
+
+        video_name = exp[c.VIDEO_NAME_KEY]
+
+        if(video_name == rel_video_name):
+
+            # Number of clusters
+            nr_clusters = exp[c.PEOPLE_CLUSTERS_NR_KEY]
+
+            # Precision
+            prec = exp[c.MEAN_PRECISION_KEY]
+
+            rec = exp[c.MEAN_RECALL_KEY]
+
+            f_measure = exp[c.MEAN_F1_KEY]
+
+            models_creation_time = exp[c.CLOTH_MODELS_CREATION_TIME_KEY]
+
+            cluster_time = exp[c.PEOPLE_CLUSTERING_TIME_KEY]
+
+            time = unv_time + models_creation_time + cluster_time
+
+            use_clothing = exp[c.USE_CLOTHING_RECOGNITION_KEY]
+
+            clothes_height = exp[c.CLOTHES_BBOX_HEIGHT_KEY]
+
+            clothes_width = exp[c.CLOTHES_BBOX_WIDTH_KEY]
+
+            use_3_bboxes = exp[c.CLOTHING_REC_USE_3_BBOXES_KEY]
+
+            clothes_check_method = exp[c.CLOTHES_CHECK_METHOD_KEY]
+
+            use_aggr = exp[c.USE_AGGREGATION_KEY]
+
+            code_version = exp[c.CODE_VERSION_KEY]
+            
+            variable_k = False
+            
+            if(c.VARIABLE_CLOTHING_THRESHOLD_KEY in exp):
+            
+                variable_k = exp[c.VARIABLE_CLOTHING_THRESHOLD_KEY]
+
+            if(not(use_clothing)):
+
+                # Only face features
+
+                if(not(use_aggr)):
+
+                    x_lists[method_names[0]].append(nr_clusters)
+
+                    prec_lists[method_names[0]].append(prec)
+
+                    rec_lists[method_names[0]].append(rec)
+
+                    f_measure_lists[method_names[0]].append(f_measure)
+
+                    time_lists[method_names[0]].append(time)
+
+            elif(code_version >= 317):
+
+                # Face + clothing features
+                
+                if(not(use_3_bboxes)):
+    
+                    if((clothes_width == 2.0) and (clothes_height == 1.0)):
+                        
+                        if(variable_k):
+                            
+                            x_lists[method_names[2]].append(nr_clusters)
+
+                            prec_lists[method_names[2]].append(prec)
+        
+                            rec_lists[method_names[2]].append(rec)
+        
+                            f_measure_lists[method_names[2]].append(f_measure)
+        
+                            time_lists[method_names[2]].append(time)
+                            
+                        else:   
+
+                            x_lists[method_names[1]].append(nr_clusters)
+    
+                            prec_lists[method_names[1]].append(prec)
+    
+                            rec_lists[method_names[1]].append(rec)
+    
+                            f_measure_lists[method_names[1]].append(f_measure)
+    
+                            time_lists[method_names[1]].append(time)         
+
+    if(ORDER_LISTS):
+        # Order lists
+        for i in range(0, len(method_names)):
+        
+            #print('x_lists[method_names[i]]', x_lists[method_names[i]])
+            
+            idxs = sorted(range(len(x_lists[method_names[i]])), key=lambda k: x_lists[method_names[i]][k])
+    
+            #print('x_lists[method_names[i]]', x_lists[method_names[i]])
+    
+            # Number of clusters
+            ord_x_list = []
+            for idx in idxs:
+                
+                ord_x_list.append(x_lists[method_names[i]][idx])
+                
+            x_lists[method_names[i]] = ord_x_list
+            
+            # Precision
+            ord_prec_list = []
+            for idx in idxs:
+                
+                ord_prec_list.append(prec_lists[method_names[i]][idx])
+                
+            prec_lists[method_names[i]] = ord_prec_list
+    
+            # Recall
+            ord_rec_list = []
+            for idx in idxs:
+                
+                ord_rec_list.append(rec_lists[method_names[i]][idx])
+                
+            rec_lists[method_names[i]] = ord_rec_list
+            
+            # F-measure
+            ord_f_measure_list = []
+            for idx in idxs:
+                
+                ord_f_measure_list.append(f_measure_lists[method_names[i]][idx])
+                
+            f_measure_lists[method_names[i]] = ord_f_measure_list
+    
+    
+            # Times
+            ord_time_list = []
+            for idx in idxs:
+                
+                ord_time_list.append(time_lists[method_names[i]][idx])
+                
+            time_lists[method_names[i]] = ord_time_list
+            
+            #print('x_lists[method_names[i]]',x_lists[method_names[i]])
+            #print('prec_lists[method_names[i]]',prec_lists[method_names[i]])
+            
+            #raw_input('Aspetta poco poco')
+    
+    plt.figure()
+
+    #plt.subplot(2,2,1)
+    font_dict = {'fontsize':15}
+    
+    if(ITALIAN):
+        plt.plot(
+        x_lists[method_names[0]], prec_lists[method_names[0]], 'ks-', label = method_names[0])
+        plt.plot(
+        x_lists[method_names[1]], prec_lists[method_names[1]], 'g+--', label = method_names[1])
+        plt.plot(
+        x_lists[method_names[2]], prec_lists[method_names[2]], 'r*-.', label = method_names[2])
     else:
         plt.plot(
         x_lists[method_names[0]], prec_lists[method_names[0]], 'ks-', label = method_names[0])
@@ -364,10 +835,6 @@ def plot_people_clustering_3_bboxes():
         x_lists[method_names[1]], rec_lists[method_names[1]], 'g+--', label = method_names[1])
         plt.plot(
         x_lists[method_names[2]], rec_lists[method_names[2]], 'r*-.', label = method_names[2])
-        plt.plot(
-        x_lists[method_names[3]], rec_lists[method_names[3]], 'cv-', label = method_names[3])
-        plt.plot(
-        x_lists[method_names[4]], rec_lists[method_names[4]], 'bo:', label = method_names[4])
     else:
         plt.plot(
         x_lists[method_names[0]], rec_lists[method_names[0]], 'ks-', label = method_names[0])
@@ -413,14 +880,6 @@ def plot_people_clustering_3_bboxes():
         x_lists[method_names[1]], f_measure_lists[method_names[1]], 'g+--', label = method_names[1])
         plt.plot(
         x_lists[method_names[2]], f_measure_lists[method_names[2]], 'r*-.', label = method_names[2])
-        plt.plot(
-        x_lists[method_names[3]], f_measure_lists[method_names[3]], 'cv-', label = method_names[3])
-        plt.plot(
-        x_lists[method_names[4]], f_measure_lists[method_names[4]], 'bo:', label = method_names[4])
-        #plt.plot(
-        #x_lists[method_names[5]], f_measure_lists[method_names[5]], 'm^-', label = method_names[5])
-        #plt.plot(
-        #x_lists[method_names[6]], f_measure_lists[method_names[6]], 'k1:', label = method_names[6])
     else:
         plt.plot(
         x_lists[method_names[0]], f_measure_lists[method_names[0]], 'ks-', label = method_names[0])
@@ -463,10 +922,6 @@ def plot_people_clustering_3_bboxes():
         x_lists[method_names[1]], time_lists[method_names[1]], 'g+--', label = method_names[1])
         ax.plot(
         x_lists[method_names[2]], time_lists[method_names[2]], 'r*-.', label = method_names[2])
-        ax.plot(
-        x_lists[method_names[3]], time_lists[method_names[3]], 'cv-', label = method_names[3])
-        ax.plot(
-        x_lists[method_names[4]], time_lists[method_names[4]], 'bo:', label = method_names[4])
     else:
         plt.plot(
         x_lists[method_names[0]], time_lists[method_names[0]], 'ks-', label = method_names[0])
@@ -487,11 +942,18 @@ def plot_people_clustering_3_bboxes():
     if(ITALIAN):
         plt.xlabel('Numero di cluster')
     else:
-        plt.xlabel('Number of clusters')
+        plt.xlabel('Number of clusters', font_dict)
     
-    plt.ylabel('s')
+    plt.ylabel('s', font_dict)
     #plt.title('Precision')
-    #plt.ylim([0,22000])
+
+    if(rel_video_name == 'fic.02.mpg'):
+
+        plt.ylim([0,25000])
+
+    elif(rel_video_name == 'MONITOR072011.mpg'):
+
+        plt.ylim([0,70000])
 
     ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
@@ -589,7 +1051,7 @@ def plot_people_clustering():
 
             rec = exp[c.MEAN_RECALL_KEY]
 
-            f_measure = exp[c.F1_KEY]
+            f_measure = exp[c.MEAN_F1_KEY]
 
             models_creation_time = exp[c.CLOTH_MODELS_CREATION_TIME_KEY]
 
@@ -845,7 +1307,7 @@ def plot_people_clustering_test():
 
             rec = exp[c.MEAN_RECALL_KEY]
 
-            f_measure = exp[c.F1_KEY]
+            f_measure = exp[c.MEAN_F1_KEY]
 
             models_creation_time = exp[c.CLOTH_MODELS_CREATION_TIME_KEY]
 
@@ -1679,12 +2141,14 @@ def plot_face_rec_Videolina_1040I_80P_new():
     plt.plot(
     x_list, rec_lists[method_names[4]], 'ko-', label = method_names[4])
 
-    plt.xlabel('Number of people', font_dict)
+    #plt.xlabel('Number of people', font_dict)
+    plt.xlabel('Numero di persone', font_dict)
     plt.ylabel('Recognition rate', font_dict)
     #plt.title('Precision')
     plt.ylim([0,1])
 
-    plt.legend(bbox_to_anchor=(1, 0.43), fontsize = fontsize)
+    #plt.legend(bbox_to_anchor=(1, 0.43), fontsize = fontsize)
+    plt.legend(bbox_to_anchor=(1, 0.36), fontsize = fontsize)
 
     plt.grid(True)
 
@@ -1709,8 +2173,10 @@ def plot_face_rec_Videolina_1040I_80P_new():
     plt.plot(
     x_list, model_creation_time_lists[method_names[4]], 'ko-', label = method_names[4])
 
-    plt.xlabel('Number of people', font_dict)
+    #plt.xlabel('Number of people', font_dict)
+    plt.xlabel('Numero di persone', font_dict)
     plt.ylabel('s', font_dict)
+    plt.title('Tempo creazione db')
     #plt.title('Precision')
     plt.ylim([0,1200])
 
@@ -1739,19 +2205,22 @@ def plot_face_rec_Videolina_1040I_80P_new():
     plt.plot(
     x_list, mean_rec_time_lists[method_names[4]], 'ko-', label = method_names[4])
 
-    plt.xlabel('Number of people', font_dict)
+    #plt.xlabel('Number of people', font_dict)
+    plt.xlabel('Numero di persone', font_dict)
     plt.ylabel('s', font_dict)
+    plt.title('Tempi di riconoscimento medi')
     #plt.title('Precision')
     plt.ylim([0,1.2])
 
-    plt.legend(bbox_to_anchor=(1, 0.43), fontsize = fontsize)
-
+    #plt.legend(bbox_to_anchor=(1, 0.43), fontsize = fontsize)
+    plt.legend(bbox_to_anchor=(1, 0.36), fontsize = fontsize)
     plt.grid(True)
 
     plt.show()
 
 
-#plot_people_clustering_3_bboxes()
-plot_people_clustering_test()
+#plot_people_clustering_variable_threshold()
+plot_people_clustering_3_bboxes()
+#plot_people_clustering_test()
 #plot_people_clustering_with_only_face_rec_experiments()
 #plot_face_rec_Videolina_1040I_80P_new()

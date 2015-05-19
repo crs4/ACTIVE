@@ -1351,14 +1351,21 @@ def make_fic02_annotations(file_path):
         start_time = video_segment[SEGMENT_START_KEY]
         end_time = video_segment[SEGMENT_END_KEY]
         duration = end_time - start_time
+        
+        if(duration < 0):
+            
+            print('Warning! Negative duration!')
+            print('ann_tag', ann_tag)
+            print('start_time', start_time)
+            print('end_time', end_time)
+        
         tot_segment_duration = tot_segment_duration + duration
         new_video_segment[ANN_TAG_KEY] = ann_tag  
         new_video_segment[SEGMENT_START_KEY] = start_time
         new_video_segment[SEGMENT_DURATION_KEY] = duration
-        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
         # transform seconds in milliseconds
-        #new_video_segment[SEGMENT_START_KEY] = start_time * 1000
-        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
         new_video_segments.append(new_video_segment)
     
     ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
@@ -1697,7 +1704,7 @@ def make_MONITOR072011_annotations(file_path):
     video_segment_dict = {}
     video_segment_dict[ANN_TAG_KEY] = 'Minutti_Giampaola'
     video_segment_dict[SEGMENT_START_KEY] = 11*60 + 30
-    video_segment_dict[SEGMENT_END_KEY] = 11*60+32
+    video_segment_dict[SEGMENT_END_KEY] = 11*60 + 32
     video_segments.append(video_segment_dict)
     
     video_segment_dict = {}
@@ -3455,7 +3462,7 @@ def make_MONITOR072011_annotations(file_path):
     video_segment_dict = {}
     video_segment_dict[ANN_TAG_KEY] = 'Minutti_Giampaola'
     video_segment_dict[SEGMENT_START_KEY] = 3600 + 23*60 + 13 
-    video_segment_dict[SEGMENT_END_KEY] = 3600 + 22*60 + 19
+    video_segment_dict[SEGMENT_END_KEY] = 3600 + 23*60 + 19
     video_segments.append(video_segment_dict)
 
     video_segment_dict = {}
@@ -4001,7 +4008,7 @@ def make_MONITOR072011_annotations(file_path):
     video_segment_dict = {}
     video_segment_dict[ANN_TAG_KEY] = 'Minutti_Giampaola'
     video_segment_dict[SEGMENT_START_KEY] = 3600 + 42*60 + 59
-    video_segment_dict[SEGMENT_END_KEY] = 3600 + 42*60 + 8
+    video_segment_dict[SEGMENT_END_KEY] = 3600 + 43*60 + 8
     video_segments.append(video_segment_dict) 
 
     video_segment_dict = {}
@@ -5141,13 +5148,21 @@ def make_MONITOR072011_annotations(file_path):
         start_time = video_segment[SEGMENT_START_KEY]
         end_time = video_segment[SEGMENT_END_KEY]
         duration = end_time - start_time
+        
+        if(duration < 0):
+            
+            print('Warning! Negative duration!')
+            print('ann_tag', ann_tag)
+            print('start_time', start_time)
+            print('end_time', end_time)
+        
         tot_segment_duration = tot_segment_duration + duration
         new_video_segment[ANN_TAG_KEY] = ann_tag   
         # Transform seconds in milliseconds
         new_video_segment[SEGMENT_START_KEY] = start_time
         new_video_segment[SEGMENT_DURATION_KEY] = duration       
-        #new_video_segment[SEGMENT_START_KEY] = start_time * 1000
-        #new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
+        new_video_segment[SEGMENT_START_KEY] = start_time * 1000
+        new_video_segment[SEGMENT_DURATION_KEY] = duration * 1000
         new_video_segments.append(new_video_segment)
     
     ann_dict[VIDEO_SEGMENTS_KEY] = new_video_segments
@@ -5741,10 +5756,16 @@ def save_people_files(ann_dict, video_ann_file_path):
 
 #save_people_files(ann_dict, video_dir)
 
-file_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-15V\Annotations\MONITOR072011.YAML'
+#file_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-15V\Annotations\MONITOR072011.YAML'
 
-ann_dict = make_MONITOR072011_annotations(file_path)
+#ann_dict = make_MONITOR072011_annotations(file_path)
 
-calculate_stats(ann_dict)
+#calculate_stats(ann_dict)
+
+file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\fic.02.yml'
+
+ann_dict = make_fic02_annotations(file_path)
+
+save_people_files(ann_dict, r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations')
     
     

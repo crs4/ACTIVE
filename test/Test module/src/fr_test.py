@@ -168,7 +168,7 @@ def fr_experiments(params, show_results):
         training_images_nr = params[TRAINING_IMAGES_NR_KEY]
     
     # Number of images for each person to be used for the test
-    test_images_nr = person_images_nr - training_images_nr
+    #test_images_nr = person_images_nr - training_images_nr
 
     # Number of people
     people_nr = fm.get_people_nr()
@@ -176,6 +176,9 @@ def fr_experiments(params, show_results):
     rec_dict = {} # Dictionary containing all results for this experiment
     images_list_for_YAML = [] # List used for creating YAML file with list of images
     people_list_for_YAML = [] # List used for creating YAML file with list of people
+
+    # List containing recognition rates
+    rec_rate_list = []
 
     # Initialize dictionaries with people
     people_true_positives_dict = {}
@@ -188,6 +191,7 @@ def fr_experiments(params, show_results):
         
         people_true_positives_dict[tag] = 0
         people_false_positives_dict[tag] = 0
+        people_test_images_nr_dict[tag] = 0
 
     dataset_already_divided = DATASET_ALREADY_DIVIDED
    
@@ -227,6 +231,9 @@ def fr_experiments(params, show_results):
 
         # Iterate over all images in this directory
         image_counter = 0
+        
+        person_rec_images = 0
+        
         for image in listdir(images_dir_complete_path):
 
             # If dataset is not already divided, first training_images_nr images are used for training, the remaining for test
@@ -333,6 +340,7 @@ def fr_experiments(params, show_results):
                         people_true_positives_dict[assigned_tag] = people_true_positives_dict[assigned_tag] + 1
                         rec_images_nr = rec_images_nr + 1
                         true_pos_confidence_list.append(confidence)
+                        person_rec_images = person_rec_images + 1
                     else:
                         image_dict[PERSON_CHECK_KEY] = 'FP'
                         if(assigned_tag != 'Undefined'):
@@ -356,6 +364,12 @@ def fr_experiments(params, show_results):
         if((image_counter < person_images_nr) or (image_counter > person_images_nr)):
             warning_message = images_dir + ' directory contains ' + str(image_counter) + ' images'
             #print(warning_message)
+            
+        people_test_images_nr_dict[ann_face_tag] = image_counter
+        
+        person_rec_rate = float(person_rec_images) / image_counter
+        
+        rec_rate_list.append(person_rec_rate)
 
     # Calculate statistics for each person
     people_precision_list = []
@@ -367,9 +381,11 @@ def fr_experiments(params, show_results):
     
     for tag in tags:
 
+        test_images_nr = people_test_images_nr_dict[tag]
+        
         person_true_positives = people_true_positives_dict[tag]
         person_false_positives = people_false_positives_dict[tag]
-
+        
         person_precision = 0
         if(person_true_positives != 0):
             person_precision = float(person_true_positives) / float(person_true_positives + person_false_positives)
@@ -395,6 +411,10 @@ def fr_experiments(params, show_results):
         person_dict[F1_KEY] = person_f1
         people_list_for_YAML.append(person_dict)
 
+    print('rec_rate_list', rec_rate_list)
+    
+    mean_rec_rate = float(numpy.mean(rec_rate_list))
+    
     mean_precision = float(numpy.mean(people_precision_list))
     std_precision = float(numpy.std(people_precision_list))
 
@@ -411,6 +431,7 @@ def fr_experiments(params, show_results):
     print("\n ### RESULTS ###\n")
 
     print('Recognition rate: ' + str(recognition_rate*100) + '%')
+    print('Mean of recognition rate: ' + str(mean_rec_rate*100) + '%')
     print('Mean of precision: ' + str(mean_precision*100) + '%')
     print('Standard deviation of precision: ' + str(std_precision*100) + '%')
     print('Mean of recall: ' + str(mean_recall*100) + '%')
@@ -420,6 +441,7 @@ def fr_experiments(params, show_results):
     print('Mean recognition time: ' + str(mean_rec_time) + ' s\n')
 
     print('Recognition rate: ' + str(recognition_rate))
+    print('Mean of recognition rate: ' + str(mean_rec_rate))
     print('Mean of precision: ' + str(mean_precision))
     print('Standard deviation of precision: ' + str(std_precision))
     print('Mean of recall: ' + str(mean_recall))

@@ -14,8 +14,6 @@ def get_tags_from_file(tags_file_path):
     :param tags_file_path: path of file with tags    
     '''
     
-    #print(TAGS_FILE_PATH)
-    
     with open(tags_file_path, 'r') as f:
     
         tags = f.read().splitlines()
@@ -770,7 +768,8 @@ def get_tag_from_image(gray_im, params):
         if(lev_ratio_pct < lev_thresh):
             
             assigned_label = -1
-            assigned_tag = -1 
+            #assigned_tag = -1 
+            assigned_tag = UNDEFINED_TAG
         
         else:
             
@@ -802,5 +801,7 @@ def get_tag_from_image(gray_im, params):
         result_dict[TOT_LETTERS_NR_KEY] = tot_letters_nr
         
         result_dict[CONFIDENCE_KEY] = lev_ratio_pct
+        
+        result_dict[TAGS_KEY] = tags
         
         return result_dict

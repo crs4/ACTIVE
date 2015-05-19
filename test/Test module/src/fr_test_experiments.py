@@ -5,8 +5,11 @@ sys.path.append("../../..")
 import tools.Constants as c
 from tools.Utils import save_YAML_file
 
-lbp_parameters_list = ((1,8,4,4,0.20,0.20), (1,8,4,4,0.30,0.30),(1,8,8,8,0.20,0.20), (1,8,8,8,0.30,0.30), (1,8,4,8,0.20,0.50))
-face_height_list = (200, 200, 200, 200, 400)
+#lbp_parameters_list = ((1,8,4,4,0.20,0.20), (1,8,4,4,0.30,0.30),(1,8,8,8,0.20,0.20), (1,8,8,8,0.30,0.30), (1,8,4,8,0.20,0.50))
+#face_height_list = (200, 200, 200, 200, 400)
+
+lbp_parameters_list =  ((1,8,4,8,0.20,0.50),)
+face_height_list = (400,)
     
 counter = 0 
 for lbp_parameters in lbp_parameters_list:
@@ -18,14 +21,15 @@ for lbp_parameters in lbp_parameters_list:
     offset_pct_x = lbp_parameters[4]
     offset_pct_y = lbp_parameters[5]
     
-    for num_people in [5,10,20,40,80]:
+    #for num_people in [5,10,20,40,80]:
+    for num_people in [80]:
     
         params = {}
         
         # Face detection
         
-        #params[c.CLASSIFIERS_DIR_PATH_KEY] = r'C:\OpenCV\opencv\sources\data\haarcascades' # Portatile MP
-        params[c.CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
+        params[c.CLASSIFIERS_DIR_PATH_KEY] = r'C:\OpenCV\opencv\sources\data\haarcascades' # Portatile MP
+        #params[c.CLASSIFIERS_DIR_PATH_KEY] = r'C:\opencv\sources\data\haarcascades' # Palladium
         
         params[c.EYE_DETECTION_CLASSIFIER_KEY] = 'haarcascade_mcs_lefteye.xml'
         
@@ -57,8 +61,8 @@ for lbp_parameters in lbp_parameters_list:
         
         # Face recognition
         
-        #params[c.ALIGNED_FACES_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Aligned faces' # Portatile MP
-        params[c.ALIGNED_FACES_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Aligned faces' # Palladium
+        params[c.ALIGNED_FACES_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Aligned faces 2' # Portatile MP
+        #params[c.ALIGNED_FACES_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Aligned faces' # Palladium
         
         params[c.CROPPED_FACE_HEIGHT_KEY] = face_height_list[counter]
         
@@ -68,8 +72,8 @@ for lbp_parameters in lbp_parameters_list:
         
         params[c.DATASET_PATH_KEY] = ''
         
-        #path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Face models' # Portatile MP
-        path = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Face models' # Palladium
+        path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Face models' # Portatile MP
+        #path = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Face models' # Palladium
         
         name = ('Videolina-960I-80P-whole_images_' + str(num_people) + 
         '_people_' + str(lbp_radius) + '_' + str(lbp_neighbors) + '_' + 
@@ -78,19 +82,21 @@ for lbp_parameters in lbp_parameters_list:
         
         params[c.DB_NAME_KEY] = os.path.join(path, name)
         
-        #params[c.DB_MODELS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Face models' # Portatile MP
-        params[c.DB_MODELS_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Face models' # Palladium
+        params[c.DB_MODELS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\Face models' # Portatile MP
+        #params[c.DB_MODELS_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\Face models' # Palladium
         
         params[c.FACE_MODEL_ALGORITHM_KEY] = 'LBP'
         
-        #params[c.FACE_RECOGNITION_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Risultati test\Face recognition\Videolina-80I-80P-whole_images' # Portatile MP
-        params[c.FACE_RECOGNITION_RESULTS_PATH_KEY] = r'C:\Active\Risultati test\Face recognition\Videolina-80I-80P-whole_images' # Palladium
+        #params[c.FACE_RECOGNITION_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Risultati test\Face recognition\Videolina-798I-28P' # Portatile MP
+        #params[c.FACE_RECOGNITION_RESULTS_PATH_KEY] = r'C:\Active\Risultati test\Face recognition\Videolina-80I-80P-whole_images' # Palladium
+        params[c.FACE_RECOGNITION_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Risultati test\Dummy test'
         
-        #params[c.TEST_SET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-80I-80P-whole_images\\' + str(num_people) + ' persone' # Portatile MP
-        params[c.TEST_SET_PATH_KEY] = r'C:\Active\Dataset\Videolina-80I-80P-whole_images\\' + str(num_people) + ' persone' # Palladium
+        #params[c.TEST_SET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-798I-28P' # Portatile MP
+        params[c.TEST_SET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-80I-80P-whole_images\\' + str(num_people) + ' persone' # Portatile MP
+        #params[c.TEST_SET_PATH_KEY] = r'C:\Active\Dataset\Videolina-80I-80P-whole_images\\' + str(num_people) + ' persone' # Palladium
         
-        #params[c.TRAINING_SET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\\' + str(num_people) + ' persone' # Portatile MP
-        params[c.TRAINING_SET_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\\' + str(num_people) + ' persone' # Palladium
+        params[c.TRAINING_SET_PATH_KEY] = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\\' + str(num_people) + ' persone' # Portatile MP
+        #params[c.TRAINING_SET_PATH_KEY] = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\\' + str(num_people) + ' persone' # Palladium
         
         params[c.LBP_GRID_X_KEY] = lbp_grid_x
         
@@ -106,8 +112,8 @@ for lbp_parameters in lbp_parameters_list:
         
         params[c.PERSON_IMAGES_NR_KEY] = 13
         
-        #params[c.SOFTWARE_TEST_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\SoftwareTestingFiles\Arnold.jpg' # Portatile MP
-        params[c.SOFTWARE_TEST_FILE_PATH_KEY] = r'C:\Active\Mercurial\test\Test files\Face detection\SoftwareTestingFiles\Test.jpg' # Palladium
+        params[c.SOFTWARE_TEST_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\test\Test files\Face detection\SoftwareTestingFiles\Arnold.jpg' # Portatile MP
+        #params[c.SOFTWARE_TEST_FILE_PATH_KEY] = r'C:\Active\Mercurial\test\Test files\Face detection\SoftwareTestingFiles\Test.jpg' # Palladium
         
         params[c.TRAINING_IMAGES_NR_KEY] = 12
         

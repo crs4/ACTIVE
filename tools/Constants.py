@@ -82,6 +82,7 @@ ANN_TAG_KEY = 'ann_tag'
 ASSIGNED_LABEL_KEY = 'assigned_label'
 ASSIGNED_TAG_KEY = 'assigned_tag'
 BBOX_KEY = 'bbox'
+CAPTION_ASSIGNED_TAG_KEY = 'caption_assigned_tag'
 CHECKED_KEY = 'checked'
 CONFIDENCE_KEY = 'confidence'
 DETECTED_FACES_NR_KEY = 'detected_faces_nr'
@@ -336,6 +337,7 @@ MIN_TAG_LENGTH_KEY = 'min_tag_length'
 ORD_BBOXS_KEY = 'ord_bboxs'
 ORD_CONTOUR_IDXS_KEY = 'ord_contour_idxs'
 PELS_TO_TEXT_SIZE_RATIO = 25.7
+TAGS_KEY = 'tags'
 TOT_LETTERS_NR_KEY = 'tot_letters_nr'
 USE_LEVENSHTEIN = True
 USE_LEVENSHTEIN_KEY = 'use_levenshtein'
@@ -384,6 +386,7 @@ DETECTED_KEY = 'detected'
 FACES_NR_IN_FRAMES_FILE = 'faces_nr_in_frames.yml'
 FRAME_PATH_KEY = 'frame_path'
 FRAME_POS_KEY = 'frame_position'
+FRAMES_IN_MODELS_FILE = 'frames_in_models.yml'
 HALF_WINDOW_SIZE = 10
 HALF_WINDOW_SIZE_KEY = 'half_window_size'
 HIST_SMOOTHING_KERNEL_SIZE = 25
@@ -394,6 +397,7 @@ HIST_SMOOTHING_KERNEL_SIZE_KEY = 'kernel_size_for_histogram_smoothing'
 IS_KNOWN_PERSON_ASK = 'Do you know this person (y/n) ? '
 MAX_FACES_IN_MODEL = 1000 # Maximum number of faces in face model
 MAX_FACES_IN_MODEL_KEY = 'max_faces_in_model'
+MEDOID_FRAME_PATH_KEY = 'medoid_frame_path'
 MIN_DETECTION_PCT = 0.3 # Min percentage of detected faces out of
 MIN_DETECTION_PCT_KEY = 'min_detection_pct'
 # total faces in tracking segment in order to retain segment
@@ -410,6 +414,7 @@ SAVED_FRAMES_NR_KEY = 'saved_frames_nr'
 # TO BE DELETED
 #MIN_TRACKING_TIME = 1 # Minimum time (in seconds) from detection 
                         # before tracking interruption is possible T
+SEGMENT_COUNTER_KEY = 'segment_counter'
 SIMULATE_USER_ANNOTATIONS = True
 SIMULATE_USER_ANNOTATIONS_KEY = 'simulate_user_annotations'
 STD_MULTIPLIER_FACE = 20 # Standard deviation multiplier for calculating 
@@ -454,6 +459,7 @@ WINDOW_PERSON = 'Person' # Indication of person in window that shows
                          # a person in video
                          
 # Video analysis times
+CAPTION_RECOGNITION_TIME_KEY = 'caption_recognition_time'
 CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
 CLOTHING_RECOGNITION_TIME_KEY = 'clothing_recognition_time'
 FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
@@ -467,18 +473,29 @@ PEOPLE_CLUSTERING_TIME_KEY = 'people_clustering_time'
 
 
 # Global face recognition
-GLOBAL_FACE_REC_MODELS_DIR = 'Face models'
-GLOBAL_FACE_MODELS_MIN_DIFF = 5
-GLOBAL_FACE_MODELS_MIN_DIFF_KEY = 'global_face_models_min_diff'
+# TO BE DELETED
+#GLOBAL_FACE_REC_MODELS_DIR = 'Face models'
+#GLOBAL_FACE_MODELS_MIN_DIFF = 5
+#GLOBAL_FACE_MODELS_MIN_DIFF_KEY = 'global_face_models_min_diff'
+#GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'
+#GLOBAL_FACE_REC_DATA_DIR_PATH_KEY = 'global_face_recognition_dir_path'
+#GLOBAL_FACE_REC_DISC_IMAGES_DIR = 'Discarded images'
+#GLOBAL_FACE_REC_TAGS_FILE = 'Tags'
+#GLOBAL_FACE_REC_TRAINING_SET_DIR = 'Training set'
+#GLOBAL_FACE_REC_DIFFS_FILE = 'Diffs.yaml'
+#GLOBAL_FACE_REC_MIN_DIFFS_FILE = 'Min_diffs.yaml'
+#HIST_KEY = 'histogram'
+#DIFF_KEY = 'diff'
+#IMAGE_1_KEY = 'image1'
+#IMAGE_2_KEY = 'image2'
+#IMAGE_SCORE_KEY = 'score'
+
 GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'
 GLOBAL_FACE_REC_DATA_DIR_PATH_KEY = 'global_face_recognition_dir_path'
-GLOBAL_FACE_REC_DISC_IMAGES_DIR = 'Discarded images'
-GLOBAL_FACE_REC_TAGS_FILE = 'Tags'
-GLOBAL_FACE_REC_TRAINING_SET_DIR = 'Training set'
-GLOBAL_FACE_REC_DIFFS_FILE = 'Diffs.yaml'
-GLOBAL_FACE_REC_MIN_DIFFS_FILE = 'Min_diffs.yaml'
-HIST_KEY = 'histogram'
-DIFF_KEY = 'diff'
-IMAGE_1_KEY = 'image1'
-IMAGE_2_KEY = 'image2'
-IMAGE_SCORE_KEY = 'score'
+FACE_MODELS_FILE = 'Face_models'
+TAG_LABEL_ASSOCIATIONS_FILE = 'Tag_label_associations.yml'
+TRAINING_SET_DIR = 'Training set'
+FACES_FILE = 'Faces.yml'
+WHOLE_IMAGES_DIR = 'Whole images'
+BBOX_IMAGES_DIR = 'Bbox images'
+GLOBAL_FACE_REC_THRESHOLD = 20 # Default 
