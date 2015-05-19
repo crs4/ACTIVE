@@ -1,62 +1,85 @@
+"""
+Module containing some utilities about subprocess, threading and file checking.
+"""
 
 import os
 import shlex
 import subprocess
 import sys
+import requests
 from django.conf import  settings
 
-"""
-Module containing some utilities about subprocess, threading and file checking.
-"""
-   
 
 
 def speaker_diarization(func_in, func_out):
-	try:
-		file_path=os.path.join(settings.MEDIA_ROOT, "items", func_out["file"])	
-		file_root=os.path.join(settings.MEDIA_ROOT, "items", str(func_out["id"])) # e' necessario il casting esplicito degli interi?
+    try:
+        print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> START"
+        file_path=os.path.join(settings.MEDIA_ROOT, "items", func_out["file"])
+        file_root=os.path.join(settings.MEDIA_ROOT, "items", str(func_out["id"])) # e' necessario il casting esplicito degli interi?
 
-		_convert_with_ffmpeg(file_path)
+        _convert_with_ffmpeg(file_path)
+        #_mkdir_out(file_root+"/out")
+        os.mkdir(file_root + "/out")
+        with open(file_path.split(".")[0]+'.properties', "w") as f:
+            f.write("fileName="+file_path.split(".")[0]+".wav")
+            #f.write("outputRoot="+file_root+"/")
+            with open('/var/spool/active/data/models/audio/globals/settings.properties') as fp:
+                for line in fp:
+                    f.write(line)
+                    print line
+            #f.writelines("fileName="+file_path.split(".")[0]+".wav")
+            f.writelines("outputRoot="+file_root+"/out/")
+            #f.writelines("outputRoot="+file_root)
+        f.close()
+        diarization(file_path.split(".")[0]+'.properties')
+        print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> STOP"
+        post_di_esempio(id_item=str(func_out["id"]) , name_file=file_root+"/out/nomi.txt")
+    except Exception as e:
+        print e
 
-		os.mkdir(file_root + "/out")		
-	   	with open(file_path.split(".")[0]+'.properties', "w") as f:
-                        f.write("fileName="+file_path.split(".")[0]+".wav")
-                        #f.write("outputRoot="+file_root+"/")
-	    		with open('/var/spool/active/data/models/audio/globals/settings.properties') as fp:
-        			for line in fp:
-            				f.write(line)
-					print line
-			#f.writelines("fileName="+file_path.split(".")[0]+".wav")
-			f.writelines("outputRoot="+file_root+"/out/")
-		#f.flush()
-		f.close()
-		#fp.close()    		
-		diarization(file_path.split(".")[0]+'.properties')
-	except Exception as e:
-		print e
+def post_di_esempio(id_item , name_file):
+    print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> STart"
+    id_persona=False
+    #id_item=3601
+    name_p=open(name_file, "r")
+    name_p_list=name_p.readlines()
+    for name in name_p_list:
+        name.replace("\n","")
+        if name.find("ZZ00")>-1:
+            id_persona=name.split("ZZ00")[0]
+            r_json=requests.post("http://156.148.132.79/api/tags/", {"entity":id_persona, "item":id_item, "type":"speaker"})
+            print r_json.json()
+    print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> STOP"
+    
+def _mkdir_out(path_dir):
+    print "try mkdir "+path_dir
+    subprocess.check_output("/bin/mkdir "+path_dir,shell=True)
 
 def _convert_with_ffmpeg(file_name):
     print "try conversion..."
     
     print "/usr/bin/ffmpeg -y -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav"	
     subprocess.check_output("/usr/bin/ffmpeg -y -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav", shell=True)
+    print "conversion ok"
 
 
 def diarization(file_properties):
     cd_go="cd /var/spool/active/job_processor/plugins_script/speaker_extractor/;"
     java="java -Xmx2048m " #da definire in base alla macchina
     java_classpath=" -classpath /var/spool/active/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
-    commandline=java+java_classpath+" it.crs4.active.diarization.Diarization "+file_properties 
+    commandline=java+java_classpath+" it.crs4.identification.DBScore "+file_properties 
     print "diarization -- command \n"
     print commandline
     start_subprocess(commandline)
 
 
 def alive_threads(t_dict):
-    """Check how much threads are running and alive in a thread dictionary
+    """
+    Check how much threads are running and alive in a thread dictionary
 
     :type t: dictionary
-    :param t: thread dictionary like  { key : thread_obj, ... }"""
+    :param t: thread dictionary like  { key : thread_obj, ... }
+    """
     num = 0
     for thr in t_dict:
         if t_dict[thr].is_alive():
@@ -127,11 +150,14 @@ def ensure_file_exists(filename):
         import fileinput
         for line in fileinput.FileInput(filename,inplace=0):
             line = line.replace("\\\\","/")
+
 def is_good_wave(filename):
-    """Check if the wave is in correct format for LIUM.
+    """
+    Check if the wave is in correct format for LIUM.
 
     :type filename: string
-    :param filename: file to check"""
+    :param filename: file to check
+    """
     import wave
     par = None
     try:
@@ -148,15 +174,18 @@ def is_good_wave(filename):
 
 
 def humanize_time(secs):
-    """Convert seconds into time format.
+    """
+    Convert seconds into time format.
 
     :type secs: integer
     :param secs: the time in seconds to represent in human readable format
-           (hh:mm:ss)"""
+   (hh:mm:ss)
+   """
     mins, secs = divmod(secs, 60)
     hours, mins = divmod(mins, 60)
     return '%02d:%02d:%02d,%s' % (hours, mins, int(secs), 
-                                  str(("%0.3f" % secs))[-3:])
+                                 str(("%0.3f" % secs))[-3:])
+
 def convert_with_ffmpeg(file_name):
     print "try conversion..."
     

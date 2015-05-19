@@ -2,6 +2,7 @@ package it.crs4.identification;
 
 import fr.lium.spkDiarization.parameter.Parameter;
 import it.crs4.active.diarization.*;
+import it.crs4.util.PropertiesReader;
 public class Identification2 {
 	
 	private String fInputMask=null;//"--fInputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/2sec.wav";
@@ -11,8 +12,8 @@ public class Identification2 {
 	private String s_outputMaskRoot=null;//"--sOutputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";
 	private String s_inputMaskRoot=null;//"--sInputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";
 	private String outputRoot=null;//"/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";	
-	private String ubm_gmm="/Users/labcontenuti/Documents/workspace/AudioActive/84/ubm.gmm";
-	private String sms_gmms="/Users/labcontenuti/Documents/workspace/AudioActive/84/sms.gmms";
+	private String ubm_gmm=null;//"/Users/labcontenuti/Documents/workspace/AudioActive/84/ubm.gmm";
+	private String sms_gmms=null;//"/Users/labcontenuti/Documents/workspace/AudioActive/84/sms.gmms";
 	public String getFileName() {
 		return fileName;
 	}
@@ -38,17 +39,43 @@ public class Identification2 {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{ 
-		
+		/*
 		Identification2 dia =new Identification2();
-		dia.setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/angelina.wav");
-		dia.setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/angelina/");
+		dia.setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file//SandroLombardi##gep_01.wav");
+		dia.setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/gep/");
 		dia.run();
 		System.out.println("-------------------------\n ---------FINITO DIARIZATION\n ------------------");	
+		
 		MScore mscore=new MScore();
-		mscore.setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/angelina.wav");
-		mscore.setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/angelina/");
-		mscore.run();
- 		
+		mscore.setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/SandroLombardi##gep_01.wav");
+		mscore.setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/gep/");
+		//mscore.setGmm_model("/Users/labcontenuti/Documents/workspace/AudioActive/84/GiacomoMameli.gmm");
+		//mscore.run();
+		DBScore dbscore=new DBScore();
+		dbscore.setDb_path("/Users/labcontenuti/Documents/workspace/AudioActive/84/gmm_db/2el/");
+		dbscore.setMscore(mscore);
+		dbscore.run();
+		*/
+		PropertiesReader pr=new PropertiesReader(args[0]);
+	    //System.out.println(pr.getProperty("fileName"));
+	    //System.out.println(pr.getProperty("outputRoot"));
+	     
+		Diarization dia=new Diarization();
+		dia.setFileName(pr.getProperty("fileName"));
+		dia.setOutputRoot(pr.getProperty("outputRoot"));
+		dia.setSms_gmms(pr.getProperty("sms_gmms"));
+		dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
+		dia.run();
+		
+		MScore mscore=new MScore();
+		mscore.setFileName(pr.getProperty("fileName"));
+		mscore.setOutputRoot(pr.getProperty("outputRoot"));
+
+		DBScore dbscore=new DBScore();
+		dbscore.setDb_path(pr.getProperty("db_path"));
+		dbscore.setMscore(mscore);
+		dbscore.run();
+		
 		System.out.println("-------------------------\n ---------FINITO IDENTIFICATION\n ------------------");	
 		
 	}

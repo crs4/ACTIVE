@@ -24,11 +24,22 @@ package it.crs4.identification;
 
 import it.crs4.active.diarization.AMScore;
 import it.crs4.parameter.InputParameter;
+import it.crs4.util.PropertiesReader;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.Vector;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,6 +85,138 @@ public class MScore {
 	private String ubm_gmm="/Users/labcontenuti/Documents/workspace/AudioActive/84/ubm.gmm";
 	private String sms_gmms="/Users/labcontenuti/Documents/workspace/AudioActive/84/sms.gmms";
 	private String gmm_model=null;//
+	private ClusterSet clusterSetResult=null;
+	private ClusterResultSet clusterResultSet=new ClusterResultSet();
+	
+	public void writeIdentSegFile(){
+		
+		try{
+			
+		}catch(Exception e ){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void printTheBestBySpeaker(){
+		System.out.println("------THE BEST BY SPEAKERil------");
+		Hashtable cluster=clusterResultSet.getCluster();
+		Iterator<String> it=cluster.keySet().iterator();
+		Hashtable<String, Vector> speaker=new Hashtable<String, Vector>();
+		while(it.hasNext()){
+			String cr_it=(String)it.next();
+			//System.out.println(cr_it);
+			ClusterResult cr=(ClusterResult)cluster.get(cr_it);
+			Object[] db_arr=cr.getValue().keySet().toArray();
+			Arrays.sort(db_arr);
+			int ln=db_arr.length;
+			if ( speaker.keySet().contains( (String) cr.getValue().get(db_arr[ln-1]))  ){
+				Vector<String> tmp= speaker.get(cr.getValue().get(db_arr[ln-1]));
+				tmp.add( cr_it );
+				speaker.put( (String) cr.getValue().get(db_arr[ln-1]), tmp);
+			}else{
+				Vector<String> tmp=new Vector<String>();
+				tmp.add(cr_it);
+				speaker.put( (String) cr.getValue().get(db_arr[ln-1]), tmp);				
+			}
+			//System.out.println("score="+db_arr[ln-1] +" name="+cr.getValue().get(db_arr[ln-1])  );
+		}
+		Iterator<String> sp_it=speaker.keySet().iterator();
+		//String f ="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/properties/testindent.txt";
+
+		OutputStreamWriter dos;
+		try {
+			dos = new OutputStreamWriter(new FileOutputStream(outputRoot+"/"+baseName+"_ident.txt"));
+			OutputStreamWriter nomi_pres= new OutputStreamWriter(new FileOutputStream(outputRoot+"/"+"nomi.txt"));
+			
+			String tmp_name="\n";
+			while(sp_it.hasNext()){
+				String key=(String)sp_it.next();
+				System.out.println("name="+key);
+				nomi_pres.write(key+"\n");
+				tmp_name=tmp_name+key+"\n";
+				for(int i=0; i< ( (Vector) speaker.get(key) ).size();i++){
+					//";; clusterSet	 " + entry.getKey() + " " + entry.getValue().toString() + "\n"
+					//System.out.println(clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).clusterToFrames());
+					TreeMap<Integer,Segment> map=clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).clusterToFrames();
+					System.out.println(" cluster="+((Vector) speaker.get(key) ).get(i)+" lenght="+clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).getLength());
+					dos.write(((Vector) speaker.get(key) ).get(i)+"="+key+"\n");
+					/*
+					for(Map.Entry<Integer,Segment> entry : map.entrySet()) {
+						  Integer key_map = entry.getKey();
+						  Segment value = entry.getValue();
+						  //System.out.println(key + " => start=" + value.getStartInSecond()+" lenght"+value.getLengthInSecond()+"<=");
+						  //System.out.println(";; clusterSet	 " + entry.getKey() + " " + entry.getValue().toString() + "\n");
+						  //System.out.println(key_map+"="+key);
+						  dos.write(key_map+"="+key);
+						}
+					*/
+					//clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).writeAsCTL(dos);
+					
+				}
+			}
+			
+		 
+			dos.close();
+			System.out.println("NOMI PRESENTI "+tmp_name);
+			nomi_pres.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void printTheBestByThr(long thr){
+		System.out.println("------THE BEST BY SPEAKERil------");
+		Hashtable cluster=clusterResultSet.getCluster();
+		Iterator<String> it=cluster.keySet().iterator();
+		Hashtable<String, Vector> speaker=new Hashtable<String, Vector>();
+		while(it.hasNext()){
+			String cr_it=(String)it.next();
+			//System.out.println(cr_it);
+			ClusterResult cr=(ClusterResult)cluster.get(cr_it);
+			Object[] db_arr=cr.getValue().keySet().toArray();
+			Arrays.sort(db_arr);
+			int ln=db_arr.length;
+			if ( speaker.keySet().contains( (String) cr.getValue().get(db_arr[ln-1]))  ){
+				Vector<String> tmp= speaker.get(cr.getValue().get(db_arr[ln-1]));
+				tmp.add( cr_it );
+				speaker.put( (String) cr.getValue().get(db_arr[ln-1]), tmp);
+			}else{
+				Vector<String> tmp=new Vector<String>();
+				tmp.add(cr_it);
+				speaker.put( (String) cr.getValue().get(db_arr[ln-1]), tmp);				
+			}
+			//System.out.println("score="+db_arr[ln-1] +" name="+cr.getValue().get(db_arr[ln-1])  );
+		}
+		Iterator<String> sp_it=speaker.keySet().iterator();
+		//String f ="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/properties/testindent.txt";
+
+		OutputStreamWriter dos;
+		try {
+			dos = new OutputStreamWriter(new FileOutputStream(outputRoot+"/"+baseName+"_ident.txt"));
+			
+			while(sp_it.hasNext()){
+				String key=(String)sp_it.next();
+				System.out.println("name="+key);
+				for(int i=0; i< ( (Vector) speaker.get(key) ).size();i++){
+					TreeMap<Integer,Segment> map=clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).clusterToFrames();
+					System.out.println(" cluster="+((Vector) speaker.get(key) ).get(i)+" lenght="+clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).getLength());
+					dos.write(((Vector) speaker.get(key) ).get(i)+"="+key+"\n");
+				}
+			}
+			
+		 
+			dos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	public String getFileName() {
 		return fileName;
 	}
@@ -106,7 +249,7 @@ public class MScore {
 		this.sms_gmms = sms_gmms;
 	}
 	
-	public static ClusterSet make(AudioFeatureSet featureSet, ClusterSet clusterSet, GMMArrayList gmmList, GMMArrayList gmmTopList, Parameter parameter) throws DiarizationException, IOException {
+	public ClusterSet make(AudioFeatureSet featureSet, ClusterSet clusterSet, GMMArrayList gmmList, GMMArrayList gmmTopList, Parameter parameter) throws DiarizationException, IOException {
 		logger.info("Compute Score");
 		int size = gmmList.size();
 		logger.finer("GMM size:" + size);
@@ -299,15 +442,21 @@ public class MScore {
 				for (int k = 0; k < size; k++) {
 					double score = sumScoreVector[k];
 					GMM gmm = gmmList.get(k);
-					logger.finer("clustername = " + newName + " name=" + gmm.getName() + " =" + score);
+					logger.finer("****clustername = " + newName + " name=" + gmm.getName() + " =" + score);
 					tempororaryCluster.setInformation("score:" + gmm.getName(), score);
+					ClusterResult cr=new ClusterResult();
+					cr.setName(newName);
+					cr.getValue().put(score, gmm.getName());
+					clusterResultSet.putValue(newName, gmm.getName(), score);
 				}
+				
 				if (parameter.getParameterTopGaussian().getScoreNTop() >= 0) {
 					// tempororaryCluster.putInformation("score:" + "length", ubmSumLen);
 					// tempororaryCluster.putInformation("score:" + "UBM", ubmSumScore / ubmSumLen);
 				}
 			}
 		}
+		this.clusterSetResult=clusterSetResult;
 		return clusterSetResult;
 	}
 
@@ -318,9 +467,10 @@ public class MScore {
 	 * @throws Exception the exception
 	 */
 	public static void main(String[] args) throws Exception {
+		
+		PropertiesReader pr=new PropertiesReader(args[0]);
 		/*
-		Parameter parameter = MainTools.getParameters(args);
-		info(parameter, "MScore");
+		 * info(parameter, "MScore");
  		String[] parameterScore ={"","--sGender","--sByCluster","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4", 
  				"--fInputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/2sec.wav", 
  				"--sInputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/2sec.spl.3.seg", 
@@ -330,18 +480,25 @@ public class MScore {
  				parameter.readParameters(parameterScore);	
  		*/
 		MScore mscore=new MScore();
-		mscore.setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/angelina.wav");
-		mscore.setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/angelina/");
+		mscore.setFileName(pr.getProperty("fileName"));
+		mscore.setOutputRoot(pr.getProperty("outputRoot"));
 		mscore.setGmm_model("/Users/labcontenuti/Documents/workspace/AudioActive/84/gmm_db/GiacomoMameli.gmm");
 		mscore.run();
 
 		mscore.setGmm_model("/Users/labcontenuti/Documents/workspace/AudioActive/84/gmm_db/DanielaPieri.gmm");
 		mscore.run();
-
+		System.out.println("______________________________");
+		mscore.getClusterResultSet().printAll();
 		/*
   --sInputMask=%s.seg 
   --fInputMask=%s.wav --sOutputMask=%s.ident.M.VittorioVolpi.gmm.seg --sOutputFormat=seg,UTF8 --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:0:300:4 --tInputMask=/Users/labcontenuti/.voiceid/gmm_db/M/VittorioVolpi.gmm --sTop=8,/System/Library/Frameworks/Python.framework/Versions/2.7/share/voiceid/ubm.gmm  --sSetLabel=add --sByCluster ../audio_test/TalkRadio1-0/S0
  * */
+	}
+	public ClusterResultSet getClusterResultSet() {
+		return clusterResultSet;
+	}
+	public void setClusterResultSet(ClusterResultSet clusterResultSet) {
+		this.clusterResultSet = clusterResultSet;
 	}
 	public void run() throws Exception {
 		try {
@@ -352,7 +509,7 @@ public class MScore {
 	 				s_inputMaskRoot+baseName+".spl.3.seg", 
 	 				s_outputMaskRoot+baseName+".g.3.seg",
 	 				"--tInputMask="+gmm_model,
-	 				"--sOutputMask="+fileName+".ident.M.GiacomoMameli.gmm.seg",
+	 				"--sOutputMask="+outputRoot+"/"+baseName+".ident.M.GiacomoMameli.gmm.seg",
 	 				show}; 		
 	 		parameter.readParameters(parameterScoreIdent);
 	 		
@@ -371,15 +528,17 @@ public class MScore {
 
 				// Compute Model
 				GMMArrayList gmmList = MainTools.readGMMContainer(parameter);
-
-				ClusterSet clusterSetResult = make(featureSet, clusterSet, gmmList, gmmTopGaussianList, parameter);
-				System.out.print("---");
-				System.out.println(clusterSetResult.getFirstCluster().getInformations());
+				
+				clusterSetResult = make(featureSet, clusterSet, gmmList, gmmTopGaussianList, parameter);
+				
+				//System.out.println("===");
+				//System.out.println(clusterSetResult.getFirstCluster().getInformations().replaceAll("]", "").split("=")[1] );
 				// Seg outPut
-				//MainTools.writeClusterSet(parameter, clusterSetResult, false);
+				MainTools.writeClusterSet(parameter, clusterSetResult, false);
 			}
 		} catch (DiarizationException e) {
 			logger.log(Level.SEVERE, "error \t exception ", e);
+			e.printStackTrace();
 		}
 
 	}
@@ -426,6 +585,12 @@ public class MScore {
 	}
 	public void setGmm_model(String gmm_model) {
 		this.gmm_model = gmm_model;
+	}
+	public ClusterSet getClusterSetResult() {
+		return clusterSetResult;
+	}
+	public void setClusterSetResult(ClusterSet clusterSetResult) {
+		this.clusterSetResult = clusterSetResult;
 	}
 
 }
