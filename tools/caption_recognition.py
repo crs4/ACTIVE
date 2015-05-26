@@ -1,34 +1,68 @@
+import constants as c
 import cv2
 import cv2.cv as cv
 import Levenshtein as lev
 import numpy as np
 import tesseract
-from Constants import *
 from itertools import permutations
 
-def get_tags_from_file(tags_file_path):
+
+def check_permutations(lett_counter, label_parts, words):
     '''
-    Get tags from text file
+    Check permutations of label parts
     
-    :type tags_file_path: string
-    :param tags_file_path: path of file with tags    
+    :type lett_counter: integer
+    :param lett_counter: number of matching letters
+    
+    :type label_parts: list
+    :param label_parts: parts in which label is divided
+    
+    :type words: list
+    :param words: words found in analyzed image portion
+    
+    :rtype: integer
+    :returns: number of matching letters
     '''
+
+    label_parts_nr = len(label_parts)
     
-    with open(tags_file_path, 'r') as f:
+    perms = [''.join(p) for p in permutations(label_parts)]
     
-        tags = f.read().splitlines()
+    for perm in perms:
         
-    f.close()
+        for word in words:
+            
+            word_lev_ratio = lev.ratio(perm.lower(), word.lower())
     
-    if(len(tags) > 0):
-    
-        return tags
-    
-    else:
-        
-        return -1
+            w_word_lev_ratio = word_lev_ratio * label_parts_nr
+            
+            if(w_word_lev_ratio > lett_counter):
+                
+                lett_counter = w_word_lev_ratio
+                
+    return lett_counter
+  
 
 def find_letters_in_image(gray_im, api, use_max_height, show_image):
+    '''
+    Find letters in given image
+    
+    :type gray_im: OpenCV image
+    :param gray_im: image to be analyzed
+    
+    :type api: TessBaseAPI
+    :param api: api used by tesseract
+    
+    :type use_max_height: boolean
+    :param use_max_height: if True, discards contours that are too high
+    
+    :type show_image: boolean
+    :param show_image: if True, show image 
+    with black and white caption block
+    
+    :rtype: dictionary
+    :returns: dictionary with results
+    '''
     
     result_dict = {}
     
@@ -39,20 +73,13 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
     flags = cv2.THRESH_BINARY | cv2.THRESH_OTSU
     th, bw_im = cv2.threshold(gray_im, 128, 255, flags)
     
-    #cv2.imshow('bw_im', bw_im)
-    #cv2.waitKey(0)
-    
-    # TEST ONLY
-    #path = r'C:\Users\Maurizio\Documents\File di test\Caption recognition\bw_caption_block.png'
-    #cv2.imwrite(path, bw_im)
-    
     # Find contours in image
     mode = cv2.RETR_TREE
     method = cv2.CHAIN_APPROX_SIMPLE
     contours, hierarchy = cv2.findContours(bw_im, mode, method)
     
-    result_dict[CONTOURS_KEY] = contours
-    result_dict[HIERARCHY_KEY] = hierarchy
+    result_dict[c.CONTOURS_KEY] = contours
+    result_dict[c.HIERARCHY_KEY] = hierarchy
     
     # Order contours from left to right
     bbox_xs = []
@@ -89,17 +116,17 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
         x2 = x1 + w
         y2 = y1 + h
  
-        if(h < MIN_CHAR_HEIGHT):
-            #print('Bbox too short')
+        if(h < c.MIN_CHAR_HEIGHT):
+
             continue
  
         if(use_max_height):
-            if(h > (MAX_CHAR_HEIGHT_PCT * im_height)):
-                #print('BBox too high')
+            if(h > (c.MAX_CHAR_HEIGHT_PCT * im_height)):
+
                 continue
             
-        if(w > (MAX_CHAR_WIDTH_PCT * im_width)):
-            #print('BBox too wide')
+        if(w > (c.MAX_CHAR_WIDTH_PCT * im_width)):
+
             continue
             
         ord_bboxs.append(bbox)
@@ -115,55 +142,13 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
             cv2.waitKey(0)
         
         lett_im = cv2.copyMakeBorder(bw_im[y1:y2, x1:x2], 
-        LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
+        c.LETT_MARGIN, c.LETT_MARGIN, c.LETT_MARGIN, c.LETT_MARGIN, 
         cv2.BORDER_CONSTANT, value = 255)
-        
-        #lett_im_w = w + (2 * LETT_MARGIN)
-        #lett_im_h = h + (2 * LETT_MARGIN)
-        
-        #lett_im = cv2.copyMakeBorder(lett_im, 0, 0,
-        #lett_im_w, lett_im_w, cv2.BORDER_WRAP)
-        
-        #kernel = np.ones((KERNEL_SIZE,KERNEL_SIZE),np.uint8)
-        #lett_im = cv2.dilate(lett_im, kernel)
-        
-        # Check if character is I
-        
-        #pt1 = (bbox[0], bbox[1])
-        #pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
-        
-        #rgb_im_copy = rgb_im.copy()
-
-        #cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) 
-        
-        #cv2.imshow('lett_im', lett_im)
-        
-        #bbox_area = w * h
-        #lett_im_area = lett_im_w * lett_im_h
-        #black_pels_nr = lett_im_area - cv2.countNonZero(lett_im)
-        
-        #saturation = float(black_pels_nr) / float(bbox_area)
-        #print('saturation', saturation)
-        
-        #pt1 = (bbox[0], bbox[1])
-        #pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
-        
-        #cv2.rectangle(rgb_im, pt1, pt2, (255,0,0))
-
-        #cv2.imshow('rgb_im', rgb_im)
-        #cv2.waitKey(0) 
-        
-        #width_to_height_ratio = float(w) / float(h)
-        
-        #if((saturation > I_MIN_SATURATION) and
-        #(width_to_height_ratio < I_MAX_WIDTH_TO_HEIGHT_RATIO)):
-            #all_letters.append('i')
-            #continue
-        
+                
         text = ''
         kernel_size = 0
         or_lett_im = lett_im.copy()
-        while((len(text) == 0) and (kernel_size <= KERNEL_MAX_SIZE )):
+        while((len(text) == 0) and (kernel_size <= c.KERNEL_MAX_SIZE )):
             
             # Dilate image
             if(kernel_size > 0):
@@ -180,20 +165,15 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
         
             tesseract.SetCvImage(bitmap,api)
             text = api.GetUTF8Text().rstrip()
-            #print('text', text)   
             
         # Try to identify char by adding to image a known char
         if(len(text) == 0):
             lett_im = cv2.copyMakeBorder(bw_im[y1:y2, x1:x2], 
-            LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 3 * LETT_MARGIN + h, 
+            c.LETT_MARGIN, c.LETT_MARGIN, c.LETT_MARGIN, 3 * c.LETT_MARGIN + h, 
             cv2.BORDER_CONSTANT, value = 255)
-            text_size = h / PELS_TO_TEXT_SIZE_RATIO 
-            cv2.putText(lett_im,'B', (w + LETT_MARGIN * 2,h), 
+            text_size = h / c.PELS_TO_TEXT_SIZE_RATIO 
+            cv2.putText(lett_im,'B', (w + c.LETT_MARGIN * 2,h), 
             cv2.FONT_HERSHEY_SIMPLEX, text_size, 0,2)
-            
-            #print('h', h)
-            #cv2.imshow('lett_im 2', lett_im)
-            #cv2.waitKey(0)
             
             # Transform image
             shape_1 = lett_im.shape[1]
@@ -206,7 +186,6 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
             api.SetPageSegMode(tesseract.PSM_SINGLE_WORD)
             tesseract.SetCvImage(bitmap,api)
             text = api.GetUTF8Text().rstrip()
-            #print('text 2', text)
             api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
             
             if(len(text) == 2):
@@ -217,46 +196,12 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
             
         useful_contour_counter = useful_contour_counter + 1
 
-    result_dict[ALL_LETTERS_KEY] = all_letters
-    result_dict[ORD_BBOXS_KEY] = ord_bboxs
-    result_dict[ORD_CONTOUR_IDXS_KEY] = ord_contour_idxs
+    result_dict[c.ALL_LETTERS_KEY] = all_letters
+    result_dict[c.ORD_BBOXS_KEY] = ord_bboxs
+    result_dict[c.ORD_CONTOUR_IDXS_KEY] = ord_contour_idxs
     
     return result_dict
     
-def check_permutations(lett_counter, label_parts, words):
-
-    label_parts_nr = len(label_parts)
-    
-    perms = [''.join(p) for p in permutations(label_parts)]
-    
-    for perm in perms:
-        
-        for word in words:
-            
-            word_lev_ratio = lev.ratio(perm.lower(), word.lower())
-            
-            #max_length = float(max(len(perm), len(word)))
-            #lev_distance = lev.distance(perm.lower(), word.lower())
-            #word_lev_ratio = 1 - (lev_distance / max_length)
-    
-            w_word_lev_ratio = word_lev_ratio * label_parts_nr
-            
-            if(w_word_lev_ratio > lett_counter):
-                
-                lett_counter = w_word_lev_ratio
-                
-    return lett_counter
-
-
-def get_tag_from_image_old(image_path):
-    '''
-    Find tag in image captions
-    
-    :type image_path: string
-    :params image_path: path of image to be analyzed
-    '''
-    pass
-
 
 def get_tag_from_image(gray_im, params):
     '''
@@ -267,32 +212,35 @@ def get_tag_from_image(gray_im, params):
     
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for
-    the caption recognition  
+    the caption recognition
+    
+    :rtype: dictionary
+    :returns: dictionary with results      
     '''
     
     # Get values from params
-    use_levenshtein = USE_LEVENSHTEIN
-    lev_thresh = LEV_RATIO_PCT_THRESH
-    min_tag_length = MIN_TAG_LENGTH
-    tags_file_path = TAGS_FILE_PATH
+    use_levenshtein = c.USE_LEVENSHTEIN
+    lev_thresh = c.LEV_RATIO_PCT_THRESH
+    min_tag_length = c.MIN_TAG_LENGTH
+    tags_file_path = c.TAGS_FILE_PATH
         
     if(params is not None):
         
-        if(USE_LEVENSHTEIN_KEY in params):
+        if(c.USE_LEVENSHTEIN_KEY in params):
             
-            use_levenshtein = params[USE_LEVENSHTEIN_KEY]
+            use_levenshtein = params[c.USE_LEVENSHTEIN_KEY]
         
-        if(LEV_RATIO_PCT_THRESH_KEY in params):
+        if(c.LEV_RATIO_PCT_THRESH_KEY in params):
             
-            lev_thresh = params[LEV_RATIO_PCT_THRESH_KEY]
+            lev_thresh = params[c.LEV_RATIO_PCT_THRESH_KEY]
             
-        if(MIN_TAG_LENGTH_KEY in params):
+        if(c.MIN_TAG_LENGTH_KEY in params):
             
-            min_tag_length = params[MIN_TAG_LENGTH_KEY]
+            min_tag_length = params[c.MIN_TAG_LENGTH_KEY]
             
-        if(TAGS_FILE_PATH_KEY in params):
+        if(c.TAGS_FILE_PATH_KEY in params):
             
-            tags_file_path = params[TAGS_FILE_PATH_KEY]
+            tags_file_path = params[c.TAGS_FILE_PATH_KEY]
     
     # Tesseract init
     api = tesseract.TessBaseAPI()
@@ -301,26 +249,16 @@ def get_tag_from_image(gray_im, params):
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
     api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
     
-    #rgb_im = cv2.imread(image_path) # TEST ONLY
-    
-    #print(im_height)
-    
     result_dict = find_letters_in_image(gray_im, api, True, False)
     
-    contours = result_dict[CONTOURS_KEY]
+    contours = result_dict[c.CONTOURS_KEY]
     
-    hierarchy = result_dict[HIERARCHY_KEY]
+    hierarchy = result_dict[c.HIERARCHY_KEY]
     
-    all_letters = result_dict[ALL_LETTERS_KEY]
+    all_letters = result_dict[c.ALL_LETTERS_KEY]
     
-    ord_bboxs = result_dict[ORD_BBOXS_KEY]
-    ord_contour_idxs = result_dict[ORD_CONTOUR_IDXS_KEY]
-    
-    #print(all_letters_str)
-        
-    #cv2.imshow('rgb', rgb_im)
-            
-    #cv2.waitKey(0)
+    ord_bboxs = result_dict[c.ORD_BBOXS_KEY]
+    ord_contour_idxs = result_dict[c.ORD_CONTOUR_IDXS_KEY]
   
     # Divide letters by row
     rows = []
@@ -328,9 +266,9 @@ def get_tag_from_image(gray_im, params):
     rows_contour_idxs = []
     # Index of letters that must not be considered anymore
     idx_black_list = []
-    #print(all_letters)
+
     lett_idx = 0
-    #rgb_im_copy = rgb_im.copy() # TEST ONLY
+
     for lett in all_letters:
         if((lett_idx not in idx_black_list) and (len(lett) > 0)):
             
@@ -351,20 +289,12 @@ def get_tag_from_image(gray_im, params):
             contour_idx = ord_contour_idxs[lett_idx]
             row_contour_idxs = [contour_idx]
             
-            #print('new idx')
-            #rgb_im_copy = rgb_im.copy()
-            
             pt1 = (bbox[0], bbox[1])
             pt2 = (pt1[0] + bbox[2], pt1[1] + bbox[3])
-        
-            #cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) # TEST ONLY
             
             for idx2 in range((lett_idx + 1),len(all_letters)):
-                #print(idx2)
+
                 if(idx2 not in idx_black_list):
-                    #print('len(all_letters)', len(all_letters))
-                    #print('len(ord_bboxs)', len(ord_bboxs))
-                    #print('idx2', idx2)
                     
                     lett2 = all_letters[idx2]
                     bbox2 = ord_bboxs[idx2]
@@ -375,21 +305,8 @@ def get_tag_from_image(gray_im, params):
                     x22 = x12 + w2
                     y22 = y12 + h2
                     
-                    #pt1 = (bbox2[0], bbox2[1])
-                    #pt2 = (pt1[0] + bbox2[2], pt1[1] + bbox2[3])
-                    
-                    #cv2.rectangle(rgb_im_copy, pt1, pt2, (0,0,255)) 
-            
-                    #cv2.imshow('rgb', rgb_im_copy)
-                        
-                    #cv2.waitKey(0)
-                    
-                    #print 'y1 = %d y2 = %d y12 = %d y22 = %d' % (y1, y2, y12, y22)
-                    
-                    #print 'step1'
-                    
-                    if(((y12 > (y1 - MAX_BBOX_DIFF)) and (y12 < y2)) 
-                    or ((y22 > y1) and (y22 < (y2 + MAX_BBOX_DIFF)))):
+                    if(((y12 > (y1 - c.MAX_BBOX_DIFF)) and (y12 < y2)) 
+                    or ((y22 > y1) and (y22 < (y2 + c.MAX_BBOX_DIFF)))):
                         lett2 = all_letters[idx2]
                         idx_black_list.append(idx2)
                         
@@ -414,52 +331,17 @@ def get_tag_from_image(gray_im, params):
                             
                             big_bbox = bbox2
                         
-                        #pt1 = (bbox2[0], bbox2[1])
-                        #pt2 = (pt1[0] + bbox2[2], pt1[1] + bbox2[3])
-                        
             rows.append(row)
             rows_bboxs.append(row_bboxs)
             rows_contour_idxs.append(row_contour_idxs)
             
         lett_idx = lett_idx + 1                     
     
-    #print('rows', rows)
-    
-    ######### CORNER DETECTION ##########
-
-    # Detect corners in image
-    #dst = cv2.cornerHarris(gray_im,2,3,0.04)
-    #dst_max = dst.max()
-
-    ##result is dilated for marking the corners, not important
-    #dst = cv2.dilate(dst,None)
-    
-    ######################################
-
-    ## Threshold for an optimal value, it may vary depending on the image.
-    #rgb_im[dst>CORNER_THRESHOLD*dst_max]=[0,0,255]
-    
-    #corner_counter = 0 
-    
-    #num_pels = im_height * im_width
-        
-    #for i in range(0, im_height):
-        #for j in range(0, im_width):
-                #if(dst[i, i] > CORNER_THRESHOLD*dst_max):
-                    #corner_counter = corner_counter + 1
-    #print('corner_counter', corner_counter)
-    #print('corner counter percentage: ', float(corner_counter) / num_pels)
-    
-    #cv2.imshow('rgb', rgb_im)
-    #cv2.waitKey(0)
-    
     im_height, im_width = gray_im.shape
     
     row_idx = 0
     words = []
     for row in rows:
-        
-        #bw_im[:,:] = 255
         
         x1_min = im_width
         y1_min = im_height
@@ -469,13 +351,8 @@ def get_tag_from_image(gray_im, params):
         for i in range(0, len(row)):
     
             lett = row[i]
-            #if((row_idx < len(rows_contour_idxs)) 
-            #and (i < len(rows_contour_idxs[row_idx]))):
             
             contour_idx = rows_contour_idxs[row_idx][i]
-    
-            #cv2.drawContours(bw_im, contours, contour_idx, 
-            #0, -1, cv2.CV_AA, hierarchy, 1)
             
             contour_bbox = rows_bboxs[row_idx][i]
             
@@ -494,41 +371,28 @@ def get_tag_from_image(gray_im, params):
                 x2_max = x2
             if(y2 > y2_max):
                 y2_max = y2
-                
-        #block_im = cv2.copyMakeBorder(bw_im[y1_min:y2_max, x1_min:x2_max], 
-        #LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
-        #cv2.BORDER_CONSTANT, value = 255)
  
         # Convert block region in original image to black and white image
         
         block_im = cv2.copyMakeBorder(
-        gray_im[y1_min - LETT_MARGIN : y2_max + LETT_MARGIN, 
-        x1_min - LETT_MARGIN : x2_max + LETT_MARGIN], 
-        LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, LETT_MARGIN, 
+        gray_im[y1_min - c.LETT_MARGIN : y2_max + c.LETT_MARGIN, 
+        x1_min - c.LETT_MARGIN : x2_max + c.LETT_MARGIN], 
+        c.LETT_MARGIN, c.LETT_MARGIN, c.LETT_MARGIN, c.LETT_MARGIN, 
         cv2.BORDER_CONSTANT, value = 255)
-        
-        #cv2.imshow('block_im before', block_im)
-        #cv2.waitKey(0)
         
         block_result_dict = find_letters_in_image(block_im, api, False, False)
         
-        block_contours = block_result_dict[CONTOURS_KEY]
+        block_contours = block_result_dict[c.CONTOURS_KEY]
         
-        block_hierarchy = block_result_dict[HIERARCHY_KEY]
+        block_hierarchy = block_result_dict[c.HIERARCHY_KEY]
     
-        block_all_letters = block_result_dict[ALL_LETTERS_KEY]
+        block_all_letters = block_result_dict[c.ALL_LETTERS_KEY]
     
-        block_ord_bboxs = block_result_dict[ORD_BBOXS_KEY]
+        block_ord_bboxs = block_result_dict[c.ORD_BBOXS_KEY]
         
-        block_ord_contour_idxs = block_result_dict[ORD_CONTOUR_IDXS_KEY]
+        block_ord_contour_idxs = block_result_dict[c.ORD_CONTOUR_IDXS_KEY]
         
         block_im[:,:] = 255
-        
-        #print('block_all_letters', block_all_letters)
-        
-        #print('contours', block_contours)
-        
-        #print('contour idxs', block_ord_contour_idxs)
         
         is_first_lett = True
         
@@ -537,8 +401,6 @@ def get_tag_from_image(gray_im, params):
         for i in range(0, len(block_all_letters)):
     
             lett = block_all_letters[i]
-            #if((row_idx < len(rows_contour_idxs)) 
-            #and (i < len(rows_contour_idxs[row_idx]))):
             
             if(len(lett) > 0):
             
@@ -574,14 +436,6 @@ def get_tag_from_image(gray_im, params):
                         contour_idx, 0, -1, cv2.CV_AA, block_hierarchy, 1)
                         
                         big_bbox = bbox
-            
-    
-        #cv2.imshow('block_im', block_im)
-        #cv2.waitKey(0)
-        
-        #kernel_size = 3
-        #kernel = np.ones((kernel_size, kernel_size),np.uint8)
-        #block_im = cv2.dilate(block_im, kernel)
  
         # Transform image
         shape_1 = block_im.shape[1]
@@ -595,18 +449,13 @@ def get_tag_from_image(gray_im, params):
         tesseract.SetCvImage(bitmap,api)
         text = api.GetUTF8Text().rstrip()
         
-        #print('TEXT',text)
         if(len(text) > 0):
             row_words = text.split()
             for row_word in row_words:
                 words.append(row_word)
-        
-        #cv2.imshow('block', block_im)
-        #cv2.waitKey(0)
             
         row_idx = row_idx + 1
         
-    #print('words', words)
     rows = words
     
     tags = get_tags_from_file(tags_file_path)
@@ -621,8 +470,9 @@ def get_tag_from_image(gray_im, params):
         lett_pct_list = []
         label = 0
         for tag in tags:
+            
             # Divide name(s) and surname(s)
-            tag_parts = tag.split(TAG_SEP)
+            tag_parts = tag.split(c.TAG_SEP)
             
             #Skip tags that are too short
             tot_len = 0
@@ -640,9 +490,6 @@ def get_tag_from_image(gray_im, params):
             
             for tag_part in tag_parts:
                 tag_parts_len = tag_parts_len + len(tag_part)
-                
-                #if(tag == 'Caredda_Giorgio'):
-                    #print('tag_part', tag_part)
        
                 # Consider each word separately
                 word_lett_counter_l = []
@@ -650,22 +497,16 @@ def get_tag_from_image(gray_im, params):
                 complete_check_found = False
                 for word in words:
                     
-                    #if(tag == 'Caredda_Giorgio'):
-                        #print('row', row)
-                    
                     # Index of letters that must not be considered anymore
                     
                     if(use_levenshtein):
                         
                         word_lev_ratio = lev.ratio(tag_part.lower(), word.lower())
                         
-                        #max_length = float(max(len(tag_part), len(word)))
-                        #lev_distance = lev.distance(tag_part.lower(), word.lower())
-                        #word_lev_ratio = 1 - (lev_distance / max_length)
-                        
                         if(word_lev_ratio == 1):
+                            
                             lett_counter = lett_counter + word_lev_ratio
-                            #print('')
+
                             complete_check_found = True
                             
                         word_lett_counter_l.append(word_lev_ratio)
@@ -683,7 +524,6 @@ def get_tag_from_image(gray_im, params):
     
                             lett_idx = word.lower().find(lett.lower(), start)
                             
-                            #print(lett_idx)
                             if((lett_idx != -1) and (lett_idx not in black_list)):
                                 word_lett_counter = word_lett_counter + 1
                                 start = lett_idx + 1
@@ -698,13 +538,6 @@ def get_tag_from_image(gray_im, params):
                     if(complete_check_found):
 
                         break # Do not consider other words
-                    
-                    #if(tag == 'Caredda_Giorgio'):    
-                        #print('row_lett_counter_l', row_lett_counter_l)
-                        #cv2.waitKey(0)
-                
-                #if(tag == 'Caredda_Giorgio'):        
-                    #print('row_lett_counter',row_lett_counter_l)
                 
                 # Add to total best row check
                 if(not(complete_check_found)):
@@ -721,6 +554,7 @@ def get_tag_from_image(gray_im, params):
                     eq_letters_nr = lett_counter
                     tot_letters_nr = lett_counter
                     break
+                    
                 else:
                       
                     # Check also permutations of tag parts
@@ -734,27 +568,24 @@ def get_tag_from_image(gray_im, params):
             else:
             
                 if(lett_counter == tag_parts_len):
+                    
                     assigned_label = label
                     assigned_tag = tag
                     eq_letters_nr = lett_counter
                     tot_letters_nr = lett_counter
                     break
+                    
                 else:
+                    
                     lett_counter_list.append(lett_counter)
                     tag_parts_len_list.append(tag_parts_len)
                     lett_pct = float(lett_counter) / tag_parts_len
                     lett_pct_list.append(lett_pct)
                
-            #if(use_levenshtein):
-                
-                #print "Tag = %s (Levenshtein ratio of %f on %f)" % (tag, lett_counter, tag_parts_nr) # TEST ONLY
-            
-            #else:
-                
-                #print "Tag = %s (%d equal letters out of %d)" % (tag, lett_counter, tag_parts_len) # TEST ONLY
             label = label + 1
         
         if(len(assigned_tag) == 0):
+            
             tag_idxs = [i[0] for i in sorted(enumerate(lett_pct_list), 
             key=lambda x:x[1], reverse = True)]
             assigned_label = tag_idxs[0]
@@ -768,40 +599,57 @@ def get_tag_from_image(gray_im, params):
         if(lev_ratio_pct < lev_thresh):
             
             assigned_label = -1
-            #assigned_tag = -1 
-            assigned_tag = UNDEFINED_TAG
+
+            assigned_tag = c.UNDEFINED_TAG
         
         else:
             
             if(use_levenshtein):
                 
-                print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
+                print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (assigned_tag, eq_letters_nr, tot_letters_nr)
             
             else:
                 
-                print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_tag, eq_letters_nr, tot_letters_nr) # TEST ONLY
-                
-            #cv2.imshow('frame', gray_im)
-            #cv2.waitKey(0)
-        
-        #if(assigned_tag == "Leoni_Mario"):
-    
-            #cv2.imshow('rgb', rgb_im)
-            
-            #cv2.waitKey(0)
+                print "Predicted tag = %s (%d equal letters out of %d)" % (assigned_tag, eq_letters_nr, tot_letters_nr)
         
         result_dict = {}
         
-        result_dict[ASSIGNED_LABEL_KEY] = assigned_label
+        result_dict[c.ASSIGNED_LABEL_KEY] = assigned_label
         
-        result_dict[ASSIGNED_TAG_KEY] = assigned_tag
+        result_dict[c.ASSIGNED_TAG_KEY] = assigned_tag
         
-        result_dict[EQ_LETTERS_NR_KEY] = eq_letters_nr
+        result_dict[c.EQ_LETTERS_NR_KEY] = eq_letters_nr
         
-        result_dict[TOT_LETTERS_NR_KEY] = tot_letters_nr
+        result_dict[c.TOT_LETTERS_NR_KEY] = tot_letters_nr
         
-        result_dict[CONFIDENCE_KEY] = lev_ratio_pct
+        result_dict[c.CONFIDENCE_KEY] = lev_ratio_pct
         
-        result_dict[TAGS_KEY] = tags
+        result_dict[c.TAGS_KEY] = tags
         
         return result_dict
+        
+        
+def get_tags_from_file(tags_file_path):
+    '''
+    Get tags from text file
+    
+    :type tags_file_path: string
+    :param tags_file_path: path of file with tags
+    
+    :rtype: list or integer
+    :returns: list of tags or - 1    
+    '''
+    
+    with open(tags_file_path, 'r') as f:
+    
+        tags = f.read().splitlines()
+        
+    f.close()
+    
+    if(len(tags) > 0):
+    
+        return tags
+    
+    else:
+        
+        return -1        

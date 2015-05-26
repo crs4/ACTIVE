@@ -5,7 +5,7 @@ import math
 import numpy as np
 import sys
 from collections import Counter
-from Constants import *
+from constants import *
 from FaceModelsLBP import FaceModelsLBP
 from train_by_captions import train_by_captions
 

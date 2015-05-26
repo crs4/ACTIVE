@@ -769,11 +769,6 @@ def plot_people_clustering_variable_threshold():
                 ord_time_list.append(time_lists[method_names[i]][idx])
                 
             time_lists[method_names[i]] = ord_time_list
-            
-            #print('x_lists[method_names[i]]',x_lists[method_names[i]])
-            #print('prec_lists[method_names[i]]',prec_lists[method_names[i]])
-            
-            #raw_input('Aspetta poco poco')
     
     plt.figure()
 

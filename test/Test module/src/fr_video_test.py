@@ -6,7 +6,7 @@ path_to_be_appended = ".." + os.sep + ".." + os.sep + ".."
 sys.path.append(path_to_be_appended)
 
 from tools.Constants import *
-from tools.face_extractor import FaceExtractor
+from tools.face_extractor_for_experiments import FaceExtractor
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_YAML_file, save_YAML_file
 

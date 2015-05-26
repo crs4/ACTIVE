@@ -34,7 +34,7 @@
 import sys, math
 
 from PIL import Image
-from Constants import *
+from constants import *
 
 def Distance(p1,p2):
   dx = p2[0] - p1[0]

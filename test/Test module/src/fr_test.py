@@ -5,7 +5,7 @@ sys.path.append("../../..")
 from os import listdir, path
 from tools.Constants import *
 from tools.face_detection import get_cropped_face, get_cropped_face_using_eye_pos
-from tools.face_extractor_old import FaceExtractor
+from tools.face_extractor_for_experiments import FaceExtractor
 from tools.face_recognition import recognize_face
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file

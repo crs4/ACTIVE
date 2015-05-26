@@ -8,7 +8,8 @@ import pickle as pk
 import sys
 import time
 import yaml
-from Constants import * 
+from constants import *
+ 
 
 def load_YAML_file(file_path):
     '''
@@ -17,8 +18,8 @@ def load_YAML_file(file_path):
     :type file_path: string
     :param file_path: path of YAML file to be loaded  
     
-    :return: a dictionary with the contents of the file
     :rtype: dictionary
+    :return: a dictionary with the contents of the file
     '''
     
     try:
@@ -30,16 +31,19 @@ def load_YAML_file(file_path):
     except:
         
         return None
+        
 
 def load_image_annotations(file_path):
-    """Load YAML file with image .
+    '''
+    Load YAML file with image .
 
-    Args:
-        file_path = path of YAML file to be loaded
-
-    Returns:
-        A list of dictionaries with the annotated images
-    """
+    :type file_path: string
+    :param file_path: path of YAML file to be loaded
+    
+    :rtype: list
+    :returns: a list of dictionaries with the annotated images
+    '''
+    
     data = load_YAML_file(file_path)
     
     if(data):
@@ -171,9 +175,18 @@ def save_YAML_file(file_path, dictionary):
         return result
         
 
-# Load file with results of all experiments and return list of experiments
-def load_experiment_results(filePath):
-    data = load_YAML_file(filePath)
+def load_experiment_results(file_path):
+    '''
+    Load file with results of all experiments
+    
+    :type file_path: string
+    :param file_path: file to be loaded
+    
+    :rtype: list
+    :returns list with experiments
+    '''
+    
+    data = load_YAML_file(file_path)
     experiments = data[EXPERIMENTS_KEY]
     return experiments
     
@@ -188,6 +201,9 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     :type eye_cascade_classifier: cascade classifier
     :param eye_cascade_classifier: classifier to be used for the detection
 
+    :rtype: list
+    :returns: list containing eye positions 
+    (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
     '''
 
     min_neighbors = 0
@@ -225,7 +241,8 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     if(not(left_eye == None) and not(right_eye == None)):
         eyes_final_list = [left_eye, right_eye]
     
-    return eyes_final_list   
+    return eyes_final_list
+       
 
 def get_best_eye(eyes_list):
     '''
@@ -302,65 +319,23 @@ def get_dominant_color(hsv_image, kernel_size):
     :return: mask for dominant color
     '''
     
-    
     h_hist = cv2.calcHist([hsv_image],[0],None,[255],[0,256])
     
     (h_left_idx, h_right_idx) = find_dominant_region(h_hist, kernel_size)
     
-    #lines = hist_lines(hsv, 0, kernel_size, None)
-    #cv2.imshow('histogram',lines)
-    
     mask_s = cv2.inRange(hsv_image, np.array((h_left_idx, 0., 0.)), np.array((h_right_idx, 255., 255.)))
-    
-    #im_copy = im.copy()
-    
-    #for row in range(0, im_height):
-        #for col in range(0, im_width):
-            #if(mask_s[row, col] == 0):
-                #im_copy[row, col] = [0, 0, 0]
-    
-    #cv2.imshow('image',im_copy)
-    #cv2.waitKey(0)
     
     s_hist = cv2.calcHist([hsv_image], [1], mask_s, [255], [0, 256])
     
     (s_left_idx, s_right_idx) = find_dominant_region(s_hist, kernel_size)
     
-    #lines = hist_lines(hsv, 1, kernel_size, mask_s)
-    #cv2.imshow('histogram',lines)
-    
     mask_v = cv2.inRange(hsv_image, np.array((h_left_idx, s_left_idx, 0.)), np.array((h_right_idx, s_right_idx, 255.)))
-
-    #im_copy = im.copy()
-    
-    #for row in range(0, im_height):
-        #for col in range(0, im_width):
-            #if(mask_v[row, col] == 0):
-                #im_copy[row, col] = [0, 0, 0]
-    
-    #cv2.imshow('image',im_copy)
-    #cv2.waitKey(0)
     
     v_hist = cv2.calcHist([hsv_image], [2], mask_v, [255], [0, 256])
     
     (v_left_idx, v_right_idx) = find_dominant_region(v_hist, kernel_size)
     
-    #lines = hist_lines(hsv, 2, kernel_size, mask_v)
-    #cv2.imshow('histogram',lines)
-    
     final_mask = cv2.inRange(hsv_image, np.array((h_left_idx, s_left_idx, v_left_idx)), np.array((h_right_idx, s_right_idx, v_right_idx)))
-    
-    # Show dominant color areas
-    
-    #im_copy = im.copy()
-    
-    #for row in range(0, im_height):
-        #for col in range(0, im_width):
-            #if(final_mask[row, col] == 0):
-                #im_copy[row, col] = [0, 0, 0]
-    
-    #cv2.imshow('image',im_copy)
-    #cv2.waitKey(0)
     
     return final_mask
 
@@ -673,8 +648,7 @@ def normalize_illumination(img):
     else:
         
         return None
-       
-        
+          
     
 def is_rect_enclosed(rect1, rect2):
     '''
@@ -704,6 +678,7 @@ def is_rect_enclosed(rect1, rect2):
         return True
     else:
         return False
+        
  
 def is_rect_similar(rect1, rect2, min_int_area):
     """
@@ -1949,7 +1924,7 @@ def find_dominant_region(hist, kernel_size, max_sum_items = 0):
     :param max_sum_items: max sum of items in histogram regions 
     
     :rtype: list
-    :return: locations of region borders 
+    :returns: locations of region borders 
              given as list of two integer elements
              and sum of elements in region
     '''
@@ -2012,6 +1987,3 @@ def find_dominant_region(hist, kernel_size, max_sum_items = 0):
     locs = (left_idx, right_idx)
     
     return locs
-
-
-

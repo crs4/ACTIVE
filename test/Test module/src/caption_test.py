@@ -128,9 +128,10 @@ if __name__ == "__main__":
         
         # Define parameters
         
+        #test_set_path = r'Videolina-798I-28P'
         test_set_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-798I-28P'
         
-        tags_file_path = r'..\..\Test files\Caption recognition\SoftwareTestingFiles\Tags.txt'
+        tags_file_path = '..' + os.sep + '..' + os.sep + 'Test files' + os.sep + 'Caption recognition' + os.sep + 'SoftwareTestingFiles' + os.sep + 'Tags.txt'
         
         params = {}
         

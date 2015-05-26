@@ -5,7 +5,7 @@ from sympy import Polygon
 import sys
 sys.path.append("../../..");
 from tools.Constants import *
-from tools.face_extractor import FaceExtractor
+from tools.face_extractor_for_experiments import FaceExtractor
 from tools.FaceModelsLBP import FaceModelsLBP
 from tools.Utils import load_experiment_results,load_image_annotations, load_YAML_file, save_YAML_file
 
@@ -42,9 +42,9 @@ def fe_test(params, show_results):
     :param show_results: show (true) or do not show (false) image with detected and classified faces
     '''
 
-    if(params == None):
-        # Load default configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
+    #if(params == None):
+        ## Load default configuration file
+        #params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     image_path = SOFTWARE_TEST_FILE_PATH
     
@@ -125,9 +125,9 @@ def fe_experiments(params, show_results):
     :param show_results: show (true) or do not show (false) image with detected faces
     '''
     
-    if(params == None):
-        # Load configuration file
-        params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
+    #if(params == None):
+        ## Load configuration file
+        #params = load_YAML_file(TEST_CONFIGURATION_FILE_PATH);
 
     mean_ext_time = 0;
     

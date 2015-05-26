@@ -16,6 +16,7 @@ HAARCASCADE_PROFILEFACE_CLASSIFIER = 'haarcascade_profileface.xml'
 LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml'
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml'
 
+
 def detect_faces_in_image(resource_path, align_path, params, show_results, return_always_faces = False):
     '''
     Detect faces in image
@@ -194,7 +195,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
         # Populate dictionary with detected faces and elapsed CPU time 
         result[ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds
         result[ERROR_KEY] = None
-        #result[FACE_DETECTION_FACES_KEY] = faces
 
         # Create face images from original image
         faces_final = []
@@ -220,8 +220,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
                          
                     face_dict[FACE_KEY] = crop_result[FACE_KEY]
                     
-                    #face_images.append(face_image)
-                    
                     face_dict[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
                     
                     face_dict[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
@@ -234,17 +232,8 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
                 
                 faces_final.append(face_dict)
 
-                #faces_final.append(face_list)
-                
-            ### TEST ONLY ###
-            #if(show_results):
-            #    cv2.namedWindow(resource_path, cv2.WINDOW_AUTOSIZE)
-            #    cv2.imshow(resource_path,face_image)
-            #    cv2.waitKey(0)
-            #################
-        #result[FACE_IMAGES_KEY] = face_images
         result[FACES_KEY] = faces_final
-        #show_results = True #TEST ONLY
+        
         if(show_results):
             
             image = cv2.imread(resource_path, cv2.IMREAD_COLOR)
@@ -266,11 +255,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
             cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
             cv2.imshow('Result', image)
             cv2.waitKey(0)
-            
-            ### TEST ONLY ###
-            
-            #return image
-            #################
 
     except IOError as e:
         error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
@@ -282,7 +266,8 @@ def detect_faces_in_image(resource_path, align_path, params, show_results, retur
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
-    return result
+    return result  
+    
 
 def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier, params):
     '''
@@ -327,6 +312,7 @@ def detect_faces_in_image_with_single_classifier(image, face_cascade_classifier,
     image, haar_scale, min_neighbors, haar_flags, min_size)
     return faces
 
+
 def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
     '''
     Merge results from two classifiers in a single list
@@ -343,10 +329,6 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
     for face2 in facesFromClassifier2:
         face_must_be_considered = True
         for face1 in facesFromClassifier1:
-
-            # Old check
-            #if((x1 != x2) | (y1 != y2) | (w1 != w2) | (h1 != h2)):
-            #    faces.append(face2)
                         
             similar = is_rect_similar(face1, face2, DET_MIN_INT_AREA)
             
@@ -358,10 +340,9 @@ def merge_classifier_results(facesFromClassifier1, facesFromClassifier2):
             faces.append(face2)
         
     faces.extend(facesFromClassifier1)
-    
-    #print('faces', faces)
 
     return faces
+    
 
 def get_detected_cropped_face(image_path, align_path, params = None, return_always_face = False):
     '''
@@ -660,6 +641,7 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise
+        
 
 def get_cropped_face_from_image(image, image_path, align_path, params, eye_cascade_classifier, nose_cascade_classifier, face_position, return_always_face):
     '''
@@ -865,8 +847,4 @@ def get_cropped_face_from_image(image, image_path, align_path, params, eye_casca
         else:
 
             return None
-
-
-
-
-
+            

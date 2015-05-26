@@ -13,11 +13,11 @@ class TestCaptionRecognition(unittest.TestCase):
 
     def test_get_tag_from_image(self):
         
-        image_path = r'..\..\Test files\Caption recognition\SoftwareTestingFiles\Test.jpg'
+        image_path = '..' + os.sep + '..' + os.sep + 'Test files' + os.sep + 'Caption recognition' + os.sep + 'SoftwareTestingFiles' + os.sep + 'Test.jpg'
         
         gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
         
-        tags_file_path = r'..\..\Test files\Caption recognition\SoftwareTestingFiles\Tags.txt'
+        tags_file_path = '..' + os.sep + '..' + os.sep + 'Test files' + os.sep + 'Caption recognition' + os.sep + 'SoftwareTestingFiles' + os.sep + 'Tags.txt'
         
         tags = get_tags_from_file(tags_file_path)
         
@@ -48,11 +48,11 @@ class TestCaptionRecognition(unittest.TestCase):
 
     def test_get_tag_from_image_with_threshold(self):
         
-        image_path = r'..\..\Test files\Caption recognition\SoftwareTestingFiles\Test.jpg'
+        image_path = '..' + os.sep + '..' + os.sep + 'Test files' + os.sep + 'Caption recognition' + os.sep + 'SoftwareTestingFiles' + os.sep + 'Test.jpg'
         
         gray_im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
         
-        tags_file_path = r'..\..\Test files\Caption recognition\SoftwareTestingFiles\Tags.txt'
+        tags_file_path = '..' + os.sep + '..' + os.sep + 'Test files' + os.sep + 'Caption recognition' + os.sep + 'SoftwareTestingFiles' + os.sep + 'Tags.txt'
         
         tags = get_tags_from_file(tags_file_path)
         
@@ -74,7 +74,7 @@ class TestCaptionRecognition(unittest.TestCase):
         
         # Assigned tag must be in tags file or equals to -1
         
-        self.assertIn(assigned_tag, tags)
+        self.assertEquals(assigned_tag, c.UNDEFINED_TAG)
         
         eq_letters_nr = result_dict[c.EQ_LETTERS_NR_KEY]
         

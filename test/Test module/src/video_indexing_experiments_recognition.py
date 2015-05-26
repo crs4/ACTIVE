@@ -11,11 +11,14 @@ sys.path.append(path_to_be_appended)
 from tools.Constants import *
 from tools.Utils import * 
 
-resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
+#resource_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
+resource_path = r'C:\Users\Maurizio\Documents\Medoids\fic.02.mpg' # Portatile MP
 #resource_path = r'C:\Active\RawVideos\fic.02.mpg' # Palladium
 
 #video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition' # Portatile MP
-video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Medioids'
+#video_idx_path_base = r'C:\Users\Maurizio\Documents\Face summarization\Test\Medioids'
+#video_idx_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg' # Portatile MP
+video_idx_path = r'C:\Users\Maurizio\Documents\Medoids' # Portatile MP
 #video_idx_path_base = r'C:\Active\Face summarization\Nuovi' # Palladium
 
 test_counter = 0 # Portatile MP
@@ -35,7 +38,7 @@ use_mean_x = False
 
 use_3_bboxes = False
 
-conf_threshold = 14
+conf_threshold = 18
 
 clothes_conf_threshold = 8
 
@@ -52,15 +55,14 @@ dir_name = 'TEST ID ' + str(test_counter)
 
 print('test_counter', test_counter)
 
-video_idx_path = os.path.join(video_idx_path_base, dir_name)
-#video_idx_path = video_idx_path_base
+#video_idx_path = os.path.join(video_idx_path_base, dir_name)
 
 params = {}
 
 # Definition of parameters
 
-#params[CODE_VERSION_KEY] = 286 # Portatile MP
-params[CODE_VERSION_KEY] = 311# Palladium
+params[CODE_VERSION_KEY] = 0 # Portatile MP
+#params[CODE_VERSION_KEY] = 311# Palladium
 
 # Face detection
 
@@ -173,15 +175,18 @@ params[VIDEO_INDEXING_PATH_KEY] = video_idx_path
 params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\Results' # Portatile MP
 #params[VIDEO_INDEXING_RESULTS_PATH_KEY] = r'C:\Active\Face summarization\File YAML e CSV con risultati' # Palladium
 
-params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML' # Portatile MP
+params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Medoids\fic.02.mpg\fic.02.mpg_parameters.YAML' # Portatile MP
+#params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\fic.02.mpg_parameters.YAML' # Portatile MP
 #params[VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\fic.02.mpg_parameters.YAML' # Palladium
 
-params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Portatile MP
+#params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Portatile MP
 #params[FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face tracking\fic.02.mpg.YAML' # Palladium
 
-params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
+params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Medoids\fic.02.mpg\Face models' # Portatile MP
+#params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\Face models' # Portatile MP
 #params[FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\Face models' # Palladium
 
+params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Medoids\fic.02.mpg\noses' # Portatile MP
 #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Users\Maurizio\Documents\Face summarization\Test\fic.02.mpg\noses' # Portatile MP
 #params[NOSE_POS_FILE_PATH_KEY] = r'C:\Active\Face summarization\fic.02.mpg\noses' # Palladium
 
@@ -193,7 +198,7 @@ man_ann_path = r'C:\Users\Maurizio\Documents\Face summarization\Annotations\fic.
 
 params[ANNOTATIONS_PATH_KEY] = man_ann_path     
 
-params[SIMULATE_USER_ANNOTATIONS_KEY] = True
+params[SIMULATE_USER_ANNOTATIONS_KEY] = False
 
 test_counter = test_counter + 1
 

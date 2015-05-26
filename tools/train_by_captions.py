@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 from caption_recognition import get_tag_from_image
-from Constants import *
+from constants import *
 from face_detection import get_detected_cropped_face
 from Utils import load_YAML_file, save_model_file, save_YAML_file
 
@@ -27,30 +27,11 @@ def analyze_image(image_path):
         
         label = cap_rec_res[ASSIGNED_LABEL_KEY]
         
-        tag = cap_rec_res[ASSIGNED_TAG_KEY]
-        
-        #TEST ONLY
-        #if(label != -1):
-            #base_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\OCR\Scelti da train_by_captions\MONITOR072011'
-            #face_path = base_path + os.sep + str(image_counter) + '-' + str(tag) + '.jpg'
-            #cv2.imwrite(face_path, image)
-        
-        #if(label == -1):
-                
-            #cv2.putText(
-            #image,'Nessun tag rilevato', (10,30), 
-            #cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-            
-        #else:   
-                  
-            #cv2.putText(image,tag, (10,40), 
-            #cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-            
-            #cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE);
-            #cv2.imshow('Result', image);
-            #cv2.waitKey(0);             
+        tag = cap_rec_res[ASSIGNED_TAG_KEY]           
 
     return [label, tag, face]
+    
+    
 
 def train_by_images(path, db_file_name):
     
@@ -73,9 +54,6 @@ def train_by_images(path, db_file_name):
         [label, tag, face] = analyze_image(image_complete_path, image_counter)
         
         if(label != -1):
-            
-            #print('label', label)
-            #print('tag', tag)
             
             X.append(np.asarray(face, dtype = np.uint8))
             y.append(label)

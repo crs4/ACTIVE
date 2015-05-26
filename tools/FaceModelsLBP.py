@@ -1,10 +1,9 @@
-#from face_extractor import FaceModels as FM
 import cv2
 import os
 import sys
 import numpy as np
 import shutil
-from Constants import *
+from constants import *
 from face_detection import get_cropped_face, get_cropped_face_using_fixed_eye_pos, get_detected_cropped_face
 from train_by_captions import train_by_captions
 from Utils import load_YAML_file, save_model_file, save_YAML_file
@@ -506,7 +505,7 @@ class FaceModelsLBP():
                             
                             if(use_eye_det_in_training):
                                 im = None
-                                crop_result = get_cropped_face(os.path.join(subject_path, filename), align_path, self._params, offset_pct = (offset_pct_x,offset_pct_y), dest_size = sz, return_always_face = False)
+                                crop_result = get_cropped_face(os.path.join(subject_path, filename), align_path, self._params, return_always_face = False)
                                 if(crop_result):
                                     im = crop_result[FACE_KEY]
 

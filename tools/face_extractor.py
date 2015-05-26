@@ -26,6 +26,8 @@ from caption_recognition import get_tag_from_image, get_tags_from_file
 
 from Constants import *
 
+from face_models import FaceModels
+
 from Utils import aggregate_frame_results, compare_clothes, get_dominant_color, get_hist_difference, get_mean_intra_distance, get_shot_changes, is_rect_similar, load_YAML_file, merge_consecutive_segments, save_YAML_file
 
 class FaceExtractor(object):
@@ -197,9 +199,7 @@ class FaceExtractor(object):
                 
             #####################
             
-            self.saveTempPeopleFiles()
-            
-            self.calculate_medoids()
+            #self.saveTempPeopleFiles()
             
             self.show_keyframes()
             
@@ -720,6 +720,8 @@ class FaceExtractor(object):
                 
                 file_path = os.path.join(det_path, file_name)
                 
+                print('file_path', file_path)
+                
                 # Try to load YAML file
                 if(os.path.exists(file_path)):
                     
@@ -824,7 +826,8 @@ class FaceExtractor(object):
                     
                     right_eye_pos = face_dict[RIGHT_EYE_POS_KEY]
                     
-                    nose_pos = face_dict[NOSE_POSITION_KEY] 
+                    # TEST ONLY UNCOMMENT
+                    #nose_pos = face_dict[NOSE_POSITION_KEY] 
                     
                     # Start new segment
                     segment_dict = {}
@@ -845,7 +848,8 @@ class FaceExtractor(object):
                     segment_frame_dict[TRACKING_BBOX_KEY] = track_window
                     segment_frame_dict[LEFT_EYE_POS_KEY] = left_eye_pos
                     segment_frame_dict[RIGHT_EYE_POS_KEY] = right_eye_pos
-                    segment_frame_dict[NOSE_POSITION_KEY] = nose_pos
+                    # TEST ONLY UNCOMMENT
+                    #segment_frame_dict[NOSE_POSITION_KEY] = nose_pos
                     segment_frame_dict[DETECTED_KEY] = True
                     
                     segment_frame_dict[FRAME_PATH_KEY] = frame_path
@@ -1038,8 +1042,9 @@ class FaceExtractor(object):
                             sub_face_dict[LEFT_EYE_POS_KEY])
                             segment_frame_dict[RIGHT_EYE_POS_KEY] = (
                             sub_face_dict[RIGHT_EYE_POS_KEY])
-                            segment_frame_dict[NOSE_POSITION_KEY] = (
-                            sub_face_dict[NOSE_POSITION_KEY])
+                            # TEST ONLY UNCOMMENT
+                            #segment_frame_dict[NOSE_POSITION_KEY] = (
+                            #sub_face_dict[NOSE_POSITION_KEY])
                             
                             del (detection_list[sub_frame_counter]
                             [FACES_KEY][sub_face_counter])                             
@@ -1536,9 +1541,11 @@ class FaceExtractor(object):
         frames_in_model = []
         for frame_dict in frame_list:
             
-            face = self.getFaceFromSegmentFrame(frame_dict, align_path)
+            result = self.getFaceFromSegmentFrame(frame_dict, align_path)
             
-            if(face is not None):
+            if(result is not None):
+                
+                face = result[FACE_KEY]
                 
                 #cv2.imshow('face', face)
                 #cv2.waitKey(0)
@@ -1546,6 +1553,15 @@ class FaceExtractor(object):
                 y.append(c)
                 
                 frame_path = frame_dict[FRAME_PATH_KEY]
+                
+                # TO BE DELETED
+                #detected = frame_dict[DETECTED_KEY]
+                
+                #if(not(detected)):
+                    
+                    #frames_in_model.append(NOT_DETECTED)
+                    
+                #else:
                 
                 frames_in_model.append(frame_path)
                 
@@ -3140,6 +3156,8 @@ class FaceExtractor(object):
             anal_file_path = os.path.join(video_path, anal_file_name)
             
             save_YAML_file(anal_file_path, self.anal_times)
+            
+            self.calculate_medoids()
     
         
     def calculate_medoids(self):
@@ -3217,7 +3235,7 @@ class FaceExtractor(object):
                     
                     self.frames_in_models = yaml.load(f)
                     
-                print ' YAML file with number of faces in frames loaded'
+                print 'YAML file with frames in models loaded'
                 
             else:
                 
@@ -3282,12 +3300,26 @@ class FaceExtractor(object):
                     
                 sum_i = 0
                 
-                hist_i = models_list[i][0] 
+                hist_i = models_list[i][0]
+                
+                frame_path_i = frames_in_models_list[i]
+                
+                # TO BE DELETED
+                #if(frame_path_i == NOT_DETECTED):
+                    
+                    #continue
                 
                 # Compare histograms to other histograms in models
                 for j in range(0, len(models_list)):
                     
-                    if(i != j): 
+                    if(i != j):
+                        
+                        frame_path_j = frames_in_models_list[j]
+                        
+                        # TO BE DELETED
+                        #if(frame_path_j == NOT_DETECTED):
+                            
+                            #continue 
                         
                         hist_j = models_list[j][0]
                         
@@ -3399,129 +3431,129 @@ class FaceExtractor(object):
                     
                     return 
                     
-            print '\n\n### People recognition - caption recognition ###\n'
+        print '\n\n### People recognition - caption recognition ###\n'
+            
+        # Save processing time
+        start_time = cv2.getTickCount()            
+                    
+        # Try to load YAML file with number of faces in frames
+        faces_nr_file_path = os.path.join(
+        video_path, FACES_NR_IN_FRAMES_FILE)
+        
+        if(os.path.exists(faces_nr_file_path)):
+            
+            print 'Loading YAML file with number of faces in frames'
+            
+            with open(faces_nr_file_path) as f:
                 
-            # Save processing time
-            start_time = cv2.getTickCount()            
+                self.faces_nr = yaml.load(f)
+                
+            print ' YAML file with number of faces in frames loaded'
+        
+        else:
+            # Get number of faces in each frame
+            self.getFacesNr()
+        
+        #print(self.faces_nr)
+        
+        # Load file with tags
+        tags_file_path = TAGS_FILE_PATH
+        
+        if(self.params is not None):
+            
+            if(TAGS_FILE_PATH_KEY in self.params):
+        
+                tags_file_path = self.params[TAGS_FILE_PATH_KEY]
+                
+        tgs = get_tags_from_file(tags_file_path)
+        
+        p_counter = 0
+        
+        clusters_nr = float(len(self.recognized_faces))
+        
+        # Iterate through people clusters
+        for person_dict in self.recognized_faces:
+            
+            self.progress = 100 * (p_counter / clusters_nr)
+        
+            print('progress: ' + str(self.progress) + ' %          \r'),
+            
+            frames = []
+            
+            segment_list = person_dict[SEGMENTS_KEY]
+            
+            # Iterate through segments related to this person
+            for segment_dict in segment_list:
+                
+                frame_list = segment_dict[FRAMES_KEY]
+                
+                for frame_dict in frame_list:
+                    
+                    frame_path = frame_dict[FRAME_PATH_KEY]
+                    
+                    # Check if this is the only face in this frame
+                    if((frame_path in self.faces_nr) 
+                    and (self.faces_nr[frame_path] == 1)):
                         
-            # Try to load YAML file with number of faces in frames
-            faces_nr_file_path = os.path.join(
-            video_path, FACES_NR_IN_FRAMES_FILE)
-            
-            if(os.path.exists(faces_nr_file_path)):
-                
-                print 'Loading YAML file with number of faces in frames'
-                
-                with open(faces_nr_file_path) as f:
-                    
-                    self.faces_nr = yaml.load(f)
-                    
-                print ' YAML file with number of faces in frames loaded'
-            
-            else:
-                # Get number of faces in each frame
-                self.getFacesNr()
-            
-            #print(self.faces_nr)
-            
-            # Load file with tags
-            tags_file_path = TAGS_FILE_PATH
-            
-            if(self.params is not None):
-                
-                if(TAGS_FILE_PATH_KEY in self.params):
-            
-                    tags_file_path = self.params[TAGS_FILE_PATH_KEY]
-                    
-            tgs = get_tags_from_file(tags_file_path)
-            
-            p_counter = 0
-            
-            clusters_nr = float(len(self.recognized_faces))
-            
-            # Iterate through people clusters
-            for person_dict in self.recognized_faces:
-                
-                self.progress = 100 * (p_counter / clusters_nr)
-            
-                print('progress: ' + str(self.progress) + ' %          \r'),
-                
-                frames = []
-                
-                segment_list = person_dict[SEGMENTS_KEY]
-                
-                # Iterate through segments related to this person
-                for segment_dict in segment_list:
-                    
-                    frame_list = segment_dict[FRAMES_KEY]
-                    
-                    for frame_dict in frame_list:
+                        # Execute caption recognition
+                        gray_im = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE) 
                         
-                        frame_path = frame_dict[FRAME_PATH_KEY]
+                        result_dict = get_tag_from_image(
+                        gray_im, self.params)
                         
-                        # Check if this is the only face in this frame
-                        if((frame_path in self.faces_nr) 
-                        and (self.faces_nr[frame_path] == 1)):
+                        ass_tag = result_dict[ASSIGNED_TAG_KEY]
+                        
+                        conf = result_dict[CONFIDENCE_KEY]
+                        
+                        print('assigned tag', ass_tag) 
+                        
+                        # Compose frame
+                        
+                        if(ass_tag != UNDEFINED_TAG):
+                        
+                            frame_dict = {}
                             
-                            # Execute caption recognition
-                            gray_im = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE) 
-                            
-                            result_dict = get_tag_from_image(
-                            gray_im, self.params)
-                            
-                            ass_tag = result_dict[ASSIGNED_TAG_KEY]
-                            
-                            conf = result_dict[CONFIDENCE_KEY]
-                            
-                            print('assigned tag', ass_tag) 
-                            
-                            # Compose frame
-                            
-                            if(ass_tag != UNDEFINED_TAG):
-                            
-                                frame_dict = {}
-                                
-                                frame_dict[CONFIDENCE_KEY] = conf
-                                        
-                                frame_dict[ASSIGNED_TAG_KEY] = ass_tag
+                            frame_dict[CONFIDENCE_KEY] = conf
                                     
-                                frames.append(frame_dict)
-                            
-                # Assign final tag to person 
-                
-                final_tag = UNDEFINED_TAG
-                
-                if(len(frames) > 0):
-                
-                    [final_tag, final_conf, pct] = (aggregate_frame_results(
-                    frames, tags = tgs, params = self.params)) 
-                
-                self.recognized_faces[p_counter][ASSIGNED_TAG_KEY] = final_tag
-                self.recognized_faces[p_counter][CAPTION_ASSIGNED_TAG_KEY] = final_tag
-                
-                p_counter = p_counter + 1
-                
-            if(not(os.path.exists(rec_path))):
-                
-                # Create directory for people recognition
-                os.makedirs(rec_path) 
+                            frame_dict[ASSIGNED_TAG_KEY] = ass_tag
+                                
+                            frames.append(frame_dict)
+                        
+            # Assign final tag to person 
             
-            # Save recognition result in YAML file
-            save_YAML_file(rec_file_path, self.recognized_faces) 
+            final_tag = UNDEFINED_TAG
             
-            # Save processing time
-            time_in_clocks = cv2.getTickCount() - start_time
-            time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+            if(len(frames) > 0):
             
-            print 'Time for caption recognition:', time_in_seconds, 's\n'
+                [final_tag, final_conf, pct] = (aggregate_frame_results(
+                frames, tags = tgs, params = self.params)) 
             
-            self.anal_times[CAPTION_RECOGNITION_TIME_KEY] = time_in_seconds
+            self.recognized_faces[p_counter][ASSIGNED_TAG_KEY] = final_tag
+            self.recognized_faces[p_counter][CAPTION_ASSIGNED_TAG_KEY] = final_tag
             
-            anal_file_name = res_name + '_anal_times.YAML'
+            p_counter = p_counter + 1
             
-            anal_file_path = os.path.join(video_path, anal_file_name)
+        if(not(os.path.exists(rec_path))):
             
-            save_YAML_file(anal_file_path, self.anal_times)      
+            # Create directory for people recognition
+            os.makedirs(rec_path) 
+        
+        # Save recognition result in YAML file
+        save_YAML_file(rec_file_path, self.recognized_faces) 
+        
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+        
+        print 'Time for caption recognition:', time_in_seconds, 's\n'
+        
+        self.anal_times[CAPTION_RECOGNITION_TIME_KEY] = time_in_seconds
+        
+        anal_file_name = res_name + '_anal_times.YAML'
+        
+        anal_file_path = os.path.join(video_path, anal_file_name)
+        
+        save_YAML_file(anal_file_path, self.anal_times)      
     
     
     def recognize_faces_in_video(self):
@@ -3530,7 +3562,77 @@ class FaceExtractor(object):
         assigning tags to faces on the basis of face models.
         It works by using a list of people clusters
         '''
-        pass 
+        res_name = self.resource_name
+        
+        # YAML file with results
+        file_name = res_name + '.YAML'
+        
+        # Directory for this video     
+        video_indexing_path = VIDEO_INDEXING_PATH
+        
+        if(self.params is not None):
+            
+            video_indexing_path = self.params[VIDEO_INDEXING_PATH_KEY]
+           
+        video_path = os.path.join(video_indexing_path, res_name)
+        
+        # Directory for recognition results
+        rec_path = os.path.join(video_path, FACE_RECOGNITION_DIR) 
+        
+        rec_file_path = os.path.join(rec_path, file_name)
+        
+        rec_loaded = False
+        
+        # Try to load YAML file with recognition results
+        if(os.path.exists(rec_file_path)):
+            
+            print 'Loading YAML file with recognition results'
+            
+            rec_faces = load_YAML_file(rec_file_path)
+            
+            if(rec_faces):
+                
+                self.recognized_faces = rec_faces
+                
+                print 'YAML file with recognition results loaded'
+                
+                rec_loaded = True   
+                
+        if(not(rec_loaded)):
+            
+            # Check existence of clustering results
+            
+            cluster_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR)
+            
+            file_name = res_name + '.YAML'
+            
+            file_path = os.path.join(cluster_path, file_name)
+            
+            if(len(self.recognized_faces) == 0):
+            
+                # Try to load YAML file
+                if(os.path.exists(file_path)):
+                    
+                    print 'Loading YAML file with clustering results'
+                    
+                    with open(file_path) as f:
+        
+                        self.recognized_faces = yaml.load(f) 
+                        
+                    print 'YAML file with clustering results loaded'
+                        
+                else:
+                    
+                    print 'Warning! No clustering results found!'
+                    
+                    return 
+                    
+        print '\n\n### People recognition - face recognition ###\n'
+            
+        # Save processing time
+        start_time = cv2.getTickCount()
+            
+        # Assign a different tag for each person (undefined-1, ...)
     
     
     def getFaceFromSegmentFrame(self, segment_frame_dict, align_path):
@@ -3591,42 +3693,54 @@ class FaceExtractor(object):
             
             if(face is not None):
                 
-                result = face
+                result = {}
                 
-        else:
-            
-            # Else, we know only the bounding box
-            # If nose position is used, only detected faces can be used
-            
-            use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
-            
-            if(self.params is not None):
-            
-                use_nose_pos_in_rec = self.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
-            
-            if(not(use_nose_pos_in_rec)):
+                result[FACE_KEY] = face
                 
-                bbox = segment_frame_dict[TRACKING_BBOX_KEY]
+                result[LEFT_EYE_POS_KEY] = left_eye_pos
+                result[RIGHT_EYE_POS_KEY] = right_eye_pos
                 
-                x0 = bbox[0]
-                x1 = x0 + bbox[2]
-                y0 = bbox[1]
-                y1 = y0 + bbox[3]
+        # TO BE DELETED
+        #else:
+            
+            ## Else, we know only the bounding box
+            ## If nose position is used, only detected faces can be used
+            
+            #use_nose_pos_in_rec = USE_NOSE_POS_IN_RECOGNITION
+            
+            #if(self.params is not None):
+            
+                #use_nose_pos_in_rec = self.params[USE_NOSE_POS_IN_RECOGNITION_KEY]
+            
+            #if(not(use_nose_pos_in_rec)):
                 
-                tracked_face = image[y0:y1, x0:x1]
+                #bbox = segment_frame_dict[TRACKING_BBOX_KEY]
                 
-                cv2.imwrite(TMP_TRACKED_FACE_FILE_PATH, tracked_face, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
+                #x0 = bbox[0]
+                #x1 = x0 + bbox[2]
+                #y0 = bbox[1]
+                #y1 = y0 + bbox[3]
+                
+                #tracked_face = image[y0:y1, x0:x1]
+                
+                #cv2.imwrite(TMP_TRACKED_FACE_FILE_PATH, tracked_face, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
     
-                crop_result = fd.get_cropped_face(
-                TMP_TRACKED_FACE_FILE_PATH, align_path, self.params, False)
+                #crop_result = fd.get_cropped_face(
+                #TMP_TRACKED_FACE_FILE_PATH, align_path, self.params, False)
                 
-                if(crop_result):
+                #if(crop_result):
                     
-                    face = crop_result[FACE_KEY]
+                    #face = crop_result[FACE_KEY]
                     
-                    if(face is not None):
+                    #if(face is not None):
                         
-                        result = face
+                        #result = {}
+                        
+                        #result[FACE_KEY] = face
+                        
+                        #result[LEFT_EYE_POS_KEY] = crop_result[LEFT_EYE_POS_KEY]
+                        
+                        #result[RIGHT_EYE_POS_KEY] = crop_result[RIGHT_EYE_POS_KEY]
                     
         del(image)
         
@@ -4147,7 +4261,7 @@ class FaceExtractor(object):
         ''' 
         
         # If show is True, show image
-        show = False 
+        show = True 
         
         # Check existence of recognition results
         
@@ -4167,14 +4281,6 @@ class FaceExtractor(object):
         video_path = os.path.join(video_indexing_path, res_name)
         
         rec_path = os.path.join(video_path, PEOPLE_CLUSTERING_DIR) 
-        
-        ### TO BE DELETED ###
-        
-        #if(use_clothing_rec):
-            
-        #    rec_path = os.path.join(video_path, CLOTHING_RECOGNITION_DIR) 
-            
-        #####################
         
         key_frames_path = os.path.join(
         rec_path, FACE_RECOGNITION_KEY_FRAMES_DIR)
@@ -4205,6 +4311,16 @@ class FaceExtractor(object):
                 print 'Warning! No recognition results found!'
                 
                 return                                     
+        
+        fm = FaceModels()
+        
+        align_path = os.path.join(key_frames_path, ALIGNED_FACES_DIR) 
+        
+        if(not(os.path.exists(align_path))):
+                
+            # Create directory with aligned faces 
+            
+            os.makedirs(align_path)         
         
         p_counter = 0
         
@@ -4275,15 +4391,44 @@ class FaceExtractor(object):
                                 surname = raw_input(PERSON_SURNAME + ': ')
                                 final_tag = surname + '_' + name
                                 
+                                # Ask user if face must be inserted in
+                                # face models
+                                ans = ''
+                                while((ans != ANSWER_YES) and (ans != ANSWER_NO)):
+                                    
+                                    ans = raw_input(MUST_BE_INSERTED_IN_FACE_MODELS_ASK)
+                                    
+                                if(ans == ANSWER_YES):
+                                    
+                                   result = self.getFaceFromSegmentFrame(frame_dict, align_path)
+                                   
+                                   if(result is not None):
+                                       
+                                       face = result[FACE_KEY]
+                                       
+                                       cv2.imshow('face', face)
+                                       cv2.waitKey(0)
+                                   
+                                       left_eye_pos = result[LEFT_EYE_POS_KEY]
+                                       
+                                       right_eye_pos = result[RIGHT_EYE_POS_KEY]
+                                       
+                                       eye_pos = (
+                                       left_eye_pos[0], left_eye_pos[1], 
+                                       right_eye_pos[0], right_eye_pos[1])
+                                       
+                                       fm.add_face(
+                                       final_tag, frame_path, 
+                                       aligned_face = face, 
+                                       eye_pos = eye_pos, bbox = track_bbox)
+                                   
                             print '\n'
                             
                             person_dict[ANN_TAG_KEY] = final_tag
                         
                         del(image)
                     
-                    p_counter = p_counter + 1
-                    
-        #print(self.recognized_faces)    
+            p_counter = p_counter + 1   
     
     
     def readUserAnnotations(self):
@@ -4857,7 +5002,7 @@ class FaceExtractor(object):
                     
             person_dict[SEGMENTS_KEY] = segment_list
                     
-            MERGE_CONSECUTIVE_SEGMENTS = False # TODO SET TRUE (AFTER EXPERIMENTS)
+            MERGE_CONSECUTIVE_SEGMENTS = True
             if(MERGE_CONSECUTIVE_SEGMENTS):
                     
                 (simple_segment_list, tot_dur) = merge_consecutive_segments(
