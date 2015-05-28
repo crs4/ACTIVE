@@ -284,15 +284,16 @@ $(document).on('click','.rmperson',function(){
 	$("#icons img:nth-child(2)").animate({ backgroundColor: "#674172" },100);
 				
 	var id = $(this).attr('id').split("-")[1]
+    //~ var id_type = $(this).attr('id').split("-")[0].split['_']
 	var person = jQuery.grep(people, function(el) {			
-		return (el.core_id == id);
+		return (el.tag_id == id);
 	});
     
     console.log(person)
     
     
     $.ajax({
-        url: 'http://156.148.132.79:80/api/tags/'+person.tag_id,
+        url: 'http://156.148.132.79:80/api/tags/'+id,
         type: 'DELETE',
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -300,7 +301,6 @@ $(document).on('click','.rmperson',function(){
             }
         },
         success: function(result) {
-            alert("deleted");
         }
     });
 	
@@ -366,7 +366,7 @@ function updateDOM(){
 	for(j=0; j<people.length; j++){
 		
 		if(people[j].tag_type == "speaker"){
-			$("#audiotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=a_rm-'+people[j].core_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=a_showp-'+people[j].core_id+' src="/static/navigator//icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#aea8d3" class="person" id=a_editp-'+people[j].core_id+' data-type="text" data-pk=a_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
+			$("#audiotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=a_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=a_showp-'+people[j].core_id+' src="/static/navigator//icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#aea8d3" class="person" id=a_editp-'+people[j].core_id+' data-type="text" data-pk=a_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
 			$("#a_editp-"+people[j].core_id).editable();
 			$("#a_editp-"+people[j].core_id).on('save', function(e, params) {
 			
@@ -377,7 +377,7 @@ function updateDOM(){
 			});
 		}
 		if(people[j].tag_type == "face"){
-			$("#videotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=v_rm-'+people[j].core_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=v_showp-'+people[j].core_id+' src="/static/navigator/icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#1e8bc3" class="person" id=v_editp-'+people[j].core_id+' data-type="text" data-pk=v_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
+			$("#videotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=v_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=v_showp-'+people[j].core_id+' src="/static/navigator/icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#1e8bc3" class="person" id=v_editp-'+people[j].core_id+' data-type="text" data-pk=v_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
 			$("#v_editp-"+people[j].core_id).editable();
 			$("#v_editp-"+people[j].core_id).on('save', function(e, params) {
 				mediaPlayer.pause();
