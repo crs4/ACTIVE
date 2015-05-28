@@ -105,30 +105,29 @@ class PlainJob(Job):
 		"""
 		Basic function used to detect processing progress.
 		"""
-		if(self.result):
+		if(self.status == 'COMPLETED' ):
 			return 100
 		return 0
 
 	def stop(self, info=None):
-		if(info):
+		if info:
 			self.error_info = info
 
-# TODO provare ad integrare in modo trasparente la computazione distribuita
+
 class DistributedJob(Job):
         """
         This class is used as a wrapper for the distributed computing of a function over
-	one of the available cluster nodes (workers). It used the skeleton framework to
-	ensure that the function is distributed over the cluster.
+	one of the available cluster nodes (workers). It uses just one of the available
+        skeletons to ensure that the function is distributed over the cluster.
         """
 
 	def __call__(self, args=None):
                 try:
                         self.set_start_end()
-			# function that must be executed
-			f = Executor().eval
-			# parameters that will be passed
-			p = [Seq(self.executor), self.args]
-                        self.result = apply(f, p)
+                        # create a sequential skeleton 
+                        skel = Seq(self.executor)
+			# evaluate it with an executor
+                        self.result = Executor().eval(skel, self.args)
                 except Exception as ex:
                         print ex
                         self.error_info =  ex
@@ -141,12 +140,12 @@ class DistributedJob(Job):
                 """
                 Basic function used to detect processing progress.
                 """
-                if(self.result):
+                if self.status == 'COMPLETED':
                         return 100
                 return 0
 
         def stop(self, info=None):
-                if(info):
+                if info:
                         self.error_info = info
 
 class SkeletonJob(Job):

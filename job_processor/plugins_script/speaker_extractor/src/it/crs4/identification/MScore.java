@@ -40,8 +40,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import fr.lium.spkDiarization.lib.DiarizationException;
 import fr.lium.spkDiarization.lib.MainTools;
@@ -61,7 +63,7 @@ import fr.lium.spkDiarization.parameter.ParameterScore;
 public class MScore {
 
 	/** The Constant logger. */
-	private final static Logger logger = Logger.getLogger(MScore.class.getName());
+	private Logger logger = Logger.getLogger(MScore.class.getName()); //Logger.getLogger("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/mscore.log");//
 	Parameter parameter =null;
 	/**
 	 * Make.
@@ -79,6 +81,12 @@ public class MScore {
 	private String fileName=null;//"/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/2sec.wav";
 	private String show=null;//"show=/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/2sec.wav";
 	private String baseName=null;//"2sec";
+	public String getBaseName() {
+		return baseName;
+	}
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
+	}
 	private String s_outputMaskRoot=null;//"--sOutputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";
 	private String s_inputMaskRoot=null;//"--sInputMask=/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";
 	private String outputRoot=null;//"/Users/labcontenuti/Documents/workspace/AudioActive/84/2sec/";	
@@ -87,7 +95,8 @@ public class MScore {
 	private String gmm_model=null;//
 	private ClusterSet clusterSetResult=null;
 	private ClusterResultSet clusterResultSet=new ClusterResultSet();
-	
+	FileHandler fh;  
+
 	public void writeIdentSegFile(){
 		
 		try{
@@ -97,7 +106,8 @@ public class MScore {
 		}
 		
 	}
-	
+	public MScore(){
+	}
 	public void printTheBestBySpeaker(){
 		System.out.println("------THE BEST BY SPEAKERil------");
 		Hashtable cluster=clusterResultSet.getCluster();
@@ -141,17 +151,6 @@ public class MScore {
 					TreeMap<Integer,Segment> map=clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).clusterToFrames();
 					System.out.println(" cluster="+((Vector) speaker.get(key) ).get(i)+" lenght="+clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).getLength());
 					dos.write(((Vector) speaker.get(key) ).get(i)+"="+key+"\n");
-					/*
-					for(Map.Entry<Integer,Segment> entry : map.entrySet()) {
-						  Integer key_map = entry.getKey();
-						  Segment value = entry.getValue();
-						  //System.out.println(key + " => start=" + value.getStartInSecond()+" lenght"+value.getLengthInSecond()+"<=");
-						  //System.out.println(";; clusterSet	 " + entry.getKey() + " " + entry.getValue().toString() + "\n");
-						  //System.out.println(key_map+"="+key);
-						  dos.write(key_map+"="+key);
-						}
-					*/
-					//clusterSetResult.getCluster((String)( (Vector) speaker.get(key) ).get(i)).writeAsCTL(dos);
 					
 				}
 			}
@@ -235,6 +234,18 @@ public class MScore {
 		this.outputRoot = outputRoot;
 		this.s_inputMaskRoot="--sInputMask="+this.outputRoot;
 		this.s_outputMaskRoot="--sOutputMask="+this.outputRoot;
+	    try {  
+	        // This block configure the logger with handler and formatter  
+	        fh = new FileHandler(this.outputRoot+"/mscore.log");  
+	        logger.addHandler(fh);
+	        SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter); 
+	    } catch (SecurityException e) {  
+	        e.printStackTrace();  
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    }  
+
 	}
 	public String getUbm_gmm() {
 		return ubm_gmm;
@@ -424,7 +435,7 @@ public class MScore {
 					} else {
 						newName = gmmList.get(idxMaxScore).getName();
 					}
-					logger.finer("cluster name=" + cluster.getName() + " new_name=" + newName);
+					//logger.finer("cluster name=" + cluster.getName() + " new_name=" + newName);
 				}
 				Cluster tempororaryCluster = clusterSetResult.getOrCreateANewCluster(newName);
 				tempororaryCluster.setGender(cluster.getGender());
@@ -442,12 +453,20 @@ public class MScore {
 				for (int k = 0; k < size; k++) {
 					double score = sumScoreVector[k];
 					GMM gmm = gmmList.get(k);
-					logger.finer("****clustername = " + newName + " name=" + gmm.getName() + " =" + score);
+					//logger.finer("****clustername = " + newName + " name=" + gmm.getName() + " =" + score+" k="+k);
+					//logger.log(Level.SEVERE, "****clustername = " + newName + " name=" + gmm.getName() + " =" + score);
 					tempororaryCluster.setInformation("score:" + gmm.getName(), score);
 					ClusterResult cr=new ClusterResult();
 					cr.setName(newName);
 					cr.getValue().put(score, gmm.getName());
-					clusterResultSet.putValue(newName, gmm.getName(), score);
+					System.out.println("------ clusterResultSet.putValue(newName, gmm.getName(), score)=----------------");
+					System.out.println(newName+ "  "+ gmm.getName()+"  "+ score);
+					if (isName(gmm.getName())){
+						clusterResultSet.putValue(newName, gmm.getName(), score);
+					}else{
+						System.out.println("*****************"+gmm.getName()+" Non nome valido  ");
+						
+					}
 				}
 				
 				if (parameter.getParameterTopGaussian().getScoreNTop() >= 0) {
@@ -459,7 +478,18 @@ public class MScore {
 		this.clusterSetResult=clusterSetResult;
 		return clusterSetResult;
 	}
-
+	public boolean isName(String name){
+		boolean result=true;
+		name=name.trim();
+		name=name.toLowerCase();
+		if(name.startsWith("s")){
+			name=name.replaceFirst("s", "");
+			if(name.matches("-?\\d+(\\.\\d+)?")){
+				result=false;
+			}
+		}
+		return result;
+	}
 	/**
 	 * The main method.
 	 * 
@@ -505,7 +535,7 @@ public class MScore {
 			SpkDiarizationLogger.setup();
 			parameter =new Parameter();
 			String[] parameterScoreIdent ={"","--sGender","--sByCluster","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4","--sOutputFormat=seg,UTF8", 
-	 				fInputMask, "--sTop=8,/Users/labcontenuti/Documents/workspace/AudioActive/84/ubm.gmm",
+	 				fInputMask, "--sTop=8,"+this.ubm_gmm,
 	 				s_inputMaskRoot+baseName+".spl.3.seg", 
 	 				s_outputMaskRoot+baseName+".g.3.seg",
 	 				"--tInputMask="+gmm_model,
@@ -554,7 +584,7 @@ public class MScore {
 	 */
 	public static void info(Parameter parameter, String program) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		if (parameter.help) {
-			logger.config(parameter.getSeparator2());
+			//logger.config(parameter.getSeparator2());
 			//logger.config("info[program] \t name = " + program);
 			//parameter.getSeparator();
 			//parameter.logShow();

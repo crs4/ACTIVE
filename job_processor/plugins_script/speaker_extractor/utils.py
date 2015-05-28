@@ -8,14 +8,19 @@ import subprocess
 import sys
 import requests
 from django.conf import  settings
-
-
+from plugins_script.commons.item import set_status
+from plugins_script.commons.tags import create_tag, create_dtag
+from plugins_script.commons.person import create_person
+from skeleton.skeletons import Farm, Seq
+from skeleton.visitors import Executor
+from seg_file_utility import make_name_compact
+import re
 
 def speaker_diarization(func_in, func_out):
     try:
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> START"
-        file_path=os.path.join(settings.MEDIA_ROOT, "items", func_out["file"])
-        file_root=os.path.join(settings.MEDIA_ROOT, "items", str(func_out["id"])) # e' necessario il casting esplicito degli interi?
+        file_path=os.path.join(settings.MEDIA_ROOT, func_out["file"])
+        file_root=os.path.join(settings.MEDIA_ROOT, 'items', str(func_out["id"])) # e' necessario il casting esplicito degli interi?
 
         _convert_with_ffmpeg(file_path)
         #_mkdir_out(file_root+"/out")
@@ -23,7 +28,7 @@ def speaker_diarization(func_in, func_out):
         with open(file_path.split(".")[0]+'.properties', "w") as f:
             f.write("fileName="+file_path.split(".")[0]+".wav")
             #f.write("outputRoot="+file_root+"/")
-            with open('/var/spool/active/data/models/audio/globals/settings.properties') as fp:
+            with open(os.path.join(settings.MEDIA_ROOT, 'models/audio/globals/settings.properties')) as fp:
                 for line in fp:
                     f.write(line)
                     print line
@@ -32,25 +37,63 @@ def speaker_diarization(func_in, func_out):
             #f.writelines("outputRoot="+file_root)
         f.close()
         diarization(file_path.split(".")[0]+'.properties')
+
+        # fare la diarization sul file originale
+        # splittare il file di property dei cluster
+        # file_list = ['/path/property/file', '...']
+        # seq = Seq(diarization)  # incapsula la funzione da calcolare in modo distribuito
+        # farm = Farm(seq)        # skeleton necessario per l'esecuzione parallela
+        # Executor().eval(farm, file_list) # costrutto che valuta lo skeleton tree
+
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> STOP"
-        post_di_esempio(id_item=str(func_out["id"]) , name_file=file_root+"/out/nomi.txt")
+	print "fp=",file_root+"/out/"+func_out["filename"].split(".")[0]
+        post_di_esempio(id_item=str(func_out["id"]) , fp=file_root+"/out/"+func_out["filename"].split(".")[0])
     except Exception as e:
         print e
 
-def post_di_esempio(id_item , name_file):
-    print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> STart"
-    id_persona=False
+def post_di_esempio(id_item,fp):
+    print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> Start"
+    id_persona=None
     #id_item=3601
-    name_p=open(name_file, "r")
-    name_p_list=name_p.readlines()
-    for name in name_p_list:
-        name.replace("\n","")
-        if name.find("ZZ00")>-1:
-            id_persona=name.split("ZZ00")[0]
-            r_json=requests.post("http://156.148.132.79/api/tags/", {"entity":id_persona, "item":id_item, "type":"speaker"})
-            print r_json.json()
+    #name_p=open(name_file, "r")
+    #name_p_list=name_p.readlines()
+    result=make_name_compact(fp) #result simile a [[nome,start,stop][nome,start,stop]]
+    print "result=",result
+    for res in result:
+        name=res[0]
+	p=re.compile('[A-Z]')
+	print "find name ", name
+        if name.find("GiacomoMameli")>-1:
+            id_persona=create_person("Giacomo","Mameli")["id"]
+            #r_json=requests.post("http://156.148.132.79/api/tags/", {"entity":id_persona, "item":id_item, "type":"speaker"})
+        else:
+	    mai=p.findall(name)
+	    if len(mai)==2:
+		f_name=name.split(mai[1])[0]
+		s_name=mai[1]+name.split(mai[1])[1]
+		persona=create_person(f_name,s_name)
+		id_persona=persona["id"]
+	    else:	
+            	persona=create_person("Il","Manutentore")
+            	id_persona=persona["id"]
+	
+        tag=create_tag(id_item,id_persona, "speaker")
+        print "tag ",tag
+	st=int( float(res[1])*1000 )
+	print "start ", st
+	dur=int (float(res[2])*1000)
+	print "dur ",dur
+        dtag=create_dtag(tag["id"],st,dur)
+        print "dtag ",dtag
+    """
     print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> STOP"
-    
+    r_json=create_dtag(id_persona,"0","60000")    
+    set_status(id_item,"SPEAKER_RECOG")
+    """
+
+
+
+
 def _mkdir_out(path_dir):
     print "try mkdir "+path_dir
     subprocess.check_output("/bin/mkdir "+path_dir,shell=True)
@@ -71,6 +114,8 @@ def diarization(file_properties):
     print "diarization -- command \n"
     print commandline
     start_subprocess(commandline)
+
+
 
 
 def alive_threads(t_dict):
@@ -191,3 +236,4 @@ def convert_with_ffmpeg(file_name):
     
     print "ffmpeg -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav"
     subprocess.call("ffmpeg -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav")
+

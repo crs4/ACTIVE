@@ -31,6 +31,7 @@ class JobManager:
 		self.__pool = Pool(self.__max_jobs + 1) # thread pool used to execute jobs asynchronously
 		self.__async_job_ref = {}		# dictionary used to maintain a reference to asynch results
 
+
 	def addJob(self, job):
 		"""
 		Method used to add a job for execution.
@@ -42,6 +43,7 @@ class JobManager:
 		job.status = "QUEUED"
 		self.__queuedJobs[job.id] = job
 		return job.id
+
 
 	def abortJob(self, job_id):
 		"""
@@ -69,6 +71,7 @@ class JobManager:
 			
 		return True
 
+
 	def cleanJobs(self):
 		"""
 		Method used to remove all objects containing information
@@ -77,6 +80,7 @@ class JobManager:
 		"""
 		self.__failedJobs.clear()
 		self.__completedJobs.clear()
+
 
 	def start(self):
 		"""
@@ -88,6 +92,7 @@ class JobManager:
 		self.__flag = True
 		self.__pool.apply_async(self.__manage)
 
+
 	def stop(self):
 		"""
 		This method stops the job manager thread execution,
@@ -96,6 +101,7 @@ class JobManager:
 		jobs will continue to compute asynchronously.
 		"""
 		self.__flag = False
+
 
 	def getAllJobs(self):
 		"""
@@ -109,6 +115,7 @@ class JobManager:
 			"COMPLETED": self.__completedJobs.values(),
 			"RUNNING"  : self.__runningJobs.values(),
 			"QUEUED"   : self.__queuedJobs.values()}
+
 
 	def getJobs(self, status):
 		"""
@@ -186,7 +193,7 @@ class JobManager:
 						self.__failedJobs[job.id] = job
 					else:
 						job.status = "COMPLETED"
-                                                self.__completedJobs[job.id] = job
+						self.__completedJobs[job.id] = job
 			
 
 			# used to don't overload the CPU
