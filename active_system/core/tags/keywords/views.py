@@ -12,7 +12,6 @@ from rest_framework import status
 from core.tags.keywords.models import Keyword
 from core.tags.keywords.serializers import KeywordSerializer
 
-################################
 from core.tags.models import Tag
 from core.items.models import Item
 from core.items.serializers import ItemSerializer
@@ -25,6 +24,7 @@ from core.items.image.serializers import ImageItemSerializer
 
 from core.items.video.models import VideoItem
 from core.items.video.serializers import VideoItemSerializer
+
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
@@ -158,7 +158,39 @@ class KeywordDetail(EventView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# TODO da spostare in modulo distinto e allo stesso livello di core date le dipendenze
+class KeywordFind(EventView):
+    """
+    This class defines all methods necessary to find a keyword object
+    providing its character sequence.
+    This approach is useful in order to create the minimum number of
+    keyword stored in the db.
+    """
+
+    def get(self, request, value, format=None):
+        """
+        Method used to retrieve an existing Keyword object,
+        providing its character value.
+        The object is serialized in a JSON format and then returned.
+
+        @param request: HttpRequest use to retrieve all Keyword.
+        @type request: HttpRequest
+        @param value: The string associated to a keyword.
+        @type value: string
+        @param format: The format used for object serialization.
+        @type format: string
+        @return: HttpResponse containing all serialized Keyword.
+        @rtype: HttpResponse
+        """
+        try:
+            k = Keyword.objects.filter(description = value)
+            if k and len(k) > 0:
+                serializer = KeywordSerializer(k[0])
+                return Response(serializer.data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except:
+            return Http404
+
+# TODO da spostare in modulo distinto e allo stesso livello di core date le dipendenze?
 class KeywordSearch(EventView):
     """
     This class provides the methods necessary to search a specific keywords (if any)

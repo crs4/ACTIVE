@@ -31,10 +31,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import sys, math
-
-from PIL import Image
-from Constants import *
+import sys, math, Image
 
 def Distance(p1,p2):
   dx = p2[0] - p1[0]
@@ -61,7 +58,6 @@ def ScaleRotateTranslate(image, angle, center = None, new_center = None, scale =
   return image.transform(image.size, Image.AFFINE, (a,b,c,d,e,f), resample=resample)
 
 def CropFace(image, eye_left=(0,0), eye_right=(0,0), offset_pct=(0.2,0.2), dest_sz = (70,70)):
-
   # calculate offsets in original image
   offset_h = math.floor(float(offset_pct[0])*dest_sz[0])
   offset_v = math.floor(float(offset_pct[1])*dest_sz[1])
@@ -80,14 +76,14 @@ def CropFace(image, eye_left=(0,0), eye_right=(0,0), offset_pct=(0.2,0.2), dest_
   # crop the rotated image
   crop_xy = (eye_left[0] - scale*offset_h, eye_left[1] - scale*offset_v)
   crop_size = (dest_sz[0]*scale, dest_sz[1]*scale)
-
-  if(USE_MOUTH_POSITION):
-     (width, height) = image.size;
-     new_height = height - ((height/GRID_CELLS_Y)*(1-OFFSET_PCT_Y_FROM_MOUTH));
-     image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(new_height)));
-  else:
-     image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(crop_xy[1]+crop_size[1])))
-  
+  image = image.crop((int(crop_xy[0]), int(crop_xy[1]), int(crop_xy[0]+crop_size[0]), int(crop_xy[1]+crop_size[1])))
   # resize it
   image = image.resize(dest_sz, Image.ANTIALIAS)
   return image
+
+if __name__ == "__main__":
+  image =  Image.open("arnie.jpg")
+  CropFace(image, eye_left=(252,364), eye_right=(420,366), offset_pct=(0.1,0.1), dest_sz=(200,200)).save("arnie_10_10_200_200.jpg")
+  CropFace(image, eye_left=(252,364), eye_right=(420,366), offset_pct=(0.2,0.2), dest_sz=(200,200)).save("arnie_20_20_200_200.jpg")
+  CropFace(image, eye_left=(252,364), eye_right=(420,366), offset_pct=(0.3,0.3), dest_sz=(200,200)).save("arnie_30_30_200_200.jpg")
+  CropFace(image, eye_left=(252,364), eye_right=(420,366), offset_pct=(0.2,0.2)).save("arnie_20_20_70_70.jpg")

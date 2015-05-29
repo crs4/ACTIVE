@@ -22,7 +22,7 @@ def create_person(name, surname):
                             'last_name'  : surname,
                             'category'   : 'person'})
 
-    # check if the tag has been created correctly
+    # check if the person has been created correctly
     if r.status_code != requests.codes.created:
         return None
     return r.json()
@@ -39,7 +39,7 @@ def get_person(person_id):
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
     r = requests.get(url)
 
-    # check if the tag has been created correctly
+    # check if the person has been retrieved correctly
     if r.status_code != requests.codes.ok:
         return None
     return r.json()
@@ -83,8 +83,8 @@ def remove_person(person_id):
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
     r = requests.delete(url)
 
-    # check if the tag has been created correctly
-    return r.status_code != requests.codes.ok
+    # check if the person has been deleted correctly
+    return r.status_code != requests.codes.no_content
 
 
 def set_image(person_id, file_path, file_mime):

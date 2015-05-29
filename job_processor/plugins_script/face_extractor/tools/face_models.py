@@ -1,11 +1,13 @@
+import constants as c
 import cv2
 import cv2.cv as cv
+import face_detection as fd
+import utils
 import numpy as np
 import os
 import shutil
+import sys
 import uuid
-from Constants import *
-from Utils import get_image_score, load_YAML_file, save_model_file, save_YAML_file
 
 class FaceModels():
     '''
@@ -22,522 +24,834 @@ class FaceModels():
         '''
         
         self._params = params   
-        self._algorithm = FACE_MODEL_ALGORITHM
-        self._data_dir_path = GLOBAL_FACE_REC_DATA_DIR_PATH
-
-        # Differences between images
-        self._all_diffs = {}
-        
-        # Minimum difference between images
-        self._all_min_diffs = {}
+        self._data_dir_path = c.GLOBAL_FACE_REC_DATA_DIR_PATH
+        self._models = None
 
         # Association between tags 
-        # Differences between images of current subject
-        self._current_diffs = {}
-        # Array with good images of current subject 
-        self._current_X = []
-        
-        # Images already inserted in model for current subject
-        self._current_images = []
         
         if(params is not None):
             
-            if(FACE_MODEL_ALGORITHM_KEY in params):
-                self._algorithm = params[FACE_MODEL_ALGORITHM_KEY]
+            if(c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY in params):
+                self._data_dir_path = params[c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY]
             
-            if(GLOBAL_FACE_REC_DATA_DIR_PATH_KEY in params):
-                self._data_dir_path = params[GLOBAL_FACE_REC_DATA_DIR_PATH_KEY]
-                
-        # Try to load tags
-        #ok = self.load_tags()
+            
+    def add_face(self, tag, im_path, aligned_face = None, eye_pos = None, bbox = None):
+        '''
+        Add face to face models
         
-        # If loading was not successful, create models?
-        #if(not(ok)):
-        #    pass
-            
-            
-    def getTags(self):
-        '''
-        Get all tags as list of strings
-        '''
-        pass
-        
-
-    def getPeopleNr(self):
-        '''
-        Get number of people in face model
-        '''
-        pass
-      
-    
-    def insertFace(self, im_path, tag):
-        '''
-        Add face to model.
-        Check that face is sufficiently different
-        from other faces already in model.
+        :type tag: string
+        :param tag: tag of person whom face belong to
         
         :type im_path: string
-        :param im_path: path of image to be added
+        :param im_path: path of image containing the face
         
-        :type tag: string
-        :param tag: tag of subject for whom image is being added
+        :type aligned_face: OpenCV image
+        :param aligned_face: aligned face
         
-        :return: True if face is good
+        :type eye_pos: tuple
+        :param eye_pos: tuple containing eye positions 
+        (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+        
+        :type bbox: tuple
+        :param bbox: tuple containing position and size of 
+        face bounding box in whole image (x, y, width, height)
+        
         :rtype: boolean
+        :returns: true if face has been added
         '''
         
-        print('im_path', im_path)
-        
-        # True if face is considered for model
         ok = False
         
-        min_diff = GLOBAL_FACE_MODELS_MIN_DIFF
-        
-        # Directory with discarded image
-        disc_dir_path = os.path.join(
-        self._data_dir_path, GLOBAL_FACE_REC_DISC_IMAGES_DIR)
-        
-        subject_disc_dir_path = os.path.join(disc_dir_path, tag)
-        
-        if((self._params is not None) and 
-        (GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params)):
-                
-            min_diff = self._params[GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
-        
-        im_score = 0
-        
-        X, y = [], []
-
         try:
         
-            im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
-            
-            im_score = get_image_score(im)
-            
-            # Get name of image file
-            file_name = os.path.basename(im_path)
-            
-            # Get extension of image file
-            ext = os.path.splitext(im_path)[1]
-            
-            #X.append(np.asarray(im, dtype = np.uint8))
-            X.append(np.asarray(im, dtype=np.uint8))
-            y.append(0)
-            
-            radius = LBP_RADIUS
-            neighbors = LBP_NEIGHBORS
-            grid_x = LBP_GRID_X
-            grid_y = LBP_GRID_Y
-            
-            if(self._params is not None):
+            # Check if face models are loaded
+            if(not(self._models)):
+                
+                self.load_models()
 
-                if(LBP_RADIUS_KEY in self._params):
+            # Create unique file name
+            im_name = str(uuid.uuid4()) + '.png'
+            
+            rel_im_path = os.path.join(tag, im_name)
+            
+            training_set_path = os.path.join(
+            self._data_dir_path, c.TRAINING_SET_DIR)  
+                
+            whole_images_path = os.path.join(
+            training_set_path, c.WHOLE_IMAGES_DIR)
+            
+            whole_images_subject_path = os.path.join(whole_images_path, tag)
+            
+            whole_im_path = os.path.join(whole_images_path, rel_im_path)
+            
+            # Save aligned face
+            aligned_faces_path = os.path.join(
+            training_set_path, c.ALIGNED_FACES_DIR)
+            
+            aligned_faces_subject_path = os.path.join(aligned_faces_path, tag)
+            
+            if(not(os.path.exists(aligned_faces_subject_path))):
+                
+                # Create directory
+                os.makedirs(aligned_faces_subject_path)    
+    
+            aligned_im_path = os.path.join(aligned_faces_subject_path, im_name)
+            
+            good_image = False
+            
+            print('im_path', im_path)
+            print('eye_pos', eye_pos)
+            print('bbox', bbox)
+            
+            cv2.imshow('aligned_face',aligned_face)
+            cv2.waitKey(0)
+            
+            if((aligned_face is not None) and 
+            (eye_pos is not None) and 
+            (bbox is not None)):
+    
+                good_image = True    
+            
+            else:
+                
+                print('detecting face in whole image')
+                
+                # Detect face in whole_image
+                align_path = c.ALIGNED_FACES_PATH
+                if(self._params and (c.ALIGNED_FACES_PATH_KEY in self._params)):
                     
-                    radius = self._params[LBP_RADIUS_KEY]
+                    align_path = self._params[c.ALIGNED_FACES_PATH_KEY]
+                       
+                det_results = fd.detect_faces_in_image(
+                im_path, align_path, self._params, False)
+                
+                if(det_results and (c.FACES_KEY in det_results)):
                     
-                if(LBP_NEIGHBORS_KEY in self._params):
-                    
-                    neighbors = self._params[LBP_NEIGHBORS_KEY]
-                    
-                if(LBP_GRID_X_KEY in self._params):
-                
-                    grid_x = self._params[LBP_GRID_X_KEY]
-                    
-                if(LBP_GRID_Y_KEY in self._params):
-                
-                    grid_y = self._params[LBP_GRID_Y_KEY]
-            
-            model=cv2.createLBPHFaceRecognizer(
-            radius,
-            neighbors,
-            grid_x,
-            grid_y)         
-            
-            model.train(np.asarray(X), np.asarray(y))
- 
-            hists = model.getMatVector("histograms")
-            
-            hist = hists[0][0]
-            
-            image_dict = {}
-            
-            # Check if face is too similar 
-            # to other face already in model
-            
-            good_face = True
-            new_minimum = False
-            
-            diffs_dict = {}
-            
-            # Minimum difference between pair of images
-            # in current model
-            min_pair_diff = sys.maxint
-            
-            if((tag in self._all_min_diffs) and
-            (DIFF_KEY in self._all_min_diffs[tag])):
-                
-                #print('all_min_diffs', self._all_min_diffs)
-            
-                min_pair_diff = self._all_min_diffs[tag][DIFF_KEY]
-            
-            min_diff_dict = {}
-            
-            for subj_image in self._current_images:
-                
-                subj_hist = subj_image[HIST_KEY]    
-                subj_file_name = subj_image[IMAGE_NAME_KEY]
-                
-                diff = cv2.compareHist(
-                hist, subj_hist, cv.CV_COMP_CHISQR)
-                
-                diffs_dict[subj_file_name] = diff
-                
-                if(diff < min_diff):
-                    # Move image file 
-                    # to directory with discarded images
-                    
-                    # Create unique file path
-                    new_im_name = str(uuid.uuid4()) + '.' + ext
+                    faces = det_results[c.FACES_KEY]
         
-                    new_im_path = os.path.join(
-                    subject_disc_dir_path, new_im_name) 
-                    
-                    #print('diff', diff)
-                    #print('new_im_path', new_im_path)
+                    if((len(faces) == 1) and (c.FACE_KEY in faces[0]) and 
+                    (c.BBOX_KEY in faces[0]) and 
+                    (c.LEFT_EYE_POS_KEY in faces[0]) and 
+                    (c.RIGHT_EYE_POS_KEY in faces[0])):
                         
-                    if(not(os.path.exists(subject_disc_dir_path))):
+                        aligned_face = faces[0][c.FACE_KEY]
+                        
+                        # Equalize face
+                        if(c.USE_HIST_EQ_IN_CROPPED_FACES):
+                           aligned_face = cv2.equalizeHist(aligned_face) 
+                           
+                        if(c.USE_NORM_IN_CROPPED_FACES):
+                           aligned_face = cv2.normalize(aligned_face, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_8UC1)
                 
-                        # Create directory of discarded images 
-                        # for this subject
-                        os.makedirs(subject_disc_dir_path) 
+                        if(c.USE_CANNY_IN_CROPPED_FACES):
+                           aligned_face = cv2.Canny(aligned_face, 0.1,100)
+                           
+                        if(c.USE_TAN_AND_TRIGG_NORM):
+                           aligned_face = normalize_illumination(aligned_face)
+                           
+                        # Insert oval mask in image
+                        if(c.USE_OVAL_MASK):
+                            aligned_face = add_oval_mask(aligned_face)                                                
                         
-                    shutil.move(im_path, new_im_path)
+                        bbox = faces[0][c.BBOX_KEY]
+                        
+                        eye_left = faces[0][c.LEFT_EYE_POS_KEY]
+                        
+                        eye_right = faces[0][c.RIGHT_EYE_POS_KEY]
+                        
+                        eye_pos = (
+                        eye_left[0], eye_left[1], eye_right[0], eye_right[1])
+                        
+                        good_image = True
+                
+            if(good_image): 
                     
-                    raw_input('Aspetta poco poco ...')
+                # Save whole image
+                if(not(os.path.exists(whole_images_subject_path))):
                     
-                    good_face = False
+                    # Create directory
+                    os.makedirs(whole_images_subject_path)                    
+
+                cv2.imwrite(aligned_im_path, aligned_face, [cv2.IMWRITE_PNG_COMPRESSION, 0])            
+
+                new_label = 0
+                
+                # Check if tag is already in face models
+                tags = self.get_tags()
+                
+                if(tag not in tags):
                     
-                    break
+                    # Load file with tag-label associations
+                    tag_label_associations_file = os.path.join(
+                    self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+                    tag_label_associations = utils.load_YAML_file(
+                    tag_label_associations_file)
+                    
+                    if(tag_label_associations):
+                        
+                        # Add new tag with related label
+                        
+                        labels = tag_label_associations.keys()
+                        
+                        max_label = max(labels)
+                        
+                        new_label = max_label + 1
+                        
+                        tag_label_associations[new_label] = tag
+                        
+                    else:
+                        
+                        # Create dictionary with tag-label associations
+                        tag_label_associations = {new_label: tag}
+                        
+                    # Save new dictionary in YAML file
+                    utils.save_YAML_file(
+                    tag_label_associations_file, tag_label_associations)
+                    
+                whole_image = cv2.imread(im_path, cv2.IMREAD_COLOR)    
+                cv2.imwrite(whole_im_path, whole_image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
+                
+                # TEST ONLY Save whole image with face bbox 
+                bbox_images_path = os.path.join(
+                training_set_path, c.BBOX_IMAGES_DIR)
+                
+                bbox_images_subject_path = os.path.join(
+                bbox_images_path, tag)
+                
+                if(not(os.path.exists(bbox_images_subject_path))):
+                    
+                    # Create directory
+                    os.makedirs(bbox_images_subject_path)            
+                
+                bbox_im_path = os.path.join(bbox_images_path, rel_im_path)
+                
+                x0 = bbox[0]
+                x1 = x0 + bbox[2]
+                y0 = bbox[1]
+                y1 = y0 + bbox[3]
+                
+                cv2.rectangle(whole_image, (x0,y0), (x1, y1), (0,0,255), 3, 8, 0)
+                cv2.imwrite(bbox_im_path, whole_image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
+                
+                face_in_models = False
+                
+                if(self._models):
+                    
+                    print('self._models', self._models)
+                    
+                    # Update models
+                    
+                    min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
+                    
+                    if(self._params and 
+                    (c.GLOBAL_FACE_MODELS_MIN_DIFF in self._params)):
+                    
+                        min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
+                    
+                    if(min_diff > 0):
+                        # Check if face is sufficiently different
+                        # from other faces in models
+                        (label, conf) = self._models.predict(
+                        np.asarray(aligned_face, dtype = np.uint8)) 
+                        
+                        if(conf >= min_diff):
+                            
+                            self._models.update(
+                            np.asarray([np.asarray(aligned_face, dtype=np.uint8)]), 
+                            np.asarray(new_label))
+                            
+                            face_in_models = True  
+                            
+                    else:
+                        
+                        self._models.update(
+                        np.asarray([np.asarray(aligned_face, dtype=np.uint8)]), 
+                        np.asarray(new_label))  
+                        
+                        face_in_models = True                  
                     
                 else:
+
+                    # Create models
                     
-                    if(diff < min_pair_diff):
-
-                        min_diff_dict[IMAGE_1_KEY] = file_name
-                        min_diff_dict[IMAGE_2_KEY] = subj_file_name
-                        min_diff_dict[DIFF_KEY] = diff  
+                    # Create face recognizer
+                    radius = c.LBP_RADIUS
+                    neighbors = c.LBP_NEIGHBORS
+                    grid_x = c.LBP_GRID_X
+                    grid_y = c.LBP_GRID_Y
+                    min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
+                    
+                    if(self._params is not None):
+            
+                        if(c.LBP_RADIUS_KEY in self._params):
+                            radius = self._params[c.LBP_RADIUS_KEY]
                         
-                        new_minimum = True        
+                        if(c.LBP_NEIGHBORS_KEY in self._params):
+                            neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+                            
+                        if(c.LBP_GRID_X_KEY in self._params):
+                            grid_x = self._params[c.LBP_GRID_X_KEY]
+                            
+                        if(c.LBP_GRID_Y_KEY in self._params):
+                            grid_y = self._params[c.LBP_GRID_Y_KEY]
+                               
+                    model=cv2.createLBPHFaceRecognizer(
+                    radius,
+                    neighbors,
+                    grid_x,
+                    grid_y) 
+                 
+                    model.train(
+                    np.asarray([np.asarray(aligned_face, dtype=np.uint8)]), 
+                    np.asarray(new_label))
+                    
+                    face_in_models = True  
+                  
+                    # Save file with face models   
+                    db_file_name = os.path.join(
+                    self._data_dir_path, c.FACE_MODELS_FILE)  
                         
-            if((len(self._current_images) == 0) or
-            ((len(self._current_images) > 0) and (good_face))):
-                        
-                image_dict[HIST_KEY] = hist
-                image_dict[IMAGE_NAME_KEY] = file_name
-                image_dict[IMAGE_PATH_KEY] = im_path
-                image_dict[IMAGE_SCORE_KEY] = im_score
+                    model.save(db_file_name)
+                    
+                    self._models = model
+                    
+                # Load file with faces
+                faces_file = os.path.join(
+                self._data_dir_path, c.FACES_FILE)
+                faces_dict = utils.load_YAML_file(faces_file)
+                if(faces_dict is None):
+                    
+                    # Create dictionary with association between 
+                    # image and related bbox and eye positions
+                    faces_dict = {rel_im_path: {}}
+                    
+                # Save face bbox and eye positions    
+                    
+                faces_dict[rel_im_path] = {}
                 
-                self._current_diffs[file_name] = diffs_dict
+                faces_dict[rel_im_path][c.BBOX_KEY] = bbox
                 
-                if(new_minimum):
-                    # Update minimum difference
-                    self._all_min_diffs[tag] = min_diff_dict
+                eye_left = (eye_pos[0], eye_pos[1])
+    
+                eye_right = (eye_pos[2], eye_pos[3])
                 
-                self._current_images.append(image_dict)
-                self._current_X.append(np.asarray(im, dtype=np.uint8))
+                faces_dict[rel_im_path][c.LEFT_EYE_POS_KEY] = eye_left
                 
-                #print('image_dict', image_dict)
+                faces_dict[rel_im_path][c.LEFT_EYE_POS_KEY] = eye_right
                 
+                faces_dict[rel_im_path][c.FACE_IN_MODELS_KEY] = face_in_models                
+                
+                # Save new dictionary in YAML file
+                utils.save_YAML_file(faces_file, faces_dict)        
+                                
                 ok = True
-                        
-        except IOError, (errno, strerror):
-            print "I/O error({0}): {1}".format(errno, strerror)
-        except:
-            print "Unexpected error:", sys.exc_info()[0]
-            raise
-        
-        return ok
-        
-
-    def clearDiscImages(self):
-        '''
-        Delete directory with discarded images
-        '''
-        # Directory with discarded image
-        disc_dir_path = os.path.join(
-        self._data_dir_path, GLOBAL_FACE_REC_DISC_IMAGES_DIR)
-        if(os.path.exists(disc_dir_path)):
                 
-            shutil.rmtree(disc_dir_path)
-
-
-    def createModel(self, subject_path, tag):
+        except IOError, (errno, strerror):
+            
+            print "I/O error({0}): {1}".format(errno, strerror)
+            
+        except:
+            
+            print "Unexpected error:", sys.exc_info()[0]
+            
+            raise
+                            
+        return ok
+                    
+    
+    def get_tag(self, label):
         '''
-        Create single face model
+        Get tag corresponding to given label
         
-        :type subject_path: string
-        :param subject_path: path of directory with face images 
-                             for this person
+        :type label: integer
+        :param label: label for which corresponing tag is wanted
+        
+        :rtype: string
+        :returns: tag correspoding to given label
+        '''
+        
+        tag = c.UNDEFINED_TAG
+        
+        # Load file with tag-label associations
+        tag_label_associations_file = os.path.join(
+        self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+        tag_label_associations = utils.load_YAML_file(
+        tag_label_associations_file)
+        
+        if(tag_label_associations and 
+        (label in tag_label_associations)):
+            
+            tag = tag_label_associations[label]
+            
+        return tag
+            
+    
+    def get_tags(self):
+        '''
+        Get all tags
+        
+        :rtype: set
+        :returns: a set containing all tags
+        '''
+        
+        tags = []
+        
+        # Load file with tag-label associations
+        tag_label_associations_file = os.path.join(
+        self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+        tag_label_associations = utils.load_YAML_file(
+        tag_label_associations_file,)
+        
+        if(tag_label_associations):
+            
+            tags = tag_label_associations.values() 
+            
+        return set(tags)
+        
+
+    def get_images_nr_for_tag(self, tag):
+        '''
+        Get number of images for given tag
         
         :type tag: string
-        :param tag: identifier of face model
+        :param tag: tag for whom number of images is queried        
+        
+        :rtype: integer
+        :returns: number of images for given tag
         '''
+        
+        training_set_path = os.path.join(
+        self._data_dir_path, c.TRAINING_SET_DIR)   
+        
+        aligned_faces_path = os.path.join(
+        training_set_path, c.ALIGNED_FACES_DIR)
+        
+        aligned_faces_subject_path = os.path.join(aligned_faces_path, tag)
+        
+        images_nr = 0
+        
+        for image in os.listdir(aligned_faces_subject_path):
             
-        file_counter = 0
+            images_nr = images_nr + 1
+            
+        return images_nr    
+    
+    
+    def get_people_nr(self):
+        '''
+        Get number of people in face model
         
-        max_faces_in_model = MAX_FACES_IN_MODEL
+        :rtype: integer
+        :returns: number of people in face model
+        '''
         
-        self._current_images = []
-        self._current_diffs = {}
-        #self._current_X = []
+        tags = self.get_tags()
+        
+        people_nr = len(tags)
+            
+        return people_nr
+      
+    
+    def create_models(self):
+        '''
+        Read images in folder with aligned faces and create face models
+        Folder with aligned faces contains one subfolder for each person
+        '''
+        
+        training_set_path = os.path.join(
+        self._data_dir_path, c.TRAINING_SET_DIR)   
+        
+        aligned_faces_path = os.path.join(
+        training_set_path, c.ALIGNED_FACES_DIR)
+        
+        # Create face recognizer
+        radius = c.LBP_RADIUS
+        neighbors = c.LBP_NEIGHBORS
+        grid_x = c.LBP_GRID_X
+        grid_y = c.LBP_GRID_Y
+        min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
         
         if(self._params is not None):
+
+            if(c.LBP_RADIUS_KEY in self._params):
+                radius = self._params[c.LBP_RADIUS_KEY]
             
-            if(MAX_FACES_IN_MODEL_KEY in self._params):  
+            if(c.LBP_NEIGHBORS_KEY in self._params):
+                neighbors = self._params[c.LBP_NEIGHBORS_KEY]
                 
-                max_faces_in_model = self._params[MAX_FACES_IN_MODEL_KEY]
+            if(c.LBP_GRID_X_KEY in self._params):
+                grid_x = self._params[c.LBP_GRID_X_KEY]
+                
+            if(c.LBP_GRID_Y_KEY in self._params):
+                grid_y = self._params[c.LBP_GRID_Y_KEY]
+                
+            if(c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params):
+                min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
+        
+        model=cv2.createLBPHFaceRecognizer(
+        radius,
+        neighbors,
+        grid_x,
+        grid_y)
+        
+        tag_label_associations = {} 
+        
+        # Load file with faces
+        faces_file = os.path.join(
+        self._data_dir_path, c.FACES_FILE)
+        faces_dict = utils.load_YAML_file(faces_file)
+        if(faces_dict is None):
             
-        # Add new images one by one
-        # If there are too much images in the face model,
-        # check which are the two most similar images 
-        # and delete the image among the two that is less simmetric.
-        for filename in os.listdir(subject_path):
+            # Create dictionary with face data
+            faces_dict = {}
+        
+        im_counter = 0
+        subject_counter = 0    
+        
+        for sub_dir_name in os.listdir(aligned_faces_path):
             
-            try:
+            tag_label_associations[subject_counter] = sub_dir_name
             
-                file_path = os.path.join(subject_path, filename)
+            subject_path = os.path.join(
+            aligned_faces_path, sub_dir_name)  
+            
+            for im_name in os.listdir(subject_path):
+                
+                im_path = os.path.join(subject_path, im_name)
+                
+                rel_im_path = os.path.join(sub_dir_name, im_name)
+                
+                if(rel_im_path not in faces_dict):
+                
+                    faces_dict[rel_im_path] = {} 
+                
+                face_in_models = False
+            
+                try:
+                
+                    face = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
+                    
+                    # If this is the first image train model, 
+                    # otherwise update it
+                    
+                    if(im_counter == 0):
+                        
+                        model.train(
+                        np.asarray([np.asarray(face, dtype=np.uint8)]), 
+                        np.asarray(subject_counter))
+                        
+                        face_in_models = True
+                        
+                    else:
+                        
+                        if(min_diff > 0):
+                            # Check if face is sufficiently different
+                            # from other faces in models
+                            (label, conf) = model.predict(
+                            np.asarray(face, dtype = np.uint8)) 
+                            
+                            if(conf >= min_diff):
+                                
+                                model.update(
+                                np.asarray([np.asarray(face, dtype=np.uint8)]), 
+                                np.asarray(subject_counter)) 
+                                
+                                face_in_models = True
+                                
+                        else:
+                            
+                            model.update(
+                            np.asarray([np.asarray(face, dtype=np.uint8)]), 
+                            np.asarray(subject_counter)) 
+                            
+                            face_in_models = True   
+                            
+                    faces_dict[rel_im_path][c.FACE_IN_MODELS_KEY] = face_in_models                                             
+                    
+                    im_counter = im_counter + 1
     
-                if(file_counter >= max_faces_in_model):
+                except IOError, (errno, strerror):
+                    print "I/O error({0}): {1}".format(errno, strerror)
+                except:
+                    print "Unexpected error:", sys.exc_info()[0]
+                    raise
                     
-                    # Add new image or 
-                    # replace one image already in the training set
-                    ok = self.insertFace(file_path, tag)
+            subject_counter = subject_counter + 1        
+                 
+        
+        # Save file with face models    
+        db_file_name = os.path.join(
+        self._data_dir_path, c.FACE_MODELS_FILE)  
                     
-                    if(ok):
+        model.save(db_file_name) 
+        
+        self._models = model
+        
+        # Save file with tag-label associations
+        tag_label_associations_file = os.path.join(
+        self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+        utils.save_YAML_file(
+        tag_label_associations_file, tag_label_associations)
+        
+        # Save new dictionary in YAML file
+        utils.save_YAML_file(faces_file, faces_dict)            
+        
+
+    def delete_models(self):
+		'''
+		Delete all data for global face recognition
+		'''
+		
+		shutil.rmtree(self._data_dir_path)
+    
+    
+    def load_models(self):
+        '''
+        Load face models
+        
+        :rtype: boolean
+        :returns: True if models were successfully loaded, 
+        False otherwise
+        '''
+        
+        ok = False
+        
+        db_file_path = os.path.join(
+        self._data_dir_path, c.FACE_MODELS_FILE)
+        
+        # Load face recognizer
+        
+        if(os.path.exists(db_file_path)):
+        
+            self._models=cv2.createLBPHFaceRecognizer()
+        
+            self._models.load(db_file_path)
+            
+            ok = True
+            
+        return ok
+            
+        
+    def recognize_face(self, face):
+        '''
+        Recognize given face using 
+        the stored face recognition models
+        
+        :type face: OpenCV image
+        :param face: face to be recognized      
+                
+        :rtype: tuple
+        :returns: a tuple containing predicted tag 
+        and relative confidence
+        '''
+        
+        tag = c.UNDEFINED_TAG
+        conf = sys.maxint
+        
+        if(self._models):
+        
+            (label, conf) = self._models.predict(
+            np.asarray(face, dtype = np.uint8))
+            print('label', label)
+            print('conf', conf)
+            
+            # Consider tag only if distance is below threshold
+            if(conf < c.GLOBAL_FACE_REC_THRESHOLD):
+            
+                tag = self.get_tag(label)
+        
+        return (tag, conf)
+        
+        
+    def remove_face(self, tag, im_name):
+        '''
+        Remove face from face models
+        
+        :type tag: string
+        :param tag: tag of person whom face belong to
+        
+        :type im_name: string
+        :param im_path: name of image file containing the face
+        
+        :rtype: boolean
+        :returns: true if face has been removed
+        '''
+        
+        ok = False
+        
+        rel_im_path = os.path.join(tag, im_name)
+        
+        training_set_path = os.path.join(
+        self._data_dir_path, c.TRAINING_SET_DIR)         
+        
+        aligned_faces_path = os.path.join(
+        training_set_path, c.ALIGNED_FACES_DIR)  
+        
+        aligned_face_path = os.path.join(
+        aligned_faces_path, rel_im_path)
+        
+        print('aligned_face_path', aligned_face_path)
+        
+        if(os.path.exists(aligned_face_path)):
+        
+            images_nr = self.get_images_nr_for_tag(tag)
+    
+            if(images_nr == 1):
+                
+                # Remove tag
+                
+                ok = self.remove_tag(tag)
+            
+            else:
+                
+                try:
+                    
+                    # Remove whole image
+                    whole_images_path = os.path.join(
+                    training_set_path, c.WHOLE_IMAGES_DIR)
+                    
+                    whole_image_path = os.path.join(
+                    whole_images_path, rel_im_path)
+                    print('whole_image_path', whole_image_path)
+                    
+                    if(os.path.exists(whole_image_path)):
+                
+                        os.remove(whole_image_path)
                         
-                        self.deleteWorstFace(tag)
+                    # TEST ONLY remove bbox image
+                    bbox_images_path = os.path.join(
+                    training_set_path, c.BBOX_IMAGES_DIR)
                     
-                else:
+                    bbox_image_path = os.path.join(
+                    bbox_images_path, rel_im_path)
                     
-                    # Add new image
-                    ok = self.insertFace(file_path, tag)  
-                    
-                    if(ok):
+                    if(os.path.exists(bbox_image_path)):
+                
+                        os.remove(bbox_image_path)
                         
-                        file_counter = file_counter + 1                      
+                    # Remove aligned face
+                
+                    os.remove(aligned_face_path)
+                        
+                    # Load file with faces
+                    faces_file = os.path.join(
+                    self._data_dir_path, c.FACES_FILE)
+                    faces_dict = utils.load_YAML_file(faces_file)
                     
+                    if(faces_dict):
+                        for key in faces_dict.keys():
+                            if(key == rel_im_path):
+                                
+                                del faces_dict[key]     
+                                
+                        # Save new dictionary in YAML file
+                        utils.save_YAML_file(faces_file, faces_dict)
+                    
+                    # Re-build the models
+                    self.create_models() 
+                    
+                    ok = True                                                                           
+                    
+                except IOError, (errno, strerror):
+                    print "I/O error({0}): {1}".format(errno, strerror)
+                except:
+                    print "Unexpected error:", sys.exc_info()[0]
+                    raise 
+            
+        return ok
+            
+    
+    def remove_tag(self, tag):
+        '''
+        Remove tag from face models
+        
+        :type tag: string
+        :param tag: tag to be removed
+        
+        :rtype: boolean
+        :returns: true if tag has been removed
+        '''
+        
+        ok = False
+        
+        training_set_path = os.path.join(
+        self._data_dir_path, c.TRAINING_SET_DIR)  
+        
+        # Remove directory with aligned faces related to tag
+        
+        aligned_faces_path = os.path.join(
+        training_set_path, c.ALIGNED_FACES_DIR)
+        
+        aligned_faces_subject_path = os.path.join(aligned_faces_path, tag)           
+         
+        if(os.path.exists(aligned_faces_subject_path)):
+        
+            try:
+                
+                # Remove directory with whole images related to tag                    
+                whole_images_path = os.path.join(
+                training_set_path, c.WHOLE_IMAGES_DIR)
+                
+                whole_images_subject_path = os.path.join(whole_images_path, tag)             
+                 
+                if(os.path.exists(whole_images_subject_path)):
+                
+                    shutil.rmtree(whole_images_subject_path)
+                    
+                # TEST ONLY remove directory with bbox images related to tag
+                    
+                bbox_images_path = os.path.join(
+                training_set_path, c.BBOX_IMAGES_DIR)
+                
+                bbox_images_subject_path = os.path.join(bbox_images_path, tag)           
+                 
+                if(os.path.exists(bbox_images_subject_path)):
+                
+                    shutil.rmtree(bbox_images_subject_path)
+    
+                shutil.rmtree(aligned_faces_subject_path)
+                    
+                # Load file with tag-label associations
+                tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+                tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file) 
+                
+                if(tag_label_associations):
+                
+                    # Remove tag with related label
+                    tag_label_associations = {key: value for key, value in tag_label_associations.items() if value != tag}
+                    
+                    # Save new dictionary in YAML file
+                    utils.save_YAML_file(
+                    tag_label_associations_file, tag_label_associations)
+                
+                # Load file with faces
+                faces_file = os.path.join(
+                self._data_dir_path, c.FACES_FILE)
+                faces_dict = utils.load_YAML_file(faces_file)
+                
+                if(faces_dict):
+                
+                    for key in faces_dict.keys():
+                        key_tag = os.path.split(key)[0]
+                        if(key_tag == tag):
+                            
+                            del faces_dict[key]     
+                            
+                    # Save new dictionary in YAML file
+                    utils.save_YAML_file(faces_file, faces_dict)
+                
+                # Re-build the models
+                self.create_models() 
+                
+                ok = True                                                                           
+                
             except IOError, (errno, strerror):
                 print "I/O error({0}): {1}".format(errno, strerror)
             except:
                 print "Unexpected error:", sys.exc_info()[0]
-                raise
-                    
-        #print('current diffs', self._current_diffs)
+                raise 
             
-    
-    def createModels(self):
-        '''
-        Read images in training set folder and create model files
-        Training set folder contains one subfolder for each person
-        '''
-        
-        training_set_dir_path = os.path.join(
-        self._data_dir_path, GLOBAL_FACE_REC_TRAINING_SET_DIR)
-        
-        model_dir_path = os.path.join(
-        self._data_dir_path, GLOBAL_FACE_REC_MODELS_DIR)
-        
-        # Delete and re-create directory
-        if(os.path.exists(model_dir_path)):
-            
-            shutil.rmtree(model_dir_path)
-            
-        os.makedirs(model_dir_path)
-        
-        self._all_diffs = {}
-        self._all_min_diffs = {}
-        
-        model_counter = 0
-        for sub_dir_name in os.listdir(training_set_dir_path):
-            
-            subject_path = os.path.join(
-            training_set_dir_path, sub_dir_name)
-            
-            self.createModel(subject_path, sub_dir_name)
-            
-            self._all_diffs[sub_dir_name] = self._current_diffs
-            
-            # Train model with good images
-            
-            radius = LBP_RADIUS
-            neighbors = LBP_NEIGHBORS
-            grid_x = LBP_GRID_X
-            grid_y = LBP_GRID_Y
-            
-            if(self._params is not None):
-
-                if(LBP_RADIUS_KEY in self._params):
-                    radius = params[LBP_RADIUS_KEY]
-                
-                if(LBP_NEIGHBORS_KEY in self._params):
-                    neighbors = params[LBP_NEIGHBORS_KEY]
-                    
-                if(LBP_GRID_X_KEY in self._params):
-                    grid_x = params[LBP_GRID_X_KEY]
-                    
-                if(LBP_GRID_Y_KEY in self._params):
-                    grid_y = params[LBP_GRID_Y_KEY]
-            
-            model=cv2.createLBPHFaceRecognizer(
-            radius,
-            neighbors,
-            grid_x,
-            grid_y)
-        
-            y = [0] * len(self._current_X)
-        
-            model.train(np.asarray(self._current_X), np.asarray(y))
-            
-            # Save model file 
-            
-            model_path = os.path.join(model_dir_path, sub_dir_name)
-            
-            model.save(model_path)
-            
-            model_counter = model_counter + 1
-            
-        #diffs_file_path = os.path.join(
-        #self._data_dir_path, GLOBAL_FACE_REC_DIFFS_FILE)
-        
-        #save_YAML_file(diffs_file_path, self._all_diffs)
-        
-        # Save minimum differences between images
-        min_diffs_file_path = os.path.join(
-        self._data_dir_path, GLOBAL_FACE_REC_MIN_DIFFS_FILE)
-        
-        save_YAML_file(min_diffs_file_path, self._all_min_diffs)
-        
-    
-    def deleteWorstFace(self, tag):
-        '''
-        Check which are the two most similar images in the face model
-        and delete the image among the two that is less simmetric.
-        
-        :type tag: string
-        :param tag: tag of subject for whom image is being deleted        
-        '''
-        
-        if((tag in self._all_min_diffs) and
-        (IMAGE_1_KEY in self._all_min_diffs[tag]) and
-        (IMAGE_2_KEY in self._all_min_diffs[tag])):
-            
-            image_1_name = self._all_min_diffs[tag][IMAGE_1_KEY]
-            
-            image_2_name = self._all_min_diffs[tag][IMAGE_2_KEY]
-            
-            image_1_score = 0
-            image_1_idx = 0
-            image_1_path = ''
-            image_2_score = 0
-            image_2_idx = 0
-            image_2_path = ''
-            
-            image_counter = 0
-            rem_images = 2
-            for image_dict in self._current_images:
-            
-                image_name = image_dict[IMAGE_NAME_KEY]
-                
-                if(image_name == image_1_name):
-                    
-                    image_1_score = image_dict[IMAGE_SCORE_KEY]
-                    image_1_idx = image_counter
-                    image_2_path = image_dict[IMAGE_PATH_KEY]
-                    rem_images = rem_images - 1
-                    
-                elif(image_name == image_2_name):
-                    
-                    image_2_score = image_dict[IMAGE_SCORE_KEY]
-                    image_2_idx = image_counter
-                    image_2_path = image_dict[IMAGE_PATH_KEY]
-                    rem_images = rem_images - 1                 
-                    
-                if(rem_images == 0):
-                    
-                    break
-                    
-                image_counter = image_counter + 1
-               
-            im_idx = 0
-            im_name = ''
-            im_path = '' 
-               
-            if(image_2_score >= image_1_score):
-                # Remove image 2
-                im_idx = image_2_idx
-                im_name = image_2_name
-                im_path = image_2_path
-            
-            else:
-                # Remove image 1
-                im_idx = image_1_idx
-                im_name = image_2_name
-                im_path = image_1_path
-            
-            print('current diffs', self._current_diffs.keys())
-            
-            # Delete image from lists and dictionaries
-            del self._current_images[im_idx]
-            del self._current_X[im_idx]
-            del self._current_diffs[im_name]
-
-            current_diffs_keys = self._current_diffs.keys()
-            
-            for key in current_diffs_keys:
-                
-                if(im_name in self._current_diffs[key]):
-                    
-                    del self._current_diffs[key][im_name]
-                    
-            # Update minimum difference
-            self.__update_min_diff(tag)
-            
-            # Move image file 
-            # to directory with discarded images
-            
-            # Directory with discarded image
-            disc_dir_path = os.path.join(
-            self._data_dir_path, GLOBAL_FACE_REC_DISC_IMAGES_DIR)
-            subject_disc_dir_path = os.path.join(disc_dir_path, tag)
-            
-            # Get extension of image file
-            ext = os.path.splitext(im_path)[1]      
-                        
-            # Create unique file path
-            new_im_name = str(uuid.uuid4()) + '.' + ext
-
-            new_im_path = os.path.join(
-            subject_disc_dir_path, new_im_name) 
-            
-            #print('diff', diff)
-            #print('new_im_path', new_im_path)
-                
-            if(not(os.path.exists(subject_disc_dir_path))):
-        
-                # Create directory of discarded images 
-                # for this subject
-                os.makedirs(subject_disc_dir_path) 
-                
-            shutil.move(im_path, new_im_path)   
-            
-            
-    def __update_min_diff(self, tag):
-        '''
-        Update minimum difference between pair of images for given tag
-        
-        :type tag: string
-        :param tag: tag of subject for whom difference is being updated
-        '''
-        
-        pass
-                
+        return ok          
+                            

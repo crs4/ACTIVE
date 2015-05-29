@@ -19,7 +19,7 @@ import shutil
 def extract_video_thumbnail(func_in, func_out):
     """
     This function is used to extract a thumbnail image from a video item.
-    The thumbnail is created extracting the frame at second 10, cropping
+    The thumbnail is created extracting the frame at second 8, cropping
     and resizing the frame size.
 
     @param func_in: Input parameters of the function that generate this function call
@@ -33,7 +33,7 @@ def extract_video_thumbnail(func_in, func_out):
     file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
     thumb_path = os.path.join('/tmp', str(func_out['id']) + '_thumb.jpeg')
     # extract the thumbnail for the current video item
-    cmd = '/usr/bin/ffmpeg -loglevel fatal -y -ss 10 -i "' + file_path + '" -vf "crop=min(iw\,ih):min(ih\,iw), scale=256:256" -vframes 1 ' + thumb_path
+    cmd = '/usr/bin/ffmpeg -loglevel fatal -y -ss 8 -i "' + file_path + '" -vf "crop=min(iw\,ih):min(ih\,iw), scale=256:256" -vframes 1 ' + thumb_path
     subprocess.check_output(cmd, shell=True)
 
     # check if the thumbnail has been created otherwise create a standard image

@@ -128,5 +128,53 @@ class TagDetail(EventView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# TODO valutare se inserire anche qua i metodi che consentono di gestire la ricerca dei tag semplici
-# per identificativo di item e di entita'
+class SearchTagItem(EventView):
+    """
+    Class used to implement methods necessary to search all Tags
+    objects associated to a specific digital item.
+    """
+
+    def get(self, request, pk, format=None):
+        """
+        Method used to retrieve all Tag objects containing
+        the occurrences in a specific digital item (if any).
+        Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of Tag objects.
+        @type request: HttpRequest
+        @param pk: Item object primary key, used to retrieve tag data.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
+        tag = Tag.objects.filter(item__id = pk)
+        serializer = TagSerializer(tag, many=True)
+        return Response(serializer.data)
+
+
+class SearchTagPerson(EventView):
+    """
+    Class used to implement methods necessary to search all Tags objects
+    associated to a specific person.
+    """
+
+    def get(self, request, pk, format=None):
+        """
+        Method used to retrieve all DynamicTag objects containing
+        the occurrences of a specific person (if any).
+        Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of Tag objects.
+        @type request: HttpRequest
+        @param pk: Person primary key, used to retrieve object data.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
+        tag = Tag.objects.filter(entity__id = pk)
+        serializer = TagSerializer(tag, many=True)
+        return Response(serializer.data)

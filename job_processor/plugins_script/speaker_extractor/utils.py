@@ -9,22 +9,36 @@ import sys
 import requests
 from django.conf import  settings
 from plugins_script.commons.item import set_status
-from plugins_script.commons.tags import create_tag, create_dtag
+from plugins_script.commons.tags import create_tag, create_dtag, get_tags_by_item, remove_tag
 from plugins_script.commons.person import create_person
 from skeleton.skeletons import Farm, Seq
 from skeleton.visitors import Executor
 from seg_file_utility import make_name_compact
 import re
+import shutil
 
 def speaker_diarization(func_in, func_out):
     try:
+        # remove existing tags (and dynamic tags) for the item
+        tags = get_tags_by_item(func_out['id'])
+        for tag in tags:
+            remove_tag(tag['id'])
+
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> START"
         file_path=os.path.join(settings.MEDIA_ROOT, func_out["file"])
+        new_file_path=os.path.join(settings.MEDIA_ROOT,'items',str(func_out["id"]),func_out["file"].split(".")[0],".",func_out["file"].split(".")[1])
+        print "new file path ",new_file_path
+        shutil.copy2(file_path,new_file_path)
         file_root=os.path.join(settings.MEDIA_ROOT, 'items', str(func_out["id"])) # e' necessario il casting esplicito degli interi?
+        file_path=new_file_path
+        convert_with_ffmpeg(file_path)
 
-        _convert_with_ffmpeg(file_path)
         #_mkdir_out(file_root+"/out")
+        # delete the path if exists and create a new one
+        if os.path.exists(file_root + "/out"):
+            shutil.rmtree(file_root + "/out")
         os.mkdir(file_root + "/out")
+
         with open(file_path.split(".")[0]+'.properties', "w") as f:
             f.write("fileName="+file_path.split(".")[0]+".wav")
             #f.write("outputRoot="+file_root+"/")
@@ -46,7 +60,7 @@ def speaker_diarization(func_in, func_out):
         # Executor().eval(farm, file_list) # costrutto che valuta lo skeleton tree
 
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> STOP"
-	print "fp=",file_root+"/out/"+func_out["filename"].split(".")[0]
+        print "fp=",file_root+"/out/"+func_out["filename"].split(".")[0]
         post_di_esempio(id_item=str(func_out["id"]) , fp=file_root+"/out/"+func_out["filename"].split(".")[0])
     except Exception as e:
         print e
@@ -101,8 +115,8 @@ def _mkdir_out(path_dir):
 def _convert_with_ffmpeg(file_name):
     print "try conversion..."
     
-    print "/usr/bin/ffmpeg -y -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav"	
-    subprocess.check_output("/usr/bin/ffmpeg -y -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav", shell=True)
+    print '/usr/bin/ffmpeg -y -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"'	
+    subprocess.check_output('/usr/bin/ffmpeg -y -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"', shell=True)
     print "conversion ok"
 
 
@@ -110,7 +124,7 @@ def diarization(file_properties):
     cd_go="cd /var/spool/active/job_processor/plugins_script/speaker_extractor/;"
     java="java -Xmx2048m " #da definire in base alla macchina
     java_classpath=" -classpath /var/spool/active/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
-    commandline=java+java_classpath+" it.crs4.identification.DBScore "+file_properties 
+    commandline=java+java_classpath+" it.crs4.identification.DBScore \""+file_properties + "\"" 
     print "diarization -- command \n"
     print commandline
     start_subprocess(commandline)
@@ -234,6 +248,6 @@ def humanize_time(secs):
 def convert_with_ffmpeg(file_name):
     print "try conversion..."
     
-    print "ffmpeg -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav"
-    subprocess.call("ffmpeg -i "+file_name+" -acodec pcm_s16le -ac 1 -ar 16000 "+file_name.split(".")[0]+".wav")
+    print 'ffmpeg -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "'+ file_name.split(".")[0] + '.wav"'
+    subprocess.call('ffmpeg -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"')
 

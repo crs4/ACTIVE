@@ -22,6 +22,9 @@ PUT     /api/keywords/12/   edit the data of the Keyword object with id = 12
 DELETE  /api/keywords/12/   delete all data related to the Keyword object with id = 12
 
 
+GET     /api/keywords/search/landscape          retrieve the keyword associated to string 'landscape'
+
+
 GET     /api/keywords/search/image/landscape          retrieve all images with keyword 'landscape'
 
 GET     /api/keywords/search/video/landscape,lake     retrieve all videos objects with both keywords
@@ -29,11 +32,12 @@ GET     /api/keywords/search/video/landscape,lake     retrieve all videos object
 """
 
 from django.conf.urls import url
-from core.tags.keywords.views import KeywordDetail, KeywordList, KeywordSearch
+from core.tags.keywords.views import KeywordDetail, KeywordList, KeywordFind, KeywordSearch
 
 
 urlpatterns = (
     url(r'^$', KeywordList.as_view()),
     url(r'^(?P<pk>[0-9]+)/$', KeywordDetail.as_view()),
+    url(r'^search/(?P<value>[\w]+)/$', KeywordFind.as_view()),
     url(r'^search/(?P<item_type>[0-9A-Za-z]+)/(?P<keyword_list>[\w,]+)/$', KeywordSearch.as_view()),
 )

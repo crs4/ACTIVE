@@ -84,7 +84,9 @@ video {
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
   
 }
- #timeline_collector{
+
+
+#timeline_collector{
  
 	position: absolute;
 /*
@@ -105,6 +107,9 @@ video {
  
 .timetable{
 	width:100%;
+/*
+    table-layout:fixed;
+*/
 }
 
 .timetable td{
@@ -124,13 +129,18 @@ video {
 
 #progresstable tr td:nth-child(-n+2) div{
 
-	width:35px;
-/*
-	background-color: red
-*/
+	width:18px;
+    height:18px;
+	margin-left:5px;
+    margin-right:5px;
 
 }
 
+.timetable tr td:nth-child(-n+2){
+
+    width:2%;
+
+}
 
 .timetable tr td:nth-child(3) span{
 	
@@ -160,17 +170,23 @@ video {
 
 .rmperson{
 
-	height:18px;
+	width:18px;
+/*
 	width:auto;
+*/
 	margin-left:5px;
+    margin-right:5px;
+
 	cursor: pointer;
 }
 
 .showperson{
 
 
-	height:18px;
+	width:18px;
+/*
 	width:auto;
+*/
 	margin-right:5px;
 	margin-left:5px;
 	cursor: pointer;
@@ -238,7 +254,6 @@ button{
 	
 
 }
-
 
 .tdspan{
 	font-weight: bold;

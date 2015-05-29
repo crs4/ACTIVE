@@ -262,8 +262,6 @@ $(document).on('click','#audioButton',function(){
 
 	$("#videotimetable").hide();
 	
-	//~ $(this).effect("highlight");
-	
 });
 
 $(document).on('click','#videoButton',function(){
@@ -271,8 +269,6 @@ $(document).on('click','#videoButton',function(){
 	$("#videotimetable").show();
 	$(this).css({"background":"#aea8d3"});
 	$("#audioButton").css({"background":"#6c7a89"});
-	
-	//~ $(this).effect("highlight");
 	
 });
 
@@ -283,26 +279,14 @@ $(document).on('click','.rmperson',function(){
 	$("#icons img").animate({ backgroundColor: "#22313f" },100);
 	$("#icons img:nth-child(2)").animate({ backgroundColor: "#674172" },100);
 				
-	var id = $(this).attr('id').split("-")[1]
-    //~ var id_type = $(this).attr('id').split("-")[0].split['_']
+	var tag_id = $(this).attr('id').split("-")[1]
 	var person = jQuery.grep(people, function(el) {			
-		return (el.tag_id == id);
+		return (el.tag_id == tag_id);
 	});
     
     console.log(person)
     
     
-    $.ajax({
-        url: 'http://156.148.132.79:80/api/tags/'+id,
-        type: 'DELETE',
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        },
-        success: function(result) {
-        }
-    });
 	
 	$( "#dialog-confirm" ).dialog({
 		resizable: false,
@@ -314,7 +298,21 @@ $(document).on('click','.rmperson',function(){
 		title: "Remove "+person[0].firstName+" "+person[0].lastName+"?",
 		buttons: {
 			"Remove person": function() {
-				$('#tr'+id).remove();
+       
+                $.ajax({
+                    url: 'http://156.148.132.79:80/api/tags/'+tag_id,
+                    type: 'DELETE',
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    },
+                    success: function(result) {
+                       
+                        $('#tr'+person[0].core_id).remove();
+                    }
+                });
+				
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {

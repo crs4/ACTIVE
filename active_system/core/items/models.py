@@ -19,7 +19,7 @@ def compute_upload_path(instance, filename):
     This function has been defined also to avoid the overlapping between
     different items uploaded at the same time.
     """
-    return os.path.join(str(instance.id), 'items', filename)
+    return os.path.join('items', str(instance.id), filename)
 
 
 class Item(models.Model):
@@ -39,7 +39,7 @@ class Item(models.Model):
     file = models.FileField(upload_to=compute_upload_path, null=True)
     thumb = models.FileField(upload_to=compute_upload_path, null=True)
     preview = models.FileField(upload_to=compute_upload_path, null=True)
-    state = models.CharField(max_length=300, default='ANALYZED')
+    state = models.CharField(max_length=300, default='STORED')
 
 
     def __repr__(self):
