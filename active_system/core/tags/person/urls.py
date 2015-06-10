@@ -8,7 +8,7 @@ All provided data is returned in a JSON format.
 These are the relative paths that could be used to handle Person objects,
 with the provided method and a short description for each one:
 
-GET     /api/people/	   obtain the list of available Person in JSON
+GET     /api/people/	   obtain the list of available Person objects in JSON
 
 POST    /api/people/	   create a new Person object with provided serialized data
 
@@ -20,7 +20,7 @@ PUT     /api/people/12/   edit the data of the Person object with id = 12
 DELETE  /api/people/12/   delete all data related to the Person object with id = 12
 """
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 from core.tags.person.views import PersonDetail, PersonList, PersonImage
 
 

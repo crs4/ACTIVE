@@ -94,7 +94,9 @@ def set_status(item_id, status_type):
     status = r.json()['state']
 
     if status_type not in status:
-        status += ', ' + status_type
+        if len(status) > 0:
+            status += ', '
+        status += status_type
 
     # update the processing status for the considered item
     r = requests.put(url, {'id' : item_id, 'state' : status})
@@ -144,7 +146,22 @@ def set_thumbnail(item_id, file_path, file_mime):
     return r.status_code == requests.codes.ok
 
 
+def get_item(item_id):
+    """
+    Method used to update the thumbnail associate to an item.
+    Providing the item id and the path of the file that must be sent,
+    it encapsulate all data in a HTTP request.
 
+    :param item_id: Id of the considered item.
+    :return: Result of the file retrieval.
+    """
+
+    url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
+    r = requests.get(url)
+
+    if r.status_code != requests.codes.ok:
+        return None
+    return r.json()
 
 
 

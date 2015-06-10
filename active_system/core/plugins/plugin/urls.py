@@ -8,11 +8,11 @@ All provided data is returned in a JSON format.
 These are the relative paths that could be used to handle Plugin objects,
 with the provided method and a short description for each one:
 
-GET     /api/plugins/      obtain the list of available Events in JSON.
+GET     /api/plugins/      obtain the list of available Plugin objects in JSON.
 
 GET     /api/plugins/12/    obtain the data of the Plugin object with id = 12.
 
-NB: it isn't possible to create, edit or delete plugin data through the API REST
+NB: it isn't possible to create, edit or delete Plugin object data through the API REST
 due to the fact that all information are extracted from manifest files.
 So if any change is required it must be applied to the manifest file.
 """

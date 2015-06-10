@@ -5,7 +5,7 @@ A new file is saved on the filesystem in the same directory of the original file
 """
 
 from django.conf import settings
-from plugins_script.commons.item import set_preview
+from plugins_script.commons.item import set_preview, set_status
 from skeleton.skeletons import Farm, Seq
 from skeleton.visitors import Executor
 import requests
@@ -61,6 +61,8 @@ def _extract_video_preview(params):
 
     if not res:
         raise Exception("Preview not generated for video item" + str(func_out['id']))
+
+    set_status(func_out['id'], 'ADAPTED')
     return True
 
 
@@ -105,6 +107,8 @@ def _extract_image_preview(params):
 
     if not res:
         raise Exception("Preview not generated for image item" + str(func_out['id']))
+
+    set_status(func_out['id'], 'ADAPTED')
     return True
 
 
@@ -134,6 +138,13 @@ def _extract_audio_preview(params):
     preview_path = os.path.join('/tmp', str(func_out['id']) + 'preview.mp3')
     cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -ab 128k ' + preview_path
     subprocess.check_output(cmd, shell=True)
+
+    #cmd = "/usr/bin/ffmpeg -y -i "
+    #cmd += os.path.join(settings.MEDIA_ROOT, 'items', str(func_out['id']), func_out['filename'])
+    #cmd += " -acodec pcm_s16le -ac 1 -ar 16000 "
+    #cmd += os.path.join('/tmp', str(func_out['id']) + ".wav")
+    #subprocess.check_output(cmd, shell=True)
+
     if not os.path.exists(preview_path):
         raise Exception("Audio preview not generated for item " + str(func_out['id']))
 
@@ -145,5 +156,6 @@ def _extract_audio_preview(params):
 
     if not res:
         raise Exception("Preview not generated for audio item" + str(func_out['id']))
-    return True
 
+    set_status(func_out['id'], 'ADAPTED')
+    return True

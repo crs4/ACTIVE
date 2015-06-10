@@ -48,6 +48,7 @@ public class DBScore {
 		PropertiesReader pr=new PropertiesReader(args[0]);
 		Diarization dia=new Diarization();
 		boolean make_dia=true;
+		System.out.println("------------"+ pr.getAllPropertyNames());
 		
 		if (args.length>1){
 			if (args[1].equals("nodiarization")){

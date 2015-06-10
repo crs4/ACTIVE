@@ -11,17 +11,23 @@ from rest_framework.response import Response
 
 from core.plugins.models import Plugin
 from core.plugins.plugin.serializers import PluginSerializer
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class PluginList(EventView): 
     """
-    List all existing Plugin objects.
+    This class implement all methods necessary to list all stored Plugin objects
+    and to create a new one providing required JSON serialied data.
     """
+    model = Plugin
 
     def get(self, request, format=None):
         """
         This method is used to retrieve all stored Plugin objects.
-        Retrieved data is returned in a serialized format.
+        Retrieved data is returned in a JSON serialized format.
 
         @param request: HttpRequest used to retrieve Plugin objects data.
         @type request: HttpRequest
@@ -30,6 +36,7 @@ class PluginList(EventView):
         @result: HttpResponse containing all serialized objects data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all stored Plugin objects')
         plugins = Plugin.objects.all()
         serializer = PluginSerializer(plugins, many=True)
         return Response(serializer.data)
@@ -37,14 +44,16 @@ class PluginList(EventView):
 
 class PluginDetail(EventView): 
     """
-    Retrieve a plugin instance.
+    This class implements all methods necessary to retrieve a Plugin object,
+    providing its id.
     """
+    model = Plugin
 
     def get_object(self, pk):
         """
         Method used to obtain a specific Plugin object by its id.
 
-        @param pk: Primary key used to retrieve a Plugin.
+        @param pk: Primary key used to retrieve a Plugin object.
         @type pk: int
         @result: Plugin object retrieved, error if it isn't available.
         @rtype: Plugin
@@ -56,7 +65,7 @@ class PluginDetail(EventView):
 
     def get(self, request, pk, format=None):
         """
-        Method used to return serialized data of a Plugin.
+        Method used to return serialized data of a Plugin object.
 
         @param request: HttpRequest used to retrieve serialized Plugin object data.
         @type request: HttpRequest
@@ -67,6 +76,7 @@ class PluginDetail(EventView):
         @returns: HttpResponse containing the Plugin object serialized data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested Plugin object ' + str(pk))
         plugin = self.get_object(pk)
         serializer = PluginSerializer(plugin)
         return Response(serializer.data)

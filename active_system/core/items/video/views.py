@@ -1,10 +1,10 @@
 """
-This module has been defined in order to handle Video item objects data through a REST API.
-It is possible to invoke CRUD methods on Video item objects, providing an id if necessary,
+This module has been defined in order to handle VideoItem objects data through a REST API.
+It is possible to invoke CRUD methods on VideoItem objects, providing an id if necessary,
 or retrieve all stored objects.
 """
 
-from django.http import HttpResponse, StreamingHttpResponse, Http404
+from django.http import HttpResponse, Http404
 
 from core.views import EventView
 from rest_framework.response import Response
@@ -12,7 +12,10 @@ from rest_framework import status
 
 from core.items.video.models import VideoItem
 from core.items.video.serializers import VideoItemSerializer, VideoItemPagination
+import logging
 
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 import threading
 edit_lock = threading.Lock()
@@ -23,20 +26,21 @@ class VideoItemList(EventView):
     This class implements two methods necessary to list all VideoItems objects
     and to create and store a new VideoItem object.
     """
+    model = VideoItem
 
     def get(self, request, format=None):
         """
         Method used to list all stored VideoItem objects.
         Objects data is returned in a JSON serialized format and paginated.
 
-        @param request: HttpRequest used to retrieve VideoItem data.
+        @param request: HttpRequest used to retrieve VideoItem objects data.
         @type request: HttpRequest
         @param format: The format used to serialize objects data, JSON by default.
         @type format: string
         @return: HttpResponse containing all serialized data of retrieved VideoItem objects.
         @rtype: HttpResponse
         """
-
+        logger.debug('Requested all stored VideoItem objects')
         items = VideoItem.objects.all()
         paginator = VideoItemPagination()
         result = paginator.paginate_queryset(items, request)
@@ -54,13 +58,18 @@ class VideoItemList(EventView):
         @return: HttpResponse containing the id of the new created VideoItem object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new VideoItem object')
         serializer = VideoItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'video' :
+            logger.error('File missing or content type not supported')
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
 
         if serializer.is_valid():
             serializer.save()
+            logger.debug('New VideoItem object saved ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data not valid for VideoItem object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -68,6 +77,7 @@ class VideoItemDetail(EventView):
     """
     Retrieve, update or delete a video item instance.
     """
+    model = VideoItem
 
     def get_object(self, pk):
         """
@@ -97,6 +107,7 @@ class VideoItemDetail(EventView):
         @return: HttpResponse containing all serialized data of a VideoItem, error if it isn't available.
         @rtype: HttpResponse
         """
+        logger.debug('Requested VideoItem object ' + str(pk))
         item = self.get_object(pk)
         serializer = VideoItemSerializer(item)
         return Response(serializer.data)
@@ -115,12 +126,16 @@ class VideoItemDetail(EventView):
         @return: HttpResponse containing all update object data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on VideoItem object ' + str(pk))
         with edit_lock:
             item = self.get_object(pk)
             serializer = VideoItemSerializer(item, data=request.data, partial = True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('VideoItem object ' + str(pk) + ' successfully edited')
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for VideoItem object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -136,6 +151,8 @@ class VideoItemDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on VideoItem object ' + str(pk))
         item = self.get_object(pk)
         item.delete()
+        logger.debug('VideoItem object' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)

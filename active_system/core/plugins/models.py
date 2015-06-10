@@ -37,7 +37,7 @@ class Action(models.Model):
     This class is used to provide an object representation to
     Views objects providing all necessary data. A Action object
     is the entity which trigger one or more Event objects.
-    In this case it is a function that is called and executed correctely.
+    In this case it is a function that is called and executed correctly.
     Moreover a Action could trigger ONLY one Event.
     """
     path_abs = models.CharField(max_length=300)
@@ -48,7 +48,6 @@ class Action(models.Model):
 
     def __unicode__(self):
         return self.path_abs
-
 
 
 class Plugin(models.Model):

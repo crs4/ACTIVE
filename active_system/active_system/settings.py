@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-#    'oauth2_provider',
+    'oauth2_provider',
     'corsheaders',
     'core',
     'tools.navigator',
@@ -135,10 +135,56 @@ CORS_ALLOW_HEADERS = (
 FILE_UPLOAD_HANDLERS = (#"django.core.files.uploadhandler.MemoryFileUploadHandler",
 			"django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
+OAUTH2_PROVIDER = {
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'}
+}
 
 # django rest framework settings
 REST_FRAMEWORK = {
-	'UPLOADED_FILES_USE_URL' : False
+	'UPLOADED_FILES_USE_URL' : False,
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+	),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.AllowAny',
+		#'rest_framework.permissions.IsAuthenticated',
+		#'rest_framework.permissions.DjangoModelPermissions'
+	    )
+}
+
+# parameters used for system logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'active.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        # low level system logging
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'active_log': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
 }
 
 

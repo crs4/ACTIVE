@@ -38,7 +38,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^admin/', include(admin.site.urls)),
-#    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/', include(core.urls)),
     url(r'^jobmonitor/', include(tools.job_monitor.urls)),
     url(r'^navigator/', include(tools.navigator.urls)),

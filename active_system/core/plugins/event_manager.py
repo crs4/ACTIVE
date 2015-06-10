@@ -1,7 +1,16 @@
+"""
+This module define a class used to handle the event triggering based on the
+name of the event or the script id.
+"""
+
 from django.conf import settings
 from core.plugins.models import Event, Action, Script
 import requests
 import json
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class EventManager():
@@ -23,26 +32,10 @@ class EventManager():
         @param output_dict: Optional dictionary containing all action output data provided to the event.
         @type output_dict: dictionary
         """
-        print 'The event', event_name, 'has been triggered'
-        if (Script.objects.filter(events__name = event_name).count() > 0):
+        logger.info('Triggering all scripts associated to ' + event_name + ' event')
+        if Script.objects.filter(events__name = event_name).count() > 0:
             for script in Script.objects.filter(events__name = event_name):
                 self.execute_script(script, input_dict, output_dict)
-
-    def start_scripts_by_action(self, action_name, input_dict={}, output_dict={}):
-        """
-        This method is used to execute all plugin scripts that are associated to any
-        event, whose is associated to a generic action/function.
-
-        @param action_name: The name of the action (function) that will trigger one or more events.
-        @type action_name: string
-        @param input_dict: Optional dictionary containing all action input data provided to the event.
-        @type input_dict: dictionary
-        @param output_dict: Optional dictionary containing all action output data provided to the event.
-        @type output_dict: dictionary
-        """
-        for action in Action.objects.filter(path_abs = action_name):
-            print 'The action ', action.path_abs, 'has been triggered'
-            self.start_scripts(action.event.name, input_dict, output_dict)
 
     def execute_script_by_id(self, script_id, input_dict={}, output_dict={}):
         """
@@ -56,6 +49,7 @@ class EventManager():
         @param output_dict: Optional dictionary containing inputs that will be provided to the script.
         @type output_dict: dictionary
         """
+        logger.info('Triggering plugin script ' + str(script_id))
         script = Script.objects.get(pk=script_id)
         self.execute_script(script, input_dict, output_dict)
 
@@ -73,13 +67,40 @@ class EventManager():
         @param output_dict: Optional dictionary containing all action output data provided to the event.
         @type output_dict: dictionary
         """
+        if not input_dict:
+            input_dict = {}
+
+        if not output_dict:
+            output_dict = {}
+
+        logger.debug('Starting plugin script ' + str(script.pk) + ' on Job Processor')
         desc = script.details
         if 'id' in output_dict:
             desc += ' - ' + str(output_dict['id'])
         server_url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/'
-        r = requests.post(server_url,	{'func_name': script.path,
-                                          'job_name': script.job_name,
-                                          'event_in_params' : json.dumps(input_dict),
-                                          'event_out_params' : json.dumps(output_dict),
-                                          'name' : desc})
-        print 'Running ', script.details, 'script...'
+        r = requests.post(server_url,	{'name'             : desc,
+                                         'func_name'        : script.path,
+                                         'job_name'         : script.job_name,
+                                         'event_in_params'  : json.dumps(input_dict),
+                                         'event_out_params' : json.dumps(output_dict)})
+
+        if r.status_code != requests.codes.ok:
+            logger.error('Error on starting execution of script ' + script.pk)
+
+
+
+    def start_scripts_by_action(self, action_name, input_dict={}, output_dict={}):
+        """
+        This method is used to execute all plugin scripts that are associated to any
+        event, whose is associated to a generic action/function.
+
+        @param action_name: The name of the action (function) that will trigger one or more events.
+        @type action_name: string
+        @param input_dict: Optional dictionary containing all action input data provided to the event.
+        @type input_dict: dictionary
+        @param output_dict: Optional dictionary containing all action output data provided to the event.
+        @type output_dict: dictionary
+        """
+        for action in Action.objects.filter(path_abs = action_name):
+            logger.info('Triggering action ' + action.path_abs)
+            self.start_scripts(action.event.name, input_dict, output_dict)

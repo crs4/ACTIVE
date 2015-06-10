@@ -13,11 +13,13 @@ from plugins_script.commons.tags import create_tag, create_dtag, get_tags_by_ite
 from plugins_script.commons.person import create_person
 from skeleton.skeletons import Farm, Seq
 from skeleton.visitors import Executor
-from seg_file_utility import make_name_compact
+from seg_file_utility import *
 import re
 import shutil
 
 def speaker_diarization(func_in, func_out):
+    print "func_in ", func_in
+    print "func_out", func_out
     try:
         # remove existing tags (and dynamic tags) for the item
         tags = get_tags_by_item(func_out['id'])
@@ -26,19 +28,20 @@ def speaker_diarization(func_in, func_out):
 
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> START"
         file_path=os.path.join(settings.MEDIA_ROOT, func_out["file"])
-        new_file_path=os.path.join(settings.MEDIA_ROOT,'items',str(func_out["id"]),func_out["file"].split(".")[0],".",func_out["file"].split(".")[1])
+        new_file_path=os.path.join(settings.MEDIA_ROOT,'items',str(func_out["id"]), str(func_out["id"]) )
         print "new file path ",new_file_path
         shutil.copy2(file_path,new_file_path)
         file_root=os.path.join(settings.MEDIA_ROOT, 'items', str(func_out["id"])) # e' necessario il casting esplicito degli interi?
         file_path=new_file_path
-        convert_with_ffmpeg(file_path)
+        print "file_path  ", file_path
+        #convert_with_ffmpeg(file_path)
 
         #_mkdir_out(file_root+"/out")
         # delete the path if exists and create a new one
         if os.path.exists(file_root + "/out"):
             shutil.rmtree(file_root + "/out")
         os.mkdir(file_root + "/out")
-
+        os.chmod(file_root+"/out",0o777)
         with open(file_path.split(".")[0]+'.properties', "w") as f:
             f.write("fileName="+file_path.split(".")[0]+".wav")
             #f.write("outputRoot="+file_root+"/")
@@ -50,18 +53,28 @@ def speaker_diarization(func_in, func_out):
             f.writelines("outputRoot="+file_root+"/out/")
             #f.writelines("outputRoot="+file_root)
         f.close()
-        diarization(file_path.split(".")[0]+'.properties')
 
         # fare la diarization sul file originale
+	file_properties=file_path.split(".")[0]+'.properties'
+        print " file_properties ", file_properties
+        diarization(file_properties)
+
+
         # splittare il file di property dei cluster
+	f_spl_3_seg=file_root+"/out/"+file_path.split("/")[-1]+".spl.3.seg"
+        print "f_spl_3_seg ", f_spl_3_seg
+	num_part=split_seg_file(f_spl_3_seg)
+
         # file_list = ['/path/property/file', '...']
-        # seq = Seq(diarization)  # incapsula la funzione da calcolare in modo distribuito
-        # farm = Farm(seq)        # skeleton necessario per l'esecuzione parallela
-        # Executor().eval(farm, file_list) # costrutto che valuta lo skeleton tree
+	file_list=make_propertirs_part(file_properties,file_root,num_part)
+
+        seq = Seq(identification)  # incapsula la funzione da calcolare in modo distribuito
+        farm = Farm(seq)        # skeleton necessario per l'esecuzione parallela
+        Executor().eval(farm, file_list) # costrutto che valuta lo skeleton tree
 
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> STOP"
         print "fp=",file_root+"/out/"+func_out["filename"].split(".")[0]
-        post_di_esempio(id_item=str(func_out["id"]) , fp=file_root+"/out/"+func_out["filename"].split(".")[0])
+        post_di_esempio(id_item=str(func_out["id"]) , fp=file_root+"/out/"+str(func_out["id"]))
     except Exception as e:
         print e
 
@@ -113,10 +126,10 @@ def _mkdir_out(path_dir):
     subprocess.check_output("/bin/mkdir "+path_dir,shell=True)
 
 def _convert_with_ffmpeg(file_name):
-    print "try conversion..."
+    print "try conversion...------"
     
-    print '/usr/bin/ffmpeg -y -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"'	
-    subprocess.check_output('/usr/bin/ffmpeg -y -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"', shell=True)
+    print '/usr/bin/ffmpeg -y -i ' + file_name + ' -acodec pcm_s16le -ac 1 -ar 16000 ' + file_name + '.wav'	
+    subprocess.check_output('/usr/bin/ffmpeg -y -i ' + file_name + ' -acodec pcm_s16le -ac 1 -ar 16000 ' + file_name + '.wav', shell=True)
     print "conversion ok"
 
 
@@ -124,11 +137,19 @@ def diarization(file_properties):
     cd_go="cd /var/spool/active/job_processor/plugins_script/speaker_extractor/;"
     java="java -Xmx2048m " #da definire in base alla macchina
     java_classpath=" -classpath /var/spool/active/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
-    commandline=java+java_classpath+" it.crs4.identification.DBScore \""+file_properties + "\"" 
+    commandline=java+java_classpath+" it.crs4.active.diarization.Diarization \""+file_properties + "\"" 
     print "diarization -- command \n"
     print commandline
     start_subprocess(commandline)
 
+def identification(file_properties):
+    cd_go="cd /var/spool/active/job_processor/plugins_script/speaker_extractor/;"
+    java="java -Xmx2048m " #da definire in base alla macchina
+    java_classpath=" -classpath /var/spool/active/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar "
+    commandline=java+java_classpath+" it.crs4.identification.parallel.DBScoreParallel \""+file_properties + "\""
+    print "identification -- command \n"
+    print commandline
+    start_subprocess(commandline)
 
 
 
@@ -246,8 +267,10 @@ def humanize_time(secs):
                                  str(("%0.3f" % secs))[-3:])
 
 def convert_with_ffmpeg(file_name):
-    print "try conversion..."
+    print "try conversion...******#######"
     
-    print 'ffmpeg -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "'+ file_name.split(".")[0] + '.wav"'
-    subprocess.call('ffmpeg -i "' + file_name + '" -acodec pcm_s16le -ac 1 -ar 16000 "' + file_name.split(".")[0] + '.wav"')
-
+    cmd='/usr/bin/ffmpeg -y -i ' + file_name + '.tmp -acodec pc m_s16le -ac 1 -ar 16000 '+ file_name + '.wav'
+    print cmd
+    subprocess.call(cmd)
+    #subprocess.call('/usr/bin/ffmpeg -y  -i ' + file_name + ' -acodec pcm_s16le -ac 1 -ar 16000 ' + file_name + '.wav')
+    print "ok conversion"

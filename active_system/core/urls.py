@@ -6,6 +6,7 @@ from django.conf.urls import include, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 import core.items.urls
+import core.active_tools.urls
 import core.plugins.urls
 import core.tags.urls
 import core.users.urls
@@ -15,7 +16,8 @@ urlpatterns = [
     url(r'^items/', include(core.items.urls)),
     url(r'', include(core.plugins.urls)),
     url(r'', include(core.tags.urls)),
-    url(r'users/', include(core.users.urls)),
+    url(r'^users/', include(core.users.urls)),
+    url(r'^tools/', include(core.active_tools.urls)),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

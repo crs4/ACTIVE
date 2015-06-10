@@ -1,12 +1,15 @@
 """
-Module used to define the data model for Person entities.
+Module used to define the data model for Person objects.
 For each person that will be used by the platform it will be
 used to create a object with personal information fields.
+It is used in order to extend the basic field of a Entity object
+with more specific ones related to person.
 """
 
 from django.db import models
 from core.tags.models import Entity
 import os
+
 
 def compute_upload_path(instance, filename):
     """
@@ -14,7 +17,8 @@ def compute_upload_path(instance, filename):
     This function has been defined also to avoid the overlapping between
     different items uploaded at the same time.
     """
-    return os.path.join(str(instance.id), 'person', filename)
+    return os.path.join('person', str(instance.id), filename)
+
 
 class Person(Entity):
     """
@@ -27,7 +31,7 @@ class Person(Entity):
     last_name= models.CharField(max_length=100)
     gender = models.CharField(max_length=100, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    image = models.FileField(upload_to=compute_upload_path, default='person/unknown_user.png')
+    image = models.FileField(upload_to=compute_upload_path, null=True) #default='person/unknown_user.png')
 
     def save(self, *args, **kwargs):
         super(Person, self).save(*args, **kwargs)

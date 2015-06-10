@@ -1,6 +1,6 @@
 """
 This module contains all classes and methods needed to retrieve all Event objects
-and invoke CRUD operations, providing a id if requested.
+and invoke CRUD operations on a Event object, providing its id and required additional data.
 """
 
 from django.http import HttpResponse, Http404
@@ -12,6 +12,10 @@ from core.plugins.script.serializers import ScriptSerializer
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
@@ -20,8 +24,10 @@ edit_lock = threading.Lock()
 
 class EventList(EventView): 
     """
-    List all existing Events or create/save a new one.
+    This class implements all methods necessary to list all stored Event objects or
+    create a new one providing the serialized data.
     """
+    model = Event
 
     def get(self, request, format=None):
         """
@@ -35,6 +41,7 @@ class EventList(EventView):
         @return: HttpResponse containing all serialized data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all stored Event objects')
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
@@ -42,7 +49,7 @@ class EventList(EventView):
     def post(self, request, format=None):
         """
         This method is used to create and store a new Event object.
-        All required data is provided in a serialized format.
+        All required data is provided in a JSON serialized format.
 
         @param request: HttpRequest containing all data for the new Event object.
         @type request: HttpRequest
@@ -51,21 +58,27 @@ class EventList(EventView):
         @return: HttpResponse containing the id of the new object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new Event object')
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('New Event object saved - ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data not valid for Event object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EventDetail(EventView): 
     """
-    Retrieve, update or delete a event instance.
+    This class implements all methods necessary to retrieve, update or
+    delete a Event object providing its id and required JSON formatted data.
     """
+    model = Event
 
     def get_object(self, pk):
         """
-        Method used to retrieve an Event objects using its id.
+        Method used to retrieve a Event object using its id.
 
         @param pk: Primary key used to retrieve a Event object.
         @type pk: int
@@ -80,7 +93,7 @@ class EventDetail(EventView):
     def get(self, request, pk, format=None):
         """
         Method used to retrieve all data of a specific Event object, providing its id.
-        Event data is returned in a serialized format.
+        Event data is returned in a JSON serialized format.
 
         @param request: HttpRequest used to retrieve data of a specific Event object.
         @type request: HttpRequest
@@ -91,15 +104,17 @@ class EventDetail(EventView):
         @return: HttpResponse containing the serialized data of a Event object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Requested Event object ' + str(pk))
         event = self.get_object(pk)
         serializer = EventSerializer(event)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         """
-        Method used to update data of a specific Event object, providing fresh field data.
+        Method used to update data of a specific Event object, providing
+        its id and the updated data.
 
-        @param request: HttpRequest which provide all update data fields.
+        @param request: HttpRequest which provide all updated data fields.
         @type request: HttpRequest
         @param pk: Primary key used to retrieve the Event object to update.
         @type pk: int
@@ -108,12 +123,16 @@ class EventDetail(EventView):
         @return: HttpResponse containing the Event updated serialized data, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on Event object ' + str(pk))
         with edit_lock:
             event = self.get_object(pk)
-            serializer = EventSerializer(event, data=request.data)
+            serializer = EventSerializer(event, data=request.data, )
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Event object ' + str(pk) + ' successfully edited')
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for Event object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -129,28 +148,8 @@ class EventDetail(EventView):
         @return: HttpResponse containing the result of Event object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Event object ' + str(pk))
         event = self.get_object(pk)
         event.delete()
+        logger.debug('Event object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-"""
-    # metodo da rimuovere??????????? e' utilizzato da qualche parte?
-    def get_event_scripts(self, request, pk, format=None):
-
-        This method is used to retrieve all Script objects associated with a given Event object.
-	Objects are returned in a serialized format, JSON by default.
-
-	@param request: HttpRequest used to retrieve all stored Script objects.
-	@type request: HttpRequest
-	@param format: The format used to serialize objects data.
-	@type format: string
-	@return: HttpResponse containing all serialized data.
-	@rtype: HttpResponse
-
-	
-	event = self.get_object(pk)
-	scripts = Script.objects.filter(events__name = event.name)
-	serializer = ScriptSerializer(scripts, many=True)
-        return Response(serializer.data)
-"""

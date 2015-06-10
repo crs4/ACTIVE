@@ -1,30 +1,22 @@
 """
-This module defines the URL patterns that must be used in order to handle User objects data.
-The provided REST API allows to:
-    - obtain the list of alla available User objects;
-    - handle the data of a specific User object through CRUD operations.
-All provided data is returned in a JSON format.
-
-These are the relative paths that could be used to handle User objects,
-with the provided method and a short description for each one:
-
-GET     /api/users/	   obtain the list of available User in JSON
-
-POST    /api/users/	   create a new Person object with provided serialized data
-
-
-GET     /api/users/12/   obtain the data of the User object with id = 12
-
-PUT     /api/users/12/   edit the data of the User object with id = 12
-
-DELETE  /api/users/12/   delete all data related to the User object with id = 12
+This module contains the definition of the URL patterns that must be used
+to interact with the REST API for handling User, Group, Permission, ContentType
+objects through CRUD operations.
 """
 
 from django.conf.urls import url
-from core.users.views import ActiveUserList, ActiveUserDetail
-
+from rest_framework.urlpatterns import format_suffix_patterns
+from core.users.views import UserList, UserDetail, GroupList, GroupDetail
+from core.users.views import PermissionList, PermissionDetail, ContentTypeList, ContentTypeDetail
 
 urlpatterns = [
-    url(r'^$', ActiveUserList.as_view()),
-    url(r'^(?P<pk>[0-9]+)/$', ActiveUserDetail.as_view()),
+    url(r'^users/$', UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', UserDetail.as_view()),
+    url(r'^groups/$', GroupList.as_view()),
+    url(r'^groups/(?P<pk>[0-9]+)/$', GroupDetail.as_view()),
+    url(r'^permissions/$', PermissionList.as_view()),
+    url(r'^permissions/(?P<pk>[0-9]+)/$', PermissionDetail.as_view()),
+    url(r'^content_types/$', ContentTypeList.as_view()),
+    url(r'^content_types/(?P<pk>[0-9]+)/$', ContentTypeDetail.as_view())
 ]
+

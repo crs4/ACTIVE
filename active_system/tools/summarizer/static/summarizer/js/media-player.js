@@ -788,7 +788,7 @@ function resizeTracks(){
 		for(j=0; j<video.duration.length; j++){
 			
 			
-			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration)
+			var temp_duration = video.duration[j] * (summary_duration/total_segments_duration);
 			if(temp_duration >= min_track_duration){
 				
 				temp_video_time.push(video.time[j]);
@@ -821,7 +821,7 @@ function resizeTracks(){
 		summary_duration = duration_after_drop;
 	}
 	
-}
+};
 
 function manage_movehead(){
 	
@@ -836,7 +836,7 @@ function manage_movehead(){
 }
 
 
-function colorLuminance(hex, lum) {
+function colorLuminance(hex, lum){
 
 	// validate hex string
 	hex = String(hex).replace(/[^0-9a-f]/gi, '');

@@ -144,6 +144,29 @@ def seg2srt(segfile):
         srtfile.write("\n")
     srtfile.close()
     #utils.ensure_file_exists(basename + '.srt')
+def split_seg_file(segfile):
+    """Take a seg file and split it.
+
+    :type segfile: string
+    :param segfile: the segmentation file to convert"""
+    print "************ segfile ", segfile
+    index=0
+    basename = os.path.splitext(segfile)[0]
+    seg = open(segfile, 'r')
+    new_seg=None #open(basename+".seg_part"+str(index), 'w')
+    lines = []
+    for line in seg.readlines():
+        if not line.startswith(";;"):
+            new_seg.writelines(line)
+        else:
+            if not new_seg==None:
+                new_seg.close()
+            index=index+1 
+            new_seg=open(basename+".seg_part"+str(index), 'w')
+            new_seg.writelines(line)
+    seg.close()
+    new_seg.close()
+    return index
 
 def seg2srt_rename(segfile, identity):
     """Take a seg file and convert it in a subtitle file (srt).
@@ -635,10 +658,39 @@ def make_name_compact(fp):
     res=segfile_compact_name(fp)
     print "res ", res
     return res
+import shutil
+def make_propertirs_part(file_properties,basename,num_part):
+    file_list=[]
+    print "***** basename ", basename, " item ", basename.split("/")[-1]
+    imsr="s_inputMaskRoot="+basename+"/out/"+basename.split("/")[-1]+ ".spl.3.seg_part"
+    somr="s_outputMaskRoot="+basename+"/out/"+basename.split("/")[-1]+".g.3.seg_part"
+    print "**** file_properties ", file_properties
+    new_file_properties=file_properties.split(".")[0]
+    print "new_file_properties ", new_file_properties
+    for i in range(num_part):
+        shutil.copy2(file_properties, new_file_properties+"_part"+str(i+1)+".properties")
+        f=open(new_file_properties+"_part"+str(i+1)+".properties","a")
+        file_list.append(new_file_properties+"_part"+str(i+1)+".properties")
+        f.write("\n")
+        f.write(imsr+str(i+1))
+        f.write("\n")
+        f.write(somr+str(i+1))
+        f.close()
+    print "lista di nuovi file properties ", file_list
+    return file_list    
 if __name__ == '__main__':
+    file_properties="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/properties/FacciamoIConti_GiacomoMameli-1minuto.properties"
+    basename="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/FacciamoIConti_GiacomoMameli-1minuto/FacciamoIConti_GiacomoMameli-1minuto"
+    fs="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/FacciamoIConti_GiacomoMameli-1minuto/FacciamoIConti_GiacomoMameli-1minuto.spl.3.seg"
+    num_part=split_seg_file(fs)
+    print num_part
+    make_propertirs_part(file_properties, basename, num_part)
+    exit()
     """ """
     #fp="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/FacciamoIConti_GiacomoMameli-1minuto/FacciamoIConti_GiacomoMameli-1minuto"
-    fp="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/SandroLombardi##gep_01/SandroLombardi##gep_01"
+    #fp="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/SandroLombardi##gep_01/SandroLombardi##gep_01"
+    #fp="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/SandroLombardi##gep_01-part1/SandroLombardi##gep_01-part1"
+    fp="/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/Mameli-Lombardi-2minuti/Mameli-Lombardi-2minuti"
     
     make_name_compact(fp)
     print "END"

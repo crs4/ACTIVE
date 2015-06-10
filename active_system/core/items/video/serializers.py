@@ -1,8 +1,8 @@
 """
-This module contains all classes needed to provide a REST API to Video item objects.
+This module contains all classes needed to provide a REST API to VideoItem objects.
 The defined classes are:
-    - a serializer used to convert the video items in a JSON format;
-    - a paginator needed to handle the potentially big amount of retrieved video items.
+    - a serializer used to convert the VideoItem objects in a JSON format;
+    - a paginator needed to handle the potentially big amount of retrieved VideoItem objects.
 """
 
 from core.items.serializers import ItemSerializer
@@ -17,15 +17,15 @@ class VideoItemSerializer(ItemSerializer):
     """
     class Meta(ItemSerializer.Meta):
         model = VideoItem
-        fields = ('id', 'description', 'type', 'mime_type', 'filename',
-                  'filesize', 'visibility', 'uploaded_at', 'published_at',
-                  'owner', 'frame_rate', 'frame_width', 'frame_height',
-                  'duration', 'format', 'file', 'thumb', 'preview', 'state')
+        #fields = ('id', 'description', 'type', 'mime_type', 'filename',
+        #          'filesize', 'visibility', 'uploaded_at', 'published_at',
+        #          'owner', 'frame_rate', 'frame_width', 'frame_height',
+        #          'duration', 'format', 'file', 'thumb', 'preview', 'state')
 
 
 class VideoItemPagination(PageNumberPagination):
     """
-    This class is used to create a paginator for video item object.
+    This class is used to create a paginator for VideoItem objects.
     Results are returned setting the maximum number of results per page.
     """
     page_size = 32

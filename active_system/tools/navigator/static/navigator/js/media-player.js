@@ -28,7 +28,7 @@ function Person(firstName, lastName, starts, durations, tag_type, tag_id, id){
 
 
 var people = [];
-//~ 
+
 
 $.get( "http://156.148.132.79:80/api/dtags/search/item/"+item_id+"/", function( data ) {
 	var tags = [];
@@ -162,7 +162,8 @@ $(document).ready(function(){
 	
 	$(mediaPlayer).on("timeupdate",  function(){
 		
-		updateProgressBar();	
+		//~ updateProgressBar();	
+        manage_movehead();
 	});	
 	
 	$(mediaPlayer).on("loadeddata", function(){
@@ -177,7 +178,6 @@ $(document).ready(function(){
 	
 	$("#icons img").click(function(){
 				
-			//~  add /static/navigator
 			var imgClicked = $(this).attr( "src" );
 			if(imgClicked != "/static/navigator/icons/voloff.png" && imgClicked != "/static/navigator/icons/volon.png"
 				&& imgClicked != "/static/navigator/icons/zoom_in.png" && imgClicked != "/static/navigator/icons/zoom_out.png"){
@@ -213,23 +213,42 @@ $(document).ready(function(){
 			}
 			if(imgClicked == "/static/navigator/icons/zoom_in.png" ){ 
 				$(this).effect("highlight");
+               
 				$(".timeline").width( 
-					$(".timeline").width() * 1.1 
+					$(".timeline").width() * (11/10) 
 				); 
+              
+               				 
+               
 				 
 			} 
 			if(imgClicked == "/static/navigator/icons/zoom_out.png" ){ 
+               
 				$(this).effect("highlight");
 				$(".timeline").width( 
-					$(".timeline").width() * 0.9 
+					$(".timeline").width() * (10/11) 
 				); 
-				 
-				 
+              
+               				 
 				 
 			}
 			
 	
 	});
+    
+    //~ $( "#draggable5" ).draggable({ containment: "parent", axis: "x" });
+    //~ $( "#draggable5" ).mouseup(function() {
+        //~ var a = $(this);
+        //~ p = a.position();
+        //~ alert(p.left);
+    //~ });
+    
+    $(mediaPlayer).bind("ended", function() {
+        mediaPlayer.pause();
+        mediaPlayer.currentTime = 0;
+		$("#icons img").animate({ backgroundColor: "#22313f" },100);
+		$("#icons img:nth-child(3)").animate({ backgroundColor: "#674172" },100);
+    });
 	
 });
 
@@ -410,32 +429,15 @@ function updateDOM(){
 	
 }
 
-// Update the progress bar
-function updateProgressBar() {
-	// Work out how much of the media has played via the duration and currentTime parameters
-	percentage = ((100 / mediaPlayer.duration) * mediaPlayer.currentTime);
-	
-	if(percentage == 100){
-		mediaPlayer.pause();
-		mediaPlayer.currentTime = 0;
-		$("#icons img").animate({ backgroundColor: "#22313f" },100);
-		$("#icons img:nth-child(3)").animate({ backgroundColor: "#674172" },100);
-		
-	}
-	else{
-		
-		manage_movehead();
-	
-	}
-}
 
+
+// Update the progress bar
 function manage_movehead(){
 	
+    percentage = ((100 / mediaPlayer.duration) * mediaPlayer.currentTime);
 	movehead.style.width = percentage+"%";
 	$(time_label).text(mediaPlayer.currentTime.toFixed(1));
 	time_label.style.left = percentage+"%";
-	
-	
 }
 
 
@@ -449,8 +451,9 @@ function updatePerson(e,params,person){
 	
 	
 	var id_person = $(person).attr('id').split('-')[1];
-    var new_firstName = params.newValue.split(" ")[0]
-    var new_lastName = params.newValue.split(" ")[1]
+    var new_firstName = params.newValue.split(" ")[0];
+    var new_lastName = params.newValue.split(" ")[1];
+    var person_old;
     
     $.ajax({
         url: 'http://156.148.132.79:80/api/people/'+id_person,
@@ -462,8 +465,49 @@ function updatePerson(e,params,person){
             }
         },
         data: {'first_name':new_firstName,'last_name': new_lastName},
-        success: function(result) {
-            alert("update");
+        success: function(person_mod){
+            alert(person_mod.id);
+            
+            if(id_person != person_mod.id){
+                person_old = jQuery.grep(people, function(el) {			
+		            return (el.core_id == id_person);
+	            });
+                
+                var tag_old_id = person_old[0].tag_id;
+                console.log(person_old);
+                $.ajax({
+                    url: 'http://156.148.132.79:80/api/tags/'+tag_old_id,
+                        type: 'PUT',
+                        dataType: 'json',
+                        beforeSend: function(xhr, settings) {
+                            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                            }
+                        },
+                        data: {'entity':person_mod.id},
+                        success: function(tag){
+                            //~ $.ajax({
+                                 //~ async: false,
+                                 //~ type: 'DELETE',
+                                 //~ dataType: 'json',
+                                 //~ url: "http://156.148.132.79:80/api/people/"+id_person,
+                                 //~ beforeSend: function(xhr, settings) {
+                                    //~ if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                                        //~ xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                    //~ }
+                                 //~ },
+                                 //~ success: function(result) {
+                                        //~ alert("del unk")
+                                 //~ }
+                            //~ });
+                            
+                            
+                        }
+                });
+                
+                
+            }
+            
         }
     });
 	

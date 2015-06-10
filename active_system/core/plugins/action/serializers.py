@@ -8,7 +8,7 @@ from core.plugins.models import Action
 
 class ActionSerializer(serializers.ModelSerializer):
     """
-    Method used for JSON serialization of Event objects.
+    Method used for JSON serialization of Action objects.
     """
     class Meta:
         model = Action

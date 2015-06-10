@@ -9,6 +9,10 @@ from ConfigParser import ConfigParser
 from core.plugins.models import Plugin, Script, Event, Action
 import os
 import ast
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class PluginManager():
@@ -34,7 +38,6 @@ class PluginManager():
 
         return modules
 
-    
     def get_sections(self, module):
         """
         This method is used to extract all sections from a given manifest file.
@@ -56,7 +59,6 @@ class PluginManager():
         # return the obtained dictionary of sections
         return config
 
-
     def extract_plugin(self, sections):
         """
         This method allows to extract all data related to the plugin which all sections are referred to.
@@ -70,7 +72,7 @@ class PluginManager():
         # detect if the plugin is supported by the ACTIVE core
         p = Plugin(**sections['PLUGIN'])
         if compare_version(p.active_version, settings.ACTIVE_VERSION) > 0 :
-            print 'ERROR: plugin not supported by the current version of the ACTIVE core ', p.title
+            logger.error('Plugin not supported by the current version of the ACTIVE core ' + p.title)
             return None
 
         # detect if the Plugin has already been stored or create a new one
@@ -80,16 +82,15 @@ class PluginManager():
             if compare_version(temp.plugin_version, p.plugin_version) < 0 :
                 temp.delete()
                 p.save()
-                #print 'Plugin updated ', p.title
+                logger.debug('Plugin ' + p.title + ' has been updated')
             else:
                 p = temp
 
         except Plugin.DoesNotExist as ex:
-            #print 'New plugin loaded ', p.title
+            logger.debug('New plugin loaded and saved - ' + p.title)
             p.save()
 
         return p
-
 
     def extract_actions(self, action_names, event):
         """
@@ -108,21 +109,20 @@ class PluginManager():
         # extract the list of action identifiers
         for action in action_names:
             action = action.replace(' ', '')
-            if(len(action) == 0):
+            if len(action) == 0:
                 continue
             # save the action if it doesn't exist
-            if(Action.objects.filter(path_abs = action).count() == 0):
+            if Action.objects.filter(path_abs = action).count() == 0:
                 a = Action(path_abs=action, event=event)
                 a.save()
             # check if the action had been associated to multiple events
-            if(Action.objects.filter(path_abs = action).count() > 1 ):
-                print 'This action has already been associated to an event!'
+            if Action.objects.filter(path_abs = action).count() > 1:
+                logger.error('Action has already been associated to an event!' + action)
                 continue
 
         # retrieve the saved action
         action_list.append(Action.objects.get(path_abs = action))
         return action_list
-    
 
     def extract_events(self, event_names):
         """
@@ -149,13 +149,12 @@ class PluginManager():
             event_list.append(Event.objects.get(name = event))
         return event_list
 
-
     def extract_scripts(self, section):
         """
-        The method is used to extract all informations related to a
+        The method is used to extract all information related to a
         script (except for the event data that must be associated later).
 
-        @param section: The section containg current script related data.
+        @param section: The section containing current script related data.
         @returns: A Script object constructed extracting section data.
         """
         # detect if the plugin has already been stored
@@ -210,7 +209,6 @@ class PluginManager():
 
                 # detect if the script already exists or must be created
                 s = self.extract_scripts(config[section_name])
-
 
                 # save the list of events associated to this script
                 s.events.clear()

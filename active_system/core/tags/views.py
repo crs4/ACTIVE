@@ -1,8 +1,8 @@
 """
 This module contains all class that will implement all methods required by the
-REST API for tags object data.
+REST API for Tag objects manipulation.
 These classes allow to retrieve all available Tag objects and invoke CRUD
-operations over them, providing a id if needed.
+operations over them.
 """
 
 from django.http import HttpResponse, Http404
@@ -13,13 +13,55 @@ from rest_framework import status
  
 from core.tags.models import Tag
 from core.tags.serializers import TagSerializer
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
 edit_lock = threading.Lock()
 
 
+def check_tags(tag):
+    """
+    Check if there are multiple tags similar to the current one.
+    If any remove the old one and maintain the current one.
+
+    @param tag: Tag object used for search
+    @type tag: Tag
+    @return: Result of the search.
+    @rtype: boolean
+    """
+
+    res = Tag.objects.filter(entity_id = tag.entity.pk, item_id = tag.item.pk, type = tag.type).exclude(pk = tag.pk)
+    if len(res) == 0:
+        return True
+
+    # associate all dynamic tags to one tag
+    # TODO ripulire il codice!!! Dipendenza da dtags
+    for _tag in res:
+        for _dtag in _tag.dynamictag_set.all():
+            _dtag.tag = tag
+            _dtag.save()
+
+    # remove duplicate tags
+    for _tag in res:
+        # delete the entity if there are no tags associated to it
+        if Tag.objects.filter(entity_id = _tag.entity.pk).count() == 0:
+            _tag.entity.delete()
+        _tag.delete()
+
+    return False
+
+
 class TagList(EventView):
+    """
+    This class is used to implement methods necessary to obtain all Tag objects
+    and create a new one with provided JSON serialized data.
+    """
+    model = Tag
+
     def get(self, request, format=None):
         """
         Method used to retrieve all stored DynamicTags.
@@ -32,6 +74,7 @@ class TagList(EventView):
         @return: HttpResponse containing all serialized DynamicTags.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all stored Tag objects')
         tag = Tag.objects.all()
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -48,14 +91,24 @@ class TagList(EventView):
         @return: HttpResponse containing the id of the new DynamicTag object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new Tag object')
         serializer = TagSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('New Tag object saved - ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data not valid for Tag object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TagDetail(EventView):
+    """
+    This class is used to implement methods necessary to retrieve, update or
+    delete a Tag object providing its id and additional required data.
+    """
+    model = Tag
+
     def get_object(self, pk):
         """
         Method used to retrieve a Tag object by its id.
@@ -75,23 +128,24 @@ class TagDetail(EventView):
         Method used to retrieve all data about a specific Tag object.
         Returned data is provided in a JSON serialized format.
 
-        @param request: HttpRequest used to retrieve data of a Tag object.
+        @param request: HttpRequest used to retrieve data of a Tag object
         @type request: HttpRequest
-        @param pk: Tag primary key, used to retrieve object data.
+        @param pk: Tag primary key, used to retrieve object data
         @type pk: int
-        @param format: Format used for data serialization.
+        @param format: Format used for data serialization
         @type format: string
-        @return: HttpResponse
+        @return: HttpResponse containing the serialized data
         @rtype: HttpResponse
         """
+        logger.debug('Requested Tag object ' + str(id))
         tag = self.get_object(pk)
         serializer = TagSerializer(tag)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         """
-        Method used to update a DynamicTag object data, providing all
-        fresh data in a serialized form.
+        Method used to update a Tag object, providing its id
+        and updated data in a serialized form.
 
         @param request: HttpRequest containing the updated Tag field data.
         @type request: HttpRequest
@@ -99,15 +153,20 @@ class TagDetail(EventView):
         @type pk: int
         @param format: Format used for data serialization.
         @type format: string
-        @return: HttpResponse
+        @return: HttpResponse containing the serialized updated data
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on Tag object ' + str(pk))
         with edit_lock:
             tag = self.get_object(pk)
             serializer = TagSerializer(tag, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Tag object ' + str(pk) + ' successfully edited')
+                check_tags(tag)
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for Tag object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -123,8 +182,10 @@ class TagDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Tag object ' + str(pk))
         tag = self.get_object(pk)
         tag.delete()
+        logger.debug('Tag object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -133,6 +194,7 @@ class SearchTagItem(EventView):
     Class used to implement methods necessary to search all Tags
     objects associated to a specific digital item.
     """
+    model = Tag
 
     def get(self, request, pk, format=None):
         """
@@ -149,6 +211,7 @@ class SearchTagItem(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Searching all Tag objects associated to Item object ' + str(pk))
         tag = Tag.objects.filter(item__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -159,6 +222,7 @@ class SearchTagPerson(EventView):
     Class used to implement methods necessary to search all Tags objects
     associated to a specific person.
     """
+    model = Tag
 
     def get(self, request, pk, format=None):
         """
@@ -175,6 +239,7 @@ class SearchTagPerson(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Searching all Tag objects associated to Entity object ' + str(pk))
         tag = Tag.objects.filter(entity__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)

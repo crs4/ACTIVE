@@ -13,6 +13,11 @@ from rest_framework import status
 
 from core.items.audio.models import AudioItem
 from core.items.audio.serializers import AudioItemSerializer, AudioItemPagination
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
+
 
 # used to handle the concurrent update of an Audio object.
 import threading
@@ -26,6 +31,8 @@ class AudioItemList(EventView):
     Moreover it defines an HTTP method for the creation of a
     new AudioItem objects through the REST API.
     """
+    model = AudioItem
+
     def get(self, request, format=None):
         """
         Method used to retrieve all data about stored audio items.
@@ -38,6 +45,7 @@ class AudioItemList(EventView):
         @return: HttpResponse containing all requested audio items data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all stored AudioItem objects')
         audio = AudioItem.objects.all()
         paginator = AudioItemPagination()
         result = paginator.paginate_queryset(audio, request)
@@ -57,19 +65,26 @@ class AudioItemList(EventView):
         @return: HttpResponse containing the id of the new AudioItem object or an error.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new AudioItem object')
         serializer = AudioItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'audio' :
+            logger.error('File missing or content type not supported for AudioItem')
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('New AudioItem object saved - ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data not valid for AudioItem object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AudioItemDetail(EventView):
     """
-    Retrieve, update or delete a Audio item object providing its id.
+    This module implement all methods necessary to retrieve, update or
+    delete a AudioItem object providing its id.
     """
+    model = AudioItem
 
     def get_object(self, pk):
         """
@@ -87,7 +102,7 @@ class AudioItemDetail(EventView):
 
     def get(self, request, pk, format=None):
         """
-        Method used to retrieve data about a specific audio item.
+        Method used to retrieve data about a specific AudioItem object.
 
         @param request: HttpRequest object used to retrieve an AudioItem.
         @type request: HttpRequest
@@ -98,14 +113,15 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the requested audio item data, error if it doesn't exists.
         @rtype: HttpResponse
         """
+        logger.debug('Requested AudioItem object ' + str(pk))
         item = self.get_object(pk)
         serializer = AudioItemSerializer(item)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         """
-        Method used to update the audio item information providing
-        serialized fresh data.
+        Method used to update a specific AudioItem object data
+        providing serialized updated data.
 
         @param request: HttpRequest object containing the updated AudioItem fields.
         @type request: HttpRequest
@@ -116,17 +132,21 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the uploaded audio item data, error if it doesn't exists.
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on AudioItem object ' + str(pk))
         with edit_lock:
             item = self.get_object(pk)
             serializer = AudioItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('AudioItem object ' + str(pk) + ' successfully edited')
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for AudioItem object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         """
-        Method used to delete user information providing his ID.
+        Method used to delete data of a specific AudioItem object providing its id.
 
         @param request: HttpRequest object used to delete a AudioItem object.
         @type request: HttpRequest
@@ -137,6 +157,8 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the result of the item deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on AudioItem object ' + str(pk))
         item = self.get_object(pk)
         item.delete()
+        logger.debug('AudioItem object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)

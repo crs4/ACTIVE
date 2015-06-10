@@ -8,7 +8,7 @@ All provided data is returned in a JSON format.
 These are the relative paths that could be used to handle Script objects,
 with the provided method and a short description for each one:
 
-GET     /api/scripts/      obtain the list of available Script in JSON
+GET     /api/scripts/      obtain the list of available Script objects in JSON
 
 GET     /api/scripts/12/    obtain the data of the Script object with id = 12
 

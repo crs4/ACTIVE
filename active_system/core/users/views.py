@@ -1,201 +1,221 @@
 """
-This module contains all methods that will be used to create a REST API necessary
-to handle platform users' data.
-The class defined in this module define all properties associate to each user and
-the differences due to different level of authorization. Moreover some methods
-have been defined in order to handle user login/logout.
+This module contain all classes necessary for the definition of a REST API
+that could be used to manipulate User, Group, Permission and ContentType objects
+through CRUD operations.
 """
 
-from django.shortcuts import render
-from django.http import HttpResponse, Http404
-from django.contrib.auth import login, logout
-from django.contrib.auth.hashers import check_password, is_password_usable
-#from django.contrib.auth.decorators import login_required
-#from oauth2_provider.decorators import protected_resource
-#import json
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.hashers import make_password
+from django.contrib.contenttypes.models import ContentType
+from django.http import Http404
 
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import permissions, status
 
-from core.users.models import ActiveUser
-from core.users.serializers import ActiveUserSerializer
+from core.users.serializers import UserSerializer, GroupSerializer, PermissionSerializer, ContentTypeSerializer
+import json
+import logging
 
-# utilizzato per risolvere il problema dell'accesso concorrente agli item
-import threading
-edit_lock = threading.Lock()
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
-
-# methods used to list all user data or insert a new one
-class ActiveUserList(APIView):
-    """
-    List all existing users or create a new user.
-    """
-    def get(self, request, format=None):
-        """
-        Method used to list all available platform users.
-
-        @param request: HttpRequest used to retrieve User data.
-        @type request: HttpRequest
-        @param format: The format used to serialize objects data, JSON by default.
-        @type format: string
-        @return: HttpResponse containing all serialized data of retrieved User objects.
-        @rtype: HttpResponse
-        """
-        users = ActiveUser.objects.all()
-        serializer = ActiveUserSerializer(users, many=True)
-        return Response(serializer.data)
+    
+class UserList(ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    paginate_by = 10
 
     def post(self, request, format=None):
-        """
-        Method used to create and store a new User object.
-
-        @param request: HttpRequest containing the serialized data that will be used to create a new User object.
-        @type request: HttpRequest
-        @param format: The format used to serialize objects data, JSON by default.
-        @type format: string
-        @return: HttpResponse containing the id of the new created User object, error otherwise.
-        @rtype: HttpResponse
-        """
-        serializer = ActiveUserSerializer(data=request.data)
+        logger.debug('Creating a new User object')
+        body = json.loads(request.body)
+        body["password"] = make_password(body["password"])
+        serializer = UserSerializer(data=body)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('New User object saved - ' + serializer.dat['id'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data is not valid for User object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# methods used to implement CRUD operations over user data
-class ActiveUserDetail(APIView):
-    # description returned with HTTP OPTION request
-    """
-    Retrieve, update or delete a user instance.
-    """
+class UserDetail(APIView):
+    model = User
+
     def get_object(self, pk):
-        """
-        Method used to obtain user data by his id.
-        @param pk: Primary key used to retrieve a User object.
-        @type pk: int
-        @return: User object retrieved by the provided id, error if it isn't available.
-        @rtype: User
-        """
         try:
-            return ActiveUser.objects.get(pk=pk)
+            return User.objects.get(pk=pk)
         except User.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
-        """
-        Method used to return serialized data of a user.
-
-        @param request: HttpRequest containing the updated User field data.
-        @type request: HttpRequest
-        @param pk: Primary key used to retrieve a User object.
-        @type pk: int
-        @param format: Format used for data serialization.
-        @type format: string
-        @return: HttpResponse containing all serialized data of a User, error if it isn't available.
-        @rtype: HttpResponse
-        """
+        logger.debug('Requested User object ' + str(pk))
         user = self.get_object(pk)
-        serializer = ActiveUserSerializer(user)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        """
-        Method used to update user information providing
-        serialized data.
+        logger.debug('Requested edit on User object ' + str(pk))
+        user = self.get_object(pk)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('User object ' + str(pk) + ' successfully edited')
+            return Response(serializer.data)
 
-        @param request: HttpRequest containing the updated User field data.
-        @type request: HttpRequest
-        @param pk: Primary key used to retrieve a User object.
-        @type pk: int
-        @param format: Format used for data serialization.
-        @type format: string
-        @return: HttpResponse containing all update object data.
-        @rtype: HttpResponse
-        """
-        with edit_lock:
-            user = self.get_object(pk)
-            serializer = ActiveUserSerializer(user, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        logger.error('Provided data is not valid for User object ' + str(pk))
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        """
-        Method used to delete user information providing his ID.
-
-        @param request: HttpRequest used to delete a specific User.
-        @type request: HttpRequest
-        @param pk: Primary key used to retrieve a User object.
-        @type pk: int
-        @param format: Format used for data serialization.
-        @type format: string
-        @return: HttpResponse containing the result of object deletion.
-        @rtype: HttpResponse
-        """
+        logger.debug('Requested delete on User object' + str(pk))
         user = self.get_object(pk)
         user.delete()
+        logger.debug('User object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class GroupList(ListCreateAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    paginate_by = 10
+
+    def post(self, request, format=None):
+        logger.debug('Crating a new Group object')
+        serializer = GroupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('New Group object saved - ' + str(serializer.data['id']))
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data is not valid for Group object')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-##########################################################
-########## decidere quali dei metodi sequenti mantenere
+class GroupDetail(APIView):
+    model = Group
+
+    def get_object(self, pk):
+        try:
+            return Group.objects.get(pk=pk)
+        except Group.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        logger.debug('Requested Group object ' + str(pk))
+        group = self.get_object(pk)
+        serializer = GroupSerializer(group)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        logger.debug('Requested edit on Group object ' + str(pk))
+        group = self.get_object(pk)
+        serializer = GroupSerializer(group, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('Group object ' + str(pk) + ' successfully edited')
+            return Response(serializer.data)
+
+        logger.error('Provided data is not valid for Group object ' + str(pk))
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        logger.debug('Requested delete on Group object ' + str(pk))
+        group = self.get_object(pk)
+        group.delete()
+        logger.debug('Group object ' + str(pk) + ' successfully deleted')
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class PermissionList(ListCreateAPIView):
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
+    paginate_by = 10
+
+    def post(self, request, format=None):
+        logger.debug('Creating a new Permission object')
+        serializer = PermissionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('New Permission object saved - ' + str(serializer.data['id']))
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data is not valid for Permission object')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
+class PermissionDetail(APIView):
+    model = Permission
+
+    def get_object(self, pk):
+        try:
+            return Permission.objects.get(pk=pk)
+        except Permission.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        logger.debug('Requested Permission object ' + str(pk))
+        permission = self.get_object(pk)
+        serializer = PermissionSerializer(permission)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        logger.debug('Requested edit on Permission object ' + str(pk))
+        permission = self.get_object(pk)
+        serializer = PermissionSerializer(permission, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('Permission object ' + str(pk) + ' successfully deleted')
+            return Response(serializer.data)
+
+        logger.error('Provided data is not valid for Permission object ' + str(pk))
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        logger.debug('Requested delete on Permission object ' + str(pk))
+        permission = self.get_object(pk)
+        permission.delete()
+        logger.debug('Permission object ' + str(pk) + ' successfully deleted')
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# This file contains all views which provide the main 
-# functionalities to users.
-# These functionalities are restricted by user role.
+class ContentTypeList(ListCreateAPIView):
+    queryset = ContentType.objects.all()
+    serializer_class = ContentTypeSerializer
+    paginate_by = 10
 
+        
+class ContentTypeDetail(APIView):
+    model = ContentType
 
-# functions available to all users
+    def get_object(self, pk):
+        try:
+            return ContentType.object.get(pk=pk)
+        except ContentType.DoesNotExist:
+            raise Http404
 
-def login(request):
-    """
-    Method used to login a generic user.
-    It must be invoked through a GET HTTP request.
-    """
-    # extract user credentials
-    username = request.GET.get('username', None)
-    password = request.GET.get('password', None)
-    user = authenticate(username=username, password=password)
-    # check for user login
-    if(user and user.is_active):
-        login(request, user)
-        return HttpResponse(json.dumps({'status' : 'OK', 'user_id' : user.id}))
+    def get(self, request, pk, format=None):
+        logger.debug('Requested ContentType object ' + str(pk))
+        content_type = self.get_object(pk)
+        serializer = ContentTypeSerializer(content_type)
+        return Response(serializer.data)
 
-    return HttpResponse(json.dumps({'status' : 'ERROR'}))
+    def put(self, request, pk, format=None):
+        logger.debug('Requested edit on ContentType object ' + str(pk))
+        content_type = self.get_object(pk)
+        serializer = ContentTypeSerializer(content_type, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            logger.debug('ContentType object ' + str(pk) + ' successfully edited')
+            return Response(serializer.data)
 
+        logger.error('Provided data is not valid for ContentType object ' + str(pk))
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#@protected_resource
-def logout(request):
-    """
-    Method used to logout a generic user.
-    This method could be invoked by any HTTP request.
-    """
-    try:
-        logout(request)
-        return HttpResponse(json.dumps({'status' : 'OK'}))
-    except:
-        return HttpResponse(json.dumps({'status' : 'ERROR'}))
-
-#@protected_resource
-def change_password(request):
-    """
-    Method used by a user to change his password.
-    This method SHOULD be invoked through a PUT HTTP method.
-    """
-    # retrieve the user and change his password
-    new_password = request.GET.get('password', None)
-    if(new_password and len(new_password) > 0):
-        request.user.set_password(new_password)
-        request.user.save()
-        return HttpResponse(json.dumps({'status' : 'OK'}))
-
-    return HttpResponse(json.dumps({'status' : 'ERROR'}))
+    def delete(self, request, pk, format=None):
+        logger.debug('Requested delete on ContentType object ' + str(pk))
+        content_type = self.get_object(pk)
+        content_type.delete()
+        logger.debug('ContentType object ' + str(pk) + ' successfully deleted')
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -13,11 +13,11 @@ GET     /api/events/      obtain the list of available Events in JSON.
 POST    /api/events/      create a new Event object with provided serialized data.
 
 
-GET     /api/events/12/   obtain the data of the Action object with id = 12.
+GET     /api/events/12/   obtain the data of the Event object with id = 12.
 
-PUT     /api/events/12/   edit the data of the Action object with id = 12.
+PUT     /api/events/12/   edit the data of the Event object with id = 12.
 
-DELETE  /api/events/12/   delete all data related to the Action object with id = 12.
+DELETE  /api/events/12/   delete all data related to the Event object with id = 12.
 """
 
 from django.conf.urls import url

@@ -10,9 +10,8 @@ from core.tags.keywords.models import Keyword
 
 class KeywordSerializer(serializers.ModelSerializer):
     """
-    This class define a base serializer for generic keywords object.
+    This class define a base serializer for generic Keyword object.
     Object fields are converted in a JSON format.
     """
     class Meta:
         model = Keyword
-        fields = ('id', 'category', 'description')

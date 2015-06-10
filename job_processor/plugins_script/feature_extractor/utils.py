@@ -8,6 +8,7 @@ from django.conf import settings
 from plugins_script.commons.item import set_status, set_video_metadata, set_image_metadata, set_audio_metadata
 import subprocess
 import os
+import requests
 
 def extract_video_data(func_in, func_out):
     """
@@ -38,6 +39,21 @@ def extract_image_data(func_in, func_out):
     """
     file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
     item_info = get_exif_metadata(file_path)
+
+    """url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(func_out['id']) + '/'
+    #headers = {'Authorization' : 'access_token ' + func_in['token']}
+    headers = {'Authorization' : 'Bearer ' + str(func_in['token'])}
+    r = requests.put(url, {'id'           : func_out['id'],
+                           'mime_type'    : item_info['mime_type'],
+                           'frame_width'  : item_info['frame_width'],
+                           'frame_height' : item_info['frame_height'],
+                           'format'       : item_info['format'],
+                           'filesize'     : item_info['filesize'] },
+                     headers=headers)
+
+    # return the result of the update
+    return r.status_code == requests.codes.ok
+    """
 
     if not set_image_metadata(func_out['id'], item_info):
         raise Exception('Error on metadata update')
@@ -89,7 +105,8 @@ def get_exif_metadata(item_path):
     # convert the duration representation
     convert_duration(temp_dict)
 
-    # convert fields in a standard representation 
+    # convert fields in a standard representation
+    # SOGGETTO A MODIFICHE FREQUENTI!!! IPOTIZZARE SOLUZIONI
     keys = [('mime_type', 'MIME Type'),
             ('frame_width', 'Image Width'),
             ('frame_height', 'Image Height'),

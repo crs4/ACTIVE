@@ -1,7 +1,7 @@
 """
 This module contains the class necessary to define a custom serializer
 for Person objects. Data will be converted from and to a JSON format,
-in order to provide a .
+in order to provide a REST API for manipulating Person objects.
 """
 
 from rest_framework import serializers
@@ -15,5 +15,3 @@ class PersonSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Person
-        fields = ('id', 'category', 'first_name', 'last_name',
-                  'gender', 'birth_date', 'image')

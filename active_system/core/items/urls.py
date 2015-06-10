@@ -4,7 +4,7 @@ to handle generic Item objects data.
 The provided REST API allows to:
     - obtain the list of all available Item objects;
     - handle the data of a specific Item object through CRUD operations;
-    - access to specific digital item data through a dedicated API;
+    - access to specific digital item data through a REST API;
     - obtain the resource corresponding to the digital item.
 All provided data is returned in a JSON format.
 
@@ -12,7 +12,7 @@ These are the relative paths that could be used to handle generic Item objects,
 for the API REST on each specific digital item see the respective urls.py file.
 with the provided method and a short description for each one:
 
-GET     /api/items/    obtain the list of available Items in JSON.
+GET     /api/items/    obtain the list of available Item objects in JSON.
 
 POST    /api/items/	   create a new Item object with provided serialized data.
 

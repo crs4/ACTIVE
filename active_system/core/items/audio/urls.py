@@ -1,6 +1,6 @@
 """
 This module defines the URL patterns that must be used in order
-to handle Audio  objects data.
+to handle Audio item objects data.
 The provided REST API allows to:
     - obtain the list of alla available Audio item objects;
     - handle the data of a specific Audio object through CRUD operations.

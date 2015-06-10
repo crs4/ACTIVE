@@ -16,6 +16,18 @@ HAARCASCADE_PROFILEFACE_CLASSIFIER = 'haarcascade_profileface.xml'
 LBPCASCADE_FRONTALFACE_CLASSIFIER = 'lbpcascade_frontalface.xml'
 LBPCASCADE_PROFILEFACE_CLASSIFIER = 'lbpcascade_profileface.xml'
 
+def _detect_faces_in_image(params):
+    """
+    Detect faces in image.
+    Parameters are passed as a list.
+
+    :type params: list
+    :param params: list of parameters
+
+    :rtype: dictionary
+    :returns: dictionary with results
+    """
+    return detect_faces_in_image(*params)
 
 def detect_faces_in_image(resource_path, align_path, params, show_results, return_always_faces = False):
     '''

@@ -4,9 +4,9 @@ by the plugin module (plugin, script, event, action).
 
 Some of the following API REST urls are used to trigger events and scripts by id:
 
-POST    /api/triggers/event/12/        start the Event with id = 12
+POST    /api/triggers/event/12/        start the event with id = 12
 
-POST    /api/triggers/script/12/       start the Script with id = 12
+POST    /api/triggers/script/12/       start the script with id = 12
 
 For each module it will be possible to obtain more information about
 the available REST API inside the respective urls.py module.

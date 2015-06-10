@@ -1,7 +1,7 @@
 """
-This module used to define the data model for a generic Item object.
+This module used to define the data model for generic Item objects.
 Item model class redefines some methods in order to handle the
-storage of file resources.
+storage of resources on the current file system.
 """
 
 import datetime
@@ -11,7 +11,10 @@ import shutil
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+import logging
 
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 def compute_upload_path(instance, filename):
     """
@@ -24,8 +27,8 @@ def compute_upload_path(instance, filename):
 
 class Item(models.Model):
     """
-    This class provides an object representation for
-    any multimedia file that could be stored by the platform.
+    This class provides an object representation for a generic digital item
+    that could be stored by the platform.
     """
     type = models.CharField(max_length=100, blank=True)
     mime_type = models.CharField(max_length=100, blank=True)
@@ -35,47 +38,50 @@ class Item(models.Model):
     visibility = models.BooleanField(default=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True, blank=True)
-    owner = models.ForeignKey(User)
-    file = models.FileField(upload_to=compute_upload_path, null=True)
-    thumb = models.FileField(upload_to=compute_upload_path, null=True)
-    preview = models.FileField(upload_to=compute_upload_path, null=True)
-    state = models.CharField(max_length=300, default='STORED')
-
+    #owner = models.py.ForeignKey(User)
+    file = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
+    thumb = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
+    preview = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
+    state = models.CharField(max_length=300, default='', blank=True)
 
     def __repr__(self):
-        return 'Item ', self.filename, ' ', self.type
+        return str(self.id) + ' - ' + self.type + ' ' + self.filename
 
     def __unicode__(self):
         return str(self.id) + ' - ' + self.type + ' - ' + self.filename
 
     def save(self, *args, **kwargs):
         """
-        Method overridden in order to correctly store a digital item.
+        This method has been overridden to store a digital item in the file system.
         """
         temp = self.file
         self.file = None
+        self.__set_visibility()
+        self.full_clean()
         super(Item, self).save(*args, **kwargs)
 
         # save the item with a file resource associated
         self.file = temp
-        self.__set_visibility()
         super(Item, self).save()
+        logger.debug('Item object ' + str(self.id) + ' successfully saved')
 
     def delete(self, *args, **kwargs):
         """
-        Method overridden in order to correctly delete all stored information about an item.
+        This method has been overridden to delete all
+        resources associated to an Item object.
         """
 
         # remove the directory associated to an item
         shutil.rmtree(settings.MEDIA_ROOT + '/items/' + str(self.id) + '/')
         # delete all data stored for the current item
         super(Item, self).delete(*args, **kwargs)
+        logger.debug('Deleted all resources associated to Item object ' + str(self.id))
 
     def __set_visibility(self):
         """
         Method used to set the time when the item visibility has been set to public (True).
         """
-        if(self.visibility):
+        if self.visibility:
             self.published_at = datetime.datetime.now()
         else:
             self.published_at = None

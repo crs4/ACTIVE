@@ -24,7 +24,10 @@ from core.items.image.serializers import ImageItemSerializer
 
 from core.items.video.models import VideoItem
 from core.items.video.serializers import VideoItemSerializer
+import logging
 
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
@@ -36,18 +39,21 @@ class KeywordList(EventView):
     This class provides the methods necessary to list all available
     Keyword objects and to create and store a new one, providing necessary data.
     """
+    model = Keyword
 
     def get(self, request, format=None):
         """
         Method used to retrieve all stored Keyword objects.
         These objects are serialized in a JSON format and then returned.
 
-        @param request: HttpRequest use to retrieve all Keyword.
+        @param request: HttpRequest use to retrieve all Keyword objects.
         @type request: HttpRequest
         @param format: The format used for object serialization.
         @type format: string
-        @return: HttpResponse containing all serialized Keyword.@rtype: HttpResponse
+        @return: HttpResponse containing all serialized Keyword.
+        @rtype: HttpResponse
         """
+        logger.debug('Requested all stored Keyword objects')
         keywords = Keyword.objects.all()
         serializer = KeywordSerializer(keywords, many=True)
         return Response(serializer.data)
@@ -65,26 +71,32 @@ class KeywordList(EventView):
         @return: HttpResponse containing the id of the new Keyword object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new Keyword object')
+
         serializer = KeywordSerializer(data=request.data)
 
         if serializer.is_valid() :
-            # create and store a new keyword
             serializer.save()
+            logger.debug('New Keyword object saved - ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+        # TODO viene utilizzato questo ramo condizionale? check da effettuare prima???
         elif len(Keyword.objects.filter(description__iexact = serializer.data['description'])) :
             # return an already existing
             keywords = Keyword.objects.get(description__iexact = serializer.data['description'])
             serializer = KeywordSerializer(keywords)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+        logger.error('Provided data not valid for Keyword object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class KeywordDetail(EventView):
     """
-    Retrieve, update or delete a Keyword instance.
+    This class implements the methods necessary to retrieve, update or
+    delete a Keyword instance providing its id and additional data.
     """
+    model = Keyword
 
     def get_object(self, pk):
         """
@@ -114,6 +126,7 @@ class KeywordDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested Keyword objects ' + str(pk))
         keyword = self.get_object(pk)
         serializer = KeywordSerializer(keyword)
         return Response(serializer.data)
@@ -132,12 +145,16 @@ class KeywordDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on Keyword object ' + str(pk))
         with edit_lock:
             keyword = self.get_object(pk)
             serializer = KeywordSerializer(keyword, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Keyword object ' + str(pk) + ' successfully edited')
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for Keyword object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -153,18 +170,21 @@ class KeywordDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Keyword object ' + str(pk))
         keyword = self.get_object(pk)
         keyword.delete()
+        logger.debug('Keyword object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class KeywordFind(EventView):
     """
-    This class defines all methods necessary to find a keyword object
+    This class defines all methods necessary to find a Keyword object
     providing its character sequence.
     This approach is useful in order to create the minimum number of
     keyword stored in the db.
     """
+    model = Keyword
 
     def get(self, request, value, format=None):
         """
@@ -181,21 +201,26 @@ class KeywordFind(EventView):
         @return: HttpResponse containing all serialized Keyword.
         @rtype: HttpResponse
         """
+        logger.debug('Searching a Keyword object with value ' + value)
         try:
             k = Keyword.objects.filter(description = value)
             if k and len(k) > 0:
+                logger.debug('Find Keyword object ' + str(k[0].pk) + ' for value ' + value)
                 serializer = KeywordSerializer(k[0])
                 return Response(serializer.data)
+
+            logger.error('No Keyword object found for value ' + value)
             return Response(status=status.HTTP_404_NOT_FOUND)
         except:
             return Http404
 
-# TODO da spostare in modulo distinto e allo stesso livello di core date le dipendenze?
+
 class KeywordSearch(EventView):
     """
     This class provides the methods necessary to search a specific keywords (if any)
     associated to a generic digital item.
     """
+    model = Keyword
 
     def get(self, request, item_type, keyword_list,  format=None):
         """
@@ -213,6 +238,7 @@ class KeywordSearch(EventView):
         @return: HttpResponse containing all serialized Keyword.
         @rtype: HttpResponse
         """
+        logger.debug('Searching all Item objects associated to keyword list ' + keyword_list)
         # create a map to specific item object handlers
         item_map = { "audio" : [AudioItem, AudioItemSerializer],
                      "image" : [ImageItem, ImageItemSerializer],
@@ -220,10 +246,12 @@ class KeywordSearch(EventView):
 
         # check if the item type is supported
         if item_type not in item_map:
+            logger.error('Provided item type for search is not supported - ' + item_type)
             return Response({'error' : 'The specified item type is not supported.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # all items are returned if there is no keyword
         if len(keyword_list) == 0:
+            logger.debug('Returned all Item objects of type ' + item_type)
             return Response(ItemSerializer(Item.objects.filter(type = item_type), many=True).data)
 
         item_list = []
@@ -245,6 +273,7 @@ class KeywordSearch(EventView):
             ids = ids.intersection(item_list[i])
 
         # return the retrieved list of specific digital items
+        logger.debug('Returning all Item objects found for keyword list ' + keyword_list)
         items = item_map[item_type][0].objects.filter(item_ptr_id__in = ids)
         serializer = item_map[item_type][1](items, many=True)
         return Response(serializer.data)

@@ -10,7 +10,14 @@ body {
 	overflow: hidden;
 	background-color: #2c3e50;
 }
+/*
 
+#draggable5{
+    width: 3%;
+    left:0%;
+    heigth: 100%;
+}
+*/
 
 #media-player {
 	top: 0%;
@@ -107,9 +114,7 @@ video {
  
 .timetable{
 	width:100%;
-/*
     table-layout:fixed;
-*/
 }
 
 .timetable td{
@@ -136,11 +141,23 @@ video {
 
 }
 
+
+/*
+
 .timetable tr td:nth-child(-n+2){
 
     width:2%;
 
 }
+*/
+
+
+.mediatable tr td:nth-child(-n+2){
+
+    width:2%;
+
+}
+
 
 .timetable tr td:nth-child(3) span{
 	

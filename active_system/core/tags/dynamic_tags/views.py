@@ -13,6 +13,10 @@ from rest_framework import status
 
 from core.tags.dynamic_tags.models import DynamicTag
 from core.tags.dynamic_tags.serializers import DynamicTagSerializer
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
@@ -24,6 +28,7 @@ class DynamicTagList(EventView):
     This class provides two methods, one for retrieving all available DynamicTags
     and another for creating a new DynamicTag.
     """
+    model = DynamicTag
 
     def get(self, request, format=None):
         """
@@ -37,6 +42,7 @@ class DynamicTagList(EventView):
         @return: HttpResponse containing all serialized DynamicTags.
         @rtype: HttpResponse
         """
+        logger.debug('Requested al stored DynamicTag objects')
         tag = DynamicTag.objects.all()
         serializer = DynamicTagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -53,10 +59,14 @@ class DynamicTagList(EventView):
         @return: HttpResponse containing the id of the new DynamicTag object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Creating a new DynamicTag object')
         serializer = DynamicTagSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logging.debug('New DynamicTag object saved - ' + str(serializer.data['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        logger.error('Provided data not valid for DynamicTag object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -65,6 +75,7 @@ class DynamicTagDetail(EventView):
     This class implements all methods necessary to handle
     an existing DynamicTag object providing its id.
     """
+    model = DynamicTag
 
     def get_object(self, pk):
         """
@@ -94,6 +105,7 @@ class DynamicTagDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested DynamicTag object ' + str(pk))
         tag = self.get_object(pk)
         serializer = DynamicTagSerializer(tag)
         return Response(serializer.data)
@@ -112,12 +124,16 @@ class DynamicTagDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested edit on DynamicTag object ' + str(pk))
         with edit_lock:
             tag = self.get_object(pk)
             serializer = DynamicTagSerializer(tag, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('DynamicTag object ' + str(pk) + ' successfully edited')
                 return Response(serializer.data)
+
+            logger.error('Provided data not valid for DynamicTag object ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -133,8 +149,10 @@ class DynamicTagDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on DynamicTag object ' + str(pk))
         tag = self.get_object(pk)
         tag.delete()
+        logger.debug('DynamicTag object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -143,6 +161,7 @@ class SearchDynamicTagItem(EventView):
     Class used to implement methods necessary to search all DynamicTags objects 
     filtering by the item id.
     """
+    model = DynamicTagDetail
 
     def get(self, request, pk, format=None):
         """
@@ -159,6 +178,7 @@ class SearchDynamicTagItem(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Retrieving all DynamicTag objects associated to Item ' + str(pk))
         tag = DynamicTag.objects.filter(tag__item__id = pk)
         serializer = DynamicTagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -169,6 +189,7 @@ class SearchDynamicTagPerson(EventView):
     Class used to implement methods necessary to search all DynamicTags objects 
     filtering by the person id.
     """
+    model = DynamicTag
 
     def get(self, request, pk, format=None):
         """
@@ -185,6 +206,7 @@ class SearchDynamicTagPerson(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Retrieving all DynamicTag objects associated to Entity ' + str(pk))
         tag = DynamicTag.objects.filter(tag__entity__id = pk)
         serializer = DynamicTagSerializer(tag, many=True)
         return Response(serializer.data)

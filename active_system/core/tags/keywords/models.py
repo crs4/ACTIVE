@@ -1,6 +1,5 @@
 """
-Module used to define the data model for Keywords objects.
-In this
+Module used to define the data model for Keyword objects.
 """
 
 from django.db import models
@@ -11,8 +10,8 @@ class Keyword(Entity):
     """
     This class extends the Entity class in order to provide
     additional fields for a keywords.
-    A keywords is a sequence of alphanumeric characters that are
-    associated to a digital item.
+    A keyword is a sequence of alphanumeric characters that could
+    be associated to a digital item.
     """
     description = models.CharField(max_length=100, unique=True)
 
@@ -21,3 +20,6 @@ class Keyword(Entity):
         self.description = self.description.strip().lower().replace(' ', '_')
         self.category = 'Keyword - ' + self.description
         super(Keyword, self).save()
+
+    def __repr__(self):
+        return 'Keyword - ' + self.description

@@ -17,8 +17,8 @@ class DynamicTag(models.Model):
     Each occurrence is extended when and where the entity occurred.
     """
     tag = models.ForeignKey(Tag)
-    start = models.BigIntegerField(blank=True)    # positive integers for seconds
-    duration = models.BigIntegerField(blank=True) # positive integers for seconds
+    start = models.BigIntegerField(blank=True)    # positive integers for milliseconds
+    duration = models.BigIntegerField(blank=True) # positive integers for milliseconds
     x_position = models.IntegerField(default=0)
     y_position = models.IntegerField(default=0)
     size_width = models.IntegerField(default=0)

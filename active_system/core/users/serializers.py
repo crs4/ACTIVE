@@ -1,14 +1,41 @@
 """
-This module contains all classes needed for model serialization.
-For each model it has been defined a class with all available fields.
+This module contains all classes used to define the JSON serializers
+ that will be used in the REST API for the User, Group, Permission, ContentType
+ objects manipulation.
 """
 
-from core.users.models import ActiveUser
-from rest_framework import serializers
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from rest_framework.serializers import ModelSerializer
 
 
-class ActiveUserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
+    """
+    Class used to define a JSON serialized for User objects.
+    """
     class Meta:
-        model  = ActiveUser
-        fields = ('id', 'role', 'user')
-        #depth  = 1
+        model = User
+
+
+class GroupSerializer(ModelSerializer):
+    """
+    Class used to define a JSON serialized for Group objects.
+    """
+    class Meta:
+        model = Group
+
+
+class PermissionSerializer(ModelSerializer):
+    """
+    Class used to define a JSON serialized for Permission objects.
+    """
+    class Meta:
+        model = Permission
+
+
+class ContentTypeSerializer(ModelSerializer):
+    """
+    Class used to define a JSON serialized for ContentType objects.
+    """
+    class Meta:
+        model = ContentType

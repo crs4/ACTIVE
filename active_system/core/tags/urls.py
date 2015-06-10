@@ -19,10 +19,9 @@ PUT     /api/tags/12/       edit stored data for Tag object with id = 12
 DELETE  /api/tags/12/       delete stored data for Tag object with id = 12
 
 
-GET     /api/tags/search/item/12/  obtain stored data about Tags associated to item with id = 12
+GET     /api/tags/search/item/12/  obtain Tag objects associated to item with id = 12
 
-GET     /api/tags/search/person/12/  obtain stored data about Tags associated to person with id = 12
-
+GET     /api/tags/search/person/12/  obtain Tag objects associated to person with id = 12
 """
 
 from django.conf.urls import include, url

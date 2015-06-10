@@ -1,5 +1,5 @@
 """
-Module used to define the data model for the occurrences of entities in digital item.
+Module used to define the data model for Entity and Tag objects.
 """
 
 from django.db import models
@@ -28,4 +28,4 @@ class Tag(models.Model):
     item = models.ForeignKey(Item)
 
     def __unicode__(self):
-        return self.type + ' - '
+        return self.id + ' - ' + self.type

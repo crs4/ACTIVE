@@ -60,11 +60,13 @@ def edit_person(person_id, first_name=None, second_name=None):
         data['first_name'] = first_name
 
     if second_name:
-        data['second_name'] = second_name
+        data['last_name'] = second_name
 
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
     r = requests.put(url, data)
+
+    print r.text
 
     # check if the tag has been created correctly
     if r.status_code != requests.codes.ok:

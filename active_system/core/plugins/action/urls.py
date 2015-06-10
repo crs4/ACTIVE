@@ -1,6 +1,6 @@
 """
 This module defines the URL patterns that must be used in order
-to handle Action  objects data.
+to handle Action objects data.
 The provided REST API allows to:
     - obtain the list of alla available Action objects;
     - handle the data of a specific Action object through CRUD operations.
@@ -9,7 +9,7 @@ All provided data is returned in a JSON format.
 These are the relative paths that could be used to handle Action objects,
 with the provided method and a short description for each one:
 
-GET     /api/actions/	   obtain the list of available Actions in JSON.
+GET     /api/actions/	   obtain the list of available Action objects in JSON.
 
 POST    /api/actions/	   create a new Action object with provided serialized data.
 

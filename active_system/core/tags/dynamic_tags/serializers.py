@@ -14,5 +14,3 @@ class DynamicTagSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = DynamicTag
-        fields = ('id', 'tag', 'start', 'duration', 'x_position',
-                  'y_position', 'size_width', 'size_height')

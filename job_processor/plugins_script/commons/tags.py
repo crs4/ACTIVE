@@ -84,6 +84,9 @@ def get_tags_by_person(person_id):
     return r.json()
 
 
+# inserire un metodo che consente di modificare i tag
+
+
 def remove_tag(tag_id):
     """
     Method used to delete a tag with all associated dynamic tags providing its id.
