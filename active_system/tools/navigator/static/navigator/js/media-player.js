@@ -11,7 +11,7 @@ var movehead;
 var percentage;
 var time_label;
 
-
+var access_token;
 
 function Person(firstName, lastName, starts, durations, tag_type, tag_id, id){
 
@@ -142,13 +142,21 @@ var countDC = 0;
 
 $(document).ready(function(){
 	
+    //~ if (typeof window.localStorage != "undefined") {
+        //~ 
+        //~ // retrieve
+        //~ access_token = localStorage.getItem("access-token");
+        //~ console.log(localStorage.get("ngStorage_token"));
+    //~ }
 	
 	mediaPlayer = document.getElementById('media-video');
 	progressBar = document.getElementById('progress-bar');
 	movehead = document.getElementById('move_head');
 	time_label = document.getElementById('time_span');
 	
+    
 	mediaPlayer.setAttribute('src', video_path );
+    
 	mediaPlayer.controls = false;
 	mediaPlayer.autoplay=false;	
 		
@@ -189,8 +197,8 @@ $(document).ready(function(){
 			
 			if( imgClicked == "/static/navigator/icons/play.png"){
 				
-				mediaPlayer.play();			
-					
+				mediaPlayer.play();
+               
 			}
 			else if ( imgClicked == "/static/navigator/icons/pause.png"){
 				mediaPlayer.pause();					
@@ -466,12 +474,12 @@ function updatePerson(e,params,person){
         },
         data: {'first_name':new_firstName,'last_name': new_lastName},
         success: function(person_mod){
-            alert(person_mod.id);
             
             if(id_person != person_mod.id){
                 person_old = jQuery.grep(people, function(el) {			
 		            return (el.core_id == id_person);
 	            });
+                
                 
                 var tag_old_id = person_old[0].tag_id;
                 console.log(person_old);

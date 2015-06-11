@@ -104,6 +104,8 @@ class FaceModels:
                 os.makedirs(aligned_faces_subject_path)
 
             aligned_im_path = os.path.join(aligned_faces_subject_path, im_name)
+            
+            print "final path", aligned_im_path
 
             good_image = False
 

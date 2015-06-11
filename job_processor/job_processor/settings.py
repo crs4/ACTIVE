@@ -85,6 +85,12 @@ LOGGING = {
             'filename': 'job_processor.log',
             'formatter': 'verbose'
         },
+        'file2': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'face_recog.log',
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         # low level system logging
@@ -95,6 +101,10 @@ LOGGING = {
         },
         'job_processor': {
             'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+        'face_recog': {
+            'handlers': ['file2'],
             'level': 'DEBUG',
         },
     }

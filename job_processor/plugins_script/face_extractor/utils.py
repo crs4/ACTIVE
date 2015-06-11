@@ -63,7 +63,7 @@ def video_face_extractor(func_in, func_out):
 """
 
 
-def update_face_models(func_in, func_out):
+def update_face_model(func_in, func_out):
     """
     Function used to update global face models 
     used as training set for face recognition.
@@ -73,8 +73,8 @@ def update_face_models(func_in, func_out):
     """
     
     tag_id = func_out['id']
-    person_id = func_out['entity_id']
-    item_id = func_out['item_id']
+    person_id = func_out['entity']
+    item_id = func_out['item']
 
     person = get_person(person_id)
     if not person:
@@ -86,20 +86,20 @@ def update_face_models(func_in, func_out):
         
     if person and item:        
 
-	    name = person['name']
-	    surname = person['surname']
-	    tag = surname + c.TAG_SEP + name
-	
-	
-	    file_path = os.path.join(settings.MEDIA_ROOT, item.file)
-	    print file_path
-	
-	    fe = VideoFaceExtractor(file_path, str(item_id))
-	    
-	    person_counter = fe.get_person_counter(tag_id)
-	    
-	    if person_counter:
-	        fe.add_keyface_to_models(person_id, person_counter, tag)
+        name = person['first_name']
+        surname = person['last_name']
+        tag = surname + c.TAG_SEP + name
+
+
+        file_path = os.path.join(settings.MEDIA_ROOT, item['file'])
+        print file_path
+
+        fe = VideoFaceExtractor(file_path, str(item_id))
+
+        person_counter = fe.get_person_counter(tag_id)
+
+        if person_counter:
+            fe.add_keyface_to_models(person_id, person_counter, tag)
 
 
 def delete_face_model(func_in, func_out):
@@ -110,7 +110,7 @@ def delete_face_model(func_in, func_out):
     :param func_out: Output parameters returned by the trigger Action
     """
     
-    person_id = func_out['id]
+    person_id = func_out['id']
     
     fm = FaceModels()
     

@@ -81,22 +81,36 @@ class TagList(EventView):
 
     def post(self, request, format=None):
         """
-        Method used to create a new DynamicTag object.
+        Method used to create a new Tag object.
         The object data is provided in a serialized format.
+        If a similar Tag object (same entity, item and type) exists
+        it must be returned instead of creating a new one.
 
         @param request: HttpRequest used to provide tag data.
         @type request: HttpRequest
         @param format: The format used for object serialization.
         @type format: string
-        @return: HttpResponse containing the id of the new DynamicTag object, error otherwise.
+        @return: HttpResponse containing the id of the new Tag object, error otherwise.
         @rtype: HttpResponse
         """
-        logger.debug('Creating a new Tag object')
-        serializer = TagSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            logger.debug('New Tag object saved - ' + str(serializer.data['id']))
+        logger.debug('Check if a similar Tag object exists')
+        item   = request.data.get('item', '')
+        entity = request.data.get('entity', '')
+        type   = request.data.get('type', '')
+        serializer = None
+
+        tag = Tag.objects.filter(item_id=item, entity_id=entity, type=type)
+        if len(tag) > 0:
+            logger.debug('Returned an existing Tag object ' + str(item) + ' ' + str(entity) + ' ' + str(type))
+            serializer = TagSerializer(tag[0])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            logger.debug('Creating a new Tag object')
+            serializer = TagSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                logger.debug('New Tag object saved - ' + str(serializer.data['id']))
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         logger.error('Provided data not valid for Tag object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -137,7 +151,7 @@ class TagDetail(EventView):
         @return: HttpResponse containing the serialized data
         @rtype: HttpResponse
         """
-        logger.debug('Requested Tag object ' + str(id))
+        logger.debug('Requested Tag object ' + str(pk))
         tag = self.get_object(pk)
         serializer = TagSerializer(tag)
         return Response(serializer.data)

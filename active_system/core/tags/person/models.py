@@ -31,7 +31,7 @@ class Person(Entity):
     last_name= models.CharField(max_length=100)
     gender = models.CharField(max_length=100, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    image = models.FileField(upload_to=compute_upload_path, null=True) #default='person/unknown_user.png')
+    image = models.FileField(upload_to=compute_upload_path, null=True, blank=True, default='person/unknown_user.png')
 
     def save(self, *args, **kwargs):
         super(Person, self).save(*args, **kwargs)

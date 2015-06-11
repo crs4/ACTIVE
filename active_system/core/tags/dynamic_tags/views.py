@@ -59,6 +59,7 @@ class DynamicTagList(EventView):
         @return: HttpResponse containing the id of the new DynamicTag object, error otherwise.
         @rtype: HttpResponse
         """
+
         logger.debug('Creating a new DynamicTag object')
         serializer = DynamicTagSerializer(data=request.data)
         if serializer.is_valid():

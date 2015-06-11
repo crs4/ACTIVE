@@ -36,7 +36,7 @@ def find_person(first_name, last_name):
     surname = last_name.lower()
 
     res = Person.objects.filter(first_name = name).filter(last_name = surname)
-    logger.debug('Retrieved ' + len(res) + ' Person object with name ' + name + ' ' + surname)
+    logger.debug('Retrieved ' + str(len(res)) + ' Person object with name ' + name + ' ' + surname)
     if res or len(res):
         return res[0]
 
@@ -88,7 +88,7 @@ class PersonList(EventView):
         # look for an already existing person with the same name
         person = find_person(request.data["first_name"], request.data["last_name"])
         if person is not None:
-            logger.debug('Person object ' + person.id + ' has name ' + person.first_name + ' ' + person.last_name)
+            logger.debug('Person object ' + str(person.id) + ' has name ' + person.first_name + ' ' + person.last_name)
             return Response(PersonSerializer(person).data, status=status.HTTP_201_CREATED)
 
         # if the person doesn't exist create a new one
