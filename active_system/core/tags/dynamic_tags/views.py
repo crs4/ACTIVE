@@ -162,7 +162,7 @@ class SearchDynamicTagItem(EventView):
     Class used to implement methods necessary to search all DynamicTags objects 
     filtering by the item id.
     """
-    model = DynamicTagDetail
+    model = DynamicTag
 
     def get(self, request, pk, format=None):
         """

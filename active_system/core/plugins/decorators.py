@@ -3,6 +3,7 @@ This module contain all decorators used to trigger an event when a function is c
 """
 
 from core.plugins.event_manager import EventManager
+from django.contrib.auth.models import Group
 import logging
 
 # variable used for logging purposes
@@ -24,25 +25,29 @@ def generate_event(func):
     def wrap(*args, **kwargs):
         # extract the absolute path of the function
         func_path = '.'.join((func.__module__, type(func.__self__).__name__, func.__name__))
-        # execute the function and collect the result
-        res = func(*args, **kwargs)
 
         # generate an event over the called function and its parameters
-        input_data  = {}
-        output_data = {}
+        auth_data = {'token': None}
+        func_data = {}
+        res = None
+
         try:
-            output_data = res.data
+            # execute the function and collect the result
+            res = func(*args, **kwargs)
+            func_data = res.data
         except Exception as e:
             logger.error('Error on event parameter extraction for ' + func_path)
             print e
 
-        if args[0].user:
-            input_data['user_id'] = args[0].user.pk
-        if args[0].auth:
-            input_data['token']   = args[0].auth.token
+        # detect user credentials and embed them as event input parameter
+        if args[0].user and args[0].auth:
+            auth_data['user_id'] = args[0].user.pk
+            auth_data['token']   = 'Bearer ' + str(args[0].auth.token)
+            auth_data['is_root'] = args[0].user.is_superuser or Group.objects.filter(name = 'Admin') in args[0].user.groups.all()
+            logger.debug('Authenticated user ' + str(args[0].user.pk) + ' on event')
 
         logger.info('Triggered all events associated to ' + func_path)
-        EventManager().start_scripts_by_action(func_path, input_data, output_data)
+        EventManager().start_scripts_by_action(func_path, auth_data, func_data)
 
         return res
 

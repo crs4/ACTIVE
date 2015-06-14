@@ -10,8 +10,12 @@ from django.http import HttpResponse, Http404
 from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
- 
-from core.tags.models import Tag
+
+from core.items.audio.models import AudioItem
+from core.items.image.models import ImageItem
+from core.items.video.models import VideoItem
+
+from core.tags.models import Tag, Entity
 from core.tags.serializers import TagSerializer
 import logging
 
@@ -198,6 +202,8 @@ class TagDetail(EventView):
         """
         logger.debug('Requested delete on Tag object ' + str(pk))
         tag = self.get_object(pk)
+        
+            
         tag.delete()
         logger.debug('Tag object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -257,3 +263,4 @@ class SearchTagPerson(EventView):
         tag = Tag.objects.filter(entity__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
+

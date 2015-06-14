@@ -6,6 +6,7 @@ JSON format in order to provide a REST API.
 
 from rest_framework import serializers
 from core.tags.keywords.models import Keyword
+from rest_framework.pagination import PageNumberPagination
 
 
 class KeywordSerializer(serializers.ModelSerializer):

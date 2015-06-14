@@ -9,17 +9,38 @@ from importlib import import_module
 import json
 import logging
 
+
 # variable used for logging purposes
 logger = logging.getLogger('job_processor')
 
+# global variable used to handle all users Job
+jm = JobManager()
+jm.start()
 
-jmd = JobManager()
-jmd.start()
 
-# variable used to handle one Job Manager for each user.
-# A Job Manager is associated to a user through his authentication token.
-#jmd = {'0' : JobManager()}
-#jmd['0'].start()
+def _extract_user_id(request, GET_method=False):
+    """
+    Function used to extract the user parameter and detect if
+    the user is a root. The HttpRequest parameter must contain
+    all data necessary for user authentication.
+
+    @param request: HttpRequest containing user parameters.
+    @param GET_method: Flag for HTTP GET method request
+    @return: The user id, None if the user is root.
+    """
+
+    auth_params = {}
+    if GET_method:
+        auth_params = request.query_params.get('auth_params', {})
+    else:
+        auth_params = request.data.get('auth_params', {})
+    user_id = auth_params.get('user_id', '0')
+    is_root = auth_params.get('is_root', False)
+
+    if is_root:
+        return None
+    return user_id
+
 
 class JobList(APIView):
     """
@@ -33,32 +54,34 @@ class JobList(APIView):
         """
         This view is used to return a list of jobs, divided by their
         computational status.
-        It is possible to filter all jobs by status (optional).
+        It is possible to filter all jobs by status and user id (optional)
 
         @param request: HttpRequest used to retrieve all Job objects.
         @type request: HttpRequest
         @return: HttpResponse containing all serialized Job data.
         @rtype: HttpResponse
         """
-        status = request.GET.get('status', 'ALL')
+        status = request.query_params.get('status', 'ALL')
+        user_id =_extract_user_id(request, True)
 
-        logger.debug('Requested Job objects with status ' + status)
+        logger.debug('Requested Job objects with status ' + status + ' by user ' + str(user_id))
 
         if status == 'ALL':
-            jobs = jmd.getAllJobs()
+            jobs = jm.getAllJobs(user_id)
             jobs = jobs['QUEUED'] + jobs['RUNNING'] + jobs['COMPLETED'] + jobs['FAILED']
         elif status == 'ABORTED':
-            jobs = jmd.getJobs('FAILED')
+            jobs = jm.getJobs('FAILED', user_id)
             jobs = [job for job in jobs if job['status'] == 'ABORTED']
         else:
-            jobs = jmd.getJobs(status)
+            jobs = jm.getJobs(status, user_id)
 
         ret = []
         for job in jobs:
-            ret.append({'id' : job.id,
-                        'name' : job.name,
-                        'status' : job.status,
-                        'progression' : job.progression()})
+            ret.append({'id'         : job.id,
+                        'name'       : job.name,
+                        'status'     : job.status,
+                        'progression': job.progression(),
+                        'user_id'    : job.user_id})
         return HttpResponse(json.dumps(ret, default=str))
 
     def post(self, request, format=None):
@@ -75,17 +98,11 @@ class JobList(APIView):
         """
         logger.debug('Creating a new Job object')
 
-        func_name = request.POST.get('func_name', '')
-        job_name = request.POST.get('job_name', '')
-        func_in1 = json.loads(request.POST.get('event_in_params', {}))
-        func_in2 = json.loads(request.POST.get('event_out_params', {}))
-        name = request.POST.get('name', 'JOB')
-
-        # associate the user authentication token
-        if 'token' not in func_in1:
-            func_in1['token'] = 0
-        token = func_in1['token']
-        print func_in1
+        func_name = request.data.get('func_name', '')
+        job_name = request.data.get('job_name', '')
+        auth_params = json.loads(request.data.get('auth_params', {}))
+        func_params = json.loads(request.data.get('func_params', {}))
+        name = request.data.get('name', 'JOB')
 
         try:
             # get the plugin script function
@@ -96,20 +113,13 @@ class JobList(APIView):
             splits = job_name.split('.')
             job_class = getattr(import_module('.'.join(splits[:-1])), splits[-1])
             # construct a job instance
-            job = job_class(func, (func_in1, func_in2,))
+            job = job_class(func, (auth_params, func_params,))
             job.name = name
             job.func_name = func_name
-
-            #job.user_token = token
-
-
-            # check if user Job Manager is instantiated
-            #if token not in jmd:
-            #    jmd[token] = JobManager()
-            #    jmd[token].start()
+            job.user_id   = auth_params['user_id']
 
             # add the job to the execution queue
-            job_id = jmd.addJob(job)
+            job_id = jm.addJob(job)
             return HttpResponse(json.dumps({'id': job_id}))
 
         except Exception as ex:
@@ -127,8 +137,9 @@ class JobList(APIView):
         @return: HttpResponse containing the result of Job data cleaning.
         @rtype: HttpResponse
         """
-        jmd.cleanJobs(request)
-        return HttpResponse(json.dumps({'info' : True}))
+        user_id = _extract_user_id(request)
+        jm.cleanJobs(user_id)
+        return HttpResponse(json.dumps({'info': True}))
 
 
 class JobDetail(APIView):
@@ -151,25 +162,27 @@ class JobDetail(APIView):
         @return: HttpResponse containing all serialized Job data.
         @rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
+        user_id = _extract_user_id(request, True)
+        job = jm.getJob(pk, user_id)
+
         response = {}
         if job:
-            response = {'id' : job.id,
-                        'error_info' : job.error_info,
+            response = {'id'              : job.id,
+                        'error_info'      : job.error_info,
                         'start_timestamp' : job.start_time,
-                        'end_timestamp' : job.end_time,
-                        'status' : job.status,
-                        'name' : job.name,
-                        'func_name' : job.func_name,
-                        'result' : str(job.result),
-                        'progression': job.progression() }
+                        'end_timestamp'   : job.end_time,
+                        'status'          : job.status,
+                        'name'            : job.name,
+                        'func_name'       : job.func_name,
+                        'result'          : str(job.result),
+                        'progression'     : job.progression(),
+                        'user_id'         : job.user_id}
         return HttpResponse(json.dumps(response, default=str))
 
     def post(self, request, pk, format=None):
         """
-        This method is used to compute if the result of a job has been
-        computed or if it is still waiting for computation or the
-        job is currently running.
+        This method is used to detect if the result of a job has been
+        computed or if it is still waiting for its completion.
 
         @param request: HttpRequest containing all data of a new Job object.
         @type request: HttpRequest
@@ -180,7 +193,9 @@ class JobDetail(APIView):
         @return: HttpResponse containing the id of the new object, error otherwise.
         @rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
+        user_id = _extract_user_id(request)
+        job = jm.getJob(pk, user_id)
+
         if job:
             res = job.get_result()
             return HttpResponse(json.dumps(res, default=str))
@@ -203,9 +218,9 @@ class JobDetail(APIView):
         @return: HttpResponse containing all updated Job data.
         @rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
-        res = job.get_result()
-        return HttpResponse(json.dumps(res, default=str))
+        user_id = _extract_user_id(request)
+        job = jm.getJob(pk, user_id)
+        return HttpResponse(json.dumps(job.get_result(), default=str))
 
     def delete(self, request, pk, format=None):
         """
@@ -221,5 +236,6 @@ class JobDetail(APIView):
         @return: HttpResponse containing the result of the Job deletion.
         @rtype: HttpResponse
         """
-        res = jmd.abortJob(pk)
+        user_id = _extract_user_id(request)
+        res = jm.abortJob(pk, user_id)
         return HttpResponse(json.dumps({'info': res}, default=str))

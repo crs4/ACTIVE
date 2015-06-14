@@ -24,5 +24,3 @@ class ImageItem(Item):
     def __init__(self, *args, **kwargs):
         super(ImageItem,self).__init__(*args, **kwargs)
         self.type = 'image'
-        logger.debug('Creating a new ImageItem object')
-

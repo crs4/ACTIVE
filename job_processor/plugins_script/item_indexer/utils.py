@@ -8,7 +8,7 @@ from plugins_script.commons.keyword import create_keyword, search_keyword
 from plugins_script.commons.tags import create_tag
 
 
-def _create_or_retrieve_keyword(value):
+def _create_or_retrieve_keyword(value, token=None):
     """
     Function used in order to create a new keyword associate to
     the string value if it doesn't exist. Otherwise a already existing
@@ -18,10 +18,10 @@ def _create_or_retrieve_keyword(value):
     :return: A object corresponding to the keyword.
     """
     # check if the keyword already exists
-    k = search_keyword(value)
+    k = search_keyword(value, token)
     # otherwise create a new one
     if not k:
-        k = create_keyword(value)
+        k = create_keyword(value, token)
     # return the keyword object
     return k
 
@@ -51,29 +51,28 @@ def _tokenize_string(value):
     return keywords
 
 
-
-def extract_filename_keywords(func_in, func_out):
+def extract_filename_keywords(auth_dict, param_dict):
     """
     This function is used to associate keywords to a digital item
     starting from its filename.
 
-    @param func_in: Input parameters of the function that generate this function call
-    @param func_out: Output parameters of the function that generate this function call
+    @param auth_dict: Dictionary containing the authorization parameters
+    @param param_dict: Dictionary containing the function parameters
     """
 
     try:
-        item_name = ''.join(func_out['filename'].split('.')[0 : -1])
+        item_name = ''.join(param_dict['filename'].split('.')[0 : -1])
 
         # extract tokens from filename
         for str in _tokenize_string(item_name):
-            keyword = _create_or_retrieve_keyword(str)
+            keyword = _create_or_retrieve_keyword(str, auth_dict['token'])
 
             # associate the keyword to the item
-            tag = create_tag(func_out['id'], keyword['id'], 'keyword')
+            tag = create_tag(param_dict['id'], keyword['id'], 'keyword', auth_dict['token'])
             if not tag:
                 raise Exception("Error creating tag " + keyword['description'])
 
-            # TODO check if the tag already existis!!!
+            # TODO check if the tag already exists!!!
 
     except Exception as e:
         print e
@@ -82,12 +81,34 @@ def extract_filename_keywords(func_in, func_out):
     return True
 
 
+def extract_audio_keywords(auth_dict, param_dict):
+    """
+    Function used to extract the available keywords for audio digital items.
 
-def extract_audio_keywords(func_in, func_out):
-    return extract_filename_keywords(func_in, func_out)
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict:  Dictionary containing the function parameters
+    :return: The result of keyword extraction
+    """
+    return extract_filename_keywords(auth_dict, param_dict)
 
-def extract_image_keywords(func_in, func_out):
-    return extract_filename_keywords(func_in, func_out)
 
-def extract_video_keywords(func_in, func_out):
-    return extract_filename_keywords(func_in, func_out)
+def extract_image_keywords(auth_dict, param_dict):
+    """
+    Function used to extract the available keywords for image digital items.
+
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict:  Dictionary containing the function parameters
+    :return: The result of keyword extraction
+    """
+    return extract_filename_keywords(auth_dict, param_dict)
+
+
+def extract_video_keywords(auth_dict, param_dict):
+    """
+    Function used to extract the available keywords for video digital items.
+
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict:  Dictionary containing the function parameters
+    :return: The result of keyword extraction
+    """
+    return extract_filename_keywords(auth_dict, param_dict)

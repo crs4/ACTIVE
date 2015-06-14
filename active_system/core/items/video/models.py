@@ -25,4 +25,3 @@ class VideoItem(Item):
     def __init__(self, *args, **kwargs):
         super(VideoItem, self).__init__(*args, **kwargs)
         self.type = 'video'
-        logger.debug('Creating a new VideoItem object')

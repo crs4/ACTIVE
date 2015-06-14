@@ -29,7 +29,7 @@ angular.module("jobmonitorServices", [])
 		},*/
 		
 		deleteJob: function(id, callback){
-			$http.get(jobmonitorUrl + 'stop/' + id).then(
+			$http.delete(jobmonitorUrl + 'jobs/' + id).then(
 				function(result){
 					callback(result.data);
 				},
@@ -39,7 +39,7 @@ angular.module("jobmonitorServices", [])
 		},
 		
 		getJob: function(id, callback){
-			$http.get(jobmonitorUrl + 'get/' + id + '/').then(
+			$http.get(jobmonitorUrl + 'jobs/' + id).then(
 				function(result){
 					callback(result.data);
 				},
@@ -49,7 +49,7 @@ angular.module("jobmonitorServices", [])
 		},
 		
 		pollJobs: function(jobsStatus, callback){
-			var url = jobmonitorUrl + 'list';
+			var url = jobmonitorUrl + 'jobs/';
 			var p = poller.get(url, {
 				delay:5000, 
 				smart:true, 
@@ -60,7 +60,7 @@ angular.module("jobmonitorServices", [])
 		},
 		
 		purgeQueues: function(callback){
-			$http.get(jobmonitorUrl + 'clean/').then(
+			$http.delete(jobmonitorUrl + 'jobs/').then(
 				function(result){
 					callback(result);
 				},
@@ -148,7 +148,7 @@ angular.module("jobmonitorServices", [])
 		},
 	
 		getNodes: function(callback){
-			var url = clusterUrl + 'list/';
+			var url = clusterUrl;
 			var p = poller.get(url, {
 				delay:7000, 
 				smart:true, 

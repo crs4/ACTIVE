@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'core.middlewares.TokenAuthentication',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -146,9 +147,9 @@ REST_FRAMEWORK = {
 		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
-		'rest_framework.permissions.AllowAny',
-		#'rest_framework.permissions.IsAuthenticated',
-		#'rest_framework.permissions.DjangoModelPermissions'
+		#'rest_framework.permissions.AllowAny',
+		'rest_framework.permissions.IsAuthenticated',
+		'rest_framework.permissions.DjangoModelPermissions'
 	    )
 }
 

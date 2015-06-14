@@ -9,20 +9,23 @@ from django.conf import settings
 import requests
 
 
-def create_tag(item_id, entity_id, tag_type):
+def create_tag(item_id, entity_id, tag_type, token=None):
     """
     Method used to create a new tag providing the item id and the person id
     which occurs in the digital item.
 
-    :param item_id: Id of the considered digital item.
-    :param entity_id: Id of the person which occurs in the digital item.
-    :param tag_type: Type of the tag that will be generated.
-    :return: The new tag object, None in case of error.
+    @param item_id: Id of the considered digital item.
+    @param entity_id: Id of the person which occurs in the digital item.
+    @param tag_type: Type of the tag that will be generated.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: The new tag object, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/'
+    header = {'Authorization': token}
     r = requests.post(url, {'entity' : str(entity_id),
                             'item'   : str(item_id),
-                            'type'   : tag_type})
+                            'type'   : tag_type},
+                      headers=header)
 
     # check if the tag has been created correctly
     if r.status_code != requests.codes.created:
@@ -30,17 +33,19 @@ def create_tag(item_id, entity_id, tag_type):
     return r.json()
 
 
-def get_tag(tag_id):
+def get_tag(tag_id, token=None):
     """
     Function used to retrieve data associated to a
     specific Tag providing its id.
     Return an object if the tag has been found, None if error.
 
-    :param tag_id: Id of the Tag that will be retrieved.
-    :return: Object containing Tag data, None in case of error.
+    @param tag_id: Id of the Tag that will be retrieved.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: Object containing Tag data, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/' + str(tag_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
 
     # scan result and delete one dynamic tag at time
     if r.status_code != requests.codes.ok:
@@ -48,17 +53,19 @@ def get_tag(tag_id):
     return r.json()
 
 
-def get_tags_by_item(item_id):
+def get_tags_by_item(item_id, token=None):
     """
     Function used to retrieve all tags associated to a
     specific digital item, providing its id.
     A list of tag object JSON serialized is returned.
 
-    :param item_id: Id of the item used to retrieve tags.
-    :return: A list of tag objects, None in case of error.
+    @param item_id: Id of the item used to retrieve tags.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: A list of tag objects, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/search/item/' + str(item_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
 
     # check for result
     if r.status_code != requests.codes.ok:
@@ -66,17 +73,19 @@ def get_tags_by_item(item_id):
     return r.json()
 
 
-def get_tags_by_person(person_id):
+def get_tags_by_person(person_id, token=None):
     """
     Function used to retrieve all tags associated to a
     specific person, providing its id.
     A list of tag object JSON serialized is returned.
 
-    :param item_id: Id of the person used to retrieve tags.
-    :return: A list of tag objects, None in case of error
+    @param item_id: Id of the person used to retrieve tags.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: A list of tag objects, None in case of error
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/search/person/' + str(person_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
 
     # check for result
     if r.status_code != requests.codes.ok:
@@ -87,17 +96,19 @@ def get_tags_by_person(person_id):
 # inserire un metodo che consente di modificare i tag
 
 
-def remove_tag(tag_id):
+def remove_tag(tag_id, token=None):
     """
     Method used to delete a tag with all associated dynamic tags providing its id.
     The method returns the deletion result.
 
     @param tag_id: Id of the tag that will be deleted.
+    @param token: Authentication token necessary to invoke the REST API.
     @return: The result of the tag deletion.
     """
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/' + str(tag_id)
-    r = requests.delete(url)
+    header = {'Authorization': token}
+    r = requests.delete(url, headers=header)
 
     # check if the dynamic tag has been created correctly
     return r.status_code == requests.codes.no_content
@@ -106,29 +117,32 @@ def remove_tag(tag_id):
 
 
 
-def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_height=0):
+def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_height=0, token=None):
     """
     Method used to crate a dynamic tag, starting from an existing tag which stores the
     occurrence of a person in a digital item. The dynamic tag will store all details
     about the occurrence.
 
-    :param tag_id: Id of the tag that will be associated to the dynamic tag.
-    :param start: Initial instant of the occurrence.
-    :param duration: Duration of the occurrence.
-    :param bbox_x: Bounding box x value highlighting the occurrence.
-    :param bbox_y: Bounding box y value highlighting the occurrence.
-    :param bbox_width: Width of the bounding box.
-    :param bbox_height: Height of the bounding box.
-    :return: The new object created, None in case of error.
+    @param tag_id: Id of the tag that will be associated to the dynamic tag.
+    @param start: Initial instant of the occurrence.
+    @param duration: Duration of the occurrence.
+    @param bbox_x: Bounding box x value highlighting the occurrence.
+    @param bbox_y: Bounding box y value highlighting the occurrence.
+    @param bbox_width: Width of the bounding box.
+    @param bbox_height: Height of the bounding box.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: The new object created, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/'
+    header = {'Authorization': token}
     r = requests.post(url, {'tag'        : str(tag_id),
                             'start'      : start,
                             'duration'   : duration,
                             'x_position' : bbox_x,
                             'y_position' : bbox_y,
                             'size_width' : bbox_width,
-                            'size_height': bbox_height})
+                            'size_height': bbox_height},
+                      headers=header)
 
     # check if the dynamic tag has been created correctly
     if r.status_code != requests.codes.created:
@@ -136,17 +150,19 @@ def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_
     return r.json()
 
 
-def get_dtag(dtag_id):
+def get_dtag(dtag_id, token=None):
     """
     Function used to retrieve data associated to a
     specific Dyanmic Tag providing its id.
     Return an object if the dynamic tag has been found, None if error.
 
-    :param tag_id: Id of the Tag that will be retrieved.
-    :return: Object containing Tag data, None in case of error.
+    @param tag_id: Id of the Tag that will be retrieved.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: Object containing Tag data, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/' + str(dtag_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
 
     # check the result
     if r.status_code != requests.codes.ok:
@@ -154,17 +170,19 @@ def get_dtag(dtag_id):
     return r.json()
 
 
-def get_dtags_by_person(person_id):
+def get_dtags_by_person(person_id, token=None):
     """
     Method used to retrieve all dynamic tags associated
     to a specific person providing its id.
     The method returns a list of objects JSON serialized.
 
     @param person_id: Id of the person used to find dynamic tags associated to him.
+    @param token: Authentication token necessary to invoke the REST API.
     @return: A list of Dynamic Tags, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/search/person/' + str(person_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, header=header)
 
     # check the result
     if r.status_code != requests.codes.ok:
@@ -172,16 +190,18 @@ def get_dtags_by_person(person_id):
     return r.json()
 
 
-def get_dtags_by_item(item_id):
+def get_dtags_by_item(item_id, token=None):
     """
     Method used to retrieve all dynamic tags associated to a specific item providing its id.
     The method returns a list of object JSON serialized.
 
     @param item_id: Id of the item used to find dynamic tags associated ot it.
+    @param token: Authentication token necessary to invoke the REST API.
     @return: The result of the dynamic tag deletion.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/search/item/' + str(item_id)
-    r = requests.get(url)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
 
     # check the result
     if r.status_code != requests.codes.ok:
@@ -189,17 +209,19 @@ def get_dtags_by_item(item_id):
     return r.json()
 
 
-def remove_dtag(dtag_id):
+def remove_dtag(dtag_id, token=None):
     """
     Method used to delete a dynamic tag providing its id.
     The method returns the deletion result.
 
     @param tag_id: Id of the tag that will be deleted.
+    @param token: Authentication token necessary to invoke the REST API.
     @return: The result of the tag deletion.
     """
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/' + str(dtag_id)
-    r = requests.delete(url)
+    header = {'Authorization': token}
+    r = requests.delete(url, headers=header)
 
     # check if the dynamic tag has been created correctly
     return r.status_code == requests.codes.no_content

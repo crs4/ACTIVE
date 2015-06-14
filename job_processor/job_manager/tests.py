@@ -64,7 +64,7 @@ class TestJobManager(TestCase):
         jm.stop()
         self.assertTrue(True)
 
-    def test_add_job(self):
+    def test_queued_job(self):
         """
         Test the method addJob, adding a simple Job which increase the
         input value by one.
@@ -72,7 +72,51 @@ class TestJobManager(TestCase):
         jm = JobManager()
         job = Job(increase, (1,))
         jm.addJob(job)
+
         self.assertEqual(1, len(jm.getJobs('QUEUED')))
+        jm.stop()
+
+    def test_get_job(self):
+        """
+        Test used to retrieve a specific job as root user.
+        """
+        jm = JobManager()
+        job = Job(increase, (1,))
+        job.user_id = 1
+        job_id = jm.addJob(job)
+
+        job2 = jm.getJob(job_id)
+
+        self.assertIsNotNone(job2)
+        jm.stop()
+
+    def test_get_job2(self):
+        """
+        Test used to retrieve a specific job as root user.
+        """
+        jm = JobManager()
+        job = Job(increase, (1,))
+        job.user_id = 1
+        job_id = jm.addJob(job)
+
+        job2 = jm.getJob(job_id, 1)
+
+        self.assertIsNotNone(job2)
+        jm.stop()
+
+    def test_get_job3(self):
+        """
+        Test used to retrieve a specific job as root user.
+        """
+        jm = JobManager()
+        job = Job(increase, (1,))
+        job.user_id = 1
+        job_id = jm.addJob(job)
+
+        job2 = jm.getJob(job_id, 2)
+
+        self.assertIsNone(job2)
+        jm.stop()
 
     def test_job_execution(self):
         """
@@ -89,7 +133,6 @@ class TestJobManager(TestCase):
 
         # checking if job result is correct
         self.assertEqual(2, job.result)
-        # stopping job manager
         jm.stop()
 
 
@@ -104,21 +147,19 @@ class TestJobManager(TestCase):
         num_jobs = 9
         for i in range(num_jobs):
             job = Job(increase, (2,))
+            job.user_id = 1
             jm.addJob(job)
 
-        sleep(num_jobs + 1)
+        sleep(2*num_jobs + 1)
 
         # checking if all jobs has been completed
-        if len(jm.getAllJobs()["COMPLETED"]) != num_jobs:
+        if len(jm.getJobs('COMPLETED')) != num_jobs:
             self.assertTrue(False)
 
         # checking if jobs results are correct
-        for job_id in jm.getAllJobs()["COMPLETED"]:
-            job = jm.getJob(job_id)
-            if(job.result != 3):
+        for job in jm.getJobs('COMPLETED'):
+            if job.result != 3:
                 self.assertTrue(False)
-
-        # stopping job manager
         jm.stop()
 
     def test_multiple(self):
@@ -132,15 +173,90 @@ class TestJobManager(TestCase):
         num_jobs = 10
         for i in range(num_jobs):
             job = Job(increase, (2,))
+            job.user_id = 1
             jm.addJob(job)
 
         for job in jm.getAllJobs()["QUEUED"]:
             job_id = job.id
             job2 = jm.getJob(job_id)
-            if(not job2):
+            if not job2:
                 self.assertTrue(False)
+        jm.stop()
 
-        # stopping job manager
+    def test_job_abort(self):
+        """
+        Test used to check id a job is correctly stopped
+        and moved in the failed queue.
+        """
+        job1 = Job(increase, (1,))
+        job1.user_id = 1
+        job2 = Job(increase, (2,))
+        job2.user_id = 2
+
+        jm = JobManager()
+        jm.start()
+        job1_id = jm.addJob(job1)
+        jm.addJob(job2)
+        jm.abortJob(job1_id)
+
+        sleep(0.1)
+        self.assertTrue(job1.status == 'ABORTED')
+        self.assertTrue(job2.status == 'RUNNING')
+        jm.stop()
+
+    def test_job_abort2(self):
+        """
+        Test used to check id a job is stopped
+        only if requested by its owner.
+        """
+        job1 = Job(increase, (1,))
+        job1.user_id = 1
+
+        jm = JobManager()
+        jm.start()
+        job1_id = jm.addJob(job1)
+
+        self.assertFalse(jm.abortJob(job1_id, 2))
+        jm.stop()
+
+    def test_job_clean(self):
+        """
+        Test used to check if the Job objects are correctly removed
+        from the failed and completed queues of a specific user.
+        """
+        job1 = Job(increase, (1,))
+        job1.user_id = 1
+        job2 = Job(increase, (2,))
+        job2.user_id = 2
+
+        jm = JobManager()
+        jm.start()
+        jm.addJob(job1)
+        jm.addJob(job2)
+        sleep(2*delay)
+        jm.cleanJobs(1)
+
+        self.assertTrue(len(jm.getJobs('COMPLETED', 1)) == 0)
+        jm.stop()
+
+    def test_job_clean2(self):
+        """
+        Test used to check if the Job objects are correctly removed
+        from the failed and completed queues of all users.
+        """
+        job1 = Job(increase, (1,))
+        job1.user_id = 1
+        job2 = Job(increase, (2,))
+        job2.user_id = 2
+
+        jm = JobManager()
+        jm.start()
+        jm.addJob(job1)
+        jm.addJob(job2)
+        sleep(2*delay)
+        jm.cleanJobs()
+
+        self.assertTrue(len(jm.getJobs('COMPLETED')) == 0)
         jm.stop()
 
     def test4(self):

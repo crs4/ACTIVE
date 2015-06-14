@@ -176,10 +176,6 @@ class PluginManager():
         scanning data stored in a manifest file.
         """
 
-        # delete all already stored plugins in order to
-        # load the newest configuration from manifest files
-        Plugin.objects.all().delete()
-
         modules = self.get_modules()
         for module in modules:
             # extract plugin information

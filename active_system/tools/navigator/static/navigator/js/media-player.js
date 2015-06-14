@@ -1,4 +1,5 @@
 
+
 // Variables to store handles to various required elements
 var mediaPlayer;
 
@@ -10,8 +11,10 @@ var playhead;
 var movehead;
 var percentage;
 var time_label;
+var people =[];
 
-var access_token;
+var access_token = getCookie("ciccio");
+
 
 function Person(firstName, lastName, starts, durations, tag_type, tag_id, id){
 
@@ -24,142 +27,131 @@ function Person(firstName, lastName, starts, durations, tag_type, tag_id, id){
    this.core_id = id;
 }
 
-
-
-
-var people = [];
-
-
-$.get( "http://156.148.132.79:80/api/dtags/search/item/"+item_id+"/", function( data ) {
-	var tags = [];
-	var tags_ids = []
-	$.each(data, function(idx, obj) {
-		tags_ids.push(obj.tag);
-	});	
-	tags = tags_ids.filter(onlyUnique)
-	for(var i=0; i<tags.length; i++){
-		var first_name = ""
-		var last_name = ""
-		var id_person = ""
-		var entity="";
-		var tag_type=""
-        var tag_id;
-		
-		$.ajax({
-			 async: false,
-			 type: 'GET',
-			 url: "http://156.148.132.79:80/api/tags/"+tags[i]+"/",
-			 success: function(people_data) {
-					entity = people_data.entity;
-					tag_type = people_data.type;
-                    tag_id = tags[i];
-			 }
-		});
-		console.log("entity: " + entity)
-		
-		$.ajax({
-			 async: false,
-			 type: 'GET',
-			 url:  "http://156.148.132.79:80/api/people/"+entity+"/",
-			 success: function(entity_data ) {
-					first_name = entity_data.first_name;
-					last_name = entity_data.last_name;		
-					id_person = entity_data.id
-			 }
-		});
-				
-		starts = []
-		durations = []		
-		person_tags = jQuery.grep(data, function( el) {			
-			return (el.tag == tags[i]);
-		});
-		
-		
-		for(var j = 0; j<person_tags.length; j++){
-			starts.push(person_tags[j].start/1000)
-			durations.push(person_tags[j].duration/1000)
-		}
-		
-	
-		var p = new Person(first_name,last_name,starts,durations,tag_type,tag_id, id_person)
-        console.log(p)
-		people.push(p)
-	}
-	
+// Get dynamic tag associated to the item
+var request = $.ajax({
+    async: false,
+    type: 'GET',
+    beforeSend: function(xhr, settings) {        
+        xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+    },
+    url: "http://156.148.132.79:80/api/dtags/search/item/"+item_id+"/",
+    success: function(data) {
+        //~ video_path = "http://156.148.132.79/api/items/file/"+item_id+"?type=preview&token="+access_token;
+        // Retrieve tags associated to dynamic tags
+        var tags = [];
+        var tags_ids = []
+        $.each(data, function(idx, obj) {
+            tags_ids.push(obj.tag);
+        });	
+        tags = tags_ids.filter(onlyUnique)
+        for(var i=0; i<tags.length; i++){
+            var first_name;
+            var last_name;
+            var id_person;
+            var entity;
+            var tag_type;
+            var tag_id;
+            
+            // for every tag, retrieve person, item and tag type
+            $.ajax({
+                 async: false,
+                 type: 'GET',
+                 beforeSend: function(xhr, settings) {        
+                    xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+                 },
+                 url: "http://156.148.132.79:80/api/tags/"+tags[i]+"/",
+                 success: function(people_data) {
+                        entity = people_data.entity;
+                        tag_type = people_data.type;
+                        tag_id = tags[i];
+                 }
+            });
+            console.log("entity: " + entity)
+            //retrieve person associated to the tag
+            $.ajax({
+                 async: false,
+                 type: 'GET',
+                 beforeSend: function(xhr, settings) {        
+                     xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+                 },
+                 url:  "http://156.148.132.79:80/api/people/"+entity+"/",
+                 success: function(entity_data ) {
+                        first_name = entity_data.first_name;
+                        last_name = entity_data.last_name;		
+                        id_person = entity_data.id
+                 }
+            });
+                    
+            starts = []
+            durations = []		
+            person_tags = jQuery.grep(data, function( el) {			
+                return (el.tag == tags[i]);
+            });
+            
+            
+            for(var j = 0; j<person_tags.length; j++){
+                starts.push(person_tags[j].start/1000)
+                durations.push(person_tags[j].duration/1000)
+            }
+            
+            //create local object for every person retrieved in the item
+            var p = new Person(first_name,last_name,starts,durations,tag_type,tag_id, id_person)
+            console.log(p)
+            people.push(p)
+        }
+           
+           
+     }
 });
 
-var person7 = {
-    firstName:"Corrado",
-    lastName:"Fadis",
-    time: [0],
-	duration: [5],
-	tag_type: 'video',
-	core_id: 1
-}; 
-
-var person8 = {
-    firstName:"Poldo",
-    lastName:"Serrenti",
-    time: [5],
-	duration: [5],
-	tag_type: 'video',
-	core_id: 2
-}; 
-
-var person9 = {
-    firstName:"Continio",
-    lastName:"Balsamo",
-    time: [10],
-	duration: [5],
-	tag_type: 'video',
-	core_id: 3
-}; 
 
 
-var person10 = {
-    firstName:"Continio",
-    lastName:"Balsamo",
-    time: [10],
-	duration: [5],
-	tag_type: 'audio',
-	core_id: 4
-}; 
-
-people =[person7, person8, person9,person10]
-
-
-var video_path = "http://156.148.132.79/api/items/file/"+item_id+"?type=preview";
-//~ var video_path = "video/FicMix2.mp4"
+var video_path = "http://156.148.132.79/api/items/file/"+item_id+"?type=preview&token="+access_token;
+//~ var video_path = "http://156.148.132.79/api/items/file/"+item_id+"?type=preview";
 
 
 
-// Wait for the DOM to be loaded before initialising the media player
-//~ document.addEventListener("DOMContentLoaded", function() { initialiseMediaPlayer(); }, false);
+
+
+
 var countDC = 0;
-
-//~ $( document ).tooltip();
-
 
 $(document).ready(function(){
 	
-    //~ if (typeof window.localStorage != "undefined") {
-        //~ 
-        //~ // retrieve
-        //~ access_token = localStorage.getItem("access-token");
-        //~ console.log(localStorage.get("ngStorage_token"));
-    //~ }
-	
+    //check if authorized
+    request.error(function(httpObj, textStatus) {  
+        //~ $("#error_id").text(httpObj.responseJSON.detail)
+        if(httpObj.status==401){
+            $( "#error" ).dialog({
+		        resizable: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                title: "Error",
+                buttons: {
+                    "Ok":function(){
+                        // Redirect the to the ACTIVE GUI if unauthorized
+                        location.href = "http://156.148.132.79:4000/";
+                        }
+                }
+            });
+        
+        }
+        
+    });
+    
 	mediaPlayer = document.getElementById('media-video');
 	progressBar = document.getElementById('progress-bar');
 	movehead = document.getElementById('move_head');
 	time_label = document.getElementById('time_span');
 	
     
-	mediaPlayer.setAttribute('src', video_path );
+	mediaPlayer.setAttribute('src', video_path+"" );
     
 	mediaPlayer.controls = false;
 	mediaPlayer.autoplay=false;	
-		
+	
+    //Update DOM with dynamic tags	
 	$(mediaPlayer).on("durationchange", function(){
 		
 		countDC++;
@@ -167,10 +159,9 @@ $(document).ready(function(){
 			updateDOM();
 	});
 	
-	
+	//manage progress bar
 	$(mediaPlayer).on("timeupdate",  function(){
 		
-		//~ updateProgressBar();	
         manage_movehead();
 	});	
 	
@@ -184,6 +175,7 @@ $(document).ready(function(){
 	
 	//~ $("#icons img:nth-child(1)").animate({ backgroundColor: "#674172" });
 	
+    //manage player controls
 	$("#icons img").click(function(){
 				
 			var imgClicked = $(this).attr( "src" );
@@ -244,13 +236,7 @@ $(document).ready(function(){
 	
 	});
     
-    //~ $( "#draggable5" ).draggable({ containment: "parent", axis: "x" });
-    //~ $( "#draggable5" ).mouseup(function() {
-        //~ var a = $(this);
-        //~ p = a.position();
-        //~ alert(p.left);
-    //~ });
-    
+    //manage video ended event
     $(mediaPlayer).bind("ended", function() {
         mediaPlayer.pause();
         mediaPlayer.currentTime = 0;
@@ -260,6 +246,7 @@ $(document).ready(function(){
 	
 });
 
+//manage click on the progress bar
 $(document).on('click','#progressbar',function(e){
 	
 	
@@ -272,6 +259,7 @@ $(document).on('click','#progressbar',function(e){
 	
 });
 
+//manage click on dynamic tag
 $(document).on('click','div.timeline > div',function(){
 	var ist = $(this)[0].style.left;	
 	
@@ -281,7 +269,7 @@ $(document).on('click','div.timeline > div',function(){
 });
 
 
-
+//manage click on audio button
 $(document).on('click','#audioButton',function(){
 	$("#audiotimetable").show();
 	$(this).css({"background":"#aea8d3"});
@@ -291,6 +279,7 @@ $(document).on('click','#audioButton',function(){
 	
 });
 
+//manage click on video button
 $(document).on('click','#videoButton',function(){
 	$("#audiotimetable").hide();
 	$("#videotimetable").show();
@@ -299,7 +288,7 @@ $(document).on('click','#videoButton',function(){
 	
 });
 
-
+//manage click on 'delete' person button
 $(document).on('click','.rmperson',function(){
 	
 	mediaPlayer.pause();
@@ -317,15 +306,13 @@ $(document).on('click','.rmperson',function(){
 	
 	$( "#dialog-confirm" ).dialog({
 		resizable: false,
-		//~ height:220,
 		height: 'auto',
-		//~ width:400,
 		width: 'auto',
 		modal: true,
 		title: "Remove "+person[0].firstName+" "+person[0].lastName+"?",
 		buttons: {
 			"Remove person": function() {
-       
+                //delete person from database
                 $.ajax({
                     url: 'http://156.148.132.79:80/api/tags/'+tag_id,
                     type: 'DELETE',
@@ -333,6 +320,7 @@ $(document).on('click','.rmperson',function(){
                         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                         }
+                        xhr.setRequestHeader("Authorization", "Bearer "+access_token);
                     },
                     success: function(result) {
                        
@@ -350,6 +338,8 @@ $(document).on('click','.rmperson',function(){
 	
 });
 
+
+//manage click on the 'show person' button
 $(document).on('click','.showperson',function(){
 	
 	mediaPlayer.pause();
@@ -362,9 +352,12 @@ $(document).on('click','.showperson',function(){
 		return (el.core_id == id);
 	});
     
-	$("#personimage").attr('src', 'http://156.148.132.79:80/api/people/file/'+id);
+    
+    $("#personimage").attr('src', 'http://156.148.132.79:80/api/people/file/'+id+'/?token='+access_token);
     $("#personimage").attr('width', 400);
-    $("#personimage").attr('height', 'auto');
+    $("#personimage").attr('height', 'auto');  
+    
+	
     
 	$('#dialog').dialog({
 		modal: true,
@@ -471,6 +464,7 @@ function updatePerson(e,params,person){
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
             }
+            xhr.setRequestHeader("Authorization", "Bearer "+access_token);
         },
         data: {'first_name':new_firstName,'last_name': new_lastName},
         success: function(person_mod){
@@ -491,6 +485,7 @@ function updatePerson(e,params,person){
                             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                                 xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                             }
+                            xhr.setRequestHeader("Authorization", "Bearer "+access_token);
                         },
                         data: {'entity':person_mod.id},
                         success: function(tag){

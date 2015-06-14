@@ -26,7 +26,6 @@ class AudioItem(Item):
     def __init__(self, *args, **kwargs):
         super(AudioItem, self).__init__(*args, **kwargs)
         self.type = 'audio'
-        logger.debug('Creating a new Audio digital item')
 
     def save(self, *args, **kwargs):
         super(AudioItem, self).save(*args, **kwargs)

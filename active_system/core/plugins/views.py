@@ -8,6 +8,8 @@ from core.views import EventView
 from core.plugins.event_manager import EventManager
 from core.plugins.models import Event, Script
 
+from django.contrib.auth.models import Group
+
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -36,15 +38,16 @@ class EventTrigger(EventView):
             # retrieve event data
             e = Event.objects.get(pk=event_id)
             # retrieve script parameters
-            input_dict = request.POST.get('input_dict', {})
-            output_dict = request.POST.get('output_dict', {})
+            auth_params = {}
+            func_params = request.data.get('func_params', {})
 
             # assign the user authentication token and id
-            input_dict['token']   = str(request.auth)
-            input_dict['user_id'] = request.user.pk
+            auth_params['token']   = 'Bearer ' + request.auth.token
+            auth_params['user_id'] = request.user.pk
+            auth_params['is_root'] = request.user.is_superuser or Group.objects.filter(name = 'Admin') in request.user.groups.all()
 
             # trigger the specified event
-            EventManager().start_scripts(e.name, input_dict, output_dict)
+            EventManager().start_scripts(e.name, auth_params, func_params)
         except Event.DoesNotExist:
             logger.error('Event ' + event_id + ' does not exist!')
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -63,22 +66,24 @@ class EventExec(EventView):
         """
         Method used to execute a script by its id.
         Parameters provided to the script are extracted from the body
-        of the HTTP request, looking for input_dict and output_dict fields.
+        of the HTTP request, looking for auth_params and func_params fields.
 
         @param script_id: Primary key used to retrieve a Script object.
         @type script_id: int
         """
         # retrieve script parameters
+        auth_params = {}
         data = json.loads(request.body)
-        input_dict = request.POST.get('input_dict', data["input_dict"])
-        output_dict = request.POST.get('output_dict', data["output_dict"])
+        func_params = data['func_params']
 
         # assign the user authentication token and id
-        input_dict['token'] = str(request.auth)
-        input_dict['user_id'] = request.user.pk
+        # assign the user authentication token and id
+        auth_params['token']   = 'Bearer ' + request.auth.token
+        auth_params['user_id'] = request.user.pk
+        auth_params['is_root'] = request.user.is_superuser or Group.objects.filter(name = 'Admin') in request.user.groups.all()
 
         # trigger the specified event
-        EventManager().execute_script_by_id(script_id, input_dict, output_dict)
+        EventManager().execute_script_by_id(script_id, auth_params, func_params)
 
         logger.debug('Script ' + script_id + ' correctly started')
         return Response(status=status.HTTP_200_OK)

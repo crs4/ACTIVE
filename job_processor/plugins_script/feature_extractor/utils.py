@@ -8,75 +8,61 @@ from django.conf import settings
 from plugins_script.commons.item import set_status, set_video_metadata, set_image_metadata, set_audio_metadata
 import subprocess
 import os
-import requests
 
-def extract_video_data(func_in, func_out):
+
+def extract_video_data(auth_dict, param_dict):
     """
     This function is used to extract relevant metadata from a video item
     and then save this data on the active core.
 
-    :param func_in: Input parameters of the function that generate this function call
-    :param func_out: Output parameters of the function that generate this function call
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict: Dictionary containing the parameters
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
     item_info = get_exif_metadata(file_path)
 
-    if not set_video_metadata(func_out['id'], item_info):
+    if not set_video_metadata(param_dict['id'], item_info, auth_dict['token']):
         raise Exception('Error on metadata update')
 
-    if not set_status(func_out['id'], 'ANALYZED'):
+    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
         raise Exception('Error on processing status update')
 
-    print "Extracted and saved metadata for video item", func_out['id']
+    print "Extracted and saved metadata for video item", param_dict['id']
 
-def extract_image_data(func_in, func_out):
+
+def extract_image_data(auth_dict, param_dict):
     """
     This function is used to extract relevant metadata from a image item
     and then save this data on the active core.
 
-    :param func_in: Input parameters of the function that generate this function call
-    :param func_out: Output parameters of the function that generate this function call
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict: Dictionary containing the parameters
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
     item_info = get_exif_metadata(file_path)
 
-    """url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(func_out['id']) + '/'
-    #headers = {'Authorization' : 'access_token ' + func_in['token']}
-    headers = {'Authorization' : 'Bearer ' + str(func_in['token'])}
-    r = requests.put(url, {'id'           : func_out['id'],
-                           'mime_type'    : item_info['mime_type'],
-                           'frame_width'  : item_info['frame_width'],
-                           'frame_height' : item_info['frame_height'],
-                           'format'       : item_info['format'],
-                           'filesize'     : item_info['filesize'] },
-                     headers=headers)
-
-    # return the result of the update
-    return r.status_code == requests.codes.ok
-    """
-
-    if not set_image_metadata(func_out['id'], item_info):
+    if not set_image_metadata(param_dict['id'], item_info, auth_dict['token']):
         raise Exception('Error on metadata update')
 
-    if not set_status(func_out['id'], 'ANALYZED'):
+    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
         raise Exception('Error on processing status update')
 
 
-def extract_audio_data(func_in, func_out):
+def extract_audio_data(auth_dict, param_dict):
     """
     This function is used to extract relevant metadata from a video item
     and then save this data on the active core.
 
-    :param func_in: Input parameters of the function that generate this function call
-    :param func_out: Output parameters of the function that generate this function call
+    :param auth_dict: Dictionary containing the authorization parameters
+    :param param_dict: Dictionary containing the parameters
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, func_out['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
     item_info = get_exif_metadata(file_path)
 
-    if not set_audio_metadata(func_out['id'], item_info):
+    if not set_audio_metadata(param_dict['id'], item_info, auth_dict['token']):
         raise Exception('Error on metadata update')
 
-    if not set_status(func_out['id'], 'ANALYZED'):
+    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
         raise Exception('Error on processing status update')
 
 

@@ -43,7 +43,6 @@ class Job:
         self.executor = func
         self.name = None
         self.func_name = None
-        self.user_token = None # job owner's token
         self.user_id = None    # job owner's id
         self.status = None     # job processing status
         self.result = None     # field containing the result data
@@ -63,7 +62,7 @@ class Job:
         @rtype: Object
         """
         try:
-            logger.debug('Executing job ' + self.name)
+            logger.debug('Executing job ' + str(self.name))
             self.__set_start_end()
             self.result = apply(self.executor, self.args)
         except Exception as ex:
@@ -82,12 +81,12 @@ class Job:
         @return: String with jobID and name.
         @rtype: String
         """
-        return str(self.id) + " - " + self.name
+        return str(self.id) + " - " + str(self.name) + ' - ' + str(self.user_id)
 
     def duration(self):
         """
         Function used to compute the duration of a computation.
-        If the job is finished it returns the amount of milliseconds
+        If the job is finished it r eturns the amount of milliseconds
         needed to complete the activities.
         Otherwise it returns the total milliseconds elapsed from the
         start of the job to the current time.

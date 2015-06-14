@@ -8,7 +8,8 @@
 		<meta charset='utf-8' />
 		
 		<link href='/static/summarizer/css/media-player.css' rel='stylesheet' />
-		 
+        <link href="/static/summarizer/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.min.css" rel='stylesheet' />	
+
 		<script src="/static/summarizer/jquery-ui-1.10.4/js/jquery-1.10.2.js"></script>
 		
 		<script src="/static/summarizer/jquery-ui-1.10.4/js/jquery-ui-1.10.4.js"></script>	
@@ -33,6 +34,11 @@
 	
 	
 	<div id='media-player'>
+        
+        
+        <div id="error" title="Error" class="modal-dialog">
+            <p id="error_id"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>You are not authorized. You may try to sign in again. </p>
+        </div>
 		
 		<video class="center" id='media-video' controls preload="none" >
 

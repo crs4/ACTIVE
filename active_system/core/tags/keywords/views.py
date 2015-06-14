@@ -17,13 +17,13 @@ from core.items.models import Item
 from core.items.serializers import ItemSerializer
 
 from core.items.audio.models import AudioItem
-from core.items.audio.serializers import AudioItemSerializer
+from core.items.audio.serializers import AudioItemSerializer, AudioItemPagination
 
 from core.items.image.models import ImageItem
-from core.items.image.serializers import ImageItemSerializer
+from core.items.image.serializers import ImageItemSerializer, ImageItemPagination
 
 from core.items.video.models import VideoItem
-from core.items.video.serializers import VideoItemSerializer
+from core.items.video.serializers import VideoItemSerializer, VideoItemPagination
 import logging
 
 # variable used for logging purposes
@@ -240,9 +240,9 @@ class KeywordSearch(EventView):
         """
         logger.debug('Searching all Item objects associated to keyword list ' + keyword_list)
         # create a map to specific item object handlers
-        item_map = { "audio" : [AudioItem, AudioItemSerializer],
-                     "image" : [ImageItem, ImageItemSerializer],
-                     "video" : [VideoItem, VideoItemSerializer] }
+        item_map = { "audio" : [AudioItem, AudioItemSerializer, AudioItemPagination],
+                     "image" : [ImageItem, ImageItemSerializer, ImageItemPagination],
+                     "video" : [VideoItem, VideoItemSerializer, VideoItemPagination] }
 
         # check if the item type is supported
         if item_type not in item_map:
@@ -266,14 +266,18 @@ class KeywordSearch(EventView):
                 tags = Tag.objects.filter(entity__id = k2.id)
                 temp += ([t.item.id for t in tags])
             item_list.append(temp)
-
+        
         # intersect the list of item ids
         ids = set(item_list[0])
         for i in range(1, len(item_list)):
             ids = ids.intersection(item_list[i])
 
         # return the retrieved list of specific digital items
-        logger.debug('Returning all Item objects found for keyword list ' + keyword_list)
+        logger.debug('Returning all Item objects found for keyword list ' + str(keyword_list))
         items = item_map[item_type][0].objects.filter(item_ptr_id__in = ids)
-        serializer = item_map[item_type][1](items, many=True)
-        return Response(serializer.data)
+
+
+        paginator = item_map[item_type][2]()
+        result = paginator.paginate_queryset(items, request)
+        serializer = item_map[item_type][1](result, many=True)
+        return paginator.get_paginated_response(serializer.data)

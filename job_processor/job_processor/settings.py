@@ -85,12 +85,6 @@ LOGGING = {
             'filename': 'job_processor.log',
             'formatter': 'verbose'
         },
-        'file2': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'face_recog.log',
-            'formatter': 'verbose'
-        },
     },
     'loggers': {
         # low level system logging
@@ -101,10 +95,6 @@ LOGGING = {
         },
         'job_processor': {
             'handlers': ['file'],
-            'level': 'DEBUG',
-        },
-        'face_recog': {
-            'handlers': ['file2'],
             'level': 'DEBUG',
         },
     }
@@ -140,7 +130,7 @@ CELERY_TIMEZONE = "Europe/Rome"
 CELERYD_POOL_RESTARTS = True
 
 # maximum number of parallel executable jobs
-MAX_NUM_JOBS = 12
+MAX_NUM_JOBS = 24
 
 # python module containing plugins that will be stored and searched
 PLUGIN_SCRIPT_MODULE = 'plugins_script'
@@ -148,5 +138,5 @@ PLUGIN_SCRIPT_MODULE = 'plugins_script'
 # endpoint associated to the ACTIVE core instance
 ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:80/'
 
-# dictetory where all digital items are stored and shared among the cluster
+# directory where all digital items are stored and shared among the cluster
 MEDIA_ROOT = '/var/spool/active/data/'

@@ -35,6 +35,8 @@ var time_offset = 0;
 
 var percentage;
 
+var access_token = getCookie("ciccio");
+
 
 //video e segmanto correnti
 var video_index = 0;
@@ -67,115 +69,18 @@ function Video(title, url, starts, durations){
 
 
 
-var video1 = {
-    title:"basket",
-    url: "video/basket.mp4",
-    time: [5, 20, 40],
-    duration: [10, 18, 5], // 33
-    end: 85
-}; 
-
-
-var video3 = {
-	
-    title:"Datome",
-    url: "video/sample.mp4",
-    time: [0,8],    
-    duration: [7,3], //43 
-    end: 14
-    
-}; 
-
-var video2 = {
-    
-    title:"parrots",
-    url: "video/parrots.mp4",
-    time: [8, 23],
-    duration: [4,3], //50
-    end: 33
-}; 
- 
-var video4 = {
-    
-    title:"beli",
-    url: "video/beli.mp4",
-    time: [0,6,12],    
-    duration: [4,4,2], // 60
-    end: 78
-    
-}; 
-
-
-var video5 = {
-    title:"basket",
-    url: "video/basket.mp4",
-    time: [5, 20, 40],
-    duration: [10, 18, 5], // 33
-    end: 85
-}; 
-
-
-var video7 = {
-	
-    title:"Datome",
-    url: "video/sample.mp4",
-    time: [0,8],    
-    duration: [7,3], //43 
-    end: 14
-    
-}; 
-
-var video6 = {
-    
-    title:"parrots",
-    url: "video/parrots.mp4",
-    time: [8, 23],
-    duration: [4,3], //50
-    end: 33
-}; 
- 
-var video8 = {
-    
-    title:"beli",
-    url: "video/beli.mp4",
-    time: [0,6,12],    
-    duration: [4,4,2], // 60
-    end: 78
-    
-}; 
 
 
 
 
-var video_paths = ["yaml/MONITOR072011.YAML","yaml/MONITOR082011.YAML","yaml/MONITOR272010.YAML","yaml/MONITOR0292010.YAML"];
 var video_arr = [];
 
-//~ var video_arr = [video1,video2,video3,video4]; //4
-//~ var video_arr = [video1,video2,video3,video4,video5,video6,video7,video8]; //8
-//~ var video_arr = [video1,video2,video3,video4,video5,video6]; //6
-//~ var video_arr = [video3,video4]; //2
-
-//~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //12
-//~ var video_arr = [video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4,video1,video2,video3,video4]; //36
-
-//~ 
-//~ 
-//~ $.getScript("js/files_management.js", function(){
-//~ 
-   //~ 
-   //~ // Here you can use anything you defined in the loaded script
-   //~ 
-	//~ for(var i=0; i<video_paths.length; i++){
-		//~ 
-	   //~ getYamlFile(video_paths[i],readTextFile);
-		//~ 
-    //~ }
-//~ });
-
-//~ $.get( "http://156.148.132.79:80/api/dtags/search/person/5/", function( data ) {
-$.ajax({
+var req = $.ajax({
 	async: false,
     type: 'GET',
+    beforeSend: function(xhr, settings) {        
+        xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+    },
 	url: "http://156.148.132.79:80/api/dtags/search/person/"+person_id+"/",
 	success: function(data) {
 		
@@ -201,6 +106,9 @@ $.ajax({
 				 async: false,
 				 type: 'GET',
 				 url: "http://156.148.132.79:80/api/tags/"+tags[i]+"/",
+                 beforeSend: function(xhr, settings) {        
+                     xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+                 },
 				 success: function(item_tag) {
 						item_id = item_tag.item;
 						entity_id = item_tag.entity 
@@ -212,9 +120,12 @@ $.ajax({
 				 async: false,
 				 type: 'GET',
 				 url:  "http://156.148.132.79:80/api/items/"+item_id+"/",
+                 beforeSend: function(xhr, settings) {        
+                     xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+                 },
 				 success: function(item_data) {
 						title = item_data.filename;
-						url = "http://156.148.132.79/api/items/file/"+item_id+"/";
+						url = "http://156.148.132.79/api/items/file/"+item_id+"?type=preview&token="+access_token;
 			
 				 }
 			});
@@ -251,6 +162,9 @@ $.ajax({
 		async: false,
 		type: 'GET',
 		url: "http://156.148.132.79:80/api/people/"+entity_id+"/",
+        beforeSend: function(xhr, settings) {        
+            xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+        },
 		success: function(person) {
 			console.log(person)
 			firstName = person.first_name;
@@ -265,6 +179,32 @@ var countDC = 0;
 
 
 $(document).ready(function(){
+    
+    //check if authorized
+    req.error(function(httpObj, textStatus) {  
+        //~ $("#error_id").text(httpObj.responseJSON.detail)
+        if(httpObj.status==401){
+            $( "#error" ).dialog({
+		        resizable: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                title: "Error",
+                buttons: {
+                    "Ok":function(){
+                        // Redirect the to the ACTIVE GUI if unauthorized
+                        location.href = "http://156.148.132.79:4000/";
+                        }
+                }
+            });
+        
+        }
+        
+    });
+    
+    
+    
+    
 	summary_duration = total_segments_duration;
 	console.log("ready")
 	video_arr.sort(function compare(a,b) {
@@ -862,4 +802,27 @@ function onlyUnique(value, index, self) {
 }
 
 
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
 

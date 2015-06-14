@@ -7,7 +7,7 @@ angular.module("jobmonitorApp")
 		templateUrl:"/static/assets/js/app/views/cluster_main.html"
 	});
 	
-	$routeProvider.when("/jobmonitor/cluster/:id", {
+	$routeProvider.when("/jobmonitor/cluster/node/:id", {
 		templateUrl:"/static/assets/js/app/views/cluster_node.html",
 		controller:"clusterNodeCtrl"
 	});

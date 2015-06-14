@@ -17,19 +17,20 @@ from seg_file_utility import make_name_compact
 import re
 import shutil
 
-def speaker_diarization(func_in, func_out):
+
+def speaker_diarization(auth_dict, param_dict):
     try:
         # remove existing tags (and dynamic tags) for the item
-        tags = get_tags_by_item(func_out['id'])
+        tags = get_tags_by_item(param_dict['id'], auth_dict['token'])
         for tag in tags:
             remove_tag(tag['id'])
 
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> START"
-        file_path=os.path.join(settings.MEDIA_ROOT, func_out["file"])
-        new_file_path=os.path.join(settings.MEDIA_ROOT,'items',str(func_out["id"]),str(func_out["id"]))
+        file_path=os.path.join(settings.MEDIA_ROOT, param_dict["file"])
+        new_file_path=os.path.join(settings.MEDIA_ROOT,'items',str(param_dict["id"]),str(param_dict["id"]))
         print "new file path ",new_file_path
         shutil.copy2(file_path,new_file_path)
-        file_root=os.path.join(settings.MEDIA_ROOT, 'items', str(func_out["id"])) # e' necessario il casting esplicito degli interi?
+        file_root=os.path.join(settings.MEDIA_ROOT, 'items', str(param_dict["id"])) # e' necessario il casting esplicito degli interi?
         file_path=new_file_path
         #convert_with_ffmpeg(file_path)
 
@@ -60,12 +61,12 @@ def speaker_diarization(func_in, func_out):
         # Executor().eval(farm, file_list) # costrutto che valuta lo skeleton tree
 
         print "***** PLUGIN SPEAKER RECOGNITION: DIARIZATION ---> STOP"
-        print "fp=",file_root+"/out/"+func_out["filename"].split(".")[0]
-        post_di_esempio(id_item=str(func_out["id"]) , fp=file_root+"/out/"+str(func_out["id"]))
+        print "fp=",file_root+"/out/"+param_dict["filename"].split(".")[0]
+        post_di_esempio(id_item=str(param_dict["id"]) , fp=file_root+"/out/"+str(param_dict["id"]), auth_dict)
     except Exception as e:
         print e
 
-def post_di_esempio(id_item,fp):
+def post_di_esempio(id_item, fp, auth_dict):
     print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> Start"
     id_persona=None
     #id_item=3601
@@ -80,20 +81,20 @@ def post_di_esempio(id_item,fp):
 		print "find name ", name
 		if name.find("GiacomoMameli")>-1:
 		    print "trovato giacomino"
-		    id_persona=create_person("Giacomo","Mameli")["id"]
+		    id_persona=create_person("Giacomo","Mameli", auth_dict['token'])["id"]
 		    print "id persona ",id_persona
 		else:
 		    mai=p.findall(name)
 		    if len(mai)==2:
 			f_name=name.split(mai[1])[0]
 			s_name=mai[1]+name.split(mai[1])[1]
-			persona=create_person(f_name,s_name)
+			persona=create_person(f_name,s_name, auth_dict['token'])
 			id_persona=persona["id"]
 		    else:	
-		    	persona=create_person("Il","Manutentore")
+		    	persona=create_person("Il","Manutentore", auth_dict['token'])
 		    	id_persona=persona["id"]
 		print "create_tag id_item,id_persona ", id_item, " ",id_persona
-		tag=create_tag(id_item,id_persona, "speaker")
+		tag=create_tag(id_item,id_persona, "speaker", auth_dict['token'])
 		print "tag ",tag
 		st=int( float(res[1])*1000 )
 		print "start ", st
