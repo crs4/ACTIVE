@@ -54,14 +54,13 @@ class JobList(EventView):
         existing in the Job Processor.
         """
         user_id, is_root = _detect_user_params(request)
-        print user_id, is_root, request.query_params
         status = request.query_params.get('status', 'ALL')
 
 
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/'
         r = requests.get(url, data={'status' : status, 'user_id': user_id, 'is_root': is_root})
-        print r.text
-        if r.status_code != requests.codes.ok:
+
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -81,7 +80,7 @@ class JobList(EventView):
                                  'user_id'    : user_id,
                                  'is_root'    : is_root})
 
-        if r.status_code != requests.codes.ok:
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -96,7 +95,7 @@ class JobList(EventView):
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/'
         r = requests.delete(url, data={'user_id': user_id, 'is_root': is_root})
 
-        if r.status_code != requests.codes.ok:
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -120,7 +119,7 @@ class JobDetail(EventView):
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/' + str(pk)
         r = requests.get(url, data={'user_id': user_id, 'is_root': is_root})
 
-        if r.status_code != requests.codes.ok:
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -134,7 +133,7 @@ class JobDetail(EventView):
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/' + str(pk)
         r = requests.put(url, data={'user_id': user_id, 'is_root': is_root})
 
-        if r.status_code != requests.codes.ok:
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -148,7 +147,7 @@ class JobDetail(EventView):
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/jobs/' + str(pk)
         r = requests.put(url, data={'user_id': user_id, 'is_root': is_root})
 
-        if r.status_code != requests.codes.ok:
+        if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)
         return Response(status=http_status.HTTP_404_NOT_FOUND)
 
@@ -166,6 +165,17 @@ class ClusterList(EventView):
         """
         url = settings.JOB_PROCESSOR_ENDPOINT + 'api/cluster/'
         r = requests.get(url)
+
+        if r.status_code == requests.codes.ok:
+            return Response(r.json(), status=http_status.HTTP_200_OK)
+        return Response(status=http_status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, format=None):
+        """
+        Method used to start all cluster nodes.
+        """
+        url = settings.JOB_PROCESSOR_ENDPOINT + 'api/cluster/'
+        r = requests.post(url)
 
         if r.status_code == requests.codes.ok:
             return Response(r.json(), status=http_status.HTTP_200_OK)

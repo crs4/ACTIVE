@@ -6,6 +6,8 @@ from django.db import models
 from core.items.models import Item
 import logging
 
+from django.db.models.signals import post_delete
+
 # variable used for logging purposes
 logger = logging.getLogger('active_log')
 
@@ -36,24 +38,28 @@ class Tag(models.Model):
     def __unicode__(self):
         return str(self.id) + ' - ' + self.type
 
-    # questa delete non verra' mai chiamata alla cancellazione
-    # di un tag in quanto avviene solo sul database, lato SQL!!!
-    def delete(self, *args, **kwargs):
-        """
-        This method override the standard delete method.
-        After deleting the current Tag object it checks if the associated
-        Entity is used by other Tag objects (byu reference). If there is not other uses
-        the entity object is deleted, avoiding pending objects in the database.
-
-        :param args: Arguments used for the Tag deletion
-        :param kwargs: Key arguments used for the Tag deletion
-        """
-        logger.debug('Deleting Tag object ' + self.pk + ' and all orphan Entities')
-        # save the entity reference
-        temp = self.entity.id
-        # delete the tag
-        super(Tag, self).delete()
-        # check if the entity is used (on another Tag object)
-        # if not delete the entity object
-        if Tag.objects.filter(entity__id = temp).count() == 0:
-            Entity.objects.filter(pk = temp).delete()
+  
+            
+            
+def delete_entity(sender, instance, **kwargs):
+    """
+    This method is called after a Tag deletion.
+    It checks if the associated Entity is used by other Tag objects (by reference). 
+    If there is not other uses the entity object is deleted, avoiding pending objects in the database.
+    
+    :param sender: The model class that sends the signal
+    :param instance: The actual instance being deleted
+    :param kwargs: Key arguments used for the Tag deletion
+    """
+    
+    logger.debug('Deleting all orphan Entities, after Tag '+ str(instance.id) +' deletion') 
+    # save the entity reference
+    temp = instance.entity.id   
+    # check if the entity is used (on another Tag object)
+    # if not delete the entity object
+    if Tag.objects.filter(entity__id = temp).count() == 0:
+        Entity.objects.filter(pk = temp).delete()
+ 
+    
+#Connect the post_delete signal (associated with the Tag class), with the delete_entity method 
+post_delete.connect(delete_entity, sender=Tag)

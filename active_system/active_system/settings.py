@@ -40,11 +40,14 @@ INSTALLED_APPS = (
     'rest_framework',
     'oauth2_provider',
     'corsheaders',
-    'core',
-    'tools.navigator',
-    'tools.summarizer',
-    'tools.job_monitor',
-    'core.plugins.apps.PluginConfig', # collect plugin data
+    'core.users',
+    'core.items',
+    'core.plugins',
+    'core.tags',
+    'core.active_tools',
+    #'tools.navigator',
+    #'tools.summarizer',
+    #'tools.job_monitor'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,6 +82,16 @@ DATABASES = {
 	'PORT': '5432'
    }
 }
+
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -147,9 +160,9 @@ REST_FRAMEWORK = {
 		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
-		#'rest_framework.permissions.AllowAny',
-		'rest_framework.permissions.IsAuthenticated',
-		'rest_framework.permissions.DjangoModelPermissions'
+		'rest_framework.permissions.AllowAny',
+		#'rest_framework.permissions.IsAuthenticated',
+		#'rest_framework.permissions.DjangoModelPermissions'
 	    )
 }
 

@@ -11,9 +11,13 @@ from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
 
+from core.items.models import Item
 from core.items.audio.models import AudioItem
 from core.items.image.models import ImageItem
 from core.items.video.models import VideoItem
+from core.items.audio.serializers import AudioItemSerializer, AudioItemPagination
+from core.items.image.serializers import ImageItemSerializer, ImageItemPagination
+from core.items.video.serializers import VideoItemSerializer, VideoItemPagination
 
 from core.tags.models import Tag, Entity
 from core.tags.serializers import TagSerializer
@@ -246,7 +250,7 @@ class SearchTagPerson(EventView):
 
     def get(self, request, pk, format=None):
         """
-        Method used to retrieve all DynamicTag objects containing
+        Method used to retrieve all Tag objects containing
         the occurrences of a specific person (if any).
         Returned data is provided in a JSON serialized format.
 
@@ -264,3 +268,54 @@ class SearchTagPerson(EventView):
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
 
+
+# ha senso una funziona del genere? molti riferimenti ad altri moduli e
+# si chiedere al server di bufferizzare i risultati invece di lasciare che
+# sia il client a richiederli uno per volta.
+class SearchItemByEntity(EventView):
+    """
+    Class used to implement methods necessary to search all Item objects
+    of a specific type associated to a specific Entity.
+    """
+    model = Tag
+
+    def get(self, request, item_type, pk,  format=None):
+        """
+        Method used to retrieve all Item objects containing
+        the occurrences of a specific person (if any).
+        Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of Tag objects.
+        @type request: HttpRequest
+        @param pk: Person primary key, used to retrieve object data.
+        @type pk: int
+        @param item_type: Type of the requested item.
+        @type item_type: string
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
+        logger.debug('Searching all Item objects associated to Entity object ' + str(pk) + ' with type ' + item_type)
+
+        item_map = {'audio' : [AudioItem, AudioItemSerializer, AudioItemPagination],
+                    'image' : [ImageItem, ImageItemSerializer, ImageItemPagination],
+                    'video' : [VideoItem, VideoItemSerializer, VideoItemPagination]}
+        # check if the requested item is valid
+        if item_type not in item_map:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # retrieve items object by their tags
+        tags = Tag.objects.filter(entity = pk)
+        items = []
+        for tag in tags:
+            print str(tag), str(tag.item), str(tag.entity)
+            item = Item.objects.get(pk=tag.item.id)
+            if item.type == item_type:
+                print 'item selected'
+                items.append(item_map[item_type][0].objects.get(item_ptr_id=tag.item))
+        # return the retrieved items in a serialized and paginated format
+        paginator = item_map[item_type][2]()
+        result = paginator.paginate_queryset(items, request)
+        serializer = item_map[item_type][1](result, many=True)
+        return paginator.get_paginated_response(serializer.data)

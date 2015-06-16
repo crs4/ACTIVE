@@ -25,9 +25,12 @@ class PluginConfig(AppConfig):
         PS: this function will edit the database every time
         that a Django configuration operation is executed!!!
         """
-        logger.info('Loading data from plugin manifest files')
-        PluginManager().detect_plugins()
+	try:
+            logger.info('Loading data from plugin manifest files')
+            PluginManager().detect_plugins()
 
-        logger.info('Generating the startup event')
-        e = EventManager()
-        e.start_scripts("STARTUP")
+            logger.info('Generating the startup event')
+            e = EventManager()
+            e.start_scripts("STARTUP")
+        except:
+            pass

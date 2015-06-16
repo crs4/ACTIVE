@@ -32,15 +32,12 @@ def find_person(first_name, last_name):
     @return: The result of the uniqueness search
     @rtype: boolean
     """
-    name = first_name.lower()
-    surname = last_name.lower()
-
-    res = Person.objects.filter(first_name = name).filter(last_name = surname)
-    logger.debug('Retrieved ' + str(len(res)) + ' Person object with name ' + name + ' ' + surname)
+    res = Person.objects.filter(first_name__iexact = first_name).filter(last_name__iexact= last_name)
     if res or len(res):
+        logger.debug('Retrieved a Person object with name ' + res[0].first_name + ' ' + res[0].last_name)
         return res[0]
 
-    logger.debug('No Person object found with name ' + name + ' ' + surname)
+    logger.debug('No Person object found with name ' + first_name + ' ' + last_name)
     return None
 
 
@@ -81,14 +78,11 @@ class PersonList(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Creating a new Person object')
-        # normalize person name and surname
-        request.data["first_name"] = request.data["first_name"].lower()
-        request.data["last_name"]  = request.data["last_name"].lower()
 
         # look for an already existing person with the same name
         person = find_person(request.data["first_name"], request.data["last_name"])
         if person is not None:
-            logger.debug('Person object ' + str(person.id) + ' has name ' + person.first_name + ' ' + person.last_name)
+            logger.debug('Returned Person object ' + str(person.id) + ' - ' + person.first_name + ' ' + person.last_name)
             return Response(PersonSerializer(person).data, status=status.HTTP_201_CREATED)
 
         # if the person doesn't exist create a new one
@@ -197,6 +191,10 @@ class PersonDetail(EventView):
 
 
 class PersonImage(EventView):
+    """
+    Class used to implement the method necessary to retrieve the image
+    associated to a specific person.
+    """
     model = Person
 
     def get(self, request, pk, format=None):
@@ -215,4 +213,38 @@ class PersonImage(EventView):
         """
         logger.debug('Requested Person object ' + str(pk) + ' image')
         p = Person.objects.get(pk=pk)
-        return HttpResponse(p.image, content_type = 'image/jpg')
+        return HttpResponse(p.image, content_type='image/jpg')
+
+
+class PersonSearch(EventView):
+    """
+    Class used to implement the method necessary to retrieve an existing person from
+    its full name.
+    """
+    model = Person
+
+    def get(self, request, first_name, last_name, format=None):
+        """
+        Method used to retrieve a Person object providing the full name of a person.
+        It returns None if there is no person associated to this name.
+
+        @param request: HttpRequest used to obtain the Person object
+        @type request: HttpRequest
+        @param first_name: First name of the searched person.
+        @type: string
+        @param last_name: Last name of the searched person.
+        @type: string
+        @param format: Format of the serialized Person object image
+        @type format: string
+        @return: HttpResponse containing the retrieved Person object
+        @rtype: HttpResponse
+        """
+        logger.debug('Requested Person object with name ' + first_name + ' ' + last_name)
+        res = find_person(first_name, last_name)
+
+        if not res:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        person = Person.objects.get(pk=res.pk)
+        serializer = PersonSerializer(person)
+        return Response(serializer.data, status=status.HTTP_200_OK)

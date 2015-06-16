@@ -21,12 +21,13 @@ DELETE  /api/people/12/   delete all data related to the Person object with id =
 """
 
 from django.conf.urls import url
-from core.tags.person.views import PersonDetail, PersonList, PersonImage
+from core.tags.person.views import PersonDetail, PersonList, PersonImage, PersonSearch
 
 
 urlpatterns = (
     url(r'^$', PersonList.as_view()),
     url(r'^(?P<pk>[0-9]+)/$', PersonDetail.as_view()),
     url(r'^file/(?P<pk>[0-9]+)/$', PersonImage.as_view()),
+    url(r'^search/(?P<first_name>[\w]+)/(?P<last_name>[\w]+)/$', PersonSearch.as_view()),
 )
 

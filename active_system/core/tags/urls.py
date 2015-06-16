@@ -26,7 +26,7 @@ GET     /api/tags/search/person/12/  obtain Tag objects associated to person wit
 
 from django.conf.urls import include, url
 from core.tags.views import TagList, TagDetail
-from core.tags.views import SearchTagItem, SearchTagPerson
+from core.tags.views import SearchTagItem, SearchTagPerson, SearchItemByEntity
 
 import core.tags.person.urls
 import core.tags.dynamic_tags.urls
@@ -38,6 +38,7 @@ urlpatterns = (
     url(r'^tags/(?P<pk>[0-9]+)/$', TagDetail.as_view()),
     url(r'^tags/search/item/(?P<pk>[0-9]+)/$', SearchTagItem.as_view()),
     url(r'^tags/search/person/(?P<pk>[0-9]+)/$', SearchTagPerson.as_view()),
+    url(r'^tags/search/item/(?P<item_type>[0-9A-Za-z]+)/entity/(?P<pk>[0-9]+)/$', SearchItemByEntity.as_view()),
     url(r'^people/', include(core.tags.person.urls)),
     url(r'^dtags/', include(core.tags.dynamic_tags.urls)),
     url(r'^keywords/', include(core.tags.keywords.urls)),

@@ -1,32 +1,32 @@
-angular.module("jobmonitorServices", [])
-.config(function($websocketProvider, pollerConfig){
-	$websocketProvider.$setup({
-        lazy: false,
-        reconnect: true,
-        reconnectInterval: 2000,
-        mock: true,
-        enqueue: false
-    });
-    pollerConfig.resetOnRouteChange = true;
+angular.module("jobmonitorServices", ["ngCookies"])
+.config(function($provide, $httpProvider, pollerConfig){
+
+	$provide.factory("HttpInterceptor", function($cookies){
+			
+		return {
+			
+			request: function(config){
+				config.headers = config.headers || {};
+				var url = config.url + "";
+				if ($cookies.ciccio && url.indexOf("http://" + window.location.host + "/jobmonitor/") > -1)
+					config.headers.Authorization = "Bearer " + $cookies.ciccio;
+				return config;
+			}
+			
+		}
+		
+	});
+
+	$httpProvider.interceptors.push("HttpInterceptor");
+
+    	pollerConfig.resetOnRouteChange = true;
+
 })
-.constant("wsUrl", "ws://localhost:12345")
 .constant("jobmonitorUrl", "http://" + window.location.host + "/jobmonitor/")
 .constant("clusterUrl", "http://"  + window.location.host + "/jobmonitor/cluster/")
-.factory("jobService", function($http, $websocket, $timeout, poller, jobmonitorUrl, wsUrl){
+.factory("jobService", function($http, $websocket, $timeout, poller, jobmonitorUrl){
 	
 	return {
-
-		/*startJob: function(algorithm, name, params, callback){
-			var p = params == undefined ? [] : params;
-			var n = name == undefined ? algorithm : name;
-			$http.post(jobmonitorUrl + 'start/', {"func_name":algorithm, "name":n, "params":p}).then(
-				function(result){
-					callback(result);
-				},
-				function(errorResult){
-					callback(errorResult);
-				});
-		},*/
 		
 		deleteJob: function(id, callback){
 			$http.delete(jobmonitorUrl + 'jobs/' + id).then(
@@ -67,51 +67,6 @@ angular.module("jobmonitorServices", [])
 				function(errorResult){
 					callback(errorResult);
 				});
-		},
-
-		getJobs: function(callback){
-			var ws = $websocket.$new(wsUrl);
-			console.log("WS CONNECTION STATUS: " + ws.$status());
-			
-			ws.$on("$open", function(){
-				console.log("WS CONNECTION STATUS: " + ws.$status());
-				// send a first message to the websocket server
-				var test1 = [{id:11111, name:"job1", status:"QUEUED", progress:[0]}, 
-					{id:22222, name:"job2", status:"RUNNING", progress:[0, 30, 60]}, 
-					{id:33333, name:"job3", status:"FAILED", progress:[0, 30, 60]},
-					{id:44444, name:"job4", status:"COMPLETED", progress:[0, 30, 60, 100]}];
-				ws.$emit("list_jobs", test1); 
-					
-				// send a second message to the websocket server after 15 sec.
-				$timeout(function(){
-					var test2 = [{id:11111, name:"job1", status:"RUNNING", progress:[0, 20, 60]}, 
-					{id:22222, name:"job2", status:"RUNNING", progress:[0, 30, 60]}, 
-					{id:33333, name:"job3", status:"FAILED", progress:[0, 30, 60]},
-					{id:44444, name:"job4", status:"COMPLETED", progress:[0, 30, 60, 100]}];
-					ws.$emit("list_jobs", test2);
-				}, 15);
-				
-				// send a third message to the websocket server after 60 sec.
-				$timeout(function(){
-					var test3 = [{id:11111, name:"job1", status:"COMPLETED", progress:[0, 20, 100]}, 
-					{id:22222, name:"job2", status:"RUNNING", progress:[0, 30, 60]}, 
-					{id:33333, name:"job3", status:"FAILED", progress:[0, 30, 60]},
-					{id:44444, name:"job4", status:"COMPLETED", progress:[0, 30, 60, 100]}];
-					ws.$emit("list_jobs", test3);
-				}, 60);
-			});
-			
-			ws.$on("list_jobs", function(data){
-				console.log("The websocket server has sent the following data:");
-				console.log(data);
-				callback(data);
-				//ws.$close();
-			});
-			
-			ws.$on("$close", function () {
-				console.log("WS CONNECTION STATUS: " + ws.$status());
-				console.log("Connection closed!");
-			});
 		}
 		
 	}
@@ -124,11 +79,34 @@ angular.module("jobmonitorServices", [])
 		manageCluster: function(command, callback){
 			var url = clusterUrl;
 			switch(command){
-				case "start"   : url += 'start/'; break;
-				case "stop"    : url += 'stop/'; break;
-				case "restart" : url += 'restart/'; break;			
+				case "start"   : url += 'start/'; startCluster(url, callback); break;
+				case "stop"    : url += 'stop/'; stopCluster(url, callback); break;
+				case "restart" : url += 'restart/'; restartCluster(url, callback); break;			
 			}
+		},
+
+		startCluster: function(url, callback){
 			$http.get(url).then(
+				function(result){
+					callback(result.data);
+				},
+				function(errorResult){
+					callback(errorResult);
+				});
+		},
+
+		stopCluster: function(url, callback){
+			$http.delete(url).then(
+				function(result){
+					callback(result.data);
+				},
+				function(errorResult){
+					callback(errorResult);
+				});
+		},
+
+		restartCluster: function(url, callback){
+			$http.put(url).then(
 				function(result){
 					callback(result.data);
 				},

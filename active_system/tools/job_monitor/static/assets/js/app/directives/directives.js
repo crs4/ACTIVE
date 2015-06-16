@@ -36,11 +36,6 @@ angular.module("jobmonitorServices")
 				}
 			});
 			
-			/*jobService.getJobs(function(data){
-				$scope.jobs = data;
-				$scope.$apply();
-			});*/
-			
 		}
 	}
 })
@@ -70,21 +65,4 @@ angular.module("jobmonitorServices")
 	}
 	
 });
-/*.directive('notification', function($timeout){
-
-	return {
-    		restrict:"A",
-    		replace: true,
-		    scope: {
-		      ngModel: '='
-		    },
-		template: '<b class="alert fade" bs-alert="ngModel"></b>',
-		link: function(scope, element, attrs) {
-			$timeout(function(){
-				element.hide();
-			}, 3000);
-		}
-  	}
-
-});*/
 

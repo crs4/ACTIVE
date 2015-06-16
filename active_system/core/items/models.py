@@ -72,7 +72,7 @@ class Item(models.Model):
         """
 
         # remove the directory associated to an item
-        shutil.rmtree(settings.MEDIA_ROOT + '/items/' + str(self.id) + '/')
+        shutil.rmtree(settings.MEDIA_ROOT + 'items/' + str(self.id) + '/')
         # delete all data stored for the current item
         super(Item, self).delete(*args, **kwargs)
         logger.debug('Deleted all resources associated to Item object ' + str(self.id))
