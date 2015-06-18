@@ -1,0 +1,16 @@
+[PLUGIN]
+title = speaker_extractor
+description = Plugin used to extract and recognize the speaker from a given audio file
+active_version = 0.1.1
+plugin_version = 0.1
+url_info = fdsfsf 
+authors = felice
+
+
+[SCRIPT1]
+title = Recognize speaker
+details = Recognize speaker identity from an audio item , after diarization
+path = speaker_extractor.utils.speaker_diarization
+triggers = {'AUDIO_ITEM_CREATED':['core.items.audio.views.AudioItemList.post']}
+job_name = job_manager.job.job.PlainJob
+item_type = audio
