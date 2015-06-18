@@ -8,12 +8,10 @@ from django.conf import settings
 import os
 
 
-os.environ['C_FORCE_ROOT'] = "yes"
-
+#os.environ['C_FORCE_ROOT'] = "yes"
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'job_processor.settings')
 
 app = Celery('job_processor')
-
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

@@ -130,13 +130,10 @@ class ImageItemDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-
-        print request.auth
-        print request.META['HTTP_AUTHORIZATION']
-
         logger.debug('Requested edit on ImageItem object ' + str(pk))
         with edit_lock:
             item = self.get_object(pk)
+            print request.data ###################################################################
             serializer = ImageItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

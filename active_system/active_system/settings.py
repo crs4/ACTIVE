@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'active_system.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
 	'ENGINE': 'django.db.backends.postgresql_psycopg2', #'django.db.backends.sqlite3',
@@ -91,7 +91,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -209,7 +208,7 @@ MEDIA_ROOT = '/var/spool/active/data/'
 PLUGIN_MANIFEST_PATH = os.path.join(BASE_DIR, 'plugin_manifest')
 
 # endpoint where will be executed a job processor
-JOB_PROCESSOR_ENDPOINT = "http://156.148.132.79:9000/"
+JOB_PROCESSOR_ENDPOINT = "http://127.0.0.1:9000/"
 
 # current version of the ACTIVE core
 ACTIVE_VERSION = '0.1.1'

@@ -79,7 +79,7 @@ def get_exif_metadata(item_path):
     :param item_path: Item absolute path that will be considered for metadata extraction.
     :returns: A dictionary containing all extracted item metadata.
     """
-    res = subprocess.check_output('/usr/bin/exiftool "' + item_path + '"' , shell=True)
+    res = subprocess.check_output('exiftool "' + item_path + '"' , shell=True)
     # extract fields and remove spaces 
     temp_dict = {}
     for row in res.split('\n')[:-1]:

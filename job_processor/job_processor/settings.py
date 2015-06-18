@@ -136,7 +136,7 @@ MAX_NUM_JOBS = 24
 PLUGIN_SCRIPT_MODULE = 'plugins_script'
 
 # endpoint associated to the ACTIVE core instance
-ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:80/'
+ACTIVE_CORE_ENDPOINT = 'http://127.0.0.1:80/'
 
 # directory where all digital items are stored and shared among the cluster
 MEDIA_ROOT = '/var/spool/active/data/'
