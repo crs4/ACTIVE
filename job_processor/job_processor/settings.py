@@ -65,6 +65,7 @@ DATABASES = {
     }
 }
 
+"""
 # parameters used for system logging
 LOGGING = {
     'version': 1,
@@ -99,7 +100,7 @@ LOGGING = {
         },
     }
 }
-
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
