@@ -1,0 +1,37 @@
+LBP_grid_x: 4
+LBP_grid_y: 8
+LBP_neighbors: 8
+LBP_radius: 1
+aligned_faces_path: C:\Users\Maurizio\Documents\Risultati test\Dummy test\Aligned_faces
+check_eye_positions: true
+classifiers_folder_path: C:\Opencv\opencv\sources\data\haarcascades
+cropped_face_height: 400
+cropped_face_width: 200
+dataset_already_divided: false
+dataset_path: C:\Users\Maurizio\Documents\Dataset\AT&T\Dataset
+db_models_path: C:\Users\Maurizio\Documents\Risultati test\Dummy test\models
+db_name: db
+eye_detection_classifier: haarcascade_mcs_lefteye.xml
+face_detection_algorithm: HaarCascadeFrontalFaceAlt2
+face_model_algorithm: LBP
+face_recognition_results_path: C:\Users\Maurizio\Documents\Risultati test\Dummy test\results
+flags: DoCannyPruning
+max_eye_angle: 0.125
+min_eye_distance: 0.25
+min_neighbors: 5
+min_size_height: 20
+min_size_width: 20
+nose_detection_classifier: haarcascade_mcs_nose.xml
+offset_pct_x: 0.2
+offset_pct_y: 0.5
+training_images_nr: 9
+use_NBNN: true
+use_eye_detection: false
+use_eye_detection_in_training: false
+use_eyes_position: false
+use_eyes_position_in_training: false
+use_face_detection_in_training: false
+use_nose_pos_in_detection: false
+use_one_file_for_face_models: true
+use_resizing: false
+use_weighted_regions: false

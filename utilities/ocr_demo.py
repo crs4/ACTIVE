@@ -48,7 +48,7 @@ tesseract.SetCvImage(bitmap,api)
 text = api.GetUTF8Text()
 
 text_path = r'C:\Users\Maurizio\Documents\File di test\OCR\Text' + str(counter) + '.txt'
-with open(text_path, 'w') as out:
-    out.write(text)
+#with open(text_path, 'w') as out:
+    #out.write(text)
     
 print(text)

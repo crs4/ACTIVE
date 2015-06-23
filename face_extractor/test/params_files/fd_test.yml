@@ -1,0 +1,15 @@
+annotations_path: C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-300I
+check_eye_positions: true
+classifiers_folder_path: C:\Opencv\opencv\sources\data\haarcascades
+eye_detection_classifier: haarcascade_mcs_lefteye.xml
+face_detection_algorithm: HaarCascadeFrontalFaceAlt2
+face_detection_results: C:\Users\Maurizio\Documents\Risultati test\Face detection\Videolina-300I\Check_eye_positions_true
+flags: DoCannyPruning
+max_eye_angle: 0.125
+min_eye_distance: 0.25
+min_neighbors: 5
+min_size_height: 20
+min_size_width: 20
+nose_detection_classifier: haarcascade_mcs_nose.xml
+test_set_path: C:\Users\Maurizio\Documents\Dataset\Videolina-300I
+use_nose_pos_in_detection: false

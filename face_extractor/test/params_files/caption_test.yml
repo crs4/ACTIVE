@@ -1,0 +1,6 @@
+lev_ratio_pct_threshold: 0
+min_tag_length: 0
+tags_file_path: ..\test_files\caption_recognition\Tags.txt
+test_set_path: C:\Users\Maurizio\Documents\File di test\Dataset ridotti per test module\Caption_test
+use_blacklist: false
+use_levenshtein: true

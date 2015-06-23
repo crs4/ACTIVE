@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from time import sleep
 
-cap = cv2.VideoCapture('C:\Users\Maurizio\Documents\Video da YouTube\Datome_Gigi\TrainingTest3.mp4')
+cap = cv2.VideoCapture(r'C:\Users\Maurizio\Documents\Video da YouTube\Datome_Gigi\TrainingTest3.mp4')
 
 # take first frame of the video
 ret,frame = cap.read()
