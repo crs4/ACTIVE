@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import java.io.*;
 public class DBScore {
 	
 	public  Vector<String> getFiles(File pathFile, String estensione) {
@@ -45,24 +46,51 @@ public class DBScore {
 		
 		DBScore dbscore=new DBScore();
 		PropertiesReader pr=new PropertiesReader(args[0]);
-		/**/
 		Diarization dia=new Diarization();
-		dia.setFileName(pr.getProperty("fileName"));
-		dia.setOutputRoot(pr.getProperty("outputRoot"));
-		dia.setSms_gmms(pr.getProperty("sms_gmms"));
-		dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
-		dia.run();
+		boolean make_dia=true;
+		System.out.println("------------"+ pr.getAllPropertyNames());
 		
+		if (args.length>1){
+			if (args[1].equals("nodiarization")){
+				make_dia=false;	
+			}
+		}	
+		if(make_dia){
+			
+			dia.setFileName(pr.getProperty("fileName"));
+			dia.setOutputRoot(pr.getProperty("outputRoot"));
+			dia.setSms_gmms(pr.getProperty("sms_gmms"));
+			dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
+			dia.run();
+		 
+		}
+		System.out.println("------ SCORING ------");
 		dbscore.setDb_path(pr.getProperty("db_path"));
 		dbscore.getMscore().setFileName(pr.getProperty("fileName"));
 		dbscore.getMscore().setOutputRoot(pr.getProperty("outputRoot"));
+		dbscore.getMscore().setUbm_gmm(pr.getProperty("ubm_gmm"));
+		dbscore.getMscore().setSms_gmms(pr.getProperty("sms_gmms"));
 		dbscore.run();
+
+		System.out.println("------ DECISION ------");
 		//dbscore.getMscore().getClusterResultSet().printAll();
 		
 		//dbscore.getMscore().getClusterResultSet().printTheBest();
-		//dbscore.getMscore().getClusterResultSet().printWithThr(Double.parseDouble("0.5"));
-		//dbscore.getMscore().getClusterResultSet().printTheBestBySpeaker();
-		dbscore.getMscore().printTheBestBySpeaker();
+		//dbscore.getMscore().getClusterResultSet().printWithThr1e2(Double.parseDouble("0.1"));
+
+		String listaNomiPresenti=null;
+		listaNomiPresenti=dbscore.getMscore().getClusterResultSet().printTheBestBySpeaker();
+		//dbscore.getMscore().printTheBestBySpeaker();
+		if (listaNomiPresenti != null){
+			try {
+					OutputStreamWriter nomi_pres= new OutputStreamWriter(new FileOutputStream(dbscore.getMscore().getOutputRoot()+"/"+dbscore.getMscore().getBaseName()+".nomi.txt"));
+					System.out.println("NOMI PRESENTI "+listaNomiPresenti);
+					nomi_pres.write(listaNomiPresenti);
+					nomi_pres.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}	
 	}
 	public void run() throws Exception{
 		//getMscore().setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/angelina.wav");

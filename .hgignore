@@ -34,5 +34,17 @@ data/DatasetMini/s1/2.pgm
 data/DatasetMini/s1/10.pgm
 data/DatasetMini/s1/1.pgm
 
+
+active_system/core/admin.py
+active_system/tools/navigator_old
+
+
+*.ini_
+*.py_
+*.sqlite3_
 *.pyc
 *~
+*.save*
+*.log
+
+

@@ -65,6 +65,43 @@ DATABASES = {
     }
 }
 
+"""
+# parameters used for system logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'job_processor.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        # low level system logging
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'job_processor': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}
+"""
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -93,11 +130,14 @@ CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Europe/Rome"
 CELERYD_POOL_RESTARTS = True
 
+# maximum number of parallel executable jobs
+MAX_NUM_JOBS = 24
+
 # python module containing plugins that will be stored and searched
 PLUGIN_SCRIPT_MODULE = 'plugins_script'
 
 # endpoint associated to the ACTIVE core instance
-ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:80/'
+ACTIVE_CORE_ENDPOINT = 'http://127.0.0.1:80/'
 
-# dictetory where all digital items are stored and shared among the cluster
+# directory where all digital items are stored and shared among the cluster
 MEDIA_ROOT = '/var/spool/active/data/'

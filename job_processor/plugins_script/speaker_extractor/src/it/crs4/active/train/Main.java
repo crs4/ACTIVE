@@ -59,14 +59,21 @@ public class Main {
 		
 		//System.out.println(args[0]);
 		PropertiesReader pr=new PropertiesReader(args[0]);
-
-		Diarization dia=new Diarization();
-		dia.setFileName(pr.getProperty("fileName"));
-		dia.setOutputRoot(pr.getProperty("outputRoot"));
-		dia.setSms_gmms(pr.getProperty("sms_gmms"));
-		dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
-		dia.run();
+		boolean make_dia=true;
 		
+		if (args.length>1){
+			if (args[1].equals("nodiarization")){
+				make_dia=false;	
+			}
+		}	
+		if(make_dia){
+			Diarization dia=new Diarization();
+			dia.setFileName(pr.getProperty("fileName"));
+			dia.setOutputRoot(pr.getProperty("outputRoot"));
+			dia.setSms_gmms(pr.getProperty("sms_gmms"));
+			dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
+			dia.run();
+		}
 		Main ma=new Main();
 		ma.setFileName(pr.getProperty("fileName"));
 		ma.setOutputRoot(pr.getProperty("outputRoot"));
@@ -92,6 +99,20 @@ public class Main {
 		Parameter parameter = new Parameter();
 		
 		
+		/*
+
+	def _train_init(filebasename):
+    """Train the initial speaker gmm model."""
+    utils.start_subprocess(JAVA_EXE +' -Xmx256m -cp ' + CONFIGURATION.LIUM_JAR
+        + ' fr.lium.spkDiarization.programs.MTrainInit '
+        + '--sInputMask=%s.ident.seg --fInputMask=%s.wav '
+        + '--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4 '
+        + '--emInitMethod=copy --tInputMask=' + CONFIGURATION.UBM_PATH
+        + ' --tOutputMask=%s.init.gmm ' + filebasename)
+    utils.ensure_file_exists(filebasename + '.init.gmm')
+
+*/
+
 		String[] parameterSeg ={"","--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4","--emInitMethod=copy",
 				fInputMask,
 				s_inputMaskRoot+baseName+".s.seg",
@@ -103,12 +124,23 @@ public class Main {
 		parameter.readParameters(parameterSeg);
 		mti.setParameter(parameter);
 		mti.run();
+/*
+ * def _train_map(filebasename):
+    """Train the speaker model using a MAP adaptation method."""
+    utils.start_subprocess(JAVA_EXE +' -Xmx256m -cp ' + CONFIGURATION.LIUM_JAR
+        + ' fr.lium.spkDiarization.programs.MTrainMAP --sInputMask=%s.ident.seg'
+        + ' --fInputMask=%s.wav '
+        + '--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4 '
+        + '--tInputMask=%s.init.gmm --emCtrl=1,5,0.01 --varCtrl=0.01,10.0 '
+        + '--tOutputMask=%s.gmm ' + filebasename)
+    	 * 
+		 * */
 
 		// --sInputMask=%s.seg --fInputMask=%s.wav --fInputDesc="audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4"  --tInputMask=%s.init.gmm --emCtrl=1,5,0.01 --varCtrl=0.01,10.0 --tOutputMask=%s.gmm speakers
 		System.out.println("M TRAIN MAP   "+s_inputMaskRoot+baseName+".s.seg");	
-		String[] parameterMap ={""," --emCtrl=1,5,0.01"," --varCtrl=0.01,10.", "--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4"," --emInitMethod=copy ",
+		String[] parameterMap ={""," --emCtrl=1,5,0.01"," --varCtrl=0.01,10.0", "--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4",
 				fInputMask,
-				s_inputMaskRoot+baseName+".s.seg",
+				s_inputMaskRoot+baseName+".ident.seg",
 				s_outputMaskRoot+baseName+".i.seg",
 				
 				"--tInputMask="+this.outputRoot+baseName+".init.gmm",
@@ -116,7 +148,9 @@ public class Main {
 				show
 				//"nomediprova"
 				};
-		System.out.println(parameterMap);
+		System.out.println("\n ------------------INIZIO parameterMap\n\n---------------");
+		System.out.println(" --emCtrl=1,5,0.01  --varCtrl=0.01,10.--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,1:1:300:4 "+  fInputMask + "      "+s_inputMaskRoot+baseName+".s.seg" + s_outputMaskRoot+baseName+".i.seg"+ "--tInputMask="+this.outputRoot+baseName+".init.gmm"+ "--tOutputMask="+this.gmmRoot+gmmName+".gmm"+  show);
+		System.out.println("\n ------------------FINITO parameterMap\n\n--------------------------");
 		MTrainMAP mtiMap= new MTrainMAP();
 		parameter.readParameters(parameterMap);
 		mtiMap.setParameter(parameter);

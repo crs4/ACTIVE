@@ -1,0 +1,63 @@
+<div class="row">
+	<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div id="wid-id-nullaosta-list" class="jarviswidget jarviswidget-color-darken jarviswidget-sortable" data-widget-editbutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+				<h2>User list</h2>
+			</header>
+			<div>
+				<div class="jarviswidget-editbox"> </div>
+				<div class="widget-body">
+					<div class="widget-body-toolbar"> </div>
+					<div id="datatable_tabletools_wrapper" class="dataTables_wrapper form-inline" role="grid">
+						<div class="dt-top-row">
+							<div id="dt_basic_filter" class="filter-select">
+								<div class="input-group reg-form smart-form">
+									<label class="select">
+										<select class="input-sm" ng-model="userRole" ng-change="filterUserByRole(userRole)">
+											<option value="ROLE_USER">User</option>
+											<option value="ROLE_CONTRIBUTOR">Contributor</option>
+											<option value="ROLE_ADMIN">Admin</option>
+										</select>
+										<i></i>
+									</label>
+								</div>
+							</div>
+							<div class="purge-btn btn-group">
+								<a ng-click="editOrCreate()" class="btn btn-default txt-color-dark btn-sm DTTT_button_text"><span>Add User</span></a>
+							</div>
+						</div>
+						<div class="dt-wrapper">
+							<table id="datatable_tabletools" class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th># ID</th>
+										<th>First name</th>
+										<th>Last name</th>
+										<th>Email</th>
+										<th>Role</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="user in users">
+										<td><a ng-click="editOrCreate(user._id)" style="cursor: pointer;">{{user._id}}</a></td>
+										<td>{{user.profile.first_name}}</td>
+										<td>{{user.profile.last_name}}</td>
+										<td>{{user.profile.email_address}}</td>
+										<td>{{user.profile.authorities.role}}</td>
+										<td>
+											<button class="btn btn-xs btn-danger" title="remove" ng-click="deleteUser(user)">
+												<i class="fa fa-lg fa-fw fa-trash-o"></i>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>
