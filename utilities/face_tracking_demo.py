@@ -58,7 +58,7 @@ params = {}
 
 params[c.MIN_NEIGHBORS_KEY] = 5
 
-result_dict =  fd.detect_faces_in_image(frame_1, align_path, params, show_results = False, return_always_faces = False)
+result_dict = fd.detect_faces_in_image(frame_1, align_path, params, show_results=False, return_always_faces=False)
 
 #print(result_dict)
 
@@ -66,13 +66,13 @@ image = cv2.imread(frame_1, cv2.IMREAD_COLOR)
 
 faces = result_dict[c.FACES_KEY]
 
-face_dict = faces [0]
+face_dict = faces[0]
     
-(x, y, w, h) = face_dict[c.BBOX_KEY]            
+(x, y, w, h) = face_dict[c.BBOX_KEY]   
+         
+cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 3, 8, 0)
 
-cv2.rectangle(image, (x,y), (x+w, y+h), (255,0,0), 3, 8, 0)
-
-face = image[y:y+h, x:x+w]
+face = image[y:y + h, x:x + w]
 
 #cv2.imwrite(save_path, face)
     
@@ -86,9 +86,9 @@ hsv_1 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 mask_1 = cv2.inRange(
 hsv_1, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
 
-hsv_roi = hsv_1[y:y+h, x:x+w]
+hsv_roi = hsv_1[y:y + h, x:x + w]
 
-mask_roi = mask_1[y:y+h, x:x+w]
+mask_roi = mask_1[y:y + h, x:x + w]
     
 hist = cv2.calcHist(
 [hsv_roi], [0], mask_roi, [16], [0, 180])
@@ -135,7 +135,7 @@ track_y0 = track_window[1]
 track_w = track_window[2]
 track_h = track_window[3]
 
-cv2.rectangle(image2, (track_x0,track_y0), (track_x0+track_w, track_y0+track_h), (0,0,255), 3, 8, 0)
+cv2.rectangle(image2, (track_x0, track_y0), (track_x0 + track_w, track_y0 + track_h), (0, 0, 255), 3, 8, 0)
     
 cv2.imshow('image',image2)
 cv2.waitKey(0)
