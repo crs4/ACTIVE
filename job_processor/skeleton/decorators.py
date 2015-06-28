@@ -1,9 +1,9 @@
-import inspect
-
 """
 This module has been defined in order to emulate a method overload
 in Python allowing the definition of a visitor pattern for skeletons.
 """
+
+import inspect
 
 def on(param_name):
 	'''

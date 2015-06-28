@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'skeleton',
     'job_manager',
 )
@@ -65,7 +66,6 @@ DATABASES = {
     }
 }
 
-"""
 # parameters used for system logging
 LOGGING = {
     'version': 1,
@@ -100,7 +100,6 @@ LOGGING = {
         },
     }
 }
-"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -131,7 +130,7 @@ CELERY_TIMEZONE = "Europe/Rome"
 CELERYD_POOL_RESTARTS = True
 
 # maximum number of parallel executable jobs
-MAX_NUM_JOBS = 24
+MAX_NUM_JOBS = 4
 
 # python module containing plugins that will be stored and searched
 PLUGIN_SCRIPT_MODULE = 'plugins_script'

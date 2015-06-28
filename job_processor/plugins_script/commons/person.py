@@ -8,7 +8,7 @@ from django.conf import settings
 import requests
 
 
-def create_person(name, surname, token=None):
+def create_person(name, surname, *args, **kwargs):
     """
     Method used to create a new person with the provided complete name.
     This method returns the created and stored object in the db.
@@ -19,7 +19,7 @@ def create_person(name, surname, token=None):
     @return: The object created and stored for the provided person, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.post(url, {'first_name' : name,
                             'last_name'  : surname,
                             'category'   : 'person'},
@@ -31,7 +31,7 @@ def create_person(name, surname, token=None):
     return r.json()
 
 
-def get_person(person_id, token=None):
+def get_person(person_id, *args, **kwargs):
     """
     Method used to retrieve all data of a person from its id.
     If no person is found the method will return the None value.
@@ -41,7 +41,7 @@ def get_person(person_id, token=None):
     @return: Object containing all person data, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check if the person has been retrieved correctly
@@ -50,7 +50,7 @@ def get_person(person_id, token=None):
     return r.json()
 
 
-def edit_person(person_id, first_name=None, second_name=None, token=None):
+def edit_person(person_id, first_name=None, second_name=None, *args, **kwargs):
     """
     Method used to edit the data associated to a person.
     It returns the updated object if data is correctly edited, None in case of error.
@@ -70,7 +70,7 @@ def edit_person(person_id, first_name=None, second_name=None, token=None):
 
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, data, headers=header)
 
     print r.text
@@ -81,7 +81,7 @@ def edit_person(person_id, first_name=None, second_name=None, token=None):
     return r.json()
 
 
-def remove_person(person_id, token=None):
+def remove_person(person_id, *args, **kwargs):
     """
     Method used to remove all data of a specific person providing his id.
     A boolean value is returned containing the deleting result.
@@ -90,14 +90,14 @@ def remove_person(person_id, token=None):
     :return: True if the user is deleted, False in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.delete(url, headers=header)
 
     # check if the person has been deleted correctly
     return r.status_code != requests.codes.no_content
 
 
-def set_image(person_id, file_path, file_mime, token=None):
+def set_image(person_id, file_path, file_mime, *args, **kwargs):
     """
     Method used to update the image associated to a person.
     Providing the person id and the path of the file that must be sent,
@@ -114,7 +114,7 @@ def set_image(person_id, file_path, file_mime, token=None):
     multiple_files = [('image', (dest_file, f, file_mime)), ]
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/people/' + str(person_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, files=multiple_files, headers=header)
 
     return r.status_code == requests.codes.ok

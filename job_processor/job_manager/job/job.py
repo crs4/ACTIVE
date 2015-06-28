@@ -15,6 +15,7 @@ import uuid
 import time
 import logging
 
+
 # variable used for logging purposes
 logger = logging.getLogger('job_processor')
 
@@ -27,19 +28,22 @@ class Job:
     for its executions.
     """
 
-    def __init__(self, func, args):
+    def __init__(self, func, params, kwdict={}):
         """
         Constructor used to initialize all job fields.
 
         @param func: The function that will be executed (or a callable object).
         @type func: Callable object
-        @param args: Function arguments needed to execute the function.
-        @type args: List of objects
+        @param params: Function arguments needed to execute the function.
+        @type params: Tuple of objects
+        @param kwdict: Keyword arguments passed to the function.
+        @type kwdict: Dictionary
         @param name: Optional parameter for job description.
         @type name: string
         """
         self.id = str(uuid.uuid4())
-        self.args = args
+        self.args = params
+        self.kwargs = kwdict
         self.executor = func
         self.name = None
         self.func_name = None
@@ -64,7 +68,7 @@ class Job:
         try:
             logger.debug('Executing job ' + str(self.name))
             self.__set_start_end()
-            self.result = apply(self.executor, self.args)
+            self.result = apply(self.executor, self.args, self.kwargs)
         except Exception as ex:
             print ex
             self.error_info = ex

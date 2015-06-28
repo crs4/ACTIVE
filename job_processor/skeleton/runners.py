@@ -1,16 +1,17 @@
-from abc import ABCMeta, abstractmethod
-from skeleton.tasks import eval_distributed
-from multiprocessing.dummy import Pool
-from time import sleep
-
 """
-This module is used to create an abstracton level between how parallel and distributed computations
+This module is used to create an abstracton level on how parallel and distributed computations
 are implemented and how they are organized through algorithmic skeleton primitives.
 So the abstract class SkeletonRunner define a metod necessary to evaluate a generic skeleton,
 providing input values and additional parameters.
 SkeletonRunner abstract class could be implemented in different way, this leaves a great flexibility for
 the definition of how computations are executed over a cluster of nodes or over a workstation.
 """
+
+from abc import ABCMeta, abstractmethod
+from skeleton.tasks import eval_distributed
+from multiprocessing.dummy import Pool
+from time import sleep
+
 
 class SkeletonRunner:
 	"""
@@ -41,17 +42,18 @@ class SkeletonRunner:
 
 class eval_parallel():
 	"""
-        This class is used to solve the pickle problem introduced by Celery
-        when it tries to spread the function over cluster nodes.
-        It simply evaluates a skeleton with its parameters and return the results
-        """
+	This class is used to solve the pickle problem introduced by Celery
+	when it tries to spread the function over cluster nodes.
+	It simply evaluates a skeleton with its parameters and return the results
+	"""
+	
 	def __init__(self, skeleton, executor, percentage):
 		"""
 		@param skeleton: Skeleton that will be evaluated.
 		@type skeleton: Skeleton
-	        @param executor: Instance of SkeletonVisitor that will execute skeleton evaluation.
+		@param executor: Instance of SkeletonVisitor that will execute skeleton evaluation.
 		@type executor: SkeletonVisitor
-	        @param percentage: Percentage associated to this skeleton (fraction of the total progress portion).
+		@param percentage: Percentage associated to this skeleton (fraction of the total progress portion).
 		@type percentage: int
 		"""
 		self.skeleton = skeleton

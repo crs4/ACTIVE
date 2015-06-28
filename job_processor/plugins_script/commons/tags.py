@@ -9,7 +9,7 @@ from django.conf import settings
 import requests
 
 
-def create_tag(item_id, entity_id, tag_type, token=None):
+def create_tag(item_id, entity_id, tag_type, *args, **kwargs):
     """
     Method used to create a new tag providing the item id and the person id
     which occurs in the digital item.
@@ -21,7 +21,7 @@ def create_tag(item_id, entity_id, tag_type, token=None):
     @return: The new tag object, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.post(url, {'entity' : str(entity_id),
                             'item'   : str(item_id),
                             'type'   : tag_type},
@@ -33,7 +33,7 @@ def create_tag(item_id, entity_id, tag_type, token=None):
     return r.json()
 
 
-def get_tag(tag_id, token=None):
+def get_tag(tag_id, *args, **kwargs):
     """
     Function used to retrieve data associated to a
     specific Tag providing its id.
@@ -44,7 +44,7 @@ def get_tag(tag_id, token=None):
     @return: Object containing Tag data, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/' + str(tag_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # scan result and delete one dynamic tag at time
@@ -53,7 +53,7 @@ def get_tag(tag_id, token=None):
     return r.json()
 
 
-def get_tags_by_item(item_id, token=None):
+def get_tags_by_item(item_id, *args, **kwargs):
     """
     Function used to retrieve all tags associated to a
     specific digital item, providing its id.
@@ -64,7 +64,7 @@ def get_tags_by_item(item_id, token=None):
     @return: A list of tag objects, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/search/item/' + str(item_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check for result
@@ -73,7 +73,7 @@ def get_tags_by_item(item_id, token=None):
     return r.json()
 
 
-def get_tags_by_person(person_id, token=None):
+def get_tags_by_person(person_id, *args, **kwargs):
     """
     Function used to retrieve all tags associated to a
     specific person, providing its id.
@@ -84,7 +84,7 @@ def get_tags_by_person(person_id, token=None):
     @return: A list of tag objects, None in case of error
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/search/person/' + str(person_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check for result
@@ -96,7 +96,7 @@ def get_tags_by_person(person_id, token=None):
 # inserire un metodo che consente di modificare i tag
 
 
-def remove_tag(tag_id, token=None):
+def remove_tag(tag_id, *args, **kwargs):
     """
     Method used to delete a tag with all associated dynamic tags providing its id.
     The method returns the deletion result.
@@ -107,7 +107,7 @@ def remove_tag(tag_id, token=None):
     """
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/tags/' + str(tag_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.delete(url, headers=header)
 
     # check if the dynamic tag has been created correctly
@@ -117,7 +117,8 @@ def remove_tag(tag_id, token=None):
 
 
 
-def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_height=0, token=None):
+def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, 
+                bbox_width=0, bbox_height=0, *args, **kwargs):
     """
     Method used to crate a dynamic tag, starting from an existing tag which stores the
     occurrence of a person in a digital item. The dynamic tag will store all details
@@ -134,7 +135,7 @@ def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_
     @return: The new object created, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.post(url, {'tag'        : str(tag_id),
                             'start'      : start,
                             'duration'   : duration,
@@ -150,7 +151,7 @@ def create_dtag(tag_id, start, duration, bbox_x=0, bbox_y=0, bbox_width=0, bbox_
     return r.json()
 
 
-def get_dtag(dtag_id, token=None):
+def get_dtag(dtag_id, *args, **kwargs):
     """
     Function used to retrieve data associated to a
     specific Dyanmic Tag providing its id.
@@ -161,7 +162,7 @@ def get_dtag(dtag_id, token=None):
     @return: Object containing Tag data, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/' + str(dtag_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check the result
@@ -170,7 +171,7 @@ def get_dtag(dtag_id, token=None):
     return r.json()
 
 
-def get_dtags_by_person(person_id, token=None):
+def get_dtags_by_person(person_id, *args, **kwargs):
     """
     Method used to retrieve all dynamic tags associated
     to a specific person providing its id.
@@ -181,7 +182,7 @@ def get_dtags_by_person(person_id, token=None):
     @return: A list of Dynamic Tags, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/search/person/' + str(person_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, header=header)
 
     # check the result
@@ -190,7 +191,7 @@ def get_dtags_by_person(person_id, token=None):
     return r.json()
 
 
-def get_dtags_by_item(item_id, token=None):
+def get_dtags_by_item(item_id, *args, **kwargs):
     """
     Method used to retrieve all dynamic tags associated to a specific item providing its id.
     The method returns a list of object JSON serialized.
@@ -200,7 +201,7 @@ def get_dtags_by_item(item_id, token=None):
     @return: The result of the dynamic tag deletion.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/search/item/' + str(item_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check the result
@@ -209,7 +210,7 @@ def get_dtags_by_item(item_id, token=None):
     return r.json()
 
 
-def remove_dtag(dtag_id, token=None):
+def remove_dtag(dtag_id, *args, **kwargs):
     """
     Method used to delete a dynamic tag providing its id.
     The method returns the deletion result.
@@ -220,7 +221,7 @@ def remove_dtag(dtag_id, token=None):
     """
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/' + str(dtag_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.delete(url, headers=header)
 
     # check if the dynamic tag has been created correctly
