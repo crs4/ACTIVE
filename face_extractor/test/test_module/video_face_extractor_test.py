@@ -12,11 +12,15 @@ from tools.video_face_extractor import VideoFaceExtractor
 class TestVideoFaceExtractor(unittest.TestCase):
 
     def test_analyze_video(self):
-        resource_path = 'fic.02.mpg'
+        resource_path = 'D:\Sinnova\Video\MONITOR-3.mp4'
 
-        resource_id = 'fic.02.mpg'
+        resource_id = 'MONITOR-3.mp4'
 
-        params = {c.VIDEO_INDEXING_PATH_KEY: r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition'}
+        params = {c.CLASSIFIERS_DIR_PATH_KEY: r'C:\Opencv\sources\data\haarcascades',
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: r'C:\Active\Sinnova\Global face recognition',
+                  c.USE_CAPTION_RECOGNITION_KEY: False,
+                  c.TESSERACT_PARENT_DIR_PATH_KEY: r'C:\Active\Mercurial\face_extractor\tools',
+                  c.VIDEO_INDEXING_PATH_KEY: r'C:\Active\Sinnova'}
 
         fe = VideoFaceExtractor(resource_path, resource_id, params)
 

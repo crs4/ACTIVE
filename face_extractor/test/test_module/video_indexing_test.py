@@ -497,18 +497,24 @@ def video_indexing_experiments(resource_path, resource_id, params):
         video_tot_rec += rec
 
         # Calculate recall for correctly recognized captions
-        tot_cap_duration = man_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY]
-        video_tot_cap_duration = video_tot_cap_duration + tot_cap_duration
-        man_cap_segments = man_dict[c.CAPTION_SEGMENTS_KEY]
-        auto_cap_segments = auto_dict[c.CAPTION_SEGMENTS_KEY]
-        cap_rec = calculate_rec_time_man_auto(
-            man_cap_segments, auto_cap_segments)
-        cap_recall = cap_rec / tot_cap_duration
-        people_cap_rec_dict[man_tag] = cap_recall
-        video_tot_cap_rec += cap_rec
+        if c.CAPTION_SEGMENTS_KEY in auto_dict:
+            tot_cap_duration = man_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY]
+            video_tot_cap_duration = video_tot_cap_duration + tot_cap_duration
+            man_cap_segments = man_dict[c.CAPTION_SEGMENTS_KEY]
+            auto_cap_segments = auto_dict[c.CAPTION_SEGMENTS_KEY]
+            cap_rec = calculate_rec_time_man_auto(
+                man_cap_segments, auto_cap_segments)
+            cap_recall = cap_rec / tot_cap_duration
+            people_cap_rec_dict[man_tag] = cap_recall
+            video_tot_cap_rec += cap_rec
         
-    tot_recall = video_tot_rec / video_tot_duration
-    tot_cap_recall = video_tot_cap_rec / video_tot_cap_duration
+    tot_recall = 0
+    if video_tot_duration > 0:
+        tot_recall = video_tot_rec / video_tot_duration
+
+    tot_cap_recall = 0
+    if video_tot_cap_duration > 0:
+        tot_cap_recall = video_tot_cap_rec / video_tot_cap_duration
     
     # Calculate precision
     
@@ -551,19 +557,20 @@ def video_indexing_experiments(resource_path, resource_id, params):
         video_tot_duration = video_tot_duration + tot_duration
 
         # Calculate precision for correctly recognized captions
-        tot_cap_duration = auto_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY]
-        auto_cap_segments = auto_dict[c.CAPTION_SEGMENTS_KEY]
-        man_cap_segments = man_dict[c.CAPTION_SEGMENTS_KEY]
-        cap_rec = calculate_rec_time_auto_man(
-            auto_cap_segments, man_cap_segments)
-        cap_prec = 0
+        if c.CAPTION_SEGMENTS_KEY in auto_dict:
+            tot_cap_duration = auto_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY]
+            auto_cap_segments = auto_dict[c.CAPTION_SEGMENTS_KEY]
+            man_cap_segments = man_dict[c.CAPTION_SEGMENTS_KEY]
+            cap_rec = calculate_rec_time_auto_man(
+                auto_cap_segments, man_cap_segments)
+            cap_prec = 0
 
-        if tot_cap_duration != 0:
-            cap_prec = cap_rec / tot_cap_duration
+            if tot_cap_duration != 0:
+                cap_prec = cap_rec / tot_cap_duration
 
-        people_cap_prec_dict[auto_tag] = cap_prec
-        video_tot_cap_rec += cap_rec
-        video_tot_cap_duration = video_tot_cap_duration + tot_cap_duration
+            people_cap_prec_dict[auto_tag] = cap_prec
+            video_tot_cap_rec += cap_rec
+            video_tot_cap_duration = video_tot_cap_duration + tot_cap_duration
         
     tot_precision = 0
     

@@ -756,14 +756,14 @@ class PeopleClusterExtractor(object):
         kernel_size = c.HIST_SMOOTHING_KERNEL_SIZE
 
         if self.params is not None:
-            if c.ALL_CLOTH_BBOXES_IN_FRAMES in self.params:
+            if c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY in self.params:
                 all_bboxes_in_frames = self.params[
                     c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY]
             if c.CLOTHES_BBOX_HEIGHT_KEY in self.params:
                 cl_pct_height = self.params[c.CLOTHES_BBOX_HEIGHT_KEY]
             if c.CLOTHES_BBOX_WIDTH_KEY in self.params:
                 cl_pct_width = self.params[c.CLOTHES_BBOX_WIDTH_KEY]
-            if c.MIN_CLOTH_MODEL_SIZE in self.params:
+            if c.MIN_CLOTH_MODEL_SIZE_KEY in self.params:
                 min_size = self.params[c.MIN_CLOTH_MODEL_SIZE_KEY]
             if c.NECK_HEIGHT_KEY in self.params:
                 neck_pct_height = self.params[c.NECK_HEIGHT_KEY]
@@ -1051,7 +1051,7 @@ class PeopleClusterExtractor(object):
 
             if detected:
 
-                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME]
+                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
                 complete_file_name = (
                     file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
                 aligned_file_path = os.path.join(
@@ -1263,10 +1263,12 @@ class PeopleClusterExtractor(object):
                             face_dict[c.NOSE_POSITION_KEY] = (
                                 det_face[c.NOSE_POSITION_KEY])
 
-                            face_dict[c.ALIGNED_FACE_FILE_NAME] = (
-                                det_face[c.ALIGNED_FACE_FILE_NAME])
+                            face_dict[c.ALIGNED_FACE_FILE_NAME_KEY] = (
+                                det_face[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                         faces.append(face_dict)
+
+                    del detection_result
 
                 detection_dict[c.FACES_KEY] = faces
 
@@ -2329,8 +2331,8 @@ class PeopleClusterExtractor(object):
 
             person_dict[c.SEGMENTS_KEY] = segment_list
 
-            (simple_segment_list, tot_dur) = utils.merge_consecutive_segments(
-                simple_segment_list, min_duration)
+            # (simple_segment_list, tot_dur) = utils.merge_consecutive_segments(
+            #    simple_segment_list, min_duration)
 
             simple_dict[c.SEGMENTS_KEY] = simple_segment_list
 
@@ -3149,14 +3151,14 @@ class PeopleClusterExtractor(object):
         key_frames_path = os.path.join(
         self.track_path, c.FACE_RECOGNITION_KEY_FRAMES_DIR)
 
-        if(not(os.path.exists(key_frames_path))):
+        if not(os.path.exists(key_frames_path)):
 
             os.makedirs(key_frames_path)
 
-        if(len(self.tracked_faces) == 0):
+        if len(self.tracked_faces) == 0:
 
             # Try to load YAML file
-            if(os.path.exists(self.track_file_path)):
+            if os.path.exists(self.track_file_path):
 
                 print 'Loading YAML file with tracking results'
 
@@ -3181,7 +3183,7 @@ class PeopleClusterExtractor(object):
             # Choose central frame in segment
             frames_nr = len(frame_list)
 
-            if(frames_nr >= 1):
+            if frames_nr >= 1:
 
                 middle_idx = int(math.ceil(frames_nr/2.0) - 1)
 
@@ -3212,9 +3214,9 @@ class PeopleClusterExtractor(object):
                 cv2.imwrite(
                 fr_path, image, [cv.CV_IMWRITE_PNG_COMPRESSION, 0])
 
-                del(image)
+                del image
 
-                p_counter = p_counter + 1
+                p_counter += 1
 
     def simulate_user_annotations(self):
         """
@@ -3223,10 +3225,10 @@ class PeopleClusterExtractor(object):
 
         # Check existence of clustering results
 
-        if(len(self.recognized_faces) == 0):
+        if len(self.recognized_faces) == 0:
 
             # Try to load YAML file
-            if(os.path.exists(self.cluster_file_path)):
+            if os.path.exists(self.cluster_file_path):
 
                 print 'Loading YAML file with clustering results'
 
@@ -3252,7 +3254,7 @@ class PeopleClusterExtractor(object):
             segment_list = auto_p_dict[c.SEGMENTS_KEY]
 
             # Get first segment
-            if(len(segment_list) >= 1):
+            if len(segment_list) >= 1:
 
                 first_segment = segment_list[0]
 
@@ -3262,7 +3264,7 @@ class PeopleClusterExtractor(object):
 
                 user_rec_faces.append(auto_p_dict)
 
-            auto_p_counter = auto_p_counter + 1
+            auto_p_counter += 1
 
         self.recognized_faces = user_rec_faces
 
@@ -3457,7 +3459,7 @@ class PeopleClusterExtractor(object):
 
                     nose_pos = face_dict[c.NOSE_POSITION_KEY]
 
-                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME]
+                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
 
                     # Counter for faces in segment
                     segment_face_counter = 1
@@ -3472,7 +3474,7 @@ class PeopleClusterExtractor(object):
                                           c.LEFT_EYE_POS_KEY: left_eye_pos,
                                           c.RIGHT_EYE_POS_KEY: right_eye_pos,
                                           c.NOSE_POSITION_KEY: nose_pos,
-                                          c.ALIGNED_FACE_FILE_NAME: file_name,
+                                          c.ALIGNED_FACE_FILE_NAME_KEY: file_name,
                                           c.DETECTED_KEY: True,
                                           c.SAVED_FRAME_NAME_KEY: frame_name}
 
@@ -3655,8 +3657,8 @@ class PeopleClusterExtractor(object):
                             segment_frame_dict[c.NOSE_POSITION_KEY] = (
                                 sub_face_dict[c.NOSE_POSITION_KEY])
 
-                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME] = (
-                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME])
+                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY] = (
+                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                             del (detection_list[sub_frame_counter]
                                  [c.FACES_KEY][sub_face_counter])

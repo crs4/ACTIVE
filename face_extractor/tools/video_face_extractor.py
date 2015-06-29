@@ -268,7 +268,7 @@ class VideoFaceExtractor(object):
                                     self.frames_path, frame_name)
 
                                 aligned_name = frame_dict[
-                                    c.ALIGNED_FACE_FILE_NAME]
+                                    c.ALIGNED_FACE_FILE_NAME_KEY]
 
                                 complete_file_name = (
                                     aligned_name +
@@ -292,7 +292,7 @@ class VideoFaceExtractor(object):
 
                                 bbox = frame_dict[c.DETECTION_BBOX_KEY]
 
-                                fm = FaceModels()
+                                fm = FaceModels(self.params)
 
                                 added = fm.add_face(label, tag, frame_path,
                                                     aligned_face, eye_pos, bbox)
@@ -1127,7 +1127,7 @@ class VideoFaceExtractor(object):
 
             if detected:
 
-                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME]
+                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
                 complete_file_name = (
                     file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
                 aligned_file_path = os.path.join(
@@ -1366,8 +1366,8 @@ class VideoFaceExtractor(object):
                                          det_face[c.RIGHT_EYE_POS_KEY]),
                                      c.NOSE_POSITION_KEY: (
                                          det_face[c.NOSE_POSITION_KEY]),
-                                     c.ALIGNED_FACE_FILE_NAME: (
-                                         det_face[c.ALIGNED_FACE_FILE_NAME])}
+                                     c.ALIGNED_FACE_FILE_NAME_KEY: (
+                                         det_face[c.ALIGNED_FACE_FILE_NAME_KEY])}
 
                         faces.append(face_dict)
 
@@ -1999,7 +1999,7 @@ class VideoFaceExtractor(object):
         start_time = cv2.getTickCount()
 
         # Load tags
-        fm = FaceModels()
+        fm = FaceModels(self.params)
 
         tgs = list(fm.get_tags())
 
@@ -2254,7 +2254,7 @@ class VideoFaceExtractor(object):
         start_time = cv2.getTickCount()
 
         # Load face models
-        fm = FaceModels()
+        fm = FaceModels(self.params)
 
         tgs = list(fm.get_labels())
 
@@ -2308,7 +2308,7 @@ class VideoFaceExtractor(object):
 
                         if detected:
 
-                            file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME]
+                            file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
                             complete_file_name = (
                                 file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
                             aligned_file_path = os.path.join(
@@ -3678,7 +3678,7 @@ class VideoFaceExtractor(object):
 
                     nose_pos = face_dict[c.NOSE_POSITION_KEY]
 
-                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME]
+                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
 
                     # Counter for faces in segment
                     segment_face_counter = 1
@@ -3693,7 +3693,7 @@ class VideoFaceExtractor(object):
                                           c.LEFT_EYE_POS_KEY: left_eye_pos,
                                           c.RIGHT_EYE_POS_KEY: right_eye_pos,
                                           c.NOSE_POSITION_KEY: nose_pos,
-                                          c.ALIGNED_FACE_FILE_NAME: file_name,
+                                          c.ALIGNED_FACE_FILE_NAME_KEY: file_name,
                                           c.DETECTED_KEY: True,
                                           c.SAVED_FRAME_NAME_KEY: frame_name}
 
@@ -3875,8 +3875,8 @@ class VideoFaceExtractor(object):
                             segment_frame_dict[c.NOSE_POSITION_KEY] = (
                                 sub_face_dict[c.NOSE_POSITION_KEY])
 
-                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME] = (
-                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME])
+                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY] = (
+                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                             del (detection_list[sub_frame_counter]
                                  [c.FACES_KEY][sub_face_counter])

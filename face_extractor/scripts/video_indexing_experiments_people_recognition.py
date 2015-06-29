@@ -1,3 +1,4 @@
+import numpy as np
 import os
 import sys
 
@@ -10,17 +11,22 @@ import test.test_module.constants_for_experiments as ce
 from test.test_module.video_indexing_test import video_indexing_experiments
 
 # TODO CHANGE
-video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
-video_idx_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition' # Portatile MP
+# video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
+# video_idx_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition' # Portatile MP
+video_idx_path = r'C:\Active\People recognition'  # Palladium
+code_version = 347
 
 # Fixed parameters
 
 # Face detection
-check_eye_positions = False # TODO CHANGE?
 # TODO CHANGE
-classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades'
+aligned_faces_path = r'C:\Active\Aligned faces'  # Palladium
+check_eye_positions = True
+# TODO CHANGE
+# classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
+classifiers_dir_path = r'C:\Opencv\sources\data\haarcascades'  # Palladium
 eye_detection_classifier = 'haarcascade_mcs_lefteye.xml'
-face_detection_algorithm = 'HaarCascadeFrontalAndProfileFaces2'  # TODO CHANGE?
+face_detection_algorithm = 'HaarCascadeFrontalFaceAlt2'
 flags = 'DoCannyPruning'
 min_neighbors = 5
 min_size_height = 20
@@ -42,21 +48,17 @@ offset_pct_x = 0.20
 offset_pct_y = 0.50
 
 # Video indexing with no people recognition
-# TODO CHANGE
-ann_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
-# TODO CHANGE
-aligned_faces_path = r'C:\Users\Maurizio\Documents\Aligned faces'
-all_cloth_bboxes_in_frames = False
+all_cloth_bboxes_in_frames = False  # TODO CHANGE?
 clothes_bbox_height = 1.0
 clothes_bbox_width = 2.0
 clothes_check_method = 'Max'
-clothes_conf_thresh = 8
-conf_threshold = 14
+clothes_conf_thresh = 8  # TODO CHANGE?
+conf_threshold = 14  # TODO CHANGE?
 use_mean_x = False
 half_window_size = 10
 kernel_size = 25
 max_faces_in_model = 1000
-max_fr_with_missed_det = 5
+max_fr_with_missed_det = 50
 max_nose_diff = 0.05
 min_cloth_model_size = 5
 min_det_pct = 0.3
@@ -68,7 +70,7 @@ std_mult_frame = 20
 tracking_min_int_area = 0.1
 use_3_bboxes = False
 use_aggr = False
-use_aligned_face_in_tracking = False  # TODO CHANGE?
+use_aligned_face_in_tracking = True
 use_clothing = True
 use_dom_color = False
 use_maj_rule = True
@@ -82,37 +84,40 @@ use_people_rec = True
 used_fps = 5.0
 variable_cloth_thresh = False
 # TODO CHANGE
-video_idx_results_path = r'C:\Users\Maurizio\Documents\Video indexing\People clustering\Results' # Portatile MP
+# video_idx_results_path = r'C:\Users\Maurizio\Documents\Video indexing\People clustering\Results' # Portatile MP
+video_idx_results_path = r'C:\Active\Risultati test\People recognition'  # Palladium
 # TODO CHANGE
-video_idx_results_file_name = 'Pippo'
+video_idx_results_file_name = 'People_recognition'
 
 # People recognition
 global_face_models_min_diff = 5
 # TODO CHANGE
-global_face_rec_data_dir_path = r'C:\Users\Maurizio\Documents\Risultati test\People recognition\Global face recognition' # Portatile MP
+# global_face_rec_data_dir_path = r'C:\Users\Maurizio\Documents\Risultati test\People recognition\Global face recognition' # Portatile MP
+global_face_rec_data_dir_path = r'C:\Active\People recognition\Global face recognition data'  # Palladium
 min_tag_length = 10
 use_blacklist = True
-use_caption_rec = True
-use_face_rec = False
+use_caption_rec = True  # TODO CHANGE
+use_face_rec = False  # TODO CHANGE
 use_levenshtein = True
 used_fps_for_captions = 1.0
 # TODO CHANGE
-tags_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\Tags.txt'
+# tags_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\Tags.txt'
 # TODO CHANGE
-tessaract_parent_dir_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools'
+# tessaract_parent_dir_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools'  # Portatile MP
+tesseract_parent_dir_path = r'C:\Active\Mercurial\tools'  # Palladium
 
 # Variable parameters
 
-resource_paths = ['fic.02.mpg']
-resource_ids = ['fic.02.mpg']
+resource_paths = ['C:\Active\RawVideos\fic.02.mpg', 'C:\Active\RawVideos\MONITOR072011.mpg']
+resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
 
 # TODO CHANGE
 # global_face_rec_thresh_list = range(2, 51, 2)
 global_face_rec_thresh_list = [8]
 
 # TODO CHANGE
-# lev_ratio_pct_thresh_list = np.arange(0, 1.01, 0.05)
-lev_ratio_pct_thresh_list = [0.8]
+lev_ratio_pct_thresh_list = np.arange(0, 1.01, 0.05)
+# lev_ratio_pct_thresh_list = [0.8]
 
 test_counter = 0  # TODO CHANGE
 
@@ -152,7 +157,6 @@ for resource_path in resource_paths:
                       c.OFFSET_PCT_X_KEY: offset_pct_x,
                       c.OFFSET_PCT_Y_KEY: offset_pct_y,
 
-                      ce.ANNOTATIONS_PATH_KEY: ann_path,
                       c.ALIGNED_FACES_PATH: aligned_faces_path,
                       c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: all_cloth_bboxes_in_frames,
                       c.CLOTHES_BBOX_HEIGHT_KEY: clothes_bbox_height,
@@ -204,7 +208,7 @@ for resource_path in resource_paths:
                       c.USE_LEVENSHTEIN_KEY: use_levenshtein,
                       c.USED_FPS_FOR_CAPTIONS_KEY: used_fps_for_captions,
                       # c.TAGS_FILE_PATH_KEY: tags_file_path,
-                      c.TESSERACT_PARENT_DIR_PATH_KEY: tessaract_parent_dir_path
+                      c.TESSERACT_PARENT_DIR_PATH_KEY: tesseract_parent_dir_path
                       }
 
             if test_counter == 0:
@@ -221,6 +225,12 @@ for resource_path in resource_paths:
                 for item in os.listdir(aligned_faces_path):
                     item_complete_path = os.path.join(aligned_faces_path, item)
                     os.remove(item_complete_path)
+
+            # TODO CHANGE
+            if resource_id == 'fic.02.mpg':
+                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
+            elif resource_id == 'MONITOR072011.mpg':
+                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
 
             video_indexing_experiments(resource_path, resource_id, params)
 

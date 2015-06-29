@@ -12,19 +12,24 @@ from test.test_module.fd_test import fd_experiments
 
 check_eye_positions = True
 # TODO CHANGE
-classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades'
+# classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
+classifiers_dir_path = r'C:\Active\OpenCV classifiers'  # Palladium
 eye_detection_classifier = 'haarcascade_mcs_lefteye.xml'
 # TODO CHANGE
-annotations_path = 'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-300I'
+# annotations_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-300I' # Portatile MP
+annotations_path = r'C:\Active\Dataset\Annotazioni\Videolina-300I' # Palladium
 flags = 'DoCannyPruning'
 min_neighbors = 5
 min_size_height = 20
 min_size_width = 20
 # TODO CHANGE
-face_detection_results_path = r'C:\Users\Maurizio\Documents\Risultati test\Face detection\Videolina-300I\Check_eye_positions_true'
+# face_detection_results_path = r'C:\Users\Maurizio\Documents\Risultati test\Face detection\Videolina-300I\Check_eye_positions_true'
+face_detection_results_path = r'C:\Active\Risultati test\Face detection\Videolina-300I\Check_eye_positions_true'
 scale_factor = 1.1
 # TODO CHANGE
-test_set_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-300I'
+# test_set_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-300I' # Portatile MP
+test_set_path = r'C:\Active\Dataset\Videolina-300I' # Palladium
+
 max_eye_angle = 0.125
 min_eye_distance = 0.25
 nose_detection_classifier = 'haarcascade_mcs_nose.xml'
@@ -32,14 +37,18 @@ use_nose_pos_in_detection = False
 
 # Variable parameters
 
-face_detection_algorithms = ['HaarCascadeFrontalFaceAlt',
-                             'HaarCascadeFrontalFaceAltTree',
-                             'HaarCascadeFrontalFaceAlt2',
-                             'HaarCascadeFrontalFaceDefault',
-                             'HaarCascadeProfileFace',
-                             'HaarCascadeFrontalAndProfileFaces',
-                             'LBPCascadeFrontalface',
-                             'LBPCascadeProfileFace',
+# face_detection_algorithms = ['HaarCascadeFrontalFaceAlt',
+#                              'HaarCascadeFrontalFaceAltTree',
+#                              'HaarCascadeFrontalFaceAlt2',
+#                              'HaarCascadeFrontalFaceDefault',
+#                              'HaarCascadeProfileFace',
+#                              'HaarCascadeFrontalAndProfileFaces',
+#                              'LBPCascadeFrontalface',
+#                              'LBPCascadeProfileFace',
+#                              'LBPCascadeFrontalAndProfileFaces',
+#                              'HaarCascadeFrontalAndProfileFaces2']
+
+face_detection_algorithms = ['LBPCascadeProfileFace',
                              'LBPCascadeFrontalAndProfileFaces',
                              'HaarCascadeFrontalAndProfileFaces2']
 

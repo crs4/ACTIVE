@@ -782,6 +782,8 @@ class FaceModels:
             # TEST ONLY
             print('pred_label', pred_label)
             print('conf', conf)
+            cv2.imshow('face', face)
+            cv2.waitKey(0)
 
             # Consider tag only if distance is below threshold
             if conf < c.GLOBAL_FACE_REC_THRESHOLD:
