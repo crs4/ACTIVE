@@ -9,60 +9,65 @@ from plugins_script.commons.item import set_status, set_video_metadata, set_imag
 import subprocess
 import os
 
-
-def extract_video_data(auth_dict, param_dict):
+def extract_video_data(*args, **kwargs):
     """
     This function is used to extract relevant metadata from a video item
     and then save this data on the active core.
-
-    :param auth_dict: Dictionary containing the authorization parameters
-    :param param_dict: Dictionary containing the parameters
+    In the kwargs there must be the token parameter used for authorization.
+    
+    @param params: Dictionary containing all function parameters
+    @param args: Tuple of zero or more function arguments
+    @param kwargs: Dictionary containing zero o more function parameters.
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
     item_info = get_exif_metadata(file_path)
 
-    if not set_video_metadata(param_dict['id'], item_info, auth_dict['token']):
+    if not set_video_metadata(args[0]['id'], item_info, kwargs.get('token', None)):
         raise Exception('Error on metadata update')
 
-    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
+    if not set_status(args[0]['id'], 'ANALYZED', kwargs.get('token', None)):
         raise Exception('Error on processing status update')
 
-    print "Extracted and saved metadata for video item", param_dict['id']
+    print "Extracted and saved metadata for video item", str(args[0]['id'])
 
 
-def extract_image_data(auth_dict, param_dict):
+def extract_image_data(*args, **kwargs):
     """
     This function is used to extract relevant metadata from a image item
     and then save this data on the active core.
+    In the kwargs there must be the token parameter used for authorization.
 
-    :param auth_dict: Dictionary containing the authorization parameters
-    :param param_dict: Dictionary containing the parameters
+    @param params: Dictionary containing function parameters.
+    @param args: Tuple of zero or more function arguments.
+    @param kwargs: Dictionary containing zero o more function parameters.
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
     item_info = get_exif_metadata(file_path)
 
-    if not set_image_metadata(param_dict['id'], item_info, auth_dict['token']):
+    if not set_image_metadata(args[0]['id'], item_info, kwargs.get('token', None)):
         raise Exception('Error on metadata update')
 
-    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
+    if not set_status(args[0]['id'], 'ANALYZED', kwargs.get('token', None)):
         raise Exception('Error on processing status update')
 
 
-def extract_audio_data(auth_dict, param_dict):
+def extract_audio_data(*args, **kwargs):
     """
     This function is used to extract relevant metadata from a video item
     and then save this data on the active core.
+    In the kwargs there must be the token parameter used for authorization.
 
-    :param auth_dict: Dictionary containing the authorization parameters
-    :param param_dict: Dictionary containing the parameters
+    @param params: Dictionary containing function parameters.
+    @param args: Tuple of zero or more function arguments.
+    @param kwargs: Dictionary containing zero o more function parameters.
     """
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
     item_info = get_exif_metadata(file_path)
 
-    if not set_audio_metadata(param_dict['id'], item_info, auth_dict['token']):
+    if not set_audio_metadata(args[0]['id'], item_info, kwargs.get('token', None)):
         raise Exception('Error on metadata update')
 
-    if not set_status(param_dict['id'], 'ANALYZED', auth_dict['token']):
+    if not set_status(args[0]['id'], 'ANALYZED', kwargs.get('token', None)):
         raise Exception('Error on processing status update')
 
 

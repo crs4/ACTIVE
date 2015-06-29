@@ -123,7 +123,7 @@ class FaceModels:
                     align_path = self._params[c.ALIGNED_FACES_PATH_KEY]
 
                 det_results = fd.detect_faces_in_image(
-                    im_path, align_path, self._params, False)
+                    im_path, align_path, self._params, False, delete_files=True)
 
                 if det_results and (c.FACES_KEY in det_results):
 
@@ -163,7 +163,8 @@ class FaceModels:
                     # Create directory
                     os.makedirs(aligned_faces_subject_path)
 
-                aligned_im_path = os.path.join(aligned_faces_subject_path, im_name)
+                aligned_im_path = os.path.join(
+                    aligned_faces_subject_path, im_name)
 
                 cv2.imwrite(aligned_im_path, aligned_face,
                             [cv2.IMWRITE_PNG_COMPRESSION, 0])
@@ -236,21 +237,16 @@ class FaceModels:
                             np.asarray(aligned_face, dtype=np.uint8))
 
                         if conf >= min_diff:
-
                             self._models.update(
                                 np.asarray(
                                     [np.asarray(aligned_face, dtype=np.uint8)]),
                                 np.asarray(new_lbl_array))
-
                             face_in_models = True
-
                     else:
-
                         self._models.update(
                             np.asarray(
                                 [np.asarray(aligned_face, dtype=np.uint8)]),
                             np.asarray(new_lbl_array))
-
                         face_in_models = True
 
                 else:
@@ -264,16 +260,12 @@ class FaceModels:
                     grid_y = c.LBP_GRID_Y
 
                     if self._params is not None:
-
                         if c.LBP_RADIUS_KEY in self._params:
                             radius = self._params[c.LBP_RADIUS_KEY]
-
                         if c.LBP_NEIGHBORS_KEY in self._params:
                             neighbors = self._params[c.LBP_NEIGHBORS_KEY]
-
                         if c.LBP_GRID_X_KEY in self._params:
                             grid_x = self._params[c.LBP_GRID_X_KEY]
-
                         if c.LBP_GRID_Y_KEY in self._params:
                             grid_y = self._params[c.LBP_GRID_Y_KEY]
 
@@ -362,82 +354,161 @@ class FaceModels:
 
         utils.save_YAML_file(blacklist_file_path, blacklist)
 
-    # TODO REVIEW
-    def create_models_from_aligned_faces(self):
+
+    def create_models_from_aligned_faces(self, label_list=None, tag_list=None):
         """
         Read images in directory with aligned faces and create face models.
         Directory with aligned faces must contain
         one sub directory for each person.
+
+        :type label_list: list
+        :param label_list: list of labels for people.
+        If not provided, actual labels will not be changed
+
+        :type tag_list: list
+        :param tag_list: list of tags for people.
+        If not provided, actual tags will not be changed
         """
 
-        training_set_path = os.path.join(
-            self._data_dir_path, c.TRAINING_SET_DIR)
+        try:
 
-        aligned_faces_path = os.path.join(
-            training_set_path, c.ALIGNED_FACES_DIR)
+            training_set_path = os.path.join(
+                self._data_dir_path, c.TRAINING_SET_DIR)
 
-        # Create face recognizer
-        radius = c.LBP_RADIUS
-        neighbors = c.LBP_NEIGHBORS
-        grid_x = c.LBP_GRID_X
-        grid_y = c.LBP_GRID_Y
-        min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
+            aligned_faces_path = os.path.join(
+                training_set_path, c.ALIGNED_FACES_DIR)
 
-        if self._params is not None:
+            subject_counter = 0
 
-            if c.LBP_RADIUS_KEY in self._params:
-                radius = self._params[c.LBP_RADIUS_KEY]
+            use_given_labels = False
+            if label_list is not None:
 
-            if c.LBP_NEIGHBORS_KEY in self._params:
-                neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+                # Check number and uniqueness of given labels
+                for sub_dir_name in os.listdir(aligned_faces_path):
+                    subject_counter += 1
+                if ((len(label_list) == subject_counter) and
+                        (len(label_list) == len(set(label_list)))):
+                    use_given_labels = True
+                else:
+                    print('List of labels not good. '
+                          'Actual labels will not be changed')
 
-            if c.LBP_GRID_X_KEY in self._params:
-                grid_x = self._params[c.LBP_GRID_X_KEY]
+            use_given_tags = False
+            if tag_list is not None:
 
-            if c.LBP_GRID_Y_KEY in self._params:
-                grid_y = self._params[c.LBP_GRID_Y_KEY]
+                # Check number and uniqueness of given tags
+                if ((len(tag_list) == subject_counter) and
+                        (len(tag_list) == len(set(tag_list)))):
+                    use_given_tags = True
+                else:
+                    print('List of tags not good. '
+                          'Actual tags will not be changed')
 
-            if c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params:
-                min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
+            # Create face recognizer
+            radius = c.LBP_RADIUS
+            neighbors = c.LBP_NEIGHBORS
+            grid_x = c.LBP_GRID_X
+            grid_y = c.LBP_GRID_Y
+            min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
 
-        model = cv2.createLBPHFaceRecognizer(
-            radius,
-            neighbors,
-            grid_x,
-            grid_y)
+            if self._params is not None:
+                if c.LBP_RADIUS_KEY in self._params:
+                    radius = self._params[c.LBP_RADIUS_KEY]
+                if c.LBP_NEIGHBORS_KEY in self._params:
+                    neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+                if c.LBP_GRID_X_KEY in self._params:
+                    grid_x = self._params[c.LBP_GRID_X_KEY]
+                if c.LBP_GRID_Y_KEY in self._params:
+                    grid_y = self._params[c.LBP_GRID_Y_KEY]
+                if c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params:
+                    min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
 
-        tag_label_associations = {}
+            model = cv2.createLBPHFaceRecognizer(
+                radius,
+                neighbors,
+                grid_x,
+                grid_y)
 
-        # Load file with faces
-        faces_file = os.path.join(
-            self._data_dir_path, c.FACES_FILE)
-        faces_dict = utils.load_YAML_file(faces_file)
-        if faces_dict is None:
-            # Create dictionary with face data
-            faces_dict = {}
+            tag_label_associations = {}
 
-        im_counter = 0
-        subject_counter = 0
+            # Load file with faces
+            faces_file = os.path.join(
+                self._data_dir_path, c.FACES_FILE)
+            faces_dict = utils.load_YAML_file(faces_file)
+            if faces_dict is None:
+                print('No file with faces found')
+                return
 
-        for sub_dir_name in os.listdir(aligned_faces_path):
+            # Load file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file)
 
-            tag_label_associations[subject_counter] = sub_dir_name
+            if tag_label_associations is None:
+                print('No file with tag-label associations found')
+                return
 
-            subject_path = os.path.join(
-                aligned_faces_path, sub_dir_name)
+            im_counter = 0
+            subject_counter = 0
 
-            for im_name in os.listdir(subject_path):
+            old_sub_dir_name_list = []
+            for sub_dir_name in os.listdir(aligned_faces_path):
 
-                im_path = os.path.join(subject_path, im_name)
+                old_sub_dir_name_list.append(sub_dir_name)
+                old_label = int(sub_dir_name)
+                label = old_label
 
-                rel_im_path = os.path.join(sub_dir_name, im_name)
+                # Check if old_label exists
+                if old_label in tag_label_associations:
 
-                if rel_im_path not in faces_dict:
-                    faces_dict[rel_im_path] = {}
+                    # Choose label for person
+                    if use_given_labels:
+                        label = label_list[subject_counter]
 
-                face_in_models = False
+                        # Check if new_label does not exist
+                        if label not in tag_label_associations:
 
-                try:
+                            # Change label in file with tag-label associations
+                            tag_label_associations[label] = (
+                                tag_label_associations.pop(old_label))
+
+                        else:
+                            print 'Label %s already exists' % label
+                            return
+                else:
+                    print 'Label %s does not exist' % old_label
+                    return
+
+                if use_given_tags:
+                    # Change tag for person
+                    tag = tag_list[subject_counter]
+                    tag_label_associations[label] = tag
+
+                subject_path = os.path.join(
+                    aligned_faces_path, sub_dir_name)
+
+                for im_name in os.listdir(subject_path):
+
+                    print('im_name', im_name)
+
+                    old_rel_im_path = os.path.join(sub_dir_name, im_name)
+                    rel_im_path = old_rel_im_path
+                    if use_given_labels:
+                        # Change key in dictionary with faces
+                        rel_im_path = os.path.join(str(label), im_name)
+
+                        if old_rel_im_path in faces_dict:
+                            faces_dict[rel_im_path] = (
+                                faces_dict.pop(old_rel_im_path))
+                        else:
+                            print(
+                                'Label %s does not exist' % old_rel_im_path)
+                            return
+
+                    im_path = os.path.join(subject_path, im_name)
+
+                    face_in_models = False
 
                     face = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
 
@@ -448,7 +519,7 @@ class FaceModels:
 
                         model.train(
                             np.asarray([np.asarray(face, dtype=np.uint8)]),
-                            np.asarray(subject_counter))
+                            np.asarray(label))
 
                         face_in_models = True
 
@@ -464,7 +535,7 @@ class FaceModels:
                                 model.update(
                                     np.asarray(
                                         [np.asarray(face, dtype=np.uint8)]),
-                                    np.asarray(subject_counter))
+                                    np.asarray(label))
 
                                 face_in_models = True
 
@@ -472,7 +543,7 @@ class FaceModels:
 
                             model.update(
                                 np.asarray([np.asarray(face, dtype=np.uint8)]),
-                                np.asarray(subject_counter))
+                                np.asarray(label))
 
                             face_in_models = True
 
@@ -481,33 +552,69 @@ class FaceModels:
 
                     im_counter += 1
 
-                except IOError, (errno, strerror):
-                    print "I/O error({0}): {1}".format(errno, strerror)
-                except:
-                    print "Unexpected error:", sys.exc_info()[0]
-                    raise
+                subject_counter += 1
 
-            subject_counter += 1
+            if use_given_labels:
+                # Change names of sub directories
+                whole_images_path = os.path.join(
+                    training_set_path, c.WHOLE_IMAGES_DIR)
 
+                subject_counter = 0
+                for old_sub_dir_name in old_sub_dir_name_list:
+                    label = label_list[subject_counter]
 
-        # Save file with face models
-        db_file_name = os.path.join(
-            self._data_dir_path, c.FACE_MODELS_FILE)
+                    # If name of sub directory does not equal label, change it
+                    if not(old_sub_dir_name == str(label)):
 
-        model.save(db_file_name)
+                        # Aligned faces
+                        old_subject_path = os.path.join(
+                            aligned_faces_path, old_sub_dir_name)
+                        new_subject_path = os.path.join(
+                            aligned_faces_path, str(label))
+                        os.rename(old_subject_path, new_subject_path)
 
-        self._models = model
+                        # Whole images
+                        old_subject_path = os.path.join(
+                            whole_images_path, old_sub_dir_name)
+                        new_subject_path = os.path.join(
+                            whole_images_path, str(label))
+                        os.rename(old_subject_path, new_subject_path)
 
-        # Save file with tag-label associations
-        tag_label_associations_file = os.path.join(
-            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
-        utils.save_YAML_file(
-            tag_label_associations_file, tag_label_associations)
+                        # TODO DELETE TEST ONLY BBOX IMAGES
+                        bbox_images_path = os.path.join(
+                            training_set_path, c.BBOX_IMAGES_DIR)
+                        old_subject_path = os.path.join(
+                            bbox_images_path, old_sub_dir_name)
+                        new_subject_path = os.path.join(
+                            bbox_images_path, str(label))
+                        os.rename(old_subject_path, new_subject_path)
 
-        # Save new dictionary in YAML file
-        utils.save_YAML_file(faces_file, faces_dict)
+                    subject_counter += 1
 
-    def create_models_from_whole_images(self, images_dir_path):
+            # Save file with face models
+            db_file_name = os.path.join(
+                self._data_dir_path, c.FACE_MODELS_FILE)
+            model.save(db_file_name)
+
+            self._models = model
+            # Save file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            utils.save_YAML_file(
+                tag_label_associations_file, tag_label_associations)
+            # Save new dictionary in YAML file
+            utils.save_YAML_file(faces_file, faces_dict)
+
+        except IOError, (errno, strerror):
+            print "I/O error({0}): {1}".format(errno, strerror)
+        except OSError, (errno, strerror):
+            print "OS error({0}): {1}".format(errno, strerror)
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
+
+    def create_models_from_whole_images(self, images_dir_path,
+                                        label_list=None, tag_list=None):
         """
         Read images in given directory with images,
         detect and align faces in them and create face models.
@@ -517,6 +624,14 @@ class FaceModels:
         :type images_dir_path: string
         :param images_dir_path: path of directory with images of people
 
+        :type label_list: list
+        :param label_list: list of labels for people.
+        If not provided, a progressive counter will be used
+
+        :type tag_list: list
+        :param tag_list: list of tags for people.
+        If not provided, names of sub directories will be used
+
         :rtype: integer
         :returns: number of faces added to models
         """
@@ -524,6 +639,31 @@ class FaceModels:
         # Remove existing directories and files
 
         added_faces = 0
+        subject_counter = 0
+
+        use_given_labels = False
+        if label_list is not None:
+
+            # Check number and uniqueness of given labels
+            for sub_dir_name in os.listdir(images_dir_path):
+                subject_counter += 1
+            if ((len(label_list) == subject_counter) and
+                    (len(label_list) == len(set(label_list)))):
+                use_given_labels = True
+            else:
+                print('List of labels not good. Models will not be created')
+                return added_faces
+
+        use_given_tags = False
+        if tag_list is not None:
+
+            # Check number and uniqueness of given tags
+            if ((len(tag_list) == subject_counter) and
+                    (len(tag_list) == len(set(tag_list)))):
+                use_given_tags = True
+            else:
+                print('List of tags not good. Models will not be created')
+                return added_faces
 
         try:
 
@@ -531,12 +671,24 @@ class FaceModels:
             self.delete_models()
 
             # Iterate through sub directories with images of people
-            subject_counter = 0  # Used as label for person
+            subject_counter = 0  # Counter for sub directories
 
             for sub_dir_name in os.listdir(images_dir_path):
 
-                # TEST ONLY
-                print 'Creating models for ' + sub_dir_name
+                # Choose label for person
+                if use_given_labels:
+                    label = label_list[subject_counter]
+                else:
+                    label = subject_counter
+
+                # Choose tag for person
+                if use_given_tags:
+                    tag = tag_list[subject_counter]
+                else:
+                    tag = sub_dir_name
+
+                # TODO DELETE - TEST ONLY
+                print 'Creating models for ' + str(label)
 
                 subject_path = os.path.join(images_dir_path, sub_dir_name)
 
@@ -545,7 +697,7 @@ class FaceModels:
                     im_path = os.path.join(subject_path, im_name)
 
                     # Add image to face models
-                    ok = self.add_face(subject_counter, sub_dir_name, im_path)
+                    ok = self.add_face(label, tag, im_path)
 
                     if ok:
                         added_faces += 1
@@ -562,6 +714,7 @@ class FaceModels:
             raise
 
         return added_faces
+
 
     def delete_models(self):
         """
@@ -614,7 +767,7 @@ class FaceModels:
         tag_label_associations_file = os.path.join(
             self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
         tag_label_associations = utils.load_YAML_file(
-            tag_label_associations_file, )
+            tag_label_associations_file)
 
         if tag_label_associations:
             labels = tag_label_associations.keys()
@@ -780,8 +933,8 @@ class FaceModels:
             (pred_label, conf) = self._models.predict(
                 np.asarray(face, dtype=np.uint8))
             # TEST ONLY
-            print('pred_label', pred_label)
-            print('conf', conf)
+            # print('pred_label', pred_label)
+            # print('conf', conf)
             cv2.imshow('face', face)
             cv2.waitKey(0)
 
@@ -894,7 +1047,7 @@ class FaceModels:
                         utils.save_YAML_file(faces_file, faces_dict)
 
                     # Re-build the models
-                    self.create_models()
+                    self.create_models_from_aligned_faces()
 
                     ok = True
 
@@ -989,7 +1142,7 @@ class FaceModels:
                     utils.save_YAML_file(faces_file, faces_dict)
 
                 # Re-build the models
-                self.create_models()
+                self.create_models_from_aligned_faces()
 
                 ok = True
 

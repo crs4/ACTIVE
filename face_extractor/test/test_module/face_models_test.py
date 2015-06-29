@@ -132,6 +132,28 @@ class TestFaceModels(unittest.TestCase):
         
         fm.add_face(label, tag, image_path, aligned_face, eye_pos, bbox)
 
+    def test_create_models_from_aligned_faces(self):
+
+        self.test_create_models_from_whole_images()
+
+        fm = FaceModels()
+
+        labels = [2000, 2001, 2002, 2003]
+
+        fm.create_models_from_aligned_faces(labels)
+
+        # Check that directory with aligned faces exists
+        # and that sub directories have the right name
+
+        aligned_faces_path = os.path.join(
+            fm._data_dir_path, c.TRAINING_SET_DIR, c.ALIGNED_FACES_DIR)
+
+        sub_dir_counter = 0
+        if os.path.exists(aligned_faces_path):
+            for sub_dir in os.listdir(aligned_faces_path):
+                self.assertEqual(sub_dir, str(labels[sub_dir_counter]))
+                sub_dir_counter += 1
+
     def test_create_models_from_whole_images(self):
 
         orig_images_dir_path = os.path.join(
@@ -155,17 +177,58 @@ class TestFaceModels(unittest.TestCase):
         faces_file = os.path.join(fm._data_dir_path, c.FACES_FILE)
         self.assertTrue(os.path.exists(faces_file))
 
-        aligned_faces_path = os.path.join(
-            fm._data_dir_path, c.TRAINING_SET_DIR, c.ALIGNED_FACES_DIR)
-
         # Check that directory with aligned faces exists
         # and has the right number of sub directories
+
+        aligned_faces_path = os.path.join(
+            fm._data_dir_path, c.TRAINING_SET_DIR, c.ALIGNED_FACES_DIR)
 
         sub_dir_counter = 0
         if os.path.exists(aligned_faces_path):
             for sub_dir in os.listdir(aligned_faces_path):
                 sub_dir_counter += 1
         self.assertEqual(sub_dir_counter, 4)
+
+    def test_create_models_from_whole_images_and_labels(self):
+
+        orig_images_dir_path = os.path.join(
+            '..', 'test_files', 'face_models', 'Whole images')
+
+        fm = FaceModels()
+
+        fm.delete_models()
+
+        labels = [1000, 1001, 1002, 1003]
+
+        fm.create_models_from_whole_images(orig_images_dir_path, labels)
+
+        # Check that all files exist
+
+        db_file_name = os.path.join(fm._data_dir_path, c.FACE_MODELS_FILE)
+        self.assertTrue(os.path.exists(db_file_name))
+
+        tag_label_associations_file = os.path.join(
+            fm._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+        self.assertTrue(os.path.exists(tag_label_associations_file))
+
+        faces_file = os.path.join(fm._data_dir_path, c.FACES_FILE)
+        self.assertTrue(os.path.exists(faces_file))
+
+        aligned_faces_path = os.path.join(
+            fm._data_dir_path, c.TRAINING_SET_DIR, c.ALIGNED_FACES_DIR)
+
+        # Check that directory with aligned faces exists
+        # and has the right number of sub directories
+        # and that each sub directory has the right name
+
+        sub_dir_counter = 0
+        if os.path.exists(aligned_faces_path):
+            for sub_dir in os.listdir(aligned_faces_path):
+                self.assertEqual(sub_dir, str(labels[sub_dir_counter]))
+                sub_dir_counter += 1
+
+        self.assertEqual(sub_dir_counter, 4)
+
 
     def test_get_tag(self):
 

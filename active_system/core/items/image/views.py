@@ -133,7 +133,11 @@ class ImageItemDetail(EventView):
         logger.debug('Requested edit on ImageItem object ' + str(pk))
         with edit_lock:
             item = self.get_object(pk)
-            print request.data ###################################################################
+            #try:
+            #    item = self.get_object(pk)
+            #except:
+            #    return Response({}, status=status.HTTP_404_NOT_FOUND)
+            #print request.data ###################################################################
             serializer = ImageItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

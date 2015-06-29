@@ -7,7 +7,7 @@ from django.conf import settings
 import requests
 
 
-def create_keyword(value, token=None):
+def create_keyword(value, *args, **kwargs):
     """
     Method used to create a new keyword providing string associated.
     This string will be processed and stored by the ACTIVE core.
@@ -18,7 +18,7 @@ def create_keyword(value, token=None):
     @return: The new keyword object, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/keywords/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.post(url, {'category'    : 'keyword',
                             'description' : value},
                       headers=header)
@@ -29,7 +29,7 @@ def create_keyword(value, token=None):
     return r.json()
 
 
-def get_keyword(keyword_id, token=None):
+def get_keyword(keyword_id, *args, **kwargs):
     """
     Method used to retrieve a specific keyword providing its id.
     A object JSON serialized is returned, if any.
@@ -39,7 +39,7 @@ def get_keyword(keyword_id, token=None):
     @return: The keyword object, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/keywords/' + str(keyword_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check if the keyword has been retrieved correctly
@@ -48,7 +48,7 @@ def get_keyword(keyword_id, token=None):
     return r.json()
 
 
-def search_keyword(keyword_value, token=None):
+def search_keyword(keyword_value, *args, **kwargs):
     """
     Method used to retrieve a keyword providing a string.
     The provided string is used to find the most similar keyword.
@@ -59,7 +59,7 @@ def search_keyword(keyword_value, token=None):
     @return: The keyword object, None in case of error.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/keywords/search/' + keyword_value
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     # check if the keyword has been found
@@ -68,7 +68,7 @@ def search_keyword(keyword_value, token=None):
     return r.json()
 
 
-def remove_keyword(keyword_id, token=None):
+def remove_keyword(keyword_id, *args, **kwargs):
     """
     Method used to delete a specific keyword providing its id.
     A object JSON serialized is returned, if any.
@@ -78,7 +78,7 @@ def remove_keyword(keyword_id, token=None):
     @return: The result of keyword deletion.
     """
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/keywords/' + str(keyword_id)
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.delete(url, headers=header)
 
     # check if the keyword has been deleted correctly

@@ -1,12 +1,13 @@
-from abc import ABCMeta, abstractmethod
-
 """
-This file is used to define all supported skeletons in order to define/organize 
+This module define all supported skeletons in order to define/organize 
 parallel and distributed computations.
 For each skeleton it will be described how and when use it.
-Class defined in this module allow just to define how computations are structured
+Class defined in this module allow just to define the computation flow
 but does not implement any kind of parallelism and don't process data directely.
 """
+
+from abc import ABCMeta, abstractmethod
+
 
 # generic skeleton structure
 class Skeleton:
@@ -14,6 +15,7 @@ class Skeleton:
 	Abstract skeleton used to define common behaviours.
 	"""
 	__metaclass__ = ABCMeta
+
 
 # sequential skeleton
 class Seq(Skeleton):
@@ -24,9 +26,9 @@ class Seq(Skeleton):
 	def __init__(self, execute):
 		"""
 		@param execute: Sequential stateless function that will be executed in
-				a parallel and/or distributed way oo provided paramters.
-				It must be a modular function with less dependences from
-				local resources as possibile.
+		a parallel and/or distributed way oo provided paramters.
+		It must be a modular function with less dependences from
+		local resources as possibile.
 		@type execute: function
 		"""
 		self.execute = execute
@@ -48,6 +50,7 @@ class Pipe(Skeleton):
 		for stage in stages:
 			self.stages.append(stage)
 
+
 # farm (master&slave) skeleton
 class Farm(Skeleton):
 	"""
@@ -61,6 +64,7 @@ class Farm(Skeleton):
 		@type skeleton: Skeleton
 		"""
 		self.subskel = skeleton
+
 
 # map skeleton
 class Map(Skeleton):
@@ -86,23 +90,23 @@ class Map(Skeleton):
 
 # if (conditional) skeleton 
 class If(Skeleton):
-        """
-        This skeleton is used to introduce a control flow based on skeleton evaluation.
+	"""
+	This skeleton is used to introduce a control flow based on skeleton evaluation.
 	Given two skeleton with the same input and output types, this skeleton pattern evaluates 
 	the former skeleton if a boolean condition is true and the latter if the condition is false.
 	The boolean condition is another skeleton which determine how the execution flow should
 	continue based on the provided input parameters. The same input is provided to the 
 	chosed skeleton.
-        """
-        def __init__(self, cond_skel, true_skel, false_skel):
-                """
-                @param cond_skel: Skeleton used to decide which one will be used
+	"""
+	def __init__(self, cond_skel, true_skel, false_skel):
+		"""
+		@param cond_skel: Skeleton used to decide which one will be used
 		@type cond_skel: Skeleton
-                @param true_skel: Skeleton evaluated if the boolean condition returns a True value.
+		@param true_skel: Skeleton evaluated if the boolean condition returns a True value.
 		@type true_skel: Skeleton
-                @param false_skel: Skeleton evaluated if the boolean condition returns a False value.
+		@param false_skel: Skeleton evaluated if the boolean condition returns a False value.
 		@type false_skel: Skeleton
-                """
-                self.condition = cond_skel
-                self.true_skeleton = true_skel
-                self.false_skeleton = false_skel
+		"""
+		self.condition = cond_skel
+		self.true_skeleton = true_skel
+		self.false_skeleton = false_skel

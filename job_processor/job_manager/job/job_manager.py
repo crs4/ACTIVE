@@ -1,11 +1,11 @@
 """
-This class is used to define a Job Manager, in order to
-handle the execution of generic activities (Job objects).
-A Job Manager executes a limited number of jobs at time and
-then save their information in different queues (dictionaries)
+This class is used to define a Job Manager, in order to handle the execution of generic activities (Job objects).
+A Job Manager executes a limited number of jobs at time and then save their information in different queues (dictionaries)
 based on the computation status.
-So it is possible to obtain job objects queued, in a running status,
-completed or failed due to some computation error.
+So it is possible to obtain job objects queued, in a running status, completed or failed due to some computation error.
+Each Job object is associated to a user by and id. This id is used to execute some operations only on jobs owned by 
+a specific user (e.g. clean, get, getAll).
+
 """
 
 from django.conf import settings
@@ -56,34 +56,28 @@ class JobManager:
         self.__queuedJobs[job.id] = job
         return job.id
 
-    def abortJob(self, job_id, user_id=None):
+    def abortJob(self, job_id):
         """
-        Method used to stop the execution of a Job
-        using its id as parameter.
+        Method used to stop the execution of a Job providing its id.
         If a job is still queued it is removed from the queue.
         Otherwise if it is remove it will be stopped and then
         removed from the execution queue.
 
         @param job_id: Id of the job that will be aborted.
-        @param user_id: Id of job owner, None if admin.
+        @type job_id: string
         @return: The result of the job cancelling
+        @rtype: bool
         """
-        logger.debug('Requested abortion for Job ' + str(job_id) + ' by user ' + str(user_id))
+        logger.debug('Requested abortion for Job ' + str(job_id))
         # move the job to the failed queue
         if job_id in self.__queuedJobs:	# looking for queued jobs
             job = self.__queuedJobs[job_id]
-            # check user ownership
-            if user_id and job.user_id != user_id:
-                return False
             del self.__queuedJobs[job_id]
             job.status = "ABORTED"
             self.__failedJobs[job_id] = job
 
         elif(job_id in self.__runningJobs):	# looking for running jobs
             job = self.__runningJobs[job_id]
-            # check user ownership
-            if user_id and job.user_id != user_id:
-                return False
             job.status = "ABORTED"
             job.stop("JOB ABORTED")
             del self.__runningJobs[job_id]
@@ -97,7 +91,10 @@ class JobManager:
         Method used to remove all objects containing information
         about completed or failed jobs.
         Dictionaries containing jobs are cleared. It is possible
-        to select jobs based on user id.
+        to select jobs on user_id basis.
+        
+        @param user_id: Id of the user that will be considered
+        @type user_id: int
         """
         logger.debug('Requested  cleaning of Job\'s queues for user '+ str(user_id))
         for job in self.getJobs('FAILED', user_id):
@@ -106,22 +103,19 @@ class JobManager:
             del self.__completedJobs[job.id]
 
 
-    def getJob(self, job_id, user_id=None):
+    def getJob(self, job_id):
         """
         Method used to return the Job object with the specified id (if any).
         If there is no Job with the parameter id it will return None.
         This method search first on all jobs queued, then on all jobs running
         and finally on completed or failed jobs.
-        Check if the user is the job owner or the admin otherwise return None.
 
         @param job_id: Identifier of the Job object to return
-        @type job_id: int
-        @param user_id: Id of the user that requested the Job object
-        @type user_id: int
-        @return: Job with the specified id, None if it doesn't exists
+        @type job_id: string
+        @return: Job object with the specified id, None if it doesn't exists
         @rtype: Job
         """
-        logger.debug('Requested Job object ' + str(job_id) + ' by user ' + str(user_id))
+        logger.debug('Requested Job object ' + str(job_id))
         job = None
 
         if job_id in self.__queuedJobs:
@@ -133,10 +127,7 @@ class JobManager:
         if job_id in self.__failedJobs:
             job = self.__failedJobs[job_id]
 
-        # check the user ownership for the retrieved Job object
-        if job and (not user_id or job.user_id == user_id):
-            return job
-        return None
+        return job
 
     def getJobs(self, status, user_id=None):
         """
@@ -144,6 +135,7 @@ class JobManager:
         specified as parameter.
         Valid values for status parameters are: "FAILED", "COMPLETED", "RUNNING", "QUEUED"
         It will return None if a not valid status is provided.
+        It is possible to retrieve Job objects on user_id basis.
 
         @param status: The status of the jobs that will be returned in a list.
         @type status: string
@@ -153,20 +145,26 @@ class JobManager:
         @rtype: List of Job objects
         """
         logger.debug('Requested all Job objects with status ' + status + ' for user ' + str(user_id))
+        job_list = []
         # retrieve all failed jobs based on user id
         if status == 'FAILED':
-            return [job for job in self.__failedJobs.values()    if not user_id or job.user_id == user_id]
+            job_list = self.__failedJobs.values()
         # retrieve all completed jobs based on user id
         if status == 'COMPLETED':
-            return [job for job in self.__completedJobs.values() if not user_id or job.user_id == user_id]
+            job_list = self.__completedJobs.values()
         # retrieve all running jobs based on user id
         if status == 'RUNNING':
-            return [job for job in self.__runningJobs.values()   if not user_id or job.user_id == user_id]
+            job_list = self.__runningJobs.values()
         # retrieve all running jobs based on user id
         if status == 'QUEUED':
-            return [job for job in self.__queuedJobs.values()    if not user_id or job.user_id == user_id]
+            job_list = self.__queuedJobs.values()
+            
+        # filter jobs by user_id
+        if user_id:
+            return [job for job in job_list if job.user_id == user_id]
+        
         # no valid computational status provided
-        return []
+        return job_list
 
     def getAllJobs(self, user_id=None):
         """
@@ -174,9 +172,10 @@ class JobManager:
         and handled by the job manager during its execution for a given user.
         For each computational status it has been defined the list of job in
         that state.
-        If no user id provided it returns all stored Job objects.
+        If no user id is provided it returns all stored Job objects.
 
         @param user_id: Id of the considered user, None if admin.
+        @type user_id: int
         @return: The dictionary of job lists indexed by their computational status.
         @rtype: Dictionary of list of Job objects
         """
@@ -242,6 +241,7 @@ class JobManager:
                 # if result not ready move the job to the end
                 if not self.__async_job_ref[job.id].ready():
                     self.__runningJobs[job.id] = job
+                
                 # if job is finished move it in the right list
                 else:
                     del self.__async_job_ref[job.id]
@@ -253,4 +253,4 @@ class JobManager:
                         self.__completedJobs[job.id] = job
 
             # used to don't overload the CPU
-            time.sleep(0.001)
+            time.sleep(0.0001)
