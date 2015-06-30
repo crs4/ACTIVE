@@ -706,6 +706,8 @@ class VideoFaceExtractor(object):
 
             tracked_faces_nr = float(len(tracking_list))
 
+            model = None
+
             for tracking_segment_dict in tracking_list:
 
                 self.progress = 100 * (segment_counter / tracked_faces_nr)
@@ -784,6 +786,8 @@ class VideoFaceExtractor(object):
                     person_counter += 1
 
                 segment_counter += 1
+
+            del model
 
             if not (os.path.exists(self.cluster_path)):
                 # Create directory for people clustering
@@ -2368,6 +2372,9 @@ class VideoFaceExtractor(object):
                     label = final_label
                     tag = fm.get_tag(label)
 
+                print('p_counter', p_counter)
+                print('frames', frames)
+                print('assigned final tag', tag)
                 logger.debug('assigned final tag', tag)
 
                 self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
@@ -3135,6 +3142,8 @@ class VideoFaceExtractor(object):
                         intra_dist1 = utils.get_mean_intra_distance(
                             model1, use_3_bboxes)
 
+        model = None
+
         sub_counter = 0
         for sub_segment_dict in self.tracked_faces:
 
@@ -3387,6 +3396,8 @@ class VideoFaceExtractor(object):
                             ann_segments.append(sub_counter)
 
             sub_counter += 1
+
+        del model
 
         return ann_segments
 

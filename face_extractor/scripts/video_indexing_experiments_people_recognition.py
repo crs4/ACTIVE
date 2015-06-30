@@ -14,7 +14,7 @@ from test.test_module.video_indexing_test import video_indexing_experiments
 # video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 # video_idx_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition' # Portatile MP
 video_idx_path = r'C:\Active\People recognition'  # Palladium
-code_version = 347
+code_version = 353
 
 # Fixed parameters
 
@@ -73,7 +73,6 @@ use_aggr = False
 use_aligned_face_in_tracking = True
 use_clothing = True
 use_dom_color = False
-use_maj_rule = True
 use_min_conf_rule = True
 use_mean_conf_rule = False
 use_nose_pos_in_rec = False
@@ -116,6 +115,9 @@ resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
 global_face_rec_thresh_list = [8]
 
 # TODO CHANGE
+use_majority_rule_list = [True]
+
+# TODO CHANGE
 lev_ratio_pct_thresh_list = np.arange(0, 1.01, 0.05)
 # lev_ratio_pct_thresh_list = [0.8]
 
@@ -135,105 +137,107 @@ for resource_path in resource_paths:
 
         for global_face_rec_thresh in global_face_rec_thresh_list:
 
-            params = {c.CHECK_EYE_POSITIONS_KEY: check_eye_positions,
-                      c.CLASSIFIERS_DIR_PATH_KEY: classifiers_dir_path,
-                      c.EYE_DETECTION_CLASSIFIER_KEY: eye_detection_classifier,
-                      c.FACE_DETECTION_ALGORITHM_KEY: face_detection_algorithm,
-                      c.FLAGS_KEY: flags,
-                      c.MIN_NEIGHBORS_KEY: min_neighbors,
-                      c.MIN_SIZE_HEIGHT_KEY: min_size_height,
-                      c.MIN_SIZE_WIDTH_KEY: min_size_width,
-                      c.MAX_EYE_ANGLE_KEY: max_eye_angle,
-                      c.MIN_EYE_DISTANCE_KEY: min_eye_distance,
-                      c.NOSE_DETECTION_CLASSIFIER_KEY: nose_detection_classifier,
-                      c.USE_NOSE_POS_IN_DETECTION_KEY: use_nose_pos_in_detection,
+            for use_maj_rule in use_majority_rule_list:
 
-                      c.CROPPED_FACE_HEIGHT_KEY: cropped_face_height,
-                      c.CROPPED_FACE_WIDTH_KEY: cropped_face_width,
-                      c.LBP_GRID_X_KEY: LBP_grid_x,
-                      c.LBP_GRID_Y_KEY: LBP_grid_y,
-                      c.LBP_NEIGHBORS_KEY: LBP_neighbors,
-                      c.LBP_RADIUS_KEY: LBP_radius,
-                      c.OFFSET_PCT_X_KEY: offset_pct_x,
-                      c.OFFSET_PCT_Y_KEY: offset_pct_y,
+                params = {c.CHECK_EYE_POSITIONS_KEY: check_eye_positions,
+                          c.CLASSIFIERS_DIR_PATH_KEY: classifiers_dir_path,
+                          c.EYE_DETECTION_CLASSIFIER_KEY: eye_detection_classifier,
+                          c.FACE_DETECTION_ALGORITHM_KEY: face_detection_algorithm,
+                          c.FLAGS_KEY: flags,
+                          c.MIN_NEIGHBORS_KEY: min_neighbors,
+                          c.MIN_SIZE_HEIGHT_KEY: min_size_height,
+                          c.MIN_SIZE_WIDTH_KEY: min_size_width,
+                          c.MAX_EYE_ANGLE_KEY: max_eye_angle,
+                          c.MIN_EYE_DISTANCE_KEY: min_eye_distance,
+                          c.NOSE_DETECTION_CLASSIFIER_KEY: nose_detection_classifier,
+                          c.USE_NOSE_POS_IN_DETECTION_KEY: use_nose_pos_in_detection,
 
-                      c.ALIGNED_FACES_PATH: aligned_faces_path,
-                      c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: all_cloth_bboxes_in_frames,
-                      c.CLOTHES_BBOX_HEIGHT_KEY: clothes_bbox_height,
-                      c.CLOTHES_BBOX_WIDTH_KEY: clothes_bbox_width,
-                      c.CLOTHES_CHECK_METHOD_KEY: clothes_check_method,
-                      c.CLOTHES_CONF_THRESH_KEY: clothes_conf_thresh,
-                      c.CLOTHING_REC_USE_3_BBOXES_KEY: use_3_bboxes,
-                      c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY: use_dom_color,
-                      c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY: use_mean_x,
-                      c.CONF_THRESHOLD_KEY: conf_threshold,
-                      c.HALF_WINDOW_SIZE_KEY: half_window_size,
-                      c.HIST_SMOOTHING_KERNEL_SIZE_KEY: kernel_size,
-                      c.MAX_FACES_IN_MODEL_KEY: max_faces_in_model,
-                      c.MAX_FR_WITH_MISSED_DET_KEY: max_fr_with_missed_det,
-                      c.MAX_NOSE_DIFF_KEY: max_nose_diff,
-                      c.MIN_CLOTH_MODEL_SIZE_KEY: min_cloth_model_size,
-                      c.MIN_DETECTION_PCT_KEY: min_det_pct,
-                      c.MIN_SEGMENT_DURATION_KEY: min_segment_duration,
-                      c.NECK_HEIGHT_KEY: neck_height,
-                      ce.SIMULATE_USER_ANNOTATIONS_KEY: sim_user_ann,
-                      c.STD_MULTIPLIER_FACE_KEY: std_mult_face,
-                      c.STD_MULTIPLIER_FRAME_KEY: std_mult_frame,
-                      c.TRACKING_MIN_INT_AREA_KEY: tracking_min_int_area,
-                      c.USE_AGGREGATION_KEY: use_aggr,
-                      c.USE_ALIGNED_FACE_IN_TRACKING_KEY: use_aligned_face_in_tracking,
-                      c.USE_CLOTHING_RECOGNITION_KEY: use_clothing,
-                      c.USE_MAJORITY_RULE_KEY: use_maj_rule,
-                      c.USE_MIN_CONFIDENCE_RULE_KEY: use_min_conf_rule,
-                      c.USE_MEAN_CONFIDENCE_RULE_KEY: use_mean_conf_rule,
-                      c.USE_NOSE_POS_IN_RECOGNITION_KEY: use_nose_pos_in_rec,
-                      c.USE_ORIGINAL_FPS_KEY: use_or_fps,
-                      c.USE_ORIGINAL_RES_KEY: use_or_res,
-                      ce.USE_PEOPLE_CLUSTERING_KEY: use_people_clustering,
-                      ce.USE_PEOPLE_RECOGNITION_KEY: use_people_rec,
-                      c.USED_FPS_KEY: used_fps,
-                      c.VARIABLE_CLOTHING_THRESHOLD_KEY: variable_cloth_thresh,
-                      c.VIDEO_INDEXING_PATH_KEY: video_idx_path,
-                      ce.VIDEO_INDEXING_RESULTS_PATH_KEY: video_idx_results_path,
-                      ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME_KEY: video_idx_results_file_name,
+                          c.CROPPED_FACE_HEIGHT_KEY: cropped_face_height,
+                          c.CROPPED_FACE_WIDTH_KEY: cropped_face_width,
+                          c.LBP_GRID_X_KEY: LBP_grid_x,
+                          c.LBP_GRID_Y_KEY: LBP_grid_y,
+                          c.LBP_NEIGHBORS_KEY: LBP_neighbors,
+                          c.LBP_RADIUS_KEY: LBP_radius,
+                          c.OFFSET_PCT_X_KEY: offset_pct_x,
+                          c.OFFSET_PCT_Y_KEY: offset_pct_y,
 
-                      c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: global_face_models_min_diff,
-                      c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: global_face_rec_data_dir_path,
-                      c.GLOBAL_FACE_REC_THRESHOLD_KEY: global_face_rec_thresh,
-                      c.LEV_RATIO_PCT_THRESH_KEY: lev_ratio_pct_thresh,
-                      c.MIN_TAG_LENGTH_KEY: min_tag_length,
-                      c.USE_BLACKLIST_KEY: use_blacklist,
-                      c.USE_CAPTION_RECOGNITION_KEY: use_caption_rec,
-                      c.USE_FACE_RECOGNITION_KEY: use_face_rec,
-                      c.USE_LEVENSHTEIN_KEY: use_levenshtein,
-                      c.USED_FPS_FOR_CAPTIONS_KEY: used_fps_for_captions,
-                      # c.TAGS_FILE_PATH_KEY: tags_file_path,
-                      c.TESSERACT_PARENT_DIR_PATH_KEY: tesseract_parent_dir_path
-                      }
+                          c.ALIGNED_FACES_PATH: aligned_faces_path,
+                          c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: all_cloth_bboxes_in_frames,
+                          c.CLOTHES_BBOX_HEIGHT_KEY: clothes_bbox_height,
+                          c.CLOTHES_BBOX_WIDTH_KEY: clothes_bbox_width,
+                          c.CLOTHES_CHECK_METHOD_KEY: clothes_check_method,
+                          c.CLOTHES_CONF_THRESH_KEY: clothes_conf_thresh,
+                          c.CLOTHING_REC_USE_3_BBOXES_KEY: use_3_bboxes,
+                          c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY: use_dom_color,
+                          c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY: use_mean_x,
+                          c.CONF_THRESHOLD_KEY: conf_threshold,
+                          c.HALF_WINDOW_SIZE_KEY: half_window_size,
+                          c.HIST_SMOOTHING_KERNEL_SIZE_KEY: kernel_size,
+                          c.MAX_FACES_IN_MODEL_KEY: max_faces_in_model,
+                          c.MAX_FR_WITH_MISSED_DET_KEY: max_fr_with_missed_det,
+                          c.MAX_NOSE_DIFF_KEY: max_nose_diff,
+                          c.MIN_CLOTH_MODEL_SIZE_KEY: min_cloth_model_size,
+                          c.MIN_DETECTION_PCT_KEY: min_det_pct,
+                          c.MIN_SEGMENT_DURATION_KEY: min_segment_duration,
+                          c.NECK_HEIGHT_KEY: neck_height,
+                          ce.SIMULATE_USER_ANNOTATIONS_KEY: sim_user_ann,
+                          c.STD_MULTIPLIER_FACE_KEY: std_mult_face,
+                          c.STD_MULTIPLIER_FRAME_KEY: std_mult_frame,
+                          c.TRACKING_MIN_INT_AREA_KEY: tracking_min_int_area,
+                          c.USE_AGGREGATION_KEY: use_aggr,
+                          c.USE_ALIGNED_FACE_IN_TRACKING_KEY: use_aligned_face_in_tracking,
+                          c.USE_CLOTHING_RECOGNITION_KEY: use_clothing,
+                          c.USE_MAJORITY_RULE_KEY: use_maj_rule,
+                          c.USE_MIN_CONFIDENCE_RULE_KEY: use_min_conf_rule,
+                          c.USE_MEAN_CONFIDENCE_RULE_KEY: use_mean_conf_rule,
+                          c.USE_NOSE_POS_IN_RECOGNITION_KEY: use_nose_pos_in_rec,
+                          c.USE_ORIGINAL_FPS_KEY: use_or_fps,
+                          c.USE_ORIGINAL_RES_KEY: use_or_res,
+                          ce.USE_PEOPLE_CLUSTERING_KEY: use_people_clustering,
+                          ce.USE_PEOPLE_RECOGNITION_KEY: use_people_rec,
+                          c.USED_FPS_KEY: used_fps,
+                          c.VARIABLE_CLOTHING_THRESHOLD_KEY: variable_cloth_thresh,
+                          c.VIDEO_INDEXING_PATH_KEY: video_idx_path,
+                          ce.VIDEO_INDEXING_RESULTS_PATH_KEY: video_idx_results_path,
+                          ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME_KEY: video_idx_results_file_name,
 
-            if test_counter == 0:
-                # Add face models and blacklist
+                          c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: global_face_models_min_diff,
+                          c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: global_face_rec_data_dir_path,
+                          c.GLOBAL_FACE_REC_THRESHOLD_KEY: global_face_rec_thresh,
+                          c.LEV_RATIO_PCT_THRESH_KEY: lev_ratio_pct_thresh,
+                          c.MIN_TAG_LENGTH_KEY: min_tag_length,
+                          c.USE_BLACKLIST_KEY: use_blacklist,
+                          c.USE_CAPTION_RECOGNITION_KEY: use_caption_rec,
+                          c.USE_FACE_RECOGNITION_KEY: use_face_rec,
+                          c.USE_LEVENSHTEIN_KEY: use_levenshtein,
+                          c.USED_FPS_FOR_CAPTIONS_KEY: used_fps_for_captions,
+                          # c.TAGS_FILE_PATH_KEY: tags_file_path,
+                          c.TESSERACT_PARENT_DIR_PATH_KEY: tesseract_parent_dir_path
+                          }
+
+                if test_counter == 0:
+                    # Add face models and blacklist
+                    # TODO CHANGE
+                    images_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\80 persone'
+                    fm = FaceModels(params)
+                    # fm.create_models_from_whole_images(images_dir_path)
+                    fm.add_blacklist_item('Al_telefono')
+                    fm.add_blacklist_item('Intervista_di')
+                    fm.add_blacklist_item('Riprese_Montaggio')
+
+                    # Empty directory with temporary aligned faces
+                    for item in os.listdir(aligned_faces_path):
+                        item_complete_path = os.path.join(aligned_faces_path, item)
+                        os.remove(item_complete_path)
+
                 # TODO CHANGE
-                images_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Videolina-960I-80P-whole_images\80 persone'
-                fm = FaceModels(params)
-                # fm.create_models_from_whole_images(images_dir_path)
-                fm.add_blacklist_item('Al_telefono')
-                fm.add_blacklist_item('Intervista_di')
-                fm.add_blacklist_item('Riprese_Montaggio')
+                if resource_id == 'fic.02.mpg':
+                    params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
+                elif resource_id == 'MONITOR072011.mpg':
+                    params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
 
-                # Empty directory with temporary aligned faces
-                for item in os.listdir(aligned_faces_path):
-                    item_complete_path = os.path.join(aligned_faces_path, item)
-                    os.remove(item_complete_path)
+                video_indexing_experiments(resource_path, resource_id, params)
 
-            # TODO CHANGE
-            if resource_id == 'fic.02.mpg':
-                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
-            elif resource_id == 'MONITOR072011.mpg':
-                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
-
-            video_indexing_experiments(resource_path, resource_id, params)
-
-            test_counter += 1
+                test_counter += 1
 
     res_counter += 1

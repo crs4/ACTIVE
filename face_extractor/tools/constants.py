@@ -151,7 +151,7 @@ MAX_FACES_IN_MODEL = 1000
 
 # Maximum number of frames with no corresponding detection 
 # that does not interrupt tracking
-MAX_FR_WITH_MISSED_DET = 5
+MAX_FR_WITH_MISSED_DET = 50
 
 # Maximum difference between nose positions (
 # stored as % of nose positions in face images)
@@ -251,7 +251,7 @@ USE_HIST_EQ_IN_CROPPED_FACES = True
 
 # If True, in aggregating results from several frames,
 # final tag is the tag that was assigned to the majority of frames
-USE_MAJORITY_RULE = True 
+USE_MAJORITY_RULE = True
 
 # If True, in aggregating results from several frames,
 # final tag is the tag that received the minimum value 

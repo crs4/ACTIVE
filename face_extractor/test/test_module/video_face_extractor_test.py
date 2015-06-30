@@ -12,9 +12,9 @@ from tools.video_face_extractor import VideoFaceExtractor
 class TestVideoFaceExtractor(unittest.TestCase):
 
     def test_analyze_video(self):
-        resource_path = 'D:\Sinnova\Video\MONITOR-3.mp4'
+        resource_path = 'D:\Sinnova\Video\MONITOR-1.mp4'
 
-        resource_id = 'MONITOR-3.mp4'
+        resource_id = 'MONITOR-1.mp4'
 
         params = {c.CLASSIFIERS_DIR_PATH_KEY: r'C:\Opencv\sources\data\haarcascades',
                   c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: r'C:\Active\Sinnova\Global face recognition',

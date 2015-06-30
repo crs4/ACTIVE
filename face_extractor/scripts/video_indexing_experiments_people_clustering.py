@@ -20,7 +20,7 @@ from test.test_module.video_indexing_test import video_indexing_experiments
 # TODO CHANGE?
 # video_idx_path_base = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path_base = r'C:\Active\People clustering'  # Palladium
-code_version = 347
+code_version = 353
 
 # Fixed parameters
 

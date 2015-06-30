@@ -534,6 +534,7 @@ def video_indexing_experiments(resource_path, resource_id, params):
         
         if (man_dict is None) or (c.ANN_TAG_KEY not in man_dict):
             print 'Warning! Manual annotation file does not exist!'
+            print man_ann_file
             break
         
         man_tag = man_dict[c.ANN_TAG_KEY]
@@ -1072,6 +1073,8 @@ def video_indexing_experiments(resource_path, resource_id, params):
         results_path, csv_results_file_name)
     save_video_indexing_experiments_in_CSV_file(
         all_results_CSV_file_path, experiments)
+
+    del fs
 
 
 if __name__ == "__main__":

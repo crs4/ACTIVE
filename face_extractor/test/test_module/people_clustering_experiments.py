@@ -616,12 +616,11 @@ class PeopleClusterExtractor(object):
             # List of segments already analyzed and annotated
             ann_segments = []
 
+            model = None
+
             # Iterate through tracked faces
-
             person_counter = 0
-
             segment_counter = 0
-
             tracked_faces_nr = float(len(tracking_list))
 
             for tracking_segment_dict in tracking_list:
@@ -706,6 +705,8 @@ class PeopleClusterExtractor(object):
                     person_counter += 1
 
                 segment_counter += 1
+
+            del model
 
             if not (os.path.exists(self.cluster_path)):
                 # Create directory for people clustering
@@ -1267,8 +1268,6 @@ class PeopleClusterExtractor(object):
                                 det_face[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                         faces.append(face_dict)
-
-                    del detection_result
 
                 detection_dict[c.FACES_KEY] = faces
 
@@ -2729,35 +2728,26 @@ class PeopleClusterExtractor(object):
         use_nose_pos_in_rec = c.USE_NOSE_POS_IN_RECOGNITION
         max_nose_diff = c.MAX_NOSE_DIFF
         conf_threshold = c.CONF_THRESHOLD
-
         use_clothing_rec = c.USE_CLOTHING_RECOGNITION
-
         use_3_bboxes = c.CLOTHING_REC_USE_3_BBOXES
 
         # Threshold for using clothing recognition
         clothes_conf_th = c.CLOTHES_CONF_THRESH
 
         if self.params is not None:
-
             if c.USE_AGGREGATION_KEY in self.params:
                 use_aggregation = self.params[c.USE_AGGREGATION_KEY]
-
             if c.USE_NOSE_POS_IN_RECOGNITION_KEY in self.params:
                 use_nose_pos_in_rec = (
                     self.params[c.USE_NOSE_POS_IN_RECOGNITION_KEY])
-
             if c.MAX_NOSE_DIFF_KEY in self.params:
                 max_nose_diff = self.params[c.MAX_NOSE_DIFF_KEY]
-
             if c.CONF_THRESHOLD_KEY in self.params:
                 conf_threshold = self.params[c.CONF_THRESHOLD_KEY]
-
             if c.USE_CLOTHING_RECOGNITION_KEY in self.params:
                 use_clothing_rec = self.params[c.USE_CLOTHING_RECOGNITION_KEY]
-
             if c.CLOTHING_REC_USE_3_BBOXES_KEY in self.params:
                 use_3_bboxes = self.params[c.CLOTHING_REC_USE_3_BBOXES_KEY]
-
             if c.CLOTHES_CONF_THRESH_KEY in self.params:
                 clothes_conf_th = self.params[c.CLOTHES_CONF_THRESH_KEY]
 
@@ -2786,6 +2776,7 @@ class PeopleClusterExtractor(object):
                         intra_dist1 = utils.get_mean_intra_distance(
                             model1, use_3_bboxes)
 
+        model = None
         sub_counter = 0
         for sub_segment_dict in self.tracked_faces:
 
@@ -3038,6 +3029,8 @@ class PeopleClusterExtractor(object):
                             ann_segments.append(sub_counter)
 
             sub_counter += 1
+
+        del model
 
         return ann_segments
 

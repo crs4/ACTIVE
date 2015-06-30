@@ -20,7 +20,7 @@ from test.test_module.video_indexing_test import video_indexing_experiments
 # TODO CHANGE?
 # video_idx_path_base = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path_base = r'C:\Active\People clustering'  # Palladium
-code_version = 347
+code_version = 353
 
 # Fixed parameters
 
@@ -93,9 +93,13 @@ video_idx_results_file_name = 'People_clustering'
 
 # Variable parameters
 
+# TODO CHANGE
 resource_paths = ['C:\Active\RawVideos\fic.02.mpg', 'C:\Active\RawVideos\MONITOR072011.mpg']
+# resource_paths = ['C:\Active\RawVideos\MONITOR072011.mpg']
 resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
+# resource_ids = ['MONITOR072011.mpg']
 conf_threshold_list = range(2, 51, 2)
+# conf_threshold_list = [50]
 test_counter = 0
 
 res_counter = 0
@@ -189,7 +193,7 @@ for resource_path in resource_paths:
             params[ce.FRAMES_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Frames'
             params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face detection\Aligned faces'
             params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face tracking\MONITOR072011.mpg.YAML'
-            params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'
+            # params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'  # TODO CHANGE
             params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
 
         video_indexing_experiments(resource_path, resource_id, params)
