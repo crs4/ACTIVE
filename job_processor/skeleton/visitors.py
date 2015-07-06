@@ -1,9 +1,3 @@
-from abc import ABCMeta, abstractmethod
-from skeleton.decorators import on, when
-from skeleton.skeletons import Seq, Pipe, Farm, Map, If
-from skeleton.runners import DistributedRunner, ParallelRunner
-from multiprocessing import Queue
-
 """
 This module contains all code necessary to implement the semantic of each skeleton.
 In particular it has been defined a class that similarly to a visitor pattern allow to evaluate
@@ -16,9 +10,11 @@ evaluation progress. This field contains an integer percentage value which could
 concurrently and each one tries to increment the progress values.
 """
 
-
-# TODO migliorare il sistema di gestione delle interruzioni dei task da eseguire!
-# cercare di utilizzare una funzione generica o un decoratore (se possibile!)
+from abc import ABCMeta, abstractmethod
+from skeleton.decorators import on, when
+from skeleton.skeletons import Seq, Pipe, Farm, Map, If
+from skeleton.runners import DistributedRunner, ParallelRunner
+from multiprocessing import Queue
 
 
 class SkeletonVisitor(object):
@@ -28,7 +24,6 @@ class SkeletonVisitor(object):
 	It contains an abstract method that will be responsible of skeleton evaluation.
 	"""
 	__metaclass__ = ABCMeta
-
 
 	@abstractmethod
 	def eval(self, skeleton, values, percentage=100):
@@ -142,7 +137,7 @@ class Executor(SkeletonVisitor):
 		"""
 		if(self.__aborted):
 			return None
-
+		
 		result = DistributedRunner().run(skeleton, values)
 		self.add_progress(percentage)
 		return result
@@ -154,12 +149,11 @@ class Executor(SkeletonVisitor):
 		scans the stages evaluating one at time.
 		At the end the final result is returned.
 		"""
-		result = values
+		result = (values,)
 		self.add_progress(percentage%len(skeleton.stages))
 		for stage in skeleton.stages:
 			result = self.eval(stage, result, percentage/len(skeleton.stages))
 		return result
-
 
 	@when(Farm)
 	def eval(self, skeleton, values, percentage=100):
@@ -170,7 +164,7 @@ class Executor(SkeletonVisitor):
 		The output is the set of computed results.
 		"""
 		if(self.__aborted):
-                        return None
+			return None
 
 		res = ParallelRunner().run(skeleton.subskel, values, percentage/len(values), self)
 		self.add_progress(percentage%len(values))
@@ -179,15 +173,15 @@ class Executor(SkeletonVisitor):
 	@when(Map)
 	def eval(self, skeleton, values, percentage=100):
 		"""
-                This method is associated to the Map skeleton, so it evaluate its
-                sub-skeletons. Also data parallelism is introduced as a parallel computation
+		This method is associated to the Map skeleton, so it evaluate its
+		sub-skeletons. Also data parallelism is introduced as a parallel computation
 		on the node that evaluate the skeleton.
 		This skeleton first evaluate the splitter skeleton, obtaining a set of data from
 		a single input item, compute each data and the compose all sub results.
-                The output is the computed result.
-                """
+		The output is the computed result.
+		"""
 		if(self.__aborted):
-                        return None
+			return None
 
 		splitted_values = self.eval(skeleton.split, values, percentage/3)
 		self.add_progress(percentage%3)
@@ -198,18 +192,18 @@ class Executor(SkeletonVisitor):
 		return self.eval(skeleton.merge, mapped_values, percentage/3)
 
 	@when(If)
-        def eval(self, skeleton, values, percentage=100):
-                """
-                This method is associated to the If skeleton, a control flow skeleton pattern
+	def eval(self, skeleton, values, percentage=100):
+		"""
+        This method is associated to the If skeleton, a control flow skeleton pattern
 		based on skeleton evaluation.
 		It evaluates a boolean skeleton as condition for the flow execution and then
 		it chooses which sub-skeleton must be evaluated.
-                """
+		"""
 		if(self.__aborted):
-                        return None
-
-                self.add_progress(percentage%3)
-                condition = self.eval(skeleton.condition, values, percentage/3)
+			return None
+		
+		self.add_progress(percentage%3)
+		condition = self.eval(skeleton.condition, values, percentage/3)
 		if(condition):
 			return self.eval(skeleton.true_skeleton, values, (2*percentage)/3)
 		return self.eval(skeleton.false_skeleton, values, (2*percentage)/3)

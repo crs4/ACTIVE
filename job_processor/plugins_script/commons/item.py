@@ -10,7 +10,7 @@ from django.conf import settings
 import requests
 
 
-def set_video_metadata(item_id, values, token=None):
+def set_video_metadata(item_id, values, *args, **kwargs):
     """
     Method used to update video item metadata using a
     dictionary with all filed that must be updated and associated
@@ -23,7 +23,7 @@ def set_video_metadata(item_id, values, token=None):
     """
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/video/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, {'id'           : item_id,
                            'mime_type'    : values['mime_type'],
                            'frame_width'  : values['frame_width'],
@@ -37,7 +37,7 @@ def set_video_metadata(item_id, values, token=None):
     return r.status_code == requests.codes.ok
 
 
-def set_image_metadata(item_id, values, token=None):
+def set_image_metadata(item_id, values, *args, **kwargs):
     """
     Method used to update image item metadata using a dictionary with 
     all filed that must be updated and associated to specific item fields.
@@ -49,7 +49,7 @@ def set_image_metadata(item_id, values, token=None):
     """
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(item_id) + '/'
-    header = {'Authorization' : token}
+    header = {'Authorization' : kwargs.get('token', None)}
     r = requests.put(url, {'id'           : item_id,
                            'mime_type'    : values['mime_type'],
                            'frame_width'  : values['frame_width'],
@@ -61,7 +61,7 @@ def set_image_metadata(item_id, values, token=None):
     return r.status_code == requests.codes.ok
 
 
-def set_audio_metadata(item_id, values, token=None):
+def set_audio_metadata(item_id, values, *args, **kwargs):
     """
     Method used to update audio item metadata using a dictionary with
     all filed that must be updated and associated to specific item fields.
@@ -73,7 +73,7 @@ def set_audio_metadata(item_id, values, token=None):
     """
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/audio/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, {'id'              : item_id,
                            'mime_type'       : values['mime_type'],
                            'duration'        : values['duration'],
@@ -87,7 +87,7 @@ def set_audio_metadata(item_id, values, token=None):
     return r.status_code == requests.codes.ok
 
 
-def set_status(item_id, status_type, token=None):
+def set_status(item_id, status_type, *args, **kwargs):
     """
     Method used to update the processing status associated to an item.
     If the item has already been labelled with the metadata extraction
@@ -100,7 +100,7 @@ def set_status(item_id, status_type, token=None):
     """
     # retrieve the current processing status
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
     status = r.json()['state']
 
@@ -115,7 +115,7 @@ def set_status(item_id, status_type, token=None):
     return r.status_code == requests.codes.ok
 
 
-def set_preview(item_id, file_path, file_mime, token=None):
+def set_preview(item_id, file_path, file_mime, *args, **kwargs):
     """
     Method used to update the preview associate to an item.
     Providing the item id and the path of the file that must be sent,
@@ -132,13 +132,13 @@ def set_preview(item_id, file_path, file_mime, token=None):
     multiple_files = [('preview', (dest_file, f, file_mime)), ]
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, files=multiple_files, headers=header)
 
     return r.status_code == requests.codes.ok
 
 
-def set_thumbnail(item_id, file_path, file_mime, token=None):
+def set_thumbnail(item_id, file_path, file_mime, *args, **kwargs):
     """
     Method used to update the thumbnail associate to an item.
     Providing the item id and the path of the file that must be sent,
@@ -155,13 +155,13 @@ def set_thumbnail(item_id, file_path, file_mime, token=None):
     multiple_files = [('thumb', (dest_file, f, file_mime)), ]
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.put(url, files=multiple_files, headers=header)
 
     return r.status_code == requests.codes.ok
 
 
-def get_item(item_id, token=None):
+def get_item(item_id, *args, **kwargs):
     """
     Method used to update the thumbnail associate to an item.
     Providing the item id and the path of the file that must be sent,
@@ -173,7 +173,7 @@ def get_item(item_id, token=None):
     """
 
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
-    header = {'Authorization': token}
+    header = {'Authorization': kwargs.get('token', None)}
     r = requests.get(url, headers=header)
 
     if r.status_code != requests.codes.ok:

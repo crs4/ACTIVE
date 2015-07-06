@@ -14,13 +14,11 @@ from cluster_manager.cluster.cluster_manager import CeleryManager
 import json
 import logging
 
+
 # variable used for logging purposes
 logger = logging.getLogger('job_processor')
-
-
 # global variable used to store cluster nodes information
-nodes = None # TODO move as class field
-
+nodes = None
 # global variable used to handle the cluster
 cm = CeleryManager()
 

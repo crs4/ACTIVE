@@ -123,18 +123,31 @@ class FaceModels:
                     align_path = self._params[c.ALIGNED_FACES_PATH_KEY]
 
                 det_results = fd.detect_faces_in_image(
-                    im_path, align_path, self._params, False, delete_files=True)
+                    im_path, align_path, self._params, False)
 
                 if det_results and (c.FACES_KEY in det_results):
 
                     faces = det_results[c.FACES_KEY]
 
-                    if ((len(faces) == 1) and (c.FACE_KEY in faces[0]) and
+                    if ((len(faces) == 1) and
+                            (c.ALIGNED_FACE_FILE_NAME_KEY in faces[0]) and
                             (c.BBOX_KEY in faces[0]) and
                             (c.LEFT_EYE_POS_KEY in faces[0]) and
                             (c.RIGHT_EYE_POS_KEY in faces[0])):
 
-                        aligned_face = faces[0][c.FACE_KEY]
+                        file_name = faces[0][c.ALIGNED_FACE_FILE_NAME_KEY]
+                        complete_file_name = (
+                            file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
+                        aligned_file_path = os.path.join(
+                            align_path, complete_file_name)
+
+                        aligned_face = cv2.imread(
+                            aligned_file_path, cv2.IMREAD_GRAYSCALE)
+
+                        # Delete temporary files
+                        complete_rgb_file_name = file_name + '.png'
+                        os.remove(complete_rgb_file_name)
+                        os.remove(aligned_file_path)
 
                         bbox = faces[0][c.BBOX_KEY]
 
@@ -490,7 +503,7 @@ class FaceModels:
 
                 for im_name in os.listdir(subject_path):
 
-                    print('im_name', im_name)
+                    # print('im_name', im_name)
 
                     old_rel_im_path = os.path.join(sub_dir_name, im_name)
                     rel_im_path = old_rel_im_path

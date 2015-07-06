@@ -12,7 +12,6 @@ import requests
 import subprocess
 import os
 
-
 # ffmpeg -i scenecliptest00001.avi -c:v libx264 -preset ultrafast video.mp4
 # opzione per spostare i metadata all'inizio del video: -movflags faststart 
 # per sovrascrivere l'output se esiste gia':            -y
@@ -20,100 +19,7 @@ import os
 # per ridurre il frame rate di un video:                -r 5
 
 
-def extract_video_preview(func_in, func_out):
-    """
-    This function is used to extract a standard low quality version of the provided video,
-    the resulting video will be in MPEG-4 format and 5fps. Computations are executed in a distributed way,
-    on acluster node.
-
-    @param func_in: Function input that trigger the event which called this script
-    @param func_out: Function output that trigger the event which called this script
-    """
-    seq = Seq(_extract_video_preview)
-    return Executor().eval(seq, [func_in, func_out])
-
-def _extract_video_preview(params):
-    """
-    This function is used to extract a standard low quality version of the provided video,
-    the resulting video will be in MPEG-4 format and 5fps.
-
-    @param params: Array containing all necessary function parameters
-    """
-
-    auth_dict  = params[0]
-    param_dict = params[1]
-
-    # detect start and final absolute paths of video resources
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
-    preview_path = os.path.join('/tmp', str(param_dict['id']) + '_preview.mp4')
-    # execute video conversion
-    cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -codec:v libx264 -preset fast -movflags +faststart ' + preview_path
-    subprocess.check_output(cmd, shell=True)
-    # check if the preview has been generated
-    if not os.path.exists(preview_path):
-        raise Exception("Preview not generated for video item" + str(param_dict['id']))
-
-    # update data about the new generated preview file
-    res = set_preview(param_dict['id'], preview_path, 'video/mp4', auth_dict['token'])
-
-    # remove the preview file from the local filesystem
-    os.remove(preview_path)
-
-    if not res:
-        raise Exception("Preview not generated for video item" + str(param_dict['id']))
-
-    set_status(param_dict['id'], 'ADAPTED', auth_dict['token'])
-    return True
-
-
-def extract_image_preview(auth_dict, param_dict):
-    """
-    This function is used to extract a standard low quality version of the provided image,
-    the resulting video will be in PNG format with a scaled resolution.
-    Computations are executed in a distributed way
-
-    @param auth_dict: Function input that trigger the event which called this script
-    @param param_dict: Function output that trigger the event which called this script
-    """
-    seq = Seq(_extract_image_preview)
-    return Executor().eval(seq, [auth_dict, param_dict])
-
-
-def _extract_image_preview(params):
-    """
-    This function is used to extract a standard low quality version of the provided image,
-    the resulting video will be in PNG format with a scaled resolution.
-
-    @param params: Array containing all necessary function parameters.
-    """
-
-    auth_dict  = params[0]
-    param_dict = params[1]
-
-    # create the start and final path for the image digital items
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
-    preview_path = os.path.join('/tmp', str(param_dict['id']) + 'preview.jpeg')
-    # extract image thumbnail
-    cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -vf scale=-1:600 ' + preview_path
-    subprocess.check_output (cmd, shell=True)
-    # check if the preview has been created
-    if not os.path.exists(preview_path):
-        raise Exception("Preview image not generated")
-
-    # update data about the new generated preview file
-    res = set_preview(param_dict['id'], preview_path, 'image/jpeg', auth_dict['token'])
-
-    # remove the preview file from the local filesystem
-    os.remove(preview_path)
-
-    if not res:
-        raise Exception("Preview not generated for image item" + str(param_dict['id']))
-
-    set_status(param_dict['id'], 'ADAPTED', auth_dict['token'])
-    return True
-
-
-def extract_audio_preview(auth_dict, param_dict):
+def extract_audio_preview(*args, **kwargs):
     """
     This method is used to create the preview for a generic audio item.
     The item is converted in a mp3 file in order to use a standard codec.
@@ -122,21 +28,30 @@ def extract_audio_preview(auth_dict, param_dict):
     @param auth_dict: Function input that trigger the event which called this script
     @param param_dict: Function output that trigger the event which called this script
     """
+    # create the start and final path for the audio digital items
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
+    preview_path = os.path.join('/tmp', str(args[0]['id']) + 'preview.mp3')
+    
+    # compute the audio preview in a distribute way
     seq = Seq(_extract_audio_preview)
-    return Executor().eval(seq, [auth_dict, param_dict])
+    Executor().eval(seq, (file_path, preview_path))
+    
+    # update data about the new generated preview file
+    set_preview(args[0]['id'], preview_path, 'audio/mp3', kwargs.get('token', None))
+    set_status(args[0]['id'], 'ADAPTED', kwargs.get('token', None))
+    
+    # remove the preview file from the local filesystem
+    os.remove(preview_path)
 
-def _extract_audio_preview(params):
+def _extract_audio_preview(file_path, preview_path):
     """
     This function is used to extract a standard low quality version of the provided audio,
     the resulting audio will be in MP3 format.
 
-    @param params: Array containing all necessary function parameters.
+    @param file_path: Path of the item that will be considered for preview extraction.
+    @param preview_path: Path of the preview that will be generated.
     """
-    auth_dict  = params[0]
-    param_dict = params[1]
-
-    file_path = os.path.join(settings.MEDIA_ROOT, param_dict['file'])
-    preview_path = os.path.join('/tmp', str(param_dict['id']) + 'preview.mp3')
+    # extract the audio preview   
     cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -ab 128k ' + preview_path
     subprocess.check_output(cmd, shell=True)
 
@@ -147,16 +62,87 @@ def _extract_audio_preview(params):
     #subprocess.check_output(cmd, shell=True)
 
     if not os.path.exists(preview_path):
-        raise Exception("Audio preview not generated for item " + str(param_dict['id']))
+        raise Exception("Audio preview not generated for item " + file_path)
 
+
+def extract_image_preview(*args, **kwargs):
+    """
+    This function is used to extract a standard low quality version of the provided image,
+    the resulting video will be in PNG format with a scaled resolution.
+    Computations are executed in a distributed way
+
+    @param arg: Function arguments (or result of event trigger)
+    @param kwargs: Keyword arguments passed to the function (e.g. authentication token)
+    """
+    # create the start and final path for the image digital items
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
+    preview_path = os.path.join('/tmp', str(args[0]['id']) + 'preview.jpeg')
+    
+    # compute the audio preview in a distribute way
+    seq = Seq(_extract_image_preview)
+    Executor().eval(seq, (file_path, preview_path))
+    
     # update data about the new generated preview file
-    res = set_preview(param_dict['id'], preview_path, 'audio/mp3', auth_dict['token'])
+    set_preview(args[0]['id'], preview_path, 'image/jpeg', kwargs.get('token', None))
+    set_status(args[0]['id'], 'ADAPTED', kwargs.get('token', None))
 
     # remove the preview file from the local filesystem
     os.remove(preview_path)
+    
+def _extract_image_preview(file_path, preview_path):
+    """
+    This function is used to extract a standard low quality version of the provided image,
+    the resulting video will be in PNG format with a scaled resolution.
 
-    if not res:
-        raise Exception("Preview not generated for audio item" + str(param_dict['id']))
+    @param file_path: Path of the item that will be considered for preview extraction.
+    @param preview_path: Path of the preview that will be generated.
+    """
+    print file_path, preview_path
+    # extract image preview
+    cmd = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path + '" -vf scale=-1:600 ' + preview_path
+    subprocess.check_output (cmd, shell=True)
+    # check if the preview has been created
+    if not os.path.exists(preview_path):
+        raise Exception("Preview image not generated")
 
-    set_status(param_dict['id'], 'ADAPTED', auth_dict['token'])
-    return True
+
+
+def extract_video_preview(*args, **kwargs):
+    """
+    This function is used to extract a standard low quality version of the provided video,
+    the resulting video will be in MPEG-4 format and 5fps. Computations are executed in a distributed way,
+    on acluster node.
+
+    @param func_in: Function input that trigger the event which called this script
+    @param func_out: Function output that trigger the event which called this script
+    """
+    # detect start and final absolute paths of video resources
+    file_path = os.path.join(settings.MEDIA_ROOT, args[0]['file'])
+    preview_path = os.path.join('/tmp', str(args[0]['id']) + '_preview.mp4')
+    
+    # execute the preview extraction in a distributed way
+    seq = Seq(_extract_video_preview)
+    Executor().eval(seq, (file_path, preview_path))
+    
+    # update data about the new generated preview file
+    set_preview(args[0]['id'], preview_path, 'video/mp4', kwargs.get('token', None))
+    set_status(args[0]['id'], 'ADAPTED', kwargs.get('token', None))
+    
+    # remove the preview file from the local filesystem
+    os.remove(preview_path)
+
+def _extract_video_preview(file_path, preview_path):
+    """
+    This function is used to extract a standard low quality version of the provided video,
+    the resulting video will be in MPEG-4 format and 5fps.
+    
+    @param file_path: Path of the item that will be considered for preview extraction.
+    @param preview_path: Path of the preview that will be generated.
+    """
+    # execute video conversion
+    cmd  = '/usr/bin/ffmpeg -loglevel fatal -y -i "' + file_path
+    cmd += '" -codec:v libx264 -preset fast -movflags +faststart -strict -2 ' + preview_path
+    subprocess.check_output(cmd, shell=True)
+    # check if the preview has been generated
+    if not os.path.exists(preview_path):
+        raise Exception("Preview not generated for video item" + file_path)

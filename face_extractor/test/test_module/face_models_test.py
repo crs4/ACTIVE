@@ -132,6 +132,16 @@ class TestFaceModels(unittest.TestCase):
         
         fm.add_face(label, tag, image_path, aligned_face, eye_pos, bbox)
 
+    def test_add_face_from_whole_image(self):
+
+        fm = FaceModels()
+        label = 39
+        tag = 'Ladu_Fortunato'
+        im_path = r'C:\Active\Sinnova\Global face recognition - source images\Ladu_Fortunato\Ladu_Fortunato_new_4.jpg'
+        fm.add_face(label, tag, im_path)
+        im_path = r'C:\Active\Sinnova\Global face recognition - source images\Ladu_Fortunato\Ladu_Fortunato_new_5.jpg'
+        fm.add_face(label, tag, im_path)
+
     def test_create_models_from_aligned_faces(self):
 
         self.test_create_models_from_whole_images()
