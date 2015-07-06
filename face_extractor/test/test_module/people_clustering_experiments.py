@@ -748,6 +748,7 @@ class PeopleClusterExtractor(object):
         all_bboxes_in_frames = c.ALL_CLOTH_BBOXES_IN_FRAMES
         cl_pct_height = c.CLOTHES_BBOX_HEIGHT
         cl_pct_width = c.CLOTHES_BBOX_WIDTH
+        hsv_channels = c.CLOTHING_REC_HSV_CHANNELS_NR
         min_size = c.MIN_CLOTH_MODEL_SIZE
         neck_pct_height = c.NECK_HEIGHT
         use_dom_color = c.CLOTHING_REC_USE_DOMINANT_COLOR
@@ -763,6 +764,8 @@ class PeopleClusterExtractor(object):
                 cl_pct_height = self.params[c.CLOTHES_BBOX_HEIGHT_KEY]
             if c.CLOTHES_BBOX_WIDTH_KEY in self.params:
                 cl_pct_width = self.params[c.CLOTHES_BBOX_WIDTH_KEY]
+            if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in self.params:
+                hsv_channels = self.params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
             if c.MIN_CLOTH_MODEL_SIZE in self.params:
                 min_size = self.params[c.MIN_CLOTH_MODEL_SIZE_KEY]
             if c.NECK_HEIGHT_KEY in self.params:
@@ -898,7 +901,7 @@ class PeopleClusterExtractor(object):
                                                np.array((0., 60., 32.)),
                                                np.array((180., 255., 255.)))
 
-                        for ch in range(0, 3):
+                        for ch in range(0, hsv_channels):
                             hist = cv2.calcHist(
                                 [roi_hsv], [ch], mask, [256], [0, 255])
 
@@ -967,7 +970,7 @@ class PeopleClusterExtractor(object):
                                            np.array((0., 60., 32.)),
                                            np.array((180., 255., 255.)))
 
-                    for ch in range(0, 3):
+                    for ch in range(0, hsv_channels):
                         hist = cv2.calcHist(
                             [roi_hsv], [ch], mask, [256], [0, 255])
 

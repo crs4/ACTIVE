@@ -235,6 +235,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  c.CLOTHES_BBOX_HEIGHT_KEY + ',' +
                  c.CLOTHES_BBOX_WIDTH_KEY + ',' +
                  c.CLOTHES_CHECK_METHOD_KEY + ',' +
+                 c.CLOTHING_REC_HSV_CHANNELS_NR_KEY + ',' +
                  c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY + ',' +
                  c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY + ',' +
                  c.CLOTHING_REC_USE_3_BBOXES_KEY + ',' +
@@ -341,6 +342,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[c.CLOTHES_BBOX_HEIGHT_KEY]) + ',' +
                      str(experiment_dict[c.CLOTHES_BBOX_WIDTH_KEY]) + ',' +
                      str(experiment_dict[c.CLOTHES_CHECK_METHOD_KEY]) + ',' +
+                     str(experiment_dict[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]) + ',' +
                      str(experiment_dict[c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY]) + ',' +
                      str(experiment_dict[c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY]) + ',' +
                      str(experiment_dict[c.CLOTHING_REC_USE_3_BBOXES_KEY]) + ',' +
@@ -879,6 +881,11 @@ def video_indexing_experiments(resource_path, resource_id, params):
     if c.CLOTHES_CHECK_METHOD_KEY in fs.params:
         new_experiment_dict[c.CLOTHES_CHECK_METHOD_KEY] = fs.params[
             c.CLOTHES_CHECK_METHOD_KEY]
+
+    new_experiment_dict[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY] = c.CLOTHING_REC_HSV_CHANNELS_NR
+    if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in fs.params:
+        new_experiment_dict[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY] = fs.params[
+            c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
     
     new_experiment_dict[c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = c.CLOTHING_REC_USE_DOMINANT_COLOR
     if c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY in fs.params:

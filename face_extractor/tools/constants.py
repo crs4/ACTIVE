@@ -6,7 +6,7 @@ import os
 
 # TODO CHANGE FOR SERVER
 # Default path of directory for aligned faces
-ALIGNED_FACES_PATH = r''
+ALIGNED_FACES_PATH = r'C:\Users\Maurizio\Documents\Aligned faces'
 
 # If True, all bounding boxes related to one face track
 # must be entirely contained by the corresponding frame
@@ -35,6 +35,9 @@ CLOTHES_CHECK_METHOD = 'Max'
 # Minimum distance between face features 
 # of two face tracks for considering clothes
 CLOTHES_CONF_THRESH = 8
+
+# Number of HSV channels used in clothing recognition (1-3)
+CLOTHING_REC_HSV_CHANNELS_NR = 3
 
 # If True, bounding box for clothes is divided in 3 parts
 CLOTHING_REC_USE_3_BBOXES = False
@@ -379,6 +382,7 @@ CLASSIFIERS_DIR_PATH_KEY = 'classifiers_folder_path'
 CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
 CLOTHES_CONF_THRESH_KEY = 'conf_threshold_for_clothing_recognition'
+CLOTHING_REC_HSV_CHANNELS_NR_KEY = 'nr_of_HSV_channels_in_clothing_recognition'
 CLOTHING_REC_USE_3_BBOXES_KEY = 'use_3_bboxes_in_clothing_recognition'
 CLOTHING_REC_USE_DOMINANT_COLOR_KEY = (
     'use_dominant_color_in_clothing_recognition')
