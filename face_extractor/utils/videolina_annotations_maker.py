@@ -1,7 +1,6 @@
 import os
 import sys
 sys.path.append("..")
-import test.test_module.constants_for_experiments as ce
 import tools.constants as c
 from tools.utils import save_YAML_file
 
@@ -21,7 +20,6 @@ def transform_segments(segments):
 
     for segment in segments:
 
-        new_segment = {}
         ann_tag = segment[c.ANN_TAG_KEY]
 
         # Add duration
@@ -1170,6 +1168,597 @@ def make_fic02_annotations(file_path):
         c.TOT_CAPTION_SEGMENT_DURATION_KEY: tot_caption_segment_duration
     }
 
+    # Create necessary directories and save YAML file
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    save_YAML_file(file_path, ann_dict)
+
+    return ann_dict
+
+
+def make_fic03_annotations(file_path):
+    """
+    Make annotations for Fic.03.mpg video file
+
+    :type file_path: string
+    :param file_path: path of YAML file that will contain annotations
+    """
+
+    caption_segments = []
+    video_segments = []
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 44,
+                          c.SEGMENT_END_KEY: 2 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 3 * 60 + 16,
+                          c.SEGMENT_END_KEY: 3 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 3 * 60 + 40,
+                          c.SEGMENT_END_KEY: 4 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 4 * 60 + 1,
+                          c.SEGMENT_END_KEY: 4 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 4 * 60 + 5,
+                          c.SEGMENT_END_KEY: 4 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 4 * 60 + 17,
+                          c.SEGMENT_END_KEY: 4 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                            c.SEGMENT_START_KEY: 4 * 60 + 33,
+                            c.SEGMENT_END_KEY: 4 * 60 + 41}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 4 * 60 + 48,
+                          c.SEGMENT_END_KEY: 5 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 5 * 60 + 1,
+                          c.SEGMENT_END_KEY: 5 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 5 * 60 + 3,
+                          c.SEGMENT_END_KEY: 5 * 60 + 16}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                            c.SEGMENT_START_KEY: 5 * 60 + 5,
+                            c.SEGMENT_END_KEY: 5 * 60 + 8}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 5 * 60 + 16,
+                          c.SEGMENT_END_KEY: 5 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 5 * 60 + 35,
+                          c.SEGMENT_END_KEY: 5 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 12 * 60 + 16,
+                          c.SEGMENT_END_KEY: 12 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 13 * 60 + 16,
+                          c.SEGMENT_END_KEY: 13 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 13 * 60 + 21,
+                          c.SEGMENT_END_KEY: 13 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 13 * 60 + 21,
+                          c.SEGMENT_END_KEY: 13 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 13 * 60 + 21,
+                          c.SEGMENT_END_KEY: 14 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                            c.SEGMENT_START_KEY: 13 * 60 + 39,
+                            c.SEGMENT_END_KEY: 13 * 60 + 45}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 14 * 60 + 18,
+                          c.SEGMENT_END_KEY: 14 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 14 * 60 + 23,
+                          c.SEGMENT_END_KEY: 14 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 14 * 60 + 46,
+                          c.SEGMENT_END_KEY: 14 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 14 * 60 + 52,
+                          c.SEGMENT_END_KEY: 15 * 60 + 16}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                            c.SEGMENT_START_KEY: 14 * 60 + 54,
+                            c.SEGMENT_END_KEY: 15 * 60}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 15 * 60 + 21,
+                          c.SEGMENT_END_KEY: 15 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                            c.SEGMENT_START_KEY: 15 * 60 + 32,
+                            c.SEGMENT_END_KEY: 15 * 60 + 38}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 15 * 60 + 56,
+                          c.SEGMENT_END_KEY: 16 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 17 * 60 + 22,
+                          c.SEGMENT_END_KEY: 17 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 17 * 60 + 37,
+                          c.SEGMENT_END_KEY: 18 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 24 * 60 + 56,
+                          c.SEGMENT_END_KEY: 25 * 60 + 2}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 25 * 60 + 2,
+                          c.SEGMENT_END_KEY: 25 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                            c.SEGMENT_START_KEY: 25 * 60 + 5,
+                            c.SEGMENT_END_KEY: 25 * 60 + 12}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 25 * 60 + 26,
+                          c.SEGMENT_END_KEY: 25 * 60 + 28}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 25 * 60 + 28,
+                          c.SEGMENT_END_KEY: 26 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 26 * 60 + 6,
+                          c.SEGMENT_END_KEY: 26 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 26 * 60 + 12,
+                          c.SEGMENT_END_KEY: 26 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 26 * 60 + 36,
+                          c.SEGMENT_END_KEY: 26 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 26 * 60 + 40,
+                          c.SEGMENT_END_KEY: 26 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 27 * 60 + 4,
+                          c.SEGMENT_END_KEY: 27 * 60 + 13}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 28 * 60 + 23,
+                          c.SEGMENT_END_KEY: 28 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 28 * 60 + 44,
+                          c.SEGMENT_END_KEY: 28 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 29 * 60 + 6,
+                          c.SEGMENT_END_KEY: 29 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 29 * 60 + 20,
+                          c.SEGMENT_END_KEY: 29 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 29 * 60 + 53,
+                          c.SEGMENT_END_KEY: 29 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 30 * 60 + 32,
+                          c.SEGMENT_END_KEY: 31 * 60 + 8}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                            c.SEGMENT_START_KEY: 30 * 60 + 36,
+                            c.SEGMENT_END_KEY: 30 * 60 + 39}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 31 * 60 + 18,
+                          c.SEGMENT_END_KEY: 31 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 31 * 60 + 49,
+                          c.SEGMENT_END_KEY: 32 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 31 * 60 + 56,
+                          c.SEGMENT_END_KEY: 32 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 31 * 60 + 59,
+                          c.SEGMENT_END_KEY: 32 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 32 * 60 + 6,
+                          c.SEGMENT_END_KEY: 32 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 33 * 60 + 52,
+                          c.SEGMENT_END_KEY: 33 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 34 * 60 + 3,
+                          c.SEGMENT_END_KEY: 34 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 34 * 60 + 41,
+                          c.SEGMENT_END_KEY: 34 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 35 * 60 + 7,
+                          c.SEGMENT_END_KEY: 35 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 41 * 60 + 6,
+                          c.SEGMENT_END_KEY: 41 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 41 * 60 + 15,
+                          c.SEGMENT_END_KEY: 41 * 60 + 44}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                            c.SEGMENT_START_KEY: 41 * 60 + 30,
+                            c.SEGMENT_END_KEY: 41 * 60 + 36}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 41 * 60 + 59,
+                          c.SEGMENT_END_KEY: 42 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 42 * 60 + 18,
+                          c.SEGMENT_END_KEY: 42 * 60 + 22}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 42 * 60 + 22,
+                          c.SEGMENT_END_KEY: 42 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 42 * 60 + 38,
+                          c.SEGMENT_END_KEY: 42 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 42 * 60 + 46,
+                          c.SEGMENT_END_KEY: 42 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 42 * 60 + 58,
+                          c.SEGMENT_END_KEY: 43 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 43 * 60 + 16,
+                          c.SEGMENT_END_KEY: 43 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 43 * 60 + 29,
+                          c.SEGMENT_END_KEY: 44 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 43 * 60 + 57,
+                          c.SEGMENT_END_KEY: 44 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 44 * 60 + 44,
+                          c.SEGMENT_END_KEY: 45 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                            c.SEGMENT_START_KEY: 44 * 60 + 46,
+                            c.SEGMENT_END_KEY: 44 * 60 + 51}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 44 * 60 + 57,
+                          c.SEGMENT_END_KEY: 45 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 45 * 60 + 17,
+                          c.SEGMENT_END_KEY: 45 * 60 + 22}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 45 * 60 + 22,
+                          c.SEGMENT_END_KEY: 45 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 45 * 60 + 34,
+                          c.SEGMENT_END_KEY: 45 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 45 * 60 + 55,
+                          c.SEGMENT_END_KEY: 46 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 46 * 60 + 41,
+                          c.SEGMENT_END_KEY: 47 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 47 * 60 + 30,
+                          c.SEGMENT_END_KEY: 47 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 47 * 60 + 41,
+                          c.SEGMENT_END_KEY: 47 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 47 * 60 + 57,
+                          c.SEGMENT_END_KEY: 48 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 48 * 60 + 22,
+                          c.SEGMENT_END_KEY: 48 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 48 * 60 + 29,
+                          c.SEGMENT_END_KEY: 49 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 48 * 60 + 29,
+                          c.SEGMENT_END_KEY: 48 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 48 * 60 + 29,
+                          c.SEGMENT_END_KEY: 48 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 49 * 60 + 4,
+                          c.SEGMENT_END_KEY: 49 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 49 * 60 + 7,
+                          c.SEGMENT_END_KEY: 49 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 49 * 60 + 12,
+                          c.SEGMENT_END_KEY: 49 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 49 * 60 + 25,
+                          c.SEGMENT_END_KEY: 49 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 50 * 60 + 25,
+                          c.SEGMENT_END_KEY: 50 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 50 * 60 + 25,
+                          c.SEGMENT_END_KEY: 50 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 50 * 60 + 25,
+                          c.SEGMENT_END_KEY: 50 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 50 * 60 + 52,
+                          c.SEGMENT_END_KEY: 51 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 51 * 60 + 14,
+                          c.SEGMENT_END_KEY: 51 * 60 + 42}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 51 * 60 + 55,
+                          c.SEGMENT_END_KEY: 52 * 60 + 2}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 52 * 60 + 2,
+                          c.SEGMENT_END_KEY: 52 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 52 * 60 + 50,
+                          c.SEGMENT_END_KEY: 52 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 53 * 60 + 8,
+                          c.SEGMENT_END_KEY: 53 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 53 * 60 + 44,
+                          c.SEGMENT_END_KEY: 53 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 53 * 60 + 44,
+                          c.SEGMENT_END_KEY: 54 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 53 * 60 + 44,
+                          c.SEGMENT_END_KEY: 53 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 54 * 60,
+                          c.SEGMENT_END_KEY: 54 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 54 * 60 + 32,
+                          c.SEGMENT_END_KEY: 54 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 54 * 60 + 47,
+                          c.SEGMENT_END_KEY: 55 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 55 * 60 + 23,
+                          c.SEGMENT_END_KEY: 55 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 55 * 60 + 26,
+                          c.SEGMENT_END_KEY: 55 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 55 * 60 + 26,
+                          c.SEGMENT_END_KEY: 55 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 55 * 60 + 26,
+                          c.SEGMENT_END_KEY: 55 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 55 * 60 + 46,
+                          c.SEGMENT_END_KEY: 55 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Fozzi_Luciano',
+                          c.SEGMENT_START_KEY: 55 * 60 + 53,
+                          c.SEGMENT_END_KEY: 56 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Garzia_Raffaele',
+                          c.SEGMENT_START_KEY: 56 * 60 + 19,
+                          c.SEGMENT_END_KEY: 56 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Capra_Piero',
+                          c.SEGMENT_START_KEY: 56 * 60 + 27,
+                          c.SEGMENT_END_KEY: 56 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 56 * 60 + 47,
+                          c.SEGMENT_END_KEY: 56 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Mameli_Giacomo',
+                          c.SEGMENT_START_KEY: 56 * 60 + 56,
+                          c.SEGMENT_END_KEY: 57 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    # Add durations for video and caption segments,
+    # transform seconds in milliseconds
+    tot_video_segment_duration = transform_segments(video_segments)
+    tot_caption_segment_duration = transform_segments(caption_segments)
+
+    ann_dict = {
+        c.VIDEO_SEGMENTS_KEY: video_segments,
+        c.TOT_SEGMENT_DURATION_KEY: tot_video_segment_duration,
+        c.CAPTION_SEGMENTS_KEY: caption_segments,
+        c.TOT_CAPTION_SEGMENT_DURATION_KEY: tot_caption_segment_duration
+    }
+
+    # Create necessary directories and save YAML file
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     save_YAML_file(file_path, ann_dict)
 
     return ann_dict
@@ -1265,10 +1854,9 @@ def make_MONITOR072011_annotations(file_path):
                           c.SEGMENT_END_KEY: 7 * 60 + 5}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {}
-    video_segment_dict[c.ANN_TAG_KEY] = 'Pisano_Francesco'
-    video_segment_dict[c.SEGMENT_START_KEY] = 7 *60 + 1
-    video_segment_dict[c.SEGMENT_END_KEY] = 7*60 + 5
+    video_segment_dict = {c.ANN_TAG_KEY: 'Pisano_Francesco',
+                          c.SEGMENT_START_KEY: 7 * 60 + 1,
+                          c.SEGMENT_END_KEY: 7 * 60 + 5}
     video_segments.append(video_segment_dict)
 
     video_segment_dict = {c.ANN_TAG_KEY: 'Dessi_Emanuele',
@@ -1369,10 +1957,9 @@ def make_MONITOR072011_annotations(file_path):
                           c.SEGMENT_END_KEY: 10 * 60 + 22}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {}
-    video_segment_dict[c.ANN_TAG_KEY] = 'Pisano_Francesco'
-    video_segment_dict[c.SEGMENT_START_KEY] = 10*60+13
-    video_segment_dict[c.SEGMENT_END_KEY] = 10*60+22
+    video_segment_dict = {c.ANN_TAG_KEY: 'Pisano_Francesco',
+                          c.SEGMENT_START_KEY: 10 * 60 + 13,
+                          c.SEGMENT_END_KEY: 10 * 60 + 22}
     video_segments.append(video_segment_dict)
 
     video_segment_dict = {c.ANN_TAG_KEY: 'Dessi_Emanuele',
@@ -4329,6 +4916,10 @@ def make_MONITOR072011_annotations(file_path):
         c.TOT_CAPTION_SEGMENT_DURATION_KEY: tot_caption_segment_duration
     }
 
+    # Create necessary directories and save YAML file
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     save_YAML_file(file_path, ann_dict)
 
     return ann_dict
@@ -4342,7 +4933,6 @@ def make_MONITOR272010_annotations(file_path):
     :param file_path: path of YAML file that will contain annotations
     """
 
-    audio_segments = []
     caption_segments = []
     video_segments = []
     '''
@@ -5405,6 +5995,10 @@ def make_MONITOR272010_annotations(file_path):
         c.TOT_CAPTION_SEGMENT_DURATION_KEY: tot_caption_segment_duration
     }
 
+    # Create necessary directories and save YAML file
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     save_YAML_file(file_path, ann_dict)
 
     return ann_dict
@@ -5606,26 +6200,40 @@ def save_people_files(ann_dict, video_ann_file_path):
 #
 # calculate_stats(ann_dict)
 
-file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\fic.02.yml'
+# # fic.02.mpg
+# file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\fic.02.yml'
+#
+# ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
+#
+# ann_dict = make_fic02_annotations(file_path)
+#
+# save_people_files(ann_dict, ann_dir_path)
 
-ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
+# Fic.03.mpg
+file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\Fic.03\Fic.03.yml'
 
-ann_dict = make_fic02_annotations(file_path)
+ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\Fic.03\Simple annotations'
 
-save_people_files(ann_dict, ann_dir_path)
-
-file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR072011\MONITOR072011.yml'
-
-ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
-
-ann_dict = make_MONITOR072011_annotations(file_path)
-
-save_people_files(ann_dict, ann_dir_path)
-
-file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR272010\MONITOR272010.yml'
-
-ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR272010\Simple annotations'
-
-ann_dict = make_MONITOR272010_annotations(file_path)
+ann_dict =  make_fic03_annotations(file_path)
 
 save_people_files(ann_dict, ann_dir_path)
+
+# # MONITOR072011.mpg
+# file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR072011\MONITOR072011.yml'
+#
+# ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
+#
+# ann_dict = make_MONITOR072011_annotations(file_path)
+#
+# save_people_files(ann_dict, ann_dir_path)
+#
+# # MONITOR272010.mpg
+# file_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR272010\MONITOR272010.yml'
+#
+# ann_dir_path = r'C:\Users\Maurizio\Documents\Dataset\Annotazioni\Videolina-15V\MONITOR272010\Simple annotations'
+#
+# ann_dict = make_MONITOR272010_annotations(file_path)
+#
+# save_people_files(ann_dict, ann_dir_path)
+
+
