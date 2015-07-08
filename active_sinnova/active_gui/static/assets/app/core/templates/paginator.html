@@ -1,0 +1,17 @@
+<div class="dataTables_paginate paging_bootstrap">
+	<ul class="pagination">
+		<li class="prev" ng-class="gridOptions.currentPage === 1 ? 'disabled' : ''">
+			<a href="javascript:void(0);" aria-label="Previous" ng-click="getPrevPage()">
+				<span aria-hidden="true">← Previous</span>
+			</a>
+		</li>
+		<li ng-repeat="page in pageArray" ng-class="page.active ? 'active' : ''">
+			<a href="javascript:void(0);" ng-click="getPage(page.current)">{{page.current}}</a>
+		</li>
+		<li class="next" ng-class="gridOptions.currentPage === pageArray[pageArray.length - 1].current ? 'disabled' : ''">
+			<a href="javascript:void(0);" aria-label="Next" ng-click="getNextPage()">
+				<span aria-hidden="true">Next →</span>
+			</a>
+		</li>
+	</ul>
+</div>
