@@ -1,0 +1,8690 @@
+0\1c0f02ed-9918-4327-8673-56b209f98282.png:
+  bbox: !!python/tuple
+  - 270
+  - 127
+  - 211
+  - 211
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 408
+  - 219
+0\351da698-47e9-47a1-9285-79aac5798101.png:
+  bbox: !!python/tuple
+  - 292
+  - 79
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 168
+0\450bcc8a-076e-4308-b837-12f29b89f54a.png:
+  bbox: !!python/tuple
+  - 260
+  - 97
+  - 191
+  - 191
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 386
+  - 171
+0\5acb2506-befb-4895-931f-13b47efbe86d.png:
+  bbox: !!python/tuple
+  - 262
+  - 113
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 199
+0\5f21502e-58dc-4b51-b55f-e00d99422742.png:
+  bbox: !!python/tuple
+  - 258
+  - 105
+  - 190
+  - 190
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 180
+0\901db1ff-0c01-438c-b9ba-09b8d5849c7e.png:
+  bbox: !!python/tuple
+  - 297
+  - 94
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 415
+  - 177
+0\a21ff4fa-d0fb-43b2-8b30-f771447e08db.png:
+  bbox: !!python/tuple
+  - 215
+  - 92
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 179
+0\b82c55b3-14c3-42fc-a16a-5a56ca59586c.png:
+  bbox: !!python/tuple
+  - 271
+  - 94
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 174
+0\c0abb2cf-89c1-485b-a80c-b9dfba7dd43f.png:
+  bbox: !!python/tuple
+  - 234
+  - 100
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 378
+  - 193
+0\c6871b22-f65f-4852-8bbc-93954dcb1f44.png:
+  bbox: !!python/tuple
+  - 288
+  - 94
+  - 179
+  - 179
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 176
+0\c85a8137-8bb5-42b1-8fb0-859aabb38a84.png:
+  bbox: !!python/tuple
+  - 317
+  - 103
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 452
+  - 188
+10\21d0a724-6c75-420d-9514-629845b36aa1.png:
+  bbox: !!python/tuple
+  - 200
+  - 107
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 310
+  - 173
+10\2799505e-0646-473c-87dd-30ac2433710d.png:
+  bbox: !!python/tuple
+  - 207
+  - 114
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 316
+  - 168
+10\2d52ee4c-12d9-4ca4-921e-ad5d69dcca26.png:
+  bbox: !!python/tuple
+  - 249
+  - 90
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 350
+  - 144
+10\3fe960bc-ae58-45c6-8666-95c1fd5e7aac.png:
+  bbox: !!python/tuple
+  - 213
+  - 118
+  - 175
+  - 175
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 332
+  - 182
+10\62b1444e-e304-46bf-bbfd-2a8287a7a69a.png:
+  bbox: !!python/tuple
+  - 199
+  - 143
+  - 184
+  - 184
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 321
+  - 207
+10\67bd4d4e-5148-427d-b2bd-00ede929f4c2.png:
+  bbox: !!python/tuple
+  - 223
+  - 149
+  - 176
+  - 176
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 341
+  - 217
+10\6fc9fb44-5a6d-4c8e-b1e0-8d86a7832f41.png:
+  bbox: !!python/tuple
+  - 224
+  - 90
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 329
+  - 146
+10\75d7fc3a-fa9d-435a-ba23-bb5cb22cb7d5.png:
+  bbox: !!python/tuple
+  - 238
+  - 135
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 200
+10\83b67aa0-31f8-4e1e-8e9d-3796f995cb2c.png:
+  bbox: !!python/tuple
+  - 250
+  - 86
+  - 145
+  - 145
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 145
+10\a406a37f-ca68-4eb0-967a-5e5aaa94a628.png:
+  bbox: !!python/tuple
+  - 191
+  - 125
+  - 177
+  - 177
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 312
+  - 185
+11\0cb3aa7d-6564-4400-84db-a279ca4bdf01.png:
+  bbox: !!python/tuple
+  - 261
+  - 96
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 358
+  - 148
+11\19e2ef1a-8950-4154-8f6c-c0d9278c8d80.png:
+  bbox: !!python/tuple
+  - 247
+  - 111
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 349
+  - 169
+11\537f489f-e580-4d6d-9dc8-dfd1710697c6.png:
+  bbox: !!python/tuple
+  - 246
+  - 108
+  - 162
+  - 162
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 162
+11\709d974d-77db-4b85-b5c1-8f08cb0cc15a.png:
+  bbox: !!python/tuple
+  - 287
+  - 100
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 151
+11\78027f91-4677-4d97-9f04-d63a0f05f646.png:
+  bbox: !!python/tuple
+  - 250
+  - 95
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 153
+11\8111330d-d657-4047-8a59-b1287595d668.png:
+  bbox: !!python/tuple
+  - 293
+  - 86
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 392
+  - 136
+11\8a9bbc65-7e46-402d-9fc9-43a9d583b9b7.png:
+  bbox: !!python/tuple
+  - 271
+  - 114
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 174
+11\afd7b702-3f81-42f5-8287-6349d0a332df.png:
+  bbox: !!python/tuple
+  - 304
+  - 95
+  - 133
+  - 133
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 145
+11\b164774c-b771-4e29-bd6b-441780b61592.png:
+  bbox: !!python/tuple
+  - 336
+  - 102
+  - 160
+  - 160
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 440
+  - 164
+11\d4849f89-669f-42b2-be46-6f515ee746e0.png:
+  bbox: !!python/tuple
+  - 295
+  - 95
+  - 135
+  - 135
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 141
+11\dbef7ab8-7d71-4e21-bf43-47934cfaae4d.png:
+  bbox: !!python/tuple
+  - 318
+  - 88
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 142
+11\e7b1be04-0fdd-4313-8f3e-f41a549cef60.png:
+  bbox: !!python/tuple
+  - 335
+  - 97
+  - 135
+  - 135
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 143
+12\3586b630-d38b-4942-97fd-7af13f2fe47e.png:
+  bbox: !!python/tuple
+  - 245
+  - 96
+  - 176
+  - 176
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 156
+12\48777837-6354-4032-b6cd-fc5d0f93d328.png:
+  bbox: !!python/tuple
+  - 247
+  - 107
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 169
+12\4c2f68a6-025f-42b2-9b36-3f42e5bf95bc.png:
+  bbox: !!python/tuple
+  - 302
+  - 79
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 156
+12\55d78ef8-3707-4b44-8eec-06c9aea26653.png:
+  bbox: !!python/tuple
+  - 240
+  - 92
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 153
+12\8899f5d7-2f03-45fb-984e-677e166d516b.png:
+  bbox: !!python/tuple
+  - 251
+  - 73
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 128
+12\afff6444-c322-4549-a03c-d26c850626dd.png:
+  bbox: !!python/tuple
+  - 245
+  - 92
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 152
+12\b0af1160-5ca3-46b0-b8a9-706ada852ea0.png:
+  bbox: !!python/tuple
+  - 314
+  - 74
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 443
+  - 167
+12\e0648a29-8aca-4442-8179-c9472c889d28.png:
+  bbox: !!python/tuple
+  - 320
+  - 75
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 446
+  - 154
+12\fe6e497b-d457-4670-80b5-0d7c4c4751c2.png:
+  bbox: !!python/tuple
+  - 314
+  - 74
+  - 195
+  - 195
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 446
+  - 167
+13\179e640e-ae16-4eae-94ea-f642cba7ddac.png:
+  bbox: !!python/tuple
+  - 258
+  - 185
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 260
+13\35ae3793-309a-4229-b7b0-1d893b2042ba.png:
+  bbox: !!python/tuple
+  - 222
+  - 362
+  - 102
+  - 102
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 283
+  - 398
+13\a26fdccc-99b4-4cb2-a3ff-c75edd46692a.png:
+  bbox: !!python/tuple
+  - 245
+  - 177
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 253
+13\b774d8b8-d9c5-4b04-83b9-e219d11c620e.png:
+  bbox: !!python/tuple
+  - 171
+  - 173
+  - 80
+  - 80
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 222
+  - 195
+13\c3042505-1850-4708-9b4e-e2c7edb6d7a0.png:
+  bbox: !!python/tuple
+  - 261
+  - 179
+  - 229
+  - 229
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 252
+13\d083a49a-2270-49dc-b9c6-23fbe825c802.png:
+  bbox: !!python/tuple
+  - 261
+  - 141
+  - 147
+  - 147
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 189
+13\d6e96c60-7b06-401f-b3a8-c9777450bafe.png:
+  bbox: !!python/tuple
+  - 257
+  - 135
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 355
+  - 181
+13\e3e76042-4ab2-483c-8106-bf46174365bc.png:
+  bbox: !!python/tuple
+  - 191
+  - 145
+  - 112
+  - 112
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 268
+  - 184
+13\febf7fa8-14d5-49dc-951d-1979b3cd6944.png:
+  bbox: !!python/tuple
+  - 219
+  - 184
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 256
+14\0d511f58-a949-43bb-9a88-8f1b35bb45e8.png:
+  bbox: !!python/tuple
+  - 249
+  - 173
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 255
+14\1f7b22f4-6561-4ed0-87b4-b78779080ad8.png:
+  bbox: !!python/tuple
+  - 205
+  - 183
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 262
+14\3743976a-3b72-464a-a978-4e1a279d36e8.png:
+  bbox: !!python/tuple
+  - 253
+  - 149
+  - 181
+  - 181
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 218
+14\3e185ae7-fabe-462d-8a2b-2fee008febf6.png:
+  bbox: !!python/tuple
+  - 215
+  - 152
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 233
+14\3ebccbb2-df90-4388-9650-cc1a81a15aba.png:
+  bbox: !!python/tuple
+  - 237
+  - 146
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 365
+  - 221
+14\402c714d-90e1-4bd7-971a-91cacc27737e.png:
+  bbox: !!python/tuple
+  - 267
+  - 154
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 228
+14\74e93ed3-d609-4fd5-b72e-251125decf78.png:
+  bbox: !!python/tuple
+  - 240
+  - 174
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 366
+  - 244
+14\b3b9199d-1184-465a-a66a-c9898ccf5130.png:
+  bbox: !!python/tuple
+  - 232
+  - 151
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 235
+14\b7f3b78b-54d2-4b9c-b51a-57cc9ed50966.png:
+  bbox: !!python/tuple
+  - 208
+  - 180
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 328
+  - 255
+14\c860e487-a4cf-4cea-99f8-920be03742bc.png:
+  bbox: !!python/tuple
+  - 225
+  - 185
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 332
+  - 260
+14\d2e7c5ce-cf78-4f67-9284-7141c9a533cf.png:
+  bbox: !!python/tuple
+  - 264
+  - 144
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 225
+14\e07ba720-2c8a-41e0-97d5-bd422c48a14b.png:
+  bbox: !!python/tuple
+  - 257
+  - 157
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 392
+  - 242
+15\03859ef6-df2e-4d2e-8e6b-e950d5bc157d.png:
+  bbox: !!python/tuple
+  - 305
+  - 123
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 428
+  - 195
+15\038d1787-393f-4325-a527-9e0f4ae1bb5c.png:
+  bbox: !!python/tuple
+  - 365
+  - 127
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 462
+  - 176
+15\0767fd55-f95f-47bc-a049-d54fd452f80e.png:
+  bbox: !!python/tuple
+  - 232
+  - 122
+  - 134
+  - 134
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 326
+  - 180
+15\55825ee3-1790-4cc6-a290-3e38942ccdef.png:
+  bbox: !!python/tuple
+  - 282
+  - 137
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 199
+15\633765d1-5174-497c-836d-ad986bc89356.png:
+  bbox: !!python/tuple
+  - 343
+  - 96
+  - 160
+  - 160
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 451
+  - 145
+15\6cefe87b-0358-4636-bad0-7908336d5cbd.png:
+  bbox: !!python/tuple
+  - 311
+  - 141
+  - 140
+  - 140
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 410
+  - 198
+15\826ec0d2-48a2-4458-b12a-399c417567c9.png:
+  bbox: !!python/tuple
+  - 280
+  - 98
+  - 145
+  - 145
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 156
+15\a0f12cc3-075a-496a-8164-1eadd696a1f1.png:
+  bbox: !!python/tuple
+  - 310
+  - 153
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 217
+15\a35b11b4-fbe8-458f-ab6c-b301509002b5.png:
+  bbox: !!python/tuple
+  - 331
+  - 124
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 446
+  - 190
+15\cb550b6e-2e27-42fb-8544-d6bba2b9b516.png:
+  bbox: !!python/tuple
+  - 248
+  - 89
+  - 133
+  - 133
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 341
+  - 147
+15\cf242afe-4353-4dae-b27f-22f5b59dd7fd.png:
+  bbox: !!python/tuple
+  - 285
+  - 144
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 204
+15\f99818f8-a72d-4903-bb4b-7250987a2e19.png:
+  bbox: !!python/tuple
+  - 275
+  - 100
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 371
+  - 156
+16\415fd23f-afff-424c-95e3-79b117024795.png:
+  bbox: !!python/tuple
+  - 98
+  - 44
+  - 93
+  - 93
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 161
+  - 80
+16\566c2a54-6332-4b91-ad96-5818820dfa51.png:
+  bbox: !!python/tuple
+  - 122
+  - 61
+  - 95
+  - 95
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 183
+  - 99
+16\65258d49-36c8-4f34-b625-4015aa9f4dc9.png:
+  bbox: !!python/tuple
+  - 114
+  - 43
+  - 86
+  - 86
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 173
+  - 75
+16\707f2702-cb23-4ff9-87a1-9781e305cd1b.png:
+  bbox: !!python/tuple
+  - 95
+  - 104
+  - 80
+  - 80
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 150
+  - 138
+16\89b06155-5345-4bab-95c5-9c6ab12b890f.png:
+  bbox: !!python/tuple
+  - 83
+  - 35
+  - 85
+  - 85
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 140
+  - 67
+16\9404c9b5-59ea-4eb2-8625-c0384bb8113c.png:
+  bbox: !!python/tuple
+  - 178
+  - 93
+  - 88
+  - 88
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 235
+  - 125
+16\c4fafa50-baeb-4c37-8663-23a4a759b57f.png:
+  bbox: !!python/tuple
+  - 116
+  - 39
+  - 82
+  - 82
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 173
+  - 75
+16\c6170fdd-62c9-4800-8be1-a8a4033f4c32.png:
+  bbox: !!python/tuple
+  - 97
+  - 114
+  - 79
+  - 79
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 150
+  - 144
+16\d172b014-bedb-4136-b106-4da2abc30f94.png:
+  bbox: !!python/tuple
+  - 119
+  - 70
+  - 93
+  - 93
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 182
+  - 106
+16\d897e404-09a9-483b-b9b8-c0f13c8d3d97.png:
+  bbox: !!python/tuple
+  - 168
+  - 31
+  - 92
+  - 92
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 229
+  - 71
+16\e717d71c-321b-4596-bdc2-ad214dddd5c3.png:
+  bbox: !!python/tuple
+  - 286
+  - 121
+  - 171
+  - 171
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 179
+16\ff738095-17f2-476c-9e18-8ff1163aef3e.png:
+  bbox: !!python/tuple
+  - 187
+  - 93
+  - 83
+  - 83
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 242
+  - 125
+17\21ccc119-8753-4e77-8863-be13e5c3e4a2.png:
+  bbox: !!python/tuple
+  - 334
+  - 107
+  - 143
+  - 143
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 427
+  - 157
+17\46c655b7-ad1d-4f6a-99a0-ca4dec6dc585.png:
+  bbox: !!python/tuple
+  - 339
+  - 116
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 435
+  - 163
+17\6875bdf5-b85b-4b4d-8ac0-5f0138f29ca1.png:
+  bbox: !!python/tuple
+  - 261
+  - 97
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 364
+  - 164
+17\714af4c8-5c65-43d5-804c-b1707dcdb49f.png:
+  bbox: !!python/tuple
+  - 335
+  - 127
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 432
+  - 183
+17\72216a8b-cc21-4e56-9d38-49125cf69dc0.png:
+  bbox: !!python/tuple
+  - 277
+  - 91
+  - 162
+  - 162
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 159
+17\8665bd21-cb53-463b-9d95-14586fc80401.png:
+  bbox: !!python/tuple
+  - 314
+  - 124
+  - 148
+  - 148
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 184
+17\9344c6b2-9e92-4941-9a7a-ecdf4463b54a.png:
+  bbox: !!python/tuple
+  - 300
+  - 113
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 174
+17\ec3854b1-f56c-4ad8-827b-67443c12f576.png:
+  bbox: !!python/tuple
+  - 322
+  - 116
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 160
+18\006cbcd6-a72e-4802-b160-af795cc6f749.png:
+  bbox: !!python/tuple
+  - 402
+  - 81
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 512
+  - 137
+18\0f48298e-a6f1-4501-8203-222f4e6dde41.png:
+  bbox: !!python/tuple
+  - 283
+  - 87
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 386
+  - 153
+18\113806c1-ae02-4577-9a6e-76c67451756d.png:
+  bbox: !!python/tuple
+  - 321
+  - 112
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 182
+18\1d13441e-9a81-4b20-8efd-30529f5bc368.png:
+  bbox: !!python/tuple
+  - 277
+  - 114
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 184
+18\428f4699-b588-4d2c-a324-df78ceae3aed.png:
+  bbox: !!python/tuple
+  - 282
+  - 83
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 381
+  - 151
+18\5d0b8e3a-cf52-4e1b-9c73-74dc211cdcba.png:
+  bbox: !!python/tuple
+  - 295
+  - 97
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 398
+  - 161
+18\6c4b8a86-1adc-4a47-bbea-b54046dfa0cf.png:
+  bbox: !!python/tuple
+  - 318
+  - 117
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 435
+  - 175
+18\b448711e-b49f-4c32-aa43-f155cf6f6645.png:
+  bbox: !!python/tuple
+  - 292
+  - 108
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 172
+18\bba84a90-ba3d-4596-8adf-0b5bea1f5f37.png:
+  bbox: !!python/tuple
+  - 248
+  - 91
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 145
+18\c540814f-c48c-4be0-9253-1113f37bddc0.png:
+  bbox: !!python/tuple
+  - 403
+  - 80
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 507
+  - 157
+18\ceaf34e2-ad03-40f8-9aea-c93001010411.png:
+  bbox: !!python/tuple
+  - 296
+  - 85
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 160
+18\ee240502-0c24-4847-bb31-e444f7f5775d.png:
+  bbox: !!python/tuple
+  - 402
+  - 79
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 515
+  - 138
+19\1c88b294-6906-4b12-a21e-0ee580f97483.png:
+  bbox: !!python/tuple
+  - 303
+  - 113
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 430
+  - 192
+19\29c6220f-a73c-4e9b-976d-0bfd8fa8265a.png:
+  bbox: !!python/tuple
+  - 264
+  - 138
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 218
+19\2b9d8e63-1ffc-4eaa-b422-dd46da58a737.png:
+  bbox: !!python/tuple
+  - 223
+  - 102
+  - 179
+  - 179
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 168
+19\6749314f-2c50-4e6e-9cda-4829da5938a2.png:
+  bbox: !!python/tuple
+  - 292
+  - 126
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 437
+  - 223
+19\8780ef2b-57eb-4261-94d9-e03e7719cd1a.png:
+  bbox: !!python/tuple
+  - 299
+  - 147
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 439
+  - 241
+19\8c7ec4ac-1029-4fa6-b22d-6479176504c1.png:
+  bbox: !!python/tuple
+  - 315
+  - 117
+  - 130
+  - 130
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 173
+19\954e6756-77f7-4869-ad0f-f5266b4b7c11.png:
+  bbox: !!python/tuple
+  - 298
+  - 144
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 433
+  - 235
+19\9853b979-17b4-43b2-b6b6-bea92e959423.png:
+  bbox: !!python/tuple
+  - 291
+  - 125
+  - 170
+  - 170
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 408
+  - 199
+19\a8f2fb9f-5fec-4d54-a60f-28ca7c9a41df.png:
+  bbox: !!python/tuple
+  - 296
+  - 127
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 437
+  - 207
+19\ca38c180-9da8-4dbf-914b-8c669bd10099.png:
+  bbox: !!python/tuple
+  - 290
+  - 127
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 423
+  - 198
+19\eaf6b290-eb6a-4b58-bf53-b3e7ee9f0212.png:
+  bbox: !!python/tuple
+  - 271
+  - 104
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 170
+1\5b5c21a8-ec92-45da-980b-6da9771c7ca9.png:
+  bbox: !!python/tuple
+  - 189
+  - 123
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 322
+  - 208
+1\7822d512-9eee-4853-b007-6f1d6d97cfd3.png:
+  bbox: !!python/tuple
+  - 331
+  - 105
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 455
+  - 173
+1\794ec064-cd6e-4071-8881-88773235f0ee.png:
+  bbox: !!python/tuple
+  - 130
+  - 157
+  - 200
+  - 200
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 262
+  - 232
+1\b8873839-df7d-43dc-a0b5-029966618e9c.png:
+  bbox: !!python/tuple
+  - 206
+  - 135
+  - 221
+  - 221
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 226
+1\d7d0b023-570d-45f2-a0a8-3c301f5e358f.png:
+  bbox: !!python/tuple
+  - 163
+  - 145
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 297
+  - 224
+1\e5f06e1c-1544-459e-a175-25f1a7b1d77f.png:
+  bbox: !!python/tuple
+  - 314
+  - 116
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 437
+  - 180
+1\e932b6de-4972-44a9-8a85-b419f9aa15a8.png:
+  bbox: !!python/tuple
+  - 143
+  - 157
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 290
+  - 245
+20\190d71c4-bace-4189-a941-259feaf35de4.png:
+  bbox: !!python/tuple
+  - 276
+  - 159
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 243
+20\2fc7c271-3f01-4bdd-b5de-992a4f6e6b8e.png:
+  bbox: !!python/tuple
+  - 229
+  - 135
+  - 238
+  - 238
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 231
+20\42fade53-c8b8-46f7-8964-a4f7fead6ea5.png:
+  bbox: !!python/tuple
+  - 292
+  - 164
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 240
+20\5507815a-2732-4cdf-bbdc-2355fb61e770.png:
+  bbox: !!python/tuple
+  - 240
+  - 155
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 240
+20\6250889a-bfcf-4026-8baf-8b1b4249c87d.png:
+  bbox: !!python/tuple
+  - 252
+  - 175
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 381
+  - 250
+20\770bd5d2-42f9-4b71-bf3b-3be4d618513d.png:
+  bbox: !!python/tuple
+  - 214
+  - 156
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 245
+20\9b5c31c1-815b-43f5-a27e-3a186ef1c277.png:
+  bbox: !!python/tuple
+  - 221
+  - 180
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 255
+20\ce10ae95-12fb-4d90-93cc-0e4e05c1b457.png:
+  bbox: !!python/tuple
+  - 251
+  - 179
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 254
+20\d751b2e5-49f6-4fa0-bfa9-4cf09743bace.png:
+  bbox: !!python/tuple
+  - 241
+  - 164
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 248
+20\d9ffeac3-14b2-4e1f-bf36-3be7491b8306.png:
+  bbox: !!python/tuple
+  - 211
+  - 148
+  - 206
+  - 206
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 229
+20\dc50cad8-9ba8-4f6c-aed0-1ea66e4bdc47.png:
+  bbox: !!python/tuple
+  - 336
+  - 163
+  - 174
+  - 174
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 450
+  - 233
+20\e9994772-803e-4181-86a7-e6293e02f05b.png:
+  bbox: !!python/tuple
+  - 202
+  - 165
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 237
+21\23346ac5-d48e-4d17-9eed-76f0794f61f8.png:
+  bbox: !!python/tuple
+  - 154
+  - 125
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 291
+  - 203
+21\2ed9ce9e-e98b-4454-942a-d5bd4a0d3e26.png:
+  bbox: !!python/tuple
+  - 215
+  - 101
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 183
+21\4a0260ee-61fe-4e74-bf4a-912a007b77b2.png:
+  bbox: !!python/tuple
+  - 242
+  - 120
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 381
+  - 202
+21\726ea9c9-9ca4-4ea6-8163-5e3a6b2e04b9.png:
+  bbox: !!python/tuple
+  - 128
+  - 156
+  - 258
+  - 258
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 277
+  - 257
+21\7ce50a38-d976-47e8-a34a-d768993478c2.png:
+  bbox: !!python/tuple
+  - 260
+  - 119
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 198
+21\80bc0f1b-5788-4b80-8f25-4e84acd04b72.png:
+  bbox: !!python/tuple
+  - 144
+  - 119
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 271
+  - 199
+21\93dd7956-28e2-4d1d-9369-2a97856cdfa7.png:
+  bbox: !!python/tuple
+  - 228
+  - 108
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 195
+21\99e98498-d95f-42ac-980b-bd126807dc5c.png:
+  bbox: !!python/tuple
+  - 150
+  - 123
+  - 269
+  - 269
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 326
+  - 229
+21\b2faf636-7434-4263-9aed-5c5b5c82e54b.png:
+  bbox: !!python/tuple
+  - 118
+  - 131
+  - 272
+  - 272
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 288
+  - 233
+21\e4fe4cde-af77-42e1-846a-33dfb08cbde5.png:
+  bbox: !!python/tuple
+  - 257
+  - 117
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 203
+21\e57185f7-8079-4ede-ae05-de6376c2afa7.png:
+  bbox: !!python/tuple
+  - 129
+  - 160
+  - 250
+  - 250
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 292
+  - 251
+21\e8962cb1-b0a3-453c-83ba-45137ff21a79.png:
+  bbox: !!python/tuple
+  - 191
+  - 194
+  - 261
+  - 261
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 293
+22\05eabc35-34d4-4ac9-9416-ea8ddac0fb20.png:
+  bbox: !!python/tuple
+  - 165
+  - 103
+  - 237
+  - 237
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 306
+  - 199
+22\080432c9-00ac-464d-bc03-d77ae0e8f7ec.png:
+  bbox: !!python/tuple
+  - 195
+  - 141
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 332
+  - 198
+22\0ebec312-c140-4f1b-9615-b5e6202d2e0c.png:
+  bbox: !!python/tuple
+  - 256
+  - 107
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 187
+22\271a929c-a87d-4194-bb5f-968d8f2ea29b.png:
+  bbox: !!python/tuple
+  - 232
+  - 106
+  - 195
+  - 195
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 177
+22\2ce672ae-1bdf-4ff4-b5b1-f2063df4cef6.png:
+  bbox: !!python/tuple
+  - 180
+  - 103
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 187
+22\43c4fdbf-0751-40e1-ab79-fef6b163173e.png:
+  bbox: !!python/tuple
+  - 97
+  - 97
+  - 235
+  - 235
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 246
+  - 189
+22\73f3bd5a-a474-4670-b2a9-f32d54b8716d.png:
+  bbox: !!python/tuple
+  - 193
+  - 111
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 185
+22\b545444e-6d79-45ee-bdae-1c8b1c3aa5b9.png:
+  bbox: !!python/tuple
+  - 216
+  - 125
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 205
+22\f9edd1d7-6586-43d4-ad05-a2a170c8f3a7.png:
+  bbox: !!python/tuple
+  - 177
+  - 129
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 310
+  - 191
+23\00684a71-bdb2-4155-b404-c3aa3e5c1d6e.png:
+  bbox: !!python/tuple
+  - 421
+  - 158
+  - 148
+  - 148
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 524
+  - 217
+23\0f624cc9-1221-429e-979a-1189a22efa9e.png:
+  bbox: !!python/tuple
+  - 450
+  - 138
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 585
+  - 227
+23\274593a0-2af5-4b1b-b176-bd3d71296fbb.png:
+  bbox: !!python/tuple
+  - 11
+  - 132
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 122
+  - 188
+23\3fdd6600-dee7-425d-8ec6-25ae47ee1c52.png:
+  bbox: !!python/tuple
+  - 361
+  - 159
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 502
+  - 245
+23\57e3db78-e239-46c5-97ce-98c67847c90d.png:
+  bbox: !!python/tuple
+  - 122
+  - 156
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 271
+  - 239
+23\59b4f5af-0628-40de-a533-b84db1a7e0da.png:
+  bbox: !!python/tuple
+  - 453
+  - 152
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 549
+  - 210
+23\762289af-688a-4b5e-992b-002ed3cd6098.png:
+  bbox: !!python/tuple
+  - 417
+  - 145
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 525
+  - 214
+23\7e5558f7-0688-4bdd-a256-b01424342cf5.png:
+  bbox: !!python/tuple
+  - 4
+  - 165
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 112
+  - 231
+23\8d226060-1726-4613-9cd4-4688fd9823c1.png:
+  bbox: !!python/tuple
+  - 61
+  - 128
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 177
+  - 192
+23\a1f0954d-2b8c-4c67-a64d-db6a94357a6d.png:
+  bbox: !!python/tuple
+  - 214
+  - 164
+  - 211
+  - 211
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 365
+  - 243
+23\a7eb9505-06e7-45fd-b03e-9fba9bb5eff6.png:
+  bbox: !!python/tuple
+  - 287
+  - 180
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 255
+23\bcb4f84f-9f8f-4add-8043-dca7bdee2d1e.png:
+  bbox: !!python/tuple
+  - 383
+  - 123
+  - 113
+  - 113
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 462
+  - 170
+24\1deb6a74-bd64-47fe-8810-0d8f4fc567c0.png:
+  bbox: !!python/tuple
+  - 136
+  - 127
+  - 244
+  - 244
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 296
+  - 220
+24\2712eb8c-9f61-4746-a267-e57962a4aefa.png:
+  bbox: !!python/tuple
+  - 166
+  - 130
+  - 248
+  - 248
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 222
+24\333c798f-5263-4ab2-9132-e1de98cdfd0e.png:
+  bbox: !!python/tuple
+  - 151
+  - 183
+  - 235
+  - 235
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 305
+  - 271
+24\546ec859-b199-44de-8a67-5c2b472a636d.png:
+  bbox: !!python/tuple
+  - 209
+  - 168
+  - 239
+  - 239
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 246
+24\6bdb1519-ba92-480f-84f1-de0a4dbfd1b3.png:
+  bbox: !!python/tuple
+  - 219
+  - 149
+  - 170
+  - 170
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 208
+24\94b6a558-0632-4f7a-9ceb-9bcb2425e570.png:
+  bbox: !!python/tuple
+  - 214
+  - 147
+  - 169
+  - 169
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 325
+  - 213
+24\a84734bd-960c-45d2-85ac-9bec5e54d0c3.png:
+  bbox: !!python/tuple
+  - 241
+  - 146
+  - 174
+  - 174
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 346
+  - 211
+24\e16a05ce-ac09-45ac-a68e-bdd61aee1c7e.png:
+  bbox: !!python/tuple
+  - 256
+  - 157
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 221
+24\ef0a089b-96d5-44bf-9ddb-5ca296346cf9.png:
+  bbox: !!python/tuple
+  - 140
+  - 135
+  - 240
+  - 240
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 297
+  - 223
+24\efdb82cb-95e0-4684-b9d0-0714e8e72089.png:
+  bbox: !!python/tuple
+  - 68
+  - 178
+  - 245
+  - 245
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 228
+  - 265
+24\fd13c08a-fd6c-49bd-a7a7-b51aaafdbae3.png:
+  bbox: !!python/tuple
+  - 226
+  - 127
+  - 230
+  - 230
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 218
+25\0c673882-5d5c-4c23-90ee-11b88be4988f.png:
+  bbox: !!python/tuple
+  - 308
+  - 149
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 433
+  - 224
+25\2b6f5a3a-b174-4812-8d45-908d7ce4e6d9.png:
+  bbox: !!python/tuple
+  - 192
+  - 123
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 333
+  - 201
+25\33b09ed0-a586-4f14-ac31-424cce3d0dfc.png:
+  bbox: !!python/tuple
+  - 151
+  - 149
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 290
+  - 227
+25\35df172e-45fd-42d2-8213-f864b6c3c64a.png:
+  bbox: !!python/tuple
+  - 143
+  - 120
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 293
+  - 214
+25\3fef8405-36a5-4b88-a40d-ec91cf16e93c.png:
+  bbox: !!python/tuple
+  - 271
+  - 148
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 416
+  - 223
+25\6553117b-ce61-434c-8df4-6f1cd5da3462.png:
+  bbox: !!python/tuple
+  - 214
+  - 137
+  - 220
+  - 220
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 223
+25\7af827f6-2bf7-4d71-8605-e15ac6e074bc.png:
+  bbox: !!python/tuple
+  - 193
+  - 139
+  - 220
+  - 220
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 221
+25\8788cbe7-3196-48ec-b9b9-5f53a6efc995.png:
+  bbox: !!python/tuple
+  - 264
+  - 153
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 410
+  - 235
+25\c26b8e71-d0ac-4350-af8e-18d1932ff667.png:
+  bbox: !!python/tuple
+  - 287
+  - 144
+  - 168
+  - 168
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 206
+25\d5228647-4678-4a00-9a35-dd1781709fb5.png:
+  bbox: !!python/tuple
+  - 255
+  - 152
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 218
+25\d540a108-a8ce-47a5-a890-75ec1bd073cb.png:
+  bbox: !!python/tuple
+  - 229
+  - 135
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 221
+25\d58b21ef-b035-4b34-adff-bc958bd8e2a2.png:
+  bbox: !!python/tuple
+  - 253
+  - 147
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 238
+26\1301d3ab-e149-4fbc-a2ed-ca0e65ff8066.png:
+  bbox: !!python/tuple
+  - 291
+  - 91
+  - 170
+  - 170
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 158
+26\30b4e3c3-b53a-4152-bf26-e1cca1f80ed7.png:
+  bbox: !!python/tuple
+  - 252
+  - 93
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 162
+26\40a548e3-92a5-450d-bd54-392839a395e4.png:
+  bbox: !!python/tuple
+  - 297
+  - 80
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 148
+26\41596677-c782-4ae7-8e1b-77808c7f887a.png:
+  bbox: !!python/tuple
+  - 332
+  - 95
+  - 160
+  - 160
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 444
+  - 173
+26\65d8aea3-584a-4f29-8a51-531086771011.png:
+  bbox: !!python/tuple
+  - 282
+  - 80
+  - 181
+  - 181
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 154
+26\68945d22-d86b-4843-ac2f-0983e294e24f.png:
+  bbox: !!python/tuple
+  - 290
+  - 100
+  - 176
+  - 176
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 168
+26\89161cca-05ae-4629-8def-99067be68d45.png:
+  bbox: !!python/tuple
+  - 321
+  - 97
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 447
+  - 177
+26\9e293eb6-0825-4a51-adb0-0727f0e66f93.png:
+  bbox: !!python/tuple
+  - 306
+  - 85
+  - 147
+  - 147
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 151
+26\b1a252a3-d22c-4496-8cfa-5fe04be19af4.png:
+  bbox: !!python/tuple
+  - 299
+  - 76
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 431
+  - 161
+26\c06ecaca-904d-4a51-9b0f-2aebeecd7214.png:
+  bbox: !!python/tuple
+  - 298
+  - 98
+  - 173
+  - 173
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 167
+26\d938f15f-eece-4ffe-b864-3a8dab7fa206.png:
+  bbox: !!python/tuple
+  - 293
+  - 93
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 164
+26\e77824cf-cc6d-4d75-85ee-d0bdf6e356a2.png:
+  bbox: !!python/tuple
+  - 328
+  - 70
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 459
+  - 151
+27\15a71da0-86ad-415f-a00a-6619ab012d3f.png:
+  bbox: !!python/tuple
+  - 175
+  - 157
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 248
+27\27a08caf-5ba4-49bd-ad90-2f905bfe9d30.png:
+  bbox: !!python/tuple
+  - 54
+  - 193
+  - 174
+  - 174
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 177
+  - 264
+27\2ebf3557-a5e1-4184-b987-3861fb54d285.png:
+  bbox: !!python/tuple
+  - 63
+  - 209
+  - 99
+  - 99
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 130
+  - 253
+27\30de9de9-7384-433e-a87b-d9af55c37615.png:
+  bbox: !!python/tuple
+  - 48
+  - 232
+  - 121
+  - 121
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 128
+  - 286
+27\3c069616-08ac-4f62-8610-287ecb277ccd.png:
+  bbox: !!python/tuple
+  - 96
+  - 213
+  - 99
+  - 99
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 171
+  - 252
+27\8b924cc4-ebb0-4b29-aae2-9e203afdacf0.png:
+  bbox: !!python/tuple
+  - 57
+  - 233
+  - 116
+  - 116
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 139
+  - 279
+27\9743c05b-1250-4299-b357-54ddc520b3cc.png:
+  bbox: !!python/tuple
+  - 81
+  - 218
+  - 115
+  - 115
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 162
+  - 265
+27\af8cd96e-1b4b-4c6a-85d4-28bae6689d63.png:
+  bbox: !!python/tuple
+  - 82
+  - 209
+  - 97
+  - 97
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 153
+  - 254
+27\ce1a12be-6824-41a2-9fea-dc9181d5b38c.png:
+  bbox: !!python/tuple
+  - 34
+  - 208
+  - 98
+  - 98
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 107
+  - 248
+27\e2cfabfa-5940-4fa8-b719-e5b0826fdb91.png:
+  bbox: !!python/tuple
+  - 98
+  - 220
+  - 116
+  - 116
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 179
+  - 268
+27\f2f02dba-7a9b-4e37-be73-7e52dc0de216.png:
+  bbox: !!python/tuple
+  - 77
+  - 204
+  - 106
+  - 106
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 146
+  - 247
+27\f8313722-8520-4299-8d84-32e26fdab8ba.png:
+  bbox: !!python/tuple
+  - 42
+  - 208
+  - 95
+  - 95
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 113
+  - 246
+28\03ea2b6f-ac4c-4ce1-98b9-e7dee92fc608.png:
+  bbox: !!python/tuple
+  - 257
+  - 98
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 161
+28\1481324b-3aa4-49b2-9620-a6b7f82e141f.png:
+  bbox: !!python/tuple
+  - 277
+  - 89
+  - 166
+  - 166
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 402
+  - 167
+28\1b0ae3e3-bbed-44ef-b6d0-6ab90012f1e0.png:
+  bbox: !!python/tuple
+  - 207
+  - 44
+  - 79
+  - 79
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 260
+  - 80
+28\35d3dde7-e429-4a59-a106-441f77912621.png:
+  bbox: !!python/tuple
+  - 121
+  - 32
+  - 76
+  - 76
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 174
+  - 60
+28\6aef8a55-fab7-4ba7-a607-1880ec5eadeb.png:
+  bbox: !!python/tuple
+  - 332
+  - 107
+  - 135
+  - 135
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 424
+  - 165
+28\b17eab18-1c92-4c10-a6cd-e8326e9b3172.png:
+  bbox: !!python/tuple
+  - 293
+  - 93
+  - 173
+  - 173
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 170
+28\cd7e4980-b5f7-4aed-b526-77df9f9cfd57.png:
+  bbox: !!python/tuple
+  - 290
+  - 104
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 183
+28\cdb1b724-3375-4ded-9c37-75352b5835db.png:
+  bbox: !!python/tuple
+  - 308
+  - 103
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 171
+28\e4ab0772-dabf-49a5-9fe4-5530e5040ab4.png:
+  bbox: !!python/tuple
+  - 316
+  - 85
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 143
+28\ec6d8a58-10de-4529-bfe6-48355f76403c.png:
+  bbox: !!python/tuple
+  - 304
+  - 93
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 405
+  - 157
+28\f2cd247a-8dfe-4a67-9a05-d426e7f68049.png:
+  bbox: !!python/tuple
+  - 253
+  - 99
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 152
+29\1be3436f-bb60-414c-9d59-ccbf47fae434.png:
+  bbox: !!python/tuple
+  - 149
+  - 165
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 287
+  - 233
+29\1c3a9d31-c0be-4d7a-a317-6bae4cf77251.png:
+  bbox: !!python/tuple
+  - 226
+  - 132
+  - 235
+  - 235
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 380
+  - 214
+29\7303e3ee-5728-40db-8e03-dea4497d15c0.png:
+  bbox: !!python/tuple
+  - 146
+  - 168
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 286
+  - 254
+29\74613269-2d89-4c15-bd83-b96642250a22.png:
+  bbox: !!python/tuple
+  - 130
+  - 143
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 285
+  - 230
+29\8ac7d744-3044-44fc-8777-b9b637d0f5c0.png:
+  bbox: !!python/tuple
+  - 64
+  - 176
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 205
+  - 265
+29\8c2953e8-7e53-462c-aea5-bea690cf0b6d.png:
+  bbox: !!python/tuple
+  - 184
+  - 123
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 333
+  - 218
+29\8db1ecdc-4c0c-4896-a261-ba8f64410ccf.png:
+  bbox: !!python/tuple
+  - 281
+  - 152
+  - 232
+  - 232
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 435
+  - 252
+29\99d8dc2f-1cef-4ef9-acd4-da24e0e22633.png:
+  bbox: !!python/tuple
+  - 129
+  - 141
+  - 240
+  - 240
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 289
+  - 248
+29\b1895329-92c0-4fda-9639-1cf4439ed883.png:
+  bbox: !!python/tuple
+  - 99
+  - 165
+  - 206
+  - 206
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 236
+  - 246
+29\c154ac43-9e8e-4df2-b7e8-e71591499591.png:
+  bbox: !!python/tuple
+  - 165
+  - 116
+  - 238
+  - 238
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 204
+29\e7bbd73f-2738-45ee-9fee-f39c8e51fb1e.png:
+  bbox: !!python/tuple
+  - 92
+  - 172
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 234
+  - 256
+29\f86e00fd-569b-4b3d-8c04-4aa1d6b779ae.png:
+  bbox: !!python/tuple
+  - 189
+  - 138
+  - 236
+  - 236
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 219
+2\110319c2-1aa4-40f8-8747-597b9124b695.png:
+  bbox: !!python/tuple
+  - 315
+  - 130
+  - 122
+  - 122
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 178
+2\3326d6fd-dbc8-47fb-8836-78ed7fce932a.png:
+  bbox: !!python/tuple
+  - 275
+  - 120
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 175
+2\369f61a0-210b-42e4-bdec-43557da385c1.png:
+  bbox: !!python/tuple
+  - 278
+  - 132
+  - 105
+  - 105
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 349
+  - 168
+2\3f7e95ba-5cc2-4f49-a324-d49b42b60a6f.png:
+  bbox: !!python/tuple
+  - 292
+  - 129
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 185
+2\5747be6e-0caf-4efa-bf06-794a9ee375dc.png:
+  bbox: !!python/tuple
+  - 353
+  - 129
+  - 116
+  - 116
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 437
+  - 173
+2\576fbb90-4945-4075-91f0-5237cb8e350c.png:
+  bbox: !!python/tuple
+  - 293
+  - 124
+  - 123
+  - 123
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 386
+  - 170
+2\7a83b06f-2039-4ff4-8d67-5e72af8dd99e.png:
+  bbox: !!python/tuple
+  - 255
+  - 129
+  - 103
+  - 103
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 330
+  - 163
+2\7ded9702-49f0-4c76-9158-c96d8cd9699f.png:
+  bbox: !!python/tuple
+  - 308
+  - 135
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 197
+2\9d7bcb05-35ea-47fe-be3b-c11291912afd.png:
+  bbox: !!python/tuple
+  - 299
+  - 148
+  - 139
+  - 139
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 200
+2\a42beb15-60bb-46b5-8a0a-4d1be06a39bc.png:
+  bbox: !!python/tuple
+  - 285
+  - 130
+  - 126
+  - 126
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 178
+2\d9366cb8-3ce2-4169-bec5-7d209fdb30eb.png:
+  bbox: !!python/tuple
+  - 263
+  - 121
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 362
+  - 179
+2\e246a0ca-d5b7-4671-a318-ba4d36f36b6f.png:
+  bbox: !!python/tuple
+  - 283
+  - 133
+  - 105
+  - 105
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 167
+30\06d8849b-9e74-4307-977c-dfaf9ae7a720.png:
+  bbox: !!python/tuple
+  - 60
+  - 125
+  - 70
+  - 70
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 107
+  - 153
+30\1e1f97af-841d-426e-a0f8-3dd1d668a4fb.png:
+  bbox: !!python/tuple
+  - 40
+  - 118
+  - 104
+  - 104
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 106
+  - 156
+30\3b093494-025e-4876-9090-f3859d4ca864.png:
+  bbox: !!python/tuple
+  - 19
+  - 118
+  - 99
+  - 99
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 82
+  - 156
+30\44cf6cf0-9183-4244-9cb1-c730bdb66080.png:
+  bbox: !!python/tuple
+  - 38
+  - 119
+  - 101
+  - 101
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 109
+  - 157
+30\4ac2e5ce-f0e2-4224-a53b-64d6c426ba29.png:
+  bbox: !!python/tuple
+  - 54
+  - 121
+  - 96
+  - 96
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 119
+  - 159
+30\6c002212-ba73-4153-b7be-3ad90e996745.png:
+  bbox: !!python/tuple
+  - 44
+  - 119
+  - 104
+  - 104
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 113
+  - 149
+30\b9bf9a36-ecd2-4902-89fd-24a350f4f6a2.png:
+  bbox: !!python/tuple
+  - 31
+  - 124
+  - 70
+  - 70
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 78
+  - 152
+30\bc8a46a5-fd30-4ef6-b738-bc5eafaff84a.png:
+  bbox: !!python/tuple
+  - 23
+  - 117
+  - 102
+  - 102
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 94
+  - 152
+30\ceb0484c-9d77-4435-9d70-1be56b9044eb.png:
+  bbox: !!python/tuple
+  - 26
+  - 120
+  - 105
+  - 105
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 95
+  - 161
+30\ddbf25e8-0a07-49ed-b4ac-21d0092da9ba.png:
+  bbox: !!python/tuple
+  - 43
+  - 118
+  - 94
+  - 94
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 106
+  - 158
+31\04fe2006-38ca-4cbd-b309-6a267e956016.png:
+  bbox: !!python/tuple
+  - 258
+  - 131
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 212
+31\06682d95-e287-4aae-9a78-09f3be3bb3e2.png:
+  bbox: !!python/tuple
+  - 162
+  - 179
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 293
+  - 256
+31\0cfab73f-b6ee-4842-b548-40faad348bef.png:
+  bbox: !!python/tuple
+  - 149
+  - 189
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 286
+  - 255
+31\167aa793-52ac-4667-8700-f0e688ae020a.png:
+  bbox: !!python/tuple
+  - 179
+  - 89
+  - 246
+  - 246
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 329
+  - 188
+31\2221b529-4965-49c0-b28d-d5ae7c0d2334.png:
+  bbox: !!python/tuple
+  - 206
+  - 153
+  - 181
+  - 181
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 218
+31\31d91c26-8c48-4e06-9a64-d90b2f14024d.png:
+  bbox: !!python/tuple
+  - 218
+  - 139
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 217
+31\34b405d9-60c5-46f5-a414-ff12c6acf3b0.png:
+  bbox: !!python/tuple
+  - 204
+  - 155
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 231
+31\825c009a-a211-4a55-950e-beb069313c06.png:
+  bbox: !!python/tuple
+  - 97
+  - 171
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 245
+  - 249
+31\b50d8cea-5270-47f6-bdca-07b4126bade5.png:
+  bbox: !!python/tuple
+  - 103
+  - 178
+  - 232
+  - 232
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 265
+  - 264
+31\d084b6c0-b8fd-4577-91cc-cb5277fb3db6.png:
+  bbox: !!python/tuple
+  - 119
+  - 169
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 274
+  - 249
+31\d8939d3c-0419-4358-9927-6bfc1f3a5938.png:
+  bbox: !!python/tuple
+  - 236
+  - 143
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 218
+32\1031581a-06ce-4af9-a5ab-402d6c2594f2.png:
+  bbox: !!python/tuple
+  - 270
+  - 77
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 134
+32\180c4795-9718-4005-afbe-b3e886f1ff65.png:
+  bbox: !!python/tuple
+  - 270
+  - 94
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 164
+32\19adfd08-4b87-455b-a073-dd66c67406e5.png:
+  bbox: !!python/tuple
+  - 283
+  - 123
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 389
+  - 153
+32\37dddf11-9319-4724-989b-4e50d393a401.png:
+  bbox: !!python/tuple
+  - 286
+  - 112
+  - 145
+  - 145
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 396
+  - 165
+32\462c4760-9075-4df7-b41f-2ec3ab25808f.png:
+  bbox: !!python/tuple
+  - 281
+  - 97
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 163
+32\61637dad-0038-42f2-93bf-13abd17f3afb.png:
+  bbox: !!python/tuple
+  - 277
+  - 126
+  - 143
+  - 143
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 162
+32\6848c331-2ce3-40af-8c0d-23897217062c.png:
+  bbox: !!python/tuple
+  - 272
+  - 97
+  - 148
+  - 148
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 375
+  - 151
+32\82c9cad9-a579-46a6-b106-571329f7d0a8.png:
+  bbox: !!python/tuple
+  - 216
+  - 114
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 148
+32\9f6d0343-3fb9-442f-b911-f686c36a43be.png:
+  bbox: !!python/tuple
+  - 252
+  - 78
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 350
+  - 140
+32\b46c188b-e05f-4aea-af5d-c91a0c4b5ef9.png:
+  bbox: !!python/tuple
+  - 250
+  - 94
+  - 166
+  - 166
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 155
+32\fa1de169-d2f9-48ad-b156-ba9cb14a9325.png:
+  bbox: !!python/tuple
+  - 272
+  - 99
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 375
+  - 151
+33\1659bf73-eca5-4a75-b4fe-b702900f6de1.png:
+  bbox: !!python/tuple
+  - 210
+  - 188
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 269
+33\1e72469d-3c67-4a91-bdc9-134f2f1d8e62.png:
+  bbox: !!python/tuple
+  - 171
+  - 166
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 238
+33\3c9c0e5d-5a85-4468-a0dc-69688f1f1813.png:
+  bbox: !!python/tuple
+  - 145
+  - 195
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 292
+  - 269
+33\45c6bae1-d62f-4aeb-afd4-cd587a8b66b7.png:
+  bbox: !!python/tuple
+  - 147
+  - 172
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 296
+  - 254
+33\60c6fde6-354d-4345-93aa-ebd9823b5c31.png:
+  bbox: !!python/tuple
+  - 160
+  - 149
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 312
+  - 251
+33\8c106cd4-a4ff-4fd7-acaf-6afbd24cf15d.png:
+  bbox: !!python/tuple
+  - 170
+  - 176
+  - 241
+  - 241
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 263
+33\921611cc-0be4-42bb-bb76-4b8bfe4e0d3b.png:
+  bbox: !!python/tuple
+  - 162
+  - 182
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 308
+  - 262
+33\9ece42c9-73f5-47ac-9d8d-006a9ab77fa5.png:
+  bbox: !!python/tuple
+  - 167
+  - 147
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 231
+33\bff81ffa-43e4-412b-8fe6-e6aecda3a7f9.png:
+  bbox: !!python/tuple
+  - 146
+  - 181
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 294
+  - 265
+33\d930d936-2296-4276-a05c-f2550238e0df.png:
+  bbox: !!python/tuple
+  - 167
+  - 169
+  - 227
+  - 227
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 257
+33\e5f17a38-e83c-45c6-86cb-ea34e92d8715.png:
+  bbox: !!python/tuple
+  - 174
+  - 161
+  - 230
+  - 230
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 263
+33\f9101e16-6e75-49dd-b01a-ff74df66f06e.png:
+  bbox: !!python/tuple
+  - 190
+  - 171
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 251
+34\04b77d17-8d2d-410d-9a56-6c8d8d962132.png:
+  bbox: !!python/tuple
+  - 298
+  - 99
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 156
+34\0d84a99d-6eb1-462b-8589-1a27dd0a6a15.png:
+  bbox: !!python/tuple
+  - 292
+  - 113
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 177
+34\45c4bdb5-aa2a-44ae-8867-4fdc04996cc8.png:
+  bbox: !!python/tuple
+  - 351
+  - 100
+  - 142
+  - 142
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 441
+  - 153
+34\53c69c4b-2ae8-451e-9fb9-3f0b346b5edc.png:
+  bbox: !!python/tuple
+  - 226
+  - 110
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 170
+34\766d696b-ce87-4610-9c8b-081a9930d269.png:
+  bbox: !!python/tuple
+  - 257
+  - 97
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 165
+34\76912828-6d73-4100-bbcf-bf0220e95812.png:
+  bbox: !!python/tuple
+  - 251
+  - 107
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 159
+34\8e10d69a-cd94-4a83-b520-ad93d8629edc.png:
+  bbox: !!python/tuple
+  - 205
+  - 123
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 187
+34\e78cf32c-133d-495b-89bd-1e3f90cf03cb.png:
+  bbox: !!python/tuple
+  - 256
+  - 101
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 157
+35\195a90b8-05aa-44d4-bc7b-c7dc833d3f55.png:
+  bbox: !!python/tuple
+  - 160
+  - 140
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 319
+  - 237
+35\1e879573-345f-4342-9f2f-f763fa94918d.png:
+  bbox: !!python/tuple
+  - 304
+  - 143
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 444
+  - 236
+35\38f41026-30db-43de-8734-ebcca2906313.png:
+  bbox: !!python/tuple
+  - 201
+  - 128
+  - 234
+  - 234
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 229
+35\558a7202-47f0-41be-b8df-490c1dbc9b93.png:
+  bbox: !!python/tuple
+  - 210
+  - 168
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 329
+  - 230
+35\7618f764-deef-4546-a1dc-968ea5c02289.png:
+  bbox: !!python/tuple
+  - 198
+  - 119
+  - 238
+  - 238
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 220
+35\7fd17b9c-3f03-4f2e-a557-c4010d7a4259.png:
+  bbox: !!python/tuple
+  - 252
+  - 123
+  - 227
+  - 227
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 405
+  - 218
+35\ad1d8586-82cb-4551-b683-7648dffcc255.png:
+  bbox: !!python/tuple
+  - 239
+  - 153
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 252
+35\b5dfe612-c9ed-48ff-a1c5-fcc9192ed802.png:
+  bbox: !!python/tuple
+  - 215
+  - 145
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 253
+35\b7c21465-6b46-4ed8-85a9-efa45dc2212b.png:
+  bbox: !!python/tuple
+  - 163
+  - 143
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 311
+  - 233
+35\d6884c97-2680-47f5-b4a3-e6f5793e3ee8.png:
+  bbox: !!python/tuple
+  - 264
+  - 140
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 230
+35\fe2bb090-73aa-46cc-9f8a-8da071cc979d.png:
+  bbox: !!python/tuple
+  - 178
+  - 111
+  - 236
+  - 236
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 338
+  - 207
+36\114314c8-1db7-47a3-ac87-a0c0dbc7b30d.png:
+  bbox: !!python/tuple
+  - 286
+  - 88
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 152
+36\1eef3dd1-2c25-434b-b814-de847c1b5e5e.png:
+  bbox: !!python/tuple
+  - 279
+  - 85
+  - 131
+  - 131
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 139
+36\2ab4377f-4245-47b1-9ad0-e849a60b1137.png:
+  bbox: !!python/tuple
+  - 289
+  - 79
+  - 132
+  - 132
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 137
+36\413ca417-489f-4be9-b302-a772f30bff4f.png:
+  bbox: !!python/tuple
+  - 286
+  - 80
+  - 130
+  - 130
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 138
+36\8c4fc461-4058-457e-b9e7-830ef42cdb7f.png:
+  bbox: !!python/tuple
+  - 267
+  - 83
+  - 125
+  - 125
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 135
+36\be0c02ac-fd4b-42fc-ab68-985067b72943.png:
+  bbox: !!python/tuple
+  - 303
+  - 80
+  - 138
+  - 138
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 146
+36\c6f0cfee-cb7b-42fe-a465-eeb54d0c2a96.png:
+  bbox: !!python/tuple
+  - 288
+  - 95
+  - 135
+  - 135
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 157
+36\cddabae9-f7e9-4eea-8d16-13e0b3e3902f.png:
+  bbox: !!python/tuple
+  - 276
+  - 75
+  - 126
+  - 126
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 126
+36\d6435544-dd32-4f03-abd3-25c46360ee97.png:
+  bbox: !!python/tuple
+  - 289
+  - 89
+  - 120
+  - 120
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 131
+37\0d392929-4eff-4643-a9df-4c6307e986c1.png:
+  bbox: !!python/tuple
+  - 184
+  - 147
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 315
+  - 225
+37\0e8b1ef5-09e4-4cdb-915c-f041296b4999.png:
+  bbox: !!python/tuple
+  - 156
+  - 156
+  - 174
+  - 174
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 271
+  - 227
+37\0eeb0e81-c974-4547-a179-c76708572de6.png:
+  bbox: !!python/tuple
+  - 76
+  - 118
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 217
+  - 198
+37\514c5952-3f15-46c8-bab8-3fd4a5cf4fee.png:
+  bbox: !!python/tuple
+  - 200
+  - 123
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 195
+37\615fa1c9-31fe-4122-9fb4-f426a9b3f07f.png:
+  bbox: !!python/tuple
+  - 192
+  - 159
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 243
+37\738323bc-5547-4167-bf04-f5dd3d42d727.png:
+  bbox: !!python/tuple
+  - 197
+  - 152
+  - 189
+  - 189
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 325
+  - 228
+37\7fd53a83-0085-4ee2-b253-a31a3feb91bd.png:
+  bbox: !!python/tuple
+  - 142
+  - 150
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 271
+  - 225
+37\892f83f1-ce88-429d-ae2b-ec6dbc33f07b.png:
+  bbox: !!python/tuple
+  - 177
+  - 130
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 208
+37\94a439f4-4529-4782-9674-27f5376fb4b5.png:
+  bbox: !!python/tuple
+  - 81
+  - 158
+  - 290
+  - 290
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 267
+  - 259
+37\b65b3ad8-5527-4f79-8fdf-89cd3ff92d17.png:
+  bbox: !!python/tuple
+  - 139
+  - 165
+  - 220
+  - 220
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 279
+  - 238
+37\d3b3ebae-bbfb-4a9a-a2c5-3d1e7f4400a6.png:
+  bbox: !!python/tuple
+  - 191
+  - 150
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 330
+  - 233
+37\f3e5a4a3-668e-4ded-8552-2cf8afe7b6da.png:
+  bbox: !!python/tuple
+  - 202
+  - 128
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 201
+38\114a5d4f-c722-4f12-960b-3cfefaf13470.png:
+  bbox: !!python/tuple
+  - 149
+  - 164
+  - 228
+  - 228
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 316
+  - 245
+38\1dda1334-f3c9-4c5a-aef4-ab7a6bf9f435.png:
+  bbox: !!python/tuple
+  - 214
+  - 170
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 257
+38\3a4c6c1d-6443-45b5-9f97-41ae4ca6138b.png:
+  bbox: !!python/tuple
+  - 195
+  - 142
+  - 270
+  - 270
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 240
+38\43615945-9ab0-4aea-b73a-0e0f4ed0205f.png:
+  bbox: !!python/tuple
+  - 168
+  - 164
+  - 252
+  - 252
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 332
+  - 259
+38\629563ca-e6c4-46f3-aa0e-1f4510b607c2.png:
+  bbox: !!python/tuple
+  - 203
+  - 148
+  - 259
+  - 259
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 381
+  - 258
+38\786ea5cd-c90f-4b64-a5b5-8797aa20c4b8.png:
+  bbox: !!python/tuple
+  - 226
+  - 178
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 252
+38\88df8934-5fff-4a96-989f-79d6ba9aa372.png:
+  bbox: !!python/tuple
+  - 256
+  - 154
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 232
+38\bbe13688-7560-410d-8b22-f58ff3582ef5.png:
+  bbox: !!python/tuple
+  - 217
+  - 158
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 234
+38\d5672162-7c16-4058-9bb0-b15fdc018e23.png:
+  bbox: !!python/tuple
+  - 165
+  - 157
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 315
+  - 245
+38\f63f1a82-949e-4365-9314-183aae4aa9af.png:
+  bbox: !!python/tuple
+  - 155
+  - 180
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 300
+  - 273
+38\f6ec5a48-38cb-429f-b153-e39a8b48a951.png:
+  bbox: !!python/tuple
+  - 140
+  - 181
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 293
+  - 262
+39\1d432c80-027a-401a-a524-8f1f5e71acf0.png:
+  bbox: !!python/tuple
+  - 148
+  - 121
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 285
+  - 201
+39\2aa13de0-8805-4c73-a88d-c679b0d943a0.png:
+  bbox: !!python/tuple
+  - 193
+  - 142
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 314
+  - 211
+39\2eaf1e01-c0f5-415c-8789-fd77e865ecb4.png:
+  bbox: !!python/tuple
+  - 225
+  - 190
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 298
+39\2fb39602-c085-48cc-9ea0-9aab0ccac2a6.png:
+  bbox: !!python/tuple
+  - 171
+  - 150
+  - 227
+  - 227
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 329
+  - 230
+39\722a831e-a974-48d7-8bed-620c78c8d45b.png:
+  bbox: !!python/tuple
+  - 231
+  - 144
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 227
+39\7a211d1f-d392-4bf7-9e44-7be00cc6fa0c.png:
+  bbox: !!python/tuple
+  - 54
+  - 165
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 188
+  - 236
+39\7d6fe6a4-13a4-4ba6-861d-2de63e1e41c6.png:
+  bbox: !!python/tuple
+  - 311
+  - 121
+  - 171
+  - 171
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 428
+  - 187
+39\862b3479-aec9-42e2-8b6d-6576c358d6ca.png:
+  bbox: !!python/tuple
+  - 236
+  - 140
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 216
+39\8f02b92b-c16f-4e18-a616-ad9baf65c240.png:
+  bbox: !!python/tuple
+  - 247
+  - 147
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 229
+39\90205f1f-22ae-4fe0-8e68-0292d9bed456.png:
+  bbox: !!python/tuple
+  - 312
+  - 118
+  - 178
+  - 178
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 432
+  - 186
+39\910b869d-23f2-4e7c-9c37-fdb0e2d75058.png:
+  bbox: !!python/tuple
+  - 139
+  - 187
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 282
+  - 273
+39\a8897b03-a0c0-4f6b-a0c1-ac723f4eab68.png:
+  bbox: !!python/tuple
+  - 195
+  - 119
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 336
+  - 200
+39\abb37574-d571-4f6f-ad89-177950933ec5.png:
+  bbox: !!python/tuple
+  - 185
+  - 121
+  - 255
+  - 255
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 233
+39\b050be10-ae5b-4c96-8697-806d56957f1b.png:
+  bbox: !!python/tuple
+  - 123
+  - 128
+  - 233
+  - 233
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 277
+  - 207
+39\ee3412ce-2098-4ed8-9745-3ccaf497a6ab.png:
+  bbox: !!python/tuple
+  - 227
+  - 143
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 366
+  - 226
+39\f353e5d9-36b1-4cdc-8b0a-9bca029c8732.png:
+  bbox: !!python/tuple
+  - 162
+  - 138
+  - 281
+  - 281
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 344
+  - 243
+39\f7d50ed2-3dcf-45af-bf0a-064f6daeea03.png:
+  bbox: !!python/tuple
+  - 74
+  - 131
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 212
+  - 213
+3\0156b887-59b2-4818-8844-8bb757ff8ea8.png:
+  bbox: !!python/tuple
+  - 337
+  - 99
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 427
+  - 152
+3\1da3f408-0c73-42ab-a913-d47c484ebf41.png:
+  bbox: !!python/tuple
+  - 300
+  - 88
+  - 132
+  - 132
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 141
+3\40d58e9f-34a1-4b20-98d4-cf5a8a42a6ad.png:
+  bbox: !!python/tuple
+  - 329
+  - 89
+  - 140
+  - 140
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 424
+  - 152
+3\5d632f5b-353d-4822-b406-289ef3127dbd.png:
+  bbox: !!python/tuple
+  - 322
+  - 88
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 139
+3\73cfc43c-f3bf-4857-824d-bffeb6b809ee.png:
+  bbox: !!python/tuple
+  - 324
+  - 76
+  - 127
+  - 127
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 121
+3\9467ec1f-8377-4610-b6fa-f7ece20819af.png:
+  bbox: !!python/tuple
+  - 304
+  - 100
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 152
+3\a6485ed6-5cc2-4f85-bea8-5522f1ddfc96.png:
+  bbox: !!python/tuple
+  - 264
+  - 71
+  - 129
+  - 129
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 124
+3\ca633d95-657d-41ef-b7c6-f92ff83c2627.png:
+  bbox: !!python/tuple
+  - 313
+  - 88
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 408
+  - 146
+3\db669029-8556-4b14-97e6-88b3e8f6c79a.png:
+  bbox: !!python/tuple
+  - 326
+  - 79
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 130
+3\fb5e8c89-ef6a-4f32-8a63-1cb3b6f1cfdd.png:
+  bbox: !!python/tuple
+  - 334
+  - 91
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 428
+  - 155
+40\091debaf-0604-4458-aa28-2f90b43a94a3.png:
+  bbox: !!python/tuple
+  - 348
+  - 100
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 458
+  - 168
+40\0d47a6b1-f794-4567-8c06-a989453876cd.png:
+  bbox: !!python/tuple
+  - 300
+  - 98
+  - 145
+  - 145
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 402
+  - 158
+40\370c8c3c-0ffd-4395-9a2b-fd9edb2f6ed8.png:
+  bbox: !!python/tuple
+  - 311
+  - 105
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 162
+40\6ec15625-eb03-46d8-9d88-33391377aa99.png:
+  bbox: !!python/tuple
+  - 293
+  - 130
+  - 124
+  - 124
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 378
+  - 176
+40\7d51dbe0-a8dd-40c4-a9c3-c4fe7e2899e3.png:
+  bbox: !!python/tuple
+  - 304
+  - 101
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 395
+  - 151
+40\8704f9f8-6e84-4d14-af7e-3c23fa2f122d.png:
+  bbox: !!python/tuple
+  - 301
+  - 75
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 140
+40\97dc8427-41da-438b-95c7-e9713132fd48.png:
+  bbox: !!python/tuple
+  - 55
+  - 144
+  - 119
+  - 119
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 135
+  - 194
+40\9ace20a0-f7ec-4f0d-968a-e4fd0c7da242.png:
+  bbox: !!python/tuple
+  - 316
+  - 106
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 164
+40\acac6b11-11e8-485d-8636-36b7c30483d4.png:
+  bbox: !!python/tuple
+  - 301
+  - 106
+  - 138
+  - 138
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 159
+40\b97fc617-e906-40ef-95ff-04baa206b159.png:
+  bbox: !!python/tuple
+  - 250
+  - 103
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 158
+40\cdb14d17-a8f3-4bfb-921e-9800a02d448a.png:
+  bbox: !!python/tuple
+  - 255
+  - 101
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 358
+  - 154
+40\e494f4fd-70a9-4b6c-a121-128064f08c6e.png:
+  bbox: !!python/tuple
+  - 65
+  - 129
+  - 127
+  - 127
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 142
+  - 183
+41\0029cc7c-1b8c-41f0-a18e-2a492a617ca6.png:
+  bbox: !!python/tuple
+  - 277
+  - 86
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 417
+  - 176
+41\02c4f72b-fb41-4d7f-b0d3-48e800aa08de.png:
+  bbox: !!python/tuple
+  - 203
+  - 110
+  - 120
+  - 120
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 274
+  - 154
+41\13ceef1b-6b5a-4c3e-9ddf-34c60436e484.png:
+  bbox: !!python/tuple
+  - 209
+  - 142
+  - 272
+  - 272
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 389
+  - 259
+41\5fe692a7-b6d2-438c-9daf-2f1b37cbc3e5.png:
+  bbox: !!python/tuple
+  - 235
+  - 112
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 214
+41\759e7b41-2d96-432d-bad1-8c346fd0084a.png:
+  bbox: !!python/tuple
+  - 199
+  - 104
+  - 133
+  - 133
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 290
+  - 154
+41\95e472bc-ef90-452e-b50e-7c34e500c1f6.png:
+  bbox: !!python/tuple
+  - 278
+  - 100
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 420
+  - 194
+41\b0584acd-f096-447e-96fb-cdd6cfe11df7.png:
+  bbox: !!python/tuple
+  - 143
+  - 106
+  - 93
+  - 93
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 205
+  - 140
+41\cfeb9a26-ddf3-4ed5-a4d3-7bcc00dcd0bd.png:
+  bbox: !!python/tuple
+  - 248
+  - 116
+  - 249
+  - 249
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 216
+41\f73490b2-864d-45a9-8369-4bf10322b750.png:
+  bbox: !!python/tuple
+  - 225
+  - 151
+  - 274
+  - 274
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 255
+42\00cf7f17-4dfe-47d8-ba02-57bf40930431.png:
+  bbox: !!python/tuple
+  - 195
+  - 137
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 329
+  - 228
+42\209bf144-8e47-4026-a89d-658b08101945.png:
+  bbox: !!python/tuple
+  - 196
+  - 121
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 208
+42\4db2048a-8a6a-4448-9ab3-b686bb7c6fe6.png:
+  bbox: !!python/tuple
+  - 267
+  - 139
+  - 206
+  - 206
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 214
+42\57e6c555-499c-493a-9830-ac250f09680b.png:
+  bbox: !!python/tuple
+  - 243
+  - 122
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 195
+42\8afdc2e2-3b5d-482d-b865-b8f8c09de338.png:
+  bbox: !!python/tuple
+  - 275
+  - 135
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 229
+42\979b33d4-97c8-40bc-a37e-c3680a92e0cc.png:
+  bbox: !!python/tuple
+  - 266
+  - 142
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 216
+42\b91f22e2-5db5-4405-b9af-b164119ed7b3.png:
+  bbox: !!python/tuple
+  - 249
+  - 141
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 226
+42\c2665188-569f-4b0a-a542-c78bc5fde093.png:
+  bbox: !!python/tuple
+  - 196
+  - 138
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 222
+42\cd11a80e-1c7b-4218-ae7a-274229144ccc.png:
+  bbox: !!python/tuple
+  - 210
+  - 186
+  - 130
+  - 130
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 295
+  - 242
+42\ff80fd27-a17e-46bf-a275-58474e66d49c.png:
+  bbox: !!python/tuple
+  - 197
+  - 109
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 190
+43\04cca8bb-938f-458f-bcb4-ce94cdb1e683.png:
+  bbox: !!python/tuple
+  - 186
+  - 179
+  - 253
+  - 253
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 258
+43\21df9da7-6399-41b7-950f-0000bf5b9045.png:
+  bbox: !!python/tuple
+  - 282
+  - 181
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 246
+43\2ad2a641-b764-4f87-aeae-6e8cd2e3d844.png:
+  bbox: !!python/tuple
+  - 251
+  - 193
+  - 209
+  - 209
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 386
+  - 267
+43\37914106-24bc-4969-a330-966eb272e265.png:
+  bbox: !!python/tuple
+  - 309
+  - 180
+  - 249
+  - 249
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 473
+  - 279
+43\516e88f9-84b6-42f2-8aad-e81d50c3456e.png:
+  bbox: !!python/tuple
+  - 282
+  - 169
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 248
+43\61997c79-03b1-4e0f-af1c-a3544d359876.png:
+  bbox: !!python/tuple
+  - 279
+  - 157
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 240
+43\7e2c7bc8-f1ca-4330-97e7-871c701b3e41.png:
+  bbox: !!python/tuple
+  - 278
+  - 209
+  - 239
+  - 239
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 441
+  - 323
+43\af01c284-89ee-4b34-8376-72f11d6ee794.png:
+  bbox: !!python/tuple
+  - 180
+  - 139
+  - 147
+  - 147
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 273
+  - 194
+43\e26d6a41-b6a4-4785-9e94-db7d961cd91a.png:
+  bbox: !!python/tuple
+  - 201
+  - 170
+  - 254
+  - 254
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 362
+  - 258
+43\eda33d6c-e81a-4a2f-8b3d-12406596fee5.png:
+  bbox: !!python/tuple
+  - 227
+  - 179
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 345
+  - 247
+43\f824c9f7-1207-46a3-9392-6ad04ce5c865.png:
+  bbox: !!python/tuple
+  - 217
+  - 185
+  - 176
+  - 176
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 334
+  - 254
+44\115b4338-8565-4454-81e1-359ce1068bbc.png:
+  bbox: !!python/tuple
+  - 267
+  - 108
+  - 135
+  - 135
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 161
+44\1dc8727e-faf5-4d85-81c1-adb04ca8fce1.png:
+  bbox: !!python/tuple
+  - 255
+  - 128
+  - 134
+  - 134
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 183
+44\9d597df4-8564-4612-84a7-6485a33f3e3f.png:
+  bbox: !!python/tuple
+  - 277
+  - 136
+  - 134
+  - 134
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 364
+  - 177
+44\9deea6ca-ba99-47b2-ba01-5ae877dadf92.png:
+  bbox: !!python/tuple
+  - 371
+  - 34
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 502
+  - 114
+44\ab277d82-446e-4edf-9055-cb8b62992908.png:
+  bbox: !!python/tuple
+  - 392
+  - 52
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 524
+  - 134
+44\adfa8e0e-b309-4618-a62b-9d779b5dab24.png:
+  bbox: !!python/tuple
+  - 294
+  - 118
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 183
+44\b2a65b54-4662-47aa-910d-ae9f997468db.png:
+  bbox: !!python/tuple
+  - 309
+  - 121
+  - 136
+  - 136
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 398
+  - 180
+45\28175413-f3b7-4eee-a0fb-0dae97079025.png:
+  bbox: !!python/tuple
+  - 236
+  - 126
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 189
+45\65e5e309-4a91-418a-8f7f-b81e123b1da7.png:
+  bbox: !!python/tuple
+  - 258
+  - 120
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 205
+45\6b01dcbe-9837-4f33-a714-aa5893ed4f2d.png:
+  bbox: !!python/tuple
+  - 262
+  - 133
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 205
+45\922fe292-93e9-4a4c-ad1f-dee4cb4e5300.png:
+  bbox: !!python/tuple
+  - 262
+  - 127
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 209
+45\933eeaeb-af56-4c41-9b62-892981cbb33a.png:
+  bbox: !!python/tuple
+  - 236
+  - 121
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 186
+45\a8c10853-0a31-49dd-9c0e-09e909f4524f.png:
+  bbox: !!python/tuple
+  - 221
+  - 123
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 192
+45\b46d52a6-fccf-4447-8707-583aa0264b40.png:
+  bbox: !!python/tuple
+  - 234
+  - 125
+  - 195
+  - 195
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 194
+45\c4827510-c08a-46ec-bd9b-656ee480fa9f.png:
+  bbox: !!python/tuple
+  - 262
+  - 127
+  - 198
+  - 198
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 393
+  - 209
+45\ce57da04-e095-4e16-9893-5035d580e6b5.png:
+  bbox: !!python/tuple
+  - 226
+  - 145
+  - 190
+  - 190
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 346
+  - 207
+45\d2f765bd-662a-4b01-8e9d-85a31b6c0651.png:
+  bbox: !!python/tuple
+  - 225
+  - 117
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 349
+  - 182
+45\d48d295b-4276-45bc-90ac-54e347143e7f.png:
+  bbox: !!python/tuple
+  - 240
+  - 135
+  - 195
+  - 195
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 200
+46\09cdcd71-c23b-45fe-8d16-1458582a8507.png:
+  bbox: !!python/tuple
+  - 313
+  - 108
+  - 125
+  - 125
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 154
+46\09fe620a-9ed8-4fa1-9f61-e14337b63405.png:
+  bbox: !!python/tuple
+  - 316
+  - 124
+  - 116
+  - 116
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 163
+46\26c7f15c-7c3d-418e-96be-d0bad0bef347.png:
+  bbox: !!python/tuple
+  - 314
+  - 109
+  - 123
+  - 123
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 155
+46\43c358d2-6b00-4dbe-86f3-f7901dae7298.png:
+  bbox: !!python/tuple
+  - 283
+  - 114
+  - 131
+  - 131
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 364
+  - 161
+46\bbe2a40b-a308-4931-a231-baf595b28d33.png:
+  bbox: !!python/tuple
+  - 301
+  - 131
+  - 125
+  - 125
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 369
+  - 177
+46\cf881554-6f4f-47e4-994b-50cb4df7c1da.png:
+  bbox: !!python/tuple
+  - 311
+  - 119
+  - 118
+  - 118
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 160
+47\18e63165-6b85-447e-a91a-19150199673b.png:
+  bbox: !!python/tuple
+  - 254
+  - 81
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 173
+47\25bf0faf-ee43-4ff6-b815-a7aba08f828e.png:
+  bbox: !!python/tuple
+  - 219
+  - 94
+  - 228
+  - 228
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 394
+  - 200
+47\29c31b0f-0fa1-4acd-801e-0eb107be9626.png:
+  bbox: !!python/tuple
+  - 225
+  - 98
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 183
+47\4bfe7ae5-0b9c-4900-920f-7cfd240ce3eb.png:
+  bbox: !!python/tuple
+  - 231
+  - 89
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 171
+47\77bfde0d-b493-4c9d-b4c5-eb6523d785cd.png:
+  bbox: !!python/tuple
+  - 226
+  - 121
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 196
+47\95ab5857-f87e-4e30-9665-ab67ff128f6d.png:
+  bbox: !!python/tuple
+  - 227
+  - 91
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 374
+  - 174
+47\a2c8afff-ba98-42e6-8d07-7674bfa4a266.png:
+  bbox: !!python/tuple
+  - 192
+  - 84
+  - 234
+  - 234
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 173
+47\b4176dd4-a427-4d4e-aee6-580223716ad8.png:
+  bbox: !!python/tuple
+  - 217
+  - 97
+  - 223
+  - 223
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 191
+47\ece7a0f6-8897-43fb-aea2-97730a988a2c.png:
+  bbox: !!python/tuple
+  - 219
+  - 94
+  - 228
+  - 228
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 200
+47\fa70b89b-cb41-494e-9b83-2cfeffad35c1.png:
+  bbox: !!python/tuple
+  - 226
+  - 99
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 184
+48\19d271cd-47bc-460c-bb32-f4f3f49d46cc.png:
+  bbox: !!python/tuple
+  - 257
+  - 133
+  - 243
+  - 243
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 420
+  - 221
+48\2743fcf2-ba1d-4da4-8142-3bcfbb35b385.png:
+  bbox: !!python/tuple
+  - 271
+  - 121
+  - 235
+  - 235
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 207
+48\3e35896e-92a7-4641-96ef-06253d44ef85.png:
+  bbox: !!python/tuple
+  - 282
+  - 129
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 439
+  - 224
+48\44f4d39e-328e-4485-8080-ee899e559793.png:
+  bbox: !!python/tuple
+  - 256
+  - 137
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 222
+48\5523a03a-2366-4fa9-8f7d-22a38611ce24.png:
+  bbox: !!python/tuple
+  - 191
+  - 129
+  - 245
+  - 245
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 206
+48\ad25b9c5-88e9-446e-a79f-2c777e0f6e19.png:
+  bbox: !!python/tuple
+  - 248
+  - 133
+  - 233
+  - 233
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 404
+  - 216
+48\b3189589-4e30-485d-97b5-d69df9dda518.png:
+  bbox: !!python/tuple
+  - 248
+  - 131
+  - 233
+  - 233
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 219
+48\c8121c33-2501-4d11-ba23-4c1b70bcb670.png:
+  bbox: !!python/tuple
+  - 195
+  - 134
+  - 249
+  - 249
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 211
+48\d11ec074-cae1-4890-93b4-813add3fd536.png:
+  bbox: !!python/tuple
+  - 231
+  - 100
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 172
+48\eb5addce-91eb-429e-9fdc-ab4d9d172c47.png:
+  bbox: !!python/tuple
+  - 187
+  - 100
+  - 243
+  - 243
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 346
+  - 187
+48\fc01f431-79b6-4162-bd8a-de6f67c32cb4.png:
+  bbox: !!python/tuple
+  - 370
+  - 149
+  - 147
+  - 147
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 465
+  - 205
+49\2b3ab99d-6101-46ad-a08c-8ca3dcde1916.png:
+  bbox: !!python/tuple
+  - 153
+  - 118
+  - 237
+  - 237
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 308
+  - 214
+49\37c88da5-8ac0-4a9b-9d4d-26347701205e.png:
+  bbox: !!python/tuple
+  - 250
+  - 119
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 350
+  - 183
+49\3fc5ef99-630c-4388-94f1-b5ed78b43be2.png:
+  bbox: !!python/tuple
+  - 156
+  - 139
+  - 296
+  - 296
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 345
+  - 259
+49\481e2acc-3b08-48d4-ba78-a717884bc42f.png:
+  bbox: !!python/tuple
+  - 208
+  - 131
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 308
+  - 177
+49\4a579245-311e-446e-a73a-1f4691ae17c0.png:
+  bbox: !!python/tuple
+  - 268
+  - 121
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 189
+49\4d0d834d-ab57-4c9d-ab5b-f8145af060fa.png:
+  bbox: !!python/tuple
+  - 157
+  - 121
+  - 241
+  - 241
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 320
+  - 220
+49\5c94909c-52f9-4f78-9141-e6b7aa5d82df.png:
+  bbox: !!python/tuple
+  - 210
+  - 128
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 313
+  - 196
+49\6d5d2b24-0f48-4c64-93eb-3f87910e6530.png:
+  bbox: !!python/tuple
+  - 84
+  - 157
+  - 270
+  - 270
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 259
+  - 266
+49\8ca427ab-0026-45b3-abb8-2142c3fa3168.png:
+  bbox: !!python/tuple
+  - 207
+  - 120
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 309
+  - 182
+49\ab153b2e-05f5-4e60-acaa-c1eb58da5140.png:
+  bbox: !!python/tuple
+  - 260
+  - 133
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 198
+49\f35af24f-04a2-4215-8574-a2cff75dab6d.png:
+  bbox: !!python/tuple
+  - 268
+  - 126
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 191
+4\132a5bb1-894d-4fc6-9676-8a8897f4097e.png:
+  bbox: !!python/tuple
+  - 236
+  - 181
+  - 221
+  - 221
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 261
+4\19db65b8-4d8d-4005-ae1f-fe9ecbdbf3a0.png:
+  bbox: !!python/tuple
+  - 269
+  - 177
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 402
+  - 239
+4\1d9d183a-ab74-4524-9b0e-63b53ec4df5a.png:
+  bbox: !!python/tuple
+  - 232
+  - 169
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 371
+  - 237
+4\2a897bf1-f113-4039-a4cb-ee267faadc0f.png:
+  bbox: !!python/tuple
+  - 190
+  - 161
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 336
+  - 245
+4\2dc125d1-cf35-4620-97cd-e67e208591c2.png:
+  bbox: !!python/tuple
+  - 124
+  - 178
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 253
+  - 258
+4\2f131c78-6578-4227-bebe-5e36496b6bb5.png:
+  bbox: !!python/tuple
+  - 212
+  - 142
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 344
+  - 206
+4\5bcdda27-13b8-4565-9730-3d5ab6a30f9c.png:
+  bbox: !!python/tuple
+  - 240
+  - 186
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 250
+4\b00f8039-0187-4836-bba2-a6518f8a321c.png:
+  bbox: !!python/tuple
+  - 191
+  - 171
+  - 206
+  - 206
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 235
+4\b853344d-b9d8-49c3-8614-836831a94c8c.png:
+  bbox: !!python/tuple
+  - 153
+  - 168
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 289
+  - 244
+4\db7f95e8-c78c-4c86-9734-3160c4a2e119.png:
+  bbox: !!python/tuple
+  - 199
+  - 144
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 206
+50\2b6eb093-5d54-44b4-83c9-5ad111b6ebf0.png:
+  bbox: !!python/tuple
+  - 289
+  - 158
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 240
+50\4235043a-a251-4aab-b462-e5e61aa07520.png:
+  bbox: !!python/tuple
+  - 229
+  - 160
+  - 256
+  - 256
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 399
+  - 274
+50\4f5a511f-22ef-4e2e-8151-a8a9b6cebf3e.png:
+  bbox: !!python/tuple
+  - 192
+  - 174
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 257
+50\5b4d9c06-ad56-4db6-a11f-1c5d4746dead.png:
+  bbox: !!python/tuple
+  - 272
+  - 179
+  - 253
+  - 253
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 452
+  - 287
+50\817606ff-973b-44b6-a260-f30c08796d6f.png:
+  bbox: !!python/tuple
+  - 135
+  - 88
+  - 321
+  - 321
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 223
+50\90c4f21c-724f-4d06-882c-6db2e9e85677.png:
+  bbox: !!python/tuple
+  - 275
+  - 154
+  - 209
+  - 209
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 243
+50\93f6134b-6490-4108-a792-ae4088247d15.png:
+  bbox: !!python/tuple
+  - 147
+  - 97
+  - 316
+  - 316
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 370
+  - 250
+50\95cffa18-1752-4f9a-8c1f-441dbdc73aba.png:
+  bbox: !!python/tuple
+  - 260
+  - 168
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 256
+50\b27f22da-e83f-4156-a6d2-283dbe237da8.png:
+  bbox: !!python/tuple
+  - 243
+  - 161
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 246
+50\db54fe70-8544-4cfb-8d8d-dba4a1bcfed1.png:
+  bbox: !!python/tuple
+  - 135
+  - 87
+  - 313
+  - 313
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 228
+50\e455581b-a222-4e53-a059-b450aad1a262.png:
+  bbox: !!python/tuple
+  - 193
+  - 155
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 234
+50\f053e58c-2c7b-43e0-a46f-9e7e91b07e86.png:
+  bbox: !!python/tuple
+  - 230
+  - 154
+  - 291
+  - 291
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 427
+  - 271
+51\05d6dc96-67ac-4295-8be5-50e2a2bafd5f.png:
+  bbox: !!python/tuple
+  - 245
+  - 103
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 159
+51\152e24b4-ebf7-4c99-9fd6-3227bdfb3396.png:
+  bbox: !!python/tuple
+  - 238
+  - 92
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 338
+  - 149
+51\401ec397-9c0f-45ad-9a4d-e620c8d3bf10.png:
+  bbox: !!python/tuple
+  - 257
+  - 91
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 147
+51\82bcab14-6108-4be1-96b0-8250ad396719.png:
+  bbox: !!python/tuple
+  - 247
+  - 108
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 166
+51\82edd16c-b873-4830-9950-75c9a48ab509.png:
+  bbox: !!python/tuple
+  - 242
+  - 109
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 350
+  - 168
+51\92030f42-a17b-479f-af25-1a87abca86b3.png:
+  bbox: !!python/tuple
+  - 305
+  - 80
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 416
+  - 150
+51\9a982b56-57ba-44ca-94e1-9df42d643142.png:
+  bbox: !!python/tuple
+  - 283
+  - 80
+  - 148
+  - 148
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 141
+51\d7cb63b8-8c0e-4528-b0dd-921240296b39.png:
+  bbox: !!python/tuple
+  - 272
+  - 101
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 160
+51\d8f4521b-e1cb-4013-8380-68c12daa85f7.png:
+  bbox: !!python/tuple
+  - 257
+  - 107
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 362
+  - 166
+51\edc60f8e-deb9-48b4-9cae-981b4a861a87.png:
+  bbox: !!python/tuple
+  - 273
+  - 82
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 138
+51\ee8233a8-c86b-44d5-83f4-52e306634ab2.png:
+  bbox: !!python/tuple
+  - 305
+  - 101
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 165
+51\f84a48e6-acbb-484d-b69b-a4bc08e1d621.png:
+  bbox: !!python/tuple
+  - 270
+  - 89
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 143
+52\03ed30b6-256e-4c6a-8857-14e2bd1fc16b.png:
+  bbox: !!python/tuple
+  - 211
+  - 148
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 223
+52\0be61d72-ce48-4cfc-8619-4839832b9549.png:
+  bbox: !!python/tuple
+  - 210
+  - 137
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 344
+  - 211
+52\160bd146-3cb2-4995-ad3f-c30e72563606.png:
+  bbox: !!python/tuple
+  - 249
+  - 150
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 223
+52\226a0142-898c-446e-95d6-a0c87ce15fec.png:
+  bbox: !!python/tuple
+  - 197
+  - 157
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 328
+  - 232
+52\32f6a119-636b-4b8c-8f2f-b7ae53759ebe.png:
+  bbox: !!python/tuple
+  - 196
+  - 158
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 317
+  - 230
+52\3b6d991a-dc70-42ff-81fa-62882630d1c8.png:
+  bbox: !!python/tuple
+  - 207
+  - 140
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 211
+52\40fc07db-ae4b-4b09-8303-ecfc725c653a.png:
+  bbox: !!python/tuple
+  - 238
+  - 152
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 365
+  - 217
+52\85f032ae-6ea7-4727-a856-c0dfd355fc8f.png:
+  bbox: !!python/tuple
+  - 240
+  - 130
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 371
+  - 201
+52\8cabce63-7eab-468d-b7e5-079295ba09f5.png:
+  bbox: !!python/tuple
+  - 119
+  - 146
+  - 267
+  - 267
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 294
+  - 248
+52\a9591858-f13c-4391-a7fd-1af06686a409.png:
+  bbox: !!python/tuple
+  - 239
+  - 148
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 214
+52\dbe62f6c-d269-4fc7-b520-42e876a8364e.png:
+  bbox: !!python/tuple
+  - 210
+  - 131
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 204
+52\e0daa3e6-f715-4afa-a383-b4442fcbbb51.png:
+  bbox: !!python/tuple
+  - 104
+  - 184
+  - 261
+  - 261
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 281
+  - 279
+53\1347848e-2a2b-4843-b111-abcd01f1057e.png:
+  bbox: !!python/tuple
+  - 275
+  - 122
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 378
+  - 187
+53\4087ff4b-a434-455c-8ded-369392094ec9.png:
+  bbox: !!python/tuple
+  - 215
+  - 100
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 321
+  - 164
+53\4a52ffea-2be2-4f97-9390-84602e2e5b05.png:
+  bbox: !!python/tuple
+  - 284
+  - 106
+  - 138
+  - 138
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 380
+  - 153
+53\65aae5f9-cc1f-4b08-8ee9-aa1f666691eb.png:
+  bbox: !!python/tuple
+  - 220
+  - 140
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 322
+  - 190
+53\6d7f38f8-8e21-4fc2-8188-71dd89309529.png:
+  bbox: !!python/tuple
+  - 283
+  - 95
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 384
+  - 155
+53\72b62523-ee92-44c1-87b9-2e3d5c355c69.png:
+  bbox: !!python/tuple
+  - 222
+  - 107
+  - 160
+  - 160
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 169
+53\81d7f9e4-6c1e-4648-89da-770a5c71fdc2.png:
+  bbox: !!python/tuple
+  - 242
+  - 119
+  - 168
+  - 168
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 181
+53\aa628edc-4f97-486c-bde2-b5d0f610d2e9.png:
+  bbox: !!python/tuple
+  - 253
+  - 110
+  - 177
+  - 177
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 186
+53\b05dc270-119a-43ce-a7e5-b0522176c645.png:
+  bbox: !!python/tuple
+  - 292
+  - 114
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 398
+  - 158
+53\d15bbe8c-01d8-4761-9d67-e87b5d8cf76e.png:
+  bbox: !!python/tuple
+  - 236
+  - 110
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 166
+53\d2a9934b-244b-4154-aa5f-ebc24888b2e9.png:
+  bbox: !!python/tuple
+  - 216
+  - 112
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 321
+  - 175
+54\00e53cfb-c3ed-4a38-ab25-47f2eaf2dc74.png:
+  bbox: !!python/tuple
+  - 321
+  - 99
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 452
+  - 173
+54\5f90f36c-0ae9-4426-9d24-fbc28099b994.png:
+  bbox: !!python/tuple
+  - 236
+  - 162
+  - 277
+  - 277
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 268
+54\61229a03-4e70-47bd-84f9-623e6991af4a.png:
+  bbox: !!python/tuple
+  - 383
+  - 96
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 532
+  - 191
+54\a5f52584-3229-4188-aee2-f54c9acae522.png:
+  bbox: !!python/tuple
+  - 268
+  - 111
+  - 287
+  - 287
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 454
+  - 219
+54\d3d77117-dbae-42d6-aec3-f121af642c39.png:
+  bbox: !!python/tuple
+  - 292
+  - 112
+  - 175
+  - 175
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 184
+54\d3e0e2b2-bff7-4d3b-ac17-3d18274af1d5.png:
+  bbox: !!python/tuple
+  - 220
+  - 139
+  - 283
+  - 283
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 239
+54\e01f9f83-a3e9-4fa7-b42b-c60ba658751f.png:
+  bbox: !!python/tuple
+  - 281
+  - 113
+  - 211
+  - 211
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 421
+  - 191
+55\20e6d410-6b3c-4391-bf92-c10c4166f36b.png:
+  bbox: !!python/tuple
+  - 142
+  - 161
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 280
+  - 233
+55\327b0b7f-5c54-447a-9404-bc22e2c934d2.png:
+  bbox: !!python/tuple
+  - 213
+  - 148
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 217
+55\43f497b4-573b-42dd-88b1-61b9bc8b9743.png:
+  bbox: !!python/tuple
+  - 271
+  - 147
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 396
+  - 221
+55\44915cc3-2f81-4965-9619-0996606c6259.png:
+  bbox: !!python/tuple
+  - 184
+  - 142
+  - 234
+  - 234
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 338
+  - 229
+55\74342406-4a49-401f-ab81-3484cf17fc8f.png:
+  bbox: !!python/tuple
+  - 162
+  - 125
+  - 244
+  - 244
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 214
+55\827a5910-29ac-45a9-b789-ae3ba4e6494c.png:
+  bbox: !!python/tuple
+  - 269
+  - 148
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 236
+55\a2418383-3f50-4ef0-877e-4ad3375f145b.png:
+  bbox: !!python/tuple
+  - 238
+  - 156
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 239
+55\a7380e5e-e110-46c3-93f9-0b4d3b090808.png:
+  bbox: !!python/tuple
+  - 202
+  - 155
+  - 193
+  - 193
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 341
+  - 229
+55\aeec69da-3ac1-4c3b-9afd-d09a05b154cb.png:
+  bbox: !!python/tuple
+  - 169
+  - 132
+  - 234
+  - 234
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 232
+55\b9367a74-a33c-44a8-941b-a7caf209e51d.png:
+  bbox: !!python/tuple
+  - 298
+  - 155
+  - 181
+  - 181
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 228
+55\d0b39f60-e370-45f9-a97a-0a517a4b67e9.png:
+  bbox: !!python/tuple
+  - 270
+  - 134
+  - 237
+  - 237
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 422
+  - 224
+55\ee9750de-83ea-4127-9a11-42dcc91cd60b.png:
+  bbox: !!python/tuple
+  - 212
+  - 155
+  - 283
+  - 283
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 263
+56\431cd894-be41-45d1-8cbc-3ca1868f9734.png:
+  bbox: !!python/tuple
+  - 46
+  - 171
+  - 236
+  - 236
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 208
+  - 263
+56\45ba3207-c54e-4f07-9403-bac9fd3c0418.png:
+  bbox: !!python/tuple
+  - 41
+  - 54
+  - 86
+  - 86
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 102
+  - 82
+56\46b5902d-2bb6-4509-9e33-6e4389b1a479.png:
+  bbox: !!python/tuple
+  - 42
+  - 140
+  - 184
+  - 184
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 163
+  - 213
+56\561f96da-0de3-460d-8538-34a1ab0a1c85.png:
+  bbox: !!python/tuple
+  - 101
+  - 127
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 242
+  - 177
+56\59cc6f55-d253-4512-8177-b81b16e8aa95.png:
+  bbox: !!python/tuple
+  - 65
+  - 130
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 193
+  - 212
+56\6481201a-2c01-4782-ba0a-9d12b28f1b1e.png:
+  bbox: !!python/tuple
+  - 65
+  - 175
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 212
+  - 231
+56\6e725933-6801-4287-bb42-d474500f281a.png:
+  bbox: !!python/tuple
+  - 55
+  - 127
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 173
+  - 183
+56\a0fbcfbd-81ce-48f6-a484-7bb658766083.png:
+  bbox: !!python/tuple
+  - 40
+  - 82
+  - 87
+  - 87
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 101
+  - 115
+56\a1c0bc58-effc-4eca-a8f2-ca488b1aa545.png:
+  bbox: !!python/tuple
+  - 34
+  - 137
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 157
+  - 212
+56\ca0059fb-d098-4975-b2a7-25607175dd68.png:
+  bbox: !!python/tuple
+  - 77
+  - 141
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 233
+  - 219
+56\e7933056-8474-4ee4-bab8-88abeb0a0fdb.png:
+  bbox: !!python/tuple
+  - 32
+  - 89
+  - 68
+  - 68
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 81
+  - 113
+57\0db16bc5-d98d-4ceb-bb6f-47487689fc02.png:
+  bbox: !!python/tuple
+  - 249
+  - 143
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 206
+57\295f07a1-9c73-4796-ac27-da43f8195bb8.png:
+  bbox: !!python/tuple
+  - 156
+  - 170
+  - 239
+  - 239
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 317
+  - 265
+57\585970f8-d37b-482a-9c14-3df131513afc.png:
+  bbox: !!python/tuple
+  - 153
+  - 202
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 307
+  - 292
+57\755203e7-f53c-4b2a-8707-cfe4af80585b.png:
+  bbox: !!python/tuple
+  - 251
+  - 139
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 204
+57\75bcd695-2779-46f1-97df-38f0394dfd4e.png:
+  bbox: !!python/tuple
+  - 273
+  - 154
+  - 116
+  - 116
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 355
+  - 208
+57\83b23f68-2133-4db2-bc1b-6ffd7d52e88e.png:
+  bbox: !!python/tuple
+  - 189
+  - 164
+  - 208
+  - 208
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 319
+  - 252
+57\9d10d616-371a-4f6e-832b-72e36c570eb6.png:
+  bbox: !!python/tuple
+  - 151
+  - 143
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 306
+  - 247
+57\a4592486-10bc-477e-90e1-d772b5d780d7.png:
+  bbox: !!python/tuple
+  - 132
+  - 189
+  - 238
+  - 238
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 297
+  - 292
+57\af971ace-6d63-47a6-a7a9-ea2fdb2761ed.png:
+  bbox: !!python/tuple
+  - 130
+  - 140
+  - 228
+  - 228
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 288
+  - 236
+57\d794f9c1-d5f1-4669-9081-1b87c1e8e11e.png:
+  bbox: !!python/tuple
+  - 129
+  - 130
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 277
+  - 225
+57\f3fd2ed4-74b5-4ab8-a360-97376aa18835.png:
+  bbox: !!python/tuple
+  - 261
+  - 146
+  - 149
+  - 149
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 366
+  - 209
+57\f4b8069d-af0e-4921-b45f-8ec05582298f.png:
+  bbox: !!python/tuple
+  - 258
+  - 152
+  - 140
+  - 140
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 211
+58\0ecfc093-98b2-40ab-b9a5-ace873e116bf.png:
+  bbox: !!python/tuple
+  - 246
+  - 140
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 224
+58\10a791b4-5b0e-465e-8c0f-bd78afeb30b1.png:
+  bbox: !!python/tuple
+  - 328
+  - 103
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 433
+  - 169
+58\3e7370ee-82b8-4736-ad17-6f4afe19df33.png:
+  bbox: !!python/tuple
+  - 237
+  - 102
+  - 229
+  - 229
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 394
+  - 196
+58\623d6c45-ad58-480d-815b-2b463e4a7c07.png:
+  bbox: !!python/tuple
+  - 320
+  - 102
+  - 162
+  - 162
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 429
+  - 164
+58\6d12b695-ecd1-49c5-855d-131b9fef569c.png:
+  bbox: !!python/tuple
+  - 265
+  - 90
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 383
+  - 156
+58\948cc08e-6944-42a9-8d3b-cf06af55d0e9.png:
+  bbox: !!python/tuple
+  - 232
+  - 133
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 195
+58\9f8a1b39-8a85-4ee0-8faf-8e53f59fc257.png:
+  bbox: !!python/tuple
+  - 253
+  - 102
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 396
+  - 184
+58\b0fc3672-6b8a-496b-ad47-4bb9184a9c02.png:
+  bbox: !!python/tuple
+  - 241
+  - 118
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 211
+58\c2545e9a-c201-404a-9004-28d01ea2835e.png:
+  bbox: !!python/tuple
+  - 239
+  - 100
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 366
+  - 176
+58\c638b3c2-5db1-444f-b00d-b751dbb95bb5.png:
+  bbox: !!python/tuple
+  - 320
+  - 93
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 153
+58\efee61b6-6bd6-4040-b8d5-18fd1bbcbbcf.png:
+  bbox: !!python/tuple
+  - 263
+  - 96
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 398
+  - 168
+58\fab8f6c3-ea13-467d-9642-6b1513b897dc.png:
+  bbox: !!python/tuple
+  - 251
+  - 94
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 172
+59\27588869-b05b-4940-a4fa-29de859d7798.png:
+  bbox: !!python/tuple
+  - 280
+  - 163
+  - 221
+  - 221
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 430
+  - 243
+59\2b322704-c36d-4534-a3a6-5a0159203678.png:
+  bbox: !!python/tuple
+  - 194
+  - 145
+  - 206
+  - 206
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 328
+  - 206
+59\4f56f9d1-e989-4eaa-b8d6-090ae223fe9b.png:
+  bbox: !!python/tuple
+  - 128
+  - 146
+  - 251
+  - 251
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 283
+  - 232
+59\559695a6-e3e7-4077-927f-391b638355ac.png:
+  bbox: !!python/tuple
+  - 194
+  - 172
+  - 221
+  - 221
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 243
+59\6edcceab-055c-41af-a980-7e0c99748eb4.png:
+  bbox: !!python/tuple
+  - 246
+  - 127
+  - 273
+  - 273
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 229
+59\a0a4b58c-e0f2-4267-81e6-d0f79688da26.png:
+  bbox: !!python/tuple
+  - 255
+  - 124
+  - 248
+  - 248
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 410
+  - 207
+59\b9435c32-c08d-4c54-8ca9-d44a34c8230f.png:
+  bbox: !!python/tuple
+  - 237
+  - 167
+  - 236
+  - 236
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 225
+59\cc324be8-0d31-4938-83fb-604e892d17c3.png:
+  bbox: !!python/tuple
+  - 196
+  - 158
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 212
+5\46164431-a78d-485c-8c66-02c417c2aefa.png:
+  bbox: !!python/tuple
+  - 34
+  - 221
+  - 104
+  - 104
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 102
+  - 257
+5\4dd5f4cc-d75a-4f31-9018-d88a00b26080.png:
+  bbox: !!python/tuple
+  - 44
+  - 226
+  - 111
+  - 111
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 115
+  - 268
+5\5f290315-94c8-48f4-a3dd-4d0bee9e9345.png:
+  bbox: !!python/tuple
+  - 51
+  - 144
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 188
+  - 235
+5\5f6d9f29-18c0-4884-b1f5-d023143db180.png:
+  bbox: !!python/tuple
+  - 111
+  - 87
+  - 139
+  - 139
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 203
+  - 134
+5\76daf308-12e9-4218-bae7-38341face196.png:
+  bbox: !!python/tuple
+  - 33
+  - 150
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 160
+  - 243
+5\7f513f7b-fc1b-4d83-950b-21800228add9.png:
+  bbox: !!python/tuple
+  - 27
+  - 192
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 174
+  - 274
+5\a034f087-84a4-4522-bd00-b4b70da8e61d.png:
+  bbox: !!python/tuple
+  - 40
+  - 176
+  - 229
+  - 229
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 197
+  - 262
+5\a9e4be4f-7abe-4f7f-8b4f-abfad7e926eb.png:
+  bbox: !!python/tuple
+  - 43
+  - 190
+  - 212
+  - 212
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 190
+  - 270
+5\b2c55081-53d3-4c0a-9f45-925a0ebc1f6f.png:
+  bbox: !!python/tuple
+  - 24
+  - 185
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 179
+  - 262
+60\1ed8449f-ab49-416b-bd34-20b33969a183.png:
+  bbox: !!python/tuple
+  - 250
+  - 156
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 239
+60\239e905c-079e-48b8-9ca4-71143e0fdb1b.png:
+  bbox: !!python/tuple
+  - 209
+  - 170
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 361
+  - 254
+60\2bc095b8-7d25-4a4c-b73b-8cdc6f2e57f4.png:
+  bbox: !!python/tuple
+  - 233
+  - 156
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 365
+  - 241
+60\33f3cd9d-d17e-42ec-922a-ec59ca75c952.png:
+  bbox: !!python/tuple
+  - 258
+  - 166
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 404
+  - 255
+60\3dfeb803-dbf1-4622-ab63-b240f9763c47.png:
+  bbox: !!python/tuple
+  - 191
+  - 147
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 325
+  - 229
+60\6615d615-6b3a-4cb9-84e3-63d60c65851b.png:
+  bbox: !!python/tuple
+  - 165
+  - 143
+  - 245
+  - 245
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 264
+60\8fe55940-c9ae-49b0-a52c-c0ed2c7d5f6b.png:
+  bbox: !!python/tuple
+  - 179
+  - 127
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 312
+  - 204
+60\9a0d25d6-47a7-4738-bbfb-8caa485a8452.png:
+  bbox: !!python/tuple
+  - 263
+  - 179
+  - 209
+  - 209
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 262
+60\aa2875ee-b1e7-43cf-bbf8-5c2f20697318.png:
+  bbox: !!python/tuple
+  - 209
+  - 156
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 239
+60\cbaee8ca-1b04-4d0b-b66d-1aba4230aa1b.png:
+  bbox: !!python/tuple
+  - 222
+  - 162
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 242
+60\e5cca887-4aac-4d15-8ecb-643f69f95990.png:
+  bbox: !!python/tuple
+  - 186
+  - 136
+  - 190
+  - 190
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 313
+  - 209
+60\e83ff2fd-eff5-4820-913c-800a3d63a315.png:
+  bbox: !!python/tuple
+  - 176
+  - 179
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 271
+61\0db8b1a4-f2ed-4e71-a587-909978d48a38.png:
+  bbox: !!python/tuple
+  - 268
+  - 121
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 210
+61\1e4df6c9-3b07-419b-90cb-8135ef752714.png:
+  bbox: !!python/tuple
+  - 189
+  - 126
+  - 250
+  - 250
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 341
+  - 227
+61\248fdc80-fa69-4e9a-83bc-d86e0f789f13.png:
+  bbox: !!python/tuple
+  - 199
+  - 131
+  - 244
+  - 244
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 357
+  - 224
+61\53244d8c-a09b-48dd-ae2f-e1a31f11933c.png:
+  bbox: !!python/tuple
+  - 216
+  - 124
+  - 238
+  - 238
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 374
+  - 224
+61\859e2840-1ced-47fe-8035-3b53f51c54c4.png:
+  bbox: !!python/tuple
+  - 189
+  - 139
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 217
+61\a52b30c1-f9b5-49ad-923e-748a5cf6747f.png:
+  bbox: !!python/tuple
+  - 271
+  - 91
+  - 263
+  - 263
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 435
+  - 200
+61\abcc82de-f7c8-443e-93d5-f1466a8379ea.png:
+  bbox: !!python/tuple
+  - 222
+  - 139
+  - 241
+  - 241
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 229
+61\de56a1d6-1cb3-4fca-84e0-d6a0af2c3031.png:
+  bbox: !!python/tuple
+  - 273
+  - 88
+  - 240
+  - 240
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 427
+  - 180
+61\efcd33f6-3164-412b-b9a3-f715b52d3dee.png:
+  bbox: !!python/tuple
+  - 269
+  - 75
+  - 240
+  - 240
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 160
+61\f8a39b37-e7b9-4c6c-b8ba-2f50dfa4cae6.png:
+  bbox: !!python/tuple
+  - 196
+  - 99
+  - 231
+  - 231
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 345
+  - 190
+61\fb61205f-2c1c-4e07-a161-faaec634aaa8.png:
+  bbox: !!python/tuple
+  - 186
+  - 141
+  - 228
+  - 228
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 240
+62\2043138e-5e1a-4313-9ccc-24527c213fa5.png:
+  bbox: !!python/tuple
+  - 140
+  - 131
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 267
+  - 208
+62\220fadf3-915d-4c7d-ac1e-b7b4ef91d3a0.png:
+  bbox: !!python/tuple
+  - 102
+  - 110
+  - 277
+  - 277
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 279
+  - 215
+62\46e08971-147e-44bc-957d-db6732a2f1c2.png:
+  bbox: !!python/tuple
+  - 181
+  - 129
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 307
+  - 197
+62\4fdd86d8-9fa2-4aba-9007-f4f350489f8a.png:
+  bbox: !!python/tuple
+  - 180
+  - 120
+  - 259
+  - 259
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 221
+62\63681c26-e2e3-4239-99a6-a12e0764e875.png:
+  bbox: !!python/tuple
+  - 78
+  - 182
+  - 278
+  - 278
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 256
+  - 277
+62\6cc2dc32-c15d-4924-a87d-7ef5813c6980.png:
+  bbox: !!python/tuple
+  - 267
+  - 119
+  - 267
+  - 267
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 451
+  - 235
+62\8924ef42-f53e-4d41-9574-f7e95b42aef5.png:
+  bbox: !!python/tuple
+  - 179
+  - 140
+  - 261
+  - 261
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 253
+62\b0a74b78-96bd-4c34-8eb8-a5a12892fc31.png:
+  bbox: !!python/tuple
+  - 180
+  - 116
+  - 215
+  - 215
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 320
+  - 198
+62\b953bc11-fb95-44e6-aa3d-4294cf006d83.png:
+  bbox: !!python/tuple
+  - 153
+  - 108
+  - 303
+  - 303
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 338
+  - 239
+62\c4c11b37-667e-43c9-b467-5e2455350ec9.png:
+  bbox: !!python/tuple
+  - 164
+  - 133
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 314
+  - 213
+62\db19b789-cb37-4c38-b6ed-fa85491e5b24.png:
+  bbox: !!python/tuple
+  - 115
+  - 86
+  - 274
+  - 274
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 294
+  - 199
+62\dcfd1912-0612-489f-b6d9-b0c1d5a714d8.png:
+  bbox: !!python/tuple
+  - 56
+  - 139
+  - 266
+  - 266
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 240
+  - 231
+63\0c302623-c6f5-42c9-999d-cff60abfcc2c.png:
+  bbox: !!python/tuple
+  - 247
+  - 151
+  - 235
+  - 235
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 405
+  - 250
+63\16d109c3-d499-49b7-9ba5-489d52961978.png:
+  bbox: !!python/tuple
+  - 220
+  - 174
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 330
+  - 238
+63\1f7199a9-f1b8-4902-a694-92a7ced7992f.png:
+  bbox: !!python/tuple
+  - 242
+  - 155
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 381
+  - 242
+63\39314e0d-c091-4b18-a58a-8c56f3b2edab.png:
+  bbox: !!python/tuple
+  - 260
+  - 129
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 396
+  - 219
+63\4b088f82-d81f-4eef-884b-9ae273f4120c.png:
+  bbox: !!python/tuple
+  - 243
+  - 156
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 245
+63\5a7c1a93-dcff-4105-a747-308f627e5917.png:
+  bbox: !!python/tuple
+  - 197
+  - 157
+  - 171
+  - 171
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 318
+  - 228
+63\8577c050-de2b-4d23-8da4-b46b2a071ca5.png:
+  bbox: !!python/tuple
+  - 273
+  - 146
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 235
+63\96693ce0-8c85-4179-a237-4c97bf43d242.png:
+  bbox: !!python/tuple
+  - 229
+  - 202
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 362
+  - 288
+63\b7026170-40ab-4909-ae4c-cfb04d2c6f80.png:
+  bbox: !!python/tuple
+  - 234
+  - 143
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 237
+63\e0a64ca8-3624-4244-961a-1794a9cc4e3e.png:
+  bbox: !!python/tuple
+  - 218
+  - 229
+  - 224
+  - 224
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 370
+  - 319
+63\e417a752-007d-48eb-a818-6e64ddc3e4df.png:
+  bbox: !!python/tuple
+  - 196
+  - 183
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 258
+63\fa3b4eae-03d7-459e-a4dc-2c30e1962919.png:
+  bbox: !!python/tuple
+  - 232
+  - 160
+  - 263
+  - 263
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 408
+  - 266
+64\15dd19d5-bc71-4308-b054-e8f33285ebc3.png:
+  bbox: !!python/tuple
+  - 272
+  - 146
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 213
+64\3a688058-152f-4191-8be5-08ef10159790.png:
+  bbox: !!python/tuple
+  - 306
+  - 106
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 180
+64\3ba93693-f5a1-409b-90ec-3ee82379c0fb.png:
+  bbox: !!python/tuple
+  - 303
+  - 123
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 420
+  - 198
+64\4a329f29-c984-4b87-9545-efa71122ad96.png:
+  bbox: !!python/tuple
+  - 364
+  - 89
+  - 200
+  - 200
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 491
+  - 171
+64\68158d6c-2b5d-458c-a058-bd96c7968331.png:
+  bbox: !!python/tuple
+  - 334
+  - 114
+  - 184
+  - 184
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 461
+  - 189
+64\95e0d144-4f7b-4995-bd7b-c6ec296ae0dc.png:
+  bbox: !!python/tuple
+  - 330
+  - 119
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 459
+  - 197
+64\a666302a-b6bd-4ebc-9a86-1d9cb43fa583.png:
+  bbox: !!python/tuple
+  - 352
+  - 108
+  - 189
+  - 189
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 476
+  - 185
+64\a9c27717-e674-4536-a624-4140de0fe31c.png:
+  bbox: !!python/tuple
+  - 304
+  - 116
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 417
+  - 191
+64\d64deea4-6cf9-4bcb-95bd-67f15c693e24.png:
+  bbox: !!python/tuple
+  - 73
+  - 97
+  - 65
+  - 65
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 115
+  - 121
+64\f06980b1-168c-4a5f-a346-d4ef1483dc3c.png:
+  bbox: !!python/tuple
+  - 326
+  - 114
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 457
+  - 191
+64\ff7eed55-50e1-4c4b-adbf-cdaa4bd89814.png:
+  bbox: !!python/tuple
+  - 341
+  - 121
+  - 178
+  - 178
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 460
+  - 198
+65\10e43949-dcfb-4a2e-a2ae-af9a1bbadecb.png:
+  bbox: !!python/tuple
+  - 332
+  - 156
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 466
+  - 228
+65\608fba7a-252e-4a23-9ec8-548d7f74c9ed.png:
+  bbox: !!python/tuple
+  - 267
+  - 186
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 409
+  - 270
+65\622bce89-9100-46ac-9b70-7380570d391f.png:
+  bbox: !!python/tuple
+  - 219
+  - 213
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 303
+65\8f3922e6-96ad-42fc-90cd-f8d690d314cd.png:
+  bbox: !!python/tuple
+  - 217
+  - 132
+  - 230
+  - 230
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 229
+65\976c0de3-80ed-462c-a366-ba0d2c01c135.png:
+  bbox: !!python/tuple
+  - 169
+  - 168
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 312
+  - 245
+65\9b6bb403-b58e-4f33-847e-430ddb830305.png:
+  bbox: !!python/tuple
+  - 181
+  - 151
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 323
+  - 237
+65\9c6701b9-f71d-4960-ab96-308e20f4aeff.png:
+  bbox: !!python/tuple
+  - 273
+  - 135
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 218
+65\b443596c-d257-4996-b584-3ff89d1fa5ed.png:
+  bbox: !!python/tuple
+  - 271
+  - 149
+  - 229
+  - 229
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 241
+65\c14a89bb-7893-4c2b-9fdf-95f326c06988.png:
+  bbox: !!python/tuple
+  - 260
+  - 171
+  - 233
+  - 233
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 416
+  - 248
+65\cd65da7d-b04c-45df-8024-8c59c4b3afdf.png:
+  bbox: !!python/tuple
+  - 261
+  - 184
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 269
+65\ec4569b0-eabd-4453-a371-5337474b5029.png:
+  bbox: !!python/tuple
+  - 170
+  - 159
+  - 207
+  - 207
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 310
+  - 241
+65\f73592ad-1210-46e3-9361-393d8ec88709.png:
+  bbox: !!python/tuple
+  - 247
+  - 140
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 384
+  - 222
+66\04ee907e-327c-42fe-b32d-bb7f7f27fd64.png:
+  bbox: !!python/tuple
+  - 230
+  - 77
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 141
+66\157d1544-a76e-4c7b-ad3a-eec16eb90f50.png:
+  bbox: !!python/tuple
+  - 54
+  - 108
+  - 53
+  - 53
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 87
+  - 130
+66\3ee324e7-e636-4518-95ac-1d8f2d6652ae.png:
+  bbox: !!python/tuple
+  - 245
+  - 91
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 156
+66\8203d76c-d494-43ff-a284-1af3f27f8387.png:
+  bbox: !!python/tuple
+  - 237
+  - 89
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 152
+66\9a2a8b0a-1729-4e24-8f0e-d7cfb5612c71.png:
+  bbox: !!python/tuple
+  - 293
+  - 91
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 397
+  - 161
+66\ae762c9f-df10-4f6f-acaf-501e05db4334.png:
+  bbox: !!python/tuple
+  - 287
+  - 114
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 370
+  - 165
+66\dcdfbb85-b235-4dc3-b3f7-7810391499aa.png:
+  bbox: !!python/tuple
+  - 290
+  - 144
+  - 79
+  - 79
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 343
+  - 177
+66\e6cac921-169f-415d-8344-a36489b67599.png:
+  bbox: !!python/tuple
+  - 287
+  - 112
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 166
+66\f574c9bf-a2e1-4e15-88c5-d7911057d0e2.png:
+  bbox: !!python/tuple
+  - 306
+  - 102
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 167
+67\0caaf043-a0c7-43b4-9eca-19005eabfdeb.png:
+  bbox: !!python/tuple
+  - 259
+  - 113
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 356
+  - 167
+67\0d20157d-761c-41a0-b5e7-ee525694ac23.png:
+  bbox: !!python/tuple
+  - 288
+  - 73
+  - 140
+  - 140
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 375
+  - 129
+67\0decebbd-f49e-41be-8530-b41cd7c8df11.png:
+  bbox: !!python/tuple
+  - 247
+  - 113
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 167
+67\78a42163-07e8-42bc-9233-fbc1570d9837.png:
+  bbox: !!python/tuple
+  - 284
+  - 137
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 198
+67\93692520-b1cc-4bb2-9064-13484b140ac1.png:
+  bbox: !!python/tuple
+  - 302
+  - 97
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 167
+67\9bac15c6-b72d-4aab-8c9d-a956ff50718a.png:
+  bbox: !!python/tuple
+  - 266
+  - 99
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 161
+67\9dbac1a8-c235-40ab-b9b5-3c0eb970efb0.png:
+  bbox: !!python/tuple
+  - 290
+  - 101
+  - 147
+  - 147
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 162
+67\c4d22e13-1b0d-42bc-9570-03eb1d0d46b8.png:
+  bbox: !!python/tuple
+  - 299
+  - 101
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 404
+  - 153
+67\c554b99e-98e2-4727-8da8-f52894f62abf.png:
+  bbox: !!python/tuple
+  - 278
+  - 102
+  - 141
+  - 141
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 369
+  - 158
+67\daccc4a4-d7b8-4b58-ab75-f9adad4fbf3e.png:
+  bbox: !!python/tuple
+  - 294
+  - 97
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 165
+67\e570491f-9840-4934-8e3b-94317b7e7860.png:
+  bbox: !!python/tuple
+  - 273
+  - 112
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 380
+  - 172
+67\f64e76fe-abfc-49e5-8250-e6d5cd2f8c08.png:
+  bbox: !!python/tuple
+  - 281
+  - 108
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 375
+  - 165
+68\21ccfd15-c56a-4628-9709-85593fd59dad.png:
+  bbox: !!python/tuple
+  - 252
+  - 153
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 391
+  - 224
+68\2cc6cbaa-c820-42f3-9495-538cd2c4cbcd.png:
+  bbox: !!python/tuple
+  - 265
+  - 137
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 219
+68\2e1c2087-25d4-472a-815a-e56fc4095958.png:
+  bbox: !!python/tuple
+  - 201
+  - 134
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 327
+  - 206
+68\50510d9f-c20c-4df6-9dc7-3d5743975195.png:
+  bbox: !!python/tuple
+  - 102
+  - 182
+  - 272
+  - 272
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 287
+  - 283
+68\51bbdc35-a13c-4688-abb0-1a2cd8b051f5.png:
+  bbox: !!python/tuple
+  - 117
+  - 149
+  - 293
+  - 293
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 308
+  - 242
+68\5bb6bfc0-cd70-40b3-a12b-69c6e4cd1244.png:
+  bbox: !!python/tuple
+  - 248
+  - 129
+  - 210
+  - 210
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 223
+68\7c73def4-ac55-4c2c-987f-290a3e7a8cca.png:
+  bbox: !!python/tuple
+  - 225
+  - 146
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 371
+  - 231
+68\857527dd-2571-4aec-b81f-9459e8277b83.png:
+  bbox: !!python/tuple
+  - 283
+  - 135
+  - 195
+  - 195
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 411
+  - 213
+68\88ef8faa-88eb-4e82-9571-8a6e1ef06ae5.png:
+  bbox: !!python/tuple
+  - 358
+  - 151
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 506
+  - 239
+68\93ed22ac-5bba-4e21-b48f-ae23dfb6f032.png:
+  bbox: !!python/tuple
+  - 205
+  - 119
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 340
+  - 192
+68\d615ce4d-d4c0-4b7c-879e-7de0dc3888b3.png:
+  bbox: !!python/tuple
+  - 301
+  - 171
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 437
+  - 259
+69\1a81bd0e-ba3d-4a03-84ad-851752ae3946.png:
+  bbox: !!python/tuple
+  - 317
+  - 95
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 420
+  - 161
+69\39646eba-3b74-4959-9aeb-3059330f8322.png:
+  bbox: !!python/tuple
+  - 277
+  - 96
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 156
+69\3e2e397d-32fd-42c9-addd-c558ac8b8c14.png:
+  bbox: !!python/tuple
+  - 331
+  - 96
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 455
+  - 160
+69\8583bb62-5987-467d-b5ae-903f1baaedbc.png:
+  bbox: !!python/tuple
+  - 331
+  - 96
+  - 183
+  - 183
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 455
+  - 160
+69\8de5893c-327f-48da-a6fe-498500923d5e.png:
+  bbox: !!python/tuple
+  - 259
+  - 101
+  - 171
+  - 171
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 161
+69\afbe677b-49c7-45c3-849d-fddaf76ebd37.png:
+  bbox: !!python/tuple
+  - 318
+  - 93
+  - 168
+  - 168
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 436
+  - 160
+69\c836c31f-33fb-4511-9e11-cfe629bcbdf2.png:
+  bbox: !!python/tuple
+  - 299
+  - 92
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 161
+69\ebcab24e-4922-4038-a4c9-2b5c83d12fc6.png:
+  bbox: !!python/tuple
+  - 318
+  - 66
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 459
+  - 133
+69\f3c6dcfc-13bf-4f59-9fc5-284515aedb1a.png:
+  bbox: !!python/tuple
+  - 302
+  - 118
+  - 172
+  - 172
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 194
+69\f92aa60c-0134-46e1-b1ed-ae4fc60341ba.png:
+  bbox: !!python/tuple
+  - 322
+  - 90
+  - 180
+  - 180
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 444
+  - 171
+6\209177d3-9902-4eaa-92a6-919d4e677f03.png:
+  bbox: !!python/tuple
+  - 275
+  - 103
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 404
+  - 175
+6\2bb4a68d-2da3-45e2-b576-e6fc2d0ec30c.png:
+  bbox: !!python/tuple
+  - 226
+  - 109
+  - 297
+  - 297
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 422
+  - 232
+6\5fa5faea-6568-456c-9aa7-8a24cca2a2bd.png:
+  bbox: !!python/tuple
+  - 275
+  - 94
+  - 266
+  - 266
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 448
+  - 202
+6\7de6cd8e-208b-4067-a2f8-fe99990ada1f.png:
+  bbox: !!python/tuple
+  - 254
+  - 114
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 176
+6\c237d713-6146-484f-97b7-8eb4c452389f.png:
+  bbox: !!python/tuple
+  - 289
+  - 116
+  - 278
+  - 278
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 470
+  - 235
+6\d90ce04b-8d20-4afe-add3-6ba01ac533d0.png:
+  bbox: !!python/tuple
+  - 286
+  - 101
+  - 190
+  - 190
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 174
+6\d9e3838e-9622-4902-92a5-c361c2565f8c.png:
+  bbox: !!python/tuple
+  - 211
+  - 93
+  - 270
+  - 270
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 378
+  - 180
+6\db531f87-e752-475c-b3cd-583cf3bd7f1d.png:
+  bbox: !!python/tuple
+  - 260
+  - 104
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 177
+6\f7c7b518-d698-4523-8c8f-7d99f3c5383d.png:
+  bbox: !!python/tuple
+  - 170
+  - 117
+  - 178
+  - 178
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 284
+  - 167
+70\231d155d-444b-4326-b12a-7c379d66c9d5.png:
+  bbox: !!python/tuple
+  - 277
+  - 127
+  - 123
+  - 123
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 174
+70\272d1f3e-5574-443a-93a0-03c53a167fc4.png:
+  bbox: !!python/tuple
+  - 187
+  - 134
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 328
+  - 209
+70\4272b67c-d1e9-424d-9d89-d999dbfcf6e2.png:
+  bbox: !!python/tuple
+  - 192
+  - 104
+  - 254
+  - 254
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 363
+  - 207
+70\579bdfb8-53b1-4226-882c-fefbf638b0a5.png:
+  bbox: !!python/tuple
+  - 225
+  - 132
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 220
+70\660fafee-a3d3-4a75-b15e-832cac7066e7.png:
+  bbox: !!python/tuple
+  - 199
+  - 119
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 337
+  - 201
+70\7f5d5405-2657-4240-a8e7-0a38fa0ebddc.png:
+  bbox: !!python/tuple
+  - 165
+  - 122
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 294
+  - 200
+70\9643171f-708d-44b6-bbec-f521bfd55d3e.png:
+  bbox: !!python/tuple
+  - 234
+  - 113
+  - 213
+  - 213
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 375
+  - 198
+70\9f18727c-b21f-4824-ac1c-4a6c6cf6456e.png:
+  bbox: !!python/tuple
+  - 209
+  - 112
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 201
+70\b09ef072-35dc-4cc0-a044-ab01cdec0612.png:
+  bbox: !!python/tuple
+  - 233
+  - 108
+  - 222
+  - 222
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 194
+70\b333d0ab-96f5-4757-b93d-c16cec29f5eb.png:
+  bbox: !!python/tuple
+  - 158
+  - 127
+  - 254
+  - 254
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 327
+  - 224
+70\e9fe48e8-0748-483c-9ffa-727ff0276ebb.png:
+  bbox: !!python/tuple
+  - 227
+  - 129
+  - 202
+  - 202
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 366
+  - 212
+71\083bccb8-5bc8-4895-9aea-87c095898d99.png:
+  bbox: !!python/tuple
+  - 181
+  - 163
+  - 236
+  - 236
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 344
+  - 250
+71\2d29d2b4-7bca-4a7c-bf56-cdeb150b05f2.png:
+  bbox: !!python/tuple
+  - 232
+  - 157
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 369
+  - 249
+71\3205eddb-561b-4541-a1a3-7f56ddee5d54.png:
+  bbox: !!python/tuple
+  - 220
+  - 172
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 243
+71\48f6ef3c-a156-467b-8ad0-7c2d676e6f68.png:
+  bbox: !!python/tuple
+  - 156
+  - 156
+  - 219
+  - 219
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 351
+  - 238
+71\512cb0b6-7374-4bd7-8506-b7de79b3d45f.png:
+  bbox: !!python/tuple
+  - 252
+  - 190
+  - 256
+  - 256
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 405
+  - 297
+71\6e593163-7346-4cc4-997c-3713d1e6adaa.png:
+  bbox: !!python/tuple
+  - 259
+  - 192
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 390
+  - 262
+71\7c685667-21fb-4fb8-9398-f2ce458305b1.png:
+  bbox: !!python/tuple
+  - 246
+  - 155
+  - 191
+  - 191
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 378
+  - 234
+71\850b731e-960a-440c-8390-570b72f4a524.png:
+  bbox: !!python/tuple
+  - 226
+  - 164
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 238
+71\898a31fd-be10-4266-b38e-7fdfa49b2f40.png:
+  bbox: !!python/tuple
+  - 229
+  - 164
+  - 211
+  - 211
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 374
+  - 245
+71\9a411aa1-0ba6-4099-bd86-dfcadd5c0a84.png:
+  bbox: !!python/tuple
+  - 197
+  - 145
+  - 192
+  - 192
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 222
+71\aefdabb0-0104-4f58-9cad-1a627c783b5a.png:
+  bbox: !!python/tuple
+  - 300
+  - 173
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 434
+  - 257
+72\2b84e8ec-7a7a-4f2b-86fa-4c31f0f668ba.png:
+  bbox: !!python/tuple
+  - 294
+  - 85
+  - 139
+  - 139
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 141
+72\47c20acf-d80c-407c-a6fc-a7e97591c82b.png:
+  bbox: !!python/tuple
+  - 288
+  - 109
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 385
+  - 167
+72\4ccb8cbc-e84f-4c26-aa48-9c07e12fa758.png:
+  bbox: !!python/tuple
+  - 283
+  - 80
+  - 145
+  - 145
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 135
+72\4e25bb93-73fe-461a-9b87-4b50c5ac0dd7.png:
+  bbox: !!python/tuple
+  - 274
+  - 80
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 377
+  - 141
+72\527e13a6-5bfa-4a16-bef7-631f5445deab.png:
+  bbox: !!python/tuple
+  - 323
+  - 88
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 148
+72\6cc72b49-dea2-4f97-ad2f-61a13b48db6e.png:
+  bbox: !!python/tuple
+  - 247
+  - 84
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 352
+  - 148
+72\852ec55b-4c5d-470b-9f72-51ed77acf8e3.png:
+  bbox: !!python/tuple
+  - 277
+  - 71
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 379
+  - 135
+72\c944eac2-bc8d-4873-89ba-9199fc336614.png:
+  bbox: !!python/tuple
+  - 269
+  - 72
+  - 151
+  - 151
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 134
+72\c95fbccc-301f-471c-a3ae-a9caefd2cfdd.png:
+  bbox: !!python/tuple
+  - 296
+  - 94
+  - 138
+  - 138
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 388
+  - 152
+72\d5eb1cb9-eba2-4f8a-919a-5235b6148281.png:
+  bbox: !!python/tuple
+  - 281
+  - 85
+  - 144
+  - 144
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 148
+72\f0bc9556-fc15-4b5c-abd1-7d9bb14fb5e5.png:
+  bbox: !!python/tuple
+  - 248
+  - 76
+  - 154
+  - 154
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 353
+  - 134
+72\f31deb7e-f2e8-4ecb-9305-045d985e3b4d.png:
+  bbox: !!python/tuple
+  - 316
+  - 86
+  - 163
+  - 163
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 422
+  - 159
+73\16f4624f-ae3b-491c-a514-41f91d768b0b.png:
+  bbox: !!python/tuple
+  - 238
+  - 109
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 346
+  - 171
+73\2fd22f51-1198-4498-8886-41dada9b00ca.png:
+  bbox: !!python/tuple
+  - 314
+  - 115
+  - 146
+  - 146
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 410
+  - 176
+73\392ad98b-8c27-4c15-8298-74ee34d660be.png:
+  bbox: !!python/tuple
+  - 232
+  - 110
+  - 168
+  - 168
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 162
+73\7248ff62-9183-4487-9db7-ed0e0fc5bb0e.png:
+  bbox: !!python/tuple
+  - 251
+  - 110
+  - 168
+  - 168
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 170
+73\88e38527-13c7-4d6b-b9bb-2331f61975c1.png:
+  bbox: !!python/tuple
+  - 284
+  - 133
+  - 120
+  - 120
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 367
+  - 187
+73\8f2d1767-5234-441f-b513-7cbb0621d3eb.png:
+  bbox: !!python/tuple
+  - 316
+  - 105
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 423
+  - 175
+73\b98333f3-996c-4c3a-971d-3754acae30eb.png:
+  bbox: !!python/tuple
+  - 314
+  - 133
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 192
+73\f66cf3fe-a78a-4334-86d9-18ca73947a28.png:
+  bbox: !!python/tuple
+  - 263
+  - 107
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 392
+  - 172
+73\fc29b5d8-8085-45f8-afdf-00a61160bade.png:
+  bbox: !!python/tuple
+  - 283
+  - 111
+  - 137
+  - 137
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 175
+74\02d910b3-1b19-4605-80af-d52ffa0ff1b6.png:
+  bbox: !!python/tuple
+  - 243
+  - 123
+  - 200
+  - 200
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 383
+  - 193
+74\14f684ed-2580-495a-8cf9-426771663b13.png:
+  bbox: !!python/tuple
+  - 367
+  - 114
+  - 169
+  - 169
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 482
+  - 185
+74\38eb06a0-6fb2-4965-be4f-ca4153346692.png:
+  bbox: !!python/tuple
+  - 273
+  - 121
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 402
+  - 184
+74\3f03a21e-9105-43d0-8191-80777ba50fa7.png:
+  bbox: !!python/tuple
+  - 280
+  - 151
+  - 153
+  - 153
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 369
+  - 212
+74\5bb0cbc0-4b7e-4cbf-8693-2ef331e8082c.png:
+  bbox: !!python/tuple
+  - 284
+  - 164
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 414
+  - 246
+74\61abeb5e-43eb-4c18-889b-4666629cf4d8.png:
+  bbox: !!python/tuple
+  - 299
+  - 118
+  - 167
+  - 167
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 180
+74\8d789c29-d327-4e23-b91e-3f0f32dfcdc0.png:
+  bbox: !!python/tuple
+  - 226
+  - 83
+  - 162
+  - 162
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 335
+  - 156
+74\c9e04d3b-0de2-45e2-ae40-ff266057a8ba.png:
+  bbox: !!python/tuple
+  - 250
+  - 119
+  - 173
+  - 173
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 362
+  - 195
+74\cb2404b8-647e-4db9-ae29-a0aa452611f5.png:
+  bbox: !!python/tuple
+  - 155
+  - 94
+  - 160
+  - 160
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 262
+  - 159
+74\ccd8a9e5-98b9-4e48-b5bb-c8a1b79614a4.png:
+  bbox: !!python/tuple
+  - 305
+  - 127
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 415
+  - 191
+74\ec3ff793-7493-401d-baf2-518b96469caf.png:
+  bbox: !!python/tuple
+  - 153
+  - 221
+  - 234
+  - 234
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 319
+  - 310
+75\1342f29a-926a-47dc-8fa5-cc1fe0604a28.png:
+  bbox: !!python/tuple
+  - 272
+  - 148
+  - 183
+  - 183
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 386
+  - 214
+75\149c4c0c-6cf9-4e1c-8139-7830a0fb64e0.png:
+  bbox: !!python/tuple
+  - 199
+  - 148
+  - 203
+  - 203
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 332
+  - 228
+75\19f66c33-5c12-4a26-9523-00f85944f7d3.png:
+  bbox: !!python/tuple
+  - 276
+  - 128
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 382
+  - 190
+75\2764699f-71ca-44a7-af22-323f4444b236.png:
+  bbox: !!python/tuple
+  - 266
+  - 117
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 395
+  - 183
+75\2c0db59d-70ea-4638-8a7e-a3a05cf4e58c.png:
+  bbox: !!python/tuple
+  - 212
+  - 161
+  - 226
+  - 226
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 359
+  - 241
+75\32289123-182f-4514-879d-e5a6e190e701.png:
+  bbox: !!python/tuple
+  - 222
+  - 116
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 346
+  - 186
+75\67f2423a-a536-42e0-a644-8b6659043136.png:
+  bbox: !!python/tuple
+  - 239
+  - 149
+  - 218
+  - 218
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 372
+  - 228
+75\767a9eb6-7654-4637-81e8-4f55e4108027.png:
+  bbox: !!python/tuple
+  - 279
+  - 148
+  - 188
+  - 188
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 408
+  - 225
+75\9dbeedf8-da6d-4aa9-85fc-f7796cdb5169.png:
+  bbox: !!python/tuple
+  - 220
+  - 117
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 347
+  - 186
+75\ab9cf1fe-5e44-427b-85d2-34e658075569.png:
+  bbox: !!python/tuple
+  - 189
+  - 163
+  - 204
+  - 204
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 330
+  - 241
+75\ee372521-1804-4731-859d-93152a81233d.png:
+  bbox: !!python/tuple
+  - 270
+  - 122
+  - 200
+  - 200
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 392
+  - 197
+75\f761185c-6c33-416d-9667-aee67582697b.png:
+  bbox: !!python/tuple
+  - 274
+  - 135
+  - 184
+  - 184
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 400
+  - 205
+76\1a68fbc4-3c1a-4f39-9044-7664c68a5efd.png:
+  bbox: !!python/tuple
+  - 235
+  - 134
+  - 179
+  - 179
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 348
+  - 206
+76\287280a9-2ca6-4d11-b300-56a94623c694.png:
+  bbox: !!python/tuple
+  - 176
+  - 104
+  - 254
+  - 254
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 342
+  - 212
+76\36d99a19-5034-4875-8964-0f109558da03.png:
+  bbox: !!python/tuple
+  - 242
+  - 101
+  - 248
+  - 248
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 197
+76\3db9348d-3964-4f13-8357-9031b6316063.png:
+  bbox: !!python/tuple
+  - 270
+  - 112
+  - 243
+  - 243
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 432
+  - 215
+76\3fc92a0f-6794-44f8-8883-502e29225656.png:
+  bbox: !!python/tuple
+  - 184
+  - 96
+  - 248
+  - 248
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 344
+  - 195
+76\437a17d0-8386-48f9-8d9a-1eaac6b68a75.png:
+  bbox: !!python/tuple
+  - 277
+  - 105
+  - 255
+  - 255
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 440
+  - 203
+76\61dee935-9c70-4c03-aae3-3e167b9f2dcf.png:
+  bbox: !!python/tuple
+  - 230
+  - 90
+  - 269
+  - 269
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 401
+  - 190
+76\891d7cd9-b2dc-43e1-8aca-c5ef01bb86a8.png:
+  bbox: !!python/tuple
+  - 215
+  - 113
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 209
+76\a1e3240b-041d-4350-a6dd-ded0e82a0570.png:
+  bbox: !!python/tuple
+  - 248
+  - 91
+  - 247
+  - 247
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 406
+  - 186
+76\b24d81ab-a97b-4e00-9d95-7ea2fe139d04.png:
+  bbox: !!python/tuple
+  - 237
+  - 122
+  - 225
+  - 225
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 380
+  - 210
+76\edfc4a10-ce2a-4ca5-b0ac-d31f40c39157.png:
+  bbox: !!python/tuple
+  - 285
+  - 119
+  - 240
+  - 240
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 454
+  - 223
+77\02e038aa-4bc1-4efd-a126-b1cb366cb5c4.png:
+  bbox: !!python/tuple
+  - 53
+  - 108
+  - 162
+  - 162
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 170
+  - 173
+77\35073ddc-025d-4176-9f7e-f75f7b482409.png:
+  bbox: !!python/tuple
+  - 38
+  - 36
+  - 89
+  - 89
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 97
+  - 68
+77\43783328-43b3-4634-a080-1cb331630944.png:
+  bbox: !!python/tuple
+  - 22
+  - 28
+  - 89
+  - 89
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 81
+  - 66
+77\5af102bd-8b24-4a85-b6c5-c59313043720.png:
+  bbox: !!python/tuple
+  - 15
+  - 118
+  - 166
+  - 166
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 132
+  - 183
+77\7e07050f-5c17-4708-b0c6-d0561bcce8ac.png:
+  bbox: !!python/tuple
+  - 284
+  - 113
+  - 216
+  - 216
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 423
+  - 202
+77\9576af10-ca06-4b9e-b29a-fdd5e6a10cc0.png:
+  bbox: !!python/tuple
+  - 35
+  - 29
+  - 95
+  - 95
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 96
+  - 63
+77\ab6dc3f9-e9bb-475e-a1bf-5c584d04a794.png:
+  bbox: !!python/tuple
+  - 60
+  - 28
+  - 90
+  - 90
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 120
+  - 59
+77\ce2071cb-3dcc-408d-8536-1c065b431e6e.png:
+  bbox: !!python/tuple
+  - 36
+  - 100
+  - 173
+  - 173
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 151
+  - 165
+77\d7dc9381-5591-4a44-a6ea-6c33b8b60c1c.png:
+  bbox: !!python/tuple
+  - 30
+  - 115
+  - 165
+  - 165
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 150
+  - 179
+77\e0803c63-c77f-4cc6-9e10-6fd2064c59cc.png:
+  bbox: !!python/tuple
+  - 31
+  - 29
+  - 91
+  - 91
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 92
+  - 68
+77\ecf5c1ef-7dec-4e04-a72c-f136713d9a6f.png:
+  bbox: !!python/tuple
+  - 316
+  - 119
+  - 202
+  - 202
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 445
+  - 200
+77\f17d9620-f47f-4ab8-b9c2-98c5b0b160ab.png:
+  bbox: !!python/tuple
+  - 282
+  - 141
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 398
+  - 209
+78\2f1265d7-a664-4395-8473-d211c3f5a225.png:
+  bbox: !!python/tuple
+  - 327
+  - 140
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 417
+  - 194
+78\528f28a7-79a2-4690-8a3b-638bcfbd8c08.png:
+  bbox: !!python/tuple
+  - 337
+  - 129
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 422
+  - 189
+78\5a756783-3a98-45b9-b712-603d1fe0b7c7.png:
+  bbox: !!python/tuple
+  - 331
+  - 134
+  - 131
+  - 131
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 422
+  - 194
+78\9c9e2dba-f931-4adf-b22d-20f89bb93a78.png:
+  bbox: !!python/tuple
+  - 284
+  - 142
+  - 127
+  - 127
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 373
+  - 199
+78\a73ee4ba-5659-43ba-90f9-79e0e571156d.png:
+  bbox: !!python/tuple
+  - 342
+  - 135
+  - 130
+  - 130
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 428
+  - 197
+78\bce7387d-161d-459b-ba02-578b89e63c5a.png:
+  bbox: !!python/tuple
+  - 351
+  - 139
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 435
+  - 193
+78\bcfa2628-df30-42ad-877e-facee4b74d4e.png:
+  bbox: !!python/tuple
+  - 322
+  - 139
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 407
+  - 195
+78\bd6e71eb-11f8-4389-8f92-7a5210c2ac73.png:
+  bbox: !!python/tuple
+  - 295
+  - 156
+  - 128
+  - 128
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 376
+  - 207
+78\c6f2581c-d130-46f7-84e7-c34acd66f449.png:
+  bbox: !!python/tuple
+  - 341
+  - 138
+  - 129
+  - 129
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 428
+  - 194
+78\d2cee57b-9ebb-4d6e-acd4-396ae60dcbd7.png:
+  bbox: !!python/tuple
+  - 281
+  - 138
+  - 131
+  - 131
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 368
+  - 194
+78\f29abce1-3c73-481c-ab86-cf91eda47a2f.png:
+  bbox: !!python/tuple
+  - 341
+  - 137
+  - 130
+  - 130
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 428
+  - 193
+78\fd1df8d9-4de0-4854-9539-4e49360007a9.png:
+  bbox: !!python/tuple
+  - 279
+  - 147
+  - 127
+  - 127
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 371
+  - 197
+79\0b3af922-5cc3-40d4-80a5-9954ec81628b.png:
+  bbox: !!python/tuple
+  - 111
+  - 163
+  - 102
+  - 102
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 176
+  - 199
+79\17375dbc-4314-4c1c-8ff6-3a769452406a.png:
+  bbox: !!python/tuple
+  - 214
+  - 84
+  - 217
+  - 217
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 354
+  - 172
+79\1eb6cb5d-f185-4bd0-9044-8d7de90a36d5.png:
+  bbox: !!python/tuple
+  - 221
+  - 87
+  - 205
+  - 205
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 360
+  - 160
+79\495c8032-35d7-4ee8-8e4c-ca541d1624b3.png:
+  bbox: !!python/tuple
+  - 194
+  - 114
+  - 186
+  - 186
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 187
+79\86fc71ec-58b2-4115-bd00-e3a56a31bb67.png:
+  bbox: !!python/tuple
+  - 300
+  - 102
+  - 182
+  - 182
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 413
+  - 171
+79\d191603f-b9ca-4410-90ec-66609f64579d.png:
+  bbox: !!python/tuple
+  - 261
+  - 95
+  - 185
+  - 185
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 392
+  - 170
+79\d73bae5b-2630-46ee-a936-861982c2ed50.png:
+  bbox: !!python/tuple
+  - 130
+  - 112
+  - 81
+  - 81
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 187
+  - 144
+79\e750444b-11a8-4123-95ee-b718daf33099.png:
+  bbox: !!python/tuple
+  - 266
+  - 153
+  - 156
+  - 156
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 370
+  - 209
+79\edbb6cc4-a1a6-461e-b12c-c0ecb0402834.png:
+  bbox: !!python/tuple
+  - 149
+  - 160
+  - 98
+  - 98
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 218
+  - 201
+7\04b8f279-2df6-477d-9920-39896482eca1.png:
+  bbox: !!python/tuple
+  - 72
+  - 88
+  - 121
+  - 121
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 152
+  - 139
+7\24bdbdd4-6492-4872-b347-91843d1791d2.png:
+  bbox: !!python/tuple
+  - 163
+  - 66
+  - 150
+  - 150
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 258
+  - 126
+7\3242a978-4c0a-4c6d-9e40-5c4ce6df7188.png:
+  bbox: !!python/tuple
+  - 23
+  - 73
+  - 89
+  - 89
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 80
+  - 105
+7\356ee015-70c1-4f73-af37-b04beb58a4aa.png:
+  bbox: !!python/tuple
+  - 31
+  - 129
+  - 121
+  - 121
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 108
+  - 173
+7\3bba4c78-9b78-4cb9-b9ff-59dc07f1b171.png:
+  bbox: !!python/tuple
+  - 46
+  - 129
+  - 77
+  - 77
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 95
+  - 157
+7\493c52b7-030d-44de-8234-d4783f084530.png:
+  bbox: !!python/tuple
+  - 243
+  - 69
+  - 130
+  - 130
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 324
+  - 121
+7\96204621-bd3e-4d8e-9a69-f9308d33cb42.png:
+  bbox: !!python/tuple
+  - 54
+  - 113
+  - 102
+  - 102
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 121
+  - 154
+7\a233c1f8-0947-49be-9b54-09a1e4122b45.png:
+  bbox: !!python/tuple
+  - 77
+  - 118
+  - 84
+  - 84
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 130
+  - 150
+7\b6417257-b5b6-4142-859f-c2b6e48edfa2.png:
+  bbox: !!python/tuple
+  - 185
+  - 74
+  - 152
+  - 152
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 283
+  - 134
+7\c25006c8-9db4-4cba-8356-72fc81ff2fa7.png:
+  bbox: !!python/tuple
+  - 212
+  - 100
+  - 111
+  - 111
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 289
+  - 145
+7\e074dd7b-4e51-4807-8a35-836454476a41.png:
+  bbox: !!python/tuple
+  - 235
+  - 99
+  - 90
+  - 90
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 293
+  - 130
+7\f899f877-1cad-46e2-a293-027f4c214901.png:
+  bbox: !!python/tuple
+  - 207
+  - 103
+  - 111
+  - 111
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 290
+  - 149
+80\7bfb8bb7-c207-4040-9bf4-858b2f7e9997.png:
+  bbox: !!python/tuple
+  - 67
+  - 74
+  - 284
+  - 284
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 254
+  - 177
+80\88d3475c-e33d-4e3d-a124-4362e9a1179a.png:
+  bbox: !!python/tuple
+  - 121
+  - 102
+  - 255
+  - 255
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 292
+  - 196
+80\ce129c98-5833-49ed-9531-fa47fade58d9.png:
+  bbox: !!python/tuple
+  - 432
+  - 334
+  - 834
+  - 834
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 981
+  - 713
+80\d0558d49-6916-4479-97e0-4badd0369bfc.png:
+  bbox: !!python/tuple
+  - 357
+  - 258
+  - 362
+  - 362
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 590
+  - 406
+8\0ddbd214-3dd3-4a78-bc8e-a8133327c19a.png:
+  bbox: !!python/tuple
+  - 283
+  - 165
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 424
+  - 238
+8\1c14bfe1-3e02-49be-bd7e-502cf02f2dbd.png:
+  bbox: !!python/tuple
+  - 196
+  - 166
+  - 199
+  - 199
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 334
+  - 240
+8\1d1dbf28-215b-4e6b-b8ed-9b811d0c45f6.png:
+  bbox: !!python/tuple
+  - 164
+  - 150
+  - 243
+  - 243
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 316
+  - 237
+8\3b749d8c-813a-40a2-a269-ca4787aa61d6.png:
+  bbox: !!python/tuple
+  - 252
+  - 157
+  - 201
+  - 201
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 383
+  - 230
+8\55f189b0-ffbb-4621-883c-8596a4b29026.png:
+  bbox: !!python/tuple
+  - 211
+  - 159
+  - 197
+  - 197
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 331
+  - 237
+8\72993e49-e936-4ff7-8eee-c6b496e23a9e.png:
+  bbox: !!python/tuple
+  - 270
+  - 180
+  - 187
+  - 187
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 403
+  - 250
+8\7ea63347-f051-439f-8469-343e895d4cfa.png:
+  bbox: !!python/tuple
+  - 204
+  - 141
+  - 214
+  - 214
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 348
+  - 221
+8\81417647-afaa-4f23-801c-4fb946b75d5a.png:
+  bbox: !!python/tuple
+  - 239
+  - 151
+  - 211
+  - 211
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 233
+8\b280fc00-a52c-4605-b3ba-fcd3e006ae16.png:
+  bbox: !!python/tuple
+  - 258
+  - 172
+  - 194
+  - 194
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 393
+  - 242
+8\b861ece9-246a-4331-8f2e-ba7df4331ed7.png:
+  bbox: !!python/tuple
+  - 279
+  - 164
+  - 196
+  - 196
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 412
+  - 233
+8\d39c9b3e-9c06-436a-b9d9-1c0f6fa3c11a.png:
+  bbox: !!python/tuple
+  - 286
+  - 155
+  - 198
+  - 198
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 225
+8\dfde2899-48a0-44a9-b52a-d3cfac30bb41.png:
+  bbox: !!python/tuple
+  - 241
+  - 151
+  - 211
+  - 211
+  face_in_models: false
+  left_eye_position: !!python/tuple
+  - 392
+  - 227
+9\05d12e2d-cb2a-448c-b721-2f9cf501d364.png:
+  bbox: !!python/tuple
+  - 319
+  - 117
+  - 155
+  - 155
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 426
+  - 178
+9\33df614d-1405-403f-968a-c883845cb22b.png:
+  bbox: !!python/tuple
+  - 312
+  - 107
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 419
+  - 169
+9\585ceb6b-7d3e-4e36-8629-b19174c809c9.png:
+  bbox: !!python/tuple
+  - 317
+  - 112
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 423
+  - 173
+9\86430087-1eb5-4149-aaa3-ede568d83dca.png:
+  bbox: !!python/tuple
+  - 282
+  - 128
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 387
+  - 192
+9\a083c7b8-76f3-4e41-9638-4a137f065003.png:
+  bbox: !!python/tuple
+  - 322
+  - 121
+  - 164
+  - 164
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 427
+  - 176
+9\a306e8ca-484c-45da-8248-e49b1e7d5aa2.png:
+  bbox: !!python/tuple
+  - 313
+  - 112
+  - 158
+  - 158
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 420
+  - 171
+9\cc1156d1-ee8b-4be9-9a8d-5871e844c71f.png:
+  bbox: !!python/tuple
+  - 299
+  - 119
+  - 157
+  - 157
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 410
+  - 181
+9\ed0897bf-5956-488a-8971-282fc4e903e8.png:
+  bbox: !!python/tuple
+  - 305
+  - 111
+  - 166
+  - 166
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 418
+  - 170
+9\f48b8303-417b-46fd-aec3-20ded8e70945.png:
+  bbox: !!python/tuple
+  - 274
+  - 138
+  - 159
+  - 159
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 386
+  - 207
+9\f825f7e4-94ff-4a28-ac82-35dc6e6861bf.png:
+  bbox: !!python/tuple
+  - 334
+  - 116
+  - 161
+  - 161
+  face_in_models: true
+  left_eye_position: !!python/tuple
+  - 436
+  - 177

@@ -1,0 +1,11 @@
+<li ng-repeat="tool in tools" ng-switch on="tool">
+	<a ng-switch-when="summarizer" ng-href="http://156.148.132.79:80/{{tool}}/{{summarizerParam}}/" target="_blank">
+		<i class="fa fa-circle-o"></i> <span>{{tool}}</span>
+	</a>
+	<a ng-switch-when="navigator" ng-href="http://156.148.132.79:80/{{tool}}/{{navigatorParam}}/" target="_blank">
+		<i class="fa fa-circle-o"></i> <span>{{tool}}</span>
+	</a>
+	<a ng-switch-default ng-href="http://156.148.132.79:80/{{tool}}/" target="_blank">
+		<i class="fa fa-circle-o"></i> <span>{{tool}}</span>
+	</a>
+</li>

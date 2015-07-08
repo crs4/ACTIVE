@@ -1,0 +1,64 @@
+{% load url from future %}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> 
+<html lang="en"> <!--<![endif]-->  
+	<head>
+		<title>Login | Welcome...</title>
+
+		<!-- Meta -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		
+		<base href="/">
+		
+		<!-- CSS Global Compulsory -->
+		<link rel="stylesheet" type="text/css" href="/static/assets/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="/static/assets/css/font-awesome.min.css">
+
+		<!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+		<link rel="stylesheet" type="text/css" media="screen" href="/static/assets/css/smartadmin-production.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="/static/assets/css/smartadmin-skins.css">
+		
+		<!-- FAVICONS -->
+		<link rel="shortcut icon" href="/static/assets/img/favicon/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/static/assets/img/favicon/favicon.ico" type="image/x-icon">
+
+		<!-- GOOGLE FONT -->
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+		
+	</head>	
+
+	<body id="login" class="">
+		<!-- HEADER -->
+		<header id="header">
+
+			<div id="logo-group">
+				<span id="logo"> <img src="/static/assets/img/logo.png" alt="Active"> </span>
+
+				<!-- END AJAX-DROPDOWN -->
+			</div>
+			{% if user.is_authenticated %}
+			<span id="login-header-space"> <span class="hidden-mobile">{{ user.username }}</span> <a href="{% url "django.contrib.auth.views.logout" %}" class="btn btn-danger">Logout</a> </span>
+			{% else %}
+			<span id="login-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="register" class="btn btn-danger">Create account</a> </span>
+			{% endif %}
+		</header>
+		<!-- END HEADER -->
+
+		<!-- MAIN PANEL -->
+		<div id="main" role="main">
+			{% block content %}{% endblock %}
+		</div>
+		<!-- END MAIN PANEL -->
+		
+		<!-- THEME SCRIPTS -->
+		<script src="/static/assets/js/theme/libs/jquery-2.0.2.min.js"></script>
+		<script src="/static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/static/assets/js/theme/app.js"></script>
+	</body>
+</html>
