@@ -34,8 +34,8 @@ def generate_event(func):
                 auth_data['user_id'] = args[0].user.pk
                 auth_data['token']   = 'Bearer ' + str(args[0].auth.token)
                 auth_data['is_root'] = args[0].user.is_superuser or Group.objects.filter(name = 'Admin') in args[0].user.groups.all()
-                print 'Authenticated user ' + str(args[0].user.pk) + ' on event'
-                print auth_data, func_data
+                #print 'Authenticated user ' + str(args[0].user.pk) + ' on event'
+                #print auth_data, func_data
                 EventManager().start_scripts_by_action(func_path, auth_data, func_data )
         except Exception as e:
             print(e)

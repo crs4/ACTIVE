@@ -71,7 +71,7 @@ class AudioItemList(EventView):
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             serializer.save()
-            logger.,debug('Created a new AudioItem object')
+            logger.debug('Created a new AudioItem object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         logger.error('Error on AudioItem creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
