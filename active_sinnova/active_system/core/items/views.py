@@ -14,10 +14,14 @@ from rest_framework import status
 from core.items.models import Item
 from core.items.serializers import ItemSerializer, ItemPagination
 
-# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import logging
 import threading
+
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
 edit_lock = threading.Lock()
 
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class ItemList(EventView):
@@ -39,6 +43,7 @@ class ItemList(EventView):
         @return: HttpResponse containing all requested items data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all Item objects')
         items = Item.objects.all()
         paginator = ItemPagination()
         result = paginator.paginate_queryset(items, request)
@@ -79,6 +84,7 @@ class ItemDetail(EventView):
         @return: HttpResponse containing the requested audio item data, error if it doesn't exists.
         @rtype: HttpResponse
         """
+        logger.debug('Requested details for Item object with id ' + str(pk))
         item = self.get_object(pk)
         serializer = ItemSerializer(item)
         return Response(serializer.data)
@@ -102,8 +108,9 @@ class ItemDetail(EventView):
             serializer = ItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print serializer.data, '\n\n\n'
+                logger.debug('Updated data on Item object with id ' + str(pk))
                 return Response(serializer.data)
+            logger.error('Error on update of Item object with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -119,6 +126,7 @@ class ItemDetail(EventView):
         @return: HttpResponse containing the result of the item deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Item object with id ' + str(pk))
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -13,9 +13,14 @@ from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
 
-# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import logging
 import threading
+
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
 edit_lock = threading.Lock()
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class EventList(EventView): 
@@ -38,6 +43,7 @@ class EventList(EventView):
         @return: HttpResponse containing all serialized data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all Event objects')
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
@@ -57,7 +63,9 @@ class EventList(EventView):
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('Created a new Event object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.debug('Error on new Event object creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -96,6 +104,7 @@ class EventDetail(EventView):
         @return: HttpResponse containing the serialized data of a Event object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Requested details for Event object with id ' + str(pk))
         event = self.get_object(pk)
         serializer = EventSerializer(event)
         return Response(serializer.data)
@@ -118,7 +127,9 @@ class EventDetail(EventView):
             serializer = EventSerializer(event, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Updated data for Event object with id ' + str(pk))
                 return Response(serializer.data)
+            logger.debug('Error on update of Event object with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -134,28 +145,7 @@ class EventDetail(EventView):
         @return: HttpResponse containing the result of Event object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Event object with id ' + str(pk))
         event = self.get_object(pk)
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-"""
-    # metodo da rimuovere??????????? e' utilizzato da qualche parte?
-    def get_event_scripts(self, request, pk, format=None):
-
-        This method is used to retrieve all Script objects associated with a given Event object.
-	Objects are returned in a serialized format, JSON by default.
-
-	@param request: HttpRequest used to retrieve all stored Script objects.
-	@type request: HttpRequest
-	@param format: The format used to serialize objects data.
-	@type format: string
-	@return: HttpResponse containing all serialized data.
-	@rtype: HttpResponse
-
-	
-	event = self.get_object(pk)
-	scripts = Script.objects.filter(events__name = event.name)
-	serializer = ScriptSerializer(scripts, many=True)
-        return Response(serializer.data)
-"""

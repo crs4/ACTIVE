@@ -22,12 +22,12 @@ from core.items.video.serializers import VideoItemSerializer, VideoItemPaginatio
 from core.tags.models import Tag, Entity
 from core.tags.serializers import TagSerializer
 import logging
+import threading
 
 # variable used for logging purposes
 logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
-import threading
 edit_lock = threading.Lock()
 
 
@@ -82,7 +82,7 @@ class TagList(EventView):
         @return: HttpResponse containing all serialized DynamicTags.
         @rtype: HttpResponse
         """
-        logger.debug('Requested all stored Tag objects')
+        logger.debug('Requested all Tag objects')
         tag = Tag.objects.all()
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -178,17 +178,17 @@ class TagDetail(EventView):
         @return: HttpResponse containing the serialized updated data
         @rtype: HttpResponse
         """
-        logger.debug('Requested edit on Tag object ' + str(pk))
+        logger.debug('Requested edit on Tag object with id ' + str(pk))
         with edit_lock:
             tag = self.get_object(pk)
             serializer = TagSerializer(tag, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                logger.debug('Tag object ' + str(pk) + ' successfully edited')
+                logger.debug('Updated data of Tag object with id ' + str(pk))
                 check_tags(tag)
                 return Response(serializer.data)
 
-            logger.error('Provided data not valid for Tag object ' + str(pk))
+            logger.error('Error on data update of Tag object with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -204,12 +204,9 @@ class TagDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
-        logger.debug('Requested delete on Tag object ' + str(pk))
+        logger.debug('Requested delete on Tag object with id' + str(pk))
         tag = self.get_object(pk)
-        
-            
         tag.delete()
-        logger.debug('Tag object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -235,7 +232,7 @@ class SearchTagItem(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Searching all Tag objects associated to Item object ' + str(pk))
+        logger.debug('Searching all Tag objects associated to Item object with id ' + str(pk))
         tag = Tag.objects.filter(item__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -263,7 +260,7 @@ class SearchTagPerson(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Searching all Tag objects associated to Entity object ' + str(pk))
+        logger.debug('Searching all Tag objects associated to Entity object with id ' + str(pk))
         tag = Tag.objects.filter(entity__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -296,7 +293,7 @@ class SearchItemByEntity(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Searching all Item objects associated to Entity object ' + str(pk) + ' with type ' + item_type)
+        logger.debug('Searching all Item objects associated to Entity object with id ' + str(pk) + ' with type ' + item_type)
 
         item_map = {'audio' : [AudioItem, AudioItemSerializer, AudioItemPagination],
                     'image' : [ImageItem, ImageItemSerializer, ImageItemPagination],
@@ -312,7 +309,7 @@ class SearchItemByEntity(EventView):
             print str(tag), str(tag.item), str(tag.entity)
             item = Item.objects.get(pk=tag.item.id)
             if item.type == item_type:
-                print 'item selected'
+                logger.debug('Item selected ' + str(item.id))
                 items.append(item_map[item_type][0].objects.get(item_ptr_id=tag.item))
         # return the retrieved items in a serialized and paginated format
         paginator = item_map[item_type][2]()

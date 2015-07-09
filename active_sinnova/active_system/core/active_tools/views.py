@@ -19,8 +19,6 @@ class ActiveToolsList(APIView):
     This class is used to retrieve all installed ACTIVE tools.
     It returns a dictionary which defines the association between tools and urls.
     """
-   
-
     queryset = ActiveTools.objects.none()  # required for DjangoModelPermissions
 
     def get(self, request, format=None):

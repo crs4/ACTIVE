@@ -2,6 +2,10 @@ from django.conf import settings
 from core.plugins.models import Event, Action, Script
 import requests
 import json
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class EventManager():
@@ -23,7 +27,7 @@ class EventManager():
         @param func_dict: Optional dictionary containing all action output data provided to the event.
         @type func_dict: dictionary
         """
-        print 'The event', event_name, 'has been triggered'
+        logger.debug('The event' + event_name + 'has been triggered')
         if (Script.objects.filter(events__name = event_name).count() > 0):
             for script in Script.objects.filter(events__name = event_name):
                 self.execute_script(script, auth_dict, func_dict)
@@ -41,7 +45,7 @@ class EventManager():
         @type func_dict: dictionary
         """
         for action in Action.objects.filter(path_abs = action_name):
-            print 'The action ', action.path_abs, 'has been triggered'
+            logger.debug('The action ' + action.path_abs + 'has been triggered')
             self.start_scripts(action.event.name, auth_dict, func_dict)
 
     def execute_script_by_id(self, script_id, auth_dict, func_dict):
@@ -73,9 +77,6 @@ class EventManager():
         @param func_dict: Optional dictionary containing all action output data provided to the event.
         @type func_dict: dictionary
         """
-
-        print auth_dict, func_dict
-
         desc = script.details
         if 'id' in func_dict:
             desc += ' - ' + str(func_dict['id'])
@@ -85,4 +86,4 @@ class EventManager():
                                           'auth_params' : json.dumps(auth_dict),
                                           'func_params' : json.dumps(func_dict),
                                           'name' : desc})
-        print 'Running ', script.details, 'script...'
+        logger.debug('Running ' + script.details + 'script...')

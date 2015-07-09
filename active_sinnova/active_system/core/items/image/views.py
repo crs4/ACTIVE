@@ -14,9 +14,15 @@ from rest_framework import status
 from core.items.image.models import ImageItem
 from core.items.image.serializers import ImageItemSerializer, ImageItemPagination
 
-# utilizzato per risolvere il problema dell'accesso concorrente agli item
+import logging
 import threading
+
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
 edit_lock = threading.Lock()
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
+
 
 class ImageItemList(EventView):
     """
@@ -37,7 +43,7 @@ class ImageItemList(EventView):
         @return: HttpResponse containing all serialized ImageItems.
         @rtype: HttpResponse
         """
-
+        logger.debug('Requested all ImageItem objects')
         images = ImageItem.objects.all()
         paginator = ImageItemPagination()
         result = paginator.paginate_queryset(images, request)
@@ -57,13 +63,14 @@ class ImageItemList(EventView):
         @rtype: HttpResponse
         """
         serializer = ImageItemSerializer(data=request.data)
-
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'image' :
+            logger.error('Error on ImageItem creation: format not supported')
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
-
         if serializer.is_valid():
             serializer.save()
+            logger.debug('Created a new ImageItem object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.error('Error on ImageItem creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -102,6 +109,7 @@ class ImageItemDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested details on ImageItem with id ' + str(pk))
         item = self.get_object(pk)
         serializer = ImageItemSerializer(item)
         return Response(serializer.data)
@@ -125,8 +133,9 @@ class ImageItemDetail(EventView):
             serializer = ImageItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print serializer.data, '\n\n\n'
+                logger.debug('Updated data on ImageItem with id ' + str(pk))
                 return Response(serializer.data)
+            logger.error('Error on update of ImageItem with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -142,6 +151,7 @@ class ImageItemDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete for ImageItem with id ' + str(pk))
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -13,6 +13,10 @@ from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
 
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 class ActionList(EventView): 
     """
@@ -34,6 +38,7 @@ class ActionList(EventView):
         @rtype: HttpResponse
 
         """
+        logger.debug('Required all Action objects')
         actions = Action.objects.all()
         serializer = ActionSerializer(actions, many=True)
         return Response(serializer.data)
@@ -53,7 +58,9 @@ class ActionList(EventView):
         serializer = ActionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('Created new Action object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.debug('Error on Action object creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -91,6 +98,7 @@ class ActionDetail(EventView):
         @return: HttpResponse containing the serialized data of a Action object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Required details for Action object with id ' + str(pk))
         action = self.get_object(pk)
         serializer = ActionSerializer(action)
         return Response(serializer.data)
@@ -113,7 +121,9 @@ class ActionDetail(EventView):
         serializer = ActionSerializer(action, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('Updated data for Action object with id ' + str(pk))
             return Response(serializer.data)
+        logger.debug('Error on update of Action object with id ' + str(pk))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -129,6 +139,7 @@ class ActionDetail(EventView):
         @return: HttpResponse containing the result of Action object deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete on Action object with id ' + str(pk))
         action = self.get_object(pk)
         action.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

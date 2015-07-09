@@ -11,12 +11,12 @@ from rest_framework import status
 from core.tags.person.models import Person
 from core.tags.person.serializers import PersonSerializer
 import logging
+import threading
 
 # variable used for logging purposes
 logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
-import threading
 edit_lock = threading.Lock()
 
 
@@ -35,10 +35,10 @@ def find_person(first_name, last_name):
     #res = Person.objects.filter(first_name__iexact = first_name).filter(last_name__iexact= last_name)
     res = Person.objects.filter(first_name__iexact = first_name).filter(last_name__icontains= last_name)
     if res or len(res):
-        print('Retrieved a Person object with name ' + res[0].first_name + ' ' + res[0].last_name)
+        logger.debug('Retrieved a Person object with name ' + res[0].first_name + ' ' + res[0].last_name)
         return res[0]
 
-    print('No Person object found with name ' + first_name + ' ' + last_name)
+    logger.debug('No Person object found with name ' + first_name + ' ' + last_name)
     return None
 
 
@@ -90,10 +90,10 @@ class PersonList(EventView):
         serializer = PersonSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            logger.debug('New Person object saved - ' + str(serializer.data['id']))
+            logger.debug('Created a new Person object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        logger.debug('Provided data not valid for Person object')
+        logger.error('Error on Person object creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -132,7 +132,7 @@ class PersonDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Requested Person object ' + str(pk))
+        logger.debug('Requested details for Person object with id ' + str(pk))
         person = self.get_object(pk)
         serializer = PersonSerializer(person)
         return Response(serializer.data)
@@ -151,13 +151,12 @@ class PersonDetail(EventView):
         @return: HttpResponse containing the Person object updated data, None in case of error
         @rtype: HttpResponse
         """
-        print('Requested edit on Person object ' + str(pk))
         with edit_lock:
             # check if there is already a person with the same name
             if 'first_name' in request.data and 'last_name' in request.data:
                 person2 = find_person(request.data['first_name'], request.data['last_name'])
                 if person2:
-                    print('Returned Person object ' + str(person2.pk))
+                    logger.debug('Updated data on Person object with id ' + str(person2.pk))
                     return Response(PersonSerializer(person2).data)
 
             # otherwise edit and return the current object
@@ -165,7 +164,7 @@ class PersonDetail(EventView):
             serializer = PersonSerializer(person, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print('Person object ' + str(pk) + ' successfully updated')
+                logger.debug('Person object ' + str(pk) + ' successfully updated')
                 return Response(serializer.data)
 
             logger.error('Provided data not valid for Person object ' + str(pk))
@@ -184,10 +183,9 @@ class PersonDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
-        logger.debug('Requested delete on Person object ' + str(pk))
+        logger.debug('Requested delete on Person object with id ' + str(pk))
         person = self.get_object(pk)
         person.delete()
-        logger.debug('Person object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -212,7 +210,7 @@ class PersonImage(EventView):
         @return: HttpResponse containing the image associate to the Person object
         @rtype: HttpResponse
         """
-        logger.debug('Requested Person object ' + str(pk) + ' image')
+        logger.debug('Requested image for Person object with ' + str(pk))
         p = Person.objects.get(pk=pk)
         return HttpResponse(p.image, content_type='image/jpg')
 

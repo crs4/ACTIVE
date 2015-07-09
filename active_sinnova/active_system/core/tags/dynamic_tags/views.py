@@ -14,9 +14,14 @@ from rest_framework import status
 from core.tags.dynamic_tags.models import DynamicTag
 from core.tags.dynamic_tags.serializers import DynamicTagSerializer
 
-# utilizzato per risolvere il problema dell'accesso concorrente agli item
 import threading
+import logging
+
+# utilizzato per risolvere il problema dell'accesso concorrente agli item
 edit_lock = threading.Lock()
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class DynamicTagList(EventView):
@@ -39,6 +44,7 @@ class DynamicTagList(EventView):
         @return: HttpResponse containing all serialized DynamicTags.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all DynamicTag objects')
         tag = DynamicTag.objects.all()
         serializer = DynamicTagSerializer(tag, many=True)
         return Response(serializer.data)
@@ -58,7 +64,9 @@ class DynamicTagList(EventView):
         serializer = DynamicTagSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.debug('Created new DynamicTag object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.error('Error on creating a new DynamicTag object')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -98,6 +106,7 @@ class DynamicTagDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
+        logger.debug('Requested details for DynamicTag object with id ' + str(pk))
         tag = self.get_object(pk)
         serializer = DynamicTagSerializer(tag)
         return Response(serializer.data)
@@ -121,7 +130,9 @@ class DynamicTagDetail(EventView):
             serializer = DynamicTagSerializer(tag, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Updated data for DynamicTag object with id ' + str(pk))
                 return Response(serializer.data)
+            logger.error('Error on update of DynamicTag object with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -137,8 +148,9 @@ class DynamicTagDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
-        tag = self.get_object(pk)
-        tag.delete()
+        logger.debug('Requested delete on DynamicTag object with id ' + str(pk))
+        dtag = self.get_object(pk)
+        dtag.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -165,8 +177,9 @@ class SearchDynamicTagItem(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        tag = DynamicTag.objects.filter(tag__item__id = pk)
-        serializer = DynamicTagSerializer(tag, many=True)
+        logger.debug('Requested all DynamicTag objects associated to Item object with id ' + str(pk))
+        dtag = DynamicTag.objects.filter(tag__item__id = pk)
+        serializer = DynamicTagSerializer(dtag, many=True)
         return Response(serializer.data)
 
 
@@ -193,6 +206,7 @@ class SearchDynamicTagPerson(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        tag = DynamicTag.objects.filter(tag__entity__id = pk)
-        serializer = DynamicTagSerializer(tag, many=True)
+        logger.debug('Requested all DynamicTag objects associated to Entity object with id ' + str(pk))
+        dtag = DynamicTag.objects.filter(tag__entity__id = pk)
+        serializer = DynamicTagSerializer(dtag, many=True)
         return Response(serializer.data)

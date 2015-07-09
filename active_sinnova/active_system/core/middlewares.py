@@ -24,15 +24,8 @@ class TokenAuthentication():
         @rtype: None
         """
 	if not request.META.get('HTTP_AUTHORIZATION', None):
-	
             token = request.COOKIES.get('ciccio','123')
 	    request.META['HTTP_AUTHORIZATION'] = 'Bearer ' + token
-		
-        # retrieve the authentication token
-        #token = request.GET.get('token', None)
-        # set the token in the request header
-        #if token:
-        #    request.META['HTTP_AUTHORIZATION'] = 'Bearer ' + token
 
         # continue the processing of this request
         return None

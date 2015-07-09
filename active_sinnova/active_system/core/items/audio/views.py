@@ -14,9 +14,14 @@ from rest_framework import status
 from core.items.audio.models import AudioItem
 from core.items.audio.serializers import AudioItemSerializer, AudioItemPagination
 
-# used to handle the concurrent update of an Audio object.
+import logging
 import threading
+
+# used to handle the concurrent update of an Audio object
 edit_lock = threading.Lock()
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 
 class AudioItemList(EventView):
@@ -40,6 +45,7 @@ class AudioItemList(EventView):
         @return: HttpResponse containing all requested audio items data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all AudioItem objects')
         audio = AudioItem.objects.all()
         paginator = AudioItemPagination()
         result = paginator.paginate_queryset(audio, request)
@@ -61,10 +67,13 @@ class AudioItemList(EventView):
         """
         serializer = AudioItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'audio' :
+            logger.error('Error on AudioItem creation: format not supported')
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             serializer.save()
+            logger.,debug('Created a new AudioItem object')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.error('Error on AudioItem creation')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -102,6 +111,7 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the requested audio item data, error if it doesn't exists.
         @rtype: HttpResponse
         """
+        logger.debug('Requested details for AudioItem object with id ' + str(pk))
         item = self.get_object(pk)
         serializer = AudioItemSerializer(item)
         return Response(serializer.data)
@@ -125,7 +135,9 @@ class AudioItemDetail(EventView):
             serializer = AudioItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                logger.debug('Updated data on AudioItem with id ' + str(pk))
                 return Response(serializer.data)
+            logger.error('Error on update for AudioItem with id ' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -141,6 +153,7 @@ class AudioItemDetail(EventView):
         @return: HttpResponse containing the result of the item deletion.
         @rtype: HttpResponse
         """
+        logger.debug('Requested delete for AudioItem with id ' + str(pk))
         item = self.get_object(pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

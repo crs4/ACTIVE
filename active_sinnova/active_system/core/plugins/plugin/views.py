@@ -12,6 +12,11 @@ from rest_framework.response import Response
 from core.plugins.models import Plugin
 from core.plugins.plugin.serializers import PluginSerializer
 
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
+
 
 class PluginList(EventView): 
     """
@@ -32,6 +37,7 @@ class PluginList(EventView):
         @result: HttpResponse containing all serialized objects data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested all Plugin objects')
         plugins = Plugin.objects.all()
         serializer = PluginSerializer(plugins, many=True)
         return Response(serializer.data)
@@ -71,6 +77,7 @@ class PluginDetail(EventView):
         @returns: HttpResponse containing the Plugin object serialized data.
         @rtype: HttpResponse
         """
+        logger.debug('Requested details for Plugin object with id ' + str(pk))
         plugin = self.get_object(pk)
         serializer = PluginSerializer(plugin)
         return Response(serializer.data)

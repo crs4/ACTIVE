@@ -1,7 +1,17 @@
+"""
+This module defines all views provided by
+the Job Monitor tool. In this case all views simply redirect a 
+request to the job processor and return the result.
+This is done both for job and cluster node views.
+The job monitor is just a proxy tool for the remote job processor system.
+"""
+
+
 import requests
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+
 
 def index(request):
 	return render(request, "jobmonitor/index.html")

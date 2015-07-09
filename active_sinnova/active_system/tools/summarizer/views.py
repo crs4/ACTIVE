@@ -1,3 +1,8 @@
+"""
+Module used to define all views provided by the summarizer tool.
+It simply returns a template page providing the person id parameter.
+"""
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 

@@ -11,7 +11,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 import json
+import logging
 
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 class EventTrigger(APIView):
     """
@@ -27,7 +30,7 @@ class EventTrigger(APIView):
         @param event_id: Primary key used to retrieve a Event object.
         @type event_id: int
         """
-        
+        logger.debug('Requested execution of Event object with id ' + str(pk))
         try:
             # retrieve event data
             e = Event.objects.get(pk=event_id)
@@ -41,8 +44,9 @@ class EventTrigger(APIView):
             func_params = request.POST.get('func_params', {})
             # trigger the specified event
             EventManager().start_scripts(e.name, auth_params, func_params)
-        except Event.DoesNotExist:
-            print "Event does not exist!"
+        except:
+            logger.error('Error on trigger of Event object with id ' + str(event_id))
+        
         return Response(status=status.HTTP_200_OK)
 
 
@@ -61,17 +65,21 @@ class EventExec(APIView):
         @param script_id: Primary key used to retrieve a Script object.
         @type script_id: int
         """
-        # retrieve script parameters
-        data = json.loads(request.body)
-        auth_params = {}
-        if request.user and request.auth:
-            auth_params['user_id'] = request.user.pk
-            auth_params['token']   = 'Bearer ' + str(request.auth.token)
-            auth_params['is_root'] = request.user.is_superuser or Group.objects.filter(name = 'Admin') in request.user.groups.all()
+        logger.debug('Requested execution of Script object with id ' + str(script_id))
+        try:
+            # retrieve script parameters
+            data = json.loads(request.body)
+            auth_params = {}
+            if request.user and request.auth:
+                auth_params['user_id'] = request.user.pk
+                auth_params['token']   = 'Bearer ' + str(request.auth.token)
+                auth_params['is_root'] = request.user.is_superuser or Group.objects.filter(name = 'Admin') in request.user.groups.all()
 
-        func_params = request.POST.get('func_params', data["func_params"])
+            func_params = request.POST.get('func_params', data["func_params"])
 
-        # trigger the specified event
-        EventManager().execute_script_by_id(script_id, auth_params, func_params)
-
+            # trigger the specified event 
+            EventManager().execute_script_by_id(script_id, auth_params, func_params)
+        except:
+            logger.error('Error on trigger of Script object with id ' + str(script_id))
+        
         return Response(status=status.HTTP_200_OK)

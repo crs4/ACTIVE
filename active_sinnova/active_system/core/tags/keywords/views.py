@@ -25,12 +25,12 @@ from core.items.image.serializers import ImageItemSerializer, ImageItemPaginatio
 from core.items.video.models import VideoItem
 from core.items.video.serializers import VideoItemSerializer, VideoItemPagination
 import logging
+import threading
 
 # variable used for logging purposes
 logger = logging.getLogger('active_log')
 
 # utilizzato per risolvere il problema dell'accesso concorrente agli item
-import threading
 edit_lock = threading.Lock()
 
 
@@ -62,7 +62,7 @@ class KeywordList(EventView):
         @return: HttpResponse containing all serialized Keyword.
         @rtype: HttpResponse
         """
-        logger.debug('Requested all stored Keyword objects')
+        logger.debug('Requested all Keyword objects')
         keywords = Keyword.objects.all()
         serializer = KeywordSerializer(keywords, many=True)
         return Response(serializer.data)
@@ -134,7 +134,7 @@ class KeywordDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Requested Keyword objects ' + str(pk))
+        logger.debug('Requested details for Keyword object with id ' + str(pk))
         keyword = self.get_object(pk)
         serializer = KeywordSerializer(keyword)
         return Response(serializer.data)
@@ -153,16 +153,15 @@ class KeywordDetail(EventView):
         @return: HttpResponse
         @rtype: HttpResponse
         """
-        logger.debug('Requested edit on Keyword object ' + str(pk))
         with edit_lock:
             keyword = self.get_object(pk)
             serializer = KeywordSerializer(keyword, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                logger.debug('Keyword object ' + str(pk) + ' successfully edited')
+                logger.debug('Updated data for Keyword object with id ' + str(pk))
                 return Response(serializer.data)
 
-            logger.error('Provided data not valid for Keyword object ' + str(pk))
+            logger.error('Error on update of Keyword object with id' + str(pk))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -178,10 +177,9 @@ class KeywordDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
-        logger.debug('Requested delete on Keyword object ' + str(pk))
+        logger.debug('Requested delete on Keyword object with id ' + str(pk))
         keyword = self.get_object(pk)
         keyword.delete()
-        logger.debug('Keyword object ' + str(pk) + ' successfully deleted')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -283,8 +281,6 @@ class KeywordSearch(EventView):
         # return the retrieved list of specific digital items
         logger.debug('Returning all Item objects found for keyword list ' + str(keyword_list))
         items = item_map[item_type][0].objects.filter(item_ptr_id__in = ids)
-
-
         paginator = item_map[item_type][2]()
         result = paginator.paginate_queryset(items, request)
         serializer = item_map[item_type][1](result, many=True)
@@ -294,7 +290,10 @@ class KeywordSearch(EventView):
 
 
 class KeywordsItem(EventView):
-
+        """
+        This class is used to implement a method necessary to retrieve all item objects
+        associate to a given keyword.
+        """
 
         queryset = Keyword.objects.none()  # required for DjangoModelPermissions
     
@@ -324,13 +323,10 @@ class KeywordsItem(EventView):
             tags = Tag.objects.filter(item_id = item.id).filter(type = 'keyword')
             entities_ids_list = []
             if tags:
+                logger.debug('Retrieving all items associated to Keyword object with id ' + str(pk))
                 entities_ids_list += ([t.entity.id for t in tags])
                 keywords = Keyword.objects.filter(entity_ptr_id__in = entities_ids_list)
                 serializer = KeywordSerializer(keywords, many=True)
                 return Response(serializer.data,status=status.HTTP_200_OK)
-
+            logger.warning('No items associated to Keyword object with id ' + str(pk))
             return Response([],status=status.HTTP_200_OK)
-            
-
-            
-

@@ -6,6 +6,10 @@ from core.views import EventView
 from core.plugins.models import Script
 from core.plugins.script.serializers import ScriptSerializer
 
+import logging
+
+# variable used for logging purposes
+logger = logging.getLogger('active_log')
 
 class ScriptList(EventView): 
     """
@@ -26,6 +30,7 @@ class ScriptList(EventView):
         @return: HttpResponse containing all serialized data.
         @rtype: HttpResponse
         """
+        logger.debug('Required all Script objects')
         scripts = Script.objects.all()
         serializer = ScriptSerializer(scripts, many=True)
         return Response(serializer.data)
@@ -66,6 +71,7 @@ class ScriptDetail(EventView):
         @return: HttpResponse containing the serialized data of a Script object, error otherwise.
         @rtype: HttpResponse
         """
+        logger.debug('Required details for Script object with id ' + str(pk))
         script = self.get_object(pk)
         serializer = ScriptSerializer(script)
         return Response(serializer.data)
