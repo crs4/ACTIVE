@@ -1090,7 +1090,13 @@ if __name__ == "__main__":
     parser.add_argument("-resource_path", help="resource path")
     parser.add_argument("-resource_id", help="resource id")
     parser.add_argument("-config", help="configuration file")
+    parser.add_argument("--no_software_test",
+                        help="do not execute software test",
+                        action="store_true")
+
     args = parser.parse_args()
+
+    no_software_test = args.no_software_test
 
     # Set resource path
     resource_path = None
@@ -1098,7 +1104,12 @@ if __name__ == "__main__":
     if args.resource_path:
         resource_path = args.resource_path
     else:
-        print("Resource path not provided. Only software test will be executed")
+        if not no_software_test:
+            print("Resource path not provided. "
+                  "Only software test will be executed")
+        else:
+            print("Resource path not provided")
+            exit()
 
     # Set resource id
     resource_id = None
@@ -1109,6 +1120,8 @@ if __name__ == "__main__":
         if resource_path:
             # Use resource name as resource id
             resource_id = os.path.basename(resource_path)
+            print("Resource id not provided. "
+                  "Resource name will be used as resource id")
 
     # Set parameters
     params = None
@@ -1123,23 +1136,29 @@ if __name__ == "__main__":
         except:
             print("Unexpected error:", sys.exc_info()[0])
             raise
+    else:
+        print("Default configuration file will be used")
 
-    print("\n ### EXECUTING SOFTWARE TEST ###\n")
-
-    suite = unittest.TestLoader().loadTestsFromTestCase(
-    TestFaceModels)
-    test_result = unittest.TextTestRunner(verbosity=2).run(suite)
-
-    if test_result.wasSuccessful():
+    execute_experiments = False
+    if not no_software_test:
+        print("\n ### EXECUTING SOFTWARE TEST ###\n")
 
         suite = unittest.TestLoader().loadTestsFromTestCase(
-        TestVideoFaceExtractor)
-
+        TestFaceModels)
         test_result = unittest.TextTestRunner(verbosity=2).run(suite)
 
         if test_result.wasSuccessful():
 
-            print("\n ### EXECUTING EXPERIMENTS ###\n")
-            if resource_path and resource_id:
+            suite = unittest.TestLoader().loadTestsFromTestCase(
+            TestVideoFaceExtractor)
 
-                video_indexing_experiments(resource_path, resource_id, params)
+            test_result = unittest.TextTestRunner(verbosity=2).run(suite)
+
+            if test_result.wasSuccessful():
+                execute_experiments = True
+                print("\n ### EXECUTING EXPERIMENTS ###\n")
+    else:
+        execute_experiments = True
+
+    if execute_experiments and resource_path and resource_id:
+        video_indexing_experiments(resource_path, resource_id, params)

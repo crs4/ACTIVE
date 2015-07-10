@@ -6003,6 +6003,2362 @@ def make_MONITOR272010_annotations(file_path):
 
     return ann_dict
 
+def make_SPALTI3_230907_annotations(file_path):
+    """
+    Make annotations for SPALTI3_230907.mpg video file
+
+    :type file_path: string
+    :param file_path: path of YAML file that will contain annotations
+    """
+
+    caption_segments = []
+    video_segments = []
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 60 + 26,
+                          c.SEGMENT_END_KEY: 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 60 + 26,
+                          c.SEGMENT_END_KEY: 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 60 + 57,
+                          c.SEGMENT_END_KEY: 2 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 60 + 57,
+                          c.SEGMENT_END_KEY: 2 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 60 + 8,
+                          c.SEGMENT_END_KEY: 2 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 60 + 8,
+                          c.SEGMENT_END_KEY: 2 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 2 * 60 + 17,
+                          c.SEGMENT_END_KEY: 2 * 60 + 28}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 60 + 28,
+                          c.SEGMENT_END_KEY: 2 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 60 + 28,
+                          c.SEGMENT_END_KEY: 2 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 2 * 60 + 37,
+                          c.SEGMENT_END_KEY: 3 * 60 + 8}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                            c.SEGMENT_START_KEY: 2 * 60 + 50,
+                            c.SEGMENT_END_KEY: 3 * 60 + 2}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 3 * 60 + 20,
+                          c.SEGMENT_END_KEY: 3 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3 * 60 + 58,
+                          c.SEGMENT_END_KEY: 4 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3 * 60 + 58,
+                          c.SEGMENT_END_KEY: 4 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 4 * 60 + 10,
+                          c.SEGMENT_END_KEY: 5 * 60 + 8}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                            c.SEGMENT_START_KEY: 4 * 60 + 13,
+                            c.SEGMENT_END_KEY: 5 * 60 + 8}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 5 * 60 + 9,
+                          c.SEGMENT_END_KEY: 5 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 5 * 60 + 9,
+                          c.SEGMENT_END_KEY: 5 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 6 * 60 + 39,
+                          c.SEGMENT_END_KEY: 6 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 6 * 60 + 39,
+                          c.SEGMENT_END_KEY: 6 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 6 * 60 + 58,
+                          c.SEGMENT_END_KEY: 7 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 7 * 60 + 4,
+                          c.SEGMENT_END_KEY: 7 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 7 * 60 + 26,
+                          c.SEGMENT_END_KEY: 7 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 7 * 60 + 33,
+                          c.SEGMENT_END_KEY: 7 * 60 + 35}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 7 * 60 + 38,
+                          c.SEGMENT_END_KEY: 7 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 7 * 60 + 46,
+                          c.SEGMENT_END_KEY: 7 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 7 * 60 + 46,
+                          c.SEGMENT_END_KEY: 7 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 8 * 60 + 12,
+                          c.SEGMENT_END_KEY: 8 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 8 * 60 + 12,
+                          c.SEGMENT_END_KEY: 8 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 8 * 60 + 26,
+                          c.SEGMENT_END_KEY: 8 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 8 * 60 + 26,
+                          c.SEGMENT_END_KEY: 8 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 8 * 60 + 33,
+                          c.SEGMENT_END_KEY: 8 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 9 * 60 + 16,
+                          c.SEGMENT_END_KEY: 9 * 60 + 22}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 9 * 60 + 16,
+                          c.SEGMENT_END_KEY: 9 * 60 + 22}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 9 * 60 + 51,
+                          c.SEGMENT_END_KEY: 10 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 9 * 60 + 51,
+                          c.SEGMENT_END_KEY: 10 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 10 * 60 + 9,
+                          c.SEGMENT_END_KEY: 10 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 10 * 60 + 26,
+                          c.SEGMENT_END_KEY: 10 * 60 + 39}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 10 * 60 + 39,
+                          c.SEGMENT_END_KEY: 10 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 10 * 60 + 47,
+                          c.SEGMENT_END_KEY: 10 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 10 + 60 + 59,
+                          c.SEGMENT_END_KEY: 11 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 11 * 60 + 47,
+                          c.SEGMENT_END_KEY: 11 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 11 * 60 + 58,
+                          c.SEGMENT_END_KEY: 12 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 11 * 60 + 58,
+                          c.SEGMENT_END_KEY: 12 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 12 * 60 + 5,
+                          c.SEGMENT_END_KEY: 12 * 60 + 28}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 12 * 60 + 28,
+                          c.SEGMENT_END_KEY: 12 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 12 * 60 + 28,
+                          c.SEGMENT_END_KEY: 12 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 12 * 60 + 38,
+                          c.SEGMENT_END_KEY: 13 * 60 + 5}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 13 * 60 + 5,
+                          c.SEGMENT_END_KEY: 13 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 13 * 60 + 5,
+                          c.SEGMENT_END_KEY: 13 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 13 * 60 + 7,
+                          c.SEGMENT_END_KEY: 13 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 13 * 60 + 30,
+                          c.SEGMENT_END_KEY: 13 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 13 * 60 + 34,
+                          c.SEGMENT_END_KEY: 13 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 13 * 60 + 34,
+                          c.SEGMENT_END_KEY: 13 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 13 * 60 + 36,
+                          c.SEGMENT_END_KEY: 13 * 60 + 51}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 13 * 60 + 51,
+                          c.SEGMENT_END_KEY: 13 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 13 * 60 + 51,
+                          c.SEGMENT_END_KEY: 13 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 14 * 60 + 8,
+                          c.SEGMENT_END_KEY: 14 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 14 * 60 + 41,
+                          c.SEGMENT_END_KEY: 14 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 14 * 60 + 41,
+                          c.SEGMENT_END_KEY: 14 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 15 * 60 + 52,
+                          c.SEGMENT_END_KEY: 16 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 15 * 60 + 52,
+                          c.SEGMENT_END_KEY: 16 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 16 * 60 + 17,
+                          c.SEGMENT_END_KEY: 16 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 16 * 60 + 17,
+                          c.SEGMENT_END_KEY: 16 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 16 * 60 + 56,
+                          c.SEGMENT_END_KEY: 17 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 16 * 60 + 56,
+                          c.SEGMENT_END_KEY: 17 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 17 * 60 + 41,
+                          c.SEGMENT_END_KEY: 18 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 18 * 60 + 15,
+                          c.SEGMENT_END_KEY: 19 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 21 * 60 + 6,
+                          c.SEGMENT_END_KEY: 21 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 21 * 60 + 6,
+                          c.SEGMENT_END_KEY: 21 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 22 * 60 + 25,
+                          c.SEGMENT_END_KEY: 22 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 22 * 60 + 25,
+                          c.SEGMENT_END_KEY: 22 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 22 * 60 + 43,
+                          c.SEGMENT_END_KEY: 22 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 22 * 60 + 49,
+                          c.SEGMENT_END_KEY: 22 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 22 * 60 + 58,
+                          c.SEGMENT_END_KEY: 23 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 23 * 60 + 19,
+                          c.SEGMENT_END_KEY: 23 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 23 * 60 + 23,
+                          c.SEGMENT_END_KEY: 23 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 23 * 60 + 30,
+                          c.SEGMENT_END_KEY: 23 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 23 * 60 + 53,
+                          c.SEGMENT_END_KEY: 23 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 23 * 60 + 58,
+                          c.SEGMENT_END_KEY: 24 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 24 * 60 + 21,
+                          c.SEGMENT_END_KEY: 24 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 25 * 60 + 9,
+                          c.SEGMENT_END_KEY: 25 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 25 * 60 + 27,
+                          c.SEGMENT_END_KEY: 25 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 25 * 60 + 32,
+                          c.SEGMENT_END_KEY: 26 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 26 * 60 + 11,
+                          c.SEGMENT_END_KEY: 26 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 26 * 60 + 18,
+                          c.SEGMENT_END_KEY: 26 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 26 * 60 + 24,
+                          c.SEGMENT_END_KEY: 26 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 26 * 60 + 34,
+                          c.SEGMENT_END_KEY: 26 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 26 * 60 + 45,
+                          c.SEGMENT_END_KEY: 27 * 60 + 13}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 27 * 60 + 13,
+                          c.SEGMENT_END_KEY: 27 * 60 + 22}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 27 * 60 + 22,
+                          c.SEGMENT_END_KEY: 28 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 27 * 60 + 24,
+                            c.SEGMENT_END_KEY: 28 * 60 + 16}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 29 * 60 + 19,
+                          c.SEGMENT_END_KEY: 29 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 30 * 60 + 14,
+                          c.SEGMENT_END_KEY: 30 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 30 * 60 + 14,
+                          c.SEGMENT_END_KEY: 30 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 30 * 60 + 14,
+                          c.SEGMENT_END_KEY: 30 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 30 * 60 + 19,
+                          c.SEGMENT_END_KEY: 30 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 30 * 60 + 21,
+                            c.SEGMENT_END_KEY: 30 * 60 + 53}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 31 * 60 + 4,
+                          c.SEGMENT_END_KEY: 31 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 31 * 60 + 50,
+                          c.SEGMENT_END_KEY: 31 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 32 * 60 + 20,
+                          c.SEGMENT_END_KEY: 32 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 32 * 60 + 20,
+                          c.SEGMENT_END_KEY: 32 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 32 * 60 + 47,
+                          c.SEGMENT_END_KEY: 32 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 32 * 60 + 47,
+                          c.SEGMENT_END_KEY: 32 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 33 * 60 + 3,
+                          c.SEGMENT_END_KEY: 33 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 33 * 60 + 8,
+                          c.SEGMENT_END_KEY: 33 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 33 * 60 + 8,
+                          c.SEGMENT_END_KEY: 33 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 33 * 60 + 19,
+                          c.SEGMENT_END_KEY: 33 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 33 * 60 + 32,
+                          c.SEGMENT_END_KEY: 33 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 33 * 60 + 32,
+                          c.SEGMENT_END_KEY: 33 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 33 * 60 + 55,
+                          c.SEGMENT_END_KEY: 33 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 34 * 60 + 1,
+                          c.SEGMENT_END_KEY: 34 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 34 * 60 + 43,
+                          c.SEGMENT_END_KEY: 34 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 34 * 60 + 43,
+                          c.SEGMENT_END_KEY: 34 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 34 * 60 + 48,
+                          c.SEGMENT_END_KEY: 34 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 34 * 60 + 53,
+                          c.SEGMENT_END_KEY: 35 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 34 * 60 + 53,
+                          c.SEGMENT_END_KEY: 35 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 35 * 60 + 40,
+                          c.SEGMENT_END_KEY: 35 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 35 * 60 + 52,
+                          c.SEGMENT_END_KEY: 35 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 35 * 60 + 56,
+                          c.SEGMENT_END_KEY: 36 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 35 * 60 + 56,
+                          c.SEGMENT_END_KEY: 36 * 60 + 39}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 36 * 60 + 39,
+                          c.SEGMENT_END_KEY: 36 * 60 + 45}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 36 * 60 + 39,
+                          c.SEGMENT_END_KEY: 36 * 60 + 45}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 36 * 60 + 45,
+                          c.SEGMENT_END_KEY: 36 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 36 * 60 + 52,
+                          c.SEGMENT_END_KEY: 36 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 38 * 60 + 6,
+                          c.SEGMENT_END_KEY: 38 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 38 * 60 + 16,
+                          c.SEGMENT_END_KEY: 38 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 38 * 60 + 22,
+                            c.SEGMENT_END_KEY: 38 * 60 + 34}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 39 * 60 + 2,
+                          c.SEGMENT_END_KEY: 39 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 39 * 60 + 15,
+                          c.SEGMENT_END_KEY: 40 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 41 * 60 + 1,
+                          c.SEGMENT_END_KEY: 41 * 60 + 45}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 42 * 60 + 3,
+                          c.SEGMENT_END_KEY: 42 * 60 + 13}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 42 * 60 + 28,
+                          c.SEGMENT_END_KEY: 42 * 60 + 35}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 42 * 60 + 28,
+                          c.SEGMENT_END_KEY: 42 * 60 + 35}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 43 * 60 + 5,
+                          c.SEGMENT_END_KEY: 43 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 43 * 60 + 5,
+                          c.SEGMENT_END_KEY: 43 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 43 * 60 + 44,
+                          c.SEGMENT_END_KEY: 44 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 43 * 60 + 44,
+                          c.SEGMENT_END_KEY: 44 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 44 * 60 + 7,
+                          c.SEGMENT_END_KEY: 44 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 44 * 60 + 7,
+                          c.SEGMENT_END_KEY: 44 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 44 * 60 + 27,
+                          c.SEGMENT_END_KEY: 44 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 44 * 60 + 27,
+                          c.SEGMENT_END_KEY: 44 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 44 * 60 + 34,
+                          c.SEGMENT_END_KEY: 44 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 44 * 60 + 34,
+                          c.SEGMENT_END_KEY: 44 * 60 + 44}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 44 * 60 + 55,
+                          c.SEGMENT_END_KEY: 45 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 44 * 60 + 55,
+                          c.SEGMENT_END_KEY: 45 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 45 * 60,
+                          c.SEGMENT_END_KEY: 45 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 45 * 60 + 9,
+                          c.SEGMENT_END_KEY: 45 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 48 * 60 + 34,
+                          c.SEGMENT_END_KEY: 48 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 49 * 60 + 46,
+                          c.SEGMENT_END_KEY: 49 * 60 + 51}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 50 * 60 + 1,
+                          c.SEGMENT_END_KEY: 50 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 50 * 60 + 16,
+                          c.SEGMENT_END_KEY: 50 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 50 * 60 + 38,
+                          c.SEGMENT_END_KEY: 50 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 50 * 60 + 42,
+                          c.SEGMENT_END_KEY: 50 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 51 * 60 + 6,
+                          c.SEGMENT_END_KEY: 51 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 52 * 60 + 3,
+                          c.SEGMENT_END_KEY: 53 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 53 * 60 + 15,
+                          c.SEGMENT_END_KEY: 53 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 53 * 60 + 15,
+                          c.SEGMENT_END_KEY: 53 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 54 * 60 + 22,
+                          c.SEGMENT_END_KEY: 54 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 54 * 60 + 22,
+                          c.SEGMENT_END_KEY: 54 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 55 * 60 + 14,
+                          c.SEGMENT_END_KEY: 55 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 55 * 60 + 14,
+                          c.SEGMENT_END_KEY: 55 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 55 * 60 + 21,
+                          c.SEGMENT_END_KEY: 55 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 55 * 60 + 33,
+                            c.SEGMENT_END_KEY: 55 * 60 + 46}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 55 * 60 + 52,
+                          c.SEGMENT_END_KEY: 56 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 55 * 60 + 52,
+                          c.SEGMENT_END_KEY: 56 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 56 * 60 + 3,
+                          c.SEGMENT_END_KEY: 56 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 56 * 60 + 13,
+                            c.SEGMENT_END_KEY: 56 * 60 + 32}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 57 * 60 + 10,
+                          c.SEGMENT_END_KEY: 57 * 60 + 42}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 57 * 60 + 52,
+                          c.SEGMENT_END_KEY: 57 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 57 * 60 + 54,
+                          c.SEGMENT_END_KEY: 57 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 57 * 60 + 54,
+                          c.SEGMENT_END_KEY: 57 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 57 * 60 + 57,
+                          c.SEGMENT_END_KEY: 58 * 60 + 2}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 58 * 60 + 6,
+                          c.SEGMENT_END_KEY: 58 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 58 * 60 + 22,
+                          c.SEGMENT_END_KEY: 58 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 58 * 60 + 22,
+                          c.SEGMENT_END_KEY: 58 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 58 * 60 + 41,
+                          c.SEGMENT_END_KEY: 59 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 59 * 60 + 23,
+                          c.SEGMENT_END_KEY: 59 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 59 * 60 + 31,
+                          c.SEGMENT_END_KEY: 59 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 59 * 60 + 31,
+                          c.SEGMENT_END_KEY: 59 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 59 * 60 + 36,
+                          c.SEGMENT_END_KEY: 3600 + 8}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 13,
+                          c.SEGMENT_END_KEY: 3600 + 16}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 13,
+                          c.SEGMENT_END_KEY: 3600 + 16}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 16,
+                          c.SEGMENT_END_KEY: 3600 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 60 + 5,
+                          c.SEGMENT_END_KEY: 3600 + 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 60 + 40,
+                          c.SEGMENT_END_KEY: 3600 + 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 3600 + 60 + 43,
+                            c.SEGMENT_END_KEY: 3600 + 60 + 53}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 2 * 60 + 15,
+                          c.SEGMENT_END_KEY: 3600 + 2 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 2 * 60 + 15,
+                          c.SEGMENT_END_KEY: 3600 + 2 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 2 * 60 + 57,
+                          c.SEGMENT_END_KEY: 3600 + 2 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 2 * 60 + 57,
+                          c.SEGMENT_END_KEY: 3600 + 2 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 2 * 60 + 59,
+                          c.SEGMENT_END_KEY: 3600 + 3 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 3 * 60 + 47,
+                          c.SEGMENT_END_KEY: 3600 + 3 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 3 * 60 + 54,
+                          c.SEGMENT_END_KEY: 3600 + 4 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 3600 + 4 * 60 + 40,
+                          c.SEGMENT_END_KEY: 3600 + 4 * 60 + 58}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 5 * 60 + 14,
+                          c.SEGMENT_END_KEY: 3600 + 5 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 5 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 6 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 6 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 6 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 6 * 60 + 36,
+                          c.SEGMENT_END_KEY: 3600 + 6 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 3600 + 6 * 60 + 46,
+                          c.SEGMENT_END_KEY: 3600 + 7 * 60 + 38}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                            c.SEGMENT_START_KEY: 3600 + 6 * 60 + 47,
+                            c.SEGMENT_END_KEY: 3600 + 7 * 60 + 14}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 7 * 60 + 38,
+                          c.SEGMENT_END_KEY: 3600 + 7 * 60 + 42}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 7 * 60 + 55,
+                          c.SEGMENT_END_KEY: 3600 + 8 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 8 * 60 + 19,
+                          c.SEGMENT_END_KEY: 3600 + 8 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 3600 + 8 * 60 + 33,
+                          c.SEGMENT_END_KEY: 3600 + 9 * 60 + 42}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 9 * 60 + 45,
+                          c.SEGMENT_END_KEY: 3600 + 9 * 60 + 51}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sanna_Vittorio',
+                          c.SEGMENT_START_KEY: 3600 + 9 * 60 + 51,
+                          c.SEGMENT_END_KEY: 3600 + 10 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 10 * 60 + 33,
+                          c.SEGMENT_END_KEY: 3600 + 10 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 3600 + 10 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 10 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 10 * 60 + 55,
+                          c.SEGMENT_END_KEY: 3600 + 10 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 3600 + 10 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 11 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 3600 + 11 * 60 + 19,
+                          c.SEGMENT_END_KEY: 3600 + 11 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 11 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 11 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 11 * 60 + 56,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 5}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 11 * 60 + 56,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 5}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 5,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 8}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 46,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 46,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 53,
+                          c.SEGMENT_END_KEY: 3600 + 12 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 56,
+                          c.SEGMENT_END_KEY: 3600 + 13 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 12 * 60 + 56,
+                          c.SEGMENT_END_KEY: 3600 + 13 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 13 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 14 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 3600 + 13 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 14 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 14 * 60 + 26,
+                          c.SEGMENT_END_KEY: 3600 + 14 * 60 + 39}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 14 * 60 + 26,
+                          c.SEGMENT_END_KEY: 3600 + 14 * 60 + 39}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 14 * 60 + 39,
+                          c.SEGMENT_END_KEY: 3600 + 14 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 14 * 60 + 50,
+                          c.SEGMENT_END_KEY: 3600 + 15 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 14 * 60 + 50,
+                          c.SEGMENT_END_KEY: 3600 + 15 * 60}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 3600 + 15 * 60,
+                          c.SEGMENT_END_KEY: 3600 + 15 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 3600 + 15 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 16 * 60 + 13}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 16 * 60 + 19,
+                          c.SEGMENT_END_KEY: 3600 + 16 * 60 + 26}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 16 * 60 + 28,
+                          c.SEGMENT_END_KEY: 3600 + 16 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 16 * 60 + 43,
+                          c.SEGMENT_END_KEY: 3600 + 16 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 16 * 60 + 43,
+                          c.SEGMENT_END_KEY: 3600 + 16 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 16 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 6}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 22,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 22,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 25,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 27,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 30,
+                          c.SEGMENT_END_KEY: 3600 + 17 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 3600 + 17 * 60 + 52,
+                          c.SEGMENT_END_KEY: 3600 + 18 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 18 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 18 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 18 * 60 + 36,
+                          c.SEGMENT_END_KEY: 3600 + 18 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 18 * 60 + 36,
+                          c.SEGMENT_END_KEY: 3600 + 18 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 18 * 60 + 41,
+                          c.SEGMENT_END_KEY: 3600 + 19 * 60 + 19}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 19 * 60 + 45,
+                          c.SEGMENT_END_KEY: 3600 + 19 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 19 * 60 + 47,
+                          c.SEGMENT_END_KEY: 3600 + 19 * 60 + 51}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 19 * 60 + 47,
+                          c.SEGMENT_END_KEY: 3600 + 19 * 60 + 51}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 19 * 60 + 51,
+                          c.SEGMENT_END_KEY: 3600 + 20 * 60 + 29}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 20 * 60 + 43,
+                          c.SEGMENT_END_KEY: 3600 + 20 * 60 + 47}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 3600 + 20 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 5}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 5,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 5,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 10}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 16,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 19,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 19,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 21 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 21 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 21,
+                          c.SEGMENT_END_KEY: 3600 + 22 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 21,
+                          c.SEGMENT_END_KEY: 3600 + 22 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 32,
+                          c.SEGMENT_END_KEY: 3600 + 22 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 32,
+                          c.SEGMENT_END_KEY: 3600 + 22 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 23 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 22 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 23 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Porcella_Pietro',
+                          c.SEGMENT_START_KEY: 3600 + 23 * 60 + 45,
+                          c.SEGMENT_END_KEY: 3600 + 24 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 24 * 60 + 3,
+                          c.SEGMENT_END_KEY: 3600 + 24 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 24 * 60 + 3,
+                          c.SEGMENT_END_KEY: 3600 + 24 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 24 * 60 + 37,
+                          c.SEGMENT_END_KEY: 3600 + 24 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 24 * 60 + 37,
+                          c.SEGMENT_END_KEY: 3600 + 24 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 27,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 27,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 35,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 35,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 25 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 25 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 28 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 28 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 28 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 28 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 29 * 60 + 11,
+                          c.SEGMENT_END_KEY: 3600 + 29 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 29 * 60 + 11,
+                          c.SEGMENT_END_KEY: 3600 + 29 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 29 * 60 + 32,
+                          c.SEGMENT_END_KEY: 3600 + 29 * 60 + 55}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 3600 + 29 * 60 + 48,
+                            c.SEGMENT_END_KEY: 3600 + 29 * 60 + 54}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 29 * 60 + 55,
+                          c.SEGMENT_END_KEY: 3600 + 30 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_mara',
+                          c.SEGMENT_START_KEY: 3600 + 29 * 60 + 55,
+                          c.SEGMENT_END_KEY: 3600 + 30 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 3600 + 31 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 32 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 3600 + 32 * 60 + 34,
+                          c.SEGMENT_END_KEY: 3600 + 32 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 33 * 60 + 26,
+                          c.SEGMENT_END_KEY: 3600 + 33 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 3600 + 33 * 60 + 43,
+                          c.SEGMENT_END_KEY: 3600 + 33 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 33 * 60 + 52,
+                          c.SEGMENT_END_KEY: 3600 + 33 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 34 * 60 + 2,
+                          c.SEGMENT_END_KEY: 3600 + 34 * 60 + 8}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 34 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 34 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 34 * 60 + 47,
+                          c.SEGMENT_END_KEY: 3600 + 34 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 35 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 35 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 36 * 60 + 21,
+                          c.SEGMENT_END_KEY: 3600 + 36 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 36 * 60 + 37,
+                          c.SEGMENT_END_KEY: 3600 + 36 * 60 + 45}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 38 * 60 + 11,
+                          c.SEGMENT_END_KEY: 3600 + 38 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 38 * 60 + 24,
+                          c.SEGMENT_END_KEY: 3600 + 38 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 15,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 15,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 38,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 44}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 38,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 44}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 49,
+                          c.SEGMENT_END_KEY: 3600 + 41 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 41 * 60 + 54,
+                          c.SEGMENT_END_KEY: 3600 + 42 * 60 + 39}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: ,
+                            c.SEGMENT_START_KEY: 3600 + 41 * 60 + 59,
+                            c.SEGMENT_END_KEY: 3600 + 42 * 60 + 39}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 42 * 60 + 39,
+                          c.SEGMENT_END_KEY: 3600 + 42 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 42 * 60 + 39,
+                          c.SEGMENT_END_KEY: 3600 + 42 * 60 + 43}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 42 * 60 + 43,
+                          c.SEGMENT_END_KEY: 3600 + 42 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 42 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 42 * 60 + 58,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 3}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 3600 + 43 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 20}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 3600 + 43 * 60 + 20,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 43 * 60 + 34,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 43 * 60 + 34,
+                          c.SEGMENT_END_KEY: 3600 + 43 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 17,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 17,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 41,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 41,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 52}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 52,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Murgia_Alberto',
+                          c.SEGMENT_START_KEY: 3600 + 44 * 60 + 52,
+                          c.SEGMENT_END_KEY: 3600 + 44 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 45 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 45 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 45 * 60 + 8,
+                          c.SEGMENT_END_KEY: 3600 + 45 * 60 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 46 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 46 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 46 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 46 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 50 * 60 + 52,
+                          c.SEGMENT_END_KEY: 3600 + 51 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                            c.SEGMENT_START_KEY: 3600 + 51 * 60 + 1,
+                            c.SEGMENT_END_KEY: 3600 + 51 * 60 + 28}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 51 * 60 + 39,
+                          c.SEGMENT_END_KEY: 3600 + 51 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 52 * 60 + 9,
+                          c.SEGMENT_END_KEY: 3600 + 52 * 60 + 13}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 52 * 60 + 25,
+                          c.SEGMENT_END_KEY: 3600 + 52 * 60 + 30}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 3600 + 52 * 60 + 31,
+                          c.SEGMENT_END_KEY: 3600 + 52 * 60 + 48}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 52 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 52 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 52 * 60 + 48,
+                          c.SEGMENT_END_KEY: 3600 + 52 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 53 * 60 + 4,
+                          c.SEGMENT_END_KEY: 3600 + 54 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 53 * 60 + 4,
+                          c.SEGMENT_END_KEY: 3600 + 53 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 3600 + 54 * 60 + 51,
+                          c.SEGMENT_END_KEY: 3600 + 57 * 60 + 53}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 57 * 60 + 53,
+                          c.SEGMENT_END_KEY: 3600 + 57 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 57 * 60 + 53,
+                          c.SEGMENT_END_KEY: 3600 + 57 * 60 + 59}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 58 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 58 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 58 * 60 + 7,
+                          c.SEGMENT_END_KEY: 3600 + 58 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 3600 + 58 * 60 + 24,
+                          c.SEGMENT_END_KEY: 3600 + 58 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 3600 + 58 * 60 + 24,
+                          c.SEGMENT_END_KEY: 3600 + 58 * 60 + 27}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 3600 + 58 * 60 + 27,
+                          c.SEGMENT_END_KEY: 3600 + 59 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Ganau_Gianfranco',
+                          c.SEGMENT_START_KEY: 3600 + 59 * 60 + 1,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 21}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 22,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 22,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 60 + 27,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 60 + 27,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 3 * 60 + 4,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 3 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 3 * 60 + 4,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 3 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 7 * 60 + 38,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 8 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 7 * 60 + 38,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 8 * 60 + 18}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 9 * 60 + 15,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 10 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 9 * 60 + 15,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 10 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 10 * 60 + 7,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 10 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 10 * 60 + 29,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 10 * 60 + 35}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 10 * 60 + 52,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 11 * 60 + 12}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 11 * 60 + 18,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 11 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 11 * 60 + 44,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 11 * 60 + 46}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 11 * 60 + 46,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 11 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 11 * 60 + 46,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 11 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 11 * 60 + 55,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 1}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 1,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 1,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 7}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 7,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 27,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 33,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 33,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 36}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 36,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 40}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 42,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 42,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Dessalvi_Antonello',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 12 * 60 + 50,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 12 * 60 + 54}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 14 * 60 + 7,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 14 * 60 + 17}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 15 * 60 + 50,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 15 * 60 + 56}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 16 * 60 + 34,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 17 * 60 + 11}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bertola_Sergio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 17 * 60 + 20,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 17 * 60 + 33}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Sias_Maria',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 17 * 60 + 34,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 18 * 60 + 14}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 18 * 60 + 27,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 18 * 60 + 50}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 18 * 60 + 59,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 19 * 60 + 5}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 19 * 60 + 12,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 19 * 60 + 31}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 19 * 60 + 34,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 19 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 19 * 60 + 34,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 19 * 60 + 57}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 20 * 60 + 6,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 20 * 60 + 32}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Uda_Alfio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 20 * 60 + 6,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 20 * 60 + 24}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Foschi_Luciano',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 20 * 60 + 43,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 22 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Foschi_Luciano',
+                            c.SEGMENT_START_KEY: 2 * 3600 + 21 * 60 + 23,
+                            c.SEGMENT_END_KEY: 2 * 3600 + 21 * 60 + 29}
+    caption_segments.append(caption_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 22 * 60 + 37,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 24 * 60 + 34}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 24 * 60 + 58,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25 * 60 + 4}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Foschi_Luciano',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 25 * 60 + 4,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25 * 60 + 23}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Foschi_Luciano',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 25 * 60 + 26,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25 * 60 + 37}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Argiolas_Ignazio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 25 * 60 + 37,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 25 * 60 + 45}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Foschi_Luciano',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 25 * 60 + 50,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 26 * 60 + 49}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 26 * 60 + 49,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 27 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 26 * 60 + 49,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 27 * 60 + 15}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Bruni_Matteo',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 29 * 60 + 32,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 29 * 60 + 41}
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 29 * 60 + 41,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
+    video_segment_dict = {c.ANN_TAG_KEY: '',
+                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segments.append(video_segment_dict)
+
 
 def calculate_stats(ann_dict):
     """
