@@ -1,6 +1,0 @@
-<select id="s2" class="select2" ng-model="selectedScript">
-	<!--<option value="null" style="font-size:10px;"> Actions </option>-->
-	<optgroup label="{{plugin.title}}" ng-repeat="plugin in plugins">
-		<option value="{{script.id}}" ng-repeat="script in plugin.scripts | bytype:selectedType">{{script.title}}</option>
-	</optgroup>
-</select>

@@ -1,5 +1,0 @@
-clientID:bm_e3u64Wqlsiw?aY@lgTL5_YIz2Q-JlY!p2KBo0
-clientSecrets:umUp29nqDgkE0Ohd7UNMmzvvNjwv2r:s=Oh?f8mcAU=NcaO=tIH=wB=EGsnda;2wSvp8JIAdQP@gDr:7mK!lNf.aI4c?mLsRa8?Wo69Axc4-8_Fk60o4=b9@9MuF8MlR
-redirectUri:http://localhost:8000/consumer/exchange
-
-<!--client-id="J@Xz5M.rXV0qUtDgtJcjxOSfRmWuf2_7qzR6?kcv" -->
