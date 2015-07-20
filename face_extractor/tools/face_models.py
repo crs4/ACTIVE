@@ -1425,9 +1425,9 @@ class FaceModels:
         # Load face recognizer
 
         if os.path.exists(db_file_path):
-            self._models = cv2.createLBPHFaceRecognizer()
+            self._en_models = cv2.createLBPHFaceRecognizer()
 
-            self._models.load(db_file_path)
+            self._en_models.load(db_file_path)
 
             ok = True
 
@@ -1492,9 +1492,9 @@ class FaceModels:
         conf = sys.maxint
 
         if self._en_models:
-            # TODO GET HISTOGRAMS (GETMATVECTOR) FOR EXPERIMENTS
             (pred_label, conf) = self._en_models.predict(
                 np.asarray(face, dtype=np.uint8))
+
             # TEST ONLY
             # print('pred_label', pred_label)
             # print('conf', conf)
@@ -1505,7 +1505,6 @@ class FaceModels:
 
         return label, conf
 
-    # TODO ADD TEST FOR RECOGNIZE_MODEL
     def recognize_model(self, query_model):
         """
         Recognize given face model using the stored face recognition models
@@ -1519,6 +1518,11 @@ class FaceModels:
         """
 
         face_rec_results = []
+
+        # Set parameters
+        face_rec_threshold = c.GLOBAL_FACE_REC_THRESHOLD
+        if c.GLOBAL_FACE_REC_THRESHOLD_KEY in self._params:
+            face_rec_threshold = self._params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
 
         if self._loaded_ext_models:
 
@@ -1548,9 +1552,43 @@ class FaceModels:
                         diff = cv2.compareHist(
                             query_hist, train_hist, cv.CV_COMP_CHISQR)
                         if ((diff < conf)and
-                                (diff < c.GLOBAL_FACE_REC_THRESHOLD)):
+                                (diff < face_rec_threshold)):
                             conf = diff
                             label = train_model_id
+
+                face_rec_result = {c.ASSIGNED_TAG_KEY: label,
+                                   c.CONFIDENCE_KEY: conf
+                                   }
+                face_rec_results.append(face_rec_result)
+
+        elif self._en_models:
+
+            # Get histograms from given model
+            query_model_hists = query_model.getMatVector("histograms")
+
+            # Iterate through LBP histograms
+            # in query model
+            for i in range(0, len(query_model_hists)):
+
+                label = c.UNDEFINED_LABEL
+                conf = sys.maxint
+
+                query_hist = query_model_hists[i][0]
+
+                # Get histograms from train model
+                train_model_hists = self._en_models.getMatVector("histograms")
+                train_model_labels = self._en_models.getMat("labels")
+
+                # Iterate through LBP histograms
+                # in training model
+                for t in range(0, len(train_model_hists)):
+                    train_hist = train_model_hists[t][0]
+                    diff = cv2.compareHist(
+                        query_hist, train_hist, cv.CV_COMP_CHISQR)
+                    if ((diff < conf) and
+                            (diff < face_rec_threshold)):
+                        conf = diff
+                        label = train_model_labels[t][0]
 
                 face_rec_result = {c.ASSIGNED_TAG_KEY: label,
                                    c.CONFIDENCE_KEY: conf
