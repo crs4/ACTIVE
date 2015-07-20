@@ -540,7 +540,7 @@ class TestFaceModels(unittest.TestCase):
         self.assertEquals(tag, 3815)
 
 
-    def test_recognize_model(self):
+    def test_recognize_model_external_models(self):
 
         base_path = os.path.join('..', 'test_files', 'face_models')
 
@@ -589,6 +589,39 @@ class TestFaceModels(unittest.TestCase):
         rec_result = rec_results[0]
 
         self.assertEqual(rec_result[c.ASSIGNED_TAG_KEY], 0)
+
+
+    def test_recognize_model_internal_models(self):
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(
+            os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        self.test_add_face()
+
+        fm = FaceModels(params)
+
+        fm.load_enabled_models()
+
+        model_id = 0
+        im_list = [os.path.join(base_path, '0000000_aligned.png'),
+                   os.path.join(base_path, '0000005_aligned.png')]
+        model_path_0 = fm.create_model_from_image_list(im_list, model_id)
+
+        query_model = cv2.createLBPHFaceRecognizer()
+        query_model.load(model_path_0)
+
+        rec_results = fm.recognize_model(query_model)
+
+        print('rec_results', rec_results)
+
+        rec_result = rec_results[0]
+
+        self.assertEqual(rec_result[c.ASSIGNED_TAG_KEY], 3812)
 
 
     def test_remove_face_not_removed(self):

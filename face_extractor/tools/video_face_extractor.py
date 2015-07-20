@@ -2339,7 +2339,7 @@ class VideoFaceExtractor(object):
                 segment_list = person_dict[c.SEGMENTS_KEY]
 
                 for segment in segment_list:
-                    segment_counter = person_dict[c.SEGMENT_COUNTER_KEY]
+                    segment_counter = segment[c.SEGMENT_COUNTER_KEY]
                     # Load model for this segment
                     db_path = os.path.join(
                         self.face_models_path, str(segment_counter))
