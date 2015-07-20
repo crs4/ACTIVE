@@ -106,6 +106,7 @@ class PeopleClusterExtractor(object):
         aligned_faces_path = None
         face_tracking_file_path = None
         face_models_dir_path = None
+        cloth_models_dir_path = None
         frames_in_models_file_path = None
 
         if params is not None:
@@ -121,6 +122,8 @@ class PeopleClusterExtractor(object):
                 face_tracking_file_path = params[ce.FACE_TRACKING_FILE_PATH_KEY]
             if ce.FACE_MODELS_DIR_PATH_KEY in params:
                 face_models_dir_path = params[ce.FACE_MODELS_DIR_PATH_KEY]
+            if ce.CLOTH_MODELS_DIR_PATH_KEY in params:
+                cloth_models_dir_path = params[ce.CLOTH_MODELS_DIR_PATH_KEY]
             if ce.FRAMES_IN_MODELS_PATH_KEY in params:
                 frames_in_models_file_path = params[
                     ce.FRAMES_IN_MODELS_PATH_KEY]
@@ -166,8 +169,11 @@ class PeopleClusterExtractor(object):
             self.face_models_path = face_models_dir_path
 
         # Directory for cloth models
-        self.cloth_models_path = os.path.join(
-            self.video_path, c.CLOTH_MODELS_DIR)
+        if cloth_models_dir_path is None:
+            self.cloth_models_path = os.path.join(
+                self.video_path, c.CLOTH_MODELS_DIR)
+        else:
+            self.cloth_models_path = cloth_models_dir_path
 
         # File with list of frames in models
         if frames_in_models_file_path is None:
@@ -272,7 +278,8 @@ class PeopleClusterExtractor(object):
 
         if use_people_clustering:
             self.cluster_faces_in_video()
-            self.show_keyframes()
+            # TODO UNCOMMENT TEST ONLY
+            # self.show_keyframes()
 
             if sim_user_ann:
                 self.simulate_user_annotations()
@@ -601,7 +608,9 @@ class PeopleClusterExtractor(object):
                     (c.USE_CLOTHING_RECOGNITION_KEY in self.params)):
                 use_clothing_rec = self.params[c.USE_CLOTHING_RECOGNITION_KEY]
 
-            if use_clothing_rec:
+            if (use_clothing_rec and
+                    ((self.params is None)
+                     or (ce.CLOTH_MODELS_DIR_PATH_KEY not in self.params))):
                 # Save cloth models
                 self.save_cloth_models(tracking_list)
 
@@ -727,7 +736,8 @@ class PeopleClusterExtractor(object):
 
             utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
-            self.calculate_medoids()
+            # TODO UNCOMMENT TEST ONLY
+            # self.calculate_medoids()
 
     def create_cloth_model(self, segment_dict):
         """
@@ -2736,6 +2746,7 @@ class PeopleClusterExtractor(object):
 
         # Threshold for using clothing recognition
         clothes_conf_th = c.CLOTHES_CONF_THRESH
+        hsv_channels = c.CLOTHING_REC_HSV_CHANNELS_NR
 
         if self.params is not None:
             if c.USE_AGGREGATION_KEY in self.params:
@@ -2753,6 +2764,8 @@ class PeopleClusterExtractor(object):
                 use_3_bboxes = self.params[c.CLOTHING_REC_USE_3_BBOXES_KEY]
             if c.CLOTHES_CONF_THRESH_KEY in self.params:
                 clothes_conf_th = self.params[c.CLOTHES_CONF_THRESH_KEY]
+            if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in self.params:
+                hsv_channels = self.params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
 
         # Get histograms from model
 
@@ -2777,7 +2790,7 @@ class PeopleClusterExtractor(object):
 
                     if model1:
                         intra_dist1 = utils.get_mean_intra_distance(
-                            model1, use_3_bboxes)
+                            model1, use_3_bboxes, hsv_channels)
 
         model = None
         sub_counter = 0
