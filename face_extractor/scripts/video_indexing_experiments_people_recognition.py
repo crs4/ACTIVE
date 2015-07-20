@@ -14,7 +14,7 @@ from test.test_module.video_indexing_test import video_indexing_experiments
 # video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 # video_idx_path = r'C:\Users\Maurizio\Documents\Face summarization\Test\Caption recognition' # Portatile MP
 video_idx_path = r'C:\Active\People recognition'  # Palladium
-code_version = 353
+code_version = 356
 
 # Fixed parameters
 

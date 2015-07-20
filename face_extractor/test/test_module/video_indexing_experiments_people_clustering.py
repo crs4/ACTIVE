@@ -14,7 +14,7 @@ from video_indexing_test import video_indexing_experiments
 # TODO CHANGE?
 # video_idx_path_base = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path_base = r'C:\Active\People clustering'  # Palladium
-code_version = 353
+code_version = 356
 
 # Fixed parameters
 
@@ -89,10 +89,10 @@ video_idx_results_file_name = 'People_clustering'
 
 resource_paths = ['C:\Active\RawVideos\fic.02.mpg', 'C:\Active\RawVideos\MONITOR072011.mpg']
 resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
-clothing_rec_hsv_channels_nr = [3, 2]
+clothing_rec_hsv_channels_nr = [2]
 all_cloth_bboxes_in_frames_list = [True, False]
 conf_threshold_list = range(10, 51, 2)
-test_counter = 0
+test_counter = 134
 
 for hsv_channels in clothing_rec_hsv_channels_nr:
 
@@ -141,7 +141,7 @@ for hsv_channels in clothing_rec_hsv_channels_nr:
                           c.CLOTHES_BBOX_WIDTH_KEY: clothes_bbox_width,
                           c.CLOTHES_CHECK_METHOD_KEY: clothes_check_method,
                           c.CLOTHES_CONF_THRESH_KEY: clothes_conf_thresh,
-                          c.CLOTHING_REC_HSV_CHANNELS_NR: hsv_channels,
+                          c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: hsv_channels,
                           c.CLOTHING_REC_USE_3_BBOXES_KEY: use_3_bboxes,
                           c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY: use_dom_color,
                           c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY: use_mean_x,
@@ -184,6 +184,7 @@ for hsv_channels in clothing_rec_hsv_channels_nr:
                     params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face detection\Aligned faces'
                     params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face tracking\fic.02.mpg.YAML'
                     params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face models'
+                    params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\frames_in_models.yml'
                     params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
                 elif resource_id == 'MONITOR072011.mpg':
                     params[ce.VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\MONITOR072011.mpg_parameters.YAML'
@@ -191,11 +192,12 @@ for hsv_channels in clothing_rec_hsv_channels_nr:
                     params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face detection\Aligned faces'
                     params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face tracking\MONITOR072011.mpg.YAML'
                     params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'
+                    params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\frames_in_models.yml'
                     params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
 
                 # TODO CHANGE
                 # Save file with parameters
-                params_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\video_indexing_experiments_people_clustering.yml'
+                params_file_path = r'C:\Active\Params\video_indexing_experiments_people_clustering.yml'
                 utils.save_YAML_file(params_file_path, params)
 
                 # Launch subprocess

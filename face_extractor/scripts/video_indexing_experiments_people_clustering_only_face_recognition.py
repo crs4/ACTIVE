@@ -20,7 +20,7 @@ from test.test_module.video_indexing_test import video_indexing_experiments
 # TODO CHANGE?
 # video_idx_path_base = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path_base = r'C:\Active\People clustering'  # Palladium
-code_version = 353
+code_version = 356
 
 # Fixed parameters
 
@@ -30,7 +30,7 @@ check_eye_positions = True
 # classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
 classifiers_dir_path = r'C:\Opencv\sources\data\haarcascades'  # Palladium
 eye_detection_classifier = 'haarcascade_mcs_lefteye.xml'
-face_detection_algorithm = 'HaarCascadeFrontalFaceAlt2'  # TODO CHANGE?
+face_detection_algorithm = 'HaarCascadeFrontalFaceAlt2'
 flags = 'DoCannyPruning'
 min_neighbors = 5
 min_size_height = 20
@@ -187,13 +187,15 @@ for resource_path in resource_paths:
             params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face detection\Aligned faces'
             params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face tracking\fic.02.mpg.YAML'
             params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\Face models'
+            params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\fic.02.mpg\Face extraction\frames_in_models.yml'
             params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
         elif resource_id == 'MONITOR072011.mpg':
             params[ce.VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\MONITOR072011.mpg_parameters.YAML'
             params[ce.FRAMES_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Frames'
             params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face detection\Aligned faces'
             params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face tracking\MONITOR072011.mpg.YAML'
-            # params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'  # TODO CHANGE
+            params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'
+            params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\frames_in_models.yml'
             params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
 
         video_indexing_experiments(resource_path, resource_id, params)
