@@ -90,17 +90,11 @@ def aggregate_frame_results(frames, fm=None, tags=None, params=None):
     use_min_conf_rule = c.USE_MIN_CONFIDENCE_RULE
     
     if params is not None:
-        
         if c.USE_MAJORITY_RULE_KEY in params:
-        
             use_majority_rule = params[c.USE_MAJORITY_RULE_KEY]
-        
         if c.USE_MEAN_CONFIDENCE_RULE_KEY in params:
-        
             use_mean_conf_rule = params[c.USE_MEAN_CONFIDENCE_RULE_KEY]
-        
         if c.USE_MIN_CONFIDENCE_RULE_KEY in params:
-        
             use_min_conf_rule = params[c.USE_MIN_CONFIDENCE_RULE_KEY]
         
     if use_majority_rule:

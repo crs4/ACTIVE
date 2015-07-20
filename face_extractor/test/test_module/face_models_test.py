@@ -24,9 +24,15 @@ class TestFaceModels(unittest.TestCase):
 
     def test_add_blacklist_item(self):
 
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
         item = 'Al_telefono'
 
-        fm = FaceModels()
+        fm = FaceModels(params)
 
         fm.add_blacklist_item(item)
 
@@ -37,8 +43,12 @@ class TestFaceModels(unittest.TestCase):
     def test_add_face(self):
         
         base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
         
-        fm = FaceModels()
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -134,19 +144,165 @@ class TestFaceModels(unittest.TestCase):
 
     def test_add_face_from_whole_image(self):
 
-        fm = FaceModels()
-        label = 39
-        tag = 'Ladu_Fortunato'
-        im_path = r'C:\Active\Sinnova\Global face recognition - source images\Ladu_Fortunato\Ladu_Fortunato_new_4.jpg'
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        fm = FaceModels(params)
+        label = 0
+        tag = 'Mameli_Giacomo'
+        im_path = os.path.join(base_path, '0000000.png')
         fm.add_face(label, tag, im_path)
-        im_path = r'C:\Active\Sinnova\Global face recognition - source images\Ladu_Fortunato\Ladu_Fortunato_new_5.jpg'
-        fm.add_face(label, tag, im_path)
+
+    def test_change_label_to_face(self):
+
+        self.test_add_face()
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        fm = FaceModels(params)
+
+        old_label = 3812
+
+        images = fm.get_images_for_label(old_label)
+        im_name = images[0]
+
+        new_label = 3813
+        fm.change_label_to_face(im_name, old_label, new_label)
+
+        images_new_label = fm.get_images_for_label(new_label)
+        self.assertIn(im_name, images_new_label)
+
+
+    def test_change_tag_to_label(self):
+
+        self.test_add_face()
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        fm = FaceModels(params)
+
+        label = 3812
+
+        new_tag = 'Giacomo_Mameli'
+
+        fm.change_tag_to_label(label, new_tag)
+
+        tag = fm.get_tag(label)
+
+        self.assertEqual(tag, 'Giacomo_Mameli')
+
+
+    def test_cluster(self):
+
+        self.test_add_face()
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        fm = FaceModels(params)
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        label = 3816
+        tag = 'Mameli_Giacomo-2'
+
+        image_path = os.path.join(base_path, '0000000.png')
+
+        aligned_image_path = os.path.join(base_path, '0000000_aligned.png')
+
+        aligned_face = cv2.imread(aligned_image_path, cv2.IMREAD_GRAYSCALE)
+
+        eye_pos = (303, 131, 352, 134)
+
+        bbox = (260, 76, 137, 137)
+
+        fm.add_face(label, tag, image_path, aligned_face, eye_pos, bbox)
+
+        label = 3817
+        tag = 'Fadda_Paolo-2'
+
+        image_path = os.path.join(base_path, '0000001.png')
+
+        aligned_image_path = os.path.join(base_path, '0000001_aligned.png')
+
+        aligned_face = cv2.imread(aligned_image_path, cv2.IMREAD_GRAYSCALE)
+
+        eye_pos = (323, 150, 376, 145)
+
+        bbox = (267, 87, 166, 166)
+
+        fm.add_face(label, tag, image_path, aligned_face, eye_pos, bbox)
+
+        # Get clusters
+        fm.cluster_models()
+        clusters = fm.get_clusters()
+
+        # Check correctness of clusters
+        self.assertEqual(len(clusters), 4)
+
+        self.assertIn(3816, clusters[0])
+
+
+    def test_create_models_from_image_list(self):
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
+        fm.delete_models()
+
+        model_id = 0
+        im_list = [os.path.join(base_path, '0000000_aligned.png'),
+                   os.path.join(base_path, '0000005_aligned.png')]
+        model_path_0 = fm.create_model_from_image_list(im_list, model_id)
+
+        model_id = 1
+        im_list = [os.path.join(base_path, '0000001_aligned.png')]
+        model_path_1 = fm.create_model_from_image_list(im_list, model_id)
+
+        model_id = 2
+        im_list = [os.path.join(base_path, '0000002_aligned.png')]
+        model_path_2 = fm.create_model_from_image_list(im_list, model_id)
+
+        model_id = 3
+        im_list = [os.path.join(base_path, '0000003_aligned.png'),
+                   os.path.join(base_path, '0000004_aligned.png')]
+        model_path_3 = fm.create_model_from_image_list(im_list, model_id)
+
+        self.assertTrue(os.path.exists(model_path_0))
+        self.assertTrue(os.path.exists(model_path_1))
+        self.assertTrue(os.path.exists(model_path_2))
+        self.assertTrue(os.path.exists(model_path_3))
 
     def test_create_models_from_aligned_faces(self):
 
         self.test_create_models_from_whole_images()
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         labels = [2000, 2001, 2002, 2003]
 
@@ -169,7 +325,13 @@ class TestFaceModels(unittest.TestCase):
         orig_images_dir_path = os.path.join(
             '..', 'test_files', 'face_models', 'Whole images')
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -204,7 +366,13 @@ class TestFaceModels(unittest.TestCase):
         orig_images_dir_path = os.path.join(
             '..', 'test_files', 'face_models', 'Whole images')
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -239,12 +407,75 @@ class TestFaceModels(unittest.TestCase):
 
         self.assertEqual(sub_dir_counter, 4)
 
+    def test_disable_faces(self):
+
+        self.test_add_face()
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
+
+        labels = fm.get_labels()
+
+        print('labels', labels)
+
+        rel_im_tuples = []
+        for label in labels:
+            images = fm.get_images_for_label(label)
+            print('images', images)
+            for image in images:
+                rel_im_tuple = (label, image)
+                rel_im_tuples.append(rel_im_tuple)
+        fm.disable_faces(rel_im_tuples)
+
+        # Assert that file with enabled models does not exist
+        db_file_name = os.path.join(fm._data_dir_path, c.ENABLED_FACE_MODELS_FILE)
+        self.assertFalse(os.path.exists(db_file_name))
+
+    def test_enable_faces(self):
+
+        self.test_disable_faces()
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
+
+        label = 3812
+        rel_im_tuples = []
+        images = fm.get_images_for_label(label)
+        for image in images:
+            rel_im_tuple = (label, image)
+            rel_im_tuples.append(rel_im_tuple)
+
+        fm.enable_faces(rel_im_tuples)
+
+        # Get labels from all models
+        labels = fm._models.getMat("labels")
+        self.assertEqual(len(labels), 6)
+
+        # Get labels from enabled models
+        labels = fm._en_models.getMat("labels")
+        self.assertEqual(len(labels), 2)
 
     def test_get_tag(self):
 
         self.test_add_face()
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.load_models()
 
@@ -254,7 +485,13 @@ class TestFaceModels(unittest.TestCase):
 
     def test_get_tags(self):
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -270,7 +507,13 @@ class TestFaceModels(unittest.TestCase):
 
         base_path = '..' + os.sep + 'test_files' + os.sep + 'face_models'
 
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         self.test_add_face()
 
@@ -296,9 +539,67 @@ class TestFaceModels(unittest.TestCase):
 
         self.assertEquals(tag, 3815)
 
+
+    def test_recognize_model(self):
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(
+            os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        model_path_0 = os.path.join(face_rec_data, c.FACE_MODELS_DIR, '0')
+        model_path_1 = os.path.join(face_rec_data, c.FACE_MODELS_DIR, '1')
+        model_path_2 = os.path.join(face_rec_data, c.FACE_MODELS_DIR, '2')
+        model_path_3 = os.path.join(face_rec_data, c.FACE_MODELS_DIR, '3')
+
+        model_0 = {c.MODEL_ID_KEY: 0,
+                   c.MODEL_FILE_KEY: model_path_0,
+                   c.TAG_KEY: 'Mameli_Giacomo'}
+        model_1 = {c.MODEL_ID_KEY: 1,
+                   c.MODEL_FILE_KEY: model_path_1,
+                   c.TAG_KEY: 'Fadda_Paolo'}
+        model_2 = {c.MODEL_ID_KEY: 2,
+                   c.MODEL_FILE_KEY: model_path_2,
+                   c.TAG_KEY: 'Giannotta_Michele'}
+        model_3 = {c.MODEL_ID_KEY: 3,
+                   c.MODEL_FILE_KEY: model_path_3,
+                   c.TAG_KEY: 'Leoni_Mario'}
+
+        fm = FaceModels(params, [model_0, model_1, model_2, model_3])
+
+        fm.delete_models()
+
+        self.test_create_models_from_image_list()
+
+        fm.load_models()
+
+        model_id = 0
+        im_list = [os.path.join(base_path, '0000000_aligned.png'),
+                   os.path.join(base_path, '0000005_aligned.png')]
+        model_path_0 = fm.create_model_from_image_list(im_list, model_id)
+
+        query_model = cv2.createLBPHFaceRecognizer()
+        query_model.load(model_path_0)
+
+        rec_results = fm.recognize_model(query_model)
+
+        rec_result = rec_results[0]
+
+        self.assertEqual(rec_result[c.ASSIGNED_TAG_KEY], 0)
+
+
     def test_remove_face_not_removed(self):
         
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -315,7 +616,13 @@ class TestFaceModels(unittest.TestCase):
 
     def test_remove_face_label_removed(self):
         
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -348,7 +655,13 @@ class TestFaceModels(unittest.TestCase):
         
     def test_remove_face(self):
         
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -377,7 +690,13 @@ class TestFaceModels(unittest.TestCase):
     
     def test_remove_label_not_removed(self):
         
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 
@@ -392,7 +711,13 @@ class TestFaceModels(unittest.TestCase):
     
     def test_remove_label(self):
         
-        fm = FaceModels()
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY: -1,
+                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+        fm = FaceModels(params)
 
         fm.delete_models()
 

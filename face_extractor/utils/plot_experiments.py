@@ -36,6 +36,8 @@ def plot_people_clustering_experiments(
     # Check if there is at least one file path
     if len(yaml_paths) >= 1:
 
+        print('yaml_file', yaml_paths[0])
+
         dic1 = utils.load_YAML_file(yaml_paths[0])
         experiments_list = dic1[ce.EXPERIMENTS_KEY]
 
@@ -104,6 +106,11 @@ def plot_people_clustering_experiments(
                 method_counter += 1
                 continue
 
+
+            if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in params:
+                print('params: ', params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
+                print('exp: ', exp[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
+                print(params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY] == exp[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
             # Check equality of all given parameters
             all_equals = True
             for param in params.keys():
@@ -114,8 +121,6 @@ def plot_people_clustering_experiments(
                     break
 
             if all_equals:
-                print('nr_cluster', nr_clusters)
-                print('precision', prec)
                 x_lists[methods[method_counter]].append(nr_clusters)
                 prec_lists[methods[method_counter]].append(prec)
                 rec_lists[methods[method_counter]].append(rec)
@@ -224,8 +229,8 @@ def plot_people_clustering_experiments(
 
     plt.show()
 
-yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Only face recognition\People_clustering_only_face_recognition.yml',
-              r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Face + clothing recognition\People_clustering_face_plus_clothing_recognition.yml']
+yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Con tracking da faccia dopo alignment\People_clustering-new.yml']
+              # r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Face + clothing recognition\People_clustering_face_plus_clothing_recognition.yml']
 
 # 3 bboxes
 # methods = ['Solo face recognition',
@@ -242,13 +247,21 @@ yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-docu
 #            '2 x 2 - 3 celle + colore dominante']
 
 # mix MONITOR072011
-methods = ['Solo face recognition',
-           '2 x 1 - bbox intero',
-           '1 x 2 - bbox intero + colore dominante',
-           '2 x 1 - 3 celle',
-           '2 x 2 - 3 celle + colore dominante']
+# methods = ['Solo face recognition',
+#            '2 x 1 - bbox intero',
+#            '1 x 2 - bbox intero + colore dominante',
+#            '2 x 1 - 3 celle',
+#            '2 x 2 - 3 celle + colore dominante']
 
-video_name = 'MONITOR072011.mpg'
+# Variation of ALL_CLOTH_BBOXES_IN_FRAMES and CLOTHING_REC_HSV_CHANNELS_NR
+methods = ['Solo face recognition',
+           'Tutti i bounding box - HS',
+           'Tutti i bounding box - HSV',
+           'Almeno 5 bounding box - HS',
+           'Almeno 5 bounding box - HSV']
+
+video_name = 'fic.02.mpg'
+# video_name = 'MONITOR072011.mpg'
 
 only_face_recognition = {ce.VIDEO_NAME_KEY: video_name,
                          c.USE_CLOTHING_RECOGNITION_KEY: False,
@@ -289,6 +302,34 @@ face_clothing_rec_2_2 = {ce.VIDEO_NAME_KEY: video_name,
                          c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY: False,
                          c.CLOTHING_REC_USE_3_BBOXES_KEY: False
                          }
+
+face_clothing_rec_all_cloth_bboxes_in_frames_hs = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CLOTHING_RECOGNITION_KEY: True,
+    c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: True,
+    c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: 2
+}
+
+face_clothing_rec_all_cloth_bboxes_in_frames_hsv = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CLOTHING_RECOGNITION_KEY: True,
+    c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: True,
+    c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: 3
+}
+
+face_clothing_rec_hs = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CLOTHING_RECOGNITION_KEY: True,
+    c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: False,
+    c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: 2
+}
+
+face_clothing_rec_hsv = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CLOTHING_RECOGNITION_KEY: True,
+    c.ALL_CLOTH_BBOXES_IN_FRAMES_KEY: False,
+    c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: 3
+}
 
 face_clothing_rec_1_1_dom_color = copy.deepcopy(face_clothing_rec_1_1)
 face_clothing_rec_1_1_dom_color[c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY] = True
@@ -346,6 +387,12 @@ params_list_mix_MONITOR072011 = [only_face_recognition,
                                  face_clothing_rec_2_1_3_bboxes,
                                  face_clothing_rec_2_2_3_bboxes_dom_color]
 
+params_list = [only_face_recognition,
+               face_clothing_rec_all_cloth_bboxes_in_frames_hs,
+               face_clothing_rec_all_cloth_bboxes_in_frames_hsv,
+               face_clothing_rec_hs,
+               face_clothing_rec_hsv]
+
 plot_styles = ['ks-',
                'g+--',
                'r*-.',
@@ -355,8 +402,9 @@ plot_styles = ['ks-',
 # For total analysis times: 18187.89 x fic.02, 39997.93 x MONITOR072011
 inv_time = 0
 
-title = 'MONITOR072011'
+title = 'fic.02'
+# title = 'MONITOR072011'
 
 plot_people_clustering_experiments(
-    yaml_paths, methods, params_list_mix_MONITOR072011, plot_styles, inv_time, title)
+    yaml_paths, methods, params_list, plot_styles, inv_time, title)
 

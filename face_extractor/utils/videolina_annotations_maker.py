@@ -7579,7 +7579,7 @@ def make_SPALTI3_230907_annotations(file_path):
                           c.SEGMENT_END_KEY: 3600 + 42 * 60 + 39}
     video_segments.append(video_segment_dict)
 
-    caption_segment_dict = {c.ANN_TAG_KEY: ,
+    caption_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
                             c.SEGMENT_START_KEY: 3600 + 41 * 60 + 59,
                             c.SEGMENT_END_KEY: 3600 + 42 * 60 + 39}
     caption_segments.append(caption_segment_dict)
@@ -8031,51 +8031,51 @@ def make_SPALTI3_230907_annotations(file_path):
 
     video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
                           c.SEGMENT_START_KEY: 2 * 3600 + 29 * 60 + 41,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+                          c.SEGMENT_END_KEY: 2 * 3600 + 29 * 60 + 49}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 30 * 60 + 29,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 30 * 60 + 41}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 30 * 60 + 59,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 30 * 60 + 12}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 31 * 60 + 28,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 31 * 60 + 34}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Chessa_Mara',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 31 * 60 + 42,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 32 * 60 + 9}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Vargiu_Valerio',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 31 * 60 + 51,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 32 * 60 + 9}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 32 * 60 + 36,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 33 * 60 + 1}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 33 * 60 + 43,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 34 * 60 + 11}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
-                          c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
+    video_segment_dict = {c.ANN_TAG_KEY: 'Baldaccini_Veronica',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 35 * 60 + 10,
+                          c.SEGMENT_END_KEY: 2 * 3600 + 35 * 60 + 19}
     video_segments.append(video_segment_dict)
 
-    video_segment_dict = {c.ANN_TAG_KEY: '',
-                          c.SEGMENT_START_KEY: 2 * 3600 +  * 60 + ,
+    video_segment_dict = {c.ANN_TAG_KEY: 'Contini_Andrea',
+                          c.SEGMENT_START_KEY: 2 * 3600 + 35 * 60 + 19,
                           c.SEGMENT_END_KEY: 2 * 3600 +  * 60 + }
     video_segments.append(video_segment_dict)
 

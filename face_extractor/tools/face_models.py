@@ -16,17 +16,23 @@ class FaceModels:
     used by the face recognition algorithm
     """
 
-    def __init__(self, params=None):
+    def __init__(self, params=None, models=None):
         """
         Initialize the face models
 
         :type params: dictionary
         :param params: configuration parameters
+
+        :type models: list
+        :param models: list with models for people recognition
         """
 
         self._params = params
         self._data_dir_path = c.GLOBAL_FACE_REC_DATA_DIR_PATH
         self._models = None
+        self._en_models = None
+        self._ext_models = models
+        self._loaded_ext_models = None
 
         # Association between tags 
 
@@ -37,9 +43,9 @@ class FaceModels:
                     c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY]
 
     def add_face(self, label, tag, im_path, aligned_face=None, eye_pos=None,
-                 bbox=None):
+                 bbox=None, enabled=True):
         """
-        Add face to face models
+        Add face to global training set for people recognition
 
         :type label: integer
         :param label: identifier of person in database
@@ -61,6 +67,10 @@ class FaceModels:
         :param bbox: tuple containing position and size of
         face bounding box in whole image (x, y, width, height)
 
+        :type enabled: boolean
+        :param enabled: if True, face is also added
+        to models used for people recognition
+
         :rtype: boolean
         :returns: true if face has been added
         """
@@ -68,6 +78,22 @@ class FaceModels:
         ok = False
 
         try:
+
+            # Set parameters
+            radius = c.LBP_RADIUS
+            neighbors = c.LBP_NEIGHBORS
+            grid_x = c.LBP_GRID_X
+            grid_y = c.LBP_GRID_Y
+
+            if self._params is not None:
+                if c.LBP_RADIUS_KEY in self._params:
+                    radius = self._params[c.LBP_RADIUS_KEY]
+                if c.LBP_NEIGHBORS_KEY in self._params:
+                    neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+                if c.LBP_GRID_X_KEY in self._params:
+                    grid_x = self._params[c.LBP_GRID_X_KEY]
+                if c.LBP_GRID_Y_KEY in self._params:
+                    grid_y = self._params[c.LBP_GRID_Y_KEY]
 
             # Check if face models are loaded
             if not self._models:
@@ -239,7 +265,7 @@ class FaceModels:
                     min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
 
                     if (self._params and
-                            (c.GLOBAL_FACE_MODELS_MIN_DIFF in self._params)):
+                            (c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params)):
                         min_diff = self._params[
                             c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
 
@@ -264,30 +290,14 @@ class FaceModels:
 
                 else:
 
-                    # Create models
-
                     # Create face recognizer
-                    radius = c.LBP_RADIUS
-                    neighbors = c.LBP_NEIGHBORS
-                    grid_x = c.LBP_GRID_X
-                    grid_y = c.LBP_GRID_Y
-
-                    if self._params is not None:
-                        if c.LBP_RADIUS_KEY in self._params:
-                            radius = self._params[c.LBP_RADIUS_KEY]
-                        if c.LBP_NEIGHBORS_KEY in self._params:
-                            neighbors = self._params[c.LBP_NEIGHBORS_KEY]
-                        if c.LBP_GRID_X_KEY in self._params:
-                            grid_x = self._params[c.LBP_GRID_X_KEY]
-                        if c.LBP_GRID_Y_KEY in self._params:
-                            grid_y = self._params[c.LBP_GRID_Y_KEY]
-
                     model = cv2.createLBPHFaceRecognizer(
                         radius,
                         neighbors,
                         grid_x,
                         grid_y)
 
+                    # Create models
                     model.train(
                         np.asarray([np.asarray(aligned_face, dtype=np.uint8)]),
                         np.asarray(new_lbl_array))
@@ -303,6 +313,38 @@ class FaceModels:
 
                     self._models.save(db_file_name)
 
+                    # Check if face models used for people recognition
+                    # are loaded
+                    if not self._en_models:
+                        self.load_enabled_models()
+                    # Add face to models used for people recognition
+                    if self._en_models:
+                        self._en_models.update(
+                            np.asarray(
+                                [np.asarray(aligned_face, dtype=np.uint8)]),
+                            np.asarray(new_lbl_array))
+                    else:
+                        # Create face recognizer
+                        en_model = cv2.createLBPHFaceRecognizer(
+                            radius,
+                            neighbors,
+                            grid_x,
+                            grid_y)
+
+                        # Create models
+                        en_model.train(
+                            np.asarray([np.asarray(aligned_face, dtype=np.uint8)]),
+                            np.asarray(new_lbl_array))
+                        self._en_models = en_model
+
+                    # Save file with face models used for people recognition
+                    en_db_file_name = os.path.join(
+                        self._data_dir_path, c.ENABLED_FACE_MODELS_FILE)
+                    self._en_models.save(en_db_file_name)
+
+                else:
+                    enabled = False
+
                 # Load file with faces
                 faces_file = os.path.join(
                     self._data_dir_path, c.FACES_FILE)
@@ -312,7 +354,7 @@ class FaceModels:
                     # image and related bbox and eye positions
                     faces_dict = {rel_im_path: {}}
 
-                # Save face bbox and eye positions    
+                # Save face bbox and eye positions
 
                 faces_dict[rel_im_path] = {}
 
@@ -324,9 +366,11 @@ class FaceModels:
 
                 faces_dict[rel_im_path][c.LEFT_EYE_POS_KEY] = eye_left
 
-                faces_dict[rel_im_path][c.LEFT_EYE_POS_KEY] = eye_right
+                faces_dict[rel_im_path][c.RIGHT_EYE_POS_KEY] = eye_right
 
                 faces_dict[rel_im_path][c.FACE_IN_MODELS_KEY] = face_in_models
+
+                faces_dict[rel_im_path][c.ENABLED_KEY] = enabled
 
                 # Save new dictionary in YAML file
                 utils.save_YAML_file(faces_file, faces_dict)
@@ -367,6 +411,271 @@ class FaceModels:
 
         utils.save_YAML_file(blacklist_file_path, blacklist)
 
+    def change_label_to_face(self, im_name, old_label, new_label):
+        """
+        Change label to given face
+        :type im_name: string
+        :param im_name: name of image file
+
+        :type old_label: int
+        :param old_label: old label
+
+        :type new_label: int
+        :param new_label: new label
+        """
+        try:
+
+            training_set_path = os.path.join(
+                self._data_dir_path, c.TRAINING_SET_DIR)
+
+            aligned_faces_path = os.path.join(
+                training_set_path, c.ALIGNED_FACES_DIR)
+
+            aligned_faces_old_label_path = os.path.join(
+                aligned_faces_path, str(old_label))
+
+            aligned_faces_new_label_path = os.path.join(
+                aligned_faces_path, str(new_label))
+
+            aligned_im_old_path = os.path.join(
+                aligned_faces_old_label_path, im_name)
+
+            # Load file with faces
+            faces_file = os.path.join(
+                self._data_dir_path, c.FACES_FILE)
+            faces_dict = utils.load_YAML_file(faces_file)
+            if faces_dict is None:
+                print('No file with faces found')
+                return
+
+            if (os.path.exists(aligned_im_old_path) and
+                    os.path.exists(aligned_faces_new_label_path)):
+
+                # Move aligned face
+                aligned_im_new_path = os.path.join(
+                    aligned_faces_new_label_path, im_name)
+                os.rename(aligned_im_old_path, aligned_im_new_path)
+
+                # Move whole image
+                whole_images_path = os.path.join(
+                    training_set_path, c.WHOLE_IMAGES_DIR)
+                whole_images_old_label_path = os.path.join(
+                    whole_images_path, str(old_label))
+                whole_images_new_label_path = os.path.join(
+                    whole_images_path, str(new_label))
+                whole_im_old_path = os.path.join(
+                    whole_images_old_label_path, im_name)
+                whole_im_new_path = os.path.join(
+                    whole_images_new_label_path, im_name)
+                os.rename(whole_im_old_path, whole_im_new_path)
+
+                # TODO DELETE TEST ONLY BBOX IMAGES
+                bbox_images_path = os.path.join(
+                    training_set_path, c.BBOX_IMAGES_DIR)
+                bbox_images_old_label_path = os.path.join(
+                    bbox_images_path, str(old_label))
+                bbox_images_new_label_path = os.path.join(
+                    bbox_images_path, str(new_label))
+                bbox_im_old_path = os.path.join(
+                    bbox_images_old_label_path, im_name)
+                bbox_im_new_path = os.path.join(
+                    bbox_images_new_label_path, im_name)
+                os.rename(bbox_im_old_path, bbox_im_new_path)
+
+                # Change key in dictionary with faces
+                old_rel_im_path = os.path.join(str(old_label), im_name)
+                new_rel_im_path = os.path.join(str(new_label), im_name)
+
+                if old_rel_im_path in faces_dict:
+                    faces_dict[new_rel_im_path] = (
+                        faces_dict.pop(old_rel_im_path))
+
+                # Save file with faces
+                utils.save_YAML_file(faces_file, faces_dict)
+
+                self.create_models_from_aligned_faces()
+
+        except IOError, (errno, strerror):
+
+            print "I/O error({0}): {1}".format(errno, strerror)
+
+        except:
+
+            print "Unexpected error:", sys.exc_info()[0]
+
+            raise
+
+
+    def change_tag_to_label(self, label, tag):
+        """
+        Change tag to given label
+
+        :type label: integer
+        :param label: label whose tag is to be changed
+
+        :type tag: string
+        :param tag: tag to be used for given label
+        """
+
+        # Load file with tag-label associations
+        tag_label_associations_file = os.path.join(
+            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+        tag_label_associations = utils.load_YAML_file(
+            tag_label_associations_file)
+
+        if label in tag_label_associations:
+            tag_label_associations[label] = tag
+
+        # Save file
+        utils.save_YAML_file(
+            tag_label_associations_file, tag_label_associations)
+
+
+    def cluster_models(self):
+        """
+        Cluster face models
+        """
+
+        conf_threshold = c.GLOBAL_FACE_REC_THRESHOLD
+
+        if self._params and c.GLOBAL_FACE_REC_THRESHOLD_KEY in self._params:
+            conf_threshold = self._params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
+
+        # Load models
+        self.load_models()
+
+        # Get histograms from models
+        hists = self._models.getMatVector("histograms")
+
+        # Get labels from models
+        labels = self._models.getMat("labels")
+
+        # Store indexes for each label
+
+        label_dict = {}
+        for i in range(0, len(hists)):
+            label = labels[i][0]
+            if label in label_dict:
+                label_dict[label].append(i)
+            else:
+                label_dict[label] = [i]
+
+        labels = label_dict.keys()
+
+        clusters = []
+        checked_labels = []
+        for l1 in labels:
+            if l1 not in checked_labels:
+                # Do not consider this label anymore
+                checked_labels.append(l1)
+                l1_list = [int(l1)]  # List of labels with similar faces
+                # Compare histograms for this label
+                # to histograms for other labels
+                for l2 in labels:
+                    if l2 not in checked_labels:
+                        # Get all histograms for this label
+                        sim = False
+                        for i1 in label_dict[l1]:
+                            hist1 = hists[i1][0]
+                            for i2 in label_dict[l2]:
+                                hist2 = hists[i2][0]
+                                diff = cv2.compareHist(
+                                    hist1, hist2, cv.CV_COMP_CHISQR)
+                                if diff < conf_threshold:
+                                    l1_list.append(int(l2))
+                                    checked_labels.append(l2)
+                                    sim = True
+                                    break
+                            if sim:
+                                break
+                clusters.append(l1_list)
+
+        # Save found clusters in file
+        cluster_file = os.path.join(self._data_dir_path, c.CLUSTER_FILE)
+        utils.save_YAML_file(cluster_file, clusters)
+
+
+    # TODO ADD TEST
+    def create_model_from_image_list(self, image_list, model_id):
+        """
+        Read images in given list and create face model
+
+        :type image_list: list
+        :param image_list: list of image paths
+
+        :type model_id: integer
+        :param model_id: model identifier
+
+        :rtype: string
+        :returns: path of created face model
+        """
+
+        # Set parameters
+        radius = c.LBP_RADIUS
+        neighbors = c.LBP_NEIGHBORS
+        grid_x = c.LBP_GRID_X
+        grid_y = c.LBP_GRID_Y
+        min_diff = c.GLOBAL_FACE_MODELS_MIN_DIFF
+        if self._params is not None:
+            if c.LBP_RADIUS_KEY in self._params:
+                radius = self._params[c.LBP_RADIUS_KEY]
+            if c.LBP_NEIGHBORS_KEY in self._params:
+                neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+            if c.LBP_GRID_X_KEY in self._params:
+                grid_x = self._params[c.LBP_GRID_X_KEY]
+            if c.LBP_GRID_Y_KEY in self._params:
+                grid_y = self._params[c.LBP_GRID_Y_KEY]
+            if c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params:
+                min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
+
+        # Directory where face models are saved
+        face_models_path = os.path.join(
+            self._data_dir_path, c.FACE_MODELS_DIR)
+        if not (os.path.exists(face_models_path)):
+            # Create directory
+            os.makedirs(face_models_path)
+
+        # Create face recognizer
+        model = cv2.createLBPHFaceRecognizer(
+            radius,
+            neighbors,
+            grid_x,
+            grid_y)
+
+        im_counter = 0
+        for image_path in image_list:
+            face = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+            if im_counter == 0:
+                # Create model
+                model.train(
+                    np.asarray([np.asarray(face, dtype=np.uint8)]),
+                    np.asarray(model_id))
+            else:
+                # Update model
+                if min_diff >= 0:
+                    # Check if face is sufficiently different
+                    # from other faces in models
+                    (pred_label, conf) = model.predict(
+                        np.asarray(face, dtype=np.uint8))
+
+                    if conf >= min_diff:
+                        model.update(
+                            np.asarray([np.asarray(face, dtype=np.uint8)]),
+                            np.asarray(model_id))
+                else:
+                    model.update(
+                        np.asarray([np.asarray(face, dtype=np.uint8)]),
+                        np.asarray(model_id))
+            im_counter += 1
+
+        # Save file with face models
+        model_file_path = os.path.join(
+            self._data_dir_path, c.FACE_MODELS_DIR, str(model_id))
+
+        model.save(model_file_path)
+
+        return model_file_path
+
 
     def create_models_from_aligned_faces(self, label_list=None, tag_list=None):
         """
@@ -384,6 +693,9 @@ class FaceModels:
         """
 
         try:
+
+            model = None
+            en_model = None
 
             training_set_path = os.path.join(
                 self._data_dir_path, c.TRAINING_SET_DIR)
@@ -436,14 +748,6 @@ class FaceModels:
                 if c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY in self._params:
                     min_diff = self._params[c.GLOBAL_FACE_MODELS_MIN_DIFF_KEY]
 
-            model = cv2.createLBPHFaceRecognizer(
-                radius,
-                neighbors,
-                grid_x,
-                grid_y)
-
-            tag_label_associations = {}
-
             # Load file with faces
             faces_file = os.path.join(
                 self._data_dir_path, c.FACES_FILE)
@@ -463,6 +767,7 @@ class FaceModels:
                 return
 
             im_counter = 0
+            en_im_counter = 0
             subject_counter = 0
 
             old_sub_dir_name_list = []
@@ -530,6 +835,12 @@ class FaceModels:
 
                     if im_counter == 0:
 
+                        model = cv2.createLBPHFaceRecognizer(
+                            radius,
+                            neighbors,
+                            grid_x,
+                            grid_y)
+
                         model.train(
                             np.asarray([np.asarray(face, dtype=np.uint8)]),
                             np.asarray(label))
@@ -562,6 +873,30 @@ class FaceModels:
 
                     faces_dict[rel_im_path][
                         c.FACE_IN_MODELS_KEY] = face_in_models
+
+                    # Update face model used for people recognition
+                    enabled = False
+                    if rel_im_path in faces_dict:
+                        enabled = faces_dict[rel_im_path][c.ENABLED_KEY]
+
+                    if enabled:
+                        if en_im_counter == 0:
+
+                            # Model with enabled faces
+                            en_model = cv2.createLBPHFaceRecognizer(
+                                radius,
+                                neighbors,
+                                grid_x,
+                                grid_y)
+
+                            en_model.train(
+                                np.asarray([np.asarray(face, dtype=np.uint8)]),
+                                np.asarray(label))
+                        else:
+                            en_model.update(
+                                np.asarray([np.asarray(face, dtype=np.uint8)]),
+                                np.asarray(label))
+                        en_im_counter += 1
 
                     im_counter += 1
 
@@ -604,12 +939,30 @@ class FaceModels:
 
                     subject_counter += 1
 
-            # Save file with face models
+            # Save file with all face models
             db_file_name = os.path.join(
                 self._data_dir_path, c.FACE_MODELS_FILE)
-            model.save(db_file_name)
+            if model:
+                model.save(db_file_name)
+            else:
+                # Remove file
+                if os.path.exists(db_file_name):
+                    os.remove(db_file_name)
 
             self._models = model
+
+            # Save file with enabled face models
+            en_db_file_name = os.path.join(
+                self._data_dir_path, c.ENABLED_FACE_MODELS_FILE)
+            if en_model:
+                model.save(en_db_file_name)
+            else:
+                # Remove file
+                if os.path.exists(en_db_file_name):
+                    os.remove(en_db_file_name)
+
+            self._en_models = en_model
+
             # Save file with tag-label associations
             tag_label_associations_file = os.path.join(
                 self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
@@ -626,8 +979,8 @@ class FaceModels:
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-    def create_models_from_whole_images(self, images_dir_path,
-                                        label_list=None, tag_list=None):
+    def create_models_from_whole_images(self, images_dir_path, label_list=None,
+                                        tag_list=None, enabled=True):
         """
         Read images in given directory with images,
         detect and align faces in them and create face models.
@@ -644,6 +997,10 @@ class FaceModels:
         :type tag_list: list
         :param tag_list: list of tags for people.
         If not provided, names of sub directories will be used
+
+        :type enabled: boolean
+        :param enabled: if True, face are also added
+        to models used for people recognition
 
         :rtype: integer
         :returns: number of faces added to models
@@ -710,7 +1067,7 @@ class FaceModels:
                     im_path = os.path.join(subject_path, im_name)
 
                     # Add image to face models
-                    ok = self.add_face(label, tag, im_path)
+                    ok = self.add_face(label, tag, im_path, enabled=enabled)
 
                     if ok:
                         added_faces += 1
@@ -748,6 +1105,88 @@ class FaceModels:
                 raise
 
 
+    def disable_faces(self, rel_im_tuples):
+        """
+        Do not use given faces for people recognition
+
+        :type rel_im_tuples: list
+        :param rel_im_tuples: list of (label, im_name) tuples,
+        indicating labels and names of image files that must be enabled
+        """
+
+        try:
+            # Load file with faces
+            faces_file = os.path.join(self._data_dir_path, c.FACES_FILE)
+            faces_dict = utils.load_YAML_file(faces_file)
+
+            if faces_dict:
+
+                for rel_im_tuple in rel_im_tuples:
+                    label = rel_im_tuple[0]
+                    im_name = rel_im_tuple[1]
+                    rel_im_path = os.path.join(str(label), im_name)
+                    print('rel_im_path', rel_im_path)
+                    if rel_im_path in faces_dict:
+                        faces_dict[rel_im_path][c.ENABLED_KEY] = False
+
+                # Save file with faces
+                utils.save_YAML_file(faces_file, faces_dict)
+
+                # Rebuild models
+                self.create_models_from_aligned_faces()
+
+        except IOError, (errno, strerror):
+
+            print "I/O error({0}): {1}".format(errno, strerror)
+
+        except:
+
+            print "Unexpected error:", sys.exc_info()[0]
+
+            raise
+
+
+    def enable_faces(self, rel_im_tuples):
+        """
+        Use given faces for people recognition
+
+        :type rel_im_tuples: list
+        :param rel_im_tuples: list of (label, im_name) tuples,
+        indicating labels and names of image files that must be disabled
+        """
+
+        try:
+            # Load file with faces
+            faces_file = os.path.join(self._data_dir_path, c.FACES_FILE)
+            faces_dict = utils.load_YAML_file(faces_file)
+
+            if faces_dict:
+
+                for rel_im_tuple in rel_im_tuples:
+                    label = rel_im_tuple[0]
+                    im_name = rel_im_tuple[1]
+                    rel_im_path = os.path.join(str(label), im_name)
+                    print('rel_im_path', rel_im_path)
+                    if rel_im_path in faces_dict:
+                        faces_dict[rel_im_path][c.ENABLED_KEY] = True
+
+                # Save file with faces
+                utils.save_YAML_file(faces_file, faces_dict)
+
+                # Rebuild models
+                self.create_models_from_aligned_faces()
+
+        except IOError, (errno, strerror):
+
+            print "I/O error({0}): {1}".format(errno, strerror)
+
+        except:
+
+            print "Unexpected error:", sys.exc_info()[0]
+
+            raise
+
+
     def get_blacklist(self):
         """
         Get list of items that make the results
@@ -766,6 +1205,20 @@ class FaceModels:
 
         return blacklist
 
+    def get_clusters(self):
+        """
+        Get clusters of models
+
+        :rtype: list
+        :return: list of lists with labels in each cluster
+        """
+        # Load found clusters from file
+        cluster_file = os.path.join(self._data_dir_path, c.CLUSTER_FILE)
+        clusters = utils.load_YAML_file(cluster_file)
+
+        return clusters
+
+    # TODO ADD GET_TAGS AND GET_TAG CODE TO BE USED WHEN EXTERNAL MODELS ARE USED
     def get_labels(self):
         """
         Get all labels
@@ -776,20 +1229,27 @@ class FaceModels:
 
         labels = []
 
-        # Load file with tag-label associations
-        tag_label_associations_file = os.path.join(
-            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
-        tag_label_associations = utils.load_YAML_file(
-            tag_label_associations_file)
+        if self._ext_models:
+            # Get model ids from model dictionaries
+            for model_dict in self._ext_models:
+                model_id = model_dict[c.MODEL_ID_KEY]
+                labels.append(model_id)
 
-        if tag_label_associations:
-            labels = tag_label_associations.keys()
+        else:
+            # Load file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file)
+
+            if tag_label_associations:
+                labels = tag_label_associations.keys()
 
         return set(labels)
 
     def get_labels_for_tag(self, tag):
         """
-        Get label corresponding to given tag
+        Get labels corresponding to given tag
 
         :type tag: string
         :param tag: tag for which corresponding label is wanted
@@ -800,16 +1260,24 @@ class FaceModels:
 
         labels = []
 
-        # Load file with tag-label associations
-        tag_label_associations_file = os.path.join(
-            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
-        tag_label_associations = utils.load_YAML_file(
-            tag_label_associations_file)
+        if self._ext_models:
+            # Get model ids from model dictionaries
+            for model_dict in self._ext_models:
+                model_tag = model_dict[c.TAG_KEY]
+                if model_tag == tag:
+                    model_id = model_dict[c.MODEL_ID_KEY]
+                    labels.append(model_id)
+        else:
+            # Load file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file)
 
-        if tag_label_associations:
-            for dict_label, dict_tag in tag_label_associations.items():
-                if dict_tag == tag:
-                    labels.append(dict_label)
+            if tag_label_associations:
+                for dict_label, dict_tag in tag_label_associations.items():
+                    if dict_tag == tag:
+                        labels.append(dict_label)
 
         return labels
 
@@ -826,15 +1294,24 @@ class FaceModels:
 
         tag = c.UNDEFINED_TAG
 
-        # Load file with tag-label associations
-        tag_label_associations_file = os.path.join(
-            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
-        tag_label_associations = utils.load_YAML_file(
-            tag_label_associations_file)
+        if self._ext_models:
+            # Get model ids from model dictionaries
+            for model_dict in self._ext_models:
+                model_id = model_dict[c.MODEL_ID_KEY]
+                if model_id == label:
+                    model_tag = model_dict[c.TAG_KEY]
+                    return model_tag
+        else:
 
-        if (tag_label_associations and
-                (label in tag_label_associations)):
-            tag = tag_label_associations[label]
+            # Load file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file)
+
+            if (tag_label_associations and
+                    (label in tag_label_associations)):
+                tag = tag_label_associations[label]
 
         return tag
 
@@ -848,16 +1325,47 @@ class FaceModels:
 
         tags = []
 
-        # Load file with tag-label associations
-        tag_label_associations_file = os.path.join(
-            self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
-        tag_label_associations = utils.load_YAML_file(
-            tag_label_associations_file, )
+        if self._ext_models:
+            # Get model ids from model dictionaries
+            for model_dict in self._ext_models:
+                tag = model_dict[c.TAG_KEY]
+                tags.append(tag)
+        else:
+            # Load file with tag-label associations
+            tag_label_associations_file = os.path.join(
+                self._data_dir_path, c.TAG_LABEL_ASSOCIATIONS_FILE)
+            tag_label_associations = utils.load_YAML_file(
+                tag_label_associations_file, )
 
-        if tag_label_associations:
-            tags = tag_label_associations.values()
+            if tag_label_associations:
+                tags = tag_label_associations.values()
 
         return set(tags)
+
+
+    def get_images_for_label(self, label):
+        """
+        Get image names for given label
+
+        :rtype: list
+        :return: list of image names
+        """
+
+        training_set_path = os.path.join(
+            self._data_dir_path, c.TRAINING_SET_DIR)
+
+        aligned_faces_path = os.path.join(
+            training_set_path, c.ALIGNED_FACES_DIR)
+
+        aligned_faces_subject_path = os.path.join(
+            aligned_faces_path, str(label))
+
+        images = []
+        for im_name in os.listdir(aligned_faces_subject_path):
+            images.append(im_name)
+
+        return images
+
 
     def get_images_nr_for_label(self, label):
         """
@@ -900,6 +1408,31 @@ class FaceModels:
 
         return people_nr
 
+    def load_enabled_models(self):
+        """
+        Load face models used for people recognition
+
+        :rtype: boolean
+        :returns: True if models were successfully loaded,
+        False otherwise
+        """
+
+        ok = False
+
+        db_file_path = os.path.join(
+            self._data_dir_path, c.ENABLED_FACE_MODELS_FILE)
+
+        # Load face recognizer
+
+        if os.path.exists(db_file_path):
+            self._models = cv2.createLBPHFaceRecognizer()
+
+            self._models.load(db_file_path)
+
+            ok = True
+
+        return ok
+
     def load_models(self):
         """
         Load face models
@@ -911,17 +1444,34 @@ class FaceModels:
 
         ok = False
 
-        db_file_path = os.path.join(
-            self._data_dir_path, c.FACE_MODELS_FILE)
+        if self._ext_models:
+            # Load external models
+            self._loaded_ext_models = []
+            for model_dict in self._ext_models:
+                model_id = model_dict[c.MODEL_ID_KEY]
+                db_file_path = model_dict[c.MODEL_FILE_KEY]
+                face_recognizer = cv2.createLBPHFaceRecognizer()
+                face_recognizer.load(db_file_path)
+                tag = model_dict[c.TAG_KEY]
+                loaded_model_dict = {c.MODEL_ID_KEY: model_id,
+                                     c.MODEL_FILE_KEY: face_recognizer,
+                                     c.TAG_KEY: tag}
+                self._loaded_ext_models.append(loaded_model_dict)
+                ok = True
 
-        # Load face recognizer
+        else:
+            # Load internal models
+            db_file_path = os.path.join(
+                self._data_dir_path, c.FACE_MODELS_FILE)
 
-        if os.path.exists(db_file_path):
-            self._models = cv2.createLBPHFaceRecognizer()
+            # Load face recognizer
 
-            self._models.load(db_file_path)
+            if os.path.exists(db_file_path):
+                self._models = cv2.createLBPHFaceRecognizer()
 
-            ok = True
+                self._models.load(db_file_path)
+
+                ok = True
 
         return ok
 
@@ -935,15 +1485,15 @@ class FaceModels:
 
         :rtype: tuple
         :returns: a tuple containing predicted label
-        and relative confidence
+        and corresponding confidence
         """
 
-        label = c.UNDEFINED_TAG
+        label = c.UNDEFINED_LABEL
         conf = sys.maxint
 
-        if self._models:
-
-            (pred_label, conf) = self._models.predict(
+        if self._en_models:
+            # TODO GET HISTOGRAMS (GETMATVECTOR) FOR EXPERIMENTS
+            (pred_label, conf) = self._en_models.predict(
                 np.asarray(face, dtype=np.uint8))
             # TEST ONLY
             # print('pred_label', pred_label)
@@ -954,6 +1504,60 @@ class FaceModels:
                 label = pred_label
 
         return label, conf
+
+    # TODO ADD TEST FOR RECOGNIZE_MODEL
+    def recognize_model(self, query_model):
+        """
+        Recognize given face model using the stored face recognition models
+
+        :type query_model: OpenCV LBPHFaceRecognizer
+        :param query_model: model to be recognized
+
+        :rtype: list
+        :returns: a list of tuples containing predicted labels
+        and corresponding confidences
+        """
+
+        face_rec_results = []
+
+        if self._loaded_ext_models:
+
+            # Get histograms from given model
+            query_model_hists = query_model.getMatVector("histograms")
+
+            # Iterate through LBP histograms
+            # in query model
+            for i in range(0, len(query_model_hists)):
+
+                label = c.UNDEFINED_LABEL
+                conf = sys.maxint
+
+                query_hist = query_model_hists[i][0]
+
+                for train_model_dict in self._loaded_ext_models:
+
+                    # Get histograms from train model
+                    train_model = train_model_dict[c.MODEL_FILE_KEY]
+                    train_model_hists = train_model.getMatVector("histograms")
+                    train_model_id = train_model_dict[c.MODEL_ID_KEY]
+
+                    # Iterate through LBP histograms
+                    # in training model
+                    for t in range(0, len(train_model_hists)):
+                        train_hist = train_model_hists[t][0]
+                        diff = cv2.compareHist(
+                            query_hist, train_hist, cv.CV_COMP_CHISQR)
+                        if ((diff < conf)and
+                                (diff < c.GLOBAL_FACE_REC_THRESHOLD)):
+                            conf = diff
+                            label = train_model_id
+
+                face_rec_result = {c.ASSIGNED_TAG_KEY: label,
+                                   c.CONFIDENCE_KEY: conf
+                                   }
+                face_rec_results.append(face_rec_result)
+
+        return face_rec_results
 
     def remove_blacklist_item(self, item):
         """

@@ -93,6 +93,9 @@ MOUTH_DETECTION_CLASSIFIER = 'haarcascade_mcs_mouth.xml'
 # % of the image to keep next to the mouth in the vertical direction
 OFFSET_PCT_Y_FROM_MOUTH = 0.5
 
+# Path of training set used to create models for people recognition
+PEOPLE_RECOGNITION_TRAINING_SET_PATH = ''
+
 # Number of images per person
 PERSON_IMAGES_NR = 10
 
@@ -202,6 +205,8 @@ VIDEO_INDEXING_RESULTS_PATH = r''
 WEIGHT_0_REGIONS = [17, 21, 24, 27, 28, 34, 35, 41, 42, 48]
 WEIGHT_2_REGIONS = [0, 6, 7, 13]
 WEIGHT_4_REGIONS = [8, 9, 11, 12]
+
+WORD_BLACKLIST_FILE_PATH = ''
 
 
 # Directories
@@ -333,3 +338,4 @@ VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME_KEY = 'experiment_results_file_name'
 VIDEO_INDEXING_RESULTS_PATH_KEY = 'video_indexing_results'
 VIDEO_NAME_KEY = 'video_name'  # Name of video
 VIDEO_PARAMS_FILE_PATH_KEY = 'video_parameters_file_path'
+WORD_BLACKLIST_FILE_PATH_KEY = 'word_blacklist_file_path'

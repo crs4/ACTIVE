@@ -43,7 +43,7 @@ class VideoFaceExtractor(object):
     Tool for detecting and recognizing faces in video
     """
 
-    def __init__(self, resource_path, resource_id, params=None):
+    def __init__(self, resource_path, resource_id, params=None, models=None):
         """
         Initialize the face extractor.
         The configuration parameters define
@@ -56,6 +56,9 @@ class VideoFaceExtractor(object):
 
         :type resource_id: string
         :param resource_id: identifier of resource
+
+        :type models: dictionary
+        :param models: dictionary with models for people recognition
 
         :type  params: dictionary
         :param params: configuration parameters (see table)
@@ -83,6 +86,8 @@ class VideoFaceExtractor(object):
         self.fps = 0  # Frame rate of video in frames per second
 
         self.hist_diffs = []  # List with histogram differences
+
+        self.models = models
 
         self.nose_pos_list = []  # List with nose positions
 
@@ -468,9 +473,9 @@ class VideoFaceExtractor(object):
         time_in_clocks = cv2.getTickCount() - start_time
         seconds = time_in_clocks / cv2.getTickFrequency()
 
-        print 'Time for calculation of histogram differences: ', seconds, 's\n'
+        print 'Time for calculation of histogram differences: ', str(seconds), 's\n'
         logger.debug(
-            'Time for calculation of histogram differences: ', seconds, 's\n')
+            'Time for calculation of histogram differences: ' + str(seconds) + 's\n')
 
         self.anal_times[c.SHOT_CUT_DETECTION_TIME_KEY] = seconds
 
@@ -613,6 +618,36 @@ class VideoFaceExtractor(object):
             self.recognized_faces[p_counter][
                 c.MEDOID_FRAME_NAME_KEY] = medoid_frame
 
+            # Set aligned face corresponding to medoid
+            found = False
+            for segment_dict in segment_list:
+
+                frame_list = segment_dict[c.FRAMES_KEY]
+
+                for frame_dict in frame_list:
+
+                    frame_name = frame_dict[c.SAVED_FRAME_NAME_KEY]
+
+                    if frame_name == medoid_frame:
+                        frame_path = os.path.join(
+                            self.frames_path, frame_name)
+
+                        aligned_name = frame_dict[
+                            c.ALIGNED_FACE_FILE_NAME_KEY]
+
+                        complete_file_name = (
+                            aligned_name +
+                            c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
+
+                        self.recognized_faces[p_counter][
+                            c.MEDOID_ALIGNED_FACE_KEY] = complete_file_name
+
+                        found = True
+
+                        break
+                if found:
+                    break
+
             p_counter += 1
 
         # Save processing time
@@ -620,7 +655,7 @@ class VideoFaceExtractor(object):
         time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
         print 'Time for calculating cluster medoids:', time_in_seconds, 's\n'
-        logger.debug('Time for calculating cluster medoids:', time_in_seconds, 's\n')
+        logger.debug('Time for calculating cluster medoids: ' + str(time_in_seconds) + 's\n')
 
     def cluster_faces_in_video(self):
         """
@@ -802,7 +837,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for people clustering:', time_in_seconds, 's\n'
-            logger.debug('Time for people clustering:', time_in_seconds, 's\n')
+            logger.debug('Time for people clustering:' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.PEOPLE_CLUSTERING_TIME_KEY] = time_in_seconds
 
@@ -1392,7 +1427,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for face detection: ', time_in_seconds, 's\n'
-            logger.debug('Time for face detection: ', time_in_seconds, 's\n')
+            logger.debug('Time for face detection: ' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FACE_DETECTION_TIME_KEY] = time_in_seconds
 
@@ -1622,6 +1657,7 @@ class VideoFaceExtractor(object):
 
         return new_segments
 
+
     def get_faces_nr(self):
         """
         Get number of faces in each frame,
@@ -1847,7 +1883,7 @@ class VideoFaceExtractor(object):
 
             print 'Time for frame extraction:', str(time_in_seconds), 's\n'
             logger.debug(
-                'Time for frame extraction:', str(time_in_seconds), 's\n')
+                'Time for frame extraction: ' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FRAME_EXTRACTION_TIME_KEY] = time_in_seconds
 
@@ -1925,9 +1961,11 @@ class VideoFaceExtractor(object):
         for person_dict in self.recognized_faces:
 
             person_tag_id = person_dict[c.TAG_ID_KEY]
+            logger.debug('person_tag_id: ' + str(person_tag_id))
 
             if person_tag_id == tag_id:
                 person_counter = person_dict[c.PERSON_COUNTER_KEY]
+                logger.debug('Person counter: ' + str(person_counter))
                 return person_counter
 
         return person_counter
@@ -1986,11 +2024,14 @@ class VideoFaceExtractor(object):
         # Update list of people
         self.recognized_faces = new_faces
 
-    def recognize_captions_in_video(self):
+    def recognize_captions_in_video(self, fm):
         """
         Recognize captions on analyzed video,
         assigning tags to faces on the basis of captions.
         It works by using a list of people clusters.
+
+        :type fm: FaceModels
+        :param fm: face models to be used for the caption recognition
         """
 
         use_skeletons = c.USE_SKELETONS
@@ -2006,8 +2047,6 @@ class VideoFaceExtractor(object):
         start_time = cv2.getTickCount()
 
         # Load tags
-        fm = FaceModels(self.params)
-
         tgs = list(fm.get_tags())
 
         if len(tgs) > 0:
@@ -2235,17 +2274,20 @@ class VideoFaceExtractor(object):
             seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for caption recognition:', seconds, 's\n'
-            logger.debug('Time for caption recognition:', seconds, 's\n')
+            logger.debug('Time for caption recognition: ' + str(seconds) + 's\n')
 
             self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
 
             utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
-    def recognize_faces_in_video(self):
+    def recognize_faces_in_video(self, fm):
         """
         Recognize faces on analyzed video,
         assigning tags to faces on the basis of face features.
         It works by using a list of people clusters.
+
+        :type fm: FaceModels
+        :param fm: face models to be used for the face recognition
         """
 
         use_skeletons = c.USE_SKELETONS
@@ -2260,43 +2302,57 @@ class VideoFaceExtractor(object):
         # Save processing time
         start_time = cv2.getTickCount()
 
-        # Load face models
-        fm = FaceModels(self.params)
-
         tgs = list(fm.get_labels())
 
-        loaded = fm.load_models()
+        p_counter = 0
 
-        if loaded:
+        clusters_nr = float(len(self.recognized_faces))
 
-            p_counter = 0
+        logger.debug('clusters_nr: ' + str(clusters_nr))
 
-            clusters_nr = float(len(self.recognized_faces))
+        # Iterate through people clusters
+        for person_dict in self.recognized_faces:
 
-            logger.debug('clusters_nr: ' + str(clusters_nr))
+            self.progress = 100 * (p_counter / clusters_nr)
 
-            # Iterate through people clusters
-            for person_dict in self.recognized_faces:
+            print('progress: ' + str(self.progress) + ' %          \r'),
 
-                self.progress = 100 * (p_counter / clusters_nr)
+            prev_ass_label = c.UNDEFINED_LABEL
+            if c.ASSIGNED_LABEL_KEY in person_dict:
+                prev_ass_label = person_dict[c.ASSIGNED_LABEL_KEY]
 
-                print('progress: ' + str(self.progress) + ' %          \r'),
+            # If person is not already recognized,
+            # try to recognize him/her
+            if prev_ass_label != c.UNDEFINED_LABEL:
 
-                prev_ass_label = c.UNDEFINED_LABEL
-                if c.ASSIGNED_LABEL_KEY in person_dict:
-                    prev_ass_label = person_dict[c.ASSIGNED_LABEL_KEY]
+                p_counter += 1
 
-                # If person is not already recognized,
-                # try to recognize him/her
-                if prev_ass_label != c.UNDEFINED_LABEL:
+                continue
 
-                    p_counter += 1
+            frames = []
 
-                    continue
+            face_rec_results = []
 
-                frames = []
+            if self.models:
 
-                face_rec_results = []
+                # Recognize though saved models
+                segment_list = person_dict[c.SEGMENTS_KEY]
+
+                for segment in segment_list:
+                    segment_counter = person_dict[c.SEGMENT_COUNTER_KEY]
+                    # Load model for this segment
+                    db_path = os.path.join(
+                        self.face_models_path, str(segment_counter))
+                    if os.path.isfile(db_path):
+                        model = cv2.createLBPHFaceRecognizer()
+                        model.load(db_path)
+                        if model:
+                            segment_results = fm.recognize_model(model)
+                            face_rec_results.append(segment_results)
+
+            else:
+
+                # Recognize though saved images
 
                 # Build list of image paths
                 im_path_list = []
@@ -2346,55 +2402,55 @@ class VideoFaceExtractor(object):
 
                         face_rec_results.append(result_dict)
 
-                for result_dict in face_rec_results:
+            for result_dict in face_rec_results:
 
-                    ass_label = result_dict[c.ASSIGNED_TAG_KEY]
+                ass_label = result_dict[c.ASSIGNED_TAG_KEY]
 
-                    conf = result_dict[c.CONFIDENCE_KEY]
+                conf = result_dict[c.CONFIDENCE_KEY]
 
-                    logger.debug('assigned label', ass_label)
+                logger.debug('assigned label: ' + str(ass_label))
 
-                    # Compose frame
+                # Compose frame
 
-                    if ass_label != c.UNDEFINED_LABEL:
-                        frame_dict = {c.CONFIDENCE_KEY: conf,
-                                      c.ASSIGNED_TAG_KEY: ass_label}
+                if ass_label != c.UNDEFINED_LABEL:
+                    frame_dict = {c.CONFIDENCE_KEY: conf,
+                                  c.ASSIGNED_TAG_KEY: ass_label}
 
-                        frames.append(frame_dict)
+                    frames.append(frame_dict)
 
-                # Assign final tag to person
+            # Assign final tag to person
 
-                label = c.UNDEFINED_LABEL
-                tag = c.UNDEFINED_TAG
+            label = c.UNDEFINED_LABEL
+            tag = c.UNDEFINED_TAG
 
-                if len(frames) > 0:
-                    [final_label, final_conf, pct] = (
-                        utils.aggregate_frame_results(
-                            frames, None, tags=tgs, params=self.params))
+            if len(frames) > 0:
+                [final_label, final_conf, pct] = (
+                    utils.aggregate_frame_results(
+                        frames, None, tags=tgs, params=self.params))
 
-                    label = final_label
-                    tag = fm.get_tag(label)
+                label = final_label
+                tag = fm.get_tag(label)
 
-                print('p_counter', p_counter)
-                print('frames', frames)
-                print('assigned final tag', tag)
-                logger.debug('assigned final tag', tag)
+            print('p_counter', p_counter)
+            print('frames', frames)
+            print('assigned final tag', tag)
+            logger.debug('assigned final tag : ' + str(tag))
 
-                self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
-                self.recognized_faces[p_counter][c.ASSIGNED_TAG_KEY] = tag
+            self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
+            self.recognized_faces[p_counter][c.ASSIGNED_TAG_KEY] = tag
 
-                p_counter += 1
+            p_counter += 1
 
-            # Save processing time
-            time_in_clocks = cv2.getTickCount() - start_time
-            seconds = time_in_clocks / cv2.getTickFrequency()
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        seconds = time_in_clocks / cv2.getTickFrequency()
 
-            print 'Time for face recognition:', seconds, 's\n'
-            logger.debug('Time for face recognition:', seconds, 's\n')
+        print 'Time for face recognition:', seconds, 's\n'
+        logger.debug('Time for face recognition: ' + str(seconds) + 's\n')
 
-            self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
+        self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
 
-            utils.save_YAML_file(self.analysis_file_path, self.anal_times)
+        utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
 
     def recognize_people_in_video(self):
@@ -2456,13 +2512,20 @@ class VideoFaceExtractor(object):
                 if c.USE_FACE_RECOGNITION_KEY in self.params:
                     use_face_rec = self.params[c.USE_FACE_RECOGNITION_KEY]
 
-            if use_caption_rec:
-                # Caption recognition
-                self.recognize_captions_in_video()
+            # Load face models
+            fm = FaceModels(self.params)
 
-            if use_face_rec:
-                # Face recognition
-                self.recognize_faces_in_video()
+            loaded = fm.load_models()
+
+            if loaded:
+
+                if use_caption_rec:
+                    # Caption recognition
+                    self.recognize_captions_in_video(fm)
+
+                if use_face_rec:
+                    # Face recognition
+                    self.recognize_faces_in_video(fm)
 
             # Merge people with the same label
             # self.merge_labels() TODO UNCOMMENT FOR LANTANIO
@@ -2678,7 +2741,7 @@ class VideoFaceExtractor(object):
 
         print 'Time for calculating face models:', str(time_in_seconds), 's\n'
         logger.debug(
-            'Time for calculating face models:', str(time_in_seconds), 's\n')
+            'Time for calculating face models: ' + str(time_in_seconds) + 's\n')
 
         self.anal_times[c.FACE_MODELS_CREATION_TIME_KEY] = time_in_seconds
 
@@ -3097,26 +3160,19 @@ class VideoFaceExtractor(object):
         clothes_conf_th = c.CLOTHES_CONF_THRESH
 
         if self.params is not None:
-
             if c.USE_AGGREGATION_KEY in self.params:
                 use_aggregation = self.params[c.USE_AGGREGATION_KEY]
-
             if c.USE_NOSE_POS_IN_RECOGNITION_KEY in self.params:
                 use_nose_pos_in_rec = (
                     self.params[c.USE_NOSE_POS_IN_RECOGNITION_KEY])
-
             if c.MAX_NOSE_DIFF_KEY in self.params:
                 max_nose_diff = self.params[c.MAX_NOSE_DIFF_KEY]
-
             if c.CONF_THRESHOLD_KEY in self.params:
                 conf_threshold = self.params[c.CONF_THRESHOLD_KEY]
-
             if c.USE_CLOTHING_RECOGNITION_KEY in self.params:
                 use_clothing_rec = self.params[c.USE_CLOTHING_RECOGNITION_KEY]
-
             if c.CLOTHING_REC_USE_3_BBOXES_KEY in self.params:
                 use_3_bboxes = self.params[c.CLOTHING_REC_USE_3_BBOXES_KEY]
-
             if c.CLOTHES_CONF_THRESH_KEY in self.params:
                 clothes_conf_th = self.params[c.CLOTHES_CONF_THRESH_KEY]
 
@@ -3974,7 +4030,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for face tracking:', time_in_seconds, 's\n'
-            logger.debug('Time for face tracking:', time_in_seconds, 's\n')
+            logger.debug('Time for face tracking:' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FACE_TRACKING_TIME_KEY] = time_in_seconds
 

@@ -15,6 +15,7 @@ path_to_be_appended = ".." + os.sep + ".."
 sys.path.append(path_to_be_appended)
 
 import tools.constants as c
+from tools.face_models import FaceModels
 from tools.utils import load_YAML_file, save_YAML_file
 from tools.video_face_extractor import VideoFaceExtractor
 
@@ -396,7 +397,8 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
     stream.close()
 
     
-def video_indexing_experiments(resource_path, resource_id, params):
+def video_indexing_experiments(
+        resource_path, resource_id, create_models=False, params=None):
     """
     Execute video indexing experiments
 
@@ -405,6 +407,9 @@ def video_indexing_experiments(resource_path, resource_id, params):
 
     :type resource_id: string
     :param resource_id: identifier of resource
+
+    :type create_models: boolean
+    :param create_models: if True, create models for people recognition
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the test
@@ -419,6 +424,38 @@ def video_indexing_experiments(resource_path, resource_id, params):
         if ce.USE_PEOPLE_RECOGNITION_KEY in params:
             use_people_recognition = params[ce.USE_PEOPLE_RECOGNITION_KEY]   
     
+    # Create models for people recognition
+    if create_models:
+
+        # Set parameters
+        aligned_faces_path = c.ALIGNED_FACES_PATH
+        images_dir_path = ce.PEOPLE_RECOGNITION_TRAINING_SET_PATH
+        word_blacklist_file_path = ce.WORD_BLACKLIST_FILE_PATH
+        if params is not None:
+            if c.ALIGNED_FACES_PATH_KEY in params:
+                aligned_faces_path = params[c.ALIGNED_FACES_PATH_KEY]
+            if ce.TRAINING_SET_PATH_KEY in params:
+                images_dir_path = params[ce.TRAINING_SET_PATH_KEY]
+            if ce.WORD_BLACKLIST_FILE_PATH_KEY in params:
+                word_blacklist_file_path = params[ce.WORD_BLACKLIST_FILE_PATH_KEY]
+
+        # Add face models
+        fm = FaceModels(params)
+        fm.create_models_from_whole_images(images_dir_path)
+
+        # Add blacklist from file
+        lines = []
+        with open(word_blacklist_file_path, 'r') as f:
+            lines = f.read().splitlines()
+
+        for line in lines:
+            fm.add_blacklist_item(line)
+
+        # Empty directory with temporary aligned faces
+        for item in os.listdir(aligned_faces_path):
+            item_complete_path = os.path.join(aligned_faces_path, item)
+            os.remove(item_complete_path)
+
     fs = None
     
     if use_people_recognition:
@@ -1090,11 +1127,16 @@ if __name__ == "__main__":
     parser.add_argument("-resource_path", help="resource path")
     parser.add_argument("-resource_id", help="resource id")
     parser.add_argument("-config", help="configuration file")
+    parser.add_argument("--create_models",
+                        help="create models used for people recognition",
+                        action="store_true")
     parser.add_argument("--no_software_test",
                         help="do not execute software test",
                         action="store_true")
 
     args = parser.parse_args()
+
+    create_models = args.create_models
 
     no_software_test = args.no_software_test
 
@@ -1161,4 +1203,5 @@ if __name__ == "__main__":
         execute_experiments = True
 
     if execute_experiments and resource_path and resource_id:
-        video_indexing_experiments(resource_path, resource_id, params)
+        video_indexing_experiments(
+            resource_path, resource_id, create_models, params)

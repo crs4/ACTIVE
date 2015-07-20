@@ -93,13 +93,13 @@ GLOBAL_FACE_MODELS_MIN_DIFF = 5
 # TODO CHANGE FOR SERVER
 # Path of directory with people recognition data
 # GLOBAL_FACE_REC_DATA_DIR_PATH = os.path.join(os.path.join(settings.MEDIA_ROOT, 'models'), 'video')
-# GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'  # Portatile MP
-GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Active\Sinnova\Global face recognition'  # Palladium
+GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'  # Portatile MP
+# GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Active\Sinnova\Global face recognition'  # Palladium
 
 # Threshold for retaining prediction in global face recognition
 # (faces whose prediction has a confidence value greater
 # than GLOBAL_FACE_REC_THRESHOLD will be considered unknown)
-GLOBAL_FACE_REC_THRESHOLD = 25  # default 8
+GLOBAL_FACE_REC_THRESHOLD = 8  # default 8
 
 # Number of columns used in grid for pre-aligned faces
 GRID_CELLS_X = 3
@@ -343,6 +343,8 @@ WHOLE_IMAGES_DIR = 'Whole images'
 
 # Files
 
+CLUSTER_FILE = 'clusters.yml'
+ENABLED_FACE_MODELS_FILE = 'Enabled_face_models'
 FACE_MODELS_FILE = 'Face_models'
 FACES_FILE = 'Faces.yml'
 FACES_NR_IN_FRAMES_FILE = 'faces_nr_in_frames.yml'
@@ -402,6 +404,7 @@ DETECTION_BBOX_KEY = 'detection_bbox'
 TAG_ID_KEY = 'tag_id'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
+ENABLED_KEY = 'enabled'
 EQ_LETTERS_NR_KEY = 'eq_letters_nr'
 ERROR_KEY = 'error'
 EYE_DETECTION_CLASSIFIER_KEY = 'eye_detection_classifier'
@@ -434,6 +437,7 @@ MAX_EYE_ANGLE_KEY = 'max_eye_angle'
 MAX_FACES_IN_MODEL_KEY = 'max_faces_in_model'
 MAX_FR_WITH_MISSED_DET_KEY = 'max_frames_with_missed_detections'
 MAX_NOSE_DIFF_KEY = 'max_nose_diff'
+MEDOID_ALIGNED_FACE_KEY = 'medoid_aligned_face'
 MEDOID_FRAME_NAME_KEY = 'medoid_frame_name'
 MIN_CLOTH_MODEL_SIZE_KEY = 'min_cloth_model_size'
 MIN_DETECTION_PCT_KEY = 'min_detection_pct'
@@ -444,6 +448,8 @@ MIN_SEGMENT_DURATION_KEY = 'min_segment_duration'
 MIN_SIZE_HEIGHT_KEY = 'min_size_height'
 MIN_SIZE_WIDTH_KEY = 'min_size_width'
 MIN_TAG_LENGTH_KEY = 'min_tag_length'
+MODEL_ID_KEY = 'model_id'
+MODEL_FILE_KEY = 'model_file'
 NECK_HEIGHT_KEY = 'neck_height'
 NOSE_DETECTION_CLASSIFIER_KEY = 'nose_detection_classifier'
 NOSE_POSITION_KEY = 'nose_position'
@@ -469,6 +475,7 @@ SEGMENT_TOT_FRAMES_NR_KEY = 'segment_tot_frames_nr'
 SHOT_CUT_DETECTION_TIME_KEY = 'shot_cut_detection_time'
 STD_MULTIPLIER_FACE_KEY = 'std_multiplier_face'
 STD_MULTIPLIER_FRAME_KEY = 'std_multiplier_frame'
+TAG_KEY = 'tag'
 TAGS_FILE_PATH_KEY = 'tags_file_path'
 TAGS_KEY = 'tags'
 TOT_LETTERS_NR_KEY = 'tot_letters_nr'
