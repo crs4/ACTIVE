@@ -14,6 +14,7 @@ import core.urls
 import tools.navigator.urls
 import tools.summarizer.urls
 import tools.job_monitor.urls
+import tools.training_set_manager.urls
 
 
 urlpatterns = patterns('',
@@ -43,4 +44,5 @@ urlpatterns = patterns('',
     url(r'^job_monitor/', include(tools.job_monitor.urls)),
     url(r'^navigator/', include(tools.navigator.urls)),
     url(r'^summarizer/', include(tools.summarizer.urls)),
+    url(r'^training_set_manager/', include(tools.training_set_manager.urls)),
 )

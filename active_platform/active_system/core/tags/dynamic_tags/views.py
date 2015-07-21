@@ -11,9 +11,11 @@ from core.views import EventView
 from rest_framework.response import Response
 from rest_framework import status
 
+from core.tags.models import Tag
 from core.tags.dynamic_tags.models import DynamicTag
 from core.tags.dynamic_tags.serializers import DynamicTagSerializer
 
+from django.db.models import Q
 import threading
 import logging
 
@@ -23,6 +25,9 @@ edit_lock = threading.Lock()
 # variable used for logging purposes
 logger = logging.getLogger('active_log')
 
+ 
+        
+        
 
 class DynamicTagList(EventView):
     """
@@ -210,3 +215,114 @@ class SearchDynamicTagPerson(EventView):
         dtag = DynamicTag.objects.filter(tag__entity__id = pk)
         serializer = DynamicTagSerializer(dtag, many=True)
         return Response(serializer.data)
+        
+        
+
+class SearchDynamicTagByTag(EventView):
+    """
+    Class used to implement methods necessary to search all DynamicTags objects 
+    filtering by the person id.
+    """
+
+    queryset = DynamicTag.objects.none()  # required for DjangoModelPermissions
+
+    def get(self, request, pk, format=None):
+        """
+        Method used to retrieve all DynamicTag objects associated
+        with a given Tag (if any).
+        Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of a DynamicTag object.
+        @type request: HttpRequest
+        @param pk: Tag primary key, used to retrieve object data.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
+        logger.debug('Requested all DynamicTag objects associated to Entity object with id ' + str(pk))
+        dtag = DynamicTag.objects.filter(tag__id = pk)
+        serializer = DynamicTagSerializer(dtag, many=True)
+        return Response(serializer.data)
+        
+
+class MergeUniformDynamicTag(EventView):
+    """
+    Class used to implement methods necessary to search all DynamicTags objects 
+    filtering by the person id.
+    """
+
+    queryset = DynamicTag.objects.none()  # required for DjangoModelPermissions
+    
+    def __check_dtag_intersection(self, dtag1, dtag2):
+        """
+        Method used to check if there is a temporal overlapping between two 
+        consecutive dynamic tags.
+        The provided dynamic tags are ordered by start time.
+        """
+        if(dtag2.start < dtag1.start + dtag1.duration):
+            if(dtag2.start + dtag2.duration < dtag1.start + dtag1.duration):
+                return "total"
+            else:
+                return "partial"
+        else:
+            return None   
+        
+    
+    def __mergedtags(self,item_id, entity_id, dtags):   
+        joined_dtag = []
+        if not len(dtags):  
+            return None           
+        ordered_dtags = sorted(dtags,key=lambda x: x.start, reverse=False)
+        print "ordered_tags", ordered_dtags
+        tag = Tag.objects.create(item_id = item_id, entity_id = entity_id, type = "face+speaker")        
+        joined_dtag.append(DynamicTag.objects.create(tag = tag, start = ordered_dtags[0].start, duration = ordered_dtags[0].duration ))
+        del ordered_dtags[0]
+        for next_dtag in ordered_dtags:
+            dtag_inter = self.__check_dtag_intersection(joined_dtag[-1],next_dtag)
+            print dtag_inter
+            if(dtag_inter == "partial"):
+                start = joined_dtag[-1].start
+                duration = next_dtag.start + next_dtag.duration - start
+                #temp_inst = next_dtag.start + next_dtag.duration
+                #next_dtag.start = joined_dtag[-1].start + joined_dtag[-1].duration
+                #next_dtag.duration = temp_inst - next_dtag.start
+                joined_dtag[-1].start = start
+                joined_dtag[-1].duration = duration                
+            elif dtag_inter is None:
+                temp_dtag = DynamicTag.objects.create(tag = tag, start = next_dtag.start, duration = next_dtag.duration )
+                joined_dtag.append(temp_dtag)
+                
+        for jdtag in joined_dtag:
+            jdtag.save()
+            
+            
+    def post(self, request, format=None):
+        """
+        Method used to retrieve all DynamicTag objects associated
+        with a given Tag (if any).
+        Returned data is provided in a JSON serialized format.
+
+        @param request: HttpRequest used to retrieve data of a DynamicTag object.
+        @type request: HttpRequest
+        @param pk: Tag primary key, used to retrieve object data.
+        @type pk: int
+        @param format: Format used for data serialization.
+        @type format: string
+        @return: HttpResponse
+        @rtype: HttpResponse
+        """
+        item_id = request.data['item_id']
+        Tag.objects.filter(item__pk = item_id, type =  "face+speaker").delete()
+        entities = Tag.objects.filter(item__pk = item_id).values("entity_id").distinct()
+        for entity in entities:
+            face_dtags = DynamicTag.objects.filter(tag__item__pk = item_id, tag__entity__pk = entity['entity_id'], tag__type="face")                   
+            speaker_dtags = DynamicTag.objects.filter(tag__item__pk = item_id, tag__entity__pk = entity['entity_id'], tag__type="speaker")                   
+            dtags = list(face_dtags) + list(speaker_dtags)
+
+            self.__mergedtags(item_id, entity['entity_id'], dtags)
+            
+        return Response(status=status.HTTP_200_OK)
+
+        

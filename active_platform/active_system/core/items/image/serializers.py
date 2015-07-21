@@ -20,7 +20,7 @@ class ImageItemSerializer(ItemSerializer):
         fields = ('id', 'description', 'type', 'mime_type', 'filename',
                   'filesize', 'visibility', 'uploaded_at', 'published_at',
                   'frame_width', 'frame_height', 'format',
-                  'file', 'thumb', 'preview', 'state')#, 'owner')
+                  'file', 'thumb', 'preview', 'state', 'owner')
 
 
 class ImageItemPagination(PageNumberPagination):

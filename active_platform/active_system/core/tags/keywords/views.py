@@ -258,7 +258,7 @@ class KeywordSearch(EventView):
         # all items are returned if there is no keyword
         if len(keyword_list) == 0:
             logger.debug('Returned all Item objects of type ' + item_type)
-            return Response(ItemSerializer(Item.objects.filter(type = item_type), many=True).data)
+            return Response(ItemSerializer(Item.user_objects.by_user(request.user).filter(type = item_type), many=True).data)
 
         item_list = []
         # retrieve the provided keywords (if they exist)
@@ -269,7 +269,7 @@ class KeywordSearch(EventView):
             # retrieve all tags associated to each keyword
             temp = []
             for k2 in keywords:
-                tags = Tag.objects.filter(entity__id = k2.id)
+                tags = Tag.user_objects.by_user(request.user).filter(entity__id = k2.id)
                 temp += ([t.item.id for t in tags])
             item_list.append(temp)
         
@@ -280,7 +280,7 @@ class KeywordSearch(EventView):
 
         # return the retrieved list of specific digital items
         logger.debug('Returning all Item objects found for keyword list ' + str(keyword_list))
-        items = item_map[item_type][0].objects.filter(item_ptr_id__in = ids)
+        items = item_map[item_type][0].user_objects.by_user(request.user).filter(item_ptr_id__in = ids)
         paginator = item_map[item_type][2]()
         result = paginator.paginate_queryset(items, request)
         serializer = item_map[item_type][1](result, many=True)
@@ -315,12 +315,12 @@ class KeywordsItem(EventView):
             
             item = None
             try:
-                item = Item.objects.get(pk = pk)
+                item = Item.user_objects.by_user(request.user).get(pk = pk)
             except Item.DoesNotExist:
                 raise Http404
                 
         
-            tags = Tag.objects.filter(item_id = item.id).filter(type = 'keyword')
+            tags = Tag.user_objects.by_user(request.user).filter(item_id = item.id).filter(type = 'keyword')
             entities_ids_list = []
             if tags:
                 logger.debug('Retrieving all items associated to Keyword object with id ' + str(pk))

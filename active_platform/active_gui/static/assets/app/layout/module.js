@@ -23,7 +23,8 @@ define(["angular", "angular-couch-potato", "angular-ui-router", "oauth-ng"],
 								"layout/directives/tools",
 								"layout/controllers/search",
 								"layout/controllers/advanced_search",
-								"layout/controllers/nav"
+								"layout/controllers/nav",
+								"layout/controllers/header"
 							])
 						}
 					}

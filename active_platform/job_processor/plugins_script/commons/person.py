@@ -80,7 +80,7 @@ def edit_person(person_id, first_name=None, second_name=None, token=None):
     @param token: Authentication token necessary to invoke the REST API.
     @return: The object containing the updated person, None in case of error.
     """
-    data = { 'id' : str(person_id) }
+    data = {}# 'id' : str(person_id) }
     if first_name:
         data['first_name'] = first_name
 

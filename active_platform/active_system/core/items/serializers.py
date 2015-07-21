@@ -20,7 +20,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = ('id', 'description', 'type', 'mime_type', 'filename',
                   'filesize', 'visibility', 'uploaded_at', 'published_at',
-                  'file', 'thumb', 'preview', 'state')#, 'owner')
+                  'file', 'thumb', 'preview', 'state', 'owner')
 
 
 class ItemPagination(PageNumberPagination):

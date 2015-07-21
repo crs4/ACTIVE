@@ -37,15 +37,16 @@ class JobList(APIView):
         """
 
         status = request.GET.get('status', 'ALL')
+        user_id = request.GET.get('user_id', 0)
 
         if(status == 'ALL'):
-            jobs = jmd.getAllJobs()
+            jobs = jmd.getAllJobs(user_id)
             jobs = jobs['QUEUED'] + jobs['RUNNING'] + jobs['COMPLETED'] + jobs['FAILED']
         elif(status == 'ABORTED'):
-            jobs = jmd.getJobs('FAILED')
+            jobs = jmd.getJobs('FAILED', user_id)
             jobs = [job for job in jobs if job['status'] == 'ABORTED']
         else:
-            jobs = jmd.getJobs(status)
+            jobs = jmd.getJobs(status, user_id)
 
         ret = []
         for job in jobs:
@@ -69,12 +70,10 @@ class JobList(APIView):
         :rtype: HttpResponse
         """
 
-        print request.POST
-
         func_name = request.POST.get('func_name', '')
         job_name = request.POST.get('job_name', '')
-        func_in1 = json.loads(request.POST.get('auth_params', {}))
-        func_in2 = json.loads(request.POST.get('func_params', {}))
+        func_in1 = json.loads(request.POST.get('auth_params', '{}'))
+        func_in2 = json.loads(request.POST.get('func_params', '{}'))
         name = request.POST.get('name', 'JOB')
 
         try:
@@ -89,13 +88,14 @@ class JobList(APIView):
             job = job_class(func, (func_in1, func_in2,))
             job.name = name
             job.func_name = func_name
+            job.user = func_in1['user_id']
             # add the job to the execution queue
-            job_id = jmd.addJob(job)
+            job_id = jmd.addJob(job)   
             return HttpResponse(json.dumps({'id': job_id}))
 
         except Exception as ex:
             print ex
-            return HttpResponse(json.dumps({'error': str(ex)}))
+            return HttpResponse(json.dumps({'error': str(ex)}), status_code=404)
 
 
     def delete(self, request):
@@ -107,7 +107,8 @@ class JobList(APIView):
         :return: HttpResponse containing the result of Job data cleaning.
         :rtype: HttpResponse
         """
-        jmd.cleanJobs()
+        user_id = request.GET.get('user_id', 0)
+        jmd.cleanJobs(user_id)
         return HttpResponse(json.dumps({'info' : True}))
 
 
@@ -131,7 +132,8 @@ class JobDetail(APIView):
         :return: HttpResponse containing all serialized Job data.
         :rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
+        user_id = request.GET.get('user_id', 0)
+        job = jmd.getJob(pk, user_id)
         response = {}
         if job:
             response = {'id' : job.id,
@@ -140,11 +142,13 @@ class JobDetail(APIView):
                         'end_timestamp' : job.end_time,
                         'status' : job.status,
                         'name' : job.name,
+                        'user_id' : user_id,
                         'func_name' : job.func_name,
                         'result' : str(job.result), #[:500] + '...',
                         'progression': job.progression() }
         return HttpResponse(json.dumps(response, default=str))
 
+    # TODO rimuovere in quanto duplicato???
     def post(self, request, pk, format=None):
         """
         This method is used to compute if the result of a job has been
@@ -160,7 +164,8 @@ class JobDetail(APIView):
         :return: HttpResponse containing the id of the new object, error otherwise.
         :rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
+        user_id = request.GET.get('user_id', 0)
+        job = jmd.getJob(pk, user_id)
         if job:
             res = job.get_result()
             return HttpResponse(json.dumps(res, default=str))
@@ -182,7 +187,8 @@ class JobDetail(APIView):
         :return: HttpResponse containing all updated Job data.
         :rtype: HttpResponse
         """
-        job = jmd.getJob(pk)
+        user_id = request.GET.get('user_id', 0)
+        job = jmd.getJob(pk, user_id)
         res = job.get_result()
         return HttpResponse(json.dumps(res, default=str))
 
@@ -201,5 +207,6 @@ class JobDetail(APIView):
         :return: HttpResponse containing the result of the Job deletion.
         :rtype: HttpResponse
         """
-        res = jmd.abortJob(pk)
+        user_id = request.GET.get('user_id', 0)
+        res = jmd.abortJob(pk, user_id)
         return HttpResponse(json.dumps({'info': res}, default=str))

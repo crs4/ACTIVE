@@ -24,7 +24,7 @@ def set_video_metadata(item_id, values, token=None):
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/video/' + str(item_id) + '/'
     header = {'Authorization': token}
-    r = requests.put(url, {'id'           : item_id,
+    r = requests.put(url, {#'id'           : item_id,
                            'mime_type'    : values['mime_type'],
                            'frame_width'  : values['frame_width'],
                            'frame_height' : values['frame_height'],
@@ -50,7 +50,7 @@ def set_image_metadata(item_id, values, token=None):
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/image/' + str(item_id) + '/'
     header = {'Authorization' : token}
-    r = requests.put(url, {'id'           : item_id,
+    r = requests.put(url, {#'id'           : item_id,
                            'mime_type'    : values['mime_type'],
                            'frame_width'  : values['frame_width'],
                            'frame_height' : values['frame_height'],
@@ -74,7 +74,7 @@ def set_audio_metadata(item_id, values, token=None):
     # extract only the needed fields
     url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/audio/' + str(item_id) + '/'
     header = {'Authorization': token}
-    r = requests.put(url, {'id'              : item_id,
+    r = requests.put(url, {#'id'              : item_id,
                            'mime_type'       : values['mime_type'],
                            'duration'        : values['duration'],
                            'sample_rate'     : values.get('sample_rate', 0),
@@ -110,10 +110,27 @@ def set_status(item_id, status_type, token=None):
         status += status_type
 
     # update the processing status for the considered item
-    r = requests.put(url, {'id' : item_id, 'state' : status}, headers=header)
+    r = requests.put(url, {#'id' : item_id, 
+                           'state' : status}, headers=header)
 
     return r.status_code == requests.codes.ok
 
+def get_status(item_id, token=None):
+    """
+    Method used to obtain the processing status associated to an item.
+    
+
+    @param item_id: Id of the item that will be considered
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: The status of the item
+    """
+    # retrieve the current processing status
+    url = settings.ACTIVE_CORE_ENDPOINT + 'api/items/' + str(item_id) + '/'
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
+    status = r.json()['state']
+
+    return status
 
 def set_preview(item_id, file_path, file_mime, token=None):
     """

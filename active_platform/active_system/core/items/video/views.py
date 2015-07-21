@@ -40,7 +40,7 @@ class VideoItemList(EventView):
         @rtype: HttpResponse
         """
 
-        items = VideoItem.objects.all()
+        items = VideoItem.user_objects.by_user(request.user).all()
         paginator = VideoItemPagination()
         result = paginator.paginate_queryset(items, request)
         serializer = VideoItemSerializer(result, many=True)
@@ -57,6 +57,7 @@ class VideoItemList(EventView):
         @return: HttpResponse containing the id of the new created VideoItem object, error otherwise.
         @rtype: HttpResponse
         """
+        request.data['owner'] = request.user.id
         serializer = VideoItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'video' :
             return Response('Content type not supported', status=status.HTTP_400_BAD_REQUEST)
@@ -74,7 +75,7 @@ class VideoItemDetail(EventView):
 
     queryset = VideoItem.objects.none()  # required for DjangoModelPermissions
 
-    def get_object(self, pk):
+    def get_object(self, pk, user):
         """
         Method used to retrieve a VideoItem object using its id.
 
@@ -84,7 +85,7 @@ class VideoItemDetail(EventView):
         @rtype: VideoItem
         """
         try:
-            return VideoItem.objects.get(item_ptr_id = pk)
+            return VideoItem.user_objects.by_user(user).get(item_ptr_id = pk)
         except VideoItem.DoesNotExist:
             raise Http404
 
@@ -102,7 +103,7 @@ class VideoItemDetail(EventView):
         @return: HttpResponse containing all serialized data of a VideoItem, error if it isn't available.
         @rtype: HttpResponse
         """
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         serializer = VideoItemSerializer(item)
         return Response(serializer.data)
 
@@ -121,7 +122,7 @@ class VideoItemDetail(EventView):
         @rtype: HttpResponse
         """
         with edit_lock:
-            item = self.get_object(pk)
+            item = self.get_object(pk, request.user)
             serializer = VideoItemSerializer(item, data=request.data, partial = True)
             if serializer.is_valid():
                 serializer.save()
@@ -141,6 +142,6 @@ class VideoItemDetail(EventView):
         @return: HttpResponse containing the result of object deletion.
         @rtype: HttpResponse
         """
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
