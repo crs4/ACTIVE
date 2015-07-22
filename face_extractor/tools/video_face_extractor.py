@@ -375,7 +375,8 @@ class VideoFaceExtractor(object):
 
         self.recognize_people_in_video()
 
-        self.show_keyframes()
+        # TODO UNCOMMENT TEST ONLY
+        # self.show_keyframes()
 
         # TODO UNCOMMENT FOR EXPERIMENTS
         self.save_people_files()
@@ -2448,7 +2449,7 @@ class VideoFaceExtractor(object):
         print 'Time for face recognition:', seconds, 's\n'
         logger.debug('Time for face recognition: ' + str(seconds) + 's\n')
 
-        self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
+        self.anal_times[c.FACE_RECOGNITION_TIME_KEY] = seconds
 
         utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
@@ -2533,7 +2534,8 @@ class VideoFaceExtractor(object):
             # Merge consecutive video segments belonging to the same person
             # self.merge_consecutive_segments() TODO UNCOMMENT FOR LANTANIO
 
-            self.calculate_medoids()
+            # TODO UNCOMMENT TEST ONLY
+            # self.calculate_medoids()
 
             if not (os.path.exists(self.rec_path)):
                 # Create directory for people recognition

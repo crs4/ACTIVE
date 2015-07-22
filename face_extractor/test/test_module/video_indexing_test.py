@@ -261,7 +261,8 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  c.FACE_MODELS_CREATION_TIME_KEY + ',' + 
                  c.CLOTH_MODELS_CREATION_TIME_KEY + ',' +
                  c.PEOPLE_CLUSTERING_TIME_KEY + ',' +
-                 c.PEOPLE_RECOGNITION_TIME_KEY + ',' +  
+                 c.CAPTION_RECOGNITION_TIME_KEY + ',' +
+                 c.FACE_RECOGNITION_TIME_KEY + ',' +
                  c.SEGMENTS_NR_KEY + ',' + 
                  c.PEOPLE_CLUSTERS_NR_KEY + ',' +
                  c.RELEVANT_PEOPLE_NR_KEY + ',' +
@@ -367,8 +368,10 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[c.FACE_TRACKING_TIME_KEY]) + ',' +
                      str(experiment_dict[c.FACE_MODELS_CREATION_TIME_KEY]) + ',' + 
                      str(experiment_dict[c.CLOTH_MODELS_CREATION_TIME_KEY]) + ',' + 
-                     str(experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY]) + ',' + 
-                     str(experiment_dict[c.SEGMENTS_NR_KEY]) + ',' + 
+                     str(experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.CAPTION_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.FACE_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.SEGMENTS_NR_KEY]) + ',' +
                      str(experiment_dict[c.PEOPLE_CLUSTERS_NR_KEY]) + ',' +
                      str(experiment_dict[c.RELEVANT_PEOPLE_NR_KEY]) + ',' +
 
@@ -441,6 +444,7 @@ def video_indexing_experiments(
 
         # Add face models
         fm = FaceModels(params)
+        fm.delete_models()
         fm.create_models_from_whole_images(images_dir_path)
 
         # Add blacklist from file
@@ -991,6 +995,9 @@ def video_indexing_experiments(
         new_experiment_dict[c.LEV_RATIO_PCT_THRESH_KEY] = fs.params[
             c.LEV_RATIO_PCT_THRESH_KEY]
 
+    # TODO DELETE TEST ONLY
+    print('new_experiment[c.LEV_RATIO_PCT_THRESH_KEY]', new_experiment_dict[c.LEV_RATIO_PCT_THRESH_KEY])
+
     new_experiment_dict[c.MIN_TAG_LENGTH_KEY] = c.MIN_TAG_LENGTH
     if c.MIN_TAG_LENGTH_KEY in fs.params:
         new_experiment_dict[c.MIN_TAG_LENGTH_KEY] = fs.params[
@@ -1045,6 +1052,12 @@ def video_indexing_experiments(
         people_clustering_time = fs.anal_times[
             c.PEOPLE_CLUSTERING_TIME_KEY]
     new_experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY] = people_clustering_time
+
+    caption_rec_time = 0
+    if c.CAPTION_RECOGNITION_TIME_KEY in fs.anal_times:
+        caption_rec_time = fs.anal_times[
+            c.CAPTION_RECOGNITION_TIME_KEY]
+    new_experiment_dict[c.CAPTION_RECOGNITION_TIME_KEY] = caption_rec_time
     
     face_rec_time = 0
     if c.FACE_RECOGNITION_TIME_KEY in fs.anal_times:

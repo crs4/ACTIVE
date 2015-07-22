@@ -172,7 +172,9 @@ class FaceModels:
 
                         # Delete temporary files
                         complete_rgb_file_name = file_name + '.png'
-                        os.remove(complete_rgb_file_name)
+                        rgb_file_path = os.path.join(
+                            align_path, complete_rgb_file_name)
+                        os.remove(rgb_file_path)
                         os.remove(aligned_file_path)
 
                         bbox = faces[0][c.BBOX_KEY]

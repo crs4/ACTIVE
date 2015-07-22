@@ -143,6 +143,7 @@ for resource_path in resource_paths:
 
             params = {ce.CODE_VERSION_KEY: code_version,
 
+                      c.ALIGNED_FACES_PATH_KEY: aligned_faces_path,
                       c.CHECK_EYE_POSITIONS_KEY: check_eye_positions,
                       c.CLASSIFIERS_DIR_PATH_KEY: classifiers_dir_path,
                       c.EYE_DETECTION_CLASSIFIER_KEY: eye_detection_classifier,
