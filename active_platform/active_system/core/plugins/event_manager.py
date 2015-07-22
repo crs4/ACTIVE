@@ -27,7 +27,7 @@ class EventManager():
         @param func_dict: Optional dictionary containing all action output data provided to the event.
         @type func_dict: dictionary
         """
-        logger.debug('The event' + event_name + 'has been triggered')
+        logger.debug('The event ' + event_name + ' has been triggered')
         if (Script.objects.filter(events__name = event_name).count() > 0):
             for script in Script.objects.filter(events__name = event_name):
                 self.execute_script(script, auth_dict, func_dict)

@@ -20,7 +20,7 @@ class VideoItemSerializer(ItemSerializer):
         fields = ('id', 'description', 'type', 'mime_type', 'filename',
                   'filesize', 'visibility', 'uploaded_at', 'published_at',
                   'frame_rate', 'frame_width', 'frame_height', 'duration',
-                  'format', 'file', 'thumb', 'preview', 'state')#, 'owner')
+                  'format', 'file', 'thumb', 'preview', 'state', 'owner')
 
 
 class VideoItemPagination(PageNumberPagination):

@@ -9,6 +9,7 @@ define([
 	"layout/controllers/search",
 	"layout/controllers/advanced_search",
 	"layout/controllers/nav",
+	"layout/controllers/header",
 	
 	"core/module",
 	"core/services/services",

@@ -101,6 +101,7 @@ var req = $.ajax({
 			var url = "";
 			
 			var item_id="";
+            var tag_type;
 			
 			$.ajax({
 				 async: false,
@@ -110,48 +111,54 @@ var req = $.ajax({
                      xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
                  },
 				 success: function(item_tag) {
-						item_id = item_tag.item;
-						entity_id = item_tag.entity 
+                     if(item_tag.type == "face+speaker"){
+                         
+						 item_id = item_tag.item;
+						 entity_id = item_tag.entity;
+                     }
+                        
 				 }
 			});
-			console.log("item: " + item_id)
-			
-			$.ajax({
-				 async: false,
-				 type: 'GET',
-				 url:  "/api/items/"+item_id+"/",
-                 beforeSend: function(xhr, settings) {        
-                     xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
-                 },
-				 success: function(item_data) {
-						title = item_data.filename;
-						url = "/api/items/file/"+item_id+"?type=preview&token="+access_token;
-			
-				 }
-			});
+            
+            if(item_id!= ""){
+                
+                $.ajax({
+                     async: false,
+                     type: 'GET',
+                     url:  "/api/items/"+item_id+"/",
+                     beforeSend: function(xhr, settings) {        
+                         xhr.setRequestHeader("Authorization", "Bearer "+access_token);        
+                     },
+                     success: function(item_data) {
+                            title = item_data.filename;
+                            url = "/api/items/file/"+item_id+"?type=preview&token="+access_token;
+                
+                     }
+                });
 					
-			starts = []
-			durations = []		
-			item_tags = jQuery.grep(data, function( el) {			
-				return (el.tag == tags[i]);
-			});
+                starts = []
+                durations = []		
+                item_tags = jQuery.grep(data, function( el) {			
+                    return (el.tag == tags[i]);
+                });
 			
-			//~ console.log("person-tags" + person_tags)
+			    //~ console.log("person-tags" + person_tags)
 			
-			for(var j = 0; j<item_tags.length; j++){
-				starts.push(item_tags[j].start/1000)
-				durations.push(item_tags[j].duration/1000)
-			}
+                for(var j = 0; j<item_tags.length; j++){
+                    starts.push(item_tags[j].start/1000)
+                    durations.push(item_tags[j].duration/1000)
+                }
 			
-			console.log("title" + title)
-			console.log("durations" + durations)
-			console.log("starts" + starts)
-			console.log("url" + url)
-			
-			var v = new Video(title, url, starts, durations)
-			console.log("item_tags" + v)
-			video_arr.push(v)
-		}
+                console.log("title" + title)
+                console.log("durations" + durations)
+                console.log("starts" + starts)
+                console.log("url" + url)
+                
+                var v = new Video(title, url, starts, durations)
+                console.log("item_tags" + v)
+                video_arr.push(v)
+		    }
+        }
 		
 	
 		

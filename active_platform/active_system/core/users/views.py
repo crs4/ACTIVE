@@ -23,7 +23,7 @@ logger = logging.getLogger('active_log')
 
     
 class UserList(ListCreateAPIView):
-    queryset = User.objects.all()  # required for DjangoModelPermissions
+    queryset = User.objects.all()  # required for DjangoModelPermissions and pagination
     serializer_class = UserSerializer
     paginate_by = 10
 

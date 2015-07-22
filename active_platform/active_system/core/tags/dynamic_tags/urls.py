@@ -24,11 +24,13 @@ DELETE  /api/dtags/12/   delete all data related to the DynamicTag object with i
 GET     /api/dtags/search/item/12/      obtain all dynamic tags associated to item with id = 12
 
 GET     /api/dtags/search/person/12/    obtain all dynamic tags associated to person with id = 12
+
+GET     /api/dtags/search/tag/12/    obtain all dynamic tags associated to tag with id = 12
 """
 
 from django.conf.urls import url
 from core.tags.dynamic_tags.views import DynamicTagDetail, DynamicTagList
-from core.tags.dynamic_tags.views import SearchDynamicTagItem, SearchDynamicTagPerson
+from core.tags.dynamic_tags.views import SearchDynamicTagItem, SearchDynamicTagPerson, SearchDynamicTagByTag, MergeUniformDynamicTag
 
 
 urlpatterns = (
@@ -36,5 +38,7 @@ urlpatterns = (
     url(r'^(?P<pk>[0-9]+)/$', DynamicTagDetail.as_view()),   
     url(r'^search/item/(?P<pk>[0-9]+)/$', SearchDynamicTagItem.as_view()),
     url(r'^search/person/(?P<pk>[0-9]+)/$', SearchDynamicTagPerson.as_view()),
+    url(r'^search/tag/(?P<pk>[0-9]+)/$', SearchDynamicTagByTag.as_view()),
+    url(r'^merge/tag/$', MergeUniformDynamicTag.as_view()),
 )
 

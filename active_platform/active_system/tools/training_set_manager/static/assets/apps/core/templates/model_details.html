@@ -1,0 +1,55 @@
+<div class="row" ng-controller="modelDetailsCtrl">
+	
+	<div id="gallery" class="superbox col-sm-12" infinite-scroll="nextPage()" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false">
+		<div id="instance_{{instance.id}}" class="superbox-list" ng-repeat="instance in instances" ng-click="selectModel($event, instance)">
+			<img ng-src="{{dataUrl}}" preload-file preload-item="instance" preload-type="thumb" widget-context alt="{{instance.thumbnail.split('/')[1]}}" title="{{instance.id}}" class="superbox-img">
+			<span class="superbox-img-title">{{instance.id}} - {{instance.thumbnail.split('/')[1] | limitTo:10}}</span>
+		</div>
+		<div class="superbox-float"></div>
+	</div>
+	<div class="superbox-show" style="height:300px; display: none"></div>
+	
+	<div class="modal fade" id="delete_item_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delete item</h4>
+				</div>
+				<div class="modal-body">
+					WARNING! Choosing to continue the item will be permanently deleted from the system.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="deleteCurrentItem()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-2 no-padding context-menu" ng-controller="contextMenuCtrl">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Actions</h3>
+			</div>
+			<div class="box-body no-padding">
+				<ul class="context-menu_items nav nav-pills nav-stacked" role="menu">
+					<li class="context-menu_item" role="menu-item">
+						<a href="#" class="context-menu__link" ng-click="unbindInstance()">
+							<i class="fa fa-circle-o"></i> Unbind instance
+						</a>
+					</li>
+					<li class="context-menu_item" role="menu-item">
+						<a href="#" class="context-menu__link" ng-click="deleteInstance()">
+							<i class="fa fa-circle-o"></i> Delete instance
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+

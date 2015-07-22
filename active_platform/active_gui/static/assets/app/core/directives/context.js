@@ -56,7 +56,11 @@ define(["core/module"], function(module){
 					menuHeight = menu.prop("offsetHeight") + 4;
 
 					windowWidth = $window.innerWidth;
-					windowHeight = $window.innerHeight;
+					//windowHeight = $window.innerHeight;
+					windowHeight = document.body.scrollHeight;
+
+					console.log(clickCoords);					
+					console.log("(" + windowWidth + ", " + windowHeight + ")");
 					
 					if ((windowWidth - clickCoordsX) < menuWidth) {
 						var p = windowWidth - menuWidth + "px";

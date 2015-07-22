@@ -31,7 +31,7 @@ logger = logging.getLogger('active_log')
 edit_lock = threading.Lock()
 
 
-def check_tags(tag):
+def check_tags(tag, user):
     """
     Check if there are multiple tags similar to the current one.
     If any remove the old one and maintain the current one.
@@ -42,7 +42,8 @@ def check_tags(tag):
     @rtype: boolean
     """
 
-    res = Tag.objects.filter(entity_id = tag.entity.pk, item_id = tag.item.pk, type = tag.type).exclude(pk = tag.pk)
+    #res = Tag.objects.filter(entity_id = tag.entity.pk, item_id = tag.item.pk, type = tag.type).exclude(pk = tag.pk)
+    res = Tag.user_objects.by_user(user).filter(entity_id = tag.entity.pk, item_id = tag.item.pk, type = tag.type).exclude(pk = tag.pk)
     if len(res) == 0:
         return True
 
@@ -56,7 +57,7 @@ def check_tags(tag):
     # remove duplicate tags
     for _tag in res:
         # delete the entity if there are no tags associated to it
-        if Tag.objects.filter(entity_id = _tag.entity.pk).count() == 0:
+        if Tag.user_objects.by_user(user).filter(entity_id = _tag.entity.pk).count() == 0:
             _tag.entity.delete()
         _tag.delete()
 
@@ -83,7 +84,7 @@ class TagList(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested all Tag objects')
-        tag = Tag.objects.all()
+        tag = Tag.user_objects.by_user(request.user).all()
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
 
@@ -106,8 +107,12 @@ class TagList(EventView):
         entity = request.data.get('entity', '')
         type   = request.data.get('type', '')
         serializer = None
-
-        tag = Tag.objects.filter(item_id=item, entity_id=entity, type=type)
+	
+	item_obj = Item.user_objects.by_user(request.user).get(pk = item)
+	if not(item_obj.owner == request.user):
+	    Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)  
+      
+        tag = Tag.user_objects.by_user(request.user).filter(item_id=item, entity_id=entity, type=type)
         if len(tag) > 0:
             logger.debug('Returned an existing Tag object ' + str(item) + ' ' + str(entity) + ' ' + str(type))
             serializer = TagSerializer(tag[0])
@@ -131,7 +136,7 @@ class TagDetail(EventView):
     """
     queryset = Tag.objects.none()  # required for DjangoModelPermissions
 
-    def get_object(self, pk):
+    def get_object(self, pk, user):
         """
         Method used to retrieve a Tag object by its id.
 
@@ -141,7 +146,7 @@ class TagDetail(EventView):
         @rtype: Tag
         """
         try:
-            return Tag.objects.get(pk=pk)
+            return Tag.user_objects.by_user(user).get(pk=pk)
         except Tag.DoesNotExist:
             raise Http404
 
@@ -160,7 +165,7 @@ class TagDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested Tag object ' + str(pk))
-        tag = self.get_object(pk)
+        tag = self.get_object(pk, request.user)
         serializer = TagSerializer(tag)
         return Response(serializer.data)
 
@@ -180,12 +185,12 @@ class TagDetail(EventView):
         """
         logger.debug('Requested edit on Tag object with id ' + str(pk))
         with edit_lock:
-            tag = self.get_object(pk)
+            tag = self.get_object(pk, request.user)
             serializer = TagSerializer(tag, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 logger.debug('Updated data of Tag object with id ' + str(pk))
-                check_tags(tag)
+                check_tags(tag, request.user) ## ricontrollare se e' corretto
                 return Response(serializer.data)
 
             logger.error('Error on data update of Tag object with id ' + str(pk))
@@ -205,7 +210,7 @@ class TagDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested delete on Tag object with id' + str(pk))
-        tag = self.get_object(pk)
+        tag = self.get_object(pk, request.user)
         tag.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -233,7 +238,7 @@ class SearchTagItem(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Searching all Tag objects associated to Item object with id ' + str(pk))
-        tag = Tag.objects.filter(item__id = pk)
+        tag = Tag.user_objects.by_user(request.user).filter(item__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
 
@@ -261,7 +266,7 @@ class SearchTagPerson(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Searching all Tag objects associated to Entity object with id ' + str(pk))
-        tag = Tag.objects.filter(entity__id = pk)
+        tag = Tag.user_objects.by_user(request.user).filter(entity__id = pk)
         serializer = TagSerializer(tag, many=True)
         return Response(serializer.data)
 
@@ -303,16 +308,19 @@ class SearchItemByEntity(EventView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # retrieve items object by their tags
-        tags = Tag.objects.filter(entity = pk)
+        #tags = Tag.objects.filter(entity = pk)
+        tags = Tag.user_objects.by_user(request.user).filter(entity = pk)
         items = []
         for tag in tags:
-            print str(tag), str(tag.item), str(tag.entity)
-            item = Item.objects.get(pk=tag.item.id)
+            #print str(tag), str(tag.item), str(tag.entity)
+            item = Item.user_objects.by_user(request.user).get(pk=tag.item.id)
             if item.type == item_type:
                 logger.debug('Item selected ' + str(item.id))
                 items.append(item_map[item_type][0].objects.get(item_ptr_id=tag.item))
+
         # return the retrieved items in a serialized and paginated format
         paginator = item_map[item_type][2]()
         result = paginator.paginate_queryset(items, request)
         serializer = item_map[item_type][1](result, many=True)
         return paginator.get_paginated_response(serializer.data)
+

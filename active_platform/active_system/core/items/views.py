@@ -44,7 +44,8 @@ class ItemList(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested all Item objects')
-        items = Item.objects.all()
+        items = Item.user_objects.by_user(request.user).all()
+        #items = Item.objects.all()
         paginator = ItemPagination()
         result = paginator.paginate_queryset(items, request)
         serializer = ItemSerializer(result, many=True)
@@ -57,7 +58,7 @@ class ItemDetail(EventView):
     """
     queryset = Item.objects.none()  # required for DjangoModelPermissions
 
-    def get_object(self, pk):
+    def get_object(self, pk, user):
         """
         Method used retrieve a Item object from its id.
 
@@ -67,7 +68,8 @@ class ItemDetail(EventView):
         @rtype: Item
         """
         try:
-            return Item.objects.get(pk = pk)
+            return Item.user_objects.by_user(user).get(pk = pk)
+            #return Item.objects.get(pk = pk)
         except Item.DoesNotExist:
             raise Http404
 
@@ -85,7 +87,7 @@ class ItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested details for Item object with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         serializer = ItemSerializer(item)
         return Response(serializer.data)
 
@@ -104,7 +106,7 @@ class ItemDetail(EventView):
         @rtype: HttpResponse
         """
         with edit_lock:
-            item = self.get_object(pk)
+            item = self.get_object(pk, request.user)
             serializer = ItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -127,7 +129,7 @@ class ItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested delete on Item object with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -158,7 +160,8 @@ class ItemFile(EventView):
         # TODO errore 416 se il range richiesto non e' valido
 
         try:
-            item = Item.objects.get(pk=pk)
+            item = Item.user_objects.by_user(request.user).get(pk=pk)
+            #item = Item.objects.get(pk=pk)
             type = request.GET.get('type', 'original')
             
             mime_type_map = {'image' : 'image/jpeg', 'audio' : 'audio/mp3', 'video' : 'video/mp4'}
@@ -206,4 +209,4 @@ class ItemFile(EventView):
         except Item.DoesNotExist:
             raise Http404
         except Exception as e:
-            print e
+            logger.error(e) #Item.user_objects.by_user(request.user).get(pk=pk)

@@ -268,7 +268,7 @@ class VideoFaceExtractor(object):
                                     self.frames_path, frame_name)
 
                                 aligned_name = frame_dict[
-                                    c.ALIGNED_FACE_FILE_NAME]
+                                    c.ALIGNED_FACE_FILE_NAME_KEY]
 
                                 complete_file_name = (
                                     aligned_name +
@@ -292,7 +292,7 @@ class VideoFaceExtractor(object):
 
                                 bbox = frame_dict[c.DETECTION_BBOX_KEY]
 
-                                fm = FaceModels()
+                                fm = FaceModels(self.params)
 
                                 added = fm.add_face(label, tag, frame_path,
                                                     aligned_face, eye_pos, bbox)
@@ -468,9 +468,9 @@ class VideoFaceExtractor(object):
         time_in_clocks = cv2.getTickCount() - start_time
         seconds = time_in_clocks / cv2.getTickFrequency()
 
-        print 'Time for calculation of histogram differences: ', seconds, 's\n'
+        print 'Time for calculation of histogram differences: ', str(seconds), 's\n'
         logger.debug(
-            'Time for calculation of histogram differences: ', seconds, 's\n')
+            'Time for calculation of histogram differences: ' + str(seconds) + 's\n')
 
         self.anal_times[c.SHOT_CUT_DETECTION_TIME_KEY] = seconds
 
@@ -620,7 +620,7 @@ class VideoFaceExtractor(object):
         time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
         print 'Time for calculating cluster medoids:', time_in_seconds, 's\n'
-        logger.debug('Time for calculating cluster medoids:', time_in_seconds, 's\n')
+        logger.debug('Time for calculating cluster medoids: ' + str(time_in_seconds) + 's\n')
 
     def cluster_faces_in_video(self):
         """
@@ -706,6 +706,8 @@ class VideoFaceExtractor(object):
 
             tracked_faces_nr = float(len(tracking_list))
 
+            model = None
+
             for tracking_segment_dict in tracking_list:
 
                 self.progress = 100 * (segment_counter / tracked_faces_nr)
@@ -785,6 +787,8 @@ class VideoFaceExtractor(object):
 
                 segment_counter += 1
 
+            del model
+
             if not (os.path.exists(self.cluster_path)):
                 # Create directory for people clustering
                 os.makedirs(self.cluster_path)
@@ -798,7 +802,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for people clustering:', time_in_seconds, 's\n'
-            logger.debug('Time for people clustering:', time_in_seconds, 's\n')
+            logger.debug('Time for people clustering:' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.PEOPLE_CLUSTERING_TIME_KEY] = time_in_seconds
 
@@ -824,6 +828,7 @@ class VideoFaceExtractor(object):
         all_bboxes_in_frames = c.ALL_CLOTH_BBOXES_IN_FRAMES
         cl_pct_height = c.CLOTHES_BBOX_HEIGHT
         cl_pct_width = c.CLOTHES_BBOX_WIDTH
+        hsv_channels = c.CLOTHING_REC_HSV_CHANNELS_NR
         min_size = c.MIN_CLOTH_MODEL_SIZE
         neck_pct_height = c.NECK_HEIGHT
         use_dom_color = c.CLOTHING_REC_USE_DOMINANT_COLOR
@@ -839,6 +844,8 @@ class VideoFaceExtractor(object):
                 cl_pct_height = self.params[c.CLOTHES_BBOX_HEIGHT_KEY]
             if c.CLOTHES_BBOX_WIDTH_KEY in self.params:
                 cl_pct_width = self.params[c.CLOTHES_BBOX_WIDTH_KEY]
+            if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in self.params:
+                hsv_channels = self.params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
             if c.MIN_CLOTH_MODEL_SIZE in self.params:
                 min_size = self.params[c.MIN_CLOTH_MODEL_SIZE_KEY]
             if c.NECK_HEIGHT_KEY in self.params:
@@ -974,7 +981,7 @@ class VideoFaceExtractor(object):
                                                np.array((0., 60., 32.)),
                                                np.array((180., 255., 255.)))
 
-                        for ch in range(0, 3):
+                        for ch in range(0, hsv_channels):
                             hist = cv2.calcHist(
                                 [roi_hsv], [ch], mask, [256], [0, 255])
 
@@ -1043,7 +1050,7 @@ class VideoFaceExtractor(object):
                                            np.array((0., 60., 32.)),
                                            np.array((180., 255., 255.)))
 
-                    for ch in range(0, 3):
+                    for ch in range(0, hsv_channels):
                         hist = cv2.calcHist(
                             [roi_hsv], [ch], mask, [256], [0, 255])
 
@@ -1127,7 +1134,7 @@ class VideoFaceExtractor(object):
 
             if detected:
 
-                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME]
+                file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
                 complete_file_name = (
                     file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
                 aligned_file_path = os.path.join(
@@ -1366,8 +1373,8 @@ class VideoFaceExtractor(object):
                                          det_face[c.RIGHT_EYE_POS_KEY]),
                                      c.NOSE_POSITION_KEY: (
                                          det_face[c.NOSE_POSITION_KEY]),
-                                     c.ALIGNED_FACE_FILE_NAME: (
-                                         det_face[c.ALIGNED_FACE_FILE_NAME])}
+                                     c.ALIGNED_FACE_FILE_NAME_KEY: (
+                                         det_face[c.ALIGNED_FACE_FILE_NAME_KEY])}
 
                         faces.append(face_dict)
 
@@ -1385,7 +1392,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for face detection: ', time_in_seconds, 's\n'
-            logger.debug('Time for face detection: ', time_in_seconds, 's\n')
+            logger.debug('Time for face detection: ' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FACE_DETECTION_TIME_KEY] = time_in_seconds
 
@@ -1840,7 +1847,7 @@ class VideoFaceExtractor(object):
 
             print 'Time for frame extraction:', str(time_in_seconds), 's\n'
             logger.debug(
-                'Time for frame extraction:', str(time_in_seconds), 's\n')
+                'Time for frame extraction: ' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FRAME_EXTRACTION_TIME_KEY] = time_in_seconds
 
@@ -1918,9 +1925,11 @@ class VideoFaceExtractor(object):
         for person_dict in self.recognized_faces:
 
             person_tag_id = person_dict[c.TAG_ID_KEY]
+            logger.debug('person_tag_id: ' + str(person_tag_id))
 
             if person_tag_id == tag_id:
                 person_counter = person_dict[c.PERSON_COUNTER_KEY]
+                logger.debug('Person counter: ' + str(person_counter))
                 return person_counter
 
         return person_counter
@@ -1999,7 +2008,7 @@ class VideoFaceExtractor(object):
         start_time = cv2.getTickCount()
 
         # Load tags
-        fm = FaceModels()
+        fm = FaceModels(self.params)
 
         tgs = list(fm.get_tags())
 
@@ -2228,7 +2237,7 @@ class VideoFaceExtractor(object):
             seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for caption recognition:', seconds, 's\n'
-            logger.debug('Time for caption recognition:', seconds, 's\n')
+            logger.debug('Time for caption recognition: ' + str(seconds) + 's\n')
 
             self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
 
@@ -2254,7 +2263,7 @@ class VideoFaceExtractor(object):
         start_time = cv2.getTickCount()
 
         # Load face models
-        fm = FaceModels()
+        fm = FaceModels(self.params)
 
         tgs = list(fm.get_labels())
 
@@ -2308,7 +2317,7 @@ class VideoFaceExtractor(object):
 
                         if detected:
 
-                            file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME]
+                            file_name = frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
                             complete_file_name = (
                                 file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
                             aligned_file_path = os.path.join(
@@ -2345,7 +2354,7 @@ class VideoFaceExtractor(object):
 
                     conf = result_dict[c.CONFIDENCE_KEY]
 
-                    logger.debug('assigned label', ass_label)
+                    logger.debug('assigned label: ' + str(ass_label))
 
                     # Compose frame
 
@@ -2368,7 +2377,10 @@ class VideoFaceExtractor(object):
                     label = final_label
                     tag = fm.get_tag(label)
 
-                logger.debug('assigned final tag', tag)
+                print('p_counter', p_counter)
+                print('frames', frames)
+                print('assigned final tag', tag)
+                logger.debug('assigned final tag : ' + str(tag))
 
                 self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
                 self.recognized_faces[p_counter][c.ASSIGNED_TAG_KEY] = tag
@@ -2380,7 +2392,7 @@ class VideoFaceExtractor(object):
             seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for face recognition:', seconds, 's\n'
-            logger.debug('Time for face recognition:', seconds, 's\n')
+            logger.debug('Time for face recognition: ' + str(seconds) + 's\n')
 
             self.anal_times[c.CAPTION_RECOGNITION_TIME_KEY] = seconds
 
@@ -2668,7 +2680,7 @@ class VideoFaceExtractor(object):
 
         print 'Time for calculating face models:', str(time_in_seconds), 's\n'
         logger.debug(
-            'Time for calculating face models:', str(time_in_seconds), 's\n')
+            'Time for calculating face models: ' + str(time_in_seconds) + 's\n')
 
         self.anal_times[c.FACE_MODELS_CREATION_TIME_KEY] = time_in_seconds
 
@@ -3135,6 +3147,8 @@ class VideoFaceExtractor(object):
                         intra_dist1 = utils.get_mean_intra_distance(
                             model1, use_3_bboxes)
 
+        model = None
+
         sub_counter = 0
         for sub_segment_dict in self.tracked_faces:
 
@@ -3387,6 +3401,8 @@ class VideoFaceExtractor(object):
                             ann_segments.append(sub_counter)
 
             sub_counter += 1
+
+        del model
 
         return ann_segments
 
@@ -3678,7 +3694,7 @@ class VideoFaceExtractor(object):
 
                     nose_pos = face_dict[c.NOSE_POSITION_KEY]
 
-                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME]
+                    file_name = face_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
 
                     # Counter for faces in segment
                     segment_face_counter = 1
@@ -3693,7 +3709,7 @@ class VideoFaceExtractor(object):
                                           c.LEFT_EYE_POS_KEY: left_eye_pos,
                                           c.RIGHT_EYE_POS_KEY: right_eye_pos,
                                           c.NOSE_POSITION_KEY: nose_pos,
-                                          c.ALIGNED_FACE_FILE_NAME: file_name,
+                                          c.ALIGNED_FACE_FILE_NAME_KEY: file_name,
                                           c.DETECTED_KEY: True,
                                           c.SAVED_FRAME_NAME_KEY: frame_name}
 
@@ -3875,8 +3891,8 @@ class VideoFaceExtractor(object):
                             segment_frame_dict[c.NOSE_POSITION_KEY] = (
                                 sub_face_dict[c.NOSE_POSITION_KEY])
 
-                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME] = (
-                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME])
+                            segment_frame_dict[c.ALIGNED_FACE_FILE_NAME_KEY] = (
+                                sub_face_dict[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                             del (detection_list[sub_frame_counter]
                                  [c.FACES_KEY][sub_face_counter])
@@ -3960,7 +3976,7 @@ class VideoFaceExtractor(object):
             time_in_seconds = time_in_clocks / cv2.getTickFrequency()
 
             print 'Time for face tracking:', time_in_seconds, 's\n'
-            logger.debug('Time for face tracking:', time_in_seconds, 's\n')
+            logger.debug('Time for face tracking:' + str(time_in_seconds) + 's\n')
 
             self.anal_times[c.FACE_TRACKING_TIME_KEY] = time_in_seconds
 

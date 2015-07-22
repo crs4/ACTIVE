@@ -6,6 +6,17 @@ data model. Audio item class extends the generic Item properties.
 from django.db import models
 from core.items.models import Item
 
+class AudioOwnerManager(models.Manager):
+    """
+    Class used to implement a methothat will be used to specify
+    dynamically the item owner.
+    """
+    def by_user(self, user):
+        """
+        Method used to  filter the items by user basis.
+        """
+        return super(AudioOwnerManager, self).get_queryset().filter(owner=user)
+
 
 class AudioItem(Item):
     """
@@ -18,6 +29,8 @@ class AudioItem(Item):
     num_channels = models.IntegerField(null=True)
     duration = models.BigIntegerField(null=True)
     format = models.CharField(max_length=100, null=True)
+    objects = models.Manager()
+    user_objects = AudioOwnerManager()
     
     def __init__(self, *args, **kwargs):
         super(AudioItem, self).__init__(*args, **kwargs)

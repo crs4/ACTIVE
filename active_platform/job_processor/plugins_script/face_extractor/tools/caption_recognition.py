@@ -3,7 +3,7 @@ import cv2
 import cv2.cv as cv
 import Levenshtein as Lev
 import numpy as np
-import pytesseract as tesseract
+import pytesseract
 from face_models import FaceModels
 from itertools import permutations
 
@@ -639,7 +639,7 @@ def get_tag_from_image(im_path, params=None):
         # Load tags from file
         tags = get_tags_from_file(tags_file_path)
     else:
-        fm = FaceModels()
+        fm = FaceModels(params)
         tags = fm.get_tags()
 
     assigned_tag = c.UNDEFINED_TAG

@@ -2,6 +2,7 @@ import constants as c
 import copy
 import cv2
 import cv2.cv as cv
+import face_detection as fd
 import math
 import numpy as np
 import os
@@ -325,33 +326,30 @@ def compare_clothes(
     
     # Threshold for using clothing recognition (threshold_face low)
     clothes_conf_th = c.CLOTHES_CONF_THRESH
+
+    # Number of used HSV channels
+    hsv_channels = c.CLOTHING_REC_HSV_CHANNELS_NR
     
     # True if threshold for clothing is variable
     variable_clothing_th = c.VARIABLE_CLOTHING_THRESHOLD
     
     if params is not None:
-        
         if c.CONF_THRESHOLD_KEY in params:
             conf_threshold = params[c.CONF_THRESHOLD_KEY]
-        
         if c.CLOTHES_CHECK_METHOD_KEY in params:
             method = params[c.CLOTHES_CHECK_METHOD_KEY]
-            
         if c.CLOTHING_REC_USE_3_BBOXES_KEY in params:
             used_3_bboxes = params[c.CLOTHING_REC_USE_3_BBOXES_KEY]
-            
         if c.CLOTHES_CONF_THRESH_KEY in params:
             clothes_conf_th = params[c.CLOTHES_CONF_THRESH_KEY]
-            
+        if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in params:
+            hsv_channels = params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
         if c.VARIABLE_CLOTHING_THRESHOLD_KEY in params:
             variable_clothing_th = params[c.VARIABLE_CLOTHING_THRESHOLD_KEY]
     
     sim = False
           
     if os.path.isfile(db_path_1) and os.path.isfile(db_path_2):
-
-        model1 = None
-        model2 = None
 
         with open(db_path_1, 'r') as f1, open(db_path_2, 'r') as f2:
 
@@ -363,11 +361,14 @@ def compare_clothes(
     
                 if intra_dist1 is None:
                     
-                    intra_dist1 = get_mean_intra_distance(model1, used_3_bboxes)
+                    intra_dist1 = get_mean_intra_distance(
+                        model1, used_3_bboxes, hsv_channels)
                                 
-                intra_dist2 = get_mean_intra_distance(model2, used_3_bboxes)
+                intra_dist2 = get_mean_intra_distance(
+                    model2, used_3_bboxes, hsv_channels)
                                 
-                dist = get_mean_inter_distance(model1, model2, used_3_bboxes)
+                dist = get_mean_inter_distance(
+                    model1, model2, used_3_bboxes, hsv_channels)
     
                 chosen_value = 0
                 
@@ -657,8 +658,10 @@ def get_dominant_color(hsv_image, kernel_size):
     :rtype: OpenCV mask
     :return: mask for dominant color
     """
-    # TODO: ADD MASK
-    h_hist = cv2.calcHist([hsv_image], [0], None, [255], [0, 256])
+
+    mask = cv2.inRange(
+        hsv_image, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+    h_hist = cv2.calcHist([hsv_image], [0], mask, [255], [0, 256])
     
     (h_left_idx, h_right_idx) = find_dominant_region(h_hist, kernel_size)
     
@@ -777,7 +780,7 @@ def get_image_symmetry(image):
     return abs(nu_3_0)
 
 
-def get_mean_inter_distance(model1, model2, use_3_bboxes=False):
+def get_mean_inter_distance(model1, model2, use_3_bboxes=False, hsv_channels=3):
     """
     Calculate mean distance between histograms in two cloth models
 
@@ -790,6 +793,9 @@ def get_mean_inter_distance(model1, model2, use_3_bboxes=False):
 
     :type use_3_bboxes: boolean
     :param use_3_bboxes: True if 3 bboxes per frame are used
+
+    :type hsv_channels: integer
+    :param hsv_channels: number of used HSV channels
 
     :rtype: float
     :returns: distance value
@@ -826,7 +832,7 @@ def get_mean_inter_distance(model1, model2, use_3_bboxes=False):
                     hists2_i = hists2[i] 
                     
                     # For every color channel
-                    for ch in range(0, 3):
+                    for ch in range(0, hsv_channels):
                         
                         diff = abs(cv2.compareHist(
                         hists1_i[ch], hists2_i[ch], cv.CV_COMP_CHISQR))
@@ -835,7 +841,8 @@ def get_mean_inter_distance(model1, model2, use_3_bboxes=False):
                 
             else:
     
-                for ch in range(0, 3):
+                # For every color channel
+                for ch in range(0, hsv_channels):
                     
                     diff = abs(cv2.compareHist(
                     hists1[ch], hists2[ch], cv.CV_COMP_CHISQR))
@@ -858,7 +865,7 @@ def get_mean_inter_distance(model1, model2, use_3_bboxes=False):
     return min_distance 
 
 
-def get_mean_intra_distance(model, used_3_bboxes=False):
+def get_mean_intra_distance(model, used_3_bboxes=False, hsv_channels=3):
     """
     Calculate mean distance between histograms in cloth model
 
@@ -867,6 +874,9 @@ def get_mean_intra_distance(model, used_3_bboxes=False):
 
     :type used_3_bboxes: boolean
     :param used_3_bboxes: True if 3 bboxes per frame are used
+
+    :type hsv_channels: integer
+    :param hsv_channels: number of used HSV channels
 
     :rtype: float
     :returns: distance value
@@ -901,7 +911,7 @@ def get_mean_intra_distance(model, used_3_bboxes=False):
                     sub_hists_i = sub_hists[i] 
                     
                     # For every color channel
-                    for ch in range(0, 3):
+                    for ch in range(0, hsv_channels):
                         
                         diff = abs(cv2.compareHist(
                         hists_i[ch], sub_hists_i[ch], cv.CV_COMP_CHISQR))
@@ -910,7 +920,8 @@ def get_mean_intra_distance(model, used_3_bboxes=False):
             
             else:
     
-                for ch in range(0, 3):
+                # For every color channel
+                for ch in range(0, hsv_channels):
                     
                     diff = abs(cv2.compareHist(
                     hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))

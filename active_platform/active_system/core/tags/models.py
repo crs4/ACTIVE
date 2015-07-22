@@ -24,6 +24,15 @@ class Entity(models.Model):
         return self.category
 
 
+
+class UserTagManager(models.Manager):
+    """
+    Custom manager used to retrieve only the tags associated to items owned by the user.
+    """
+    def by_user(self, user):
+        return super(UserTagManager, self).get_queryset().filter(item__owner=user)
+
+
 class Tag(models.Model):
     """
     Class used to define the object representation for a generic
@@ -34,11 +43,13 @@ class Tag(models.Model):
     type = models.CharField(max_length=100, blank=True)
     entity = models.ForeignKey(Entity)
     item = models.ForeignKey(Item)
+    # custom object manager
+    objects = models.Manager()
+    user_objects = UserTagManager()
 
     def __unicode__(self):
         return str(self.id) + ' - ' + self.type
 
-  
             
             
 def delete_entity(sender, instance, **kwargs):
@@ -52,7 +63,7 @@ def delete_entity(sender, instance, **kwargs):
     :param kwargs: Key arguments used for the Tag deletion
     """
     
-    print('Deleting all orphan Entities, after '+instance.__class__.__name__+' '+ str(instance.id) +' deletion') 
+    logger.debug('Deleting all orphan Entities, after '+instance.__class__.__name__+' '+ str(instance.id) +' deletion') 
     # save the entity reference
     temp = instance.entity.id   
     # check if the entity is used (on another Tag object)
