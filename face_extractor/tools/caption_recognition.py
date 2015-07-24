@@ -57,8 +57,7 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
     :param use_max_height: if True, discards contours that are too high
 
     :type show_image: boolean
-    :param show_image: if True, show image
-    with black and white caption block
+    :param show_image: if True, show image with black and white caption block
 
     :rtype: dictionary
     :returns: dictionary with results
@@ -197,7 +196,7 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
 
     return result_dict
 
-def find_most_similar_tag(tags, words, params = None):
+def find_most_similar_tag(tags, words, params=None):
     """
     Find tag in dictionary that is most similar to words found in image
 
@@ -208,13 +207,13 @@ def find_most_similar_tag(tags, words, params = None):
     :param words: list of words found in image
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for
-    the caption recognition
+    :param params: configuration parameters to be used
+                   for the caption recognition
 
     :rtype: dictionary
-    :return: dictionary with results
+    :returns: dictionary with results
     """
-
+    # TODO ADD TABLE WITH PARAMETERS
     # Get values from params
     use_levenshtein = c.USE_LEVENSHTEIN
     lev_thresh = c.LEV_RATIO_PCT_THRESH
@@ -399,8 +398,8 @@ def get_tag_from_image(im_path, params=None):
     :param im_path: path of image to be analyzed
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for
-    the caption recognition
+    :param params: configuration parameters to be used for
+                   the caption recognition
 
     :rtype: dictionary
     :returns: dictionary with results
@@ -674,8 +673,8 @@ def get_tags_from_file(tags_file_path):
     :type tags_file_path: string
     :param tags_file_path: path of file with tags
 
-    :rtype: list or integer
-    :returns: list of tags or - 1
+    :rtype: list
+    :returns: list of tags
     """
 
     with open(tags_file_path, 'r') as f:

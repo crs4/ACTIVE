@@ -71,18 +71,19 @@ def save_model_file(X, y, params=None, db_file_name=None):
     ========================  =========================================
     Key                       Value
     ========================  =========================================
-    FACE_MODEL_ALGORITHM_KEY  Algorithm (it can be 'Eigenfaces',
+    face_model_algorithm      Algorithm (it can be 'Eigenfaces',
                               'Fisherfaces' or 'LBP')
-    LBP_RADIUS_KEY            Radius (used only if algorithm is 'LBP')
-    LBP_NEIGHBORS_KEY         Number of neighbors
+    LBP_radius                Radius (used only if algorithm is 'LBP')
+    LBP_neighbors             Number of neighbors
                               (used only if algorithm is 'LBP')
-    LBP_GRID_X_KEY            Number of columns in LBP grid
+    LBP_grid_x                Number of columns in LBP grid
                               (used only if algorithm is 'LBP')
-    LBP_GRID_Y_KEY            Number of rows in LBP grid
+    LBP_grid_y                Number of rows in LBP grid
                               (used only if algorithm is 'LBP')
-    DB_MODELS_PATH_KEY        Path of directory where models are saved
+    db_models_path            Path of directory where models are saved
                               (used if db_file_name is not provided)
     ========================  =========================================
+
     """
 
     if len(y) > 0:
@@ -151,7 +152,8 @@ def save_model_file(X, y, params=None, db_file_name=None):
 
 def track_faces(frames, fm):
     """
-    Track faces
+    Track faces by comparing positions
+    of face detection bounding boxes in consecutive frames
 
     :type frames: list
     :param frames: list of frames

@@ -41,7 +41,24 @@ logger = logging.getLogger('face_recog')
 class VideoFaceExtractor(object):
     """
     Tool for detecting and recognizing faces in video
+    The configuration parameters define
+    and customize the face extraction algorithm.
+    If any of the configuration parameters
+    is not provided a default value is used.
+
+    :type resource_path: string
+    :param resource_path: file path of resource
+
+    :type resource_id: string
+    :param resource_id: identifier of resource
+
+    :type  params: dictionary
+    :param params: configuration parameters (see table)
+
+    :type models: dictionary
+    :param models: dictionary with models for people recognition
     """
+    # TODO: ADD TABLE WITH PARAMETERS
 
     def __init__(self, resource_path, resource_id, params=None, models=None):
         """
@@ -57,11 +74,11 @@ class VideoFaceExtractor(object):
         :type resource_id: string
         :param resource_id: identifier of resource
 
-        :type models: dictionary
-        :param models: dictionary with models for people recognition
-
         :type  params: dictionary
         :param params: configuration parameters (see table)
+
+        :type models: dictionary
+        :param models: dictionary with models for people recognition
         """
         # TODO: ADD TABLE WITH PARAMETERS
         self.anal_results = {}  # Dictionary with analysis results

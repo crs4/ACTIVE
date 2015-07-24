@@ -2,7 +2,6 @@ import constants as c
 import copy
 import cv2
 import cv2.cv as cv
-import face_detection as fd
 import math
 import numpy as np
 import os

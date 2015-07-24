@@ -1086,6 +1086,40 @@ class FaceModels:
         return added_faces
 
 
+    def delete_model(self, model_id):
+        """
+        Delete model with given id
+
+        :type model_id: integer
+        :param model_id: identifier of model to be deleted
+
+        :rtype: boolean
+        :returns: True if model was successfully deleted
+        """
+
+        ok = False
+
+        model_file_path = os.path.join(
+            self._data_dir_path, c.FACE_MODELS_DIR, str(model_id))
+
+        try:
+
+            os.remove(model_file_path)
+
+        except IOError, (errno, strerror):
+
+            print "I/O error({0}): {1}".format(errno, strerror)
+
+        except:
+
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
+
+        return ok
+
+
+
+
     def delete_models(self):
         """
         Delete all data for global face recognition

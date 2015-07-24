@@ -212,10 +212,10 @@ STD_MULTIPLIER_FRAME = 20
 # Separator for tag parts
 TAG_SEP = '_'
 
-# TODO REVIEW (NICOLA)
+# TODO CHANGE FOR SERVER
 # Path of directory containing "tesseract" directory
 TESSERACT_PARENT_DIR_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools' + os.sep
-# TESSERACT_PARENT_DIR_PATH = r'/var/spool/active/job_processor/plugins_script/face_extractor/tools/'
+# TESSERACT_PARENT_DIR_PATH = os.path.join(settings.BASE_DIR, settings.PLUGIN_SCRIPT_MODULE, 'face_extractor', 'tools')
 
 # Minimum value for intersection area 
 # between detection bbox and tracking window

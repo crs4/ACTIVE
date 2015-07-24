@@ -407,6 +407,28 @@ class TestFaceModels(unittest.TestCase):
 
         self.assertEqual(sub_dir_counter, 4)
 
+    def test_delete_model(self):
+
+        base_path = os.path.join('..', 'test_files', 'face_models')
+
+        face_rec_data = os.path.abspath(os.path.join(base_path, 'face_rec_data'))
+
+        params = {c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: face_rec_data}
+
+        fm = FaceModels(params)
+
+        self.test_create_models_from_image_list()
+
+        model_id = 0
+
+        model_path = os.path.join(
+            fm._data_dir_path, c.FACE_MODELS_DIR, str(model_id))
+
+        fm.delete_model(model_id)
+
+        self.assertFalse(os.path.exists(model_path))
+
+
     def test_disable_faces(self):
 
         self.test_add_face()

@@ -37,77 +37,54 @@ Il progetto [ACTIVE]_ (Automatic Classification Tools for the Intelligent Video 
 .. toctree::
 
    tools
-   prova.html
+   test.test_module
 
 
 
-The :mod:`toolsAPI` Module
--------------------------
-
-THIS IS THE PROGRAMMATIC API
-
-.. automodule:: toolsAPI
-   :members:
-   :show-inheritance:	
-
-The :mod:`face_extractor` Module
--------------------------
-.. automodule:: face_extractor
+The :mod:`caption_recognition` Module
+-------------------------------------
+.. automodule:: caption_recognition
    :members:
    :show-inheritance:
-
-The :mod:`Constants` Module
--------------------------
-.. automodule:: Constants
-   :members:
-   :show-inheritance:
-
+   
 The :mod:`face_detection` Module
--------------------------
+--------------------------------
 .. automodule:: face_detection
    :members:
    :show-inheritance:
-
-The :mod:`Utils` Module
--------------------------
-.. automodule:: Utils
+   
+The :mod:`face_models` Module
+-----------------------------
+.. automodule:: face_models
+   :members:
+   :show-inheritance:
+   
+The :mod:`utils` Module
+-----------------------
+.. automodule:: utils
+   :members:
+   :show-inheritance:
+   
+The :mod:`video_face_extractor` Module
+--------------------------------------
+.. automodule:: video_face_extractor
+   :members:
+   :show-inheritance:
+   
+The :mod:`caption_software_test` Module
+--------------------------------------
+.. automodule:: caption_software_test
+   :members:
+   :show-inheritance:
+   
+The :mod:`caption_test` Module
+--------------------------------------
+.. automodule:: caption_test
    :members:
    :show-inheritance:
 
-The :mod:`face_recognition` Module
--------------------------
-.. automodule:: face_recognition
-   :members:
 
-The :mod:`crop_face` Module
--------------------------
-.. automodule:: crop_face
-   :members:
-
-The :mod:`FaceModelsLBP` Module
--------------------------
-.. automodule:: FaceModelsLBP
-   :members:
-
-The :mod:`Utils` Module
--------------------------
-.. automodule:: Utils
-   :members:
-
-
-Tutorials
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-   `yahoo <http://yahoo.com>`_
-	
-
-
-
-
-
-
-.. [ACTIVE] www.active……
+.. [ACTIVE] http://active.crs4.it/
 
 
 Indices and tables
