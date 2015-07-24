@@ -261,7 +261,8 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  c.FACE_MODELS_CREATION_TIME_KEY + ',' + 
                  c.CLOTH_MODELS_CREATION_TIME_KEY + ',' +
                  c.PEOPLE_CLUSTERING_TIME_KEY + ',' +
-                 c.PEOPLE_RECOGNITION_TIME_KEY + ',' +  
+                 c.CAPTION_RECOGNITION_TIME_KEY + ',' +
+                 c.FACE_RECOGNITION_TIME_KEY + ',' +
                  c.SEGMENTS_NR_KEY + ',' + 
                  c.PEOPLE_CLUSTERS_NR_KEY + ',' +
                  c.RELEVANT_PEOPLE_NR_KEY + ',' +
@@ -367,8 +368,10 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[c.FACE_TRACKING_TIME_KEY]) + ',' +
                      str(experiment_dict[c.FACE_MODELS_CREATION_TIME_KEY]) + ',' + 
                      str(experiment_dict[c.CLOTH_MODELS_CREATION_TIME_KEY]) + ',' + 
-                     str(experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY]) + ',' + 
-                     str(experiment_dict[c.SEGMENTS_NR_KEY]) + ',' + 
+                     str(experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.CAPTION_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.FACE_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.SEGMENTS_NR_KEY]) + ',' +
                      str(experiment_dict[c.PEOPLE_CLUSTERS_NR_KEY]) + ',' +
                      str(experiment_dict[c.RELEVANT_PEOPLE_NR_KEY]) + ',' +
 
@@ -441,6 +444,7 @@ def video_indexing_experiments(
 
         # Add face models
         fm = FaceModels(params)
+        fm.delete_models()
         fm.create_models_from_whole_images(images_dir_path)
 
         # Add blacklist from file
@@ -457,14 +461,14 @@ def video_indexing_experiments(
             os.remove(item_complete_path)
 
     fs = None
-    
+
     if use_people_recognition:
-    
+
         fs = VideoFaceExtractor(resource_path, resource_id, params)
         # Delete results of previous experiment
         fs.delete_recognition_results()
         fs.analyze_video()
-        
+
     else:
 
         fs = PeopleClusterExtractor(resource_path, resource_id, params)
@@ -507,17 +511,23 @@ def video_indexing_experiments(
         auto_ann_file = os.path.join(simple_ann_path, ann_file)
             
         if not(os.path.exists(auto_ann_file)):
-            print(auto_ann_file)
-            error_str = ('Warning! Automatic annotation for ' +
-                         ann_file + ' does not exist')
-            print error_str
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print(auto_ann_file)
+                error_str = ('Warning! Automatic annotation for ' +
+                             ann_file + ' does not exist')
+                print error_str
             continue
         
         auto_dict = load_YAML_file(auto_ann_file)
         
         if (auto_dict is None) or (c.ANN_TAG_KEY not in auto_dict):
-            print 'Warning! Automatic annotation file does not exist!'
-            break        
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print 'Warning! Automatic annotation file does not exist!'
+            continue
         
         auto_tag = auto_dict[c.ANN_TAG_KEY]
         
@@ -572,9 +582,12 @@ def video_indexing_experiments(
         man_dict = load_YAML_file(man_ann_file)
         
         if (man_dict is None) or (c.ANN_TAG_KEY not in man_dict):
-            print 'Warning! Manual annotation file does not exist!'
-            print man_ann_file
-            break
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print 'Warning! Manual annotation file does not exist!'
+                print man_ann_file
+            continue
         
         man_tag = man_dict[c.ANN_TAG_KEY]
         
@@ -1045,6 +1058,12 @@ def video_indexing_experiments(
         people_clustering_time = fs.anal_times[
             c.PEOPLE_CLUSTERING_TIME_KEY]
     new_experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY] = people_clustering_time
+
+    caption_rec_time = 0
+    if c.CAPTION_RECOGNITION_TIME_KEY in fs.anal_times:
+        caption_rec_time = fs.anal_times[
+            c.CAPTION_RECOGNITION_TIME_KEY]
+    new_experiment_dict[c.CAPTION_RECOGNITION_TIME_KEY] = caption_rec_time
     
     face_rec_time = 0
     if c.FACE_RECOGNITION_TIME_KEY in fs.anal_times:
@@ -1078,6 +1097,12 @@ def video_indexing_experiments(
     new_experiment_dict[ce.CAPTION_STD_F1_KEY] = std_cap_f1
 
     new_experiment_dict[ce.SAVED_FRAMES_NR_KEY] = fs.saved_frames
+
+    # Save detailed results for each person
+    new_experiment_dict[ce.PEOPLE_PRECISION_DICT_KEY] = people_precision_dict
+    new_experiment_dict[ce.PEOPLE_RECALL_DICT_KEY] = people_recall_dict
+    new_experiment_dict[ce.PEOPLE_CAPTION_PRECISION_DICT_KEY] = people_cap_prec_dict
+    new_experiment_dict[ce.PEOPLE_CAPTION_RECALL_DICT_KEY] = people_cap_rec_dict
       
     results_path = ce.VIDEO_INDEXING_RESULTS_PATH
     experiment_results_file_name = ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME

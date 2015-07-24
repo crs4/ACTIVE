@@ -6,8 +6,11 @@ stored by the core and accessible through the REST API.
 """
 
 from django.conf import settings
+from plugins_script.commons.item import get_status
 import requests
 
+
+        
 
 def create_tag(item_id, entity_id, tag_type, token=None):
     """
@@ -29,6 +32,7 @@ def create_tag(item_id, entity_id, tag_type, token=None):
 
     # check if the tag has been created correctly
     if r.status_code != requests.codes.created:
+        print r.text[:20000]
         return None
     return r.json()
 
@@ -207,6 +211,42 @@ def get_dtags_by_item(item_id, token=None):
     if r.status_code != requests.codes.ok:
         return None
     return r.json()
+    
+def get_dtags_by_tag(tag_id, token=None):
+    """
+    Method used to retrieve all dynamic tags associated to a specific tag providing its id.
+    The method returns a list of object JSON serialized.
+
+    @param item_id: Id of the item used to find dynamic tags associated ot it.
+    @param token: Authentication token necessary to invoke the REST API.
+    @return: The result of the dynamic tag deletion.
+    """
+    url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/search/tag/' + str(tag_id)
+    header = {'Authorization': token}
+    r = requests.get(url, headers=header)
+
+    # check the result
+    if r.status_code != requests.codes.ok:
+        return None
+    return r.json()
+
+
+
+
+def create_uniform_dtags(item_id, token=None):
+    item_status = get_status(item_id, token)
+    if  "SPEAKER_RECOG" in item_status and "FACE_RECOG" in item_status:  
+        url = settings.ACTIVE_CORE_ENDPOINT + 'api/dtags/merge/tag/'
+        header = {'Authorization': token}
+        r = requests.post(url, data={'item_id':item_id},headers=header)
+        print r.text[:20000]
+        
+        # check the result
+        return r.status_code == requests.codes.ok
+
+       
+    return False 
+   
 
 
 def remove_dtag(dtag_id, token=None):

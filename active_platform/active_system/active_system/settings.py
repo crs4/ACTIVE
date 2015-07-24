@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'tools.navigator',
     'tools.summarizer',
     'tools.job_monitor',
+    'tools.training_set_manager',
 #    'core.plugins.apps.PluginConfig', # collect plugin data
 )
 
@@ -206,7 +207,7 @@ LOGGING = {
 
 
 # directory where uploaded files will be saved
-MEDIA_ROOT = '/var/spool/active_sinnova/data/'
+MEDIA_ROOT = '/home/active/active/active_platform/data'
 
 # directory where must be saved all plugin manifest files
 PLUGIN_MANIFEST_PATH = os.path.join(BASE_DIR, 'plugin_manifest')

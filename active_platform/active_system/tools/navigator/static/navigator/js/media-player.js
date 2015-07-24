@@ -275,23 +275,38 @@ $(document).on('click','#audioButton',function(){
 	$("#audiotimetable").show();
 	$(this).css({"background":"#aea8d3"});
 	$("#videoButton").css({"background":"#6c7a89"});
-
+    $("#mixedButton").css({"background":"#6c7a89"});
 	$("#videotimetable").hide();
+    $("#mixedtimetable").hide();
 	
 });
 
 //manage click on video button
 $(document).on('click','#videoButton',function(){
 	$("#audiotimetable").hide();
+    $("#mixedtimetable").hide();
 	$("#videotimetable").show();
 	$(this).css({"background":"#aea8d3"});
 	$("#audioButton").css({"background":"#6c7a89"});
+    $("#mixedButton").css({"background":"#6c7a89"});
+	
+});//manage click on mixed button
+$(document).on('click','#mixedButton',function(){
+	$("#audiotimetable").hide();
+    $("#mixedtimetable").show();
+	$("#videotimetable").hide();
+	$(this).css({"background":"#aea8d3"});
+	$("#audioButton").css({"background":"#6c7a89"});
+    $("#videoButton").css({"background":"#6c7a89"});
 	
 });
 
+
+
 //manage click on 'delete' person button
 $(document).on('click','.rmperson',function(){
-	
+	var row_id = $(this).parent().parent().attr('id');
+    
 	mediaPlayer.pause();
 	$("#icons img").animate({ backgroundColor: "#22313f" },100);
 	$("#icons img:nth-child(2)").animate({ backgroundColor: "#674172" },100);
@@ -325,7 +340,7 @@ $(document).on('click','.rmperson',function(){
                     },
                     success: function(result) {
                        
-                        $('#tr'+person[0].core_id).remove();
+                        $("#"+row_id).remove();
                     }
                 });
 				
@@ -385,7 +400,7 @@ function updateDOM(){
 	for(j=0; j<people.length; j++){
 		
 		if(people[j].tag_type == "speaker"){
-			$("#audiotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=a_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=a_showp-'+people[j].core_id+' src="/static/navigator//icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#aea8d3" class="person" id=a_editp-'+people[j].core_id+' data-type="text" data-pk=a_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
+			$("#audiotimetable").append('<tr id=a_tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=a_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=a_showp-'+people[j].core_id+' src="/static/navigator//icons/person.png"/></td><td id=atdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#aea8d3" class="person" id=a_editp-'+people[j].core_id+' data-type="text" data-pk=a_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
 			$("#a_editp-"+people[j].core_id).editable();
 			$("#a_editp-"+people[j].core_id).on('save', function(e, params) {
 			
@@ -396,9 +411,21 @@ function updateDOM(){
 			});
 		}
 		if(people[j].tag_type == "face"){
-			$("#videotimetable").append('<tr id=tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=v_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=v_showp-'+people[j].core_id+' src="/static/navigator/icons/person.png"/></td><td id=tdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#1e8bc3" class="person" id=v_editp-'+people[j].core_id+' data-type="text" data-pk=v_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
+			$("#videotimetable").append('<tr id=v_tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=v_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=v_showp-'+people[j].core_id+' src="/static/navigator/icons/person.png"/></td><td id=vtdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#1e8bc3" class="person" id=v_editp-'+people[j].core_id+' data-type="text" data-pk=v_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
 			$("#v_editp-"+people[j].core_id).editable();
 			$("#v_editp-"+people[j].core_id).on('save', function(e, params) {
+				mediaPlayer.pause();
+				var person = $(this);
+				updatePerson(e,params,person)
+				
+				
+			});
+		}
+        
+        if(people[j].tag_type == "face+speaker"){
+			$("#mixedtimetable").append('<tr id=m_tr'+people[j].core_id+'><td style="width=2%;"><img title="Delete person" class="rmperson" id=m_rm-'+people[j].tag_id+' src="/static/navigator/icons/remove.png"/></td><td style="width=2%;"><img title="Show person" class="showperson" id=m_showp-'+people[j].core_id+' src="/static/navigator/icons/person.png"/></td><td id=mtdrow'+people[j].core_id+' width="13%" ><span title="Edit person" style="background-color:#90c695" class="person" id=m_editp-'+people[j].core_id+' data-type="text" data-pk=m_pk'+people[j].core_id+' data-title="Enter username">'+people[j].firstName+" "+people[j].lastName+'</span></td><td width="85%"><div class="timeline center" id=timeline'+j+'></div></td></tr>');
+			$("#m_editp-"+people[j].core_id).editable();
+			$("#m_editp-"+people[j].core_id).on('save', function(e, params) {
 				mediaPlayer.pause();
 				var person = $(this);
 				updatePerson(e,params,person)
@@ -419,12 +446,15 @@ function updateDOM(){
 			
 			$("#timeline"+j).append('<div id=playhead'+j+"_"+i+' title='+title+'s></div>');		
 			
-			if(people[j].tag_type == "audio"){			
+			if(people[j].tag_type == "speaker"){			
 				$("#playhead"+j+"_"+i).css({"left": (ph_istant*100)+"%","width": (ph_width*100)+"%", "background-color":"#aea8d3"});
 			}
-			else{
+			else if(people[j].tag_type == "face") {
 				$("#playhead"+j+"_"+i).css({"left": (ph_istant*100)+"%","width": (ph_width*100)+"%"});
 			}
+            else{
+                $("#playhead"+j+"_"+i).css({"left": (ph_istant*100)+"%","width": (ph_width*100)+"%","background-color":"#90c695"});
+            }
 		}
 	}
 	
@@ -490,20 +520,22 @@ function updatePerson(e,params,person){
                         },
                         data: {'entity':person_mod.id},
                         success: function(tag){
-                            //~ $.ajax({
-                                 //~ async: false,
-                                 //~ type: 'DELETE',
-                                 //~ dataType: 'json',
-                                 //~ url: "/api/people/"+id_person,
-                                 //~ beforeSend: function(xhr, settings) {
-                                    //~ if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                                        //~ xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                                    //~ }
-                                 //~ },
-                                 //~ success: function(result) {
-                                        //~ alert("del unk")
-                                 //~ }
-                            //~ });
+                            item_id = tag.item;
+                            $.ajax({
+                                 async: false,
+                                 type: 'POST',
+                                 dataType: 'json',
+                                 data: {'item_id':item_id},
+                                 url: "/api/dtags/merge/tag/",
+                                 beforeSend: function(xhr, settings) {
+                                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                    }
+                                 },
+                                 success: function(result) {
+                                        
+                                 }
+                            });
                             
                             
                         }

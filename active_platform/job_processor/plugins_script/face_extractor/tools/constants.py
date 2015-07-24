@@ -6,7 +6,7 @@ import os
 
 # TODO CHANGE FOR SERVER
 # Default path of directory for aligned faces
-ALIGNED_FACES_PATH = r''
+ALIGNED_FACES_PATH = r'C:\Users\Maurizio\Documents\Aligned faces'
 
 # If True, all bounding boxes related to one face track
 # must be entirely contained by the corresponding frame
@@ -18,7 +18,8 @@ CHECK_EYE_POSITIONS = True
 # TODO CHANGE FOR SERVER
 # Path of directory with OpenCV classifiers
 CLASSIFIERS_DIR_PATH = r'/usr/share/opencv/haarcascades'
-#CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades'
+# CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' Portatile MP
+# CLASSIFIERS_DIR_PATH = r'C:\Opencv\sources\data\haarcascades'  # Palladium
 
 # Height of bounding box for clothes
 # (in % of the face bounding box height)
@@ -34,7 +35,10 @@ CLOTHES_CHECK_METHOD = 'Max'
 
 # Minimum distance between face features 
 # of two face tracks for considering clothes
-CLOTHES_CONF_THRESH = 8
+CLOTHES_CONF_THRESH = 8  # DEFAULT 8
+
+# Number of HSV channels used in clothing recognition (1-3)
+CLOTHING_REC_HSV_CHANNELS_NR = 3
 
 # If True, bounding box for clothes is divided in 3 parts
 CLOTHING_REC_USE_3_BBOXES = False
@@ -49,7 +53,7 @@ CLOTHING_REC_USE_MEAN_X_OF_FACES = False
 # Maximum distance between face features of two face tracks 
 # for merging them in the same cluster.
 # It should be greater or equals than CLOTHES_CONF_THRESH
-CONF_THRESHOLD = 14
+CONF_THRESHOLD = 14  # DEFAULT 14
 
 # Height of aligned faces (in pixels)
 CROPPED_FACE_HEIGHT = 400
@@ -89,7 +93,8 @@ GLOBAL_FACE_MODELS_MIN_DIFF = 5
 # TODO CHANGE FOR SERVER
 # Path of directory with people recognition data
 GLOBAL_FACE_REC_DATA_DIR_PATH = os.path.join(os.path.join(settings.MEDIA_ROOT, 'models'), 'video')
-#GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'
+# GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'  # Portatile MP
+# GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Active\Sinnova\Global face recognition'  # Palladium
 
 # Threshold for retaining prediction in global face recognition
 # (faces whose prediction has a confidence value greater
@@ -122,7 +127,7 @@ LBP_GRID_Y = 8
 LBP_NEIGHBORS = 8
 
 # Radius used for calculating LBP (in pixels)
-LBP_RADIUS=1
+LBP_RADIUS = 1
 
 # Margin used when drawing contours in caption recognition
 LETT_MARGIN = 2
@@ -149,7 +154,7 @@ MAX_FACES_IN_MODEL = 1000
 
 # Maximum number of frames with no corresponding detection 
 # that does not interrupt tracking
-MAX_FR_WITH_MISSED_DET = 50 
+MAX_FR_WITH_MISSED_DET = 50
 
 # Maximum difference between nose positions (
 # stored as % of nose positions in face images)
@@ -210,7 +215,7 @@ TAG_SEP = '_'
 # TODO REVIEW (NICOLA)
 # Path of directory containing "tesseract" directory
 # TESSERACT_PARENT_DIR_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools' + os.sep
-TESSERACT_PARENT_DIR_PATH = r'/var/spool/active_sinnova/job_processor/plugins_script/face_extractor/tools/'
+TESSERACT_PARENT_DIR_PATH = r'/home/active/active/active_platform/job_processor/plugins_script/face_extractor/tools/'
 
 # Minimum value for intersection area 
 # between detection bbox and tracking window
@@ -249,7 +254,7 @@ USE_HIST_EQ_IN_CROPPED_FACES = True
 
 # If True, in aggregating results from several frames,
 # final tag is the tag that was assigned to the majority of frames
-USE_MAJORITY_RULE = True 
+USE_MAJORITY_RULE = True
 
 # If True, in aggregating results from several frames,
 # final tag is the tag that received the minimum value 
@@ -357,8 +362,7 @@ UNDEFINED_TAG = 'undefined'
 
 
 # Dictionary keys
-
-ALIGNED_FACE_FILE_NAME = 'aligned_face_file_name'
+ALIGNED_FACE_FILE_NAME_KEY = 'aligned_face_file_name'
 ALIGNED_FACE_GRAY_SUFFIX = '_gray'
 ALIGNED_FACES_PATH_KEY = 'aligned_faces_path'
 ALL_CLOTH_BBOXES_IN_FRAMES_KEY = 'all_cloth_bboxes_in_frames'
@@ -379,6 +383,7 @@ CLASSIFIERS_DIR_PATH_KEY = 'classifiers_folder_path'
 CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
 CLOTHES_CONF_THRESH_KEY = 'conf_threshold_for_clothing_recognition'
+CLOTHING_REC_HSV_CHANNELS_NR_KEY = 'nr_of_HSV_channels_in_clothing_recognition'
 CLOTHING_REC_USE_3_BBOXES_KEY = 'use_3_bboxes_in_clothing_recognition'
 CLOTHING_REC_USE_DOMINANT_COLOR_KEY = (
     'use_dominant_color_in_clothing_recognition')

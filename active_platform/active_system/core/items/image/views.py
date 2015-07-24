@@ -44,7 +44,7 @@ class ImageItemList(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested all ImageItem objects')
-        images = ImageItem.objects.all()
+        images = ImageItem.user_objects.by_user(request.user).all()
         paginator = ImageItemPagination()
         result = paginator.paginate_queryset(images, request)
         serializer = ImageItemSerializer(result, many=True)
@@ -62,6 +62,7 @@ class ImageItemList(EventView):
         @return: HttpResponse containing the id of the new ImageItem object, error otherwise.
         @rtype: HttpResponse
         """
+	request.data['owner'] = request.user.id
         serializer = ImageItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'image' :
             logger.error('Error on ImageItem creation: format not supported')
@@ -81,7 +82,7 @@ class ImageItemDetail(EventView):
 
     queryset = ImageItem.objects.none()  # required for DjangoModelPermissions
 
-    def get_object(self, pk):
+    def get_object(self, pk, user):
         """
         Method used to retrieve an ImageItem object by its id.
 
@@ -91,7 +92,7 @@ class ImageItemDetail(EventView):
         @rtype: ImageItem
         """
         try:
-            return ImageItem.objects.get(item_ptr_id = pk)
+            return ImageItem.user_objects.by_user(user).get(item_ptr_id = pk)
         except ImageItem.DoesNotExist:
             raise Http404
 
@@ -110,7 +111,7 @@ class ImageItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested details on ImageItem with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk,request.user)
         serializer = ImageItemSerializer(item)
         return Response(serializer.data)
 
@@ -129,7 +130,7 @@ class ImageItemDetail(EventView):
         @rtype: HttpResponse
         """
         with edit_lock:
-            item = self.get_object(pk)
+            item = self.get_object(pk,request.user)
             serializer = ImageItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -152,6 +153,6 @@ class ImageItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested delete for ImageItem with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk,request.user)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

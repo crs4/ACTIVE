@@ -46,7 +46,7 @@ class AudioItemList(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested all AudioItem objects')
-        audio = AudioItem.objects.all()
+        audio = AudioItem.user_objects.by_user(request.user).all()
         paginator = AudioItemPagination()
         result = paginator.paginate_queryset(audio, request)
         serializer = AudioItemSerializer(result, many=True)
@@ -65,6 +65,7 @@ class AudioItemList(EventView):
         @return: HttpResponse containing the id of the new AudioItem object or an error.
         @rtype: HttpResponse
         """
+	request.data['owner'] = request.user.id
         serializer = AudioItemSerializer(data=request.data)
         if request.FILES and request.FILES['file'].content_type.split('/')[0] != 'audio' :
             logger.error('Error on AudioItem creation: format not supported')
@@ -84,7 +85,7 @@ class AudioItemDetail(EventView):
 
     queryset = AudioItem.objects.none()  # required for DjangoModelPermissions
 
-    def get_object(self, pk):
+    def get_object(self, pk, user):
         """
         Method used retrieve a AudioItem object from its id.
 
@@ -94,7 +95,7 @@ class AudioItemDetail(EventView):
         @rtype: AudioItem
         """
         try:
-            return AudioItem.objects.get(item_ptr_id = pk)
+            return AudioItem.user_objects.by_user(user).get(item_ptr_id = pk)
         except AudioItem.DoesNotExist:
             raise Http404
 
@@ -112,7 +113,7 @@ class AudioItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested details for AudioItem object with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         serializer = AudioItemSerializer(item)
         return Response(serializer.data)
 
@@ -131,7 +132,7 @@ class AudioItemDetail(EventView):
         @rtype: HttpResponse
         """
         with edit_lock:
-            item = self.get_object(pk)
+            item = self.get_object(pk, request.user)
             serializer = AudioItemSerializer(item, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -154,6 +155,6 @@ class AudioItemDetail(EventView):
         @rtype: HttpResponse
         """
         logger.debug('Requested delete for AudioItem with id ' + str(pk))
-        item = self.get_object(pk)
+        item = self.get_object(pk, request.user)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

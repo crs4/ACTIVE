@@ -16,7 +16,7 @@ from video_indexing_test import video_indexing_experiments
 # TODO CHANGE
 # video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path = r'C:\Active\People recognition'  # Palladium
-code_version = 353
+code_version = 372
 
 # Fixed parameters
 
@@ -97,10 +97,10 @@ global_face_models_min_diff = -1
 global_face_rec_data_dir_path = r'C:\Active\People recognition\Global face recognition data'  # Palladium
 min_tag_length = 10
 # TODO CHANGE
-training_set_path = r''  # Palladium
+training_set_path = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\80 persone'  # Palladium
 use_blacklist = True
-use_caption_rec = True  # TODO CHANGE
-use_face_rec = False  # TODO CHANGE
+use_caption_rec = True
+use_face_rec = True
 use_levenshtein = True
 used_fps_for_captions = 1.0
 # TODO CHANGE
@@ -109,7 +109,7 @@ used_fps_for_captions = 1.0
 # tessaract_parent_dir_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools'  # Portatile MP
 tesseract_parent_dir_path = r'C:\Active\Mercurial\tools'  # Palladium
 # TODO CHANGE
-word_blacklist_path = r''  # Palladium
+word_blacklist_path = r'C:\Active\Dataset\Word_blacklist.txt'  # Palladium
 
 # Variable parameters
 
@@ -147,6 +147,7 @@ for resource_path in resource_paths:
 
                 params = {ce.CODE_VERSION_KEY: code_version,
 
+                          c.ALIGNED_FACES_PATH_KEY: aligned_faces_path,
                           c.CHECK_EYE_POSITIONS_KEY: check_eye_positions,
                           c.CLASSIFIERS_DIR_PATH_KEY: classifiers_dir_path,
                           c.EYE_DETECTION_CLASSIFIER_KEY: eye_detection_classifier,
@@ -214,6 +215,7 @@ for resource_path in resource_paths:
                           c.GLOBAL_FACE_REC_THRESHOLD_KEY: global_face_rec_thresh,
                           c.LEV_RATIO_PCT_THRESH_KEY: lev_ratio_pct_thresh,
                           c.MIN_TAG_LENGTH_KEY: min_tag_length,
+                          ce.TRAINING_SET_PATH_KEY: training_set_path,
                           c.USE_BLACKLIST_KEY: use_blacklist,
                           c.USE_CAPTION_RECOGNITION_KEY: use_caption_rec,
                           c.USE_FACE_RECOGNITION_KEY: use_face_rec,
@@ -231,7 +233,8 @@ for resource_path in resource_paths:
 
                 # TODO CHANGE
                 # Save file with parameters
-                params_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\video_indexing_experiments_people_recognition.yml'
+                # params_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE - locale\video_indexing_experiments_people_recognition.yml' Portatile MP
+                params_file_path = r'C:\Active\Params\video_indexing_experiments_people_recognition.yml'
                 utils.save_YAML_file(params_file_path, params)
 
                 # Launch subprocess

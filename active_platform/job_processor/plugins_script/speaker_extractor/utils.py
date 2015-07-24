@@ -8,9 +8,9 @@ import subprocess
 import sys
 import requests
 from django.conf import  settings
-from plugins_script.commons.item import set_status
+from plugins_script.commons.item import set_status, get_status
 from plugins_script.commons.keyword import create_keyword
-from plugins_script.commons.tags import create_tag, create_dtag, get_tags_by_item, remove_tag
+from plugins_script.commons.tags import create_tag, create_dtag, get_tags_by_item, remove_tag, create_uniform_dtags
 from plugins_script.commons.person import create_person
 from skeleton.skeletons import Farm, Seq
 from skeleton.visitors import Executor
@@ -104,6 +104,8 @@ def post_di_esempio(id_item, fp,token):
     #name_p_list=name_p.readlines()
     result=make_name_compact(fp) #result simile a [[nome,start,stop][nome,start,stop]]
     print "result=",result
+    uniform_tag_ids_arr =[]
+
     for res in result:
 	try:
 		name=res[0]
@@ -136,6 +138,9 @@ def post_di_esempio(id_item, fp,token):
 		    	id_persona=persona["id"]
 		print "create_tag id_item,id_persona ", id_item, " ",id_persona
 		tag=create_tag(id_item,id_persona, "speaker", token)
+		uniform_tag = create_tag(id_item, id_persona, "face+speaker", token)
+		uniform_tag_ids_arr.append(uniform_tag['id'])
+
 		print "tag ",tag
 		st=int( float(res[1])*1000 )
 		print "start ", st
@@ -143,8 +148,19 @@ def post_di_esempio(id_item, fp,token):
 		print "dur ",dur
 		dtag=create_dtag(tag["id"],st,dur, token=token)
 		print "dtag ",dtag
+        
+    
 	except Exception, e:
 		print e
+    
+    set_status(id_item,"SPEAKER_RECOG", token)    
+    """
+    item_status = get_status(id_item, token) 
+    if "FACE_RECOG" in item_status['status']:
+        for u_tag_id in uniform_tag_ids_arr:
+            create_uniform_dtags(id_item, uniform_tag_id, token)
+    """
+    create_uniform_dtags(id_item, token)
     print "***** PLUGIN SPEAKER RECOGNITION: POST DI ESEMPIO ---> STOP"
     """
 
@@ -168,9 +184,9 @@ def _convert_with_ffmpeg(file_name):
 
 
 def diarization(file_properties):
-    cd_go="cd /var/spool/active_sinnova/job_processor/plugins_script/speaker_extractor/;"
+    cd_go="cd " + settings.BASE_DIR + "/plugins_script/speaker_extractor/;"
     java="java -Xmx2048m " #da definire in base alla macchina
-    java_classpath=" -classpath /var/spool/active_sinnova/job_processor/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
+    java_classpath=" -classpath " + settings.BASE_DIR + "/plugins_script/speaker_extractor/lium_spkdiarization-8.4.1.jar " 
     commandline=java+java_classpath+" it.crs4.identification.DBScore \""+file_properties + "\"" 
     print "diarization -- command \n"
     print commandline

@@ -83,4 +83,3 @@ def remove_keyword(keyword_id, token=None):
 
     # check if the keyword has been deleted correctly
     return r.status_code == requests.codes.no_content
-

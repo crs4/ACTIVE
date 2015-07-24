@@ -2,6 +2,8 @@
 This module used to define the data model for a generic Item object.
 Item model class redefines some methods in order to handle the
 storage of file resources.
+A custom object manager has been defined in order to retrieve only the
+items owned by a specific user.
 """
 
 import datetime
@@ -22,6 +24,19 @@ def compute_upload_path(instance, filename):
     return os.path.join('items', str(instance.id), filename)
 
 
+class ObjectOwnerManager(models.Manager):
+    """
+    Class used to implement a methothat will be used to specify
+    dynamically the item owner.
+    """
+    def by_user(self, user):
+        """
+        Method used to  filter the items by user basis.
+        """
+        return super(ObjectOwnerManager, self).get_queryset().filter(owner=user)
+        #return super(ObjectOwnerManager, self).get_query_set().filter(owner=user)
+
+
 class Item(models.Model):
     """
     This class provides an object representation for
@@ -35,15 +50,17 @@ class Item(models.Model):
     visibility = models.BooleanField(default=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True, blank=True)
-    #owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User)
     file = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
     thumb = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
     preview = models.FileField(upload_to=compute_upload_path, null=True, blank=True)
     state = models.CharField(max_length=300, default='STORED')
-
+    # custom object manager
+    objects = models.Manager()
+    user_objects = ObjectOwnerManager()
 
     def __repr__(self):
-        return 'Item ', self.filename, ' ', self.type
+        return 'Item ' + self.filename + ' ' + self.type
 
     def __unicode__(self):
         return str(self.id) + ' - ' + self.type + ' - ' + self.filename
@@ -65,10 +82,10 @@ class Item(models.Model):
         """
         Method overridden in order to correctly delete all stored information about an item.
         """
-
-        # remove the directory associated to an item
-        shutil.rmtree(settings.MEDIA_ROOT + '/items/' + str(self.id) + '/')
-        # delete all data stored for the current item
+        try:
+            shutil.rmtree(settings.MEDIA_ROOT + '/items/' + str(self.id) + '/')
+        except:
+            pass
         super(Item, self).delete(*args, **kwargs)
 
     def __set_visibility(self):

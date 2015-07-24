@@ -25,6 +25,7 @@ class Job:
 		self.name = None
 		self.func_name = None
 		self.status = None     # job processing status
+		self.user = 0          # id of job's owner
 		self.result = None     # field containing the result data
 		self.progression = self.compute_progress  # function used to compute the job execution progress
 		self.start_time = None # timestamp reporting when a job has been started
@@ -95,7 +96,8 @@ class Job:
 	@abstractmethod
         def stop(self, info=None):
                 pass
-	
+
+
 class PlainJob(Job):
 	"""
 	This class is used as a wrapper in order to detect processing progress 

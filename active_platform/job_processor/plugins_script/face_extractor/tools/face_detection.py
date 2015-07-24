@@ -31,9 +31,8 @@ def _detect_faces_in_image(params):
     return detect_faces_in_image(*params)
 
 
-def detect_faces_in_image(
-        resource_path, align_path, params,
-        show_results, return_always_faces=False):
+def detect_faces_in_image(resource_path, align_path, params, show_results,
+                          delete_files=False, return_always_faces=False):
     """
     Detect faces in image
 
@@ -46,6 +45,10 @@ def detect_faces_in_image(
     :type params: dictionary
     :param params: dictionary containing the parameters
     to be used for the face detection
+
+    :type delete_files: boolean
+    :param delete_files: delete(true) or do not delete(false)
+    saved image files
 
     :type show_results: boolean
     :param show_results: show (true) or do not show (false)
@@ -246,19 +249,16 @@ def detect_faces_in_image(
                 crop_result = get_cropped_face_from_image(
                     face_image, resource_path, align_path, params,
                     eye_cascade_classifier, nose_cascade_classifier,
-                    (x, y, width, height), return_always_faces)
+                    (x, y, width, height), delete_files, return_always_faces)
 
                 if crop_result:
-
-                    face_dict[c.FACE_KEY] = crop_result[c.FACE_KEY]
-
                     face_dict[c.LEFT_EYE_POS_KEY] = crop_result[c.LEFT_EYE_POS_KEY]
-
                     face_dict[c.RIGHT_EYE_POS_KEY] = crop_result[c.RIGHT_EYE_POS_KEY]
-
                     face_dict[c.NOSE_POSITION_KEY] = crop_result[c.NOSE_POSITION_KEY]
 
-                    face_dict[c.ALIGNED_FACE_FILE_NAME] = crop_result[c.ALIGNED_FACE_FILE_NAME]
+                    if not delete_files:
+                        face_dict[c.ALIGNED_FACE_FILE_NAME_KEY] = (
+                            crop_result[c.ALIGNED_FACE_FILE_NAME_KEY])
 
                     faces_final.append(face_dict)
 
@@ -404,13 +404,10 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
         nose_detection_classifier = c.NOSE_DETECTION_CLASSIFIER
 
         if params is not None:
-
             if c.CLASSIFIERS_DIR_PATH_KEY in params:
                 classifiers_folder_path = params[c.CLASSIFIERS_DIR_PATH_KEY] + os.sep
-
             if c.EYE_DETECTION_CLASSIFIER_KEY in params:
                 eye_detection_classifier = params[c.EYE_DETECTION_CLASSIFIER_KEY]
-
             if c.NOSE_DETECTION_CLASSIFIER_KEY in params:
                 nose_detection_classifier = params[c.NOSE_DETECTION_CLASSIFIER_KEY]
 
@@ -431,7 +428,7 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
 
         crop_result = get_cropped_face_from_image(
             image, image_path, align_path, params, eye_cascade_classifier,
-            nose_cascade_classifier, (0, 0), return_always_face)
+            nose_cascade_classifier, (0, 0), False, return_always_face)
 
         result = None
 
@@ -439,25 +436,14 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
 
             result = {}
 
+            file_name = crop_result[c.ALIGNED_FACE_FILE_NAME_KEY]
+            complete_file_name = (
+                file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
+            aligned_file_path = os.path.join(align_path, complete_file_name)
+
+            cropped_image = cv2.imread(aligned_file_path, cv2.IMREAD_GRAYSCALE)
+
             cropped_image = crop_result[c.FACE_KEY]
-
-            if c.USE_HIST_EQ_IN_CROPPED_FACES:
-                cropped_image = cv2.equalizeHist(cropped_image)
-
-            if c.USE_NORM_IN_CROPPED_FACES:
-                cropped_image = cv2.normalize(
-                    cropped_image, alpha=0, beta=255,
-                    norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
-
-            if c.USE_CANNY_IN_CROPPED_FACES:
-                cropped_image = cv2.Canny(cropped_image, 0.1, 100)
-
-            if c.USE_TAN_AND_TRIGG_NORM:
-                cropped_image = utils.normalize_illumination(cropped_image)
-
-            # Insert oval mask in image
-            if c.USE_OVAL_MASK:
-                cropped_image = utils.add_oval_mask(cropped_image)
 
             result[c.FACE_KEY] = cropped_image
             result[c.LEFT_EYE_POS_KEY] = crop_result[c.LEFT_EYE_POS_KEY]
@@ -474,7 +460,7 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
 
 def get_cropped_face_from_image(
         image, image_path, align_path, params, eye_cascade_classifier,
-        nose_cascade_classifier, face_bbox, return_always_face):
+        nose_cascade_classifier, face_bbox, delete_files, return_always_face):
     """
     Get face cropped and aligned to eyes from image
 
@@ -501,6 +487,10 @@ def get_cropped_face_from_image(
     :type face_bbox: bbox of face in original image,
     represented as (x, y, width, height)
 
+    :type delete_files: boolean
+    :param delete_files: delete(true) or do not delete(false)
+    saved image files
+
     :type return_always_face: boolean
     :type return_always_face: if true,
     return face even if no eyes are detected
@@ -523,19 +513,14 @@ def get_cropped_face_from_image(
     check_eye_positions = c.CHECK_EYE_POSITIONS
 
     if params is not None:
-
         if c.CROPPED_FACE_WIDTH_KEY in params:
             cropped_face_width = params[c.CROPPED_FACE_WIDTH_KEY]
-
         if c.CROPPED_FACE_HEIGHT_KEY in params:
             cropped_face_height = params[c.CROPPED_FACE_HEIGHT_KEY]
-
         if c.OFFSET_PCT_X_KEY in params:
             offset_pct_x = params[c.OFFSET_PCT_X_KEY]
-
         if c.OFFSET_PCT_Y_KEY in params:
             offset_pct_y = params[c.OFFSET_PCT_Y_KEY]
-
         if c.CHECK_EYE_POSITIONS_KEY in params:
             check_eye_positions = params[c.CHECK_EYE_POSITIONS_KEY]
 
@@ -614,9 +599,12 @@ def get_cropped_face_from_image(
         CropFace(
             img, eye_left, eye_right, offset_pct, dest_size).save(tmp_file_path)
 
-        result[c.ALIGNED_FACE_FILE_NAME] = tmp_file_name
-
         face_image = cv2.imread(tmp_file_path, cv2.IMREAD_GRAYSCALE)
+
+        if delete_files:
+            os.remove(tmp_file_path)
+        else:
+            result[c.ALIGNED_FACE_FILE_NAME_KEY] = tmp_file_name
 
         # Check nose position
         nose_check_ok = True
@@ -625,10 +613,8 @@ def get_cropped_face_from_image(
         use_nose_pos_in_recognition = c.USE_NOSE_POS_IN_RECOGNITION
 
         if params is not None:
-
             if c.USE_NOSE_POS_IN_DETECTION_KEY in params:
                 use_nose_pos_in_detection = params[c.USE_NOSE_POS_IN_DETECTION_KEY]
-
             if c.USE_NOSE_POS_IN_RECOGNITION_KEY in params:
                 use_nose_pos_in_recognition = params[c.USE_NOSE_POS_IN_RECOGNITION_KEY]
 
@@ -667,31 +653,27 @@ def get_cropped_face_from_image(
                 result[c.NOSE_POSITION_KEY] = None
 
         if nose_check_ok or not use_nose_pos_in_detection:
-
             if c.USE_HIST_EQ_IN_CROPPED_FACES:
                 face_image = cv2.equalizeHist(face_image)
-
             if c.USE_NORM_IN_CROPPED_FACES:
                 face_image = cv2.normalize(
                     face_image, alpha=0, beta=255,
                     norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
-
             if c.USE_CANNY_IN_CROPPED_FACES:
                 face_image = cv2.Canny(face_image, 0.1, 100)
-
             if c.USE_TAN_AND_TRIGG_NORM:
                 face_image = utils.normalize_illumination(face_image)
-
             # Insert oval mask in image
             if c.USE_OVAL_MASK:
                 face_image = utils.add_oval_mask(face_image)
 
-            tmp_file_name_gray = tmp_file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png'
-            tmp_file_gray_path = os.path.join(align_path, tmp_file_name_gray)
+            if not delete_files:
+                tmp_file_name_gray = (
+                    tmp_file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
+                tmp_file_gray_path = os.path.join(
+                    align_path, tmp_file_name_gray)
 
-            cv2.imwrite(tmp_file_gray_path, face_image)
-
-            result[c.FACE_KEY] = face_image
+                cv2.imwrite(tmp_file_gray_path, face_image)
 
             return result
 
@@ -704,12 +686,8 @@ def get_cropped_face_from_image(
     else:
 
         if return_always_face:
-
             result[c.LEFT_EYE_POS_KEY] = None
             result[c.RIGHT_EYE_POS_KEY] = None
-
-            result[c.FACE_KEY] = image
-
             return result
 
         else:
@@ -903,26 +881,14 @@ def get_detected_cropped_face(
 
         faces = detection_result[c.FACES_KEY]
 
-        if (len(faces) == 1) and (c.FACE_KEY in faces[0]):
+        if (len(faces) == 1) and (c.ALIGNED_FACE_FILE_NAME_KEY in faces[0]):
 
-            face_image = faces[0][c.FACE_KEY]
-            if c.USE_HIST_EQ_IN_CROPPED_FACES:
-                face_image = cv2.equalizeHist(face_image)
-
-            if c.USE_NORM_IN_CROPPED_FACES:
-                face_image = cv2.normalize(
-                    face_image, alpha=0, beta=255,
-                    norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
-
-            if c.USE_CANNY_IN_CROPPED_FACES:
-                face_image = cv2.Canny(face_image, 0.1, 100)
-
-            if c.USE_TAN_AND_TRIGG_NORM:
-                face_image = utils.normalize_illumination(face_image)
-
-            # Insert oval mask in image
-            if c.USE_OVAL_MASK:
-                face_image = utils.add_oval_mask(face_image)
+            face_dict = faces[0][c.FACE_KEY]
+            file_name = face_dict[c.ALIGNED_FACE_FILE_NAME_KEY]
+            complete_file_name = (
+                file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
+            aligned_file_path = os.path.join(align_path, complete_file_name)
+            face_image = cv2.imread(aligned_file_path, cv2.IMREAD_GRAYSCALE)
 
             return face_image
         else:

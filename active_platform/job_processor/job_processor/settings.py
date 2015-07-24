@@ -65,6 +65,54 @@ DATABASES = {
     }
 }
 
+
+
+# parameters used for system logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+#        'file': {
+#            'level': 'DEBUG',
+#            'class': 'logging.FileHandler',
+#            'filename': 'job_processor.log',
+#            'formatter': 'verbose'
+#        },
+        'file_face': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'face_extractor.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        # low level system logging
+#        'django': {
+#            'handlers':['file'],
+#            'propagate': True,
+#            'level':'INFO',
+#        },
+#        'job_processor': {
+#            'handlers': ['file'],
+#            'level': 'DEBUG',
+#       },
+        'face_recog': {
+            'handlers': ['file_face'],
+            'level': 'DEBUG',
+        },
+    }
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -100,4 +148,4 @@ PLUGIN_SCRIPT_MODULE = 'plugins_script'
 ACTIVE_CORE_ENDPOINT = 'http://156.148.132.79:80/'
 
 # dictetory where all digital items are stored and shared among the cluster
-MEDIA_ROOT = '/var/spool/active_sinnova/data/'
+MEDIA_ROOT = '/home/active/active/active_platform/data'
