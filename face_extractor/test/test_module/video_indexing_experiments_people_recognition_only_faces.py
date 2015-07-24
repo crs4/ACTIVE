@@ -1,5 +1,5 @@
 import os
-import numpy as np
+import shutil
 import subprocess
 import sys
 
@@ -96,6 +96,7 @@ global_face_models_min_diff = -1
 # global_face_rec_data_dir_path = r'C:\Users\Maurizio\Documents\Risultati test\People recognition\Global face recognition' # Portatile MP
 global_face_rec_data_dir_path = r'C:\Active\People recognition\Global face recognition data'  # Palladium
 lev_ratio_pct_thresh = 0.8
+min_frames_per_caption = 4
 min_tag_length = 10
 # TODO CHANGE
 training_set_path = r'C:\Active\Dataset\Videolina-960I-80P-whole_images\80 persone'  # Palladium
@@ -210,6 +211,7 @@ for resource_path in resource_paths:
                       c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: global_face_rec_data_dir_path,
                       c.GLOBAL_FACE_REC_THRESHOLD_KEY: global_face_rec_thresh,
                       c.LEV_RATIO_PCT_THRESH_KEY: lev_ratio_pct_thresh,
+                      c.MIN_FRAMES_PER_CAPTION_KEY: min_frames_per_caption,
                       c.MIN_TAG_LENGTH_KEY: min_tag_length,
                       ce.TRAINING_SET_PATH_KEY: training_set_path,
                       c.USE_BLACKLIST_KEY: use_blacklist,
@@ -218,7 +220,8 @@ for resource_path in resource_paths:
                       c.USE_LEVENSHTEIN_KEY: use_levenshtein,
                       c.USED_FPS_FOR_CAPTIONS_KEY: used_fps_for_captions,
                       # c.TAGS_FILE_PATH_KEY: tags_file_path,
-                      c.TESSERACT_PARENT_DIR_PATH_KEY: tesseract_parent_dir_path
+                      c.TESSERACT_PARENT_DIR_PATH_KEY: tesseract_parent_dir_path,
+                      ce.WORD_BLACKLIST_FILE_PATH_KEY: word_blacklist_path
                       }
 
             # TODO CHANGE
@@ -233,18 +236,33 @@ for resource_path in resource_paths:
             params_file_path = r'C:\Active\Params\video_indexing_experiments_people_recognition.yml'
             utils.save_YAML_file(params_file_path, params)
 
-            # Launch subprocess
-            if test_counter == 0:
-                command = ('python video_indexing_test.py -resource_path ' +
-                           resource_path + ' -resource_id ' + resource_id +
-                           ' -config ' + params_file_path +
-                           ' --create_models --no_software_test')
-            else:
-                command = ('python video_indexing_test.py -resource_path ' +
-                           resource_path + ' -resource_id ' + resource_id +
-                           ' -config ' + params_file_path +
-                           ' --no_software_test')
+            # # Launch subprocess
+            # if test_counter == 0:
+            #     command = ('python video_indexing_test.py -resource_path ' +
+            #                resource_path + ' -resource_id ' + resource_id +
+            #                ' -config ' + params_file_path +
+            #                ' --create_models --no_software_test')
+            # else:
+            command = ('python video_indexing_test.py -resource_path ' +
+                       resource_path + ' -resource_id ' + resource_id +
+                       ' -config ' + params_file_path +
+                       ' --no_software_test')
             subprocess.call(command)
+
+            # Move directories with automatic annotations
+            detailed_results_path = r'C:\Active\People recognition\Risultati dettagliati'
+            old_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face extraction\Annotations')
+            new_ann_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, 'Annotations')
+            shutil.move(old_ann_path, new_ann_path)
+            old_simple_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face extraction\Simple annotations')
+            new_simple_ann_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, 'Simple annotations')
+            shutil.move(old_simple_ann_path, new_simple_ann_path)
+
+            # Move YAML file with recognition results
+            file_name = str(resource_id) + '.YAML'
+            old_file_path = os.path.join(video_idx_path, str(resource_id), c.FACE_EXTRACTION_DIR, c.FACE_RECOGNITION_DIR, file_name)
+            new_file_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, file_name)
+            shutil.move(old_file_path, new_file_path)
 
             test_counter += 1
 

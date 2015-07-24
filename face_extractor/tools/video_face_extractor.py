@@ -2186,13 +2186,13 @@ class VideoFaceExtractor(object):
 
                         caption_rec_results.append(segment_caption_rec_results)
 
+                # Dictionary for storing elapsed times for each found tag
+                tags_dict_time = {}
+
                 for segment_caption_rec_results in caption_rec_results:
 
                     # Dictionary for storing confidences for each found tag
                     tags_dict_conf = {}
-
-                    # Dictionary for storing elapsed times for each found tag
-                    tags_dict_time = {}
 
                     for result_dict in segment_caption_rec_results:
 

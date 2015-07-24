@@ -461,14 +461,14 @@ def video_indexing_experiments(
             os.remove(item_complete_path)
 
     fs = None
-    
+
     if use_people_recognition:
-    
+
         fs = VideoFaceExtractor(resource_path, resource_id, params)
         # Delete results of previous experiment
         fs.delete_recognition_results()
         fs.analyze_video()
-        
+
     else:
 
         fs = PeopleClusterExtractor(resource_path, resource_id, params)
@@ -511,17 +511,23 @@ def video_indexing_experiments(
         auto_ann_file = os.path.join(simple_ann_path, ann_file)
             
         if not(os.path.exists(auto_ann_file)):
-            print(auto_ann_file)
-            error_str = ('Warning! Automatic annotation for ' +
-                         ann_file + ' does not exist')
-            print error_str
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print(auto_ann_file)
+                error_str = ('Warning! Automatic annotation for ' +
+                             ann_file + ' does not exist')
+                print error_str
             continue
         
         auto_dict = load_YAML_file(auto_ann_file)
         
         if (auto_dict is None) or (c.ANN_TAG_KEY not in auto_dict):
-            print 'Warning! Automatic annotation file does not exist!'
-            break        
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print 'Warning! Automatic annotation file does not exist!'
+            continue
         
         auto_tag = auto_dict[c.ANN_TAG_KEY]
         
@@ -576,9 +582,12 @@ def video_indexing_experiments(
         man_dict = load_YAML_file(man_ann_file)
         
         if (man_dict is None) or (c.ANN_TAG_KEY not in man_dict):
-            print 'Warning! Manual annotation file does not exist!'
-            print man_ann_file
-            break
+            if not use_people_recognition:
+                # In experiments on people clustering,
+                # user sets names of found people
+                print 'Warning! Manual annotation file does not exist!'
+                print man_ann_file
+            continue
         
         man_tag = man_dict[c.ANN_TAG_KEY]
         
@@ -995,9 +1004,6 @@ def video_indexing_experiments(
         new_experiment_dict[c.LEV_RATIO_PCT_THRESH_KEY] = fs.params[
             c.LEV_RATIO_PCT_THRESH_KEY]
 
-    # TODO DELETE TEST ONLY
-    print('new_experiment[c.LEV_RATIO_PCT_THRESH_KEY]', new_experiment_dict[c.LEV_RATIO_PCT_THRESH_KEY])
-
     new_experiment_dict[c.MIN_TAG_LENGTH_KEY] = c.MIN_TAG_LENGTH
     if c.MIN_TAG_LENGTH_KEY in fs.params:
         new_experiment_dict[c.MIN_TAG_LENGTH_KEY] = fs.params[
@@ -1091,6 +1097,12 @@ def video_indexing_experiments(
     new_experiment_dict[ce.CAPTION_STD_F1_KEY] = std_cap_f1
 
     new_experiment_dict[ce.SAVED_FRAMES_NR_KEY] = fs.saved_frames
+
+    # Save detailed results for each person
+    new_experiment_dict[ce.PEOPLE_PRECISION_DICT_KEY] = people_precision_dict
+    new_experiment_dict[ce.PEOPLE_RECALL_DICT_KEY] = people_recall_dict
+    new_experiment_dict[ce.PEOPLE_CAPTION_PRECISION_DICT_KEY] = people_cap_prec_dict
+    new_experiment_dict[ce.PEOPLE_CAPTION_RECALL_DICT_KEY] = people_cap_rec_dict
       
     results_path = ce.VIDEO_INDEXING_RESULTS_PATH
     experiment_results_file_name = ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME
