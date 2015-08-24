@@ -23,6 +23,95 @@ class FaceExtractor(object):
     """
     Tool for detecting and recognizing faces in images and video.
     Used for face extraction experiments.
+    The configuration parameters define
+    and customize the face extraction algorithm.
+    If any of the configuration parameters
+    is not provided a default value is used.
+
+    :type  face_models: a FaceModels object
+    :param face_models: the face models data structure
+
+    :type  params: dictionary
+    :param params: configuration parameters to be used for the face extraction
+                   (see table)
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    db_name                                       Name of single file
+                                                  containing face models
+    db_models_path                                Path of directory containing face models
+    face_model_algorithm                          Algorithm for face recognition            'LBP'
+                                                  ('Eigenfaces', 'Fisherfaces' or 'LBP')
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    use_eye_detection                             If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  test images
+    use_eye_detection_in_training                 If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  training images
+    use_eyes_position                             If True, align faces in test images       True
+                                                  by using eye positions
+    use_eyes_position_in_training                 If True, align faces in training images   True
+                                                  by using eye positions
+    use_face_detection_in_training                If True, use face detection               False
+                                                  for images in training set
+    use_NBNN                                      If True,                                  False
+                                                  use Naive Bayes Nearest Neighbor
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    use_resizing                                  If True, resize images                    True
+    use_weighted_regions                          If True, use weighted LBP                 False
+    ============================================  ========================================  ==============
     """
 
     def __init__(self, face_models=None, params=None):
@@ -39,7 +128,6 @@ class FaceExtractor(object):
         :type  params: dictionary
         :param params: configuration parameters (see table)
         """
-        # TODO: ADD TABLE WITH PARAMETERS
 
         self.params = params
 
@@ -52,7 +140,7 @@ class FaceExtractor(object):
     def extract_faces_from_image(self, resource_path):
         """
         Launch the face extractor on one image resource.
-        This method is asynchronous and returns a task handle.
+        This method returns a task handle.
 
         :type  resource_path: string
         :param resource_path: resource file path
@@ -147,7 +235,7 @@ class FaceExtractor(object):
     def extract_faces_from_video(self, resource):
         """
         Launch the face extractor on one video resource.
-        This method is asynchronous and returns a task handle.
+        This method returns a task handle.
 
         :type  resource: string
         :param resource: resource file path
@@ -401,82 +489,103 @@ class FaceExtractor(object):
     def get_results(self, handle):
         """
         Return the results of the face extraction process.
-        This call invalidates the specified handle.
         If the handle was returned by extractFacesFromImage(), a dictionary
         is returned with the following entries:
-          elapsed_cpu_time:  float  (the elapsed cpu time in sec)
-          error: a string specifying an error condition,
-          or None if no errors occurred
-          faces: a list of tags with associated bounding boxes
+
+        =====================================  ========================================
+        Key                                    Value
+        =====================================  ========================================
+        elapsed_cpu_time                       The elapsed CPU time in seconds
+        error                                  A string specifying an error condition,
+                                               or None if no errors occurred
+        faces                                  A list of tags
+                                               with associated bounding boxes
+        =====================================  ========================================
+
         Example:
             results = {'elapsed_cpu_time':  0.011,
                        'error': None,
-               'faces': ({'tag': 'Barack Obama', 'confidence': 60,
-                          'bbox':(100,210, 50, 50)},
-                         {'tag': 'Betty White', 'confidence': 30,
-                          'bbox':(30, 250, 40, 45)}
-                        )
+                       'faces': [{'tag': 'Barack Obama', 'confidence': 60,
+                                  'bbox':(100,210, 50, 50)},
+                                 {'tag': 'Betty White', 'confidence': 30,
+                                  'bbox':(30, 250, 40, 45)}
+                                ]
                       }
+
         For extractFacesFromVideo(), if no tracking is used,
         a dictionary is returned with the following entries:
-            elapsed_cpu_time: float (the elapsed cpu time in sec)
-            error: a string specifying an error condition,
-            or None if no error occurred
-            frames: a list of frames, each containing a list of tags
-            with associated bounding boxes
+
+        =====================================  ========================================
+        Key                                    Value
+        =====================================  ========================================
+        elapsed_cpu_time                       The elapsed CPU time in seconds
+        error                                  A string specifying an error condition,
+                                               or None if no errors occurred
+        frames                                 A list of frames,
+                                               each containing a list of faces
+        =====================================  ========================================
+
         Example:
             results = {'elapsed_cpu_time': 11.1,
                        'error':None,
-                       'tot_frames_nr':299
-                       'frames': ({'elapsed_video_time': 0,
-                                   'frameCounter': 0,
-                                   'faces': ({'tag': 'Barack Obama',
+                       'tot_frames_nr':299,
+                       'frames': [{'elapsed_video_time': 0,
+                                   'frame_counter': 0,
+                                   'faces': [{'tag': 'Barack Obama',
                                               'confidence':60,
                                               'bbox':(100,210, 50, 50)},
                                              {'tag': 'Betty White',
                                               'confidence':30,
-                                              'bbox':(30, 250, 40, 45)}
-                                            )
-                                  {'elapsed_video_time':0.04},
-                                   'frameCounter': 1,
-                                   'faces': ({'tag': 'Barack Obama',
+                                              'bbox':(30, 250, 40, 40)}
+                                            ]
+                                  {'elapsed_video_time':0.04,
+                                   'frame_counter': 1,
+                                   'faces': [{'tag': 'Barack Obama',
                                               'confidence':55,
                                               'bbox':(110,220, 50, 50)},
                                              {'tag': 'Betty White',
                                               'confidence':35,
-                                              'bbox':(40, 270, 40, 45)}
-                                 )
+                                              'bbox':(40, 270, 40, 40)}
+                                              ]
+                                 ]
                       }
         For extractFacesFromVideo(), if tracking is used,
         a dictionary is returned with the following entries:
-            elapsed_cpu_time: float (the elapsed cpu time in sec)
-            error: a string specifying an error condition,
-            or None if no error occurred
-            segments: a list of segments, each associated to a person
+
+        =====================================  ========================================
+        Key                                    Value
+        =====================================  ========================================
+        elapsed_cpu_time                       The elapsed CPU time in seconds
+        error                                  A string specifying an error condition,
+                                               or None if no errors occurred
+        segments                               A list of face tracks,
+                                               each associated to a person
+        =====================================  ========================================
+
         Example:
             results = {'elapsed_cpu_time': 11.1,
                        'error':None,
-                       'tot_frames_nr':299
-                       'segments': ({'tag': 'Barack Obama'
-                                     'confidence': 40
-                                     'frames': ({'elapsed_video_time': 0,
-                                                 'frameCounter': 0,
+                       'tot_frames_nr':299,
+                       'segments': [{'tag': 'Barack Obama'
+                                     'confidence': 40,
+                                     'frames': [{'elapsed_video_time': 0,
+                                                 'frame_counter': 0,
                                                  'tag': 'Barack Obama',
-                                                 'confidence': 60
+                                                 'confidence': 60,
                                                  'bbox':(100,210, 50, 50)},
                                                 {'elapsed_video_time':0.04},
-                                                 'frameCounter': 1,
+                                                 'frame_counter': 1,
                                                  'tag': 'Barack Obama',
-                                                 'confidence': 20
+                                                 'confidence': 20,
                                                  'bbox':(110,220, 50, 50)}
-                                                )
-                                    )
+                                                ]
+                                    ]
                       }
 
         :type  handle: float
         :param handle: the task handle
 
         :rtype: dictionary
-        :returns: the results
+        :returns: dictionary with results
         """
         return self.db_result4image[handle]

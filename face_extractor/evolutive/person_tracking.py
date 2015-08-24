@@ -159,8 +159,6 @@ def show_face_and_clothing_bboxes(im_path, params=None):
 
     rgb_image = cv2.imread(im_path, cv2.IMREAD_COLOR)
 
-
-
     result_dict = detect_faces_in_image(im_path, align_path, params, False)
 
     faces = result_dict[c.FACES_KEY]
@@ -175,7 +173,8 @@ def show_face_and_clothing_bboxes(im_path, params=None):
         cv2.rectangle(rgb_image, (cl_x, cl_y),
                       (cl_x + cl_w, cl_y + cl_h), (0, 0, 255), 4)
 
-    cv2.imshow(im_path, rgb_image)
+    im_name = os.path.basename(im_path)
+    cv2.imshow(im_name, rgb_image)
     cv2.waitKey(0)
 
 def show_face_and_clothing_bboxes_in_dir(dir_path, params=None):
@@ -190,10 +189,22 @@ def show_face_and_clothing_bboxes_in_dir(dir_path, params=None):
     :params: dictionary with configuration parameters
     """
 
+    # TODO DELETE TEST ONLY
+    found_first = False
+
     for path, subdirs, files in os.walk(dir_path):
         for name in files:
+
             im_path = os.path.join(path, name)
-            show_face_and_clothing_bboxes(im_path)
+
+            # TODO DELETE TEST ONLY
+            if 'Giagnoli_Gerardo' in im_path:
+                found_first = True
+            if found_first:
+
+                show_face_and_clothing_bboxes(im_path)
+
+
 
 dir_path = r'C:\Users\Maurizio\Documents\Dataset\Evolutive\80 persone'
 show_face_and_clothing_bboxes_in_dir(dir_path)

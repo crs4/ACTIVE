@@ -47,8 +47,30 @@ def aggregate_frame_results(frames, fm=None, tags=None, params=None):
     :type tags: list
     :param tags: list of possible tags
     
-    :type  params: dictionary 
-    :param params: configuration parameters
+    :type params: dictionary
+    :param params: configuration parameters (see table)
+
+    :rtype: list
+    :returns: a [final_tag, final_confidence, pct] list,
+              where final_tag is the predicted tag,
+              final_confidence is the corresponding confidence
+              and pct is the percentage of frames assigned to
+              the most probable tag
+
+    ========================  ==================================================  ==============
+    Key                       Value                                               Default value
+    ========================  ==================================================  ==============
+    use_majority_rule         If True, in aggregating results from several        True
+                              frames, final tag is the tag that was assigned
+                              to the majority of frames
+    use_mean_confidence_rule  If True, in aggregating results from several        False
+                              frames, final tag is the tag that received
+                              the minimum value for the mean of confidences
+                              among frames
+    use_min_confidence_rule   If True, in aggregating results from several        True
+                              frames,final tag is the tag that received
+                              the minimum confidence value
+    ========================  ==================================================  ==============
     """
 
     assigned_frames_nr_dict = {}
@@ -69,13 +91,9 @@ def aggregate_frame_results(frames, fm=None, tags=None, params=None):
         confidence_lists_dict[tag] = []
 
     for frame in frames:
-
         assigned_tag = frame[c.ASSIGNED_TAG_KEY]
-
         assigned_frames_nr_dict[assigned_tag] += 1
-
         confidence = frame[c.CONFIDENCE_KEY]
-
         confidence_lists_dict[assigned_tag].append(confidence)
 
     # Take final decision on tag
@@ -208,7 +226,7 @@ def aggregate_frame_results(frames, fm=None, tags=None, params=None):
         else:
             print('Warning! Method is not available')
         
-    # Percentage of frames assigned to most probable tag 
+    # Percentage of frames assigned to the most probable tag
     pct = float(max_frames_nr) / len(frames)           
                         
     return [final_tag, final_confidence, pct]
@@ -226,29 +244,33 @@ def check_eye_pos(eye_left, eye_right, face_bbox, params=None):
 
     :type face_bbox: tuple
     :param face_bbox: face bounding box,
-    given as tuple (x, y, width, height)
+                      given as a (x, y, width, height) tuple
 
     :type params: dictionary
-    :param params: configuration parameters
+    :param params: configuration parameters (see table)
 
     :rtype: boolean
     :returns: True if eye positions are good, False otherwise
+
+    ========================  ==================================================  ==============
+    Key                       Value                                               Default value
+    ========================  ==================================================  ==============
+    min_eye_distance          Minimum distance between eyes (in % of the width    0.25
+                              of the face bounding box)
+    max_eye_angle             Maximum inclination of the line connecting          0.125
+                              the eyes (in % of pi radians)
+    ========================  ==================================================  ==============
     """
 
     check = False
 
     min_distance_pct = c.MIN_EYE_DISTANCE
-
     max_angle_pct = c.MAX_EYE_ANGLE
 
     if params is not None:
-
         if c.MIN_EYE_DISTANCE_KEY in params:
-
             min_distance_pct = params[c.MIN_EYE_DISTANCE_KEY]
-
         if c.MAX_EYE_ANGLE_KEY in params:
-
             max_angle_pct = params[c.MAX_EYE_ANGLE_KEY]
 
     x1 = eye_left[0]
@@ -302,13 +324,34 @@ def compare_clothes(
                          if already computed
 
     :type params: dictionary
-    :param params: configuration parameters
+    :param params: configuration parameters (see table)
 
     :rtype: boolean
     :returns: True if two models are similar
+
+    ===========================================  =================================  ==============
+    Key                                          Value                              Default value
+    ===========================================  =================================  ==============
+    conf_threshold                               Maximum distance between face      14.0
+                                                 features of two face tracks
+                                                 for merging them in the same
+                                                 cluster
+    clothes_check_method                         Method for comparing clothes of    'max'
+                                                 the two cloth models
+                                                 ('min', 'mean' or 'max')
+    use_3_bboxes_in_clothing_recognition         If True, bounding box for clothes  False
+                                                 is divided into 3 parts
+    conf_threshold_for_clothing_recognition      Minimum distance between face      8.0
+                                                 features of two face tracks
+                                                 for considering clothes
+    nr_of_HSV_channels_in_clothing_recognition   Number of HSV channels used        3
+                                                 in clothing recognition (1-3)
+    variable_clothing_threshold                  If True, a variable threshold      False
+                                                 for clothing recognition is used
+    ===========================================  =================================  ==============
     """
     
-    # Method for comparing clothes ('Min', 'Mean' or 'Max')
+    # Method for comparing clothes ('min', 'mean' or 'max')
     method = c.CLOTHES_CHECK_METHOD
     
     # True if 3 bboxes per frame are used  
@@ -401,12 +444,13 @@ def detect_eyes_in_image(image, eye_cascade_classifier):
     :type image: openCV image
     :param image: image to be analyzed
 
-    :type eye_cascade_classifier: cascade classifier
-    :param eye_cascade_classifier: classifier to be used for the detection
+    :type eye_cascade_classifier: CascadeClassifier
+    :param eye_cascade_classifier: classifier to be used for the eye detection
 
     :rtype: list
-    :returns: list containing eye positions
-    (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+    :returns: a (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+              list containing eye positions
+
     """
 
     min_neighbors = 0
@@ -455,12 +499,12 @@ def detect_mouth_in_image(image, mouth_cascade_classifier):
     :type image: openCV image
     :param image: image to be analyzed
 
-    :type mouth_cascade_classifier: cascade classifier
+    :type mouth_cascade_classifier: CascadeClassifier
     :param mouth_cascade_classifier: classifier to be used for the detection
 
     :rtype: list
     :returns: list of mouths detected ,
-    represented as (x, y, width, height) tuples
+              represented as (x, y, width, height) tuples
     """
     
     min_neighbors = 1
@@ -486,12 +530,12 @@ def detect_nose_in_image(image, nose_cascade_classifier):
     :type image: openCV image
     :param image: image to be analyzed
 
-    :type nose_cascade_classifier: cascade classifier
+    :type nose_cascade_classifier: CascadeClassifier
     :param nose_cascade_classifier: classifier to be used for the detection
 
     :rtype: list
-    :returns: list of noses detected ,
-    represented as (x, y, width, height) tuples
+    :returns: list of noses detected,
+              represented as (x, y, width, height) tuples
     """
     
     min_neighbors = 5
@@ -510,19 +554,19 @@ def detect_nose_in_image(image, nose_cascade_classifier):
     return nose_list
 
 
-def find_dominant_region(hist, kernel_size, max_sum_items=0):
+def find_dominant_region(hist, kernel_size):
     """
     Find dominant region in given histogram
 
     :type hist: numpy array
     :param hist: histogram
 
-    :type max_sum_items: integer
-    :param max_sum_items: max sum of items in histogram regions
+    :type kernel_size: odd integer
+    :param kernel_size: size of kernel used to smooth histogram
 
     :rtype: list
-    :returns: locations of region borders
-             given as list of two integer elements
+    :returns: a (left_idx, right_idx) tuple indicating the locations
+              of dominant region borders
     """
     
     # Smooth histogram to eliminate local minima
@@ -582,10 +626,10 @@ def get_best_eye(eyes_list):
     Get best eye from given list
 
     :type eyes_list: list
-    :param eyes_list: list of eyes given as list (x, y, w, h)
+    :param eyes_list: list of eyes given as a (x, y, width, height) tuple
 
     :rtype: list or None
-    :return: best eye
+    :returns: best eye
     """
     # Calculate confidence for each eye rectangle
     eyes_confidences = []
@@ -685,7 +729,6 @@ def get_hist_difference(image, prev_hists):
     """
     Get difference between histograms of given image
     and given histograms.
-    Returns difference and histograms of given image.
 
     :type image: OpenCV image
     :param image: image to be analyzed
@@ -695,7 +738,8 @@ def get_hist_difference(image, prev_hists):
                        of image
 
     :rtype: list
-    :returns: [difference, histograms]
+    :returns: a [difference, histograms] list, where histograms are
+              the histograms calculated on given image
     """
     
     tot_diff = None
@@ -746,8 +790,8 @@ def get_image_score(image):
     :type image: OpenCV image
     :param image: image to be checked
 
-    :return: score
     :rtype: float
+    :returns: score
     """
     score = get_image_symmetry(image)
     
@@ -762,8 +806,8 @@ def get_image_symmetry(image):
     :type image: OpenCV image
     :param image: image to be checked
 
-    :return: symmetry value
     :rtype: float
+    :returns: symmetry value
     """
     
     moments = cv2.moments(image)
@@ -943,13 +987,13 @@ def get_time_intervals(time_list, min_sep):
     :type time_list: list
     :param time_list: list of time instants
 
-    :param min_sep: float
+    :type min_sep: float
     :param min_sep: minimum separation between time intervals
 
     :rtype: list
-    :return: list of (start, duration) tuples,
-    where start indicates the starting time of the time interval
-    and duration the duration of the time interval
+    :return: a list of (start, duration) tuples,
+             where start indicates the starting time of the time interval
+             and duration the duration of the time interval
     """
 
     time_intervals = []
@@ -1070,7 +1114,7 @@ def is_cut(diff, w_left, w_right, std_mult):
 
     :rtype: boolean
     :returns: True if given difference represents a shot cut,
-    False otherwise
+              False otherwise
     """
     
     result = False
@@ -1093,14 +1137,14 @@ def is_rect_enclosed(rect1, rect2):
     """
     Check if rectangle is inside another rectangle
 
-    :param rect1: first rectangle given as list (x, y, width, height)
-    :type rect1: list
+    :type rect1: tuple
+    :param rect1: first rectangle given as a (x, y, width, height) tuple
 
-    :param rect1: second rectangle given as list (x, y, width, height)
-    :type rect1: list
+    :type rect2: tuple
+    :param rect2: second rectangle given as a (x, y, width, height) tuple
 
-    :return: True if rect 1 is inside rect 2, False otherwise
     :rtype: boolean
+    :return: True if rect1 is inside rect2, False otherwise
     """
     x11 = rect1[0]
     y11 = rect1[1]
@@ -1123,18 +1167,19 @@ def is_rect_similar(rect1, rect2, min_int_area):
     Check if a rectangle is similar to another rectangle.
     Returns True if rect 1 is similar to rect 2.
 
-    :type rect1: list
-    :param rect1: first rectangle given as list (x, y, width, height)
+    :type rect1: tuple
+    :param rect1: first rectangle given as a (x, y, width, height) tuple
 
-    :type rect2: list
-    :param rect2: second rectangle given as list (x, y, width, height)
+    :type rect2: tuple
+    :param rect2: second rectangle given as a (x, y, width, height) tuple
 
     :type min_int_area: float
     :param min_int_area: minimum area of intersection between the two
                          rectangles (related to area of the smallest one)
                          for considering them similar
-    :return: True if rectangles are similar, False otherwise
+
     :rtype: boolean
+    :return: True if rectangles are similar, False otherwise
     """
     
     similar = False
@@ -1193,7 +1238,7 @@ def load_YAML_file(file_path):
     :param file_path: path of YAML file to be loaded
 
     :rtype: dictionary or list
-    :return: the contents of the file
+    :returns: the contents of the file
     """
     
     try:
@@ -1202,9 +1247,14 @@ def load_YAML_file(file_path):
             data = yaml.load(stream)
             return data
            
+    except IOError as e:
+         error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
+         print error_str
+         return None
+
     except:
-        
-        return None
+         print "Unexpected error:", sys.exc_info()[0]
+         return None
    
 
 def merge_consecutive_segments(segments, min_duration):
@@ -1214,13 +1264,13 @@ def merge_consecutive_segments(segments, min_duration):
     :type segments: list
     :param segments: list of dictionaries representing video segments
 
-    :type min_duration:float
+    :type min_duration: float
     :param min_duration: minimum duration of segments (in seconds)
 
     :rtype: tuple
-    :return: a (merged_segments, tot_dur) tuple,
-    where merged_segments is the list of merged segments
-    and tot_dur the total duration of segments
+    :returns: a (merged_segments, tot_dur) tuple,
+              where merged_segments is the list of merged segments
+              and tot_dur the total duration of segments
     """
     
     merged_segments = []
@@ -1352,7 +1402,7 @@ def merge_consecutive_segments(segments, min_duration):
 
 def merge_near_idxs(idxs, diff_list, min_dist):
     """
-    Merge near indexes according to diff_list
+    Merge near indexes according to given list of histogram differences
 
     :type idxs: list
     :param idxs: list of indexes
@@ -1506,7 +1556,7 @@ def normalize_illumination(img):
         
 def save_YAML_file(file_path, data):
     """
-    Save YAML file.
+    Save YAML file
 
     :type file_path: string
     :param file_path: path of YAML file to be saved
@@ -1514,9 +1564,10 @@ def save_YAML_file(file_path, data):
     :type data: dictionary or list
     :param data: data to be saved
 
-    :return: a boolean indicating the result of the write operation
     :rtype: boolean
+    :returns: a boolean indicating the result of the write operation
     """
+
     with open(file_path, 'w') as stream:
         result = stream.write(
         yaml.dump(data, default_flow_style=False))

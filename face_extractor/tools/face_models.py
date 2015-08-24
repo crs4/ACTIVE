@@ -12,8 +12,75 @@ import uuid
 
 class FaceModels:
     """
-    The persistent data structure containing the global face models
-    used by the face recognition algorithm
+    The face models used by the
+    people recognition algorithms.
+
+    :type params: dictionary
+    :param params: configuration parameters (see table)
+
+    :type models: list
+    :param models: list with models for people recognition
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    global_face_models_min_diff                   Minimum distance between faces            5
+                                                  in global face models
+    global_face_recognition_dir_path              Path of directory with people
+                                                  recognition data
+    global_face_recognition_threshold             Threshold for retaining prediction        8
+                                                  in global face recognition
+                                                  (faces whose prediction has a
+                                                  confidence value greater than this
+                                                  will be considered unknown)
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    ============================================  ========================================  =============================
     """
 
     def __init__(self, params=None, models=None):
@@ -60,16 +127,17 @@ class FaceModels:
         :param aligned_face: aligned face
 
         :type eye_pos: tuple
-        :param eye_pos: tuple containing eye positions
-        (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+        :param eye_pos: a (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+                        tuple containing eye positions
+
 
         :type bbox: tuple
-        :param bbox: tuple containing position and size of
-        face bounding box in whole image (x, y, width, height)
+        :param bbox: a (x, y, width, height) tuple containing position and size
+                     of face bounding box in whole image
 
         :type enabled: boolean
         :param enabled: if True, face is also added
-        to models used for people recognition
+                        to models used for people recognition
 
         :rtype: boolean
         :returns: true if face has been added
@@ -399,7 +467,7 @@ class FaceModels:
         :type item: string
         :param item: item to be added to blacklist
 
-        :rtype boolean
+        :rtype: boolean
         :returns: true if item has been added to blacklist
         """
 
@@ -687,11 +755,11 @@ class FaceModels:
 
         :type label_list: list
         :param label_list: list of labels for people.
-        If not provided, actual labels will not be changed
+                           If not provided, actual labels will not be changed
 
         :type tag_list: list
         :param tag_list: list of tags for people.
-        If not provided, actual tags will not be changed
+                         If not provided, actual tags will not be changed
         """
 
         try:
@@ -994,15 +1062,15 @@ class FaceModels:
 
         :type label_list: list
         :param label_list: list of labels for people.
-        If not provided, a progressive counter will be used
+                           If not provided, a progressive counter will be used
 
         :type tag_list: list
         :param tag_list: list of tags for people.
-        If not provided, names of sub directories will be used
+                         If not provided, names of sub directories will be used
 
         :type enabled: boolean
         :param enabled: if True, face are also added
-        to models used for people recognition
+                        to models used for people recognition
 
         :rtype: integer
         :returns: number of faces added to models
@@ -1146,8 +1214,9 @@ class FaceModels:
         Do not use given faces for people recognition
 
         :type rel_im_tuples: list
-        :param rel_im_tuples: list of (label, im_name) tuples,
-        indicating labels and names of image files that must be enabled
+        :param rel_im_tuples: a list of (label, im_name) tuples,
+                              indicating labels and names of image
+                              files that must be enabled
         """
 
         try:
@@ -1187,8 +1256,9 @@ class FaceModels:
         Use given faces for people recognition
 
         :type rel_im_tuples: list
-        :param rel_im_tuples: list of (label, im_name) tuples,
-        indicating labels and names of image files that must be disabled
+        :param rel_im_tuples: a list of (label, im_name) tuples,
+                              indicating labels and names of image files
+                              that must be disabled
         """
 
         try:
@@ -1450,7 +1520,7 @@ class FaceModels:
 
         :rtype: boolean
         :returns: True if models were successfully loaded,
-        False otherwise
+                  False otherwise
         """
 
         ok = False
@@ -1475,7 +1545,7 @@ class FaceModels:
 
         :rtype: boolean
         :returns: True if models were successfully loaded,
-        False otherwise
+                  False otherwise
         """
 
         ok = False
@@ -1521,8 +1591,13 @@ class FaceModels:
 
         :rtype: tuple
         :returns: a tuple containing predicted label
-        and corresponding confidence
+                  and corresponding confidence
         """
+
+        # Set parameters
+        face_rec_threshold = c.GLOBAL_FACE_REC_THRESHOLD
+        if c.GLOBAL_FACE_REC_THRESHOLD_KEY in self._params:
+            face_rec_threshold = self._params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
 
         label = c.UNDEFINED_LABEL
         conf = sys.maxint
@@ -1536,7 +1611,7 @@ class FaceModels:
             # print('conf', conf)
 
             # Consider tag only if distance is below threshold
-            if conf < c.GLOBAL_FACE_REC_THRESHOLD:
+            if conf < face_rec_threshold:
                 label = pred_label
 
         return label, conf
@@ -1545,12 +1620,16 @@ class FaceModels:
         """
         Recognize given face model using the stored face recognition models
 
-        :type query_model: OpenCV LBPHFaceRecognizer
+        :type query_model: LBPHFaceRecognizer
         :param query_model: model to be recognized
 
         :rtype: list
-        :returns: a list of tuples containing predicted labels
-        and corresponding confidences
+        :returns: a list of dictionaries containing, for each item in model,
+                  predicted label and corresponding confidence.
+                  Example:
+                  results = [{'assigned_tag': 'Barack Obama', 'confidence': 60},
+                             {'assigned_tag': 'Betty White', 'confidence': 30}
+                            ]
         """
 
         face_rec_results = []
@@ -1641,7 +1720,7 @@ class FaceModels:
         :type item: string
         :param item: item to be removed from blacklist
 
-        :rtype boolean
+        :rtype: boolean
         :returns: true if item has been removed from blacklist
         """
 

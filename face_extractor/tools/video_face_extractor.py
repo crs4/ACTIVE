@@ -44,21 +44,209 @@ class VideoFaceExtractor(object):
     The configuration parameters define
     and customize the face extraction algorithm.
     If any of the configuration parameters
-    is not provided a default value is used.
+    is not provided a default value is used
 
     :type resource_path: string
-    :param resource_path: file path of resource
+    :param resource_path: file path of resource to be analyzed
 
     :type resource_id: string
-    :param resource_id: identifier of resource
+    :param resource_id: identifier of resource to be analyzed
 
     :type  params: dictionary
-    :param params: configuration parameters (see table)
+    :param params: configuration parameters to be used for the face extraction
+                   (see table)
 
     :type models: dictionary
     :param models: dictionary with models for people recognition
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    all_cloth_bboxes_in_frames                    If True, all bounding boxes               True
+                                                  related to one face track must be
+                                                  entirely contained by the
+                                                  corresponding frameo
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    clothes_bounding_box_height                   Height of bounding box for clothes
+                                                  (in % of the face bounding box height)    1.0
+    clothes_bounding_box_width                    Width of bounding box for clothes         2.0
+                                                  (in % of the face bounding box width)
+    clothes_check_method                          Method for comparing clothes of two
+                                                  face tracks ('min', 'mean' or 'max')
+    conf_threshold_for_clothing_recognition       Minimum distance between face features    8.0
+                                                  of two face tracks
+                                                  for considering clothes
+    nr_of_HSV_channels_in_clothing_recognition    Number of HSV channels used
+                                                  in clothing recognition (1-3)             3
+    use_3_bboxes_in_clothing_recognition          If True, bounding box for clothes         False
+                                                  is divided into 3 parts
+    use_dominant_color_in_clothing_recognition    If True, dominant color is used           False
+                                                  in clothing recognition
+    use_mean_x_of_faces_in_clothing_recognition   If True, position of bounding box         False
+                                                  for clothes in the horizontal
+                                                  direction is fixed
+                                                  for the whole face track
+    conf_threshold                                Maximum distance between face             14.0
+                                                  features of two face tracks for
+                                                  merging them in the same cluster
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                          Flags used in face detection             'DoCannyPruning'
+                                                   ('DoCannyPruning', 'ScaleImage',
+                                                   'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                   Mininum number of neighbor bounding     5
+                                                    boxes for retaining face detection
+    min_size_height                                 Minimum height of face detection        20
+                                                    bounding box (in pixels)
+    min_size_width                                  Minimum width of face detection         20
+                                                    bounding box (in pixels)
+    scale_factor                                    Scale factor between two scans          1.1
+                                                    in face detection
+    half_window_size                                Size of half sliding window             10
+                                                    (in frames)
+    kernel_size_for_histogram_smoothing             Size of kernel for                      25
+                                                    smoothing histograms
+                                                    when calculating dominant color
+    LBP_grid_x                                      Number of columns in grid               4
+                                                    used for calculating LBP
+    LBP_grid_y                                      Number of columns in grid               8
+                                                    used for calculating LBP
+    LBP_neighbors                                   Number of neighbors                     8
+                                                    used for calculating LBP
+    LBP_radius                                      Radius used                             1
+                                                    for calculating LBP (in pixels)
+    max_eye_angle                                   Maximum inclination of the line         0.125
+                                                    connecting the eyes
+                                                    (in % of pi radians)
+    max_faces_in_model                              Maximum number of faces in face model   1000
+                                                    related to one face track
+    max_frames_with_missed_detections               Maximum number of frames with no        50
+                                                    corresponding detection that does
+                                                    not interrupt tracking
+    max_nose_diff                                   Maximum difference between nose         0.05
+                                                    positions (stored as % of nose
+                                                    positions in face images)
+    min_cloth_model_size                            Minimum number of items contained       5
+                                                    in a cloth model
+    min_detection_pct                               Minimum percentage of detected faces    0.3
+                                                    out of total faces in face track
+                                                    in order to retain face track
+    min_eye_distance                                Minimum distance between eyes           0.25
+                                                    (in % of the width of the face
+                                                    bounding box)
+    min_segment_duration                            Minimum duration of a segment           1
+                                                    (in seconds)
+    neck_height                                     Height of neck (in % of the             0.0
+                                                    face bounding box height)
+    nose_detection_classifier                       Classifier for nose detection           'haarcascade_mcs_nose.xml'
+    offset_pct_x                                    % of the image to keep next to          0.20
+                                                    the eyes in the horizontal direction
+    offset_pct_y                                    % of the image to keep next to          0.50
+                                                    the eyes in the vertical direction
+    simulate_user_annotations                       If True, user annotations for people    False
+                                                    clusters are simulated by using saved
+                                                    annotations for face tracks
+    std_multiplier_face                             Standard deviation multiplier for       20
+                                                    calculating thresholds for dividing
+                                                    between faces
+    std_multiplier_frame                            Standard deviation multiplier for       20
+                                                    calculating thresholds for
+                                                    shot cut detection
+    tracking_min_int_area                           Minimum value for intersection area
+                                                    between detection bbox and tracking
+                                                    window (in % of the area of the
+                                                    smallest rectangle)
+    use_aggregation                                 If True, final tag for a tracked        False
+                                                    face is obtained by aggregation of
+                                                    results for single frames
+    use_aligned_face_in_tracking                    If True, tracking is based on aligned   True
+                                                    face, otherwise it is based on
+                                                    original detected face
+    use_clothing_recognition                        If True, recognition based              True
+                                                    on clothes is used
+    use_majority_rule                               If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that was
+                                                    assigned to the majority of frames
+    use_mean_confidence_rule                        If True, in aggregating results         False
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum value for the mean of
+                                                    confidences among frames
+    use_min_confidence_rule                         If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum confidence value
+    use_nose_pos_in_recognition                     If True, compare in people clustering   False
+                                                    only faces with similar
+                                                    nose positions
+    use_original_fps                                If True, original frame rate is used    False
+    use_original_res                                If True, original resolution is used    True
+    use_people_clustering                           If True, use people clustering          True
+    use_people_recognition                          If True, use people recognition         True
+    used_fps                                        Frame rate at which video               5.0
+                                                    is analyzed (in frames per second)
+    used_res_scale_factor                           Resolution at which frames/images       0.5
+                                                    are analyzed (% of original
+                                                    width and height)
+    use_skeletons                                   If True, use skeletons for parallel     False
+                                                    and distributed computing
+    variable_clothing_threshold                     If True, a variable threshold for       False
+                                                    clothing recognition is used
+    video_indexing_path                             Path of directory where video
+                                                    indexing results are stored
+    global_face_models_min_diff                     Minimum distance between faces          5
+                                                    in global face models
+    global_face_recognition_dir_path                Path of directory with people
+                                                    recognition data
+    global_face_recognition_threshold               Threshold for retaining prediction      8
+                                                    in global face recognition
+                                                    (faces whose prediction has a
+                                                    confidence value greater than this
+                                                    will be considered unknown)
+    lev_ratio_pct_threshold                         Minimum threshold for considering       0.8
+                                                    captions in frame
+    min_frames_per_caption                          Minimum number of frames in the         4
+                                                    same face track with captions
+                                                    associated to the same person in
+                                                    order to consider caption
+    min_tag_length                                  Minimum length of tags considered       10
+                                                    in caption recognition
+    tesseract_parent_dir_path                       Path of directory containing
+                                                    'tesseract' directory
+    use_blacklist                                   If True, use blacklist of items         True
+                                                    that make the results of the
+                                                    caption recognition on a frame
+                                                    rejected
+    use_caption_recognition                         If True, use caption recognition        True
+                                                    in people recognition
+    use_face_recognition                            If True, use face recognition           True
+                                                    in people recognition
+    use_levenshtein                                 If True, words found in image           True
+                                                    by caption recognition and tags
+                                                    are compared by using
+                                                    the Levenshtein distance
+    used_fps_for_captions                           Frame rate at which video is            1.0
+                                                    analyzed for caption recognition
+                                                    (in frames per second)
+    ============================================  ========================================  ==============
     """
-    # TODO: ADD TABLE WITH PARAMETERS
 
     def __init__(self, resource_path, resource_id, params=None, models=None):
         """
@@ -66,7 +254,7 @@ class VideoFaceExtractor(object):
         The configuration parameters define
         and customize the face extraction algorithm.
         If any of the configuration parameters
-        is not provided a default value is used.
+        is not provided a default value is used
 
         :type resource_path: string
         :param resource_path: file path of resource
@@ -80,7 +268,6 @@ class VideoFaceExtractor(object):
         :type models: dictionary
         :param models: dictionary with models for people recognition
         """
-        # TODO: ADD TABLE WITH PARAMETERS
         self.anal_results = {}  # Dictionary with analysis results
 
         self.anal_times = {}  # Dictionary with times for analysis
@@ -233,7 +420,7 @@ class VideoFaceExtractor(object):
 
         :rtype: boolean
         :returns: True if keyface has been added to face models,
-        False otherwise
+                  False otherwise
         """
 
         logger.debug(
@@ -382,18 +569,41 @@ class VideoFaceExtractor(object):
                 print 'YAML file with analysis times loaded'
                 logger.debug('YAML file with analysis times loaded')
 
-        self.get_frame_list()
+        # TODO DELETE AFTER EXPERIMENTS
+        merge = c.MERGE_CAPTION_AND_FACE_RESULTS
+        if ((self.params is not None) and
+                (c.MERGE_CAPTION_AND_FACE_RESULTS_KEY in self.params)):
+            merge = self.params[c.MERGE_CAPTION_AND_FACE_RESULTS_KEY]
 
-        self.detect_faces_in_video()
+        if merge:
+            self.merge_caption_and_face_results()
+        else:
 
-        self.track_faces_in_video()
+            if not os.path.exists(self.rec_file_path):
+                # People recognition results do not exist
 
-        self.cluster_faces_in_video()
+                if not os.path.exists(self.cluster_file_path):
+                    # People clustering results do not exist
 
-        self.recognize_people_in_video()
+                    if not os.path.exists(self.track_file_path):
+                        # Face tracking results do not exist
 
-        # TODO UNCOMMENT TEST ONLY
-        # self.show_keyframes()
+                        if not os.path.exists(self.det_file_path):
+                            # Face detection results do not exist
+
+                            if not os.path.exists(self.frames_file_path):
+                                # File with frame list does not exist
+                                self.get_frame_list()
+
+                            self.detect_faces_in_video()
+
+                        self.track_faces_in_video()
+
+                    self.cluster_faces_in_video()
+
+                self.recognize_people_in_video()
+
+                self.show_keyframes()
 
         # TODO UNCOMMENT FOR EXPERIMENTS
         self.save_people_files()
@@ -403,7 +613,7 @@ class VideoFaceExtractor(object):
     def calc_hist_diff(self):
         """
         Calculate histogram differences between consecutive frames,
-        storing shot cuts in self.cut_idxs.
+        storing shot cuts in self.cut_idxs
         """
 
         logger.debug(
@@ -678,7 +888,7 @@ class VideoFaceExtractor(object):
     def cluster_faces_in_video(self):
         """
         Cluster face tracks on analyzed video,
-        assigning a generic tag to each cluster (person).
+        assigning a generic tag to each cluster (person)
         """
 
         logger.debug('Executing people clustering')
@@ -863,7 +1073,7 @@ class VideoFaceExtractor(object):
 
     def create_cloth_model(self, segment_dict):
         """
-        Create cloth model for one face track.
+        Create cloth model for one face track
 
         :type segment_dict: dictionary
         :param segment_dict: video segment relative to face track
@@ -1011,12 +1221,6 @@ class VideoFaceExtractor(object):
 
                         roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
 
-                        # TODO DELETE - TEST ONLY
-                        # cv2.rectangle(im, (clothes_x0, clothes_y0),
-                        #               (clothes_x1, clothes_y1), (0, 0, 255))
-                        # cv2.imshow('im', im)
-                        # cv2.waitKey(0)
-
                         roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
                         hists = []
@@ -1125,7 +1329,7 @@ class VideoFaceExtractor(object):
 
     def create_face_model(self, segment_dict, counter):
         """
-        Create face model for one face track.
+        Create face model for one face track
 
         :type segment_dict: dictionary
         :param segment_dict: video segment relative to face track
@@ -1234,7 +1438,7 @@ class VideoFaceExtractor(object):
 
     def delete_analysis_results(self):
         """
-        Delete directory with the results of the analysis on video.
+        Delete directory with the results of the analysis on video
         """
 
         logger.debug('Deleting analysis results')
@@ -1250,7 +1454,7 @@ class VideoFaceExtractor(object):
 
     def delete_recognition_results(self):
         """
-        Delete directory with the results of people recognition on video.
+        Delete directory with the results of people recognition on video
         """
 
         logger.debug('deleting recognition results')
@@ -1267,7 +1471,7 @@ class VideoFaceExtractor(object):
     def detect_faces_in_video(self):
         """
         Detect faces on analyzed video.
-        It works by using list of extracted frames.
+        It works by using list of extracted frames
         """
         logger.debug('Executing face detection')
 
@@ -1680,7 +1884,7 @@ class VideoFaceExtractor(object):
         """
         Get number of faces in each frame,
         saving results in self.faces_nr.
-        It works by using list of tracked faces.
+        It works by using list of tracked faces
         """
 
         logger.debug('Getting number of faces in each frame')
@@ -1732,7 +1936,7 @@ class VideoFaceExtractor(object):
 
     def get_frame_list(self):
         """
-        Get and save frames from the video resource.
+        Get and save frames from the video resource
         """
 
         logger.debug('Executing frame extraction')
@@ -1946,7 +2150,7 @@ class VideoFaceExtractor(object):
 
         :rtype: integer or None
         :returns: identifier in video of person corresponding to given
-        tag identifier
+                  tag identifier
         """
 
         logger.debug('Getting person counter for tag id ' + str(tag_id))
@@ -1988,6 +2192,71 @@ class VideoFaceExtractor(object):
 
         return person_counter
 
+    # TODO DELETE OR CHANGE ONLY FOR EXPERIMENTS
+    def merge_caption_and_face_results(self):
+
+        # Load file with only caption results
+        base_path = r'C:\Active\People recognition\Risultati dettagliati'
+        exp_type_dir = 'Only_captions'
+        lev_ratio_pct_thresh = self.params[c.LEV_RATIO_PCT_THRESH_KEY]
+        test_dir = 'TEST ID ' + str(int(lev_ratio_pct_thresh * 20))
+
+        file_path = os.path.join(
+            base_path,
+            str(self.resource_id),
+            exp_type_dir,
+            test_dir,
+            str(self.resource_id) + '.YAML'
+        )
+
+        print('file_path', file_path)
+        self.recognized_faces = utils.load_YAML_file(file_path)
+
+        # Load file with only faces results
+        base_path = r'C:\Active\People recognition\Risultati dettagliati'
+        exp_type_dir = 'Only_faces'
+        maj_rule = self.params[c.USE_MAJORITY_RULE_KEY]
+        global_face_rec_thresh = self.params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
+        if maj_rule:
+            test_dir = 'TEST ID ' + str(global_face_rec_thresh / 2 + 24)
+        else:
+            test_dir = 'TEST ID ' + str(global_face_rec_thresh / 2 - 1)
+
+        file_path = os.path.join(
+            base_path,
+            str(self.resource_id),
+            exp_type_dir,
+            test_dir,
+            str(self.resource_id) + '.YAML'
+        )
+
+        only_faces = utils.load_YAML_file(file_path)
+        counter = 0
+
+        for person_dict in self.recognized_faces:
+
+            p_counter = person_dict[c.PERSON_COUNTER_KEY]
+
+            ass_tag = person_dict[c.ASSIGNED_TAG_KEY]
+
+            if ass_tag == c.UNDEFINED_TAG:
+                # Check annotation in file with only faces results
+                for sub_pers_dict in only_faces:
+
+                    sub_p_counter = sub_pers_dict[c.PERSON_COUNTER_KEY]
+                    if sub_p_counter == p_counter:
+                        sub_ass_tag = sub_pers_dict[c.ASSIGNED_TAG_KEY]
+                        self.recognized_faces[counter][c.ASSIGNED_TAG_KEY] = sub_ass_tag
+
+            counter += 1
+
+        if not (os.path.exists(self.rec_path)):
+            # Create directory for people recognition
+            os.makedirs(self.rec_path)
+
+            # Save recognition result in YAML file
+        utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+
     def merge_consecutive_segments(self):
         """
         Merge consecutive video segments belonging to the same person
@@ -2011,7 +2280,7 @@ class VideoFaceExtractor(object):
 
     def merge_labels(self):
         """
-        Merge people with the same label.
+        Merge people with the same label
         """
 
         new_faces = []
@@ -2046,7 +2315,7 @@ class VideoFaceExtractor(object):
         """
         Recognize captions on analyzed video,
         assigning tags to faces on the basis of captions.
-        It works by using a list of people clusters.
+        It works by using a list of people clusters
 
         :type fm: FaceModels
         :param fm: face models to be used for the caption recognition
@@ -2215,9 +2484,6 @@ class VideoFaceExtractor(object):
 
                         ass_tag = result_dict[c.ASSIGNED_TAG_KEY]
 
-                        # TEST ONLY
-                        # print('assigned tag', ass_tag)
-
                         if ass_tag != c.UNDEFINED_TAG:
 
                             conf = result_dict[c.CONFIDENCE_KEY]
@@ -2302,7 +2568,7 @@ class VideoFaceExtractor(object):
         """
         Recognize faces on analyzed video,
         assigning tags to faces on the basis of face features.
-        It works by using a list of people clusters.
+        It works by using a list of people clusters
 
         :type fm: FaceModels
         :param fm: face models to be used for the face recognition
@@ -2399,8 +2665,6 @@ class VideoFaceExtractor(object):
 
                 # Execute face recognition
 
-                # TEST ONLY
-                # print('im_path_list', im_path_list)
                 if use_skeletons:
 
                     # TODO REVIEW
@@ -2449,9 +2713,10 @@ class VideoFaceExtractor(object):
                 label = final_label
                 tag = fm.get_tag(label)
 
-            print('p_counter', p_counter)
-            print('frames', frames)
-            print('assigned final tag', tag)
+            # TODO DELETE TEST ONLY
+            # print('p_counter', p_counter)
+            # print('frames', frames)
+            # print('assigned final tag', tag)
             logger.debug('assigned final tag : ' + str(tag))
 
             self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
@@ -2474,7 +2739,7 @@ class VideoFaceExtractor(object):
     def recognize_people_in_video(self):
         """
         Recognize people on analyzed video, assigning tags to faces.
-        It works by using a list of people clusters.
+        It works by using a list of people clusters
         """
 
         logger.debug('Executing people recognition')
@@ -2533,7 +2798,7 @@ class VideoFaceExtractor(object):
             # Load face models
             fm = FaceModels(self.params)
 
-            loaded = fm.load_models()
+            loaded = fm.load_enabled_models()
 
             if loaded:
 
@@ -2552,7 +2817,7 @@ class VideoFaceExtractor(object):
             # self.merge_consecutive_segments() TODO UNCOMMENT FOR LANTANIO
 
             # TODO UNCOMMENT TEST ONLY
-            # self.calculate_medoids()
+            self.calculate_medoids()
 
             if not (os.path.exists(self.rec_path)):
                 # Create directory for people recognition
@@ -3148,7 +3413,7 @@ class VideoFaceExtractor(object):
         Search tracked faces that are similar to face in model.
         Segments to be checked are treated independently:
         a new segment is merged with reference segment
-        if final confidence is below a fixed threshold.
+        if final confidence is below a fixed threshold
 
         :type ann_segments: list
         :param ann_segments: list of already checked segments
@@ -3482,7 +3747,7 @@ class VideoFaceExtractor(object):
     def show_keyframes(self):
         """
         Show and save one image (keyframe)
-        for each people cluster found in video.
+        for each people cluster found in video
         """
 
         logger.debug('Saving keyframes')
@@ -3586,7 +3851,7 @@ class VideoFaceExtractor(object):
 
         :type person_counter: integer
         :param person_counter: counter of person for which identifier
-        of tag must be stored
+               of tag must be stored
 
         :type tag_id: integer
         :param tag_id: tag identifier
@@ -3633,7 +3898,7 @@ class VideoFaceExtractor(object):
     def track_faces_in_video(self):
         """
         Track faces on analyzed video.
-        It works by using list of detected faces.
+        It works by using list of detected faces
         """
 
         logger.debug('Executing face tracking')

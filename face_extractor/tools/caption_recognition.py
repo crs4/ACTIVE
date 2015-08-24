@@ -8,12 +8,12 @@ from face_models import FaceModels
 from itertools import permutations
 
 
-def check_permutations(lett_counter, label_parts, words):
+def check_permutations(max_lev_ratio, label_parts, words):
     """
     Check permutations of label parts
 
-    :type lett_counter: integer
-    :param lett_counter: number of matching letters
+    :type max_lev_ratio: float
+    :param max_lev_ratio: previous maximum Levenshtein ratio
 
     :type label_parts: list
     :param label_parts: parts in which label is divided
@@ -21,8 +21,8 @@ def check_permutations(lett_counter, label_parts, words):
     :type words: list
     :param words: words found in analyzed image portion
 
-    :rtype: integer
-    :returns: number of matching letters
+    :rtype: float
+    :returns: maximum Levenshtein ratio
     """
 
     label_parts_nr = len(label_parts)
@@ -37,10 +37,10 @@ def check_permutations(lett_counter, label_parts, words):
 
             w_word_lev_ratio = word_lev_ratio * label_parts_nr
 
-            if w_word_lev_ratio > lett_counter:
-                lett_counter = w_word_lev_ratio
+            if w_word_lev_ratio > max_lev_ratio:
+                max_lev_ratio = w_word_lev_ratio
 
-    return lett_counter
+    return max_lev_ratio
 
 
 def find_letters_in_image(gray_im, api, use_max_height, show_image):
@@ -60,7 +60,18 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
     :param show_image: if True, show image with black and white caption block
 
     :rtype: dictionary
-    :returns: dictionary with results
+    :returns: dictionary with results (see table)
+
+    =====================================  =====================================
+    Key                                    Value
+    =====================================  =====================================
+    all_letters                            List of found letters
+    contours                               List of found contours
+    hierarchy                              Contour hierarchy
+    ord_bboxs                              Contour bounding boxes
+                                           ordered from left to right
+    ord_contour_idxs                       Indexes of ordered contours
+    =====================================  =====================================
     """
 
     result_dict = {}
@@ -198,35 +209,56 @@ def find_letters_in_image(gray_im, api, use_max_height, show_image):
 
 def find_most_similar_tag(tags, words, params=None):
     """
-    Find tag in dictionary that is most similar to words found in image
+    Find tag in tag dictionary that is most similar to words found in image
 
     :type tags: set
     :param tags: set of tags in dictionary
 
-    :param words: list
+    :type words: list
     :param words: list of words found in image
 
     :type params: dictionary
     :param params: configuration parameters to be used
-                   for the caption recognition
+                   for the caption recognition (see table)
 
     :rtype: dictionary
     :returns: dictionary with results
+
+    ============================================  ========================================  ==============
+    Key (params)                                  Value                                     Default value
+    ============================================  ========================================  ==============
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  ==============
+
+    =====================================  =====================================
+    Key (results)                          Value
+    =====================================  =====================================
+    assigned_tag                           Predicted tag (most similar tag)
+    eq_letters_nr                          Similarity value for most similar tag
+                                           (not normalized)
+    tot_letters_nr                         Maximum possible similarity value
+    confidence                             Confidence associated to prediction
+                                           (normalized similarity value)
+    tags                                   Set of tags in dictionary
+    =====================================  =====================================
     """
-    # TODO ADD TABLE WITH PARAMETERS
     # Get values from params
     use_levenshtein = c.USE_LEVENSHTEIN
     lev_thresh = c.LEV_RATIO_PCT_THRESH
     min_tag_length = c.MIN_TAG_LENGTH
 
     if params is not None:
-
         if c.USE_LEVENSHTEIN_KEY in params:
             use_levenshtein = params[c.USE_LEVENSHTEIN_KEY]
-
         if c.LEV_RATIO_PCT_THRESH_KEY in params:
             lev_thresh = params[c.LEV_RATIO_PCT_THRESH_KEY]
-
         if c.MIN_TAG_LENGTH_KEY in params:
             min_tag_length = params[c.MIN_TAG_LENGTH_KEY]
 
@@ -399,10 +431,43 @@ def get_tag_from_image(im_path, params=None):
 
     :type params: dictionary
     :param params: configuration parameters to be used for
-                   the caption recognition
+                   the caption recognition (see table)
 
     :rtype: dictionary
-    :returns: dictionary with results
+    :returns: dictionary with results (see table)
+
+    ============================================  ========================================  ==============
+    Key (params)                                  Value                                     Default value
+    ============================================  ========================================  ==============
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    tags_file_path                                Path of text file containing
+                                                  list of tags
+    tesseract_parent_dir_path                     Path of directory containing
+                                                  'tesseract' directory
+    use_blacklist                                 If True, use blacklist of items           True
+                                                  that make the results of the
+                                                  caption recognition on a frame
+                                                  rejected
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  ==============
+
+    =====================================  =====================================
+    Key (results)                          Value
+    =====================================  =====================================
+    assigned_tag                           Predicted tag (most similar tag)
+    eq_letters_nr                          Similarity value for most similar tag
+                                           (not normalized)
+    tot_letters_nr                         Maximum possible similarity value
+    confidence                             Confidence associated to prediction
+                                           (normalized similarity value)
+    tags                                   Set of tags in dictionary
+    =====================================  =====================================
     """
 
     gray_im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)

@@ -106,11 +106,6 @@ def plot_people_clustering_experiments(
                 method_counter += 1
                 continue
 
-
-            if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in params:
-                print('params: ', params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
-                print('exp: ', exp[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
-                print(params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY] == exp[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY])
             # Check equality of all given parameters
             all_equals = True
             for param in params.keys():
@@ -219,8 +214,8 @@ def plot_people_clustering_experiments(
     plt.xlabel('Numero di cluster')
     plt.ylabel('s')
     # plt.ylim([0, 25000])
-    plt.legend(bbox_to_anchor=(0.76, 1))
-    # plt.legend(bbox_to_anchor=(0.54, 1))
+    # plt.legend(bbox_to_anchor=(0.76, 1))
+    plt.legend(bbox_to_anchor=(0.63, 1))
     plt.grid(True)
 
     # Set scientific notation
@@ -231,8 +226,8 @@ def plot_people_clustering_experiments(
 
 
 def plot_people_recognition_experiments(yaml_paths, methods, params_list,
-                                        plot_styles, inv_time,
-                                        x_key, title=None):
+                                        plot_styles, inv_time,x_key,
+                                        title=None, caption_metrics=False):
     """
     Plot results of experiments on people clustering
 
@@ -256,6 +251,10 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
 
     :type title: string
     :param title: first part of title for all plots
+
+    :type caption_metrics: boolean
+    :param caption_metrics: if True, plot metrics calculated only
+                            on segments with captions
     """
     # Load YAML files
     experiments_list = []
@@ -291,6 +290,10 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     f_measure_lists = {}
     time_lists = {}
 
+    prec_cap_lists = {}
+    rec_cap_lists = {}
+    f_measure_cap_lists = {}
+
     for i in range(0, len(methods)):
 
         x_lists[methods[i]] = []
@@ -298,6 +301,11 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         rec_lists[methods[i]] = []
         f_measure_lists[methods[i]] = []
         time_lists[methods[i]] = []
+
+        if caption_metrics:
+            prec_cap_lists[methods[i]] = []
+            rec_cap_lists[methods[i]] = []
+            f_measure_cap_lists[methods[i]] = []
 
     for exp_extended in experiments_list:
 
@@ -310,11 +318,6 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         # Time for people recognition
         rec_time = exp[c.CAPTION_RECOGNITION_TIME_KEY] + exp[c.FACE_RECOGNITION_TIME_KEY]
         time = inv_time + rec_time  # Total time
-
-        conf_threshold = exp[c.CONF_THRESHOLD_KEY]
-        video_name = exp[ce.VIDEO_NAME_KEY]
-        use_aggr = exp[c.USE_AGGREGATION_KEY]
-        use_clothing = exp[c.USE_CLOTHING_RECOGNITION_KEY]
 
         method_counter = 0
         for params in params_list:
@@ -334,6 +337,15 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
                 rec_lists[methods[method_counter]].append(rec)
                 f_measure_lists[methods[method_counter]].append(f_measure)
                 time_lists[methods[method_counter]].append(time)
+
+                if caption_metrics:
+                    prec = exp[ce.CAPTION_MEAN_PRECISION_KEY]
+                    prec_cap_lists[methods[method_counter]].append(prec)
+                    rec = exp[ce.CAPTION_MEAN_RECALL_KEY]
+                    rec_cap_lists[methods[method_counter]].append(rec)
+                    f_measure = exp[ce.CAPTION_MEAN_F1_KEY]
+                    f_measure_cap_lists[methods[method_counter]].append(f_measure)
+
                 break
 
             method_counter += 1
@@ -344,6 +356,13 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         plt.plot(x_lists[method], prec_lists[method],
                  plot_styles[method_counter], label=method)
         method_counter += 1
+
+    if caption_metrics:
+        method_counter = 0
+        for method in methods:
+            plt.plot(x_lists[method], prec_cap_lists[method],
+                     'r+--', label='Identificazione caption')
+            method_counter += 1
 
     # Set plot
     title_str = 'Precision media al variare di ' + x_key
@@ -356,7 +375,8 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.xlabel(x_key)
     plt.ylabel('Precision')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1, 0.34))
+    # plt.legend(bbox_to_anchor=(0.52, 1))
+    plt.legend(bbox_to_anchor=(1, 0.17))
     plt.grid(True)
 
     plt.show()
@@ -367,6 +387,13 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         plt.plot(x_lists[method], rec_lists[method],
                  plot_styles[method_counter], label=method)
         method_counter += 1
+
+    if caption_metrics:
+        method_counter = 0
+        for method in methods:
+            plt.plot(x_lists[method], rec_cap_lists[method],
+                     'r+--', label='Identificazione caption')
+            method_counter += 1
 
     # Set plot
     title_str = 'Recall media al variare di ' + x_key
@@ -379,7 +406,8 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.xlabel(x_key)
     plt.ylabel('Recall')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1, 0.34))
+    # plt.legend(bbox_to_anchor=(0.52, 1))
+    plt.legend(bbox_to_anchor=(1, 0.17))
     plt.grid(True)
 
     plt.show()
@@ -390,6 +418,13 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         plt.plot(x_lists[method], f_measure_lists[method],
                  plot_styles[method_counter], label=method)
         method_counter += 1
+
+    if caption_metrics:
+        method_counter = 0
+        for method in methods:
+            plt.plot(x_lists[method], f_measure_cap_lists[method],
+                     'r+--', label='Identificazione caption')
+            method_counter += 1
 
     # Set plot
     title_str = '$F_1$ media al variare di ' + x_key
@@ -402,7 +437,8 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.xlabel(x_key)
     plt.ylabel('$F_1$')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1, 0.34))
+    # plt.legend(bbox_to_anchor=(0.52, 1))
+    plt.legend(bbox_to_anchor=(1, 0.17))
     plt.grid(True)
 
     plt.show()
@@ -417,7 +453,7 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
         method_counter += 1
 
     # Set plot
-    title_str = 'Tempo per il people clustering al variare di ' + x_key
+    title_str = 'Tempo per la face recognition al variare di ' + x_key
     if title:
         title_str = title + ' - ' + title_str
 
@@ -426,9 +462,10 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
 
     plt.xlabel(x_key)
     plt.ylabel('s')
-    plt.ylim([0, 2000])
-    plt.legend(bbox_to_anchor=(0.76, 1))
+    plt.ylim([0, 6000])
+    # plt.legend(bbox_to_anchor=(0.52, 1))
     # plt.legend(bbox_to_anchor=(0.54, 1))
+    plt.legend(bbox_to_anchor=(1, 0.17))
     plt.grid(True)
 
     # Set scientific notation
@@ -437,8 +474,148 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
 
     plt.show()
 
-def plot_ROC_curve(
-        yaml_paths, methods, params_list, plot_styles, inv_time, title=None):
+def plot_precision_recall_curve(
+        yaml_paths, methods, params_list, plot_styles,
+        inv_time, title=None, order_lists=False, caption_metrics=False):
+    """
+    Plot precision/recall curve of experiments on people recognition
+
+    :type yaml_paths: list
+    :param yaml_paths: paths of YAML files with experiment results
+
+    :type methods: list
+    :param methods: name of methods to be compared in the plots
+
+    :type params_list: list
+    :param params_list: parameters of methods to be compared in the plots
+
+    :type plot_styles: list
+    :param plot_styles: strings representing plot styles to be used
+
+    :type inv_time: float
+    :param inv_time: invariable analysis time
+
+    :type x_key: string
+    :param x_key: key identifying value to be used for abscisses
+
+    :type title: string
+    :param title: first part of title for all plots
+
+    :type order_lists: boolean
+    :param order_lists: if True, order shown values
+
+    :type caption_metrics: boolean
+    :param caption_metrics: if True,plot metrics calculated only
+                            on segments with captions
+    """
+
+    # Load YAML files
+    experiments_list = []
+
+    # Check if there is at least one file path
+    if len(yaml_paths) >= 1:
+
+        print('yaml_file', yaml_paths[0])
+
+        dic1 = utils.load_YAML_file(yaml_paths[0])
+        experiments_list = dic1[ce.EXPERIMENTS_KEY]
+
+        for p in range(1, len(yaml_paths)):
+            dic = utils.load_YAML_file(yaml_paths[p])
+            experiments_list.extend(dic[ce.EXPERIMENTS_KEY])
+
+    else:
+        print('Warning! No YAML file paths provided')
+        return
+
+    if len(methods) != len(params_list):
+        print('Warning! Length of methods and params_list is different')
+        return
+
+    if len(methods) != len(plot_styles):
+        print('Warning! Length of methods and plot_styles is different')
+        return
+
+    # Set up dictionaries that will contain the results
+    prec_lists = {}
+    rec_lists = {}
+
+    for i in range(0, len(methods)):
+        prec_lists[methods[i]] = []
+        rec_lists[methods[i]] = []
+
+    for exp_extended in experiments_list:
+
+        exp = exp_extended[ce.EXPERIMENT_KEY]
+
+        prec = exp[ce.MEAN_PRECISION_KEY]  # Precision
+        if caption_metrics:
+            prec = exp[ce.CAPTION_MEAN_PRECISION_KEY]
+        rec = exp[ce.MEAN_RECALL_KEY]  # Recall
+        if caption_metrics:
+            rec = exp[ce.CAPTION_MEAN_RECALL_KEY]
+
+        method_counter = 0
+        for params in params_list:
+
+            # Check equality of all given parameters
+            all_equals = True
+            for param in params.keys():
+
+                if (param not in exp) or (params[param] != exp[param]):
+                    all_equals = False
+                    break
+
+            if all_equals:
+                prec_lists[methods[method_counter]].append(prec)
+                rec_lists[methods[method_counter]].append(rec)
+                break
+
+            method_counter += 1
+
+    if order_lists:
+        # Order lists
+        for method in methods:
+
+            idxs = sorted(range(len(rec_lists[method])), key=lambda k: rec_lists[method][k])
+
+            # Recall
+            ord_rec_list = []
+            for idx in idxs:
+                ord_rec_list.append(rec_lists[method][idx])
+
+            rec_lists[method] = ord_rec_list
+
+            # Precision
+            ord_prec_list = []
+            for idx in idxs:
+                ord_prec_list.append(prec_lists[method][idx])
+
+            prec_lists[method] = ord_prec_list
+
+    # Plot of precision/recall
+    method_counter = 0
+    for method in methods:
+        plt.plot(rec_lists[method], prec_lists[method],
+                 plot_styles[method_counter], label=method)
+        method_counter += 1
+
+    # Set plot
+    title_str = 'Precision/recall'
+    if title:
+        title_str = title + ' - ' + title_str
+
+    font_dict = {'fontsize': 12}  # Change font size
+    plt.title(title_str, font_dict)
+
+    plt.xlabel('Recall')
+    plt.xlim([0, 1])
+    plt.ylabel('Precision')
+    plt.ylim([0, 1])
+    plt.legend(bbox_to_anchor=(1, 0.34))
+    plt.grid(True)
+
+    plt.show()
 
 ### PEOPLE CLUSTERING ###
 
@@ -473,8 +650,8 @@ methods = ['Solo face recognition',
            'Almeno 5 bounding box - HS',
            'Almeno 5 bounding box - HSV']
 
-video_name = 'fic.02.mpg'
-# video_name = 'MONITOR072011.mpg'
+# video_name = 'fic.02.mpg'
+video_name = 'MONITOR072011.mpg'
 
 only_face_recognition = {ce.VIDEO_NAME_KEY: video_name,
                          c.USE_CLOTHING_RECOGNITION_KEY: False,
@@ -618,25 +795,83 @@ inv_time = 0
 title = 'fic.02'
 # title = 'MONITOR072011'
 
-#plot_people_clustering_experiments(
+# plot_people_clustering_experiments(
 #    yaml_paths, methods, params_list, plot_styles, inv_time, title)
 
 
 ### PEOPLE RECOGNITION ###
 
-video_name = 'fic.02.mpg'
-# video_name = 'MONITOR072011.mpg'
+# video_name = 'fic.02.mpg'
+video_name = 'MONITOR072011.mpg'
 
-yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\Risultati test\People_recognition-temp.yml']
+yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\Risultati test\People_recognition-temp5.yml']
 
-methods = ['Solo caption']
+params_only_captions = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CAPTION_RECOGNITION_KEY: True,
+    c.USE_FACE_RECOGNITION_KEY: False
+}
 
-plot_styles = ['ks-']
+params_only_faces_maj_rule = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CAPTION_RECOGNITION_KEY: False,
+    c.USE_FACE_RECOGNITION_KEY: True,
+    c.USE_MAJORITY_RULE_KEY: True
+}
 
-x_key = c.LEV_RATIO_PCT_THRESH_KEY
+params_only_faces_min_distance = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CAPTION_RECOGNITION_KEY: False,
+    c.USE_FACE_RECOGNITION_KEY: True,
+    c.USE_MAJORITY_RULE_KEY: False
+}
+
+params_maj_rule = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CAPTION_RECOGNITION_KEY: True,
+    c.USE_FACE_RECOGNITION_KEY: True,
+    c.USE_MAJORITY_RULE_KEY: True
+}
+
+params_min_distance = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.USE_CAPTION_RECOGNITION_KEY: True,
+    c.USE_FACE_RECOGNITION_KEY: True,
+    c.USE_MAJORITY_RULE_KEY: False
+}
+
+params_list = [params_only_faces_maj_rule,
+               params_only_faces_min_distance]
+
+# methods = ['Solo caption']
+methods = ['Majority rule',
+           'Distanza minima']
+# methods = ['Solo caption recognition',
+#            'Solo face recognition - Majority rule',
+#            'Solo face recognition - Distanza minima',
+#            'Caption + face recognition - Majority rule',
+#            'Caption + face recognition - Distanza minima']
+
+plot_styles = ['ks-',
+               'r+--']
+
+# plot_styles = ['ks-',
+#                'g+--',
+#                'r*-.',
+#                'cv-',
+#                'bo:']
+
+# x_key = c.LEV_RATIO_PCT_THRESH_KEY  # Captions
+x_key = c.GLOBAL_FACE_REC_THRESHOLD_KEY
 
 inv_time = 0
 
-title = 'fic.02'
+# title = 'fic.02'
+title = 'MONITOR072011'
 
-plot_people_recognition_experiments(yaml_paths, methods, [{}], plot_styles, inv_time, x_key, title)
+caption_metrics = False
+
+order_lists = True
+
+plot_people_recognition_experiments(yaml_paths, methods, params_list, plot_styles, inv_time, x_key, title, caption_metrics)
+# plot_precision_recall_curve(yaml_paths, methods, params_list, plot_styles, inv_time, title, order_lists, caption_metrics)

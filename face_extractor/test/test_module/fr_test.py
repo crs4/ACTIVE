@@ -84,15 +84,16 @@ def save_rec_experiments_in_CSV_file(file_path, experiments):
 
 
 def fr_test(params, show_results):
-    """ Execute face recognition test
+    """
+    Execute software test on face_recognition module
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used
-    for the test
+    :param params: configuration parameters to be used
+                   for the test
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    image with assigned tag
+    :param show_results: show (True) or do not show (False)
+                         image with assigned tag
 
     :rtype: boolean
     :returns: True if test was successful, False otherwise
@@ -119,7 +120,7 @@ def fr_test(params, show_results):
                 
                 error = recognition_results[c.ERROR_KEY]
         
-                if len(error) == 0:
+                if not error:
         
                     tag = recognition_results[c.ASSIGNED_TAG_KEY]
         
@@ -160,12 +161,107 @@ def fr_experiments(params, show_results):
     Execute face recognition experiments
 
     :type params: dictionary
-    :param params: dictionary containing the parameters
-    to be used for the experiments
+    :param params: configuration parameters
+                   to be used for the experiment (see table)
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    images with detected faces
+    :param show_results: show (True) or do not show (False)
+                         images with detected faces
+
+    ============================================  ========================================  ==============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============================
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    test_set_path                                 path of directory
+                                                  containing test set
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    dataset_already_divided                       If True, dataset is already divided       False
+                                                  between training and test set
+    dataset_path                                  Path of whole dataset, used if dataset
+                                                  is not already divided between
+                                                  training and test set
+    db_name                                       Name of single file
+                                                  containing face models
+    db_models_path                                Path of directory containing face models
+    face_model_algorithm                          Algorithm for face recognition            'LBP'
+                                                  ('Eigenfaces', 'Fisherfaces' or 'LBP')
+    face_recognition_results_path                 Path of directory where
+                                                  test results will be saved
+    test_set_path                                 Path of directory containing
+                                                  test set
+    training_set_path                             Path of directory containing
+                                                  training set
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    software_test_file                            Path of image to be used for
+                                                  software test
+    training_images_nr                            Number of images per person used in
+                                                  training set
+    use_eye_detection                             If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  test images
+    use_eye_detection_in_training                 If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  training images
+    use_eyes_position                             If True, align faces in test images       True
+                                                  by using eye positions
+    use_eyes_position_in_training                 If True, align faces in training images   True
+                                                  by using eye positions
+    use_face_detection_in_training                If True, use face detection               False
+                                                  for images in training set
+    use_NBNN                                      If True,                                  False
+                                                  use Naive Bayes Nearest Neighbor
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    use_resizing                                  If True, resize images                    True
+    use_weighted_regions                          If True, use weighted LBP                 False
+    ============================================  ========================================  ==============================
     """
 
     rec_images_nr = 0  # Number of correctly recognized images

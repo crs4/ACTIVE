@@ -16,13 +16,34 @@ import tools.constants as c
 import tools.utils as utils
 
 
-def caption_experiments(params):
+def caption_experiments(params=None):
     """
-    Execute face recognition experiments
+    Execute caption recognition experiments
 
     :type params: dictionary
-    :param params: dictionary containing the parameters
-    to be used for the experiments
+    :param params: configuration parameters
+                   to be used for the experiment (see table)
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    test_set_path                                 Path of directory containing test set
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    tags_file_path                                Path of text file containing
+                                                  list of tags
+    tesseract_parent_dir_path                     Path of directory containing
+                                                  'tesseract' directory
+    use_blacklist                                 If True, use blacklist of items           True
+                                                  that make the results of the
+                                                  caption recognition on a frame
+                                                  rejected
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  ==============
     """
     
     test_set_path = ce.CAPTION_RECOGNITION_TEST_SET_PATH

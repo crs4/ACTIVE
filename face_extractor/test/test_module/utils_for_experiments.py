@@ -20,7 +20,7 @@ def load_experiment_results(file_path):
     :param file_path: file to be loaded
 
     :rtype: list
-    :returns list with experiments
+    :returns: list with experiments
     """
     
     data = utils.load_YAML_file(file_path)
@@ -63,27 +63,26 @@ def save_model_file(X, y, params=None, db_file_name=None):
     :param y: labels of face model
 
     :type params: dictionary
-    :param params: used parameters (see table)
+    :param params: configuration parameters (see table)
 
     :type db_file_name: string
     :param db_file_name: path of directory where models are saved
 
-    ========================  =========================================
-    Key                       Value
-    ========================  =========================================
-    face_model_algorithm      Algorithm (it can be 'Eigenfaces',
+    ========================  =========================================  ==============
+    Key                       Value                                      Default value
+    ========================  =========================================  ==============
+    face_model_algorithm      Algorithm (it can be 'Eigenfaces',         'LBP'
                               'Fisherfaces' or 'LBP')
-    LBP_radius                Radius (used only if algorithm is 'LBP')
-    LBP_neighbors             Number of neighbors
+    LBP_radius                Radius (used only if algorithm is 'LBP')   1
+    LBP_neighbors             Number of neighbors                        8
                               (used only if algorithm is 'LBP')
-    LBP_grid_x                Number of columns in LBP grid
+    LBP_grid_x                Number of columns in LBP grid              4
                               (used only if algorithm is 'LBP')
-    LBP_grid_y                Number of rows in LBP grid
+    LBP_grid_y                Number of rows in LBP grid                 8
                               (used only if algorithm is 'LBP')
     db_models_path            Path of directory where models are saved
                               (used if db_file_name is not provided)
-    ========================  =========================================
-
+    ========================  =========================================  ==============
     """
 
     if len(y) > 0:
@@ -112,16 +111,12 @@ def save_model_file(X, y, params=None, db_file_name=None):
             grid_y = c.LBP_GRID_Y
 
             if params is not None:
-
                 if c.LBP_RADIUS_KEY in params:
                     radius = params[c.LBP_RADIUS_KEY]
-
                 if c.LBP_NEIGHBORS_KEY in params:
                     neighbors = params[c.LBP_NEIGHBORS_KEY]
-
                 if c.LBP_GRID_X_KEY in params:
                     grid_x = params[c.LBP_GRID_X_KEY]
-
                 if c.LBP_GRID_Y_KEY in params:
                     grid_y = params[c.LBP_GRID_Y_KEY]
 

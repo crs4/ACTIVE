@@ -43,19 +43,93 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
     :param align_path: path of directory where aligned faces are saved
 
     :type params: dictionary
-    :param params: dictionary containing the parameters
-    to be used for the face detection
+    :param params: configuration parameters
+                   to be used for the face detection (see table)
 
     :type delete_files: boolean
-    :param delete_files: delete(true) or do not delete(false)
-    saved image files
+    :param delete_files: delete (True) or do not delete (False)
+                         saved image files
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    image with detected faces
+    :param show_results: show (True) or do not show (False)
+                         image with detected faces
+
+    :type return_always_faces: boolean
+    :param return_always_faces: if True,
+                                return face even if no eyes are detected
 
     :rtype: dictionary
-    :returns: dictionary with results
+    :returns: dictionary with results (see table)
+
+    ============================================  ========================================  =============================
+    Key (params)                                  Value                                     Default value
+    ============================================  ========================================  =============================
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    ============================================  ========================================  =============================
+
+    =====================================  =============================================================================
+    Key (results)                          Value
+    =====================================  =============================================================================
+    elapsed_CPU_time                       The elapsed CPU time in seconds
+    error                                  A string specifying an error condition,
+                                           or None if no errors occurred
+    faces                                  List of detected faces.
+                                           Each face is represented by a dictionary containing: the name of the file
+                                           with the aligned face, the face bounding box as (x, y, width, height) tuple,
+                                           the eye positions as two (x, y) tuples (with x and y being the absolute
+                                           positions of the eye centers in pixels in the face bounding box),
+                                           the nose position as a (x, y) tuple
+                                           (with x and y being the relative position of the nose center in
+                                           the aligned face).
+                                            Example:
+                                           'faces': [{'aligned_face_file_name': '5fe061c3-184d-40f3-9a41-c91d520f29dc',
+                                                      'bbox': (110, 220, 50, 50)},
+                                                      'left_eye_position': (120, 230),
+                                                      'right_eye_position': (150, 230),
+                                                      'nose_position': (0.4, 0.5)},
+                                                     {'aligned_face_file_name': '2e46f53a-02db-4f04-90a6-9abc3adf8621',
+                                                      'bbox': (40, 270, 40, 40),
+                                                      'left_eye_position': (45, 275),
+                                                      'right_eye_position': (265, 275),
+                                                      'nose_position': (0.55, 0.6)}
+                                                      ]                                                                                                       }
+    =====================================  =============================================================================
     """
 
     # Saving processing time for face detection
@@ -102,16 +176,12 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
         if params is not None:
             if c.FACE_DETECTION_ALGORITHM_KEY in params:
                 algorithm = params[c.FACE_DETECTION_ALGORITHM_KEY]
-
             if c.CLASSIFIERS_DIR_PATH_KEY in params:
                 classifiers_folder_path = params[c.CLASSIFIERS_DIR_PATH_KEY] + os.sep
-
             if c.EYE_DETECTION_CLASSIFIER_KEY in params:
                 eye_detection_classifier = params[c.EYE_DETECTION_CLASSIFIER_KEY]
-
             if c.NOSE_DETECTION_CLASSIFIER_KEY in params:
                 nose_detection_classifier = params[c.NOSE_DETECTION_CLASSIFIER_KEY]
-
             if c.USE_EYES_POSITION_KEY in params:
                 use_eyes_position = params[c.USE_EYES_POSITION_KEY]
 
@@ -235,8 +305,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
 
         for (x, y, width, height) in faces:
 
-            image_height, image_width = image.shape
-
             face_image = image[y: y + height, x: x + width]
 
             face_dict = {}
@@ -311,7 +379,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
 
 
 def detect_faces_in_image_with_single_classifier(
-        image, face_cascade_classifier, params):
+        image, face_cascade_classifier, params=None):
     """
     Detect faces in image using a single classifier
 
@@ -319,14 +387,30 @@ def detect_faces_in_image_with_single_classifier(
     :param image: image to be analyzed
 
     :type face_cascade_classifier: face cascade classifier
-    :param face_cascade_classifier: classifier to be used for the detection
+    :param face_cascade_classifier: classifier to be used for the face detection
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for face detection
+    :param params: configuration parameters to be used for the face detection (see table)
 
     :rtype: list
     :returns: a list of faces, represented as
-    (x, y, width, height) tuples
+              (x, y, width, height) tuples
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    ============================================  ========================================  =============================
     """
 
     haar_scale = c.FACE_DETECTION_SCALE_FACTOR
@@ -337,13 +421,10 @@ def detect_faces_in_image_with_single_classifier(
     if params is not None:
         if c.SCALE_FACTOR_KEY in params:
             haar_scale = params[c.SCALE_FACTOR_KEY]
-
         if c.MIN_NEIGHBORS_KEY in params:
             min_neighbors = params[c.MIN_NEIGHBORS_KEY]
-
         if c.FLAGS_KEY in params:
             haar_flags_str = params[c.FLAGS_KEY]
-
         if ((c.MIN_SIZE_WIDTH_KEY in params)
                 and (c.MIN_SIZE_HEIGHT_KEY in params)):
             min_size = (params[c.MIN_SIZE_WIDTH_KEY], params[c.MIN_SIZE_HEIGHT_KEY])
@@ -361,9 +442,9 @@ def detect_faces_in_image_with_single_classifier(
     return faces
 
 
-def get_cropped_face(image_path, align_path, params, return_always_face):
+def get_cropped_face(image_path, align_path, params=None, return_always_face=False):
     """
-    Get face cropped and aligned to eyes from image file
+    Get face cropped and aligned to eyes from image file.
     Position of eyes is automatically detected
 
     :type image_path: string
@@ -374,14 +455,49 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
 
     :type params: dictionary
     :param params: dictionary containing the parameters
-    to be used for the face detection
+                   to be used for the face detection (see table)
 
     :type return_always_face: boolean
     :type return_always_face: if true,
-    return face even if no eyes are detected
+                              return face even if no eyes are detected
 
     :rtype: dictionary
-    :returns: dictionary with results
+    :returns: dictionary with results (see table)
+
+    ============================================  ========================================  =============================
+    Key (params)                                  Value                                     Default value
+    ============================================  ========================================  =============================
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    use_nose_pos_in_recognition                   If True, compare in face recognition      False
+                                                  only faces with similar
+                                                  nose positions
+    ============================================  ========================================  =============================
+
+    =====================================  =====================================
+    Key (results)                          Value
+    =====================================  =====================================
+    face                                   Aligned face as an OpenCV image
+    left_eye_position                      Left eye position as a (x, y) tuple
+                                           (with x and y being the absolute
+                                           position of the eye center in
+                                           pixels in the face bounding box)
+    right_eye_position                     Right eye position as a (x, y) tuple
+                                           (with x and y being the absolute
+                                           position of the eye center in
+                                           pixels in the face bounding box)
+    =====================================  =====================================
     """
 
     # Open image
@@ -436,13 +552,6 @@ def get_cropped_face(image_path, align_path, params, return_always_face):
 
             result = {}
 
-            file_name = crop_result[c.ALIGNED_FACE_FILE_NAME_KEY]
-            complete_file_name = (
-                file_name + c.ALIGNED_FACE_GRAY_SUFFIX + '.png')
-            aligned_file_path = os.path.join(align_path, complete_file_name)
-
-            cropped_image = cv2.imread(aligned_file_path, cv2.IMREAD_GRAYSCALE)
-
             cropped_image = crop_result[c.FACE_KEY]
 
             result[c.FACE_KEY] = cropped_image
@@ -474,8 +583,8 @@ def get_cropped_face_from_image(
     :param align_path: path of directory where aligned faces are saved
 
     :type params: dictionary
-    :param params: dictionary containing the parameters
-    to be used for the face detection
+    :param params: configuration parameters
+                   to be used for the face detection (see table)
 
     :type eye_cascade_classifier: CascadeClassifier
     :param eye_cascade_classifier: classifier for detecting eyes
@@ -485,18 +594,35 @@ def get_cropped_face_from_image(
 
     :type face_bbox: tuple
     :type face_bbox: bbox of face in original image,
-    represented as (x, y, width, height)
+                     represented as a (x, y, width, height) tuple
 
     :type delete_files: boolean
-    :param delete_files: delete(true) or do not delete(false)
-    saved image files
+    :param delete_files: delete (True) or do not delete (False)
+                         saved image files
 
     :type return_always_face: boolean
-    :type return_always_face: if true,
-    return face even if no eyes are detected
+    :param return_always_face: if True,
+                              return face even if no eyes are detected
 
     :rtype: dictionary or None
     :returns: dictionary with results
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    check_eye_positions                           If True, check eye positions              True
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    use_nose_pos_in_recognition                   If True, compare in face recognition      False
+                                                  only faces with similar
+                                                  nose positions
+    ============================================  ========================================  =============================
     """
 
     result = {}
@@ -698,9 +824,9 @@ def get_cropped_face_from_image(
 def get_cropped_face_using_eye_pos(
         image_path, align_path, eye_pos, offset_pct, dest_size):
     """
-    Get face cropped and aligned to eyes from image file
-    Eye positions are known and given as a list
-    (left_eye_x, left_eye_y, right_eye_x, right_eye_y)
+    Get face cropped and aligned to eyes from image file.
+    Eye positions are known and given as a
+    (left_eye_x, left_eye_y, right_eye_x, right_eye_y) list
 
     :type image_path: string
     :param image_path: path of image to be cropped
@@ -778,7 +904,7 @@ def get_cropped_face_using_eye_pos(
 def get_cropped_face_using_fixed_eye_pos(
         image_path, align_path, offset_pct, dest_size):
     """
-    Get face cropped and aligned to eyes from image file
+    Get face cropped and aligned to eyes from image file.
     Eye positions are known and corresponds to intersection in grid
 
     :type image_path: string
@@ -864,14 +990,56 @@ def get_detected_cropped_face(
     :param align_path: path of directory where aligned faces are saved
 
     :type params: dictionary
-    :param params: dictionary containing the parameters
-    to be used for the face detection
+    :param params: configuration parameters
+                   to be used for the face detection (see table)
 
     :type return_always_face: boolean
     :param return_always_face: if true, face is always returned
 
     :rtype: OpenCV image or None
     :returns: face
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    ============================================  ========================================  =============================
     """
 
     detection_result = detect_faces_in_image(
@@ -904,15 +1072,17 @@ def merge_classifier_results(faces_from_classifier_1, faces_from_classifier_2):
 
     :type faces_from_classifier_1: list
     :param faces_from_classifier_1: list of faces detected
-    using first classifier, represented as (x, y, width, height) tuples
+                                    using first classifier, represented as
+                                    (x, y, width, height) tuples
 
     :type faces_from_classifier_2: list
     :param faces_from_classifier_2: list of faces detected
-    using second classifier, represented as (x, y, width, height) tuples
+                                    using second classifier, represented as
+                                    (x, y, width, height) tuples
 
     :rtype: list
     :returns: a list of faces, represented as
-    (x, y, width, height) tuples
+             (x, y, width, height) tuples
     """
 
     faces = []

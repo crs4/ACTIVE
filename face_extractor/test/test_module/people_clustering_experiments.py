@@ -25,7 +25,192 @@ logger = logging.getLogger('people_clustering')
 
 class PeopleClusterExtractor(object):
     """
-    Tool for detecting and clustering faces in video
+    Tool for detecting and clustering faces in video.
+    The configuration parameters define
+    and customize the face extraction algorithm.
+    If any of the configuration parameters
+    is not provided a default value is used
+
+    :type resource_path: string
+    :param resource_path: file path of resource to be analyzed
+
+    :type resource_id: string
+    :param resource_id: identifier of resource to be analyzed
+
+    :type  params: dictionary
+    :param params: configuration parameters to be used
+                   for the people clustering (see table)
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    all_cloth_bboxes_in_frames                    If True, all bounding boxes               True
+                                                  related to one face track must be
+                                                  entirely contained by the
+                                                  corresponding frame
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    clothes_bounding_box_height                   Height of bounding box for clothes
+                                                  (in % of the face bounding box height)    1.0
+    clothes_bounding_box_width                    Width of bounding box for clothes         2.0
+                                                  (in % of the face bounding box width)
+    clothes_check_method                          Method for comparing clothes of two
+                                                  face tracks ('min', 'mean' or 'max')
+    conf_threshold_for_clothing_recognition       Minimum distance between face features    8.0
+                                                  of two face tracks
+                                                  for considering clothes
+    nr_of_HSV_channels_in_clothing_recognition    Number of HSV channels used
+                                                  in clothing recognition (1-3)             3
+    use_3_bboxes_in_clothing_recognition          If True, bounding box for clothes         False
+                                                  is divided into 3 parts
+    use_dominant_color_in_clothing_recognition    If True, dominant color is used           False
+                                                  in clothing recognition
+    use_mean_x_of_faces_in_clothing_recognition   If True, position of bounding box         False
+                                                  for clothes in the horizontal
+                                                  direction is fixed
+                                                  for the whole face track
+    conf_threshold                                Maximum distance between face             14.0
+                                                  features of two face tracks for
+                                                  merging them in the same cluster
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                          Flags used in face detection             'DoCannyPruning'
+                                                   ('DoCannyPruning', 'ScaleImage',
+                                                    'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                   Mininum number of neighbor bounding     5
+                                                    boxes for retaining face detection
+    min_size_height                                 Minimum height of face detection        20
+                                                    bounding box (in pixels)
+    min_size_width                                  Minimum width of face detection         20
+                                                    bounding box (in pixels)
+    scale_factor                                    Scale factor between two scans          1.1
+                                                    in face detection
+    half_window_size                                Size of half sliding window             10
+                                                    (in frames)
+    kernel_size_for_histogram_smoothing             Size of kernel for                      25
+                                                    smoothing histograms
+                                                    when calculating dominant color
+    LBP_grid_x                                      Number of columns in grid               4
+                                                    used for calculating LBP
+    LBP_grid_y                                      Number of columns in grid               8
+                                                    used for calculating LBP
+    LBP_neighbors                                   Number of neighbors                     8
+                                                    used for calculating LBP
+    LBP_radius                                      Radius used                             1
+                                                    for calculating LBP (in pixels)
+    max_eye_angle                                   Maximum inclination of the line         0.125
+                                                    connecting the eyes
+                                                    (in % of pi radians)
+    max_faces_in_model                              Maximum number of faces in face model   1000
+                                                    related to one face track
+    max_frames_with_missed_detections               Maximum number of frames with no        50
+                                                    corresponding detection that does
+                                                    not interrupt tracking
+    max_nose_diff                                   Maximum difference between nose         0.05
+                                                    positions (stored as % of nose
+                                                    positions in face images)
+    min_cloth_model_size                            Minimum number of items contained       5
+                                                    in a cloth model
+    min_detection_pct                               Minimum percentage of detected faces    0.3
+                                                    out of total faces in face track
+                                                    in order to retain face track
+    min_eye_distance                                Minimum distance between eyes           0.25
+                                                    (in % of the width of the face
+                                                    bounding box)
+    min_segment_duration                            Minimum duration of a segment           1
+                                                    (in seconds)
+    neck_height                                     Height of neck (in % of the             0.0
+                                                    face bounding box height)
+    nose_detection_classifier                       Classifier for nose detection           'haarcascade_mcs_nose.xml'
+    offset_pct_x                                    % of the image to keep next to          0.20
+                                                    the eyes in the horizontal direction
+    offset_pct_y                                    % of the image to keep next to          0.50
+                                                    the eyes in the vertical direction
+    simulate_user_annotations                       If True, user annotations for people    False
+                                                    clusters are simulated by using saved
+                                                    annotations for face tracks
+    std_multiplier_face                             Standard deviation multiplier for       20
+                                                    calculating thresholds for dividing
+                                                    between faces
+    std_multiplier_frame                            Standard deviation multiplier for       20
+                                                    calculating thresholds for
+                                                    shot cut detection
+    tracking_min_int_area                           Minimum value for intersection area
+                                                    between detection bbox and tracking
+                                                    window (in % of the area of the
+                                                    smallest rectangle)
+    use_aggregation                                 If True, final tag for a tracked        False
+                                                    face is obtained by aggregation of
+                                                    results for single frames
+    use_aligned_face_in_tracking                    If True, tracking is based on aligned   True
+                                                    face, otherwise it is based on
+                                                    original detected face
+    use_clothing_recognition                        If True, recognition based              True
+                                                    on clothes is used
+    use_majority_rule                               If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that was
+                                                    assigned to the majority of frames
+    use_mean_confidence_rule                        If True, in aggregating results         False
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum value for the mean of
+                                                    confidences among frames
+    use_min_confidence_rule                         If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum confidence value
+    use_nose_pos_in_recognition                     If True, compare in people clustering   False
+                                                    only faces with similar
+                                                    nose positions
+    use_original_fps                                If True, original frame rate is used    False
+    use_original_res                                If True, original resolution is used    True
+    use_people_clustering                           If True, use people clustering          True
+    used_fps                                        Frame rate at which video               5.0
+                                                    is analyzed (in frames per second)
+    used_res_scale_factor                           Resolution at which frames/images       0.5
+                                                    are analyzed (% of original
+                                                    width and height)
+    use_skeletons                                   If True, use skeletons for parallel     False
+                                                    and distributed computing
+    variable_clothing_threshold                     If True, a variable threshold for       False
+                                                    clothing recognition is used
+    video_indexing_path                             Path of directory where video
+                                                    indexing results are stored
+    results_path                                    path of directory where
+                                                    test results will be saved
+    video_parameters_file_path                      path of file containing
+                                                    video parameters
+    frames_path                                     path of directory containing
+                                                    the already extracted frames
+    faces_path                                      path of directory containing
+                                                    the already extracted faces
+    face_tracking_file_path                         path YAML file containing face
+                                                    tracking results
+    face_models_dir_path                            path of directory containing the
+                                                    already saved local face models
+    frames_in_models_file_path                      path of file containing list of
+                                                    frames used in the already saveld
+                                                    local face models
+    nose_pos_file_path                              path of file containing nose
+                                                    positions relative to the already
+                                                    saved local face models
+    ============================================  ========================================  ==============
     """
 
     def __init__(self, resource_path, resource_id, params=None):
@@ -45,7 +230,7 @@ class PeopleClusterExtractor(object):
         :type  params: dictionary
         :param params: configuration parameters (see table)
         """
-        # TODO: ADD TABLE WITH PARAMETERS
+
         self.anal_results = {}  # Dictionary with analysis results
 
         self.anal_times = {}  # Dictionary with times for analysis
@@ -296,7 +481,7 @@ class PeopleClusterExtractor(object):
     def calc_hist_diff(self):
         """
         Calculate histogram differences between consecutive frames,
-        storing shot cuts in self.cut_idxs.
+        storing shot cuts in self.cut_idxs
         """
 
         logger.debug(
@@ -542,7 +727,7 @@ class PeopleClusterExtractor(object):
     def cluster_faces_in_video(self):
         """
         Cluster face tracks on analyzed video,
-        assigning a generic tag to each cluster (person).
+        assigning a generic tag to each cluster (person)
         """
 
         logger.debug('Executing people clustering')
@@ -741,7 +926,7 @@ class PeopleClusterExtractor(object):
 
     def create_cloth_model(self, segment_dict):
         """
-        Create cloth model for one face track.
+        Create cloth model for one face track
 
         :type segment_dict: dictionary
         :param segment_dict: video segment relative to face track
@@ -1003,7 +1188,7 @@ class PeopleClusterExtractor(object):
 
     def create_face_model(self, segment_dict, counter):
         """
-        Create face model for one face track.
+        Create face model for one face track
 
         :type segment_dict: dictionary
         :param segment_dict: video segment relative to face track
@@ -1112,7 +1297,7 @@ class PeopleClusterExtractor(object):
 
     def delete_analysis_results(self):
         """
-        Delete directory with the results of the analysis on video.
+        Delete directory with the results of the analysis on video
         """
 
         logger.debug('Deleting analysis results')
@@ -1129,7 +1314,7 @@ class PeopleClusterExtractor(object):
     def detect_faces_in_video(self):
         """
         Detect faces on analyzed video.
-        It works by using list of extracted frames.
+        It works by using list of extracted frames
         """
         logger.debug('Executing face detection')
 
@@ -1530,7 +1715,7 @@ class PeopleClusterExtractor(object):
         """
         Get number of faces in each frame,
         saving results in self.faces_nr.
-        It works by using list of tracked faces.
+        It works by using list of tracked faces
         """
 
         logger.debug('Getting number of faces in each frame')
@@ -1582,7 +1767,7 @@ class PeopleClusterExtractor(object):
 
     def get_frame_list(self):
         """
-        Get and save frames from the video resource.
+        Get and save frames from the video resource
         """
 
         logger.debug('Executing frame extraction')
@@ -1836,7 +2021,7 @@ class PeopleClusterExtractor(object):
 
     def read_track_user_annotations(self):
         """
-        Read annotations by user from disk
+        Read annotations that user made on face tracks from disk
         """
 
         # Check existence of tracking results
@@ -1931,7 +2116,7 @@ class PeopleClusterExtractor(object):
 
     def read_user_annotations(self):
         """
-        Read annotations by user from disk
+        Read annotations that user made on people cluster from disk
         """
 
         # Check existence of clustering results
@@ -2719,7 +2904,7 @@ class PeopleClusterExtractor(object):
         Search tracked faces that are similar to face in model.
         Segments to be checked are treated independently:
         a new segment is merged with reference segment
-        if final confidence is below a fixed threshold.
+        if final confidence is below a fixed threshold
 
         :type ann_segments: list
         :param ann_segments: list of already checked segments
@@ -3053,7 +3238,7 @@ class PeopleClusterExtractor(object):
     def show_keyframes(self):
         """
         Show and save one image (keyframe)
-        for each people cluster found in video.
+        for each people cluster found in video
         """
 
         logger.debug('Saving keyframes')
@@ -3152,7 +3337,7 @@ class PeopleClusterExtractor(object):
 
     def show_tracked_people(self):
         """
-        Show and save one image for each tracked people in video
+        Show and save one image for each tracked person in video
         """
 
         # Check existence of tracking results
@@ -3229,7 +3414,7 @@ class PeopleClusterExtractor(object):
 
     def simulate_user_annotations(self):
         """
-        Simulate user annotations by tacking tags from first segments
+        Simulate user annotations by taking tags from first segments in clusters
         """
 
         # Check existence of clustering results
@@ -3286,8 +3471,8 @@ class PeopleClusterExtractor(object):
         with given person counter
 
         :type person_counter: integer
-        :param person_counter: counter of person for which identifier
-        of tag must be stored
+        :param person_counter: counter of person for which tag identifier
+                               must be stored
 
         :type tag_id: integer
         :param tag_id: tag identifier
@@ -3334,7 +3519,7 @@ class PeopleClusterExtractor(object):
     def track_faces_in_video(self):
         """
         Track faces on analyzed video.
-        It works by using list of detected faces.
+        It works by using list of detected faces
         """
 
         logger.debug('Executing face tracking')

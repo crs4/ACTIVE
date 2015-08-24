@@ -70,19 +70,61 @@ def save_experiments_in_CSV_file(file_path, experiments):
     stream.close()
 
 
-def fd_test(params, show_results):
+def fd_test(params=None, show_results=False):
     """
-    Execute face detection software test
+    Execute software test on face_detection module
 
     :type params: dictionary
     :param params: dictionary containing the parameters to be used for the test
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    image with detected faces
+    :param show_results: show (True) or do not show (False)
+                         image with detected faces
 
     :rtype: boolean
     :returns: True if test was successful, False otherwise
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    ============================================  ========================================  =============================
     """
 
     image_path = ('..' + os.sep + 'test_files' + os.sep +
@@ -152,16 +194,62 @@ def fd_test(params, show_results):
     return test_passed
 
 
-def fd_experiments(params, show_results):
+def fd_experiments(params=None, show_results=False):
     """
     Execute face detection experiments
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for the test
+    :param params: configuration parameters to be used for the experiment (see table)
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    image with detected faces
+    :param show_results: show (True) or do not show (False)
+                         image with detected faces
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    annotations_path                              Path of directory containing the
+                                                  manual annotations for the images
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                   'HaarCascadeFrontalFaceAltTree',
+                                                   'HaarCascadeFrontalFaceAlt2',
+                                                   'HaarCascadeFrontalFaceDefault',
+                                                   'HaarCascadeProfileFace',
+                                                   'HaarCascadeFrontalAndProfileFaces',
+                                                   'HaarCascadeFrontalAndProfileFaces2',
+                                                   'LBPCascadeFrontalface',
+                                                   'LBPCascadeProfileFace' or
+                                                   'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    face_detection_results_path                   Path of directory where
+                                                  test results will be saved
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    test_set_path                                 Path of directory
+                                                  containing test set
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    ============================================  ========================================  =============================
     """
     
     # Folder with test files

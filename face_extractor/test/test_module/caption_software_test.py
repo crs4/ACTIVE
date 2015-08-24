@@ -10,6 +10,9 @@ import tools.constants as c
 
 
 class TestCaptionRecognition(unittest.TestCase):
+    """
+    Execute software test on caption_recognition module
+    """
 
     def test_get_tag_from_image(self):
         

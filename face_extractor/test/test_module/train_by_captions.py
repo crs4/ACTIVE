@@ -14,8 +14,6 @@ from tools.caption_recognition import get_tag_from_image
 from tools.face_detection import get_detected_cropped_face
 from tools.utils import save_YAML_file
 
-ASSIGNED_LABEL_KEY = 'assigned_label'
-
 
 def analyze_image(image_path, params=None):
     """
@@ -25,13 +23,73 @@ def analyze_image(image_path, params=None):
     :param image_path: path of image to be analyzed
 
     :type params: dictionary
-    :param params: dictionary with configuration parameters
+    :param params: configuration parameters (see table)
 
-    :rtype: list
-    :returns: a [label, tag, face] list,
-    where label is the assigned label,
-    tag the assigned tag
-    and face the detected face in image (as an OpenCV image)
+    :rtype: tuple
+    :returns: a (label, tag, face) tuple,
+              where label is the assigned label,
+              tag the assigned tag
+              and face the detected face in image (as an OpenCV image)
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    align_path                                    Path of directory
+                                                  where aligned faces are saved
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                   'HaarCascadeFrontalFaceAltTree',
+                                                   'HaarCascadeFrontalFaceAlt2',
+                                                   'HaarCascadeFrontalFaceDefault',
+                                                   'HaarCascadeProfileFace',
+                                                   'HaarCascadeFrontalAndProfileFaces',
+                                                   'HaarCascadeFrontalAndProfileFaces2',
+                                                   'LBPCascadeFrontalface',
+                                                   'LBPCascadeProfileFace' or
+                                                   'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    tags_file_path                                Path of text file containing
+                                                  list of tags
+    tesseract_parent_dir_path                     Path of directory containing
+                                                  'tesseract' directory
+    use_blacklist                                 If True, use blacklist of items           True
+                                                  that make the results of the
+                                                  caption recognition on a frame
+                                                  rejected
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  =============================
     """
     
     label = -1
@@ -53,7 +111,7 @@ def analyze_image(image_path, params=None):
         
         tag = cap_rec_res[c.ASSIGNED_TAG_KEY]
 
-    return [label, tag, face]
+    return label, tag, face
 
 
 def train_by_captions(video_path, db_file_name, params=None):
@@ -67,11 +125,85 @@ def train_by_captions(video_path, db_file_name, params=None):
     :param db_file_name: path of file that will contain the face models
 
     :type params: dictionary
-    :param params: dictionary with configuration parameters
+    :param params: configuration parameters (see table)
 
-    :rytpe: list
-    :return: a [model, tags] list, where model is an LBPHFaceRecognizer
-    and tags is the list of found tags
+    :rtype: tuple
+    :return: a (model, tags) tuple, where model is an LBPHFaceRecognizer
+             and tags is the list of found tags
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    use_original_fps_in_training                  If True, use original frame rate          False
+                                                  of video when creating training set
+    used_fps_in_training                          Frame rate at which video is analyzed     1.0
+                                                  in training from captions
+                                                  (in frames per second)
+    align_path                                    Path of directory
+                                                  where aligned faces are saved
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    tags_file_path                                Path of text file containing
+                                                  list of tags
+    tesseract_parent_dir_path                     Path of directory containing
+                                                  'tesseract' directory
+    use_blacklist                                 If True, use blacklist of items           True
+                                                  that make the results of the
+                                                  caption recognition on a frame
+                                                  rejected
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  =============================
     """
 
     # Set parameters
@@ -152,7 +284,7 @@ def train_by_captions(video_path, db_file_name, params=None):
 
                 cv2.imwrite(ce.TMP_FRAME_FILE_PATH, frame)
 
-                [label, tag, face] = analyze_image(ce.TMP_FRAME_FILE_PATH)
+                [label, tag, face] = analyze_image(ce.TMP_FRAME_FILE_PATH, params)
 
                 if label != -1:
 
@@ -208,7 +340,7 @@ def train_by_captions(video_path, db_file_name, params=None):
 
     print('Creation time: ' + str(time_in_s) + ' s\n')
 
-    return [model, tags]
+    return model, tags
 
 
 def train_by_images(path, db_file_name, params=None):
@@ -222,11 +354,80 @@ def train_by_images(path, db_file_name, params=None):
     :param db_file_name: path of file that will contain the face models
 
     :type params: dictionary
-    :param params: dictionary with configuration parameters
+    :param params: configuration parameters (see table)
 
-    :rytpe: list
-    :return: a [model, tags] list, where model is an LBPHFaceRecognizer
-    and tags is the list of found tags
+    :rtype: tuple
+    :return: a (model, tags) tuple, where model is an LBPHFaceRecognizer
+             and tags is the list of found tags
+
+    ============================================  ========================================  =============================
+    Key                                           Value                                     Default value
+    ============================================  ========================================  =============================
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    align_path                                    Path of directory
+                                                  where aligned faces are saved
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                   'HaarCascadeFrontalFaceAltTree',
+                                                   'HaarCascadeFrontalFaceAlt2',
+                                                   'HaarCascadeFrontalFaceDefault',
+                                                   'HaarCascadeProfileFace',
+                                                   'HaarCascadeFrontalAndProfileFaces',
+                                                   'HaarCascadeFrontalAndProfileFaces2',
+                                                   'LBPCascadeFrontalface',
+                                                   'LBPCascadeProfileFace' or
+                                                   'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
+                                                  captions in frame
+    min_tag_length                                Minimum length of tags considered         10
+                                                  in caption recognition
+    tags_file_path                                Path of text file containing
+                                                  list of tags
+    tesseract_parent_dir_path                     Path of directory containing
+                                                  'tesseract' directory
+    use_blacklist                                 If True, use blacklist of items           True
+                                                  that make the results of the
+                                                  caption recognition on a frame
+                                                  rejected
+    use_levenshtein                               If True, words found in image             True
+                                                  by caption recognition and tags
+                                                  are compared by using
+                                                  the Levenshtein distance
+    ============================================  ========================================  =============================
     """
 
     # Set parameters
@@ -310,4 +511,4 @@ def train_by_images(path, db_file_name, params=None):
     
     print('Creation time: ' + str(time_in_s) + ' s\n')
     
-    return [model, tags]
+    return model, tags

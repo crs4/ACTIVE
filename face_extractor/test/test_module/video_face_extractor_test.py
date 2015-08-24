@@ -10,17 +10,19 @@ from tools.video_face_extractor import VideoFaceExtractor
 
 
 class TestVideoFaceExtractor(unittest.TestCase):
+    """
+    Execute software test on video_face_extractor module
+    """
 
     def test_analyze_video(self):
-        resource_path = 'D:\Sinnova\Video\MONITOR-1.mp4'
 
-        resource_id = 'MONITOR-1.mp4'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
 
-        params = {c.CLASSIFIERS_DIR_PATH_KEY: r'C:\Opencv\sources\data\haarcascades',
-                  c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY: r'C:\Active\Sinnova\Global face recognition',
-                  c.USE_CAPTION_RECOGNITION_KEY: False,
-                  c.TESSERACT_PARENT_DIR_PATH_KEY: r'C:\Active\Mercurial\face_extractor\tools',
-                  c.VIDEO_INDEXING_PATH_KEY: r'C:\Active\Sinnova'}
+        resource_path = os.path.join(base_path, 'fic.02.mpg')
+
+        resource_id = 'fic.02'
+
+        params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
 
         fe = VideoFaceExtractor(resource_path, resource_id, params)
 
@@ -30,30 +32,38 @@ class TestVideoFaceExtractor(unittest.TestCase):
 
         self.test_analyze_video()
 
-        resource_path = 'fic.02.mpg'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
+
+        resource_path = os.path.join(base_path, 'fic.02.mpg')
 
         resource_id = 'fic.02'
 
-        fe = VideoFaceExtractor(resource_path, resource_id)
+        params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
+
+        fe = VideoFaceExtractor(resource_path, resource_id, params)
 
         people = fe.get_people()
 
         for person_dict in people:
-            person_id = person_dict[c.PERSON_COUNTER_KEY]
+            label = person_dict[c.PERSON_COUNTER_KEY]
 
-            tag = str(person_id)
+            tag = str(label)
 
-            fe.add_keyface_to_models(tag, person_id)
+            fe.add_keyface_to_models(label, label, tag)
 
     def test_delete_analysis_results(self):
 
         self.test_analyze_video()
 
-        resource_path = 'fic.02.mpg'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
+
+        resource_path = os.path.join(base_path, 'fic.02.mpg')
 
         resource_id = 'fic.02'
 
-        fe = VideoFaceExtractor(resource_path, resource_id)
+        params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
+
+        fe = VideoFaceExtractor(resource_path, resource_id, params)
 
         fe.delete_analysis_results()
 
@@ -65,11 +75,15 @@ class TestVideoFaceExtractor(unittest.TestCase):
 
         self.test_analyze_video()
 
-        resource_path = 'fic.02.mpg'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
+
+        resource_path = os.path.join(base_path, 'fic.02.mpg')
 
         resource_id = 'fic.02'
 
-        fe = VideoFaceExtractor(resource_path, resource_id)
+        params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
+
+        fe = VideoFaceExtractor(resource_path, resource_id, params)
 
         fe.delete_recognition_results()
 

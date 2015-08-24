@@ -18,9 +18,97 @@ import tools.utils as utils
 
 class FaceModels:
     """
-    The persistent data structure containing the face models used by the
-    face recognition algorithm.
-    Used for face recognition experiments.
+    The face models used by the
+    face recognition and caption recognition algorithms.
+    Used for experiments on face recognition and caption recognition
+
+    :type params: dictionary
+    :param params: configuration parameters to be used
+                   for the face model (see table)
+
+    :type force_db_creation: boolean
+    :param force_db_creation: if true, db is always created
+
+    :type video_path: string
+    :param video_path: path of video with captions
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    db_name                                       Name of single file
+                                                  containing face models
+    db_models_path                                Path of directory containing face models
+    face_model_algorithm                          Algorithm for face recognition            'LBP'
+                                                  ('Eigenfaces', 'Fisherfaces' or 'LBP')
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    use_eye_detection                             If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  test images
+    use_eye_detection_in_training                 If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  training images
+    use_eyes_position                             If True, align faces in test images       True
+                                                  by using eye positions
+    use_eyes_position_in_training                 If True, align faces in training images   True
+                                                  by using eye positions
+    use_face_detection_in_training                If True, use face detection               False
+                                                  for images in training set
+    use_NBNN                                      If True,                                  False
+                                                  use Naive Bayes Nearest Neighbor
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    use_resizing                                  If True, resize images                    True
+    use_weighted_regions                          If True, use weighted LBP                 False
+    ============================================  ========================================  ==============
     """
 
     def __init__(
@@ -30,8 +118,8 @@ class FaceModels:
         Initialize the face models.
 
         :type params: dictionary
-        :param params: dictionary containing the parameters to be used
-        for the face model
+        :param params: configuration parameters to be used
+                       for the face model (see table)
 
         :type force_db_creation: boolean
         :param force_db_creation: if true, db is always created
@@ -167,7 +255,7 @@ class FaceModels:
 
         :type  tags: string or list of strings
         :param tags: the tags associated to the face to be removed
-        from the face models data structure
+                     from the face models data structure
 
         :rtype: boolean
         :returns: True if tags have been removed
@@ -186,7 +274,7 @@ class FaceModels:
 
         :type  db_file_name: string
         :param db_file_name: the name of the file containing
-        the dump of the face models data structure
+                             the dump of the face models data structure
 
         :rtype: boolean
         :returns: True if loading was successful
@@ -266,11 +354,11 @@ class FaceModels:
 
     def load_model(self, db_file_name):
         """
-        Update the face models data structure for a single personfrom a file.
+        Update the face models data structure for a single person from a file.
 
         :type  db_file_name: string
         :param db_file_name: the name of the file containing
-        the dump of the face models data structure
+                             the dump of the face models data structure
 
         :rtype: boolean
         :returns: True if loading was successful
@@ -316,15 +404,15 @@ class FaceModels:
         """
         Create the face models data structure
 
-        :rtype video_path: String
+        :type video_path: String
         :param video_path: path of video used for creating the models
 
-        :rtype db_file_name: String
+        :type db_file_name: String
         :param db_file_name: the name of the file containing
-        the dump of the face models data structure
+                             the dump of the face models data structure
 
         :rtype: FaceRecognizer
-        :return: the face models data structure
+        :returns: the face models data structure
         """
 
         print('\n### CREATING DB ####\n')
@@ -564,16 +652,16 @@ class FaceModels:
 
         :type path: String
         :param path: Path to a folder with subfolders
-            representing the subjects (people)
+                    representing the subjects (people)
 
         :type sz: tuple
-        :param sz: output image size, given as a tuple (width, height)
+        :param sz: output image size, given as a (width, height) tuple
 
         :rtype: list
         :returns: A list [X,y]
-        X: The images, which is a Python list of numpy arrays.
-        y: The corresponding labels
-        (the unique number of the subject, person) in a Python list.
+                  X: The images, which is a Python list of numpy arrays.
+                  y: The corresponding labels
+                  (the unique number of the subject/person) in a Python list.
         """
 
         self.__read_images(path, sz)

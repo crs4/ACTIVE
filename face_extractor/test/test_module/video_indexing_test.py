@@ -23,7 +23,7 @@ from tools.video_face_extractor import VideoFaceExtractor
 def calculate_rec_time_auto_man(auto_segments, man_segments):
     """
     Calculate amount of time in which
-    segments automatic annotated and manually annotated  corresponds
+    segments automatically annotated and manually annotated correspond
 
     :type auto_segments: list
     :param auto_segments: automatic annotated segments
@@ -108,7 +108,7 @@ def calculate_rec_time_auto_man(auto_segments, man_segments):
 def calculate_rec_time_man_auto(man_segments, auto_segments):
     """
     Calculate amount of time in which
-    segments manually annotated and automatic annotated corresponds
+    segments manually annotated and automatically annotated correspond
 
     :type man_segments: list
     :param man_segments: manually annotated segments
@@ -164,8 +164,6 @@ def calculate_rec_time_man_auto(man_segments, auto_segments):
                 rec = rec + (auto_end - man_start)
 
     return rec
-
-
 
 
 # Save in csv file given list of experiments
@@ -415,7 +413,222 @@ def video_indexing_experiments(
     :param create_models: if True, create models for people recognition
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for the test
+    :param params: configuration parameters to be used for the experiment (see table)
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    all_cloth_bboxes_in_frames                    If True, all bounding boxes               True
+                                                  related to one face track must be
+                                                  entirely contained by the
+                                                  corresponding frame
+    annotations_path                              Path of directory containing the
+                                                  manual annotations for the video
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    clothes_bounding_box_height                   Height of bounding box for clothes
+                                                  (in % of the face bounding box height)    1.0
+    clothes_bounding_box_width                    Width of bounding box for clothes         2.0
+                                                  (in % of the face bounding box width)
+    clothes_check_method                          Method for comparing clothes of two
+                                                  face tracks ('min', 'mean' or 'max')
+    conf_threshold_for_clothing_recognition       Minimum distance between face features    8.0
+                                                  of two face tracks
+                                                  for considering clothes
+    nr_of_HSV_channels_in_clothing_recognition    Number of HSV channels used
+                                                  in clothing recognition (1-3)             3
+    use_3_bboxes_in_clothing_recognition          If True, bounding box for clothes         False
+                                                  is divided into 3 parts
+    use_dominant_color_in_clothing_recognition    If True, dominant color is used           False
+                                                  in clothing recognition
+    use_mean_x_of_faces_in_clothing_recognition   If True, position of bounding box         False
+                                                  for clothes in the horizontal
+                                                  direction is fixed
+                                                  for the whole face track
+    conf_threshold                                Maximum distance between face             14.0
+                                                  features of two face tracks for
+                                                  merging them in the same cluster
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                          Flags used in face detection             'DoCannyPruning'
+                                                   ('DoCannyPruning', 'ScaleImage',
+                                                   'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                   Mininum number of neighbor bounding     5
+                                                    boxes for retaining face detection
+    min_size_height                                 Minimum height of face detection        20
+                                                    bounding box (in pixels)
+    min_size_width                                  Minimum width of face detection         20
+                                                    bounding box (in pixels)
+    scale_factor                                    Scale factor between two scans          1.1
+                                                    in face detection
+    half_window_size                                Size of half sliding window             10
+                                                    (in frames)
+    kernel_size_for_histogram_smoothing             Size of kernel for                      25
+                                                    smoothing histograms
+                                                    when calculating dominant color
+    LBP_grid_x                                      Number of columns in grid               4
+                                                    used for calculating LBP
+    LBP_grid_y                                      Number of columns in grid               8
+                                                    used for calculating LBP
+    LBP_neighbors                                   Number of neighbors                     8
+                                                    used for calculating LBP
+    LBP_radius                                      Radius used                             1
+                                                    for calculating LBP (in pixels)
+    max_eye_angle                                   Maximum inclination of the line         0.125
+                                                    connecting the eyes
+                                                    (in % of pi radians)
+    max_faces_in_model                              Maximum number of faces in face model   1000
+                                                    related to one face track
+    max_frames_with_missed_detections               Maximum number of frames with no        50
+                                                    corresponding detection that does
+                                                    not interrupt tracking
+    max_nose_diff                                   Maximum difference between nose         0.05
+                                                    positions (stored as % of nose
+                                                    positions in face images)
+    min_cloth_model_size                            Minimum number of items contained       5
+                                                    in a cloth model
+    min_detection_pct                               Minimum percentage of detected faces    0.3
+                                                    out of total faces in face track
+                                                    in order to retain face track
+    min_eye_distance                                Minimum distance between eyes           0.25
+                                                    (in % of the width of the face
+                                                    bounding box)
+    min_segment_duration                            Minimum duration of a segment           1
+                                                    (in seconds)
+    neck_height                                     Height of neck (in % of the             0.0
+                                                    face bounding box height)
+    nose_detection_classifier                       Classifier for nose detection           'haarcascade_mcs_nose.xml'
+    offset_pct_x                                    % of the image to keep next to          0.20
+                                                    the eyes in the horizontal direction
+    offset_pct_y                                    % of the image to keep next to          0.50
+                                                    the eyes in the vertical direction
+    simulate_user_annotations                       If True, user annotations for people    False
+                                                    clusters are simulated by using saved
+                                                    annotations for face tracks
+    std_multiplier_face                             Standard deviation multiplier for       20
+                                                    calculating thresholds for dividing
+                                                    between faces
+    std_multiplier_frame                            Standard deviation multiplier for       20
+                                                    calculating thresholds for
+                                                    shot cut detection
+    tracking_min_int_area                           Minimum value for intersection area
+                                                    between detection bbox and tracking
+                                                    window (in % of the area of the
+                                                    smallest rectangle)
+    use_aggregation                                 If True, final tag for a tracked        False
+                                                    face is obtained by aggregation of
+                                                    results for single frames
+    use_aligned_face_in_tracking                    If True, tracking is based on aligned   True
+                                                    face, otherwise it is based on
+                                                    original detected face
+    use_clothing_recognition                        If True, recognition based              True
+                                                    on clothes is used
+    use_majority_rule                               If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that was
+                                                    assigned to the majority of frames
+    use_mean_confidence_rule                        If True, in aggregating results         False
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum value for the mean of
+                                                    confidences among frames
+    use_min_confidence_rule                         If True, in aggregating results         True
+                                                    from several frames,
+                                                    final tag is the tag that received
+                                                    the minimum confidence value
+    use_nose_pos_in_recognition                     If True, compare in people clustering   False
+                                                    only faces with similar
+                                                    nose positions
+    use_original_fps                                If True, original frame rate is used    False
+    use_original_res                                If True, original resolution is used    True
+    use_people_clustering                           If True, use people clustering          True
+    use_people_recognition                          If True, use people recognition         True
+    used_fps                                        Frame rate at which video               5.0
+                                                    is analyzed (in frames per second)
+    used_res_scale_factor                           Resolution at which frames/images       0.5
+                                                    are analyzed (% of original
+                                                    width and height)
+    use_skeletons                                   If True, use skeletons for parallel     False
+                                                    and distributed computing
+    variable_clothing_threshold                     If True, a variable threshold for       False
+                                                    clothing recognition is used
+    video_indexing_path                             Path of directory where video
+                                                    indexing results are stored
+    results_path                                    path of directory where
+                                                    test results will be saved
+    video_parameters_file_path                      path of file containing
+                                                    video parameters
+    frames_path                                     path of directory containing
+                                                    the already extracted frames
+    faces_path                                      path of directory containing
+                                                    the already extracted faces
+    face_tracking_file_path                         path YAML file containing face
+                                                    tracking results
+    face_models_dir_path                            path of directory containing the
+                                                    already saved local face models
+    frames_in_models_file_path                      path of file containing list of
+                                                    frames used in the already saveld
+                                                    local face models
+    nose_pos_file_path                              path of file containing nose
+                                                    positions relative to the already
+                                                    saved local face models
+    global_face_models_min_diff                     Minimum distance between faces          5
+                                                    in global face models
+    global_face_recognition_dir_path                Path of directory with people
+                                                    recognition data
+    global_face_recognition_threshold               Threshold for retaining prediction      8
+                                                    in global face recognition
+                                                    (faces whose prediction has a
+                                                    confidence value greater than this
+                                                    will be considered unknown)
+    lev_ratio_pct_threshold                         Minimum threshold for considering       0.8
+                                                    captions in frame
+    min_frames_per_caption                          Minimum number of frames in the         4
+                                                    same face track with captions
+                                                    associated to the same person in
+                                                    order to consider caption
+    min_tag_length                                  Minimum length of tags considered       10
+                                                    in caption recognition
+    tesseract_parent_dir_path                       Path of directory containing
+                                                    'tesseract' directory
+    training_set_path                               path of directory containing
+                                                    training set used for building
+                                                    global face models
+    use_blacklist                                   If True, use blacklist of items         True
+                                                    that make the results of the
+                                                    caption recognition on a frame
+                                                    rejected
+    use_caption_recognition                         If True, use caption recognition        True
+                                                    in people recognition
+    use_face_recognition                            If True, use face recognition           True
+                                                    in people recognition
+    use_levenshtein                                 If True, words found in image           True
+                                                    by caption recognition and tags
+                                                    are compared by using
+                                                    the Levenshtein distance
+    used_fps_for_captions                           Frame rate at which video is            1.0
+                                                    analyzed for caption recognition
+                                                    (in frames per second)
+    word_blacklist_file_path                        Path of file containing the items
+                                                    that make the results of the
+                                                    caption recognition on a frame
+                                                    rejected
+    ============================================  ========================================  ==============
     """
 
     man_ann_path = ce.ANNOTATIONS_PATH
@@ -553,16 +766,18 @@ def video_indexing_experiments(
             auto_cap_segments = auto_dict[c.CAPTION_SEGMENTS_KEY]
             cap_rec = calculate_rec_time_man_auto(
                 man_cap_segments, auto_cap_segments)
-            cap_recall = cap_rec / tot_cap_duration
+            cap_recall = 0
+            if tot_cap_duration != 0:
+                cap_recall = cap_rec / tot_cap_duration
             people_cap_rec_dict[man_tag] = cap_recall
             video_tot_cap_rec += cap_rec
         
     tot_recall = 0
-    if video_tot_duration > 0:
+    if video_tot_duration != 0:
         tot_recall = video_tot_rec / video_tot_duration
 
     tot_cap_recall = 0
-    if video_tot_cap_duration > 0:
+    if video_tot_cap_duration != 0:
         tot_cap_recall = video_tot_cap_rec / video_tot_cap_duration
     
     # Calculate precision

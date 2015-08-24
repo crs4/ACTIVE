@@ -116,7 +116,7 @@ SIM_TRACKING = False
 
 # If True, user annotations for people clusters are simulated
 #  by using saved annotations for face tracks
-SIMULATE_USER_ANNOTATIONS = True
+SIMULATE_USER_ANNOTATIONS = False
 
 # Size of sliding window in seconds
 SLIDING_WINDOW_SIZE = 5.0
@@ -166,7 +166,7 @@ USE_ORIGINAL_FPS_IN_SHOT_DETECTION = False
 USE_PEOPLE_CLUSTERING = True
 
 # If True, use people recognition
-USE_PEOPLE_RECOGNITION = False
+USE_PEOPLE_RECOGNITION = True
 
 # If True, resize images
 USE_RESIZING = True  # Default True

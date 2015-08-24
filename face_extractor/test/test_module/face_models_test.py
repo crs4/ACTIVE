@@ -11,7 +11,9 @@ from tools.face_models import FaceModels
 
 
 class TestFaceModels(unittest.TestCase):
-
+    """
+    Execute software test on face_models module
+    """
     def test_init(self):
         
         data_dir_path = 'Data dir path'

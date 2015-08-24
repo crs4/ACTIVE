@@ -10,7 +10,7 @@ ALIGNED_FACES_PATH = r'C:\Users\Maurizio\Documents\Aligned faces'
 
 # If True, all bounding boxes related to one face track
 # must be entirely contained by the corresponding frame
-ALL_CLOTH_BBOXES_IN_FRAMES = False
+ALL_CLOTH_BBOXES_IN_FRAMES = True
 
 # If True, check eye positions
 CHECK_EYE_POSITIONS = True
@@ -18,8 +18,8 @@ CHECK_EYE_POSITIONS = True
 # TODO CHANGE FOR SERVER
 # Path of directory with OpenCV classifiers
 # CLASSIFIERS_DIR_PATH = r'/usr/share/opencv/haarcascades'
-# CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' Portatile MP
-CLASSIFIERS_DIR_PATH = r'C:\Opencv\sources\data\haarcascades'  # Palladium
+CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
+# CLASSIFIERS_DIR_PATH = r'C:\Opencv\sources\data\haarcascades'  # Palladium
 
 # Height of bounding box for clothes
 # (in % of the face bounding box height)
@@ -31,16 +31,16 @@ CLOTHES_BBOX_WIDTH = 2.0
 
 # Method for comparing clothes of two face tracks 
 # ('min', 'mean' or 'max')
-CLOTHES_CHECK_METHOD = 'Max'
+CLOTHES_CHECK_METHOD = 'max'
 
 # Minimum distance between face features 
 # of two face tracks for considering clothes
-CLOTHES_CONF_THRESH = 8  # DEFAULT 8
+CLOTHES_CONF_THRESH = 8.0
 
 # Number of HSV channels used in clothing recognition (1-3)
 CLOTHING_REC_HSV_CHANNELS_NR = 3
 
-# If True, bounding box for clothes is divided in 3 parts
+# If True, bounding box for clothes is divided into 3 parts
 CLOTHING_REC_USE_3_BBOXES = False
 
 # If True, dominant color is used in clothing recognition
@@ -53,7 +53,7 @@ CLOTHING_REC_USE_MEAN_X_OF_FACES = False
 # Maximum distance between face features of two face tracks 
 # for merging them in the same cluster.
 # It should be greater or equals than CLOTHES_CONF_THRESH
-CONF_THRESHOLD = 14  # DEFAULT 14
+CONF_THRESHOLD = 14.0
 
 # Height of aligned faces (in pixels)
 CROPPED_FACE_HEIGHT = 400
@@ -133,7 +133,7 @@ LBP_RADIUS = 1
 LETT_MARGIN = 2
 
 # Minimum threshold for considering captions in frame
-LEV_RATIO_PCT_THRESH = 0.8
+LEV_RATIO_PCT_THRESH = 0.8  # TODO CHANGE?
 
 # Maximum difference between bounding boxes 
 # of characters in the same row (in pixels)
@@ -159,6 +159,11 @@ MAX_FR_WITH_MISSED_DET = 50
 # Maximum difference between nose positions (
 # stored as % of nose positions in face images)
 MAX_NOSE_DIFF = 0.05
+
+# TODO DELETE AFTER EXPERIMENTS
+# Merge people recognition results based only on captions
+# with people recognition results based only on faces
+MERGE_CAPTION_AND_FACE_RESULTS = False
 
 # Minimum height of characters (in pixels)
 MIN_CHAR_HEIGHT = 5
@@ -230,7 +235,7 @@ USE_AGGREGATION = False
 # otherwise it is based on original detected face
 USE_ALIGNED_FACE_IN_TRACKING = True
 
-# If True, use blacklist of item that make the results
+# If True, use blacklist of items that make the results
 # of the caption recognition on a frame rejected
 USE_BLACKLIST = True
 
@@ -271,7 +276,7 @@ USE_NORM_IN_CROPPED_FACES = False
 # If True, detections with no good nose position are discarded
 USE_NOSE_POS_IN_DETECTION = False
 
-# If True, compare in recognition only faces with similar nose positions
+# If True, compare in people clustering only faces with similar nose positions
 USE_NOSE_POS_IN_RECOGNITION = False
 
 # If True, original frame rate is used
@@ -439,6 +444,7 @@ MAX_FR_WITH_MISSED_DET_KEY = 'max_frames_with_missed_detections'
 MAX_NOSE_DIFF_KEY = 'max_nose_diff'
 MEDOID_ALIGNED_FACE_KEY = 'medoid_aligned_face'
 MEDOID_FRAME_NAME_KEY = 'medoid_frame_name'
+MERGE_CAPTION_AND_FACE_RESULTS_KEY = 'merge_caption_and_face_results' # TODO DELETE AFTER EXPERIMENTS
 MIN_CLOTH_MODEL_SIZE_KEY = 'min_cloth_model_size'
 MIN_DETECTION_PCT_KEY = 'min_detection_pct'
 MIN_EYE_DISTANCE_KEY = 'min_eye_distance'

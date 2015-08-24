@@ -99,10 +99,10 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
     :type fm: FaceModels
     :param fm: face models
 
-    :rtype: list
-    :return: a [final_tag, final_confidence] list,
-    where final_tag is the assigned tag
-    and final_confidence the assigned confidence
+    :rtype: tuple
+    :return: a (final_tag, final_confidence) tuple,
+             where final_tag is the assigned tag
+             and final_confidence the assigned confidence
     """
 
     assigned_frames_nr_dict = {}
@@ -260,7 +260,7 @@ def aggregate_frame_results_in_sim_tracking(frames, fm):
         else:
             print('Warning! Method is not available')
                         
-    return [final_tag, final_confidence]
+    return final_tag, final_confidence
 
 
 def fr_video_experiments(params, show_results):
@@ -268,11 +268,147 @@ def fr_video_experiments(params, show_results):
     Execute face recognition experiments on video files
 
     :type params: dictionary
-    :param params: dictionary containing the parameters to be used for the test
+    :param params: configuration parameters to be used for the experiment
 
     :type show_results: boolean
-    :param show_results: show (true) or do not show (false)
-    image with detected faces
+    :param show_results: show (True) or do not show (False)
+                         image with detected faces
+
+    ============================================  ========================================  ==============
+    Key                                           Value                                     Default value
+    ============================================  ========================================  ==============
+    annotations_path                              Path of directory containing the
+                                                  manual annotations for the images
+    check_eye_positions                           If True, check eye positions              True
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    face_detection_results_path                   Path of directory where
+                                                  test results will be saved
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    max_eye_angle                                 Maximum inclination of the line           0.125
+                                                  connecting the eyes
+                                                  (in % of pi radians)
+    min_eye_distance                              Minimum distance between eyes             0.25
+                                                  (in % of the width of the face
+                                                  bounding box)
+    nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
+    software_test_file                            Path of image to be used for
+                                                  software test
+    test_set_path                                 path of directory
+                                                  containing test set
+    use_nose_pos_in_detection                     If True, detections with no good          False
+                                                  nose position are discarded
+    aligned_faces_path                            Default path of directory
+                                                  for aligned faces
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
+    dataset_already_divided                       If True, dataset is already divided       False
+                                                  between training and test set
+    dataset_path                                  Path of whole dataset, used if dataset
+                                                  is not already divided between
+                                                  training and test set
+    db_name                                       Name of single file
+                                                  containing face models
+    db_models_path                                Path of directory containing face models
+    face_model_algorithm                          Algorithm for face recognition            'LBP'
+                                                  ('Eigenfaces', 'Fisherfaces' or 'LBP')
+    face_recognition_results_path                 Path of directory where
+                                                  test results will be saved
+    test_set_path                                 Path of directory containing
+                                                  test set
+    training_set_path                             Path of directory containing
+                                                  training set
+    LBP_grid_x                                    Number of columns in grid                 4
+                                                  used for calculating LBP
+    LBP_grid_y                                    Number of columns in grid                 8
+                                                  used for calculating LBP
+    LBP_neighbors                                 Number of neighbors                       8
+                                                  used for calculating LBP
+    LBP_radius                                    Radius used                               1
+                                                  for calculating LBP (in pixels)
+    max_frames_with_missed_detection              Maximum number of frames with             5
+                                                  missed detection that
+                                                  does not interrupt tracking
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
+    sim_tracking                                  If True, results from all frames in       False
+                                                  video are aggregated
+    sliding_window_size                           Size of sliding window in seconds         5.0
+    software_test_file                            Path of image to be used for
+                                                  software test
+    test_video_path                               Path of test video
+    training_images_nr                            Number of images per person used in
+                                                  training set
+    use_captions                                  If True, training set                     False
+                                                  for face recognition is built
+                                                  on the base of captions
+    use_eye_detection                             If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  test images
+    use_eye_detection_in_training                 If True, use eye detection for detecting  True
+                                                  eye position for aligning faces in
+                                                  training images
+    use_eyes_position                             If True, align faces in test images       True
+                                                  by using eye positions
+    use_eyes_position_in_training                 If True, align faces in training images   True
+                                                  by using eye positions
+    use_face_detection_in_training                If True, use face detection               False
+                                                  for images in training set
+    use_majority_rule                             If True, in aggregating results           True
+                                                  from several frames,
+                                                  final tag is the tag that was
+                                                  assigned to the majority of frames
+    use_mean_confidence_rule                      If True, in aggregating results           False
+                                                  from several frames,
+                                                  final tag is the tag that received
+                                                  the minimum value for the mean of
+                                                  confidences among frames
+    use_min_confidence_rule                       If True, in aggregating results           True
+                                                  from several frames,
+                                                  final tag is the tag that received
+                                                  the minimum confidence value
+    use_NBNN                                      If True,                                  False
+                                                  use Naive Bayes Nearest Neighbor
+    use_one_file_for_face_models                  If True, use one file for face models     True
+    use_original_fps                              If True, original frame rate is used      False
+    use_original_fps_in_training                  If True, use original frame rate          False
+                                                  of video when creating training set
+    use_resizing                                  If True, resize images                    True
+    use_sliding_window                            If True, use sliding window               False
+                                                  in face extraction
+    use_tracking                                  If True,                                  False
+                                                  use tracking in face extraction
+    use_weighted_regions                          If True, use weighted LBP                 False
+    used_fps                                      Frame rate at which video                 5.0
+                                                  is analyzed (in frames per second)
+    used_fps_in_training                          Frame rate at which video is analyzed     1.0
+                                                  in training from captions
+                                                  (in frames per second)
+    ============================================  ========================================  ==============
     """
 
     # Folder with results
