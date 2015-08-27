@@ -22,7 +22,11 @@ import pickle as pk
 
 import shutil
 
+import subprocess
+
 import sys
+
+import tesseract
 
 import utils
 
@@ -383,8 +387,12 @@ class VideoFaceExtractor(object):
         # Directory for recognition results
         self.rec_path = os.path.join(self.video_path, c.FACE_RECOGNITION_DIR)
 
+        # TODO DELETE
         # File with recognition results
-        self.rec_file_path = os.path.join(self.rec_path, file_name)
+        # self.rec_file_path = os.path.join(self.rec_path, file_name)
+
+        # Directory with recognition results
+        self.rec_files_path = os.path.join(self.rec_path, c.YAML_FILES_DIR)
 
         # Directory with complete annotations
         self.compl_ann_path = os.path.join(
@@ -434,19 +442,35 @@ class VideoFaceExtractor(object):
             # Check existence of recognition results
             if len(self.recognized_faces) == 0:
 
-                # Try to load YAML file
-                if os.path.exists(self.rec_file_path):
+                # TODO DELETE
+                # # Try to load YAML file
+                # if os.path.exists(self.rec_file_path):
+                #
+                #     print 'Loading YAML file with recognition results'
+                #     logger.debug('Loading YAML file with recognition results')
+                #
+                #     with open(self.rec_file_path) as f:
+                #
+                #         self.recognized_faces = yaml.load(f)
+                #
+                #     print 'YAML file with recognition results loaded'
+                #     logger.debug('YAML file with recognition results loaded')
 
-                    print 'Loading YAML file with recognition results'
-                    logger.debug('Loading YAML file with recognition results')
+                # Try to load YAML files
+                if os.path.exists(self.rec_files_path):
 
-                    with open(self.rec_file_path) as f:
+                    print 'Loading YAML files with recognition results'
+                    logger.debug('Loading YAML files with recognition results')
 
-                        self.recognized_faces = yaml.load(f)
+                    self.recognized_faces = []
+                    for yaml_file in os.listdir(self.rec_files_path):
+                        yaml_file_path = os.path.join(
+                            self.rec_files_path, yaml_file)
+                        with open(yaml_file_path) as f:
+                            self.recognized_faces.append(yaml.load(f))
 
-                    print 'YAML file with recognition results loaded'
-                    logger.debug('YAML file with recognition results loaded')
-
+                    print 'YAML files with recognition results loaded'
+                    logger.debug('YAML files with recognition results loaded')
                 else:
 
                     print 'Warning! No recognition results found!'
@@ -579,7 +603,7 @@ class VideoFaceExtractor(object):
             self.merge_caption_and_face_results()
         else:
 
-            if not os.path.exists(self.rec_file_path):
+            if not os.path.exists(self.rec_files_path):
                 # People recognition results do not exist
 
                 if not os.path.exists(self.cluster_file_path):
@@ -603,9 +627,10 @@ class VideoFaceExtractor(object):
 
                 self.recognize_people_in_video()
 
-                self.show_keyframes()
+                # TODO UNCOMMENT TEST ONLY
+                # self.show_keyframes()
 
-        # TODO UNCOMMENT FOR EXPERIMENTS
+        # TODO COMMENT TEST ONLY
         self.save_people_files()
 
         self.save_analysis_results()
@@ -718,18 +743,34 @@ class VideoFaceExtractor(object):
 
         if len(self.recognized_faces) == 0:
 
-            # Try to load YAML file with clustering results
-            if os.path.exists(self.rec_file_path):
+            # # Try to load YAML file with clustering results
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #     logger.debug('Loading YAML file with recognition results')
+            #
+            #     with open(self.rec_file_path) as f:
+            #
+            #         self.recognized_faces = yaml.load(f)
+            #
+            #     print 'YAML file with recognition results loaded'
+            #     logger.debug('YAML file with recognition results loaded')
 
-                print 'Loading YAML file with recognition results'
-                logger.debug('Loading YAML file with recognition results')
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                with open(self.rec_file_path) as f:
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                    self.recognized_faces = yaml.load(f)
+                self.recognized_faces = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
-                logger.debug('YAML file with recognition results loaded')
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
             else:
 
@@ -2125,19 +2166,30 @@ class VideoFaceExtractor(object):
 
         if len(result) == 0:
 
-            # Try to load YAML file with recognition results
-            if os.path.exists(self.rec_file_path):
+            # TODO DELETE
+            # # Try to load YAML file with recognition results
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #     logger.debug('Loading YAML file with recognition results')
+            #
+            #     rec_faces = utils.load_YAML_file(self.rec_file_path)
 
-                print 'Loading YAML file with recognition results'
-                logger.debug('Loading YAML file with recognition results')
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                rec_faces = utils.load_YAML_file(self.rec_file_path)
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                if rec_faces:
-                    print 'YAML file with recognition results loaded'
-                    logger.debug('YAML file with recognition results loaded')
+                result = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        result.append(yaml.load(f))
 
-                    result = rec_faces
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
         return result
 
@@ -2160,18 +2212,35 @@ class VideoFaceExtractor(object):
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
 
-            # Try to load YAML file
-            if os.path.exists(self.rec_file_path):
+            # TODO DELETE
+            # # Try to load YAML file
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #     logger.debug('Loading YAML file with recognition results')
+            #
+            #     with open(self.rec_file_path) as f:
+            #
+            #         self.recognized_faces = yaml.load(f)
+            #
+            #     print 'YAML file with recognition results loaded'
+            #     logger.debug('YAML file with recognition results loaded')
 
-                print 'Loading YAML file with recognition results'
-                logger.debug('Loading YAML file with recognition results')
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                with open(self.rec_file_path) as f:
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                    self.recognized_faces = yaml.load(f)
+                self.recognized_faces = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
-                logger.debug('YAML file with recognition results loaded')
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
             else:
 
@@ -2191,6 +2260,7 @@ class VideoFaceExtractor(object):
                 return person_counter
 
         return person_counter
+
 
     # TODO DELETE OR CHANGE ONLY FOR EXPERIMENTS
     def merge_caption_and_face_results(self):
@@ -2250,12 +2320,26 @@ class VideoFaceExtractor(object):
 
             counter += 1
 
-        if not (os.path.exists(self.rec_path)):
-            # Create directory for people recognition
-            os.makedirs(self.rec_path)
+        # TODO DELETE
+        # if not (os.path.exists(self.rec_path)):
+        #     # Create directory for people recognition
+        #     os.makedirs(self.rec_path)
+        # # Save recognition result in YAML file
+        # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+        # Save recognition results in YAML files
 
-            # Save recognition result in YAML file
-        utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+        # Remove previous files
+        if os.path.exists(self.rec_files_path):
+            shutil.rmtree(self.rec_files_path)
+        # Create directory for people recognition results
+        os.makedirs(self.rec_files_path)
+
+        counter = 0
+        for person_dict in self.recognized_faces:
+            yaml_file_name = str(counter) + '.YAML'
+            yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
+            utils.save_YAML_file(yaml_file_path, person_dict)
+            counter += 1
 
     def merge_consecutive_segments(self):
         """
@@ -2379,6 +2463,23 @@ class VideoFaceExtractor(object):
             if use_or_fps:
                 fps = self.fps
 
+            caption_file_path = os.path.join(
+                self.rec_path, c.CAPTION_RESULTS_FILE_NAME)
+            self.params[c.CAPTION_RESULTS_FILE_PATH_KEY] = caption_file_path
+
+            params_file_path = c.PARAMS_FILE_PATH
+            if ((self.params is not None) and
+                    (c.PARAMS_FILE_PATH_KEY in self.params)):
+                params_file_path = self.params[c.PARAMS_FILE_PATH_KEY]
+            utils.save_YAML_file(params_file_path, self.params)
+
+        # Get directory with face extraction tools
+            tesseract_parent_dir_path = c.TESSERACT_PARENT_DIR_PATH
+            if ((self.params is not None) and
+                    (c.TESSERACT_PARENT_DIR_PATH_KEY in self.params)):
+                tesseract_parent_dir_path = (
+                    self.params[c.TESSERACT_PARENT_DIR_PATH_KEY])
+
             p_c = 0
 
             clusters_nr = float(len(self.recognized_faces))
@@ -2464,8 +2565,26 @@ class VideoFaceExtractor(object):
                         segment_caption_rec_results = []
 
                         for frame_path in frame_path_segment_list:
-                            result_dict = get_tag_from_image(
-                                frame_path, self.params)
+                            # TODO REVIEW
+                            # TODO ADD PARAMS_FILE_PATH AND PARAMS_FILE_PATH_KEY IN DOCUMENTATION
+                            # TODO ADD CAPTION_RESULTS_FILE_PATH AND CAPTION_RESULTS_FILE_PATH_KEY IN DOCUMENTATION
+
+                            #result_dict = get_tag_from_image(
+                            #    frame_path, self.params, api)
+
+                            # Launch subprocess
+                            caption_rec_file = os.path.join(
+                                tesseract_parent_dir_path,
+                                'caption_recognition.py')
+                            command = ("python " + caption_rec_file +
+                                       " -im_path " + frame_path +
+                                       " -config " + params_file_path)
+
+                            subprocess.call(command)
+
+                            result_dict = utils.load_YAML_file(
+                                caption_file_path)
+
                             elapsed_s = frames_dict_time[frame_path]
                             result_dict[c.ELAPSED_VIDEO_TIME_KEY] = elapsed_s
                             segment_caption_rec_results.append(result_dict)
@@ -2746,21 +2865,40 @@ class VideoFaceExtractor(object):
 
         rec_loaded = False
 
-        # Try to load YAML file with recognition results
-        if os.path.exists(self.rec_file_path):
+        # TODO DELETE
+        # # Try to load YAML file with recognition results
+        # if os.path.exists(self.rec_file_path):
+        #
+        #     print 'Loading YAML file with recognition results'
+        #     logger.debug('Loading YAML file with recognition results')
+        #
+        #     rec_faces = utils.load_YAML_file(self.rec_file_path)
+        #
+        #     if rec_faces:
+        #         self.recognized_faces = rec_faces
+        #
+        #         print 'YAML file with recognition results loaded'
+        #         logger.debug('YAML file with recognition results loaded')
+        #
+        #         rec_loaded = True
 
-            print 'Loading YAML file with recognition results'
-            logger.debug('Loading YAML file with recognition results')
+        # Try to load YAML files
+        if os.path.exists(self.rec_files_path):
 
-            rec_faces = utils.load_YAML_file(self.rec_file_path)
+            print 'Loading YAML files with recognition results'
+            logger.debug('Loading YAML files with recognition results')
 
-            if rec_faces:
-                self.recognized_faces = rec_faces
+            self.recognized_faces = []
+            for yaml_file in os.listdir(self.rec_files_path):
+                yaml_file_path = os.path.join(
+                    self.rec_files_path, yaml_file)
+                with open(yaml_file_path) as f:
+                    self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
-                logger.debug('YAML file with recognition results loaded')
+            print 'YAML files with recognition results loaded'
+            logger.debug('YAML files with recognition results loaded')
 
-                rec_loaded = True
+            rec_loaded = True
 
         if not rec_loaded:
 
@@ -2786,6 +2924,10 @@ class VideoFaceExtractor(object):
                     logger.warning('No clustering results found!')
 
                     return
+
+            if not (os.path.exists(self.rec_path)):
+                # Create directory for people recognition
+                os.makedirs(self.rec_path)
 
             use_caption_rec = c.USE_CAPTION_RECOGNITION
             use_face_rec = c.USE_FACE_RECOGNITION
@@ -2819,12 +2961,22 @@ class VideoFaceExtractor(object):
             # TODO UNCOMMENT TEST ONLY
             self.calculate_medoids()
 
-            if not (os.path.exists(self.rec_path)):
-                # Create directory for people recognition
-                os.makedirs(self.rec_path)
+            # TODO DELETE
+            # # Save recognition result in YAML file
+            # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
 
-                # Save recognition result in YAML file
-            utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+            # Remove previous files
+            if os.path.exists(self.rec_files_path):
+                shutil.rmtree(self.rec_files_path)
+            # Create directory for people recognition results
+            os.makedirs(self.rec_files_path)
+
+            counter = 0
+            for person_dict in self.recognized_faces:
+                yaml_file_name = str(counter) + '.YAML'
+                yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
+                utils.save_YAML_file(yaml_file_path, person_dict)
+                counter += 1
 
     def save_analysis_results(self):
         """
@@ -3039,16 +3191,33 @@ class VideoFaceExtractor(object):
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
 
-            # Try to load YAML file
-            if os.path.exists(self.rec_file_path):
+            # TODO DELETE
+            # # Try to load YAML file
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #
+            #     with open(self.rec_file_path) as f:
+            #
+            #         self.recognized_faces = yaml.load(f)
+            #
+            #     print 'YAML file with recognition results loaded'
 
-                print 'Loading YAML file with recognition results'
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                with open(self.rec_file_path) as f:
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                    self.recognized_faces = yaml.load(f)
+                self.recognized_faces = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
             else:
 
@@ -3761,18 +3930,35 @@ class VideoFaceExtractor(object):
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
 
-            # Try to load YAML file
-            if os.path.exists(self.rec_file_path):
+            # TODO DELETE
+            # # Try to load YAML file
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #     logger.debug('Loading YAML file with recognition results')
+            #
+            #     with open(self.rec_file_path) as f:
+            #
+            #         self.recognized_faces = yaml.load(f)
+            #
+            #     print 'YAML file with recognition results loaded'
+            #     logger.debug('YAML file with recognition results loaded')
 
-                print 'Loading YAML file with recognition results'
-                logger.debug('Loading YAML file with recognition results')
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                with open(self.rec_file_path) as f:
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                    self.recognized_faces = yaml.load(f)
+                self.recognized_faces = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
-                logger.debug('YAML file with recognition results loaded')
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
             else:
 
@@ -3864,18 +4050,35 @@ class VideoFaceExtractor(object):
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
 
-            # Try to load YAML file
-            if os.path.exists(self.rec_file_path):
+            # TODO DELETE
+            # # Try to load YAML file
+            # if os.path.exists(self.rec_file_path):
+            #
+            #     print 'Loading YAML file with recognition results'
+            #     logger.debug('Loading YAML file with recognition results')
+            #
+            #     with open(self.rec_file_path) as f:
+            #
+            #         self.recognized_faces = yaml.load(f)
+            #
+            #     print 'YAML file with recognition results loaded'
+            #     logger.debug('YAML file with recognition results loaded')
 
-                print 'Loading YAML file with recognition results'
-                logger.debug('Loading YAML file with recognition results')
+            # Try to load YAML files
+            if os.path.exists(self.rec_files_path):
 
-                with open(self.rec_file_path) as f:
+                print 'Loading YAML files with recognition results'
+                logger.debug('Loading YAML files with recognition results')
 
-                    self.recognized_faces = yaml.load(f)
+                self.recognized_faces = []
+                for yaml_file in os.listdir(self.rec_files_path):
+                    yaml_file_path = os.path.join(
+                        self.rec_files_path, yaml_file)
+                    with open(yaml_file_path) as f:
+                        self.recognized_faces.append(yaml.load(f))
 
-                print 'YAML file with recognition results loaded'
-                logger.debug('YAML file with recognition results loaded')
+                print 'YAML files with recognition results loaded'
+                logger.debug('YAML files with recognition results loaded')
 
             else:
 
@@ -4325,6 +4528,21 @@ class VideoFaceExtractor(object):
         Update YAML file with people recognition results
         """
 
-        logger.debug('Updating YAML file with people recognition results')
+        # TODO DELETE
+        # logger.debug('Updating YAML file with people recognition results')
+        #
+        # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
 
-        utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+        logger.debug('Updating YAML files with people recognition results')
+
+        # Remove previous files
+        if os.path.exists(self.rec_files_path):
+            shutil.rmtree(self.rec_files_path)
+        os.makedirs(self.rec_files_path)
+
+        counter = 0
+        for person_dict in self.recognized_faces:
+            yaml_file_name = str(counter) + '.YAML'
+            yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
+            utils.save_YAML_file(yaml_file_path, person_dict)
+            counter += 1

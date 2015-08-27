@@ -12,6 +12,9 @@ ALIGNED_FACES_PATH = r'C:\Users\Maurizio\Documents\Aligned faces'
 # must be entirely contained by the corresponding frame
 ALL_CLOTH_BBOXES_IN_FRAMES = True
 
+# File where caption recognition results will be saved
+CAPTION_RESULTS_FILE_PATH = ''
+
 # If True, check eye positions
 CHECK_EYE_POSITIONS = True
 
@@ -202,6 +205,9 @@ OFFSET_PCT_X = 0.20
 # % of the image to keep next to the eyes in the vertical direction
 OFFSET_PCT_Y = 0.50
 
+# Path of file where used parameters are to be saved
+PARAMS_FILE_PATH = ''
+
 # Ratio between height of character bounding box and text when trying
 # to identify a character by adding to image a known character 
 PELS_TO_TEXT_SIZE_RATIO = 25.7
@@ -219,8 +225,9 @@ TAG_SEP = '_'
 
 # TODO CHANGE FOR SERVER
 # Path of directory containing "tesseract" directory
-TESSERACT_PARENT_DIR_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools' + os.sep
-# TESSERACT_PARENT_DIR_PATH = os.path.join(settings.BASE_DIR, settings.PLUGIN_SCRIPT_MODULE, 'face_extractor', 'tools')
+TESSERACT_PARENT_DIR_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools' + os.sep  # Portatile MP
+TESSERACT_PARENT_DIR_PATH = r'C:\Active\Mercurial\face_extractor\tools' + os.sep  # Palladium
+# TESSERACT_PARENT_DIR_PATH = r'/var/spool/active/job_processor/plugins_script/face_extractor/tools/'
 
 # Minimum value for intersection area 
 # between detection bbox and tracking window
@@ -318,36 +325,38 @@ VARIABLE_CLOTHING_THRESHOLD = False
 # TODO CHANGE FOR SERVER
 # Path of directory where video indexing results are stored
 # VIDEO_INDEXING_PATH = os.path.join(settings.MEDIA_ROOT, 'items')
-VIDEO_INDEXING_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test'
+VIDEO_INDEXING_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test'  # Portatile MP
 
 
 
 # Directories
 
 
-ALIGNED_FACES_DIR = 'Aligned faces'
-BBOX_IMAGES_DIR = 'Bbox images'
-CLOTH_MODELS_DIR = 'Cloth models'
+ALIGNED_FACES_DIR = 'Aligned_faces'
+BBOX_IMAGES_DIR = 'Bbox_images'
+CLOTH_MODELS_DIR = 'Cloth_models'
 FACE_ANNOTATION_DIR = 'Annotations'
-FACE_DETECTION_DIR = 'Face detection'
-FACE_EXTRACTION_DIR = 'Face extraction'
-FACE_MODELS_DIR = 'Face models'
-FACE_RECOGNITION_DIR = 'Face recognition'
-FACE_RECOGNITION_KEY_FRAMES_DIR = 'Key frames'
+FACE_DETECTION_DIR = 'Face_detection'
+FACE_EXTRACTION_DIR = 'Face_extraction'
+FACE_MODELS_DIR = 'Face_models'
+FACE_RECOGNITION_DIR = 'Face_recognition'
+FACE_RECOGNITION_KEY_FRAMES_DIR = 'Key_frames'
 FACE_RECOGNITION_PEOPLE_DIR = 'People'
-FACE_SIMPLE_ANNOTATION_DIR = 'Simple annotations'
-FACE_TRACKING_DIR = 'Face tracking'
+FACE_SIMPLE_ANNOTATION_DIR = 'Simple_annotations'
+FACE_TRACKING_DIR = 'Face_tracking'
 FACE_TRACKING_SEGMENTS_DIR = 'Segments'
 FRAMES_DIR = 'Frames'
-PEOPLE_CLUSTERING_DIR = 'People clustering'
-TRAINING_SET_DIR = 'Training set'
-WHOLE_IMAGES_DIR = 'Whole images'
+PEOPLE_CLUSTERING_DIR = 'People_clustering'
+TRAINING_SET_DIR = 'Training_set'
+WHOLE_IMAGES_DIR = 'Whole_images'
+YAML_FILES_DIR = 'YAML_files'
 
 
 
 
 # Files
 
+CAPTION_RESULTS_FILE_NAME = 'caption_results.yml'
 CLUSTER_FILE = 'clusters.yml'
 ENABLED_FACE_MODELS_FILE = 'Enabled_face_models'
 FACE_MODELS_FILE = 'Face_models'
@@ -383,6 +392,7 @@ BBOX_KEY = 'bbox'
 CAPTION_ASSIGNED_LABEL_KEY = 'caption_assigned_label'
 CAPTION_ASSIGNED_TAG_KEY = 'caption_assigned_tag'
 CAPTION_RECOGNITION_TIME_KEY = 'caption_recognition_time'
+CAPTION_RESULTS_FILE_PATH_KEY = 'caption_results_file_path'
 CAPTION_SEGMENTS_KEY = 'caption_segments'
 CAPTION_SEGMENTS_NR_KEY = 'caption_segments_nr'
 CHECK_EYE_POSITIONS_KEY = 'check_eye_positions'
@@ -463,6 +473,7 @@ OFFSET_PCT_X_KEY = 'offset_pct_x'
 OFFSET_PCT_Y_KEY = 'offset_pct_y'
 ORD_BBOXS_KEY = 'ord_bboxs'
 ORD_CONTOUR_IDXS_KEY = 'ord_contour_idxs'
+PARAMS_FILE_PATH_KEY = 'params_file_path'
 PEOPLE_CLUSTERING_TIME_KEY = 'people_clustering_time'
 PEOPLE_CLUSTERS_NR_KEY = 'people_clusters_nr'
 PEOPLE_RECOGNITION_TIME_KEY = 'people_recognition_time'

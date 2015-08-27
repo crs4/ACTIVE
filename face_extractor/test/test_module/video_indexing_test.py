@@ -680,6 +680,7 @@ def video_indexing_experiments(
         fs = VideoFaceExtractor(resource_path, resource_id, params)
         # Delete results of previous experiment
         fs.delete_recognition_results()
+
         fs.analyze_video()
 
     else:
@@ -689,7 +690,7 @@ def video_indexing_experiments(
     
     # Directory for this video  
     video_path = fs.video_path
-    
+
     # Directory with simple annotations
     simple_ann_path = os.path.join(video_path, c.FACE_SIMPLE_ANNOTATION_DIR)
     
@@ -1283,8 +1284,8 @@ def video_indexing_experiments(
     face_rec_time = 0
     if c.FACE_RECOGNITION_TIME_KEY in fs.anal_times:
         face_rec_time = fs.anal_times[c.FACE_RECOGNITION_TIME_KEY]
-    new_experiment_dict[c.FACE_RECOGNITION_TIME_KEY] = face_rec_time         
-    
+    new_experiment_dict[c.FACE_RECOGNITION_TIME_KEY] = face_rec_time
+
     new_experiment_dict[c.SEGMENTS_NR_KEY] = fs.anal_results[c.SEGMENTS_NR_KEY]
     new_experiment_dict[c.PEOPLE_CLUSTERS_NR_KEY] = fs.anal_results[
         c.PEOPLE_CLUSTERS_NR_KEY]
