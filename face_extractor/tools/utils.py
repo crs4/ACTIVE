@@ -1178,8 +1178,13 @@ def is_rect_similar(rect1, rect2, min_int_area):
                          rectangles (related to area of the smallest one)
                          for considering them similar
 
-    :rtype: boolean
-    :return: True if rectangles are similar, False otherwise
+    :rtype: tuple
+    :return: a (similar, int_area, int_area_pct) tuple,
+             where similar is True
+             if rectangles are similar and False otherwise,
+             int_area is the area of the intersection,
+             int_area_pct is the ratio between the area of the intersection
+             and the area of the biggest rectangle
     """
     
     similar = False
@@ -1201,21 +1206,31 @@ def is_rect_similar(rect1, rect2, min_int_area):
     int_y1 = max(y11, y21)
     int_x2 = min(x12, x22)
     int_y2 = min(y12, y22)
+
+    int_area = 0
+    int_area_pct = 0
     
     if (int_x1 < int_x2) and (int_y1 < int_y2):
         # The two rectangles intersect
+
+        rect1_area = w1 * h1
+
+        rect2_area = w2 * h2
+
+        max_rect_area = max(rect1_area, rect2_area)
         
-        if is_rect_enclosed(rect1, rect2) or is_rect_enclosed(rect2, rect1):
-            # One rectangle is inside the other
-            
+        if is_rect_enclosed(rect1, rect2):
+            # rect1 is inside rect2
             similar = True
+            int_area = rect1_area
             
+        elif is_rect_enclosed(rect2, rect1):
+            # rect2 is inside rect1
+            similar = True
+            int_area = rect2_area
+
         else:
-            
-            rect1_area = w1 * h1
-            
-            rect2_area = w2 * h2
-            
+
             min_rect_area = min(rect1_area, rect2_area)
             
             int_area = (int_x2 - int_x1) * (int_y2 - int_y1)
@@ -1226,8 +1241,10 @@ def is_rect_similar(rect1, rect2, min_int_area):
                 # between the two being compared
                 
                 similar = True
+
+        int_area_pct = float(int_area) / max_rect_area
                 
-    return similar
+    return similar, int_area, int_area_pct
 
 
 def load_YAML_file(file_path):

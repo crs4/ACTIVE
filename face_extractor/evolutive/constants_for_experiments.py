@@ -1,0 +1,4 @@
+PERSON_TRACKING_IMAGE_ANN_PATH = ''
+PERSON_TRACKING_IMAGE_DATASET_PATH = ''
+PERSON_TRACKING_IMAGE_ANN_PATH_KEY = 'person_tracking_image_ann_path'
+PERSON_TRACKING_IMAGE_DATASET_PATH_KEY = 'person_tracking_image_dataset_path'
