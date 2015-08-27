@@ -8,15 +8,12 @@ sys.path.append(path_to_be_appended)
 
 import tools.constants as c
 import tools.utils as utils
-from tools.face_models import FaceModels
-
 import constants_for_experiments as ce
-from video_indexing_test import video_indexing_experiments
 
 # TODO CHANGE
 # video_idx_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
-video_idx_path = r'C:\Active\People recognition'  # Palladium
-code_version = 372
+video_idx_path = r'C:\Active\People_recognition'  # Palladium
+code_version = 379
 
 # Fixed parameters
 
@@ -88,13 +85,13 @@ variable_cloth_thresh = False
 # TODO CHANGE
 # video_idx_results_path = r'C:\Users\Maurizio\Documents\Video indexing\People clustering\Results'
 video_idx_results_path = r'C:\Active\Risultati test\People recognition'  # Palladium
-video_idx_results_file_name = 'People_recognition'
+video_idx_results_file_name = 'People_recognition' # TODO CHANGE
 
 # People recognition
 global_face_models_min_diff = -1
 # TODO CHANGE
 # global_face_rec_data_dir_path = r'C:\Users\Maurizio\Documents\Risultati test\People recognition\Global face recognition' # Portatile MP
-global_face_rec_data_dir_path = r'C:\Active\People recognition\Global face recognition data'  # Palladium
+global_face_rec_data_dir_path = r'C:\Active\People_recognition\Global face recognition data'  # Palladium
 lev_ratio_pct_thresh = 0.8
 min_frames_per_caption = 4
 min_tag_length = 10
@@ -109,38 +106,47 @@ used_fps_for_captions = 1.0
 # tags_file_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\tools\Tags.txt'
 # TODO CHANGE
 # tessaract_parent_dir_path = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools'  # Portatile MP
-tesseract_parent_dir_path = r'C:\Active\Mercurial\tools'  # Palladium
+tesseract_parent_dir_path = r'C:\Active\Mercurial\face_extractor\tools' + os.sep  # Palladium
 # TODO CHANGE
 word_blacklist_path = r'C:\Active\Dataset\Word_blacklist.txt'  # Palladium
 
 # Variable parameters
 
-resource_paths = ['C:\Active\RawVideos\fic.02.mpg', 'C:\Active\RawVideos\MONITOR072011.mpg']
-resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
+# TODO CHANGE
+resource_paths = [r'C:\Active\RawVideos\SPALTI3_230907.mpg']
+resource_ids = ['SPALTI3_230907.mpg']
+
+# resource_paths = [r'C:\Active\RawVideos\SPALTI3_230907.mpg',
+#                   r'C:\Active\RawVideos\Fic.03.mpg',
+#                   r'C:\Active\RawVideos\MONITOR272010.mpg']
+# resource_ids = ['SPALTI3_230907.mpg',
+#                 'Fic.03.mpg',
+#                 'MONITOR272010.mpg']
+
 
 # TODO CHANGE
 global_face_rec_thresh_list = range(2, 51, 2)
 # global_face_rec_thresh_list = [8]
 
 # TODO CHANGE
-use_majority_rule_list = [True, False]
+use_majority_rule_list = [False, True]
 # use_majority_rule_list = [True]
-
-test_counter = 0
 
 res_counter = 0
 
 for resource_path in resource_paths:
 
+    test_counter = 0
+
     resource_id = resource_ids[res_counter]
-
-    dir_name = 'TEST ID ' + str(test_counter)
-
-    print(dir_name)
 
     for use_maj_rule in use_majority_rule_list:
 
         for global_face_rec_thresh in global_face_rec_thresh_list:
+
+            dir_name = 'TEST ID ' + str(test_counter)
+
+            print(dir_name)
 
             params = {ce.CODE_VERSION_KEY: code_version,
 
@@ -172,7 +178,7 @@ for resource_path in resource_paths:
                       c.CLOTHES_BBOX_WIDTH_KEY: clothes_bbox_width,
                       c.CLOTHES_CHECK_METHOD_KEY: clothes_check_method,
                       c.CLOTHES_CONF_THRESH_KEY: clothes_conf_thresh,
-                      c.CLOTHING_REC_HSV_CHANNELS_NR: hsv_channels,
+                      c.CLOTHING_REC_HSV_CHANNELS_NR_KEY: hsv_channels,
                       c.CLOTHING_REC_USE_3_BBOXES_KEY: use_3_bboxes,
                       c.CLOTHING_REC_USE_DOMINANT_COLOR_KEY: use_dom_color,
                       c.CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY: use_mean_x,
@@ -229,6 +235,12 @@ for resource_path in resource_paths:
                 params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\fic.02\Simple annotations'
             elif resource_id == 'MONITOR072011.mpg':
                 params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
+            elif resource_id == 'SPALTI3_230907.mpg':
+                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\SPALTI3_230907\Simple annotations'
+            elif resource_id == 'Fic.03.mpg':
+                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\Fic.03\Simple annotations'
+            elif resource_id == 'MONITOR272010.mpg':
+                params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR272010\Simple annotations'
 
             # TODO CHANGE
             # Save file with parameters
@@ -250,19 +262,25 @@ for resource_path in resource_paths:
             subprocess.call(command)
 
             # Move directories with automatic annotations
-            detailed_results_path = r'C:\Active\People recognition\Risultati dettagliati'
-            old_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face extraction\Annotations')
+            detailed_results_path = r'C:\Active\People_recognition\Risultati dettagliati'
+            old_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face_extraction\Annotations')
             new_ann_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, 'Annotations')
             shutil.move(old_ann_path, new_ann_path)
-            old_simple_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face extraction\Simple annotations')
+            old_simple_ann_path = os.path.join(video_idx_path, str(resource_id), 'Face_extraction\Simple_annotations')
             new_simple_ann_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, 'Simple annotations')
             shutil.move(old_simple_ann_path, new_simple_ann_path)
 
-            # Move YAML file with recognition results
-            file_name = str(resource_id) + '.YAML'
-            old_file_path = os.path.join(video_idx_path, str(resource_id), c.FACE_EXTRACTION_DIR, c.FACE_RECOGNITION_DIR, file_name)
-            new_file_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, file_name)
-            shutil.move(old_file_path, new_file_path)
+            # TODO DELETE
+            # # Move YAML file with recognition results
+            # file_name = str(resource_id) + '.YAML'
+            # old_file_path = os.path.join(video_idx_path, str(resource_id), c.FACE_EXTRACTION_DIR, c.FACE_RECOGNITION_DIR, file_name)
+            # new_file_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, file_name)
+            # shutil.move(old_file_path, new_file_path)
+
+            # Move YAML files with recognition results
+            old_files_path = os.path.join(video_idx_path, str(resource_id), c.FACE_EXTRACTION_DIR, c.FACE_RECOGNITION_DIR, c.YAML_FILES_DIR)
+            new_files_path = os.path.join(detailed_results_path, str(resource_id), 'Only_faces', dir_name, 'YAML_files')
+            shutil.move(old_files_path, new_files_path)
 
             test_counter += 1
 

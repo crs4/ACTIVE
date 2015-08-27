@@ -1265,14 +1265,13 @@ def load_YAML_file(file_path):
             return data
            
     except IOError as e:
-         error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
-         print error_str
-         return None
+        error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
+        print error_str
+        return None
 
     except:
          print "Unexpected error:", sys.exc_info()[0]
          return None
-   
 
 def merge_consecutive_segments(segments, min_duration):
     """
@@ -1586,6 +1585,7 @@ def save_YAML_file(file_path, data):
     """
 
     with open(file_path, 'w') as stream:
-        result = stream.write(
-        yaml.dump(data, default_flow_style=False))
+        # result = stream.write(
+        # yaml.dump(data, default_flow_style=False))
+        result = yaml.dump(data, stream, default_flow_style=False)
         return result

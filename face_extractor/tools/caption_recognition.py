@@ -1,10 +1,13 @@
+import argparse
 import constants as c
 import cv2
 import cv2.cv as cv
 import Levenshtein as Lev
 import numpy as np
+import sys
 import tesseract
 from face_models import FaceModels
+from utils import load_YAML_file, save_YAML_file
 from itertools import permutations
 
 
@@ -404,15 +407,15 @@ def find_most_similar_tag(tags, words, params=None):
 
     if lev_ratio_pct < lev_thresh:
         assigned_tag = c.UNDEFINED_TAG
-    else:
-        if use_levenshtein:
-            # TEST ONLY
-            print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (
-                assigned_tag, eq_letters_nr, tot_letters_nr)
-        else:
-            # TEST ONLY
-            print "Predicted tag = %s (%d equal letters out of %d)" % (
-                assigned_tag, eq_letters_nr, tot_letters_nr)
+    # TODO DELETE TEST ONLY
+    # else:
+    #     if use_levenshtein:
+    #         print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (
+    #             assigned_tag, eq_letters_nr, tot_letters_nr)
+    #     else:
+    #
+    #         print "Predicted tag = %s (%d equal letters out of %d)" % (
+    #             assigned_tag, eq_letters_nr, tot_letters_nr)
 
     result_dict = {c.ASSIGNED_TAG_KEY: assigned_tag,
                    c.EQ_LETTERS_NR_KEY: eq_letters_nr,
@@ -422,7 +425,7 @@ def find_most_similar_tag(tags, words, params=None):
     return result_dict
 
 
-def get_tag_from_image(im_path, params=None):
+def get_tag_from_image(im_path, params=None, api=None):
     """
     Find tag in image captions
 
@@ -431,7 +434,10 @@ def get_tag_from_image(im_path, params=None):
 
     :type params: dictionary
     :param params: configuration parameters to be used for
-                   the caption recognition (see table)
+                   the caption recognition
+
+    :type api: Tesseract TessBaseAPI
+    :param api: api to be used for the Optical Character Recognition
 
     :rtype: dictionary
     :returns: dictionary with results (see table)
@@ -472,18 +478,20 @@ def get_tag_from_image(im_path, params=None):
 
     gray_im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
 
-    # Tesseract init
-    api = tesseract.TessBaseAPI()
+    if api is None:
+        # Tesseract init
+        api = tesseract.TessBaseAPI()
 
-    # Set parent directory of "tessdata" directory
-    tesseract_parent_dir_path = c.TESSERACT_PARENT_DIR_PATH
-    if (params is not None) and (c.TESSERACT_PARENT_DIR_PATH_KEY in params):
-        tesseract_parent_dir_path = params[c.TESSERACT_PARENT_DIR_PATH_KEY]
+        # Set parent directory of "tessdata" directory
+        tesseract_parent_dir_path = c.TESSERACT_PARENT_DIR_PATH
+        if (params is not None) and (c.TESSERACT_PARENT_DIR_PATH_KEY in params):
+            tesseract_parent_dir_path = params[c.TESSERACT_PARENT_DIR_PATH_KEY]
 
-    api.Init(tesseract_parent_dir_path, "eng", tesseract.OEM_DEFAULT)
-    api.SetVariable("tessedit_char_whitelist",
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
-    api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
+        api.Init(tesseract_parent_dir_path, "eng", tesseract.OEM_DEFAULT)
+
+        api.SetVariable("tessedit_char_whitelist",
+                        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+        api.SetPageSegMode(tesseract.PSM_SINGLE_CHAR)
 
     result_dict = find_letters_in_image(gray_im, api, True, False)
 
@@ -729,6 +737,12 @@ def get_tag_from_image(im_path, params=None):
         if len(tags) > 0:
             result_dict = find_most_similar_tag(tags, words, params)
 
+    # Save file with results
+    caption_results_file_path = c.CAPTION_RESULTS_FILE_PATH
+    if params is not None and c.CAPTION_RESULTS_FILE_PATH_KEY in params:
+        caption_results_file_path = params[c.CAPTION_RESULTS_FILE_PATH_KEY]
+    save_YAML_file(caption_results_file_path, result_dict)
+
     return result_dict
 
 def get_tags_from_file(tags_file_path):
@@ -749,6 +763,44 @@ def get_tags_from_file(tags_file_path):
     f.close()
 
     return tags
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(
+        description="Execute caption recognition on given image")
+    parser.add_argument("-im_path", help="image path")
+    parser.add_argument("-config", help="configuration file")
+
+    args = parser.parse_args()
+
+    im_path = None
+
+    if args.im_path:
+        im_path = args.im_path
+    else:
+        if im_path is None:
+            print("Resource path not provided")
+            exit()
+
+    # Set parameters
+    params = None
+
+    if args.config:
+        # Load given configuration file
+        try:
+            params = load_YAML_file(args.config)
+        except IOError, (errno, strerror):
+            print("I/O error({0}): {1}".format(errno, strerror))
+            print("Default configuration file will be used")
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
+            raise
+    else:
+        print("Default configuration file will be used")
+
+    get_tag_from_image(im_path, params)
+
 
 
 
