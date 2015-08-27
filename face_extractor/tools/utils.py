@@ -1250,15 +1250,11 @@ def load_YAML_file(file_path):
     except IOError as e:
         error_str = "I/O error({0}): {1}".format(e.errno, e.strerror)
         print error_str
-         return None
+        return None
 
     except:
          print "Unexpected error:", sys.exc_info()[0]
          return None
-
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-        return None
 
 def merge_consecutive_segments(segments, min_duration):
     """
