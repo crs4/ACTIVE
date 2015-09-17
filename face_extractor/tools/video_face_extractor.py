@@ -4396,7 +4396,7 @@ class VideoFaceExtractor(object):
                             # a detected face, 
                             # delete detection from list
 
-                            sim = utils.is_rect_similar(
+                            (sim, int_area, int_area_pct) = utils.is_rect_similar(
                                 track_window, det_bbox, tracking_min_int_area)
 
                             if sim:

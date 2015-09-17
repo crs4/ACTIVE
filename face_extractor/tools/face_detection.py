@@ -1093,7 +1093,8 @@ def merge_classifier_results(faces_from_classifier_1, faces_from_classifier_2):
         face_must_be_considered = True
         for face1 in faces_from_classifier_1:
 
-            similar = utils.is_rect_similar(face1, face2, c.DET_MIN_INT_AREA)
+            (similar, int_area, int_area_pct) = utils.is_rect_similar(
+                face1, face2, c.DET_MIN_INT_AREA)
 
             if similar:
                 face_must_be_considered = False
