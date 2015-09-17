@@ -6,14 +6,11 @@ import os
 
 # TODO CHANGE FOR SERVER
 # Default path of directory for aligned faces
-ALIGNED_FACES_PATH = r'C:\Users\Maurizio\Documents\Aligned faces'
+ALIGNED_FACES_PATH = ''  # r'C:\Users\Maurizio\Documents\Aligned faces'
 
 # If True, all bounding boxes related to one face track
 # must be entirely contained by the corresponding frame
 ALL_CLOTH_BBOXES_IN_FRAMES = True
-
-# File where caption recognition results will be saved
-CAPTION_RESULTS_FILE_PATH = ''
 
 # If True, check eye positions
 CHECK_EYE_POSITIONS = True
@@ -66,6 +63,7 @@ CROPPED_FACE_WIDTH = 200
 
 # Minimum value for intersection area 
 # between two detections for merging them
+# (in % of the area of the smallest rectangle)
 DET_MIN_INT_AREA = 0.5 
 
 # Classifier for eye detection
@@ -77,7 +75,8 @@ FACE_DETECTION_ALGORITHM = 'HaarCascadeFrontalFaceAlt2'
 # Flags used in face detection
 FACE_DETECTION_FLAGS = 'DoCannyPruning'
 
-# Mininum number of neighbors for face detection
+# Mininum number of neighbors (overlapping bounding boxes)
+# for face detection
 FACE_DETECTION_MIN_NEIGHBORS = 5
 
 # Minimum height of face detection bounding box (in pixels)
@@ -182,7 +181,7 @@ MIN_DETECTION_PCT = 0.3
 # (in % of the width of the face bounding box)
 MIN_EYE_DISTANCE = 0.25
 
-# Minimum number of frames in the same face track
+# Minimum number of frames in the same cluster
 # with captions associated to the same person
 # in order to consider caption
 MIN_FRAMES_PER_CAPTION = 4
@@ -205,12 +204,35 @@ OFFSET_PCT_X = 0.20
 # % of the image to keep next to the eyes in the vertical direction
 OFFSET_PCT_Y = 0.50
 
+# TODO CHANGE FOR SERVER
 # Path of file where used parameters are to be saved
 PARAMS_FILE_PATH = ''
 
 # Ratio between height of character bounding box and text when trying
 # to identify a character by adding to image a known character 
 PELS_TO_TEXT_SIZE_RATIO = 25.7
+
+# Height of bounding box for clothes used in person tracking
+# (in % of the face bounding box height)
+PERSON_TRACKING_CLOTHES_BBOX_HEIGHT = 1.0
+
+# Width of bounding box for clothes used in person tracking
+# (in % of the face bounding box height)
+PERSON_TRACKING_CLOTHES_BBOX_WIDTH = 1.0
+
+# Number of HSV channels used in person tracking (1-2)
+PERSON_TRACKING_HSV_CHANNELS_NR = 1
+
+# Minimum percentage of frames in which there is a corresponding bounding box
+# for considering two segments found by person tracking similar
+PERSON_TRACKING_MIN_CORR_PCT = 0.5
+
+# Height of neck used in person tracking
+# (in % of the face bounding box height)
+PERSON_TRACKING_NECK_HEIGHT = 0.0
+
+# If True, use a mask for HSV values in person tracking
+PERSON_TRACKING_USE_MASK = False
 
 # Standard deviation multiplier for calculating 
 # thresholds for dividing between faces
@@ -312,6 +334,10 @@ USE_LEVENSHTEIN = True
 # If True, apply oval mask to face image
 USE_OVAL_MASK = False
 
+# If True, person tracking for detecting people
+# where face is not visible is used
+USE_PERSON_TRACKING = False
+
 # If True, use skeletons for parallel and distributed computing
 USE_SKELETONS = False
 
@@ -356,16 +382,18 @@ YAML_FILES_DIR = 'YAML_files'
 
 # Files
 
-CAPTION_RESULTS_FILE_NAME = 'caption_results.yml'
-CLUSTER_FILE = 'clusters.yml'
+CAPTION_RESULTS_FILE = 'caption_results.yaml'
+CLUSTER_FILE = 'clusters.yaml'
+CONFIGURATION_PARAMETERS_FILE = 'configuration_parameters.yaml'
 ENABLED_FACE_MODELS_FILE = 'Enabled_face_models'
 FACE_MODELS_FILE = 'Face_models'
-FACES_FILE = 'Faces.yml'
-FACES_NR_IN_FRAMES_FILE = 'faces_nr_in_frames.yml'
-FRAMES_IN_MODELS_FILE = 'frames_in_models.yml'
+FACES_FILE = 'Faces.yaml'
+FACES_NR_IN_FRAMES_FILE = 'faces_nr_in_frames.yaml'
+FRAMES_IN_MODELS_FILE = 'frames_in_models.yaml'
 NOSE_POSITIONS_FILE = 'noses'
-TAG_LABEL_ASSOCIATIONS_FILE = 'Tag_label_associations.yml'
-WORD_BLACKLIST_FILE = 'Word_blacklist.yml'
+SHOT_CUTS_FILE = 'shot_cuts.yaml'
+TAG_LABEL_ASSOCIATIONS_FILE = 'Tag_label_associations.yaml'
+WORD_BLACKLIST_FILE = 'Word_blacklist.yaml'
 
 
 
@@ -397,6 +425,7 @@ CAPTION_SEGMENTS_KEY = 'caption_segments'
 CAPTION_SEGMENTS_NR_KEY = 'caption_segments_nr'
 CHECK_EYE_POSITIONS_KEY = 'check_eye_positions'
 CLASSIFIERS_DIR_PATH_KEY = 'classifiers_folder_path'
+CLOTHES_BBOX_HEIGHT_KEY = 'clothes_bounding_box_height'
 CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
 CLOTHES_CONF_THRESH_KEY = 'conf_threshold_for_clothing_recognition'
@@ -407,7 +436,6 @@ CLOTHING_REC_USE_DOMINANT_COLOR_KEY = (
 CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY = (
     'use_mean_x_of_faces_in_clothing_recognition')
 CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
-CLOTHES_BBOX_HEIGHT_KEY = 'clothes_bounding_box_height'
 CONFIDENCE_KEY = 'confidence'
 CONF_THRESHOLD_KEY = 'conf_threshold'
 CONTOURS_KEY = 'contours'
@@ -416,6 +444,7 @@ CROPPED_FACE_WIDTH_KEY = 'cropped_face_width'
 DB_MODELS_PATH_KEY = 'db_models_path'
 DETECTED_KEY = 'detected'
 DETECTION_BBOX_KEY = 'detection_bbox'
+DET_MIN_INT_AREA_KEY = 'detection_min_int_area'
 TAG_ID_KEY = 'tag_id'
 ELAPSED_CPU_TIME_KEY = 'elapsed_CPU_time'
 ELAPSED_VIDEO_TIME_KEY = 'elapsed_video_time'
@@ -431,6 +460,7 @@ FACE_KEY = 'face'
 FACE_RECOGNITION_TIME_KEY = 'face_recognition_time'
 FACE_TRACKING_TIME_KEY = 'face_tracking_time'
 FACES_KEY = 'faces'
+FOUND_BY_PERSON_TRACKING_KEY = 'found_by_person_tracking'
 FLAGS_KEY = 'flags'
 FRAME_COUNTER_KEY = 'frame_counter'
 FRAME_EXTRACTION_TIME_KEY = 'frame_extraction_time'
@@ -477,12 +507,20 @@ PARAMS_FILE_PATH_KEY = 'params_file_path'
 PEOPLE_CLUSTERING_TIME_KEY = 'people_clustering_time'
 PEOPLE_CLUSTERS_NR_KEY = 'people_clusters_nr'
 PEOPLE_RECOGNITION_TIME_KEY = 'people_recognition_time'
+PEOPLE_TRACKING_TIME_KEY = 'people_tracking_time'
 PERSON_COUNTER_KEY = 'person_counter'
+PERSON_TRACKING_CLOTHES_BBOX_HEIGHT_KEY = 'person_tracking_clothes_bbox_height'
+PERSON_TRACKING_CLOTHES_BBOX_WIDTH_KEY = 'person_tracking_clothes_bbox_width'
+PERSON_TRACKING_HSV_CHANNELS_NR_KEY = 'nr_of_hsv_channels_in_person_tracking'
+PERSON_TRACKING_MIN_CORR_PCT_KEY = 'person_tracking_min_corr_pct'
+PERSON_TRACKING_NECK_HEIGHT_KEY = 'person_tracking_neck_height'
+PERSON_TRACKING_USE_MASK_KEY = 'use_mask_in_person_tracking'
 RELEVANT_PEOPLE_NR_KEY = 'relevant_people_nr'
 RIGHT_EYE_POS_KEY = 'right_eye_position'
 SAVED_FRAME_NAME_KEY = 'frame_name'
 SCALE_FACTOR_KEY = 'scale_factor'
 SEGMENT_COUNTER_KEY = 'segment_counter'
+SEGMENT_DISTANCE_RATIO_KEY = 'segment_distance_ratio'
 SEGMENT_DURATION_KEY = 'segment_duration'
 SEGMENT_END_KEY = 'segment_end'
 SEGMENT_START_KEY = 'segment_start'
@@ -516,6 +554,7 @@ USE_NOSE_POS_IN_DETECTION_KEY = 'use_nose_pos_in_detection'
 USE_NOSE_POS_IN_RECOGNITION_KEY = 'use_nose_pos_in_recognition'
 USE_ORIGINAL_FPS_KEY = 'use_original_fps'
 USE_ORIGINAL_RES_KEY = 'use_original_res'
+USE_PERSON_TRACKING_KEY = 'use_person_tracking'
 USE_SKELETONS_KEY = 'use_skeletons'
 USED_FPS_KEY = 'used_fps'
 USED_FPS_FOR_CAPTIONS_KEY = 'used_fps_for_captions'

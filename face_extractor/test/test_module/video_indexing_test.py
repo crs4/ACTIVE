@@ -465,9 +465,22 @@ def video_indexing_experiments(
                                                   'LBPCascadeFrontalface',
                                                   'LBPCascadeProfileFace' or
                                                   'LBPCascadeFrontalAndProfileFaces')
-    flags                                          Flags used in face detection             'DoCannyPruning'
-                                                   ('DoCannyPruning', 'ScaleImage',
-                                                   'FindBiggestObject', 'DoRoughSearch')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                   Mininum number of neighbor bounding     5
                                                     boxes for retaining face detection
     min_size_height                                 Minimum height of face detection        20
@@ -628,6 +641,22 @@ def video_indexing_experiments(
                                                     that make the results of the
                                                     caption recognition on a frame
                                                     rejected
+    use_person_tracking                             If True, person tracking for            False
+                                                    detecting people where face
+                                                    is not visible is used
+    nr_of_hsv_channels_nr_in_person_tracking        Number of HSV channels used             2
+                                                    in person tracking (1-2)
+    person_tracking_clothes_bbox_height             Height of bounding box for clothes      1.0
+                                                    (in % of the face bounding box height)
+    person_tracking_clothes_bbox_width              Width of bounding box for clothes       2.0
+                                                    (in % of the face bounding box width)
+    person_tracking_min_corr_pct                    Minimum percentage of frames in which
+                                                    there is a corresponding bounding box
+                                                    for considering two segments found
+                                                    by person tracking similar
+    person_tracking_neck_height                     Height of neck (in % of the             0.0
+                                                    face bounding box height)
+    use_mask_in_person_tracking                     If True, use a mask for HSV values      False
     ============================================  ========================================  ==============
     """
 

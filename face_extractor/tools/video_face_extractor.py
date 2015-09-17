@@ -18,6 +18,8 @@ import numpy as np
 
 import os
 
+import person_tracking as pt
+
 import pickle as pk
 
 import shutil
@@ -26,11 +28,7 @@ import subprocess
 
 import sys
 
-import tesseract
-
 import utils
-
-from caption_recognition import get_tag_from_image
 
 from face_models import FaceModels
 
@@ -111,9 +109,22 @@ class VideoFaceExtractor(object):
                                                   'LBPCascadeFrontalface',
                                                   'LBPCascadeProfileFace' or
                                                   'LBPCascadeFrontalAndProfileFaces')
-    flags                                          Flags used in face detection             'DoCannyPruning'
-                                                   ('DoCannyPruning', 'ScaleImage',
-                                                   'FindBiggestObject', 'DoRoughSearch')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                   Mininum number of neighbor bounding     5
                                                     boxes for retaining face detection
     min_size_height                                 Minimum height of face detection        20
@@ -246,9 +257,25 @@ class VideoFaceExtractor(object):
                                                     by caption recognition and tags
                                                     are compared by using
                                                     the Levenshtein distance
+    use_person_tracking                             If True, person tracking for            False
+                                                    detecting people where face
+                                                    is not visible is used
     used_fps_for_captions                           Frame rate at which video is            1.0
                                                     analyzed for caption recognition
                                                     (in frames per second)
+    nr_of_hsv_channels_nr_in_person_tracking        Number of HSV channels used             2
+                                                    in person tracking (1-2)
+    person_tracking_clothes_bbox_height             Height of bounding box for clothes      1.0
+                                                    (in % of the face bounding box height)
+    person_tracking_clothes_bbox_width              Width of bounding box for clothes       2.0
+                                                    (in % of the face bounding box width)   0.5
+    person_tracking_min_corr_pct                    Minimum percentage of frames in which
+                                                    there is a corresponding bounding box
+                                                    for considering two segments found
+                                                    by person tracking similar
+    person_tracking_neck_height                     Height of neck (in % of the             0.0
+                                                    face bounding box height)
+    use_mask_in_person_tracking                     If True, use a mask for HSV values      False
     ============================================  ========================================  ==============
     """
 
@@ -267,7 +294,7 @@ class VideoFaceExtractor(object):
         :param resource_id: identifier of resource
 
         :type  params: dictionary
-        :param params: configuration parameters (see table)
+        :param params: configuration parameters
 
         :type models: dictionary
         :param models: dictionary with models for people recognition
@@ -323,7 +350,7 @@ class VideoFaceExtractor(object):
 
         # Setup directories and files with results
 
-        file_name = self.resource_id + '.YAML'
+        file_name = self.resource_id + '.yaml'
 
         # Directory for this video     
         video_indexing_path = c.VIDEO_INDEXING_PATH
@@ -349,6 +376,10 @@ class VideoFaceExtractor(object):
 
         # File with detection results
         self.det_file_path = os.path.join(self.det_path, file_name)
+
+        # File with shot detection results
+        self.cut_idxs_file_path = os.path.join(
+            self.video_path, c.SHOT_CUTS_FILE)
 
         # Directory for tracking results
         self.track_path = os.path.join(self.video_path, c.FACE_TRACKING_DIR)
@@ -391,7 +422,7 @@ class VideoFaceExtractor(object):
         # File with recognition results
         # self.rec_file_path = os.path.join(self.rec_path, file_name)
 
-        # Directory with recognition results
+        # Directory with files with recognition results
         self.rec_files_path = os.path.join(self.rec_path, c.YAML_FILES_DIR)
 
         # Directory with complete annotations
@@ -403,12 +434,12 @@ class VideoFaceExtractor(object):
             self.video_path, c.FACE_SIMPLE_ANNOTATION_DIR)
 
         # File with parameters
-        params_file_name = self.resource_id + '_parameters.YAML'
+        params_file_name = self.resource_id + '_parameters.yaml'
 
         self.params_file_path = os.path.join(self.video_path, params_file_name)
 
         # File with times used for analysis
-        analysis_file_name = self.resource_id + '_analysis_times.YAML'
+        analysis_file_name = self.resource_id + '_analysis_times.yaml'
 
         self.analysis_file_path = os.path.join(
             self.video_path, analysis_file_name)
@@ -466,7 +497,7 @@ class VideoFaceExtractor(object):
                     for yaml_file in os.listdir(self.rec_files_path):
                         yaml_file_path = os.path.join(
                             self.rec_files_path, yaml_file)
-                        with open(yaml_file_path) as f:
+                        with open(yaml_file_path, 'r') as f:
                             self.recognized_faces.append(yaml.load(f))
 
                     print 'YAML files with recognition results loaded'
@@ -625,6 +656,13 @@ class VideoFaceExtractor(object):
 
                     self.cluster_faces_in_video()
 
+                    use_person_tracking = c.USE_PERSON_TRACKING
+                    if ((self.params is not None) and
+                            (c.USE_PERSON_TRACKING_KEY in self.params)):
+                        use_person_tracking = self.params[c.USE_PERSON_TRACKING_KEY]
+                    if use_person_tracking:
+                        self.track_people_in_video()
+
                 self.recognize_people_in_video()
 
                 # TODO UNCOMMENT TEST ONLY
@@ -665,7 +703,7 @@ class VideoFaceExtractor(object):
                 print 'Loading YAML file with frame list'
                 logger.debug('Loading YAML file with frame list')
 
-                with open(self.frames_file_path) as f:
+                with open(self.frames_file_path, 'r') as f:
 
                     self.frame_list = yaml.load(f)
 
@@ -722,7 +760,7 @@ class VideoFaceExtractor(object):
             self.cut_idxs = utils.get_shot_changes(
                 self.hist_diffs, half_window_size, std_mult_frame)
 
-            # Save processing time
+        # Save processing time
         time_in_clocks = cv2.getTickCount() - start_time
         seconds = time_in_clocks / cv2.getTickFrequency()
 
@@ -730,8 +768,11 @@ class VideoFaceExtractor(object):
         logger.debug(
             'Time for calculation of histogram differences: ' + str(seconds) + 's\n')
 
-        self.anal_times[c.SHOT_CUT_DETECTION_TIME_KEY] = seconds
+        # Save shot cuts
+        utils.save_YAML_file(self.cut_idxs_file_path, self.cut_idxs)
 
+        # Save analysis times
+        self.anal_times[c.SHOT_CUT_DETECTION_TIME_KEY] = seconds
         utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
     def calculate_medoids(self):
@@ -766,7 +807,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         self.recognized_faces.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -796,7 +837,7 @@ class VideoFaceExtractor(object):
                 print 'Loading YAML file with frames in models'
                 logger.debug('Loading YAML file with frames in models')
 
-                with open(self.frames_in_models_file_path) as f:
+                with open(self.frames_in_models_file_path, 'r') as f:
 
                     self.frames_in_models = yaml.load(f)
 
@@ -962,7 +1003,7 @@ class VideoFaceExtractor(object):
                     print 'Loading YAML file with tracking results'
                     logger.debug('Loading YAML file with tracking results')
 
-                    with open(self.track_file_path) as f:
+                    with open(self.track_file_path, 'r') as f:
 
                         self.tracked_faces = yaml.load(f)
 
@@ -1635,6 +1676,9 @@ class VideoFaceExtractor(object):
 
                     print('progress: ' + str(self.progress) + ' %          \r'),
 
+                    # Faces must be aligned
+                    self.params[c.USE_EYES_POSITION_KEY] = True
+
                     detection_result = fd.detect_faces_in_image(
                         frame_path, self.align_path, self.params, False)
 
@@ -1836,20 +1880,16 @@ class VideoFaceExtractor(object):
         min_segment_duration = c.MIN_SEGMENT_DURATION
 
         if self.params is not None:
-
             if c.USE_ORIGINAL_FPS_KEY in self.params:
                 use_or_fps = self.params[c.USE_ORIGINAL_FPS_KEY]
-
             if c.USED_FPS_KEY in self.params:
                 used_fps = self.params[c.USED_FPS_KEY]
-
             if c.MIN_DETECTION_PCT_KEY in self.params:
                 min_detection_pct = self.params[c.MIN_DETECTION_PCT_KEY]
-
             if c.MIN_SEGMENT_DURATION_KEY in self.params:
                 min_segment_duration = self.params[c.MIN_SEGMENT_DURATION_KEY]
 
-                # Minimum duration of a segment in frames
+        # Minimum duration of a segment in frames
         min_segment_frames = int(
             math.ceil(self.fps * min_segment_duration))
 
@@ -1863,27 +1903,28 @@ class VideoFaceExtractor(object):
 
             frame_counter = len(sub_frame_list)
 
-            segment_dict = {c.FRAMES_KEY: sub_frame_list,
-                            c.SEGMENT_TOT_FRAMES_NR_KEY: frame_counter}
-
-            # Segment duration in milliseconds
-
-            duration = frame_counter * 1000.0 / self.fps
-
-            # If a reduced frame rate is used, frames are less
-
-            if not use_or_fps:
-                duration = frame_counter * 1000.0 / (used_fps + 1)
-
-            segment_dict[c.SEGMENT_DURATION_KEY] = duration
-
-            segment_dict[c.ASSIGNED_TAG_KEY] = c.UNDEFINED_TAG
-
-            segment_dict[c.CONFIDENCE_KEY] = -1
-
             # Segment must be considered only if its number
             # of frames is greater or equals than a minimum
             if frame_counter >= min_segment_frames:
+
+                segment_dict = {c.FRAMES_KEY: sub_frame_list,
+                                c.SEGMENT_TOT_FRAMES_NR_KEY: frame_counter}
+
+                # Segment duration in milliseconds
+                duration = frame_counter * 1000.0 / self.fps
+
+                # If a reduced frame rate is used, frames are less
+
+                if not use_or_fps:
+                    duration = frame_counter * 1000.0 / (used_fps + 1)
+
+                segment_dict[c.SEGMENT_DURATION_KEY] = duration
+
+                segment_dict[c.ASSIGNED_TAG_KEY] = c.UNDEFINED_TAG
+
+                segment_dict[c.CONFIDENCE_KEY] = -1
+
+                segment_dict[c.FOUND_BY_PERSON_TRACKING_KEY] = False
 
                 # Start of segment in millisecond
                 first_frame_dict = sub_frame_list[0]
@@ -1939,7 +1980,7 @@ class VideoFaceExtractor(object):
                 print 'Loading YAML file with tracking results'
                 logger.debug('Loading YAML file with tracking results')
 
-                with open(self.track_path) as f:
+                with open(self.track_path, 'r') as f:
 
                     self.tracked_faces = yaml.load(f)
 
@@ -2185,7 +2226,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         result.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -2236,7 +2277,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         self.recognized_faces.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -2262,6 +2303,53 @@ class VideoFaceExtractor(object):
         return person_counter
 
 
+    def get_time_intervals(self, segments, video_duration):
+        """
+        Get time intervals where person was not detected in video
+
+        :type segments: list
+        :param segments: face tracks of detected person
+
+        :type video_duration: integer
+        :param video_duration: duration of video in milliseconds
+
+        :rtype: list
+        :return: list of time intervals
+        """
+
+        # Set parameters
+        min_segment_duration = c.MIN_SEGMENT_DURATION
+        if self.params and (c.MIN_SEGMENT_DURATION_KEY in self.params):
+                min_segment_duration = self.params[c.MIN_SEGMENT_DURATION_KEY]
+
+        # Get time intervals where person was not detected
+        time_intervals = []
+
+        interval_start = 0
+        for segment in segments:
+            # Get start of segment (in milliseconds)
+            segment_start = segment[c.SEGMENT_START_KEY]
+
+            # Interval duration cannot be less than minimum segment duration
+            if (((segment_start - interval_start) / 1000.0)
+                    >= min_segment_duration):
+                time_interval = {c.SEGMENT_START_KEY: interval_start,
+                                 c.SEGMENT_END_KEY: segment_start}
+                time_intervals.append(time_interval)
+
+            # Get end of segment (in milliseconds)
+            segment_dur = segment[c.SEGMENT_DURATION_KEY]
+            interval_start = segment_start + segment_dur
+
+        # Add last time interval
+
+        time_interval = {c.SEGMENT_START_KEY: interval_start,
+                         c.SEGMENT_END_KEY: video_duration}
+        time_intervals.append(time_interval)
+
+        return time_intervals
+
+
     # TODO DELETE OR CHANGE ONLY FOR EXPERIMENTS
     def merge_caption_and_face_results(self):
 
@@ -2276,7 +2364,7 @@ class VideoFaceExtractor(object):
             str(self.resource_id),
             exp_type_dir,
             test_dir,
-            str(self.resource_id) + '.YAML'
+            str(self.resource_id) + '.yaml'
         )
 
         print('file_path', file_path)
@@ -2297,7 +2385,7 @@ class VideoFaceExtractor(object):
             str(self.resource_id),
             exp_type_dir,
             test_dir,
-            str(self.resource_id) + '.YAML'
+            str(self.resource_id) + '.yaml'
         )
 
         only_faces = utils.load_YAML_file(file_path)
@@ -2336,7 +2424,7 @@ class VideoFaceExtractor(object):
 
         counter = 0
         for person_dict in self.recognized_faces:
-            yaml_file_name = str(counter) + '.YAML'
+            yaml_file_name = str(counter) + '.yaml'
             yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
             utils.save_YAML_file(yaml_file_path, person_dict)
             counter += 1
@@ -2428,7 +2516,7 @@ class VideoFaceExtractor(object):
                 print 'Loading YAML file with number of faces in frames'
                 logger.debug('Loading YAML file with number of faces in frames')
 
-                with open(self.faces_nr_path) as f:
+                with open(self.faces_nr_path, 'r') as f:
 
                     self.faces_nr = yaml.load(f)
 
@@ -2464,16 +2552,14 @@ class VideoFaceExtractor(object):
                 fps = self.fps
 
             caption_file_path = os.path.join(
-                self.rec_path, c.CAPTION_RESULTS_FILE_NAME)
+                self.rec_path, c.CAPTION_RESULTS_FILE)
             self.params[c.CAPTION_RESULTS_FILE_PATH_KEY] = caption_file_path
 
-            params_file_path = c.PARAMS_FILE_PATH
-            if ((self.params is not None) and
-                    (c.PARAMS_FILE_PATH_KEY in self.params)):
-                params_file_path = self.params[c.PARAMS_FILE_PATH_KEY]
+            params_file_path = os.path.join(
+                self.video_path, c.CONFIGURATION_PARAMETERS_FILE)
             utils.save_YAML_file(params_file_path, self.params)
 
-        # Get directory with face extraction tools
+            # Get directory with face extraction tools
             tesseract_parent_dir_path = c.TESSERACT_PARENT_DIR_PATH
             if ((self.params is not None) and
                     (c.TESSERACT_PARENT_DIR_PATH_KEY in self.params)):
@@ -2515,6 +2601,11 @@ class VideoFaceExtractor(object):
 
                 # Iterate through segments related to this person
                 for segment_dict in segment_list:
+
+                    # Do not consider segments found by person tracking
+                    found_by_person_tracking = segment_dict[c.FOUND_BY_PERSON_TRACKING_KEY]
+                    if found_by_person_tracking:
+                        continue
 
                     # List of frame paths relative to this segment
                     frame_path_segment_list = []
@@ -2565,11 +2656,9 @@ class VideoFaceExtractor(object):
                         segment_caption_rec_results = []
 
                         for frame_path in frame_path_segment_list:
-                            # TODO REVIEW
-                            # TODO ADD PARAMS_FILE_PATH AND PARAMS_FILE_PATH_KEY IN DOCUMENTATION
-                            # TODO ADD CAPTION_RESULTS_FILE_PATH AND CAPTION_RESULTS_FILE_PATH_KEY IN DOCUMENTATION
 
-                            #result_dict = get_tag_from_image(
+                            # TODO DELETE
+                            # result_dict = get_tag_from_image(
                             #    frame_path, self.params, api)
 
                             # Launch subprocess
@@ -2765,6 +2854,12 @@ class VideoFaceExtractor(object):
                 # Iterate through segments related to this person
                 for segment_dict in segment_list:
 
+                    # Do not consider segments found by person tracking
+                    if c.FOUND_BY_PERSON_TRACKING_KEY in segment_dict:
+                        found_by_person_tracking = segment_dict[c.FOUND_BY_PERSON_TRACKING_KEY]
+                        if found_by_person_tracking:
+                            continue
+
                     frame_list = segment_dict[c.FRAMES_KEY]
 
                     for frame_dict in frame_list:
@@ -2892,7 +2987,7 @@ class VideoFaceExtractor(object):
             for yaml_file in os.listdir(self.rec_files_path):
                 yaml_file_path = os.path.join(
                     self.rec_files_path, yaml_file)
-                with open(yaml_file_path) as f:
+                with open(yaml_file_path, 'r') as f:
                     self.recognized_faces.append(yaml.load(f))
 
             print 'YAML files with recognition results loaded'
@@ -2911,7 +3006,7 @@ class VideoFaceExtractor(object):
                     print 'Loading YAML file with clustering results'
                     logger.debug('Loading YAML file with clustering results')
 
-                    with open(self.cluster_file_path) as f:
+                    with open(self.cluster_file_path, 'r') as f:
 
                         self.recognized_faces = yaml.load(f)
 
@@ -2959,7 +3054,7 @@ class VideoFaceExtractor(object):
             # self.merge_consecutive_segments() TODO UNCOMMENT FOR LANTANIO
 
             # TODO UNCOMMENT TEST ONLY
-            self.calculate_medoids()
+            # self.calculate_medoids()
 
             # TODO DELETE
             # # Save recognition result in YAML file
@@ -2973,7 +3068,7 @@ class VideoFaceExtractor(object):
 
             counter = 0
             for person_dict in self.recognized_faces:
-                yaml_file_name = str(counter) + '.YAML'
+                yaml_file_name = str(counter) + '.yaml'
                 yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
                 utils.save_YAML_file(yaml_file_path, person_dict)
                 counter += 1
@@ -3213,7 +3308,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         self.recognized_faces.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -3345,7 +3440,7 @@ class VideoFaceExtractor(object):
             person_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY] = cap_tot_dur
             simple_dict[c.TOT_CAPTION_SEGMENT_DURATION_KEY] = cap_tot_dur
 
-            file_name = tag + '.YAML'
+            file_name = tag + '.yaml'
 
             # Save complete annotations
 
@@ -3576,6 +3671,309 @@ class VideoFaceExtractor(object):
                     image_counter += 1
 
                 segment_counter += 1
+
+    def search_clothes(
+            self, time_intervals, ref_frame_path,
+            ref_bbox, ref_model, person_counter):
+        """
+        Search clothes that are similar to clothes in model
+
+        :type time_intervals: list
+        :param time_intervals: list of time intervals
+                               where person was not detected
+
+        :type ref_frame_path: string
+        :param ref_frame_path: path of reference frame
+
+        :type ref_bbox: tuple
+        :param ref_bbox: a (x, y, width, height) tuple representing
+                         bounding box of face in reference frame
+
+        :type ref_model: list
+        :param ref_model: list of color histograms in reference segment
+
+        :type person_counter: integer
+        :param person_counter: counter for considered person
+
+        :rtype: list
+        :returns: list of similar segments
+        """
+
+        new_segments = []  # List of found segments
+
+        # Set parameters
+        use_or_fps = c.USE_ORIGINAL_FPS
+        used_fps = c.USED_FPS
+        min_segment_duration = c.MIN_SEGMENT_DURATION
+        use_3_bboxes = c.CLOTHING_REC_USE_3_BBOXES
+        # In this case it is used as a maximum detection percentage
+        min_detection_pct = c.MIN_DETECTION_PCT
+        det_min_int_area = c.DET_MIN_INT_AREA
+        min_corr_pct = c.PERSON_TRACKING_MIN_CORR_PCT
+        if self.params is not None:
+            if c.USE_ORIGINAL_FPS_KEY in self.params:
+                use_or_fps = self.params[c.USE_ORIGINAL_FPS_KEY]
+            if c.USED_FPS_KEY in self.params:
+                used_fps = self.params[c.USED_FPS_KEY]
+            if c.MIN_SEGMENT_DURATION_KEY in self.params:
+                min_segment_duration = self.params[
+                    c.MIN_SEGMENT_DURATION_KEY]
+            if c.CLOTHING_REC_USE_3_BBOXES_KEY in self.params:
+                use_3_bboxes = self.params[c.CLOTHING_REC_USE_3_BBOXES_KEY]
+            if c.MIN_DETECTION_PCT_KEY in self.params:
+                min_detection_pct = self.params[c.MIN_DETECTION_PCT_KEY]
+            if c.DET_MIN_INT_AREA_KEY in self.params:
+                det_min_int_area = self.params[c.DET_MIN_INT_AREA_KEY]
+            if c.PERSON_TRACKING_MIN_CORR_PCT_KEY in self.params:
+                min_corr_pct = self.params[c.PERSON_TRACKING_MIN_CORR_PCT_KEY]
+
+        # Minimum duration of a segment in frames
+        min_segment_frames = int(
+            math.ceil(self.fps * min_segment_duration))
+        if not use_or_fps:
+            min_segment_frames = int(
+                math.ceil((used_fps + 1) * min_segment_duration))
+
+        # Maximum difference between start and end of two segments
+        # for considering them similar (in milliseconds)
+        max_diff = min_segment_duration * 1000
+
+        # Calculate intra distance in reference model
+        if ref_model:
+            intra_dist1 = utils.get_mean_intra_distance(
+                ref_model, use_3_bboxes)
+
+        # Iterate through list of all frames
+        frame_counter = 0
+        segment_frame_counter = 0
+        det_counter = 0  # Counter for corresponding face detections
+        tracking = False
+        prev_frame_path = None
+        prev_face_bbox = None
+        segment_frame_list = None
+        interval_end = None
+        segment_start = None
+        for frame in self.frame_list:
+
+            frame_name = frame[c.SAVED_FRAME_NAME_KEY]
+            frame_path = os.path.join(
+                self.frames_path, frame_name)
+            elapsed_ms = frame[c.ELAPSED_VIDEO_TIME_KEY]
+
+            if not tracking:
+
+                good = False
+
+                # Check that frame instant is included
+                # in a time interval where person was not detected,
+                # but not too close to end of interval
+                int_counter = 0
+                for time_interval in time_intervals:
+                    start = time_interval[c.SEGMENT_START_KEY]
+                    end = time_interval[c.SEGMENT_END_KEY]
+                    if ((elapsed_ms > start) and
+                            (elapsed_ms <
+                                 (end - (min_segment_duration * 1000.0)))):
+                        good = True
+                        # Store end of time interval
+                        interval_end = end
+                        break
+
+                    int_counter += 1
+
+                # Check if a new shot is near to begin
+                for cut_idx in self.cut_idxs:
+                    if frame_counter < cut_idx:
+                        if frame_counter > cut_idx - min_segment_frames:
+                            good = False
+                        else:
+                            # Continuing is useless
+                            break
+
+                if good:
+
+                    face_bbox = pt.find_person_by_clothes(
+                        frame_path, ref_frame_path, ref_bbox,
+                        self.params, False)
+
+                    if face_bbox:
+                        prev_frame_path = frame_path
+                        prev_face_bbox = face_bbox
+                        tracking = True
+
+                        # Start new segment
+                        segment_frame_counter = 1
+                        segment_frame_list = []
+                        segment_frame_dict = {
+                            c.FRAME_COUNTER_KEY: frame_counter,
+                            c.ELAPSED_VIDEO_TIME_KEY: elapsed_ms,
+                            c.DETECTED_KEY: True,
+                            c.DETECTION_BBOX_KEY: face_bbox,
+                            c.SAVED_FRAME_NAME_KEY: frame_name
+                        }
+                        segment_start = elapsed_ms
+
+                        segment_frame_list.append(segment_frame_dict)
+
+                        # face_x = face_bbox[0]
+                        # face_y = face_bbox[1]
+                        # face_width = face_bbox[2]
+                        # face_height = face_bbox[3]
+
+                        # Track predicted clothes
+                        # in subsequent frames
+                        #(new_segment, model) = self.track_clothes()
+
+                        # Get region of interest for clothes
+                        # clothes_width = int(face_width * cl_pct_width)
+                        # clothes_height = int(face_height * cl_pct_height)
+                        # clothes_x0 = int(
+                        #     face_x + face_width / 2.0 - clothes_width / 2.0)
+                        #
+                        # clothes_y0 = int(
+                        #     face_y + face_height + (face_height * neck_pct_height))
+                        # clothes_x1 = clothes_x0 + clothes_width
+                        # clothes_y1 = clothes_y0 + clothes_height
+
+            else:
+
+                # Track predicted clothes in subsequent frames
+                sub_face_bbox = pt.find_person_by_clothes(
+                    frame_path, prev_frame_path, prev_face_bbox,
+                    self.params, False)
+
+                if sub_face_bbox:
+
+                    segment_frame_dict = {
+                        c.FRAME_COUNTER_KEY: frame_counter,
+                        c.ELAPSED_VIDEO_TIME_KEY: elapsed_ms,
+                        c.DETECTED_KEY: True,
+                        c.DETECTION_BBOX_KEY: sub_face_bbox,
+                        c.SAVED_FRAME_NAME_KEY: frame_name,
+                    }
+                    segment_frame_list.append(segment_frame_dict)
+
+                    segment_frame_counter += 1
+
+                else:
+                    tracking = False
+
+                # Check if a new shot begins
+                for cut_idx in self.cut_idxs:
+                    if frame_counter == (cut_idx - 1):
+                        tracking = False
+                    if frame_counter < (cut_idx - 1):
+                        # Continuing is useless
+                        break
+
+                # Check if time interval ends
+                if elapsed_ms > interval_end:
+                    tracking = False
+
+                if ((not tracking) or
+                        (frame_counter == (len(self.frame_list) - 1))):
+                    # Tracking was interrupted or this is the last frame
+
+                    # Segment must be considered only if its number
+                    # of frames is greater or equals than a minimum
+                    if segment_frame_counter >= min_segment_frames:
+
+                        # Check percentage of corresponding detections
+                        det_counter = 0
+                        for segment_frame in segment_frame_list:
+                            if utils.is_there_a_corresponding_detection(
+                                    segment_frame, self.recognized_faces):
+                                det_counter += 1
+                        det_pct = (float(det_counter) / segment_frame_counter)
+                        if det_pct >= min_detection_pct:
+                            # Do not consider segment
+                            continue
+
+                        # Segment duration in milliseconds
+                        dur = segment_frame_counter * 1000.0 / self.fps
+
+                        # If a reduced frame rate is used, frames are less
+                        if not use_or_fps:
+                            dur = (segment_frame_counter * 1000.0
+                                   / (used_fps + 1))
+
+                        segment_dict = {
+                            c.FOUND_BY_PERSON_TRACKING_KEY: True,
+                            c.FRAMES_KEY: segment_frame_list,
+                            c.SEGMENT_DURATION_KEY: dur,
+                            c.SEGMENT_START_KEY: segment_start,
+                            c.SEGMENT_TOT_FRAMES_NR_KEY: segment_frame_counter
+                        }
+
+                        # Compare cloth models
+                        # from reference segment and this segment
+                        segment_model = self.create_cloth_model(segment_dict)
+                        (sim, dist_ratio) = utils.compare_clothes(
+                            ref_model, segment_model,
+                            '', '', 0,
+                            intra_dist1, self.params)
+
+                        if sim:
+
+                            # Check if there is a corresponding segment
+                            # found by person tracking
+                            found_sim_segment = False
+                            p_counter = 0
+                            # Total number of segments
+                            # that are already in clusters
+                            tot_segments_nr = 0
+                            for person_dict in self.recognized_faces:
+                                if p_counter == person_counter:
+                                    break
+                                segments = person_dict[c.SEGMENTS_KEY]
+                                s_counter = 0
+                                for other_segment_dict in segments:
+
+                                    found_by_person_tracking = False
+                                    if c.FOUND_BY_PERSON_TRACKING_KEY in other_segment_dict:
+                                        found_by_person_tracking = other_segment_dict[c.FOUND_BY_PERSON_TRACKING_KEY]
+
+                                    if found_by_person_tracking:
+
+                                        # Compare two segments
+                                        if utils.similar_face_tracks(
+                                                other_segment_dict,
+                                                segment_dict,
+                                                max_diff, det_min_int_area,
+                                                min_corr_pct):
+                                            other_dist_ratio = other_segment_dict[c.SEGMENT_DISTANCE_RATIO_KEY]
+
+                                            # Compare distance ratios
+                                            if other_dist_ratio < dist_ratio:
+                                                # Add other segment
+                                                # to this cluster
+                                                # and delete from other cluster
+                                                new_segments.append(
+                                                    other_segment_dict)
+                                                del self.recognized_faces[p_counter]['segments'][s_counter]
+                                                found_sim_segment = True
+                                                break
+
+                                    s_counter += 1
+                                    tot_segments_nr += 1
+
+                                if found_sim_segment:
+                                    break
+
+                                p_counter += 1
+
+                            if not found_sim_segment:
+                                # Add segment to list
+                                segment_dict[c.SEGMENT_DISTANCE_RATIO_KEY] = dist_ratio
+                                s_ctr = (
+                                    tot_segments_nr + len(new_segments))
+                                segment_dict[c.SEGMENT_COUNTER_KEY] = s_ctr
+                                new_segments.append(segment_dict)
+
+            frame_counter += 1
+
+        return new_segments
+
 
     def search_face(self, ann_segments, segment_list, train_model, idx):
         """
@@ -3863,12 +4261,12 @@ class VideoFaceExtractor(object):
                                             self.cloth_models_path,
                                             str(sub_counter))
 
-                                        # noinspection PyUnboundLocalVariable
-                                        similar = utils.compare_clothes(
+                                        (sim, dist_ratio) = utils.compare_clothes(
+                                            None, None,
                                             db_path_1, db_path_2, final_conf,
                                             intra_dist1, self.params)
 
-                                        if similar:
+                                        if sim:
                                             final_tag = c.TRACKED_PERSON_TAG
 
                                 else:
@@ -3954,7 +4352,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         self.recognized_faces.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -4074,7 +4472,7 @@ class VideoFaceExtractor(object):
                 for yaml_file in os.listdir(self.rec_files_path):
                     yaml_file_path = os.path.join(
                         self.rec_files_path, yaml_file)
-                    with open(yaml_file_path) as f:
+                    with open(yaml_file_path, 'r') as f:
                         self.recognized_faces.append(yaml.load(f))
 
                 print 'YAML files with recognition results loaded'
@@ -4136,7 +4534,7 @@ class VideoFaceExtractor(object):
                     print 'Loading YAML file with detection results'
                     logger.debug('Loading YAML file with detection results')
 
-                    with open(self.det_file_path) as f:
+                    with open(self.det_file_path, 'r') as f:
 
                         self.detected_faces = yaml.load(f)
 
@@ -4206,7 +4604,7 @@ class VideoFaceExtractor(object):
                 min_segment_frames = int(
                     math.ceil((used_fps + 1) * min_segment_duration))
 
-                # Make copy of detected faces
+            # Make copy of detected faces
             detection_list = list(self.detected_faces)
 
             # Iterate through frames in detected_faces
@@ -4252,7 +4650,8 @@ class VideoFaceExtractor(object):
                                           c.NOSE_POSITION_KEY: nose_pos,
                                           c.ALIGNED_FACE_FILE_NAME_KEY: file_name,
                                           c.DETECTED_KEY: True,
-                                          c.SAVED_FRAME_NAME_KEY: frame_name}
+                                          c.SAVED_FRAME_NAME_KEY: frame_name,
+                                          c.FOUND_BY_PERSON_TRACKING_KEY: False}
 
                     segment_frame_list.append(segment_frame_dict)
 
@@ -4366,6 +4765,7 @@ class VideoFaceExtractor(object):
                         track_w = track_window[2]
                         track_h = track_window[3]
 
+                        # TODO TRANSFORM <= IN <?
                         # Check size of track window
                         if ((track_w <= min_size_width)
                                 or (track_h <= min_size_height)):
@@ -4390,6 +4790,7 @@ class VideoFaceExtractor(object):
 
                         for sub_face_dict in sub_faces:
 
+                            det_bbox = sub_face_dict[c.BBOX_KEY]
                             det_bbox = sub_face_dict[c.BBOX_KEY]
 
                             # If track window corresponds to 
@@ -4523,6 +4924,222 @@ class VideoFaceExtractor(object):
 
             utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
+    def track_people_in_video(self):
+        """
+        Track people in video by using cloth information.
+        It works by using a list of people clusters.
+        """
+
+        logger.debug('Executing people tracking')
+
+        # Check existence of clustering results
+        if len(self.recognized_faces) == 0:
+
+            # Try to load YAML file with clustering results
+            if os.path.exists(self.cluster_file_path):
+
+                print 'Loading YAML file with clustering results'
+                logger.debug('Loading YAML file with clustering results')
+
+                rec_faces = utils.load_YAML_file(self.cluster_file_path)
+
+                if rec_faces:
+
+                    self.recognized_faces = rec_faces
+
+                    print 'YAML file with clustering results loaded'
+                    logger.debug('YAML file with clustering results loaded')
+
+                else:
+
+                    print 'Warning! Error in loading file!'
+                    logger.warning('Error in loading file!')
+
+            else:
+
+                print 'Warning! No clustering results found!'
+                logger.warning('No clustering results found!')
+
+                return
+
+        # Check existence of frame list
+        if len(self.frame_list) == 0:
+
+            # Try to load YAML file with frame list
+            if os.path.exists(self.frames_file_path):
+
+                print 'Loading YAML file with frame list'
+                logger.debug('Loading YAML file with frame list')
+
+                f_list = utils.load_YAML_file(self.frames_file_path)
+
+                if f_list:
+
+                    self.frame_list = f_list
+
+                    print 'YAML file with frame list loaded'
+                    logger.debug('YAML file with frame list loaded')
+
+                else:
+
+                    print 'Warning! Error in loading file!'
+                    logger.warning('Error in loading file!')
+
+            else:
+
+                print 'Warning! No frame list found!'
+                logger.warning('No frame list found!')
+
+                return
+
+        # Check existence of shot detection results
+        if len(self.cut_idxs) == 0:
+
+            # Try to load YAML file with shot detection results
+            if os.path.exists(self.cut_idxs_file_path):
+
+                print 'Loading YAML file with shot detection results'
+                logger.debug('Loading YAML file with shot detection results')
+
+                cut_idx = utils.load_YAML_file(self.cut_idxs_file_path)
+
+                if cut_idx:
+
+                    self.cut_idxs = cut_idx
+
+                    print 'YAML file with shot detection results loaded'
+                    logger.debug('YAML file with shot detection results loaded')
+
+                else:
+
+                    print 'Warning! Error in loading file!'
+                    logger.warning('Error in loading file!')
+
+            else:
+
+                print 'Warning! No shot detection results found!'
+                logger.warning('No shot detection results found!')
+
+                return
+
+        print '\n\n### People tracking ###\n'
+        logger.debug('\n\n### People tracking ###\n')
+
+        # Set parameters
+        cl_pct_height = c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT
+        cl_pct_width = c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH
+        neck_pct_height = c.PERSON_TRACKING_NECK_HEIGHT
+
+        if self.params is not None:
+            if c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT_KEY in self.params:
+                cl_pct_height = self.params[c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT_KEY]
+            if c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH_KEY in self.params:
+                cl_pct_width = self.params[c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH_KEY]
+            if c.PERSON_TRACKING_NECK_HEIGHT_KEY in self.params:
+                neck_pct_height = self.params[c.PERSON_TRACKING_NECK_HEIGHT_KEY]
+
+        # Save processing time
+        start_time = cv2.getTickCount()
+
+        people_nr = float(len(self.recognized_faces))
+        person_counter = 0
+
+        for person_dict in self.recognized_faces:
+
+            self.progress = 100 * (person_counter / people_nr)
+
+            print('progress: ' + str(self.progress) + ' %          \r'),
+
+            segments = person_dict[c.SEGMENTS_KEY]
+
+            video_duration = person_dict[c.VIDEO_DURATION_KEY]
+
+            time_intervals = self.get_time_intervals(segments, video_duration)
+
+            if (len(segments) > 0) and (len(time_intervals) > 0):
+
+                # Use first segment as reference
+                segment = segments[0]
+                segment_idx = str(segment[c.SEGMENT_COUNTER_KEY])
+
+                # Get model for clothing recognition
+                model_path = os.path.join(self.cloth_models_path, segment_idx)
+
+                with open(model_path, 'r') as f:
+                    ref_model = pk.load(f)
+                    if ref_model:
+                        segment_frames = segment[c.FRAMES_KEY]
+                        ref_frame = segment_frames[0]
+                        ref_frame_name = ref_frame[c.SAVED_FRAME_NAME_KEY]
+                        ref_frame_path = os.path.join(
+                            self.frames_path, ref_frame_name)
+                        ref_img = cv2.imread(ref_frame_path)
+                        ref_bbox = ref_frame[c.DETECTION_BBOX_KEY]
+
+                        face_x = ref_bbox[0]
+                        face_y = ref_bbox[1]
+                        face_width = ref_bbox[2]
+                        face_height = ref_bbox[3]
+
+                        # Get region of interest for clothes
+                        clothes_width = int(face_width * cl_pct_width)
+                        clothes_height = int(face_height * cl_pct_height)
+                        clothes_x0 = int(face_x + face_width / 2.0 - clothes_width / 2.0)
+
+                        clothes_y0 = int(
+                            face_y + face_height + (face_height * neck_pct_height))
+                        clothes_x1 = clothes_x0 + clothes_width
+                        clothes_y1 = clothes_y0 + clothes_height
+
+                        # Check if bounding box is entirely contained by frame
+                        im_height, im_width, channels = ref_img.shape
+                        if ((clothes_x0 < 0)
+                                or (clothes_x1 > im_width)
+                                or (clothes_y0 < 0)
+                                or (clothes_y1 > im_height)):
+                            continue
+
+                        # Search segments with similar clothes
+                        new_segments = self.search_clothes(
+                            time_intervals, ref_frame_path,
+                            ref_bbox, ref_model, person_counter)
+
+                        # # TODO DELETE TEST ONLY
+                        # ref_img = cv2.imread(ref_frame_path)
+                        # cv2.imshow('Reference image', ref_img)
+                        # cv2.waitKey(0)
+                        # print('len(new_segments)', len(new_segments))
+
+                        for seg in new_segments:
+                            frame_list = seg[c.FRAMES_KEY]
+                            frame = frame_list[0]
+                            frame_name = frame[c.SAVED_FRAME_NAME_KEY]
+                            frame_path = os.path.join(
+                                self.frames_path, frame_name)
+                            img = cv2.imread(frame_path)
+
+                        # Add new segments to person's dictionary
+                        segments.extend(new_segments)
+                        self.recognized_faces[person_counter][c.SEGMENTS_KEY] = segments
+
+            person_counter += 1
+
+        # Overwrite clustering result
+        utils.save_YAML_file(
+            self.cluster_file_path, self.recognized_faces)
+
+        # Save processing time
+        time_in_clocks = cv2.getTickCount() - start_time
+        time_in_seconds = time_in_clocks / cv2.getTickFrequency()
+
+        print 'Time for people tracking:', time_in_seconds, 's\n'
+        logger.debug('Time for people tracking:' + str(time_in_seconds) + 's\n')
+
+        self.anal_times[c.PEOPLE_TRACKING_TIME_KEY] = time_in_seconds
+
+        utils.save_YAML_file(self.analysis_file_path, self.anal_times)
+
+
     def update_rec_file(self):
         """
         Update YAML file with people recognition results
@@ -4542,7 +5159,7 @@ class VideoFaceExtractor(object):
 
         counter = 0
         for person_dict in self.recognized_faces:
-            yaml_file_name = str(counter) + '.YAML'
+            yaml_file_name = str(counter) + '.yaml'
             yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
             utils.save_YAML_file(yaml_file_path, person_dict)
             counter += 1

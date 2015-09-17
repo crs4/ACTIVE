@@ -16,11 +16,13 @@ class TestVideoFaceExtractor(unittest.TestCase):
 
     def test_analyze_video(self):
 
-        base_path = os.path.join('..', 'test_files', 'video_indexing')
+        # TODO UNCOMMENT
+        #base_path = os.path.join('..', 'test_files', 'video_indexing')
+        base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'
 
         resource_path = os.path.join(base_path, 'fic.02.mpg')
 
-        resource_id = 'fic.02'
+        resource_id = 'fic.02.mpg'
 
         params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
 
@@ -165,6 +167,30 @@ class TestVideoFaceExtractor(unittest.TestCase):
         self.assertEqual(len(fe.recognized_faces), 3)
 
         self.assertEqual(len(fe.recognized_faces[0][c.SEGMENTS_KEY]), 9)
+
+
+    def test_track_people_in_video(self):
+
+        # TODO UNCOMMENT
+        #base_path = os.path.join('..', 'test_files', 'video_indexing')
+        base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'
+
+        resource_path = os.path.join(base_path, 'fic.02.mpg')
+
+        resource_id = 'fic.02.mpg'
+
+        params = {c.VIDEO_INDEXING_PATH_KEY: base_path}
+
+        fe = VideoFaceExtractor(resource_path, resource_id, params)
+
+        fe.fps = 25.0
+
+        fe.cluster_faces_in_video()
+
+        fe.track_people_in_video()
+
+        fe.save_rec_people()
+
 
 if __name__ == '__main__':
     unittest.main()

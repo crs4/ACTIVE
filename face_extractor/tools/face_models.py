@@ -61,6 +61,19 @@ class FaceModels:
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
                                                   'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -76,8 +89,6 @@ class FaceModels:
                                                   (in % of the width of the face
                                                   bounding box)
     nose_detection_classifier                     Classifier for nose detection             'haarcascade_mcs_nose.xml'
-    software_test_file                            Path of image to be used for
-                                                  software test
     use_nose_pos_in_detection                     If True, detections with no good          False
                                                   nose position are discarded
     ============================================  ========================================  =============================
@@ -101,13 +112,14 @@ class FaceModels:
         self._ext_models = models
         self._loaded_ext_models = None
 
-        # Association between tags 
-
         if params is not None:
-
             if c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY in params:
                 self._data_dir_path = params[
                     c.GLOBAL_FACE_REC_DATA_DIR_PATH_KEY]
+
+        # Create directory with people recognition data if it does not exist
+        if not os.path.exists(self._data_dir_path):
+            os.makedirs(self._data_dir_path)
 
     def add_face(self, label, tag, im_path, aligned_face=None, eye_pos=None,
                  bbox=None, enabled=True):

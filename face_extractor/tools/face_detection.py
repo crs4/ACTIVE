@@ -31,7 +31,7 @@ def _detect_faces_in_image(params):
     return detect_faces_in_image(*params)
 
 
-def detect_faces_in_image(resource_path, align_path, params, show_results,
+def detect_faces_in_image(resource_path, align_path, params, show_results=False,
                           delete_files=False, return_always_faces=False):
     """
     Detect faces in image
@@ -67,6 +67,8 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
     check_eye_positions                           If True, check eye positions              True
     classifiers_dir_path                          Path of directory with OpenCV
                                                   cascade classifiers
+    cropped_face_height                           Height of aligned faces (in pixels)       400
+    cropped_face_width                            Width of aligned faces (in pixels)        200
     eye_detection_classifier                      Classifier for eye detection              'haarcascade_mcs_lefteye.xml'
     face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
                                                   ('HaarCascadeFrontalFaceAlt',
@@ -82,12 +84,29 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
                                                   'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
                                                   bounding box (in pixels)
     min_size_width                                Minimum width of face detection           20
                                                   bounding box (in pixels)
+    offset_pct_x                                  % of the image to keep next to            0.20
+                                                  the eyes in the horizontal direction
+    offset_pct_y                                  % of the image to keep next to            0.50
+                                                  the eyes in the vertical direction
     scale_factor                                  Scale factor between two scans            1.1
                                                   in face detection
     max_eye_angle                                 Maximum inclination of the line           0.125
@@ -101,6 +120,8 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
                                                   software test
     use_nose_pos_in_detection                     If True, detections with no good          False
                                                   nose position are discarded
+    use_eyes_position                             If True, align faces                      True
+                                                  by using eye positions
     ============================================  ========================================  =============================
 
     =====================================  =============================================================================
@@ -317,7 +338,9 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
                 crop_result = get_cropped_face_from_image(
                     face_image, resource_path, align_path, params,
                     eye_cascade_classifier, nose_cascade_classifier,
-                    (x, y, width, height), delete_files, return_always_faces)
+                    (x, y, width, height), delete_files, return_always_faces,
+                    show_results
+                )
 
                 if crop_result:
                     face_dict[c.LEFT_EYE_POS_KEY] = crop_result[c.LEFT_EYE_POS_KEY]
@@ -336,7 +359,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
 
         result[c.FACES_KEY] = faces_final
 
-        if show_results:
+        if show_results and (not use_eyes_position):
 
             image = cv2.imread(resource_path, cv2.IMREAD_COLOR)
             for face_dict in faces_final:
@@ -344,22 +367,24 @@ def detect_faces_in_image(resource_path, align_path, params, show_results,
                 (x, y, w, h) = face_dict[c.BBOX_KEY]
 
                 face = image[y: y + h, x: x + w]
-                eye_rects = utils.detect_eyes_in_image(
-                    face, eye_cascade_classifier)
-                for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
-                    cv2.rectangle(
-                        face, (x_eye, y_eye), (x_eye + w_eye, y_eye + h_eye),
-                        (0, 0, 255), 3, 8, 0)
-
-                noses = utils.detect_nose_in_image(
-                    face, nose_cascade_classifier)
-                for(x_ear, y_ear, w_ear, h_ear) in noses:
-                    cv2.rectangle(
-                        face, (x_ear, y_ear), (x_ear + w_ear, y_ear + h_ear),
-                        (0, 0, 255), 3, 8, 0)
 
                 cv2.rectangle(
                     image, (x, y), (x + w, y + h), (0, 0, 255), 3, 8, 0)
+
+                # TODO DELETE
+                # eye_rects = utils.detect_eyes_in_image(
+                #     face, eye_cascade_classifier)
+                # for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
+                #     cv2.rectangle(
+                #         face, (x_eye, y_eye), (x_eye + w_eye, y_eye + h_eye),
+                #         (0, 0, 255), 3, 8, 0)
+                #
+                # noses = utils.detect_nose_in_image(
+                #     face, nose_cascade_classifier)
+                # for(x_ear, y_ear, w_ear, h_ear) in noses:
+                #     cv2.rectangle(
+                #         face, (x_ear, y_ear), (x_ear + w_ear, y_ear + h_ear),
+                #         (0, 0, 255), 3, 8, 0)
 
             cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
             cv2.imshow('Result', image)
@@ -402,6 +427,19 @@ def detect_faces_in_image_with_single_classifier(
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
                                                   'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -569,7 +607,8 @@ def get_cropped_face(image_path, align_path, params=None, return_always_face=Fal
 
 def get_cropped_face_from_image(
         image, image_path, align_path, params, eye_cascade_classifier,
-        nose_cascade_classifier, face_bbox, delete_files, return_always_face):
+        nose_cascade_classifier, face_bbox, delete_files, return_always_face,
+        show_results=False):
     """
     Get face cropped and aligned to eyes from image
 
@@ -604,11 +643,15 @@ def get_cropped_face_from_image(
     :param return_always_face: if True,
                               return face even if no eyes are detected
 
+    :type show_results: boolean
+    :param show_results: show (True) or do not show (False)
+                         image with detected faces
+
     :rtype: dictionary or None
-    :returns: dictionary with results
+    :returns: dictionary with results (see table)
 
     ============================================  ========================================  =============================
-    Key                                           Value                                     Default value
+    Key (params)                                  Value                                     Default value
     ============================================  ========================================  =============================
     check_eye_positions                           If True, check eye positions              True
     cropped_face_height                           Height of aligned faces (in pixels)       400
@@ -623,6 +666,24 @@ def get_cropped_face_from_image(
                                                   only faces with similar
                                                   nose positions
     ============================================  ========================================  =============================
+
+    =====================================  =====================================
+    Key (results)                          Value
+    =====================================  =====================================
+    face                                   Aligned face as an OpenCV image
+    left_eye_position                      Left eye position as a (x, y) tuple
+                                           (with x and y being the absolute
+                                           position of the eye center in
+                                           pixels in the face bounding box)
+    right_eye_position                     Right eye position as a (x, y) tuple
+                                           (with x and y being the absolute
+                                           position of the eye center in
+                                           pixels in the face bounding box)
+    nose_position                          Nose position as a (x, y) tuple
+                                           (with x and y being the absolute
+                                           position of the nose center in
+                                           pixels in the face bounding box)
+    =====================================  =====================================
     """
 
     result = {}
@@ -662,6 +723,10 @@ def get_cropped_face_from_image(
     eye_right = None
 
     eye_check_ok = False
+
+    opencv_img = None
+    if show_results:
+        opencv_img = cv2.imread(image_path)
 
     if len(eye_rects) == 2:
 
@@ -703,6 +768,30 @@ def get_cropped_face_from_image(
         else:
             eye_check_ok = True
 
+        if show_results and eye_check_ok:
+
+            (x, y, w, h) = face_bbox
+
+            cv2.rectangle(
+                opencv_img, (x, y), (x + w, y + h), (0, 0, 255), 3, 8, 0)
+
+            # First eye
+            x_first_eye = x_first_eye + face_bbox[0]
+            y_first_eye = y_first_eye + face_bbox[1]
+            cv2.rectangle(opencv_img,
+                          (x_first_eye, y_first_eye),
+                          (x_first_eye + w_first_eye,
+                           y_first_eye + h_first_eye),
+                          (0, 0, 255), 3, 8, 0)
+            # Second eye
+            x_second_eye = x_second_eye + face_bbox[0]
+            y_second_eye = y_second_eye + face_bbox[1]
+            cv2.rectangle(opencv_img,
+                          (x_second_eye, y_second_eye),
+                          (x_second_eye + w_second_eye,
+                           y_second_eye + h_second_eye),
+                          (0, 0, 255), 3, 8, 0)
+
     if eye_check_ok:
 
         # Open whole image as PIL Image
@@ -716,8 +805,11 @@ def get_cropped_face_from_image(
 
         # Align face image
 
-        # Create unique file path
+        # Create directory that will contain aligned faces if it does not exist
+        if not os.path.exists(align_path):
+            os.makedirs(align_path)
 
+        # Create unique file path
         tmp_file_name = str(uuid.uuid4())
         tmp_file_name_complete = tmp_file_name + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name_complete)
@@ -777,6 +869,23 @@ def get_cropped_face_from_image(
 
                 nose_check_ok = False
                 result[c.NOSE_POSITION_KEY] = None
+
+            else:
+                if show_results:
+                    for(x_ear, y_ear, w_ear, h_ear) in noses:
+                        cv2.rectangle(
+                            opencv_img, (x_ear, y_ear),
+                            (x_ear + w_ear, y_ear + h_ear),
+                            (0, 0, 255), 3, 8, 0)
+
+        if show_results:
+            cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
+            cv2.imshow('Result', opencv_img)
+            cv2.waitKey(0)
+
+            # TODO DELETE TEST ONLY
+            path = os.path.splitext(image_path)[0] + '_detection.png'
+            cv2.imwrite(path, opencv_img)
 
         if nose_check_ok or not use_nose_pos_in_detection:
             if c.USE_HIST_EQ_IN_CROPPED_FACES:
@@ -865,6 +974,10 @@ def get_cropped_face_using_eye_pos(
 
         eye_right = (eye_pos[2], eye_pos[3])
 
+        # Create directory that will contain aligned faces if it does not exist
+        if not os.path.exists(align_path):
+            os.makedirs(align_path)
+
         # Create unique file path
         tmp_file_name = str(uuid.uuid4()) + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name)
@@ -941,8 +1054,11 @@ def get_cropped_face_using_fixed_eye_pos(
 
         eye_right = (2 * width / c.GRID_CELLS_Y, height / c.GRID_CELLS_Y)
 
-        # Create unique file path
+        # Create directory that will contain aligned faces if it does not exist
+        if not os.path.exists(align_path):
+            os.makedirs(align_path)
 
+        # Create unique file path
         tmp_file_name = str(uuid.uuid4()) + '.png'
         tmp_file_path = os.path.join(align_path, tmp_file_name)
 
@@ -1020,6 +1136,19 @@ def get_detected_cropped_face(
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
                                                   'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20

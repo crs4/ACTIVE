@@ -1,14 +1,10 @@
-import cv2
 import os
-import person_tracking as pt
-import sys
 import unittest
-
-path_to_be_appended = ".."
-sys.path.append(path_to_be_appended)
+import cv2
 
 import tools.constants as c
 from tools.face_detection import detect_faces_in_image
+from tools import person_tracking as pt
 
 class TestPersonTracking(unittest.TestCase):
     """
@@ -17,14 +13,10 @@ class TestPersonTracking(unittest.TestCase):
 
     def test_find_person_by_clothes(self):
 
-        # TODO CHANGE AFTER HAVING MOVED CODE
-        # image_path = ('..' + os.sep + 'test_files' + os.sep +
-        #               'person_tracking' + os.sep + 'Test.jpg')
-        image_path = ('test_files' + os.sep +
+        image_path = ('..' + os.sep + 'test_files' + os.sep +
                       'person_tracking' + os.sep + 'Test.jpg')
-        # ref_image_path = ('..' + os.sep + 'test_files' + os.sep +
-        #                   'person_tracking' + os.sep + 'Reference.jpg')
-        ref_image_path = ('test_files' + os.sep +
+
+        ref_image_path = ('..' + os.sep + 'test_files' + os.sep +
                           'person_tracking' + os.sep + 'Reference.jpg')
 
         align_path = c.ALIGNED_FACES_PATH

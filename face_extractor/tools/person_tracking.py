@@ -1,15 +1,10 @@
-import constants as cc
 import cv2
 import numpy as np
 import os
-import sys
 
-path_to_be_appended = ".."
-sys.path.append(path_to_be_appended)
-
-import tools.constants as c
-from tools.face_detection import detect_faces_in_image
-from tools.utils import save_YAML_file
+import constants as c
+from face_detection import detect_faces_in_image
+from utils import save_YAML_file
 
 
 def find_person_by_clothes(
@@ -41,15 +36,19 @@ def find_person_by_clothes(
     ============================================  ========================================  ==============
     Key                                           Value                                     Default value
     ============================================  ========================================  ==============
-    clothes_bounding_box_height                   Height of bounding box for clothes
-                                                  (in % of the face bounding box height)    1.0
-    clothes_bounding_box_width                    Width of bounding box for clothes         2.0
+    person_tracking_clothes_bbox_height           Height of bounding box for clothes        1.0
+                                                  (in % of the face bounding box height)
+    person_tracking_clothes_bbox_width            Width of bounding box for clothes         2.0
                                                   (in % of the face bounding box width)
-    neck_height                                   Height of neck (in % of the               0.0
+    person_tracking_neck_height                   Height of neck (in % of the               0.0
                                                   face bounding box height)
     nr_of_hsv_channels_nr_in_person_tracking      Number of HSV channels used               2
                                                   in person tracking (1-2)
     use_mask_in_person_tracking                   If True, use a mask for HSV values        False
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
     ============================================  ========================================  ==============
     """
 
@@ -65,23 +64,29 @@ def find_person_by_clothes(
     face_y1 = face_y0 + face_height
 
     # Set parameters
-    cl_pct_height = c.CLOTHES_BBOX_HEIGHT
-    cl_pct_width = c.CLOTHES_BBOX_WIDTH
-    neck_pct_height = c.NECK_HEIGHT
-    dim = cc.PERSON_TRACKING_HSV_CHANNELS_NR
-    use_mask = cc.PERSON_TRACKING_USE_MASK
+    cl_pct_height = c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT
+    cl_pct_width = c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH
+    neck_pct_height = c.PERSON_TRACKING_NECK_HEIGHT
+    dim = c.PERSON_TRACKING_HSV_CHANNELS_NR
+    use_mask = c.PERSON_TRACKING_USE_MASK
+    min_size_width = c.FACE_DETECTION_MIN_SIZE_WIDTH
+    min_size_height = c.FACE_DETECTION_MIN_SIZE_HEIGHT
 
     if params is not None:
-        if c.CLOTHES_BBOX_HEIGHT_KEY in params:
-            cl_pct_height = params[c.CLOTHES_BBOX_HEIGHT_KEY]
-        if c.CLOTHES_BBOX_WIDTH_KEY in params:
-            cl_pct_width = params[c.CLOTHES_BBOX_WIDTH_KEY]
-        if c.NECK_HEIGHT_KEY in params:
-            neck_pct_height = params[c.NECK_HEIGHT_KEY]
-        if cc.PERSON_TRACKING_HSV_CHANNELS_NR_KEY in params:
-            dim = params[cc.PERSON_TRACKING_HSV_CHANNELS_NR_KEY]
-        if cc.PERSON_TRACKING_USE_MASK_KEY in params:
-            use_mask = params[cc.PERSON_TRACKING_USE_MASK_KEY]
+        if c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT_KEY in params:
+            cl_pct_height = params[c.PERSON_TRACKING_CLOTHES_BBOX_HEIGHT_KEY]
+        if c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH_KEY in params:
+            cl_pct_width = params[c.PERSON_TRACKING_CLOTHES_BBOX_WIDTH_KEY]
+        if c.PERSON_TRACKING_NECK_HEIGHT_KEY in params:
+            neck_pct_height = params[c.PERSON_TRACKING_NECK_HEIGHT_KEY]
+        if c.PERSON_TRACKING_HSV_CHANNELS_NR_KEY in params:
+            dim = params[c.PERSON_TRACKING_HSV_CHANNELS_NR_KEY]
+        if c.PERSON_TRACKING_USE_MASK_KEY in params:
+            use_mask = params[c.PERSON_TRACKING_USE_MASK_KEY]
+        if c.MIN_SIZE_WIDTH_KEY in params:
+            min_size_width = params[c.MIN_SIZE_WIDTH_KEY]
+        if c.MIN_SIZE_HEIGHT_KEY in params:
+            min_size_height = params[c.MIN_SIZE_HEIGHT_KEY]
 
     # Get region of interest for clothes
     clothes_width = int(face_width * cl_pct_width)
@@ -118,9 +123,13 @@ def find_person_by_clothes(
         cv2.waitKey(0)
 
     mask_roi = None
+    # mask_lower_boundaries = np.array((0., 48., 80.))
+    # mask_upper_boundaries = np.array((20., 255., 255.))
+    mask_lower_boundaries = np.array((0., 60., 32.))
+    mask_upper_boundaries = np.array((180., 255., 255.))
     if use_mask:
         mask_roi = cv2.inRange(
-            hsv_roi, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+            hsv_roi, mask_lower_boundaries, mask_upper_boundaries)
 
     # Calculate histogram
     # hist = cv2.calcHist([hsv_roi], [0], mask_roi, [256], [0, 255])
@@ -140,7 +149,7 @@ def find_person_by_clothes(
     mask_img = None
     if use_mask:
         mask_img = cv2.inRange(
-            hsv_img, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+            hsv_img, mask_lower_boundaries, mask_upper_boundaries)
         prob &= mask_img
     term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
     track_box, track_window = cv2.CamShift(
@@ -153,6 +162,13 @@ def find_person_by_clothes(
     clothes_height = track_window[3]
     clothes_x1 = clothes_x0 + clothes_width
     clothes_y1 = clothes_y0 + clothes_height
+
+    # Check size of track window
+    min_clothes_width = min_size_width * cl_pct_width
+    min_clothes_height = min_size_height * cl_pct_height
+    if ((clothes_width < min_clothes_width)
+            or (clothes_height < min_clothes_height)):
+        return result
 
     # Get predicted face bounding box
     face_width = int(clothes_width / cl_pct_width)
@@ -297,6 +313,19 @@ def create_ann_file_for_dataset(dataset_path, ann_file_path, params=None):
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
                                                   'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20

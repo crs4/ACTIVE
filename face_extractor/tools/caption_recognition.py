@@ -445,6 +445,8 @@ def get_tag_from_image(im_path, params=None, api=None):
     ============================================  ========================================  ==============
     Key (params)                                  Value                                     Default value
     ============================================  ========================================  ==============
+    caption_results_file_path                     Path of file where caption recognition
+                                                  results will be saved
     lev_ratio_pct_threshold                       Minimum threshold for considering         0.8
                                                   captions in frame
     min_tag_length                                Minimum length of tags considered         10
@@ -738,10 +740,9 @@ def get_tag_from_image(im_path, params=None, api=None):
             result_dict = find_most_similar_tag(tags, words, params)
 
     # Save file with results
-    caption_results_file_path = c.CAPTION_RESULTS_FILE_PATH
     if params is not None and c.CAPTION_RESULTS_FILE_PATH_KEY in params:
         caption_results_file_path = params[c.CAPTION_RESULTS_FILE_PATH_KEY]
-    save_YAML_file(caption_results_file_path, result_dict)
+        save_YAML_file(caption_results_file_path, result_dict)
 
     return result_dict
 

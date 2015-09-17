@@ -96,7 +96,9 @@ def plot_people_clustering_experiments(
 
             params_video_name = params[ce.VIDEO_NAME_KEY]
             # Add to all methods results with only face recognition
-            if ((params_video_name == video_name) and (conf_threshold < 10)
+            clothes_conf_threshold = exp[c.CLOTHES_CONF_THRESH_KEY]
+            if ((params_video_name == video_name)
+                    and (conf_threshold <= clothes_conf_threshold)
                     and (not use_aggr) and (not use_clothing)):
                 x_lists[methods[method_counter]].append(nr_clusters)
                 prec_lists[methods[method_counter]].append(prec)
@@ -179,17 +181,20 @@ def plot_people_clustering_experiments(
         method_counter += 1
 
     # Set plot
-    title_str = '$F_1$ media al variare del numero di cluster'
+    #title_str = '$F_1$ media al variare del numero di cluster'
     if title:
         title_str = title + ' - ' + title_str
 
     font_dict = {'fontsize': 12}  # Change font size
-    plt.title(title_str, font_dict)
+    # plt.title(title_str, font_dict)
 
-    plt.xlabel('Numero di cluster')
-    plt.ylabel('$F_1$')
+    #plt.xlabel('Numero di cluster')
+    plt.xlabel('Number of clusters')
+    #plt.ylabel('$F_1$')
+    plt.ylabel('F-measure')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1, 0.34))
+    #plt.legend(bbox_to_anchor=(1, 0.34))
+    plt.legend(bbox_to_anchor=(1, 0.17))
     plt.grid(True)
 
     plt.show()
@@ -217,8 +222,8 @@ def plot_people_clustering_experiments(
     # plt.legend(bbox_to_anchor=(0.76, 1))
     plt.legend(bbox_to_anchor=(0.63, 1))
     plt.grid(True)
-
     # Set scientific notation
+
     ax.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
     ax.get_yaxis().major.formatter._useMathText = True
 
@@ -311,7 +316,7 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
 
         exp = exp_extended[ce.EXPERIMENT_KEY]
 
-        x_value = exp[x_key]  # Number of clusters
+        x_value = exp[x_key]
         prec = exp[ce.MEAN_PRECISION_KEY]  # Precision
         rec = exp[ce.MEAN_RECALL_KEY]  # Recall
         f_measure = exp[ce.MEAN_F1_KEY]  # F-measure
@@ -377,6 +382,7 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.ylim([0, 1])
     # plt.legend(bbox_to_anchor=(0.52, 1))
     plt.legend(bbox_to_anchor=(1, 0.17))
+    # plt.legend(bbox_to_anchor=(1, 1))
     plt.grid(True)
 
     plt.show()
@@ -408,6 +414,7 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.ylim([0, 1])
     # plt.legend(bbox_to_anchor=(0.52, 1))
     plt.legend(bbox_to_anchor=(1, 0.17))
+    # plt.legend(bbox_to_anchor=(1, 1))
     plt.grid(True)
 
     plt.show()
@@ -439,6 +446,7 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
     plt.ylim([0, 1])
     # plt.legend(bbox_to_anchor=(0.52, 1))
     plt.legend(bbox_to_anchor=(1, 0.17))
+    # plt.legend(bbox_to_anchor=(1, 1))
     plt.grid(True)
 
     plt.show()
@@ -462,7 +470,8 @@ def plot_people_recognition_experiments(yaml_paths, methods, params_list,
 
     plt.xlabel(x_key)
     plt.ylabel('s')
-    plt.ylim([0, 6000])
+    # plt.ylim([0, 6000])
+    plt.ylim([0, 20000])
     # plt.legend(bbox_to_anchor=(0.52, 1))
     # plt.legend(bbox_to_anchor=(0.54, 1))
     plt.legend(bbox_to_anchor=(1, 0.17))
@@ -612,14 +621,14 @@ def plot_precision_recall_curve(
     plt.xlim([0, 1])
     plt.ylabel('Precision')
     plt.ylim([0, 1])
-    plt.legend(bbox_to_anchor=(1, 0.34))
+    plt.legend(bbox_to_anchor=(1, 0.23))
     plt.grid(True)
 
     plt.show()
 
 ### PEOPLE CLUSTERING ###
 
-yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Con tracking da faccia dopo alignment\People_clustering-new.yml']
+yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Con tracking da faccia dopo alignment\People_clustering.yml']
               # r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People clustering\Face + clothing recognition\People_clustering_face_plus_clothing_recognition.yml']
 
 # 3 bboxes
@@ -644,14 +653,18 @@ yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-docu
 #            '2 x 2 - 3 celle + colore dominante']
 
 # Variation of ALL_CLOTH_BBOXES_IN_FRAMES and CLOTHING_REC_HSV_CHANNELS_NR
-methods = ['Solo face recognition',
-           'Tutti i bounding box - HS',
-           'Tutti i bounding box - HSV',
-           'Almeno 5 bounding box - HS',
-           'Almeno 5 bounding box - HSV']
+# methods = ['Solo face recognition',
+#            'Tutti i bounding box - HS',
+#            'Tutti i bounding box - HSV',
+#            'Almeno 5 bounding box - HS',
+#            'Almeno 5 bounding box - HSV']
+
+methods = ['Only face features',
+           'Face + clothing features']
 
 # video_name = 'fic.02.mpg'
 video_name = 'MONITOR072011.mpg'
+# video_name = 'SPALTI3_230907.mpg'
 
 only_face_recognition = {ce.VIDEO_NAME_KEY: video_name,
                          c.USE_CLOTHING_RECOGNITION_KEY: False,
@@ -783,28 +796,37 @@ params_list = [only_face_recognition,
                face_clothing_rec_hs,
                face_clothing_rec_hsv]
 
-plot_styles = ['ks-',
-               'g+--',
-               'r*-.',
-               'cv-',
-               'bo:']
+params_list = [only_face_recognition,
+               face_clothing_rec_all_cloth_bboxes_in_frames_hsv]
+
+# plot_styles = ['ks-',
+#                'g+--',
+#                'r*-.',
+#                'cv-',
+#                'bo:']
+# plot_styles = ['ks-',
+#                'r+--']
+plot_styles = ['r+--',
+               'ks-']
 
 # For total analysis times: 18187.89 x fic.02, 39997.93 x MONITOR072011
 inv_time = 0
 
-title = 'fic.02'
+# title = 'fic.02'
 # title = 'MONITOR072011'
+title = None
 
 # plot_people_clustering_experiments(
-#    yaml_paths, methods, params_list, plot_styles, inv_time, title)
+#   yaml_paths, methods, params_list, plot_styles, inv_time, title)
 
 
 ### PEOPLE RECOGNITION ###
 
 # video_name = 'fic.02.mpg'
-video_name = 'MONITOR072011.mpg'
+# video_name = 'MONITOR072011.mpg'
+video_name = 'SPALTI3_230907.mpg'
 
-yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\Test\Risultati test\People_recognition-temp5.yml']
+yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People recognition\People_recognition-SPALTI3_230907.yml']
 
 params_only_captions = {
     ce.VIDEO_NAME_KEY: video_name,
@@ -840,20 +862,40 @@ params_min_distance = {
     c.USE_MAJORITY_RULE_KEY: False
 }
 
-params_list = [params_only_faces_maj_rule,
-               params_only_faces_min_distance]
+# params_list = [params_only_faces_maj_rule,
+#                params_only_faces_min_distance]
+params_list = [params_only_captions,
+               params_only_faces_maj_rule,
+               params_maj_rule]
+
+# methods = ['Only caption recognition',
+#            'Only face recognition']
+#            'Caption + face recognition']
+methods = ['Solo caption recognition',
+           'Solo face recognition',
+           'Caption + face recognition']
+
+# params_list = [params_only_captions]
+#methods = ['Identificazione persone']
+
 
 # methods = ['Solo caption']
-methods = ['Majority rule',
-           'Distanza minima']
+# methods = ['Majority rule',
+#            'Distanza minima']
 # methods = ['Solo caption recognition',
 #            'Solo face recognition - Majority rule',
 #            'Solo face recognition - Distanza minima',
 #            'Caption + face recognition - Majority rule',
 #            'Caption + face recognition - Distanza minima']
 
-plot_styles = ['ks-',
-               'r+--']
+# plot_styles = ['ks-',
+#                'r+--']
+
+plot_styles = ['bo:',
+               'r+--',
+               'ks-']
+
+# plot_styles = ['ks-']
 
 # plot_styles = ['ks-',
 #                'g+--',
@@ -861,17 +903,19 @@ plot_styles = ['ks-',
 #                'cv-',
 #                'bo:']
 
-# x_key = c.LEV_RATIO_PCT_THRESH_KEY  # Captions
-x_key = c.GLOBAL_FACE_REC_THRESHOLD_KEY
+# x_key = c.LEV_RATIO_PCT_THRESH_KEY  # Caption recognition
+x_key = c.GLOBAL_FACE_REC_THRESHOLD_KEY  # Face recognition
 
 inv_time = 0
 
 # title = 'fic.02'
-title = 'MONITOR072011'
+# title = 'MONITOR072011'
+title = 'SPALTI3_230907'
+# title = None
 
 caption_metrics = False
 
 order_lists = True
 
-plot_people_recognition_experiments(yaml_paths, methods, params_list, plot_styles, inv_time, x_key, title, caption_metrics)
-# plot_precision_recall_curve(yaml_paths, methods, params_list, plot_styles, inv_time, title, order_lists, caption_metrics)
+# plot_people_recognition_experiments(yaml_paths, methods, params_list, plot_styles, inv_time, x_key, title, caption_metrics)
+plot_precision_recall_curve(yaml_paths, methods, params_list, plot_styles, inv_time, title, order_lists, caption_metrics)

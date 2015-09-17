@@ -89,8 +89,22 @@ class PeopleClusterExtractor(object):
                                                   'LBPCascadeFrontalface',
                                                   'LBPCascadeProfileFace' or
                                                   'LBPCascadeFrontalAndProfileFaces')
-    flags                                          Flags used in face detection             'DoCannyPruning'
-                                                   ('DoCannyPruning', 'ScaleImage',
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found.
                                                     'FindBiggestObject', 'DoRoughSearch')
     min_neighbors                                   Mininum number of neighbor bounding     5
                                                     boxes for retaining face detection
@@ -3186,11 +3200,12 @@ class PeopleClusterExtractor(object):
                                             str(sub_counter))
 
                                         # noinspection PyUnboundLocalVariable
-                                        similar = utils.compare_clothes(
+                                        (sim, dist_ratio) = utils.compare_clothes(
+                                            None, None,
                                             db_path_1, db_path_2, final_conf,
                                             intra_dist1, self.params)
 
-                                        if similar:
+                                        if sim:
                                             final_tag = c.TRACKED_PERSON_TAG
 
                                 else:

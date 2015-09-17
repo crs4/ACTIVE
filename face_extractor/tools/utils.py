@@ -304,17 +304,27 @@ def check_eye_pos(eye_left, eye_right, face_bbox, params=None):
 
 
 def compare_clothes(
-        db_path_1, db_path_2, face_conf, intra_dist1=None, params=None):
+        model1, model2, db_path_1, db_path_2, face_conf,
+        intra_dist1=None, params=None):
     """
     Compare two cloth models
+
+    :type model1: list
+    :param model1: list of color histograms of clothes
+
+    :type model2: list
+    :param model2: list of color histograms of clothes to be compared
+                   with those of model1
 
     :type db_path_1: string
     :param db_path_1: path containing file with list
                       of color histograms of clothes
+                      (used if model1 is None)
 
     :type db_path_2: string
     :param db_path_2: path containing file with list of color histograms
                     of clothes to be compared with those of db_path_1
+                    (used if model2 is None)
 
     :type face_conf: float
     :param face_conf: confidence with face recognition
@@ -326,8 +336,11 @@ def compare_clothes(
     :type params: dictionary
     :param params: configuration parameters (see table)
 
-    :rtype: boolean
-    :returns: True if two models are similar
+    :rtype: tupe
+    :returns: a (sim, dist_ratio) tuple,
+              where sim is True if the two models are similar
+              and dist is the distance between the two models,
+              normalized to the threshold value
 
     ===========================================  =================================  ==============
     Key                                          Value                              Default value
@@ -384,57 +397,67 @@ def compare_clothes(
             variable_clothing_th = params[c.VARIABLE_CLOTHING_THRESHOLD_KEY]
     
     sim = False
+    dist_ratio = -1
           
-    if os.path.isfile(db_path_1) and os.path.isfile(db_path_2):
+    if model1 is None:
+        if os.path.isfile(db_path_1):
+            with open(db_path_1, 'r') as f1:
+                model1 = pk.load(f1)
 
-        with open(db_path_1, 'r') as f1, open(db_path_2, 'r') as f2:
+    if model2 is None:
+        if os.path.isfile(db_path_2):
+            with open (db_path_2, 'r') as f2:
+                model2 = pk.load(f2)
 
-            model1 = pk.load(f1) 
-            
-            model2 = pk.load(f2)
+    if model1 and model2:
 
-            if model1 and model2:
-    
-                if intra_dist1 is None:
-                    
-                    intra_dist1 = get_mean_intra_distance(
-                        model1, used_3_bboxes, hsv_channels)
-                                
-                intra_dist2 = get_mean_intra_distance(
-                    model2, used_3_bboxes, hsv_channels)
-                                
-                dist = get_mean_inter_distance(
-                    model1, model2, used_3_bboxes, hsv_channels)
-    
-                chosen_value = 0
-                
-                k = 1
-                
-                if variable_clothing_th:
-                    k = (conf_threshold - clothes_conf_th) / (
-                    face_conf - clothes_conf_th)
-                
-                if method.lower() == 'min':
-                        
-                    chosen_value = k * min(intra_dist1, intra_dist2)
-                        
-                elif method.lower() == 'mean':
-                    
-                    chosen_value = k * np.mean(intra_dist1, intra_dist2)
-                    
-                elif method.lower() == 'max':
-                    
-                    chosen_value = k * max(intra_dist1, intra_dist2)
-                    
-                else:
-                    
-                    print('Warning! Method for comparing clothes not available') 
-                    
-                if dist < chosen_value:
-                    
-                    sim = True
+        if intra_dist1 is None:
 
-    return sim
+            intra_dist1 = get_mean_intra_distance(
+                model1, used_3_bboxes, hsv_channels)
+
+        intra_dist2 = get_mean_intra_distance(
+            model2, used_3_bboxes, hsv_channels)
+
+        dist = get_mean_inter_distance(
+            model1, model2, used_3_bboxes, hsv_channels)
+
+        chosen_value = 0
+
+        k = 1
+
+        if variable_clothing_th:
+            k = (conf_threshold - clothes_conf_th) / (
+            face_conf - clothes_conf_th)
+
+        # # TODO DELETE TEST ONLY
+        # print('dist', dist)
+        # print('intra_dist1', intra_dist1)
+        # print('intra_dist2', intra_dist2)
+
+        if method.lower() == 'min':
+
+            chosen_value = k * min(intra_dist1, intra_dist2)
+
+        elif method.lower() == 'mean':
+
+            chosen_value = k * np.mean(intra_dist1, intra_dist2)
+
+        elif method.lower() == 'max':
+
+            chosen_value = k * max(intra_dist1, intra_dist2)
+
+        else:
+
+            print('Warning! Method for comparing clothes not available')
+
+        if dist < chosen_value:
+
+            sim = True
+
+        dist_ratio = dist / chosen_value
+
+    return sim, dist_ratio
 
 
 def detect_eyes_in_image(image, eye_cascade_classifier):
@@ -1247,6 +1270,41 @@ def is_rect_similar(rect1, rect2, min_int_area):
     return similar, int_area, int_area_pct
 
 
+def is_there_a_corresponding_detection(segment_frame, people_list):
+    """
+    Find if in given list of people there is a face detection
+    corresponding to bounding box in given frame
+
+    :type segment_frame: dictionary
+    :param segment_frame: a frame
+
+    :type people_list: list
+    :param people_list: list of people
+
+    :rtype: boolean
+    :returns: True if a corresponding detection was found, False otherwise
+    """
+
+    segment_frame_name = segment_frame[c.SAVED_FRAME_NAME_KEY]
+    segment_frame_bbox = segment_frame[c.DETECTION_BBOX_KEY]
+    for person_dict in people_list:
+        segments = person_dict[c.SEGMENTS_KEY]
+        for segment in segments:
+            frames = segment [c.FRAMES_KEY]
+            for frame in frames:
+                frame_name = frame[c.SAVED_FRAME_NAME_KEY]
+                is_detected = frame[c.DETECTED_KEY]
+                if is_detected:
+                    if segment_frame_name == frame_name:
+                        # Same frame
+                        frame_bbox = segment_frame[c.DETECTION_BBOX_KEY]
+                        if is_rect_similar(
+                                segment_frame_bbox, frame_bbox,
+                                c.DET_MIN_INT_AREA):
+                            return True
+    return False
+
+
 def load_YAML_file(file_path):
     """
     Load YAML file.
@@ -1589,3 +1647,113 @@ def save_YAML_file(file_path, data):
         # yaml.dump(data, default_flow_style=False))
         result = yaml.dump(data, stream, default_flow_style=False)
         return result
+
+
+def similar_face_tracks(
+        face_track1, face_track2, max_diff, min_int_area, min_pct):
+    """
+    Check if two given face tracks are similar
+
+    :type face_track1: dictionary
+    :param face_track1: first face track
+
+    :type face_track2: dictionary
+    :param face_track2: second face track
+
+    :type max_diff: integer
+    :param max_diff: maximum difference between start and end of
+                     two face tracks (in milliseconds)
+
+    :type min_int_area: float
+    :param min_int_area: minimum value for intersection area
+                         between two bounding boxes for considering them similar
+                         (in % of the area of the smallest bounding box)
+
+    :type min_pct: float
+    :param min_pct: minimum percentage of frames in which there is
+                    a corresponding bounding box
+                    for considering the two tracks similar
+
+    :rtype: boolean
+    :returns: True if two face tracks are similar, False otherwise
+    """
+
+    sim = False
+
+    # Check if start and end of the two face tracks correspond
+    start1 = face_track1[c.SEGMENT_START_KEY]
+    start2 = face_track2[c.SEGMENT_START_KEY]
+    if abs(start1 - start2) <= max_diff:
+        dur1 = face_track1[c.SEGMENT_DURATION_KEY]
+        end1 = start1 + dur1
+        dur2 = face_track2[c.SEGMENT_DURATION_KEY]
+        end2 = start2 + dur2
+        if abs(dur1 - dur2) <= max_diff:
+
+            sim_bboxes = 0.0
+            same_frames = 0.0
+            # Search same frames
+            for frame1 in face_track1:
+                frame_name1 = frame1[c.SAVED_FRAME_NAME_KEY]
+                for frame2 in face_track2:
+                    frame_name2 = frame2[c.SAVED_FRAME_NAME_KEY]
+                    if frame_name1 == frame_name2:
+                        # Same frame
+                        same_frames += 1
+
+                        # Check bounding boxes
+                        bbox1 = frame1[c.DETECTION_BBOX_KEY]
+                        bbox2 = frame2[c.DETECTION_BBOX_KEY]
+                        if is_rect_similar(bbox1, bbox2, min_int_area):
+                            sim_bboxes += 1
+
+            if same_frames > 0:
+                pct = sim_bboxes / same_frames
+                if pct > min_pct:
+                    sim = True
+
+                    # TODO DELETE TEST ONLY
+                    print('face_track1', face_track1)
+                    print('face_track2', face_track2)
+                    print('len(face_track1)', len(face_track1))
+                    print('len(face_track2)', len(face_track2))
+                    base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction\fic.02.mpg\Face_extraction\Frames'
+                    for frame in face_track1:
+                        frame_name = frame[c.SAVED_FRAME_NAME_KEY]
+                        full_path = os.path.join(base_path, frame_name)
+                        img = cv2.imread(full_path)
+                        face_bbox = frame[c.BBOX_KEY]
+                        face_x0 = face_bbox[0]
+                        face_y0 = face_bbox[1]
+                        face_width = face_bbox[2]
+                        face_height = face_bbox[3]
+                        face_x1 = face_x0 + face_width
+                        face_y1 = face_y0 + face_height
+                        cv2.rectangle(
+                        img, (face_x0, face_y0), (face_x1, face_y1),
+                        (255, 0, 0), 3, 8, 0)
+                        cv2.imshow('face track 1', img)
+                        cv2.waitKey(0)
+                    for frame in face_track2:
+                        frame_name = frame[c.SAVED_FRAME_NAME_KEY]
+                        full_path = os.path.join(base_path, frame_name)
+                        img = cv2.imread(full_path)
+                        face_bbox = frame[c.BBOX_KEY]
+                        face_x0 = face_bbox[0]
+                        face_y0 = face_bbox[1]
+                        face_width = face_bbox[2]
+                        face_height = face_bbox[3]
+                        face_x1 = face_x0 + face_width
+                        face_y1 = face_y0 + face_height
+                        cv2.rectangle(
+                        img, (face_x0, face_y0), (face_x1, face_y1),
+                        (255, 0, 0), 3, 8, 0)
+                        cv2.imshow('face track 2', img)
+                        cv2.waitKey(0)
+
+
+    return sim
+
+
+
+

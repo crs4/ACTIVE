@@ -99,6 +99,13 @@ PEOPLE_RECOGNITION_TRAINING_SET_PATH = ''
 # Number of images per person
 PERSON_IMAGES_NR = 10
 
+# Directory containing the manual annotations
+# for people tracking on images
+PERSON_TRACKING_IMAGE_ANN_PATH = ''
+
+# Directory containing dataset for person tracking on images
+PERSON_TRACKING_IMAGE_DATASET_PATH = ''
+
 # Name of video being analyzed
 TEST_VIDEO_NAME = ''
 
@@ -192,7 +199,7 @@ USED_FPS_IN_TRAINING = 1.0
 # If True, use tracking in face extraction
 USE_TRACKING = False
 
-# Director containing video annotations
+# Directory containing video annotations
 VIDEO_ANN_PATH = ''
 
 # File with results of video indexing experiments
@@ -232,7 +239,6 @@ ANNOTATIONS_FRAME_KEY = 'Image'
 ANNOTATIONS_FRAME_NAME_KEY = 'imageName'
 ANNOTATIONS_PATH_KEY = 'annotations_path'
 ANNOTATIONS_PERSON_NAME_KEY = 'person_name'
-ANNOTATIONS_PERSON_TAG_KEY = 'person_tag'
 ANNOTATIONS_PERSON_TAG_KEY = 'person_tag'
 CAPTION_PRECISION_KEY = 'caption_precision'
 CAPTION_RECALL_KEY = 'caption_recall'
@@ -301,6 +307,8 @@ PEOPLE_PRECISION_DICT_KEY = 'people_precision_dict'
 PEOPLE_RECALL_DICT_KEY = 'people_recall_dict'
 PERSON_CHECK_KEY = 'person_check'
 PERSON_LABEL_KEY = 'label'
+PERSON_TRACKING_IMAGE_ANN_PATH_KEY = 'annotations_path'
+PERSON_TRACKING_IMAGE_DATASET_PATH_KEY = 'dataset_path'
 PRECISION_KEY = 'precision'
 RECALL_KEY = 'recall'
 RECOGNITION_RATE_KEY = 'recognition_rate'
