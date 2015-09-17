@@ -11,16 +11,16 @@ import tools.utils as utils
 import constants_for_experiments as ce
 from video_indexing_test import video_indexing_experiments
 
-# TODO CHANGE?
+# TODO CHANGE
 # video_idx_path_base = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'  # Portatile MP
 video_idx_path_base = r'C:\Active\People clustering'  # Palladium
-code_version = 356
+code_version = 386
 
 # Fixed parameters
 
 # Face detection
 check_eye_positions = True
-# TODO CHANGE?
+# TODO CHANGE
 # classifiers_dir_path = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
 classifiers_dir_path = r'C:\Opencv\sources\data\haarcascades'  # Palladium
 eye_detection_classifier = 'haarcascade_mcs_lefteye.xml'
@@ -68,7 +68,7 @@ tracking_min_int_area = 0.1
 use_3_bboxes = False
 use_aggr = False
 use_aligned_face_in_tracking = True
-use_clothing = True
+use_clothing = True  # TODO CHANGE -> SET TRUE
 use_dom_color = False
 use_maj_rule = True
 use_min_conf_rule = True
@@ -76,7 +76,7 @@ use_mean_conf_rule = False
 use_nose_pos_in_rec = False
 use_or_fps = False
 use_or_res = True
-use_people_clustering = True
+use_people_clustering = True  # TODO CHANGE -> SET FALSE FOR ONLY TRACKING
 use_people_rec = False
 used_fps = 5.0
 variable_cloth_thresh = False
@@ -87,24 +87,28 @@ video_idx_results_file_name = 'People_clustering'
 
 # Variable parameters
 
-resource_paths = ['C:\Active\RawVideos\fic.02.mpg', 'C:\Active\RawVideos\MONITOR072011.mpg']
-resource_ids = ['fic.02.mpg', 'MONITOR072011.mpg']
-clothing_rec_hsv_channels_nr = [2]
+resource_paths = [r'C:\Active\RawVideos\SPALTI3_230907.mpg']
+resource_ids = ['SPALTI3_230907.mpg']
+clothing_rec_hsv_channels_nr = [3, 2]
 all_cloth_bboxes_in_frames_list = [True, False]
 conf_threshold_list = range(10, 51, 2)
-test_counter = 134
+test_counter = 218
 
-for hsv_channels in clothing_rec_hsv_channels_nr:
+res_counter = 0
 
-    res_counter = 0
+for resource_path in resource_paths:
 
-    for resource_path in resource_paths:
+    resource_id = resource_ids[res_counter]
 
-        resource_id = resource_ids[res_counter]
+    for hsv_channels in clothing_rec_hsv_channels_nr:
 
         for all_cloth_bboxes_in_frames in all_cloth_bboxes_in_frames_list:
 
             for conf_threshold in conf_threshold_list:
+
+                if test_counter < 261:
+                    test_counter += 1
+                    continue
 
                 dir_name = 'TEST ID ' + str(test_counter)
 
@@ -194,6 +198,14 @@ for hsv_channels in clothing_rec_hsv_channels_nr:
                     params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\Face models'
                     params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\MONITOR072011.mpg\Face extraction\frames_in_models.yml'
                     params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\MONITOR072011\Simple annotations'
+                elif resource_id == 'SPALTI3_230907.mpg':
+                    params[ce.VIDEO_PARAMS_FILE_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\SPALTI3_230907.mpg_parameters.YAML'
+                    params[ce.FRAMES_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\Frames'
+                    params[ce.FACES_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\Face_detection\Aligned_faces'
+                    params[ce.FACE_TRACKING_FILE_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\Face_tracking\SPALTI3_230907.mpg.YAML'
+                    params[ce.FACE_MODELS_DIR_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\Face_models'
+                    params[ce.FRAMES_IN_MODELS_PATH_KEY] = r'C:\Active\Face tracking\SPALTI3_230907.mpg\Face_extraction\frames_in_models.yml'
+                    params[ce.ANNOTATIONS_PATH_KEY] = r'C:\Active\Dataset\Annotazioni\Videolina-15V\SPALTI3_230907\Simple annotations'
 
                 # TODO CHANGE
                 # Save file with parameters
@@ -208,4 +220,4 @@ for hsv_channels in clothing_rec_hsv_channels_nr:
 
                 test_counter += 1
 
-        res_counter += 1
+    res_counter += 1

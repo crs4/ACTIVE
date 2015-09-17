@@ -89,7 +89,6 @@ variable_cloth_thresh = False
 # TODO CHANGE
 # video_idx_results_path = r'C:\Users\Maurizio\Documents\Video indexing\People clustering\Results'
 video_idx_results_path = r'C:\Active\Risultati test\People recognition'  # Palladium
-video_idx_results_file_name = 'People_recognition'
 
 # People recognition
 global_face_models_min_diff = -1
@@ -116,12 +115,8 @@ merge_caption_and_faces_results = True
 # Variable parameters
 
 # TODO CHANGE
-resource_paths = [r'C:\Active\RawVideos\fic.02.mpg',
-                  r'C:\Active\RawVideos\MONITOR072011.mpg',
-                  r'C:\Active\RawVideos\SPALTI3_230907.mpg']
-resource_ids = ['fic.02.mpg',
-                'MONITOR072011.mpg',
-                'SPALTI3_230907.mpg']
+resource_paths = [r'C:\Active\RawVideos\SPALTI3_230907.mpg']
+resource_ids = ['SPALTI3_230907.mpg']
 
 # resource_paths = [r'C:\Active\RawVideos\fic.02.mpg',
 #                   r'C:\Active\RawVideos\MONITOR072011.mpg',
@@ -136,7 +131,7 @@ resource_ids = ['fic.02.mpg',
 
 global_face_rec_thresh_list = range(2, 51, 2)
 
-use_majority_rule_list = [True, False]
+use_majority_rule_list = [True]  # TODO CHANGE -> [True, False]
 
 lev_ratio_pct_thresh_list = np.arange(0, 1.01, 0.05)
 
@@ -148,13 +143,29 @@ for resource_path in resource_paths:
 
     test_counter = 0
 
+    video_idx_results_file_name = 'People_recognition_other_video'
+
+    # TODO CHANGE
+    if resource_id == 'fic.02.mpg':
+        video_idx_results_file_name = 'People_recognition-fic02'
+    elif resource_id == 'MONITOR072011.mpg':
+        video_idx_results_file_name = 'People_recognition-MONITOR072011'
+    elif resource_id == 'SPALTI3_230907.mpg':
+        video_idx_results_file_name = 'People_recognition-SPALTI3_230907'
+    elif resource_id == 'Fic.03.mpg':
+        video_idx_results_file_name = 'People_recognition-Fic03'
+    elif resource_id == 'MONITOR272010.mpg':
+        video_idx_results_file_name = 'People_recognition-MONITOR272010'
+
     for lev_ratio_pct_thresh in lev_ratio_pct_thresh_list:
+
+        lev_ratio_pct_thresh = float(lev_ratio_pct_thresh)
 
         for use_maj_rule in use_majority_rule_list:
 
             for global_face_rec_thresh in global_face_rec_thresh_list:
 
-                if test_counter <= 527:
+                if test_counter <= 489:
                     test_counter += 1
                     continue
 
