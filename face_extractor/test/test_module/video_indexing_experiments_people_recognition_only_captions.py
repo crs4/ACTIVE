@@ -136,6 +136,20 @@ for resource_path in resource_paths:
 
     test_counter = 0
 
+    video_idx_results_file_name = 'People_recognition_other_video'
+
+    # TODO CHANGE
+    if resource_id == 'fic.02.mpg':
+        video_idx_results_file_name = 'People_recognition-fic02'
+    elif resource_id == 'MONITOR072011.mpg':
+        video_idx_results_file_name = 'People_recognition-MONITOR072011'
+    elif resource_id == 'SPALTI3_230907.mpg':
+        video_idx_results_file_name = 'People_recognition-SPALTI3_230907'
+    elif resource_id == 'Fic.03.mpg':
+        video_idx_results_file_name = 'People_recognition-Fic03'
+    elif resource_id == 'MONITOR272010.mpg':
+        video_idx_results_file_name = 'People_recognition-MONITOR272010'
+
     for lev_ratio_pct_thresh in lev_ratio_pct_thresh_list:
 
         lev_ratio_pct_thresh = float(lev_ratio_pct_thresh)
