@@ -55,7 +55,7 @@ class FaceExtractor(object):
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -68,7 +68,7 @@ class FaceExtractor(object):
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20

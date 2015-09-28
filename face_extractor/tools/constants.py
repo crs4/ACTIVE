@@ -40,15 +40,32 @@ CLOTHES_CONF_THRESH = 8.0
 # Number of HSV channels used in clothing recognition (1-3)
 CLOTHING_REC_HSV_CHANNELS_NR = 3
 
+# Multiplier for intra distances for calculating
+# local threshold in clothing recognition
+# (used only in person_tracking.py)
+CLOTHING_REC_K = 1
+
 # If True, bounding box for clothes is divided into 3 parts
 CLOTHING_REC_USE_3_BBOXES = False
 
 # If True, dominant color is used in clothing recognition
 CLOTHING_REC_USE_DOMINANT_COLOR = False
 
+# If True, use LBP as features for clothing recognition
+# (used only in person_tracking.py)
+CLOTHING_REC_USE_LBP = False
+
+# If True, use mask for HSV values in clothing recognition
+# (used only in person_tracking.py)
+CLOTHING_REC_USE_MASK = True
+
 # If True, position of bounding box for clothes 
 # in the horizontal direction is fixed for the whole face track
 CLOTHING_REC_USE_MEAN_X_OF_FACES = False
+
+# If True, calculate histograms only on regions where motion is detected
+# (used only in person_tracking.py)
+CLOTHING_REC_USE_MOTION_MASK = False
 
 # Maximum distance between face features of two face tracks 
 # for merging them in the same cluster.
@@ -430,11 +447,15 @@ CLOTHES_BBOX_WIDTH_KEY = 'clothes_bounding_box_width'
 CLOTHES_CHECK_METHOD_KEY = 'clothes_check_method'
 CLOTHES_CONF_THRESH_KEY = 'conf_threshold_for_clothing_recognition'
 CLOTHING_REC_HSV_CHANNELS_NR_KEY = 'nr_of_HSV_channels_in_clothing_recognition'
+CLOTHING_REC_K_KEY = 'clothing_recognition_K'
 CLOTHING_REC_USE_3_BBOXES_KEY = 'use_3_bboxes_in_clothing_recognition'
 CLOTHING_REC_USE_DOMINANT_COLOR_KEY = (
     'use_dominant_color_in_clothing_recognition')
+CLOTHING_REC_USE_LBP_KEY = 'use_LBP_in_clothing_recognition'
+CLOTHING_REC_USE_MASK_KEY = 'use_mask_in_clothing_recognition'
 CLOTHING_REC_USE_MEAN_X_OF_FACES_KEY = (
     'use_mean_x_of_faces_in_clothing_recognition')
+CLOTHING_REC_USE_MOTION_MASK_KEY = 'use_motion_mask_in_clothing_recognition'
 CLOTH_MODELS_CREATION_TIME_KEY = 'cloth_models_creation_time'
 CONFIDENCE_KEY = 'confidence'
 CONF_THRESHOLD_KEY = 'conf_threshold'

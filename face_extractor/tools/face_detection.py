@@ -83,7 +83,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results=False,
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -96,7 +96,7 @@ def detect_faces_in_image(resource_path, align_path, params, show_results=False,
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -299,23 +299,27 @@ def detect_faces_in_image(resource_path, align_path, params, show_results=False,
         detection_time_in_clocks = cv2.getTickCount() - start_time
         detection_time_in_seconds = detection_time_in_clocks / cv2.getTickFrequency()
 
-        # Cascade classifier for eye detection
-        eye_classifier_file = classifiers_folder_path + eye_detection_classifier
-        eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file)
+        eye_cascade_classifier = None
+        nose_cascade_classifier = None
 
-        # Cascade classifiers for nose detection
-        nose_classifier_file = classifiers_folder_path + nose_detection_classifier
-        nose_cascade_classifier = cv2.CascadeClassifier(nose_classifier_file)
+        if use_eyes_position:
+            # Cascade classifier for eye detection
+            eye_classifier_file = classifiers_folder_path + eye_detection_classifier
+            eye_cascade_classifier = cv2.CascadeClassifier(eye_classifier_file)
 
-        if eye_cascade_classifier.empty():
-            print('Error loading eye cascade classifier file')
-            result[c.ERROR_KEY] = 'Error loading eye cascade classifier file'
-            return result
+            # Cascade classifiers for nose detection
+            nose_classifier_file = classifiers_folder_path + nose_detection_classifier
+            nose_cascade_classifier = cv2.CascadeClassifier(nose_classifier_file)
 
-        if nose_cascade_classifier.empty():
-            print('Error loading nose cascade classifier file')
-            result[c.ERROR_KEY] = 'Error loading nose cascade classifier file'
-            return result
+            if eye_cascade_classifier.empty():
+                print('Error loading eye cascade classifier file')
+                result[c.ERROR_KEY] = 'Error loading eye cascade classifier file'
+                return result
+
+            if nose_cascade_classifier.empty():
+                print('Error loading nose cascade classifier file')
+                result[c.ERROR_KEY] = 'Error loading nose cascade classifier file'
+                return result
 
         # Populate dictionary with detected faces and elapsed CPU time
         result[c.ELAPSED_CPU_TIME_KEY] = detection_time_in_seconds
@@ -371,21 +375,6 @@ def detect_faces_in_image(resource_path, align_path, params, show_results=False,
                 cv2.rectangle(
                     image, (x, y), (x + w, y + h), (0, 0, 255), 3, 8, 0)
 
-                # TODO DELETE
-                # eye_rects = utils.detect_eyes_in_image(
-                #     face, eye_cascade_classifier)
-                # for(x_eye, y_eye, w_eye, h_eye) in eye_rects:
-                #     cv2.rectangle(
-                #         face, (x_eye, y_eye), (x_eye + w_eye, y_eye + h_eye),
-                #         (0, 0, 255), 3, 8, 0)
-                #
-                # noses = utils.detect_nose_in_image(
-                #     face, nose_cascade_classifier)
-                # for(x_ear, y_ear, w_ear, h_ear) in noses:
-                #     cv2.rectangle(
-                #         face, (x_ear, y_ear), (x_ear + w_ear, y_ear + h_ear),
-                #         (0, 0, 255), 3, 8, 0)
-
             cv2.namedWindow('Result', cv2.WINDOW_AUTOSIZE)
             cv2.imshow('Result', image)
             cv2.waitKey(0)
@@ -426,7 +415,7 @@ def detect_faces_in_image_with_single_classifier(
     ============================================  ========================================  =============================
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -439,7 +428,7 @@ def detect_faces_in_image_with_single_classifier(
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -1135,7 +1124,7 @@ def get_detected_cropped_face(
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -1148,7 +1137,7 @@ def get_detected_cropped_face(
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20

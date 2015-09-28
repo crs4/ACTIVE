@@ -467,7 +467,7 @@ def video_indexing_experiments(
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -480,7 +480,7 @@ def video_indexing_experiments(
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                   Mininum number of neighbor bounding     5
                                                     boxes for retaining face detection
     min_size_height                                 Minimum height of face detection        20
@@ -644,7 +644,7 @@ def video_indexing_experiments(
     use_person_tracking                             If True, person tracking for            False
                                                     detecting people where face
                                                     is not visible is used
-    nr_of_hsv_channels_nr_in_person_tracking        Number of HSV channels used             2
+    nr_of_hsv_channels_in_person_tracking           Number of HSV channels used             2
                                                     in person tracking (1-2)
     person_tracking_clothes_bbox_height             Height of bounding box for clothes      1.0
                                                     (in % of the face bounding box height)
@@ -657,6 +657,10 @@ def video_indexing_experiments(
     person_tracking_neck_height                     Height of neck (in % of the             0.0
                                                     face bounding box height)
     use_mask_in_person_tracking                     If True, use a mask for HSV values      False
+    video_indexing_results                          Directory with results
+                                                    of video indexing experiments
+    experiment_results_file_name                    File with results
+                                                    of video indexing experiments
     ============================================  ========================================  ==============
     """
 
@@ -1349,19 +1353,18 @@ def video_indexing_experiments(
     new_experiment_dict[ce.PEOPLE_CAPTION_PRECISION_DICT_KEY] = people_cap_prec_dict
     new_experiment_dict[ce.PEOPLE_CAPTION_RECALL_DICT_KEY] = people_cap_rec_dict
       
+    # Update YAML file with the results of all the experiments
     results_path = ce.VIDEO_INDEXING_RESULTS_PATH
     experiment_results_file_name = ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME
     
     if params is not None:
-        
         if ce.VIDEO_INDEXING_RESULTS_PATH_KEY in params:
             results_path = params[ce.VIDEO_INDEXING_RESULTS_PATH_KEY]
-            
         if ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME_KEY in params:
             experiment_results_file_name = params[
                 ce.VIDEO_INDEXING_EXPERIMENT_RESULTS_FILE_NAME_KEY]
     
-    yaml_results_file_name = experiment_results_file_name + '.yml'
+    yaml_results_file_name = experiment_results_file_name + '.yaml'
     
     all_results_YAML_file_path = os.path.join(
         results_path, yaml_results_file_name)

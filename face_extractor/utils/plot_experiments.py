@@ -7,6 +7,117 @@ import test.test_module.constants_for_experiments as ce
 import tools.constants as c
 import tools.utils as utils
 
+def plot_clothing_recognition_experiments(
+        yaml_paths, methods, params_list, plot_styles, title=None):
+
+    """
+    Plot results of experiments on people clustering
+
+    :type yaml_paths: list
+    :param yaml_paths: paths of YAML files with experiment results
+
+    :type methods: list
+    :param methods: name of methods to be compared in the plots
+
+    :type params_list: list
+    :param params_list: parameters of methods to be compared in the plots
+
+    :type plot_styles: list
+    :param plot_styles: strings representing plot styles to be used
+
+    :type title: string
+    :param title: first part of title for all plots
+    """
+    # Load YAML files
+    experiments_list = []
+
+    # Check if there is at least one file path
+    if len(yaml_paths) >= 1:
+
+        print('yaml_file', yaml_paths[0])
+
+        dic1 = utils.load_YAML_file(yaml_paths[0])
+        experiments_list = dic1[ce.EXPERIMENTS_KEY]
+
+        for p in range(1, len(yaml_paths)):
+            dic = utils.load_YAML_file(yaml_paths[p])
+            experiments_list.extend(dic[ce.EXPERIMENTS_KEY])
+
+    else:
+        print('Warning! No YAML file paths provided')
+        return
+
+    if len(methods) != len(params_list):
+        print('Warning! Length of methods and params_list is different')
+        return
+
+    if len(methods) != len(plot_styles):
+        print('Warning! Length of methods and plot_styles is different')
+        return
+
+    # Set up dictionaries that will contain the results
+    x_lists = {}
+    rec_rate_lists = {}
+
+    for i in range(0, len(methods)):
+
+        x_lists[methods[i]] = []
+        rec_rate_lists[methods[i]] = []
+
+    for exp_extended in experiments_list:
+
+        exp = exp_extended[ce.EXPERIMENT_KEY]
+
+        k = exp[c.CLOTHING_REC_K_KEY]  # K
+        rec_rate = exp[ce.RECOGNITION_RATE_KEY]  # Recognition rate
+
+        method_counter = 0
+        for params in params_list:
+
+            # Check equality of all given parameters
+            all_equals = True
+            for param in params.keys():
+
+                if (param not in exp) or (params[param] != exp[param]):
+                    all_equals = False
+
+                    break
+
+            if all_equals:
+                x_lists[methods[method_counter]].append(k)
+                rec_rate_lists[methods[method_counter]].append(rec_rate)
+                break
+
+            method_counter += 1
+
+    # Plot of Recognition rate
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.set_xscale('log')
+    method_counter = 0
+    for method in methods:
+        ax.plot(x_lists[method], rec_rate_lists[method],
+                 plot_styles[method_counter], label=method)
+        method_counter += 1
+
+    # Set plot
+    title_str = 'Recognition rate al variare di k'
+    if title:
+        title_str = title + ' - ' + title_str
+
+    font_dict = {'fontsize': 12}  # Change font size
+
+    plt.title(title_str, font_dict)
+
+    plt.xlabel('k')
+    plt.ylabel('Recognition rate')
+    plt.ylim([0, 1])
+    plt.legend(bbox_to_anchor=(0.45, 0.29), prop={'size': 11})
+    plt.grid(True)
+
+    plt.show()
+
+
 def plot_people_clustering_experiments(
         yaml_paths, methods, params_list, plot_styles, inv_time, title=None):
     """
@@ -189,9 +300,9 @@ def plot_people_clustering_experiments(
     # plt.title(title_str, font_dict)
 
     #plt.xlabel('Numero di cluster')
-    plt.xlabel('Number of clusters')
+    plt.xlabel('Number of detected clusters')
     #plt.ylabel('$F_1$')
-    plt.ylabel('F-measure')
+    plt.ylabel('Average f-measure')
     plt.ylim([0, 1])
     #plt.legend(bbox_to_anchor=(1, 0.34))
     plt.legend(bbox_to_anchor=(1, 0.17))
@@ -614,12 +725,12 @@ def plot_precision_recall_curve(
     if title:
         title_str = title + ' - ' + title_str
 
-    font_dict = {'fontsize': 12}  # Change font size
-    plt.title(title_str, font_dict)
+        font_dict = {'fontsize': 12}  # Change font size
+        plt.title(title_str, font_dict)
 
-    plt.xlabel('Recall')
+    plt.xlabel('Average recall')
     plt.xlim([0, 1])
-    plt.ylabel('Precision')
+    plt.ylabel('Average precision')
     plt.ylim([0, 1])
     plt.legend(bbox_to_anchor=(1, 0.23))
     plt.grid(True)
@@ -663,8 +774,8 @@ methods = ['Only face features',
            'Face + clothing features']
 
 # video_name = 'fic.02.mpg'
-video_name = 'MONITOR072011.mpg'
-# video_name = 'SPALTI3_230907.mpg'
+# video_name = 'MONITOR072011.mpg'
+video_name = 'SPALTI3_230907.mpg'
 
 only_face_recognition = {ce.VIDEO_NAME_KEY: video_name,
                          c.USE_CLOTHING_RECOGNITION_KEY: False,
@@ -790,11 +901,11 @@ params_list_mix_MONITOR072011 = [only_face_recognition,
                                  face_clothing_rec_2_1_3_bboxes,
                                  face_clothing_rec_2_2_3_bboxes_dom_color]
 
-params_list = [only_face_recognition,
-               face_clothing_rec_all_cloth_bboxes_in_frames_hs,
-               face_clothing_rec_all_cloth_bboxes_in_frames_hsv,
-               face_clothing_rec_hs,
-               face_clothing_rec_hsv]
+# params_list = [only_face_recognition,
+#                face_clothing_rec_all_cloth_bboxes_in_frames_hs,
+#                face_clothing_rec_all_cloth_bboxes_in_frames_hsv,
+#                face_clothing_rec_hs,
+#                face_clothing_rec_hsv]
 
 params_list = [only_face_recognition,
                face_clothing_rec_all_cloth_bboxes_in_frames_hsv]
@@ -804,10 +915,10 @@ params_list = [only_face_recognition,
 #                'r*-.',
 #                'cv-',
 #                'bo:']
-# plot_styles = ['ks-',
-#                'r+--']
-plot_styles = ['r+--',
-               'ks-']
+plot_styles = ['ks-',
+               'r+--']
+# plot_styles = ['r+--',
+#                'ks-']
 
 # For total analysis times: 18187.89 x fic.02, 39997.93 x MONITOR072011
 inv_time = 0
@@ -816,17 +927,17 @@ inv_time = 0
 # title = 'MONITOR072011'
 title = None
 
-# plot_people_clustering_experiments(
-#   yaml_paths, methods, params_list, plot_styles, inv_time, title)
+#plot_people_clustering_experiments(
+#  yaml_paths, methods, params_list, plot_styles, inv_time, title)
 
 
 ### PEOPLE RECOGNITION ###
 
-# video_name = 'fic.02.mpg'
-# video_name = 'MONITOR072011.mpg'
-video_name = 'SPALTI3_230907.mpg'
+video_name = 'fic.02.mpg'
+#video_name = 'MONITOR072011.mpg'
+#video_name = 'SPALTI3_230907.mpg'
 
-yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People recognition\People_recognition-SPALTI3_230907.yml']
+yaml_paths = [r'C:\Users\Maurizio\Google Drive\Progetto ACTIVE\ACTIVE-other-documents\Test\Face extraction\People recognition\People_recognition-fic02.yml']
 
 params_only_captions = {
     ce.VIDEO_NAME_KEY: video_name,
@@ -868,12 +979,12 @@ params_list = [params_only_captions,
                params_only_faces_maj_rule,
                params_maj_rule]
 
-# methods = ['Only caption recognition',
-#            'Only face recognition']
-#            'Caption + face recognition']
-methods = ['Solo caption recognition',
-           'Solo face recognition',
+methods = ['Only caption recognition',
+           'Only face recognition',
            'Caption + face recognition']
+# methods = ['Solo caption recognition',
+#            'Solo face recognition',
+#            'Caption + face recognition']
 
 # params_list = [params_only_captions]
 #methods = ['Identificazione persone']
@@ -893,7 +1004,7 @@ methods = ['Solo caption recognition',
 
 plot_styles = ['bo:',
                'r+--',
-               'ks-']
+               'k-']
 
 # plot_styles = ['ks-']
 
@@ -910,12 +1021,81 @@ inv_time = 0
 
 # title = 'fic.02'
 # title = 'MONITOR072011'
-title = 'SPALTI3_230907'
-# title = None
+#title = 'SPALTI3_230907'
+title = None
 
 caption_metrics = False
 
 order_lists = True
 
 # plot_people_recognition_experiments(yaml_paths, methods, params_list, plot_styles, inv_time, x_key, title, caption_metrics)
-plot_precision_recall_curve(yaml_paths, methods, params_list, plot_styles, inv_time, title, order_lists, caption_metrics)
+# plot_precision_recall_curve(yaml_paths, methods, params_list, plot_styles, inv_time, title, order_lists, caption_metrics)
+
+
+### CLOTHING RECOGNITION ###
+
+# video_name = 'Fic.02'
+# video_name = 'MONITOR072011'
+video_name = 'SPALTI3_230907'
+
+yaml_paths = [r'C:\Users\Maurizio\Documents\Risultati_test\Clothing_recognition\Experiments.yaml']
+
+params_HSV_no_mask = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.CLOTHING_REC_USE_LBP_KEY: False,
+    c.CLOTHING_REC_USE_MASK_KEY: False,
+    c.CLOTHING_REC_USE_MOTION_MASK_KEY: False,
+}
+
+params_HSV_color_mask = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.CLOTHING_REC_USE_LBP_KEY: False,
+    c.CLOTHING_REC_USE_MASK_KEY: True,
+    c.CLOTHING_REC_USE_MOTION_MASK_KEY: False,
+}
+
+params_HSV_motion_mask = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.CLOTHING_REC_USE_LBP_KEY: False,
+    c.CLOTHING_REC_USE_MASK_KEY: False,
+    c.CLOTHING_REC_USE_MOTION_MASK_KEY: True,
+}
+
+params_HSV_motion_mask_color_mask = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.CLOTHING_REC_USE_LBP_KEY: False,
+    c.CLOTHING_REC_USE_MASK_KEY: True,
+    c.CLOTHING_REC_USE_MOTION_MASK_KEY: True,
+}
+
+params_LBP = {
+    ce.VIDEO_NAME_KEY: video_name,
+    c.CLOTHING_REC_USE_LBP_KEY: True
+}
+
+params_list = [params_HSV_no_mask,
+               params_HSV_color_mask,
+               params_HSV_motion_mask,
+               params_HSV_motion_mask_color_mask,
+               params_LBP]
+
+
+methods = ['HSV - Nessuna maschera',
+           'HSV - Maschera colore',
+           'HSV - Maschera movimento',
+           'HSV - Maschera col. + mov.',
+           'LBP']
+
+
+plot_styles = ['ks-',
+               'g+--',
+               'r*-.',
+               'cv-',
+               'bo:']
+
+# title = 'fic.02'
+# title = 'MONITOR072011'
+title = 'SPALTI3_230907'
+
+
+plot_clothing_recognition_experiments(yaml_paths, methods, params_list, plot_styles, title)

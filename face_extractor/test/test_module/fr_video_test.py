@@ -296,7 +296,7 @@ def fr_video_experiments(params, show_results):
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -309,7 +309,7 @@ def fr_video_experiments(params, show_results):
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -361,7 +361,7 @@ def fr_video_experiments(params, show_results):
                                                   used for calculating LBP
     LBP_radius                                    Radius used                               1
                                                   for calculating LBP (in pixels)
-    max_frames_with_missed_detection              Maximum number of frames with             5
+    max_frames_with_missed_detections             Maximum number of frames with             5
                                                   missed detection that
                                                   does not interrupt tracking
     offset_pct_x                                  % of the image to keep next to            0.20

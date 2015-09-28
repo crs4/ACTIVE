@@ -305,7 +305,7 @@ def check_eye_pos(eye_left, eye_right, face_bbox, params=None):
 
 def compare_clothes(
         model1, model2, db_path_1, db_path_2, face_conf,
-        intra_dist1=None, params=None):
+        intra_dist1=None, params=None, k=1):
     """
     Compare two cloth models
 
@@ -335,6 +335,9 @@ def compare_clothes(
 
     :type params: dictionary
     :param params: configuration parameters (see table)
+
+    :type k: float
+    :param k: multiplier for intra distances for calculating threshold
 
     :rtype: tupe
     :returns: a (sim, dist_ratio) tuple,
@@ -424,16 +427,9 @@ def compare_clothes(
 
         chosen_value = 0
 
-        k = 1
-
         if variable_clothing_th:
             k = (conf_threshold - clothes_conf_th) / (
             face_conf - clothes_conf_th)
-
-        # # TODO DELETE TEST ONLY
-        # print('dist', dist)
-        # print('intra_dist1', intra_dist1)
-        # print('intra_dist2', intra_dist2)
 
         if method.lower() == 'min':
 
@@ -982,10 +978,8 @@ def get_mean_intra_distance(model, used_3_bboxes=False, hsv_channels=3):
     
                 # For every color channel
                 for ch in range(0, hsv_channels):
-                    
                     diff = abs(cv2.compareHist(
                     hists[ch], sub_hists[ch], cv.CV_COMP_CHISQR))
-                    
                     tot_diff = tot_diff + diff
         
             diff_list.append(tot_diff)

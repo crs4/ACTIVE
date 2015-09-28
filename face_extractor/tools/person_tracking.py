@@ -4,7 +4,205 @@ import os
 
 import constants as c
 from face_detection import detect_faces_in_image
-from utils import save_YAML_file
+from object_detection import background_subtraction_on_images
+from utils import compare_clothes, save_YAML_file
+
+
+def get_clothing_model_from_sequence(frame_seq, params):
+    """
+    Calculate clothing model from frame sequence
+
+    :type frame_seq: list
+    :param frame_seq: list of paths of frame sequence
+
+    :type params: dictionary
+    :param params: configuration parameters (see table)
+
+    :rtype: list
+    :returns: clothing model
+
+    ============================================  ========================================  =============================
+    Key (params)                                  Value                                     Default value
+    ============================================  ========================================  =============================
+    clothes_bounding_box_height                   Height of bounding box for clothes
+                                                  (in % of the face bounding box height)    1.0
+    clothes_bounding_box_width                    Width of bounding box for clothes         2.0
+                                                  (in % of the face bounding box width)
+                                                  If True, use mask for HSV values in clothing recognition
+    neck_height                                   Height of neck (in % of the               0.0
+                                                  face bounding box height)
+    nr_of_HSV_channels_in_clothing_recognition    Number of HSV channels used
+                                                  in clothing recognition (1-3)             3
+    use_LBP_in_clothing_recognition               If True, use LBP as features              False
+                                                  for clothing recognition
+    use_mask_in_clothing_recognition              If True, use mask for HSV values          True
+                                                  in clothing recognition
+    use_motion_mask_in_clothing_recognition       If True, calculate histograms only        False
+                                                  on regions where motion is detected
+    classifiers_dir_path                          Path of directory with OpenCV
+                                                  cascade classifiers
+    face_detection_algorithm                      Classifier for face detection             'HaarCascadeFrontalFaceAlt2'
+                                                  ('HaarCascadeFrontalFaceAlt',
+                                                  'HaarCascadeFrontalFaceAltTree',
+                                                  'HaarCascadeFrontalFaceAlt2',
+                                                  'HaarCascadeFrontalFaceDefault',
+                                                  'HaarCascadeProfileFace',
+                                                  'HaarCascadeFrontalAndProfileFaces',
+                                                  'HaarCascadeFrontalAndProfileFaces2',
+                                                  'LBPCascadeFrontalface',
+                                                  'LBPCascadeProfileFace' or
+                                                  'LBPCascadeFrontalAndProfileFaces')
+    flags                                         Flags used in face detection              'DoCannyPruning'
+                                                  ('DoCannyPruning', 'ScaleImage',
+                                                  'FindBiggestObject', 'DoRoughSearch').
+                                                  If 'DoCannyPruning' is used, regions
+                                                  that do not contain lines are discarded.
+                                                  If 'ScaleImage' is used, image instead
+                                                  of the detector is scaled
+                                                  (it can be advantegeous in terms of
+                                                  memory and cache use).
+                                                  If 'FindBiggestObject' is used,
+                                                  only the biggest object is returned
+                                                  by the detector.
+                                                  'DoRoughSearch', used together with
+                                                  'FindBiggestObject',
+                                                  terminates the search as soon as
+                                                  the first candidate object is found
+    min_neighbors                                 Mininum number of neighbor bounding       5
+                                                  boxes for retaining face detection
+    min_size_height                               Minimum height of face detection          20
+                                                  bounding box (in pixels)
+    min_size_width                                Minimum width of face detection           20
+                                                  bounding box (in pixels)
+    scale_factor                                  Scale factor between two scans            1.1
+                                                  in face detection
+    ============================================  ========================================  =============================
+    """
+
+    # Set parameters
+    align_path = c.ALIGNED_FACES_PATH
+    cl_pct_height = c.CLOTHES_BBOX_HEIGHT
+    cl_pct_width = c.CLOTHES_BBOX_WIDTH
+    hsv_channels = c.CLOTHING_REC_HSV_CHANNELS_NR
+    neck_pct_height = c.NECK_HEIGHT
+    use_LBP = c.CLOTHING_REC_USE_LBP
+    use_mask = c.CLOTHING_REC_USE_MASK
+    use_motion_mask = c.CLOTHING_REC_USE_MOTION_MASK
+    if params:
+        if c.ALIGNED_FACES_PATH_KEY in params:
+            align_path = params[c.ALIGNED_FACES_PATH_KEY]
+        if c.CLOTHES_BBOX_HEIGHT_KEY in params:
+            cl_pct_height = params[c.CLOTHES_BBOX_HEIGHT_KEY]
+        if c.CLOTHES_BBOX_WIDTH_KEY in params:
+            cl_pct_width = params[c.CLOTHES_BBOX_WIDTH_KEY]
+        if c.CLOTHING_REC_HSV_CHANNELS_NR_KEY in params:
+            hsv_channels = params[c.CLOTHING_REC_HSV_CHANNELS_NR_KEY]
+        if c.NECK_HEIGHT_KEY in params:
+            neck_pct_height = params[c.NECK_HEIGHT_KEY]
+        if c.CLOTHING_REC_USE_LBP_KEY in params:
+            use_LBP = params[c.CLOTHING_REC_USE_LBP_KEY]
+        if c.CLOTHING_REC_USE_MASK_KEY in params:
+            use_mask = params[c.CLOTHING_REC_USE_MASK_KEY]
+        if c.CLOTHING_REC_USE_MOTION_MASK_KEY in params:
+            use_motion_mask = params[c.CLOTHING_REC_USE_MOTION_MASK_KEY]
+
+    # No alignment must be carried out
+    if params is None:
+        params = {}
+    params[c.USE_EYES_POSITION_KEY] = False
+
+    image_masks = None
+    if use_motion_mask:
+        # Get regions with detected moving objects
+        image_masks = background_subtraction_on_images(frame_seq)
+
+    # Get clothing information from sequence
+    model = []
+    counter = 0
+    for im_path in frame_seq:
+
+        if use_motion_mask and (counter == 0):
+            # Moving objects are detected since second frame
+            counter += 1
+            continue
+
+        # Detect faces in image and take first result
+        result_dict = detect_faces_in_image(im_path, align_path, params, False)
+        if c.FACES_KEY in result_dict:
+            faces = result_dict[c.FACES_KEY]
+            if len(faces) > 0:
+                face_dict = faces[0]
+                face_bbox = face_dict[c.BBOX_KEY]
+                face_x0 = face_bbox[0]
+                face_y0 = face_bbox[1]
+                face_width = face_bbox[2]
+                face_height = face_bbox[3]
+                face_x1 = face_x0 + face_width
+                face_y1 = face_y0 + face_height
+
+                # Get region of interest for clothes
+                clothes_width = int(face_width * cl_pct_width)
+                clothes_height = int(face_height * cl_pct_height)
+                clothes_x0 = int(face_x0 + face_width / 2.0 - clothes_width / 2.0)
+
+                clothes_y0 = int(
+                    face_y0 + face_height + (face_height * neck_pct_height))
+                clothes_x1 = clothes_x0 + clothes_width
+                clothes_y1 = clothes_y0 + clothes_height
+
+                im = cv2.imread(im_path)
+                roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
+
+                # Check if bounding box is entirely contained by frame
+                im_height, im_width, channels = im.shape
+                if ((clothes_x0 < 0) or (clothes_x1 > im_width)
+                        or (clothes_y0 < 0) or (clothes_y1 > im_height)):
+                    print('Bounding box not entirely contained by frame')
+                    return None
+
+                if use_LBP:
+                    # Use LBP histograms
+                    roi_gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+                    recognizer = cv2.createLBPHFaceRecognizer(1, 8, 1, 1)
+                    recognizer.train(
+                        np.asarray([np.asarray(roi_gray, dtype=np.uint8)]),
+                        np.asarray([0]))
+
+                    hist = recognizer.getMatVector("histograms")[0][0]
+                    model.append([hist])
+
+                else:
+                    # Use HSV histograms
+                    roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+                    mask = None
+                    if use_mask:
+                        mask = cv2.inRange(roi_hsv,
+                                           np.array((0., 60., 32.)),
+                                           np.array((180., 255., 255.)))
+
+                    if image_masks:
+                        motion_mask = None
+                        im_motion_mask = image_masks[counter]
+                        roi_motion_mask = im_motion_mask[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
+                        if use_mask:
+                            mask = roi_motion_mask & mask
+                        else:
+                            mask = roi_motion_mask
+
+                    hists = []
+                    for ch in range(0, hsv_channels):
+                        hist = cv2.calcHist(
+                            [roi_hsv], [ch], mask, [256], [0, 255])
+
+                        cv2.normalize(hist, hist, 0, 255, cv2.NORM_MINMAX)
+
+                        hists.append(hist)
+
+                    model.append(hists)
+
+        counter += 1
+
+    return model
 
 
 def find_person_by_clothes(
@@ -30,7 +228,7 @@ def find_person_by_clothes(
                          image with detected faces
 
     :rtype: tuple or None
-    :return: if person is found, predicted face bounding box in image,
+    :returns: if person is found, predicted face bounding box in image,
              given as tuple (x, y, width, height), otherwise None
 
     ============================================  ========================================  ==============
@@ -42,7 +240,7 @@ def find_person_by_clothes(
                                                   (in % of the face bounding box width)
     person_tracking_neck_height                   Height of neck (in % of the               0.0
                                                   face bounding box height)
-    nr_of_hsv_channels_nr_in_person_tracking      Number of HSV channels used               2
+    nr_of_hsv_channels_in_person_tracking         Number of HSV channels used               2
                                                   in person tracking (1-2)
     use_mask_in_person_tracking                   If True, use a mask for HSV values        False
     min_size_height                               Minimum height of face detection          20
@@ -123,8 +321,6 @@ def find_person_by_clothes(
         cv2.waitKey(0)
 
     mask_roi = None
-    # mask_lower_boundaries = np.array((0., 48., 80.))
-    # mask_upper_boundaries = np.array((20., 255., 255.))
     mask_lower_boundaries = np.array((0., 60., 32.))
     mask_upper_boundaries = np.array((180., 255., 255.))
     if use_mask:
@@ -152,9 +348,11 @@ def find_person_by_clothes(
             hsv_img, mask_lower_boundaries, mask_upper_boundaries)
         prob &= mask_img
     term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+
     track_box, track_window = cv2.CamShift(
         prob, (clothes_x0, clothes_y0, clothes_width, clothes_height),
         term_crit)
+    height, width, channels = img.shape
 
     clothes_x0 = track_window[0]
     clothes_y0 = track_window[1]
@@ -312,7 +510,7 @@ def create_ann_file_for_dataset(dataset_path, ann_file_path, params=None):
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -325,7 +523,7 @@ def create_ann_file_for_dataset(dataset_path, ann_file_path, params=None):
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20

@@ -60,7 +60,7 @@ class FaceModels:
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -73,7 +73,7 @@ class FaceModels:
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                 Mininum number of neighbor bounding       5
                                                   boxes for retaining face detection
     min_size_height                               Minimum height of face detection          20
@@ -206,13 +206,6 @@ class FaceModels:
                 aligned_faces_path, label_str)
 
             good_image = False
-
-            # TEST ONLY
-            # print('im_path', im_path)
-            # print('eye_pos', eye_pos)
-            # print('bbox', bbox)
-            # cv2.imshow('aligned_face', aligned_face)
-            # cv2.waitKey(0)
 
             if ((aligned_face is not None) and
                     (eye_pos is not None) and
@@ -1608,23 +1601,81 @@ class FaceModels:
 
         # Set parameters
         face_rec_threshold = c.GLOBAL_FACE_REC_THRESHOLD
+        radius = c.LBP_RADIUS
+        neighbors = c.LBP_NEIGHBORS
+        grid_x = c.LBP_GRID_X
+        grid_y = c.LBP_GRID_Y
         if c.GLOBAL_FACE_REC_THRESHOLD_KEY in self._params:
             face_rec_threshold = self._params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
+        if c.LBP_RADIUS_KEY in self._params:
+            radius = self._params[c.LBP_RADIUS_KEY]
+        if c.LBP_NEIGHBORS_KEY in self._params:
+            neighbors = self._params[c.LBP_NEIGHBORS_KEY]
+        if c.LBP_GRID_X_KEY in self._params:
+            grid_x = self._params[c.LBP_GRID_X_KEY]
+        if c.LBP_GRID_Y_KEY in self._params:
+            grid_y = self._params[c.LBP_GRID_Y_KEY]
 
         label = c.UNDEFINED_LABEL
         conf = sys.maxint
 
-        if self._en_models:
-            (pred_label, conf) = self._en_models.predict(
-                np.asarray(face, dtype=np.uint8))
+        # Create face recognizer and train it with given face
+        query_model = cv2.createLBPHFaceRecognizer(
+            radius,
+            neighbors,
+            grid_x,
+            grid_y)
 
-            # TEST ONLY
-            # print('pred_label', pred_label)
-            # print('conf', conf)
+        query_model.train(
+            np.asarray([np.asarray(face, dtype=np.uint8)]),
+            np.asarray([0]))
 
-            # Consider tag only if distance is below threshold
-            if conf < face_rec_threshold:
-                label = pred_label
+        if self._loaded_ext_models:
+
+            # Get histograms from given model
+            query_model_hists = query_model.getMatVector("histograms")
+
+            query_hist = query_model_hists[0][0]
+
+            for train_model_dict in self._loaded_ext_models:
+
+                # Get histograms from train model
+                train_model = train_model_dict[c.MODEL_FILE_KEY]
+                train_model_hists = train_model.getMatVector("histograms")
+                train_model_id = train_model_dict[c.MODEL_ID_KEY]
+
+                # Iterate through LBP histograms
+                # in training model
+                for t in range(0, len(train_model_hists)):
+                    train_hist = train_model_hists[t][0]
+                    diff = cv2.compareHist(
+                        query_hist, train_hist, cv.CV_COMP_CHISQR)
+                    if ((diff < conf)and
+                            (diff < face_rec_threshold)):
+                        conf = diff
+                        label = train_model_id
+
+        elif self._en_models:
+
+            # Get histograms from given face
+            query_model_hists = query_model.getMatVector("histograms")
+
+            query_hist = query_model_hists[0][0]
+
+            # Get histograms from train model
+            train_model_hists = self._en_models.getMatVector("histograms")
+            train_model_labels = self._en_models.getMat("labels")
+
+            # Iterate through LBP histograms
+            # in training model
+            for t in range(0, len(train_model_hists)):
+                train_hist = train_model_hists[t][0]
+                diff = cv2.compareHist(
+                    query_hist, train_hist, cv.CV_COMP_CHISQR)
+                if ((diff < conf) and
+                        (diff < face_rec_threshold)):
+                    conf = diff
+                    label = train_model_labels[t][0]
 
         return label, conf
 

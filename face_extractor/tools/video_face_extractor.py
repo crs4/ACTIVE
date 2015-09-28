@@ -111,7 +111,7 @@ class VideoFaceExtractor(object):
                                                   'LBPCascadeFrontalAndProfileFaces')
     flags                                         Flags used in face detection              'DoCannyPruning'
                                                   ('DoCannyPruning', 'ScaleImage',
-                                                  'FindBiggestObject', 'DoRoughSearch')
+                                                  'FindBiggestObject', 'DoRoughSearch').
                                                   If 'DoCannyPruning' is used, regions
                                                   that do not contain lines are discarded.
                                                   If 'ScaleImage' is used, image instead
@@ -124,7 +124,7 @@ class VideoFaceExtractor(object):
                                                   'DoRoughSearch', used together with
                                                   'FindBiggestObject',
                                                   terminates the search as soon as
-                                                  the first candidate object is found.
+                                                  the first candidate object is found
     min_neighbors                                   Mininum number of neighbor bounding     5
                                                     boxes for retaining face detection
     min_size_height                                 Minimum height of face detection        20
@@ -263,7 +263,7 @@ class VideoFaceExtractor(object):
     used_fps_for_captions                           Frame rate at which video is            1.0
                                                     analyzed for caption recognition
                                                     (in frames per second)
-    nr_of_hsv_channels_nr_in_person_tracking        Number of HSV channels used             2
+    nr_of_hsv_channels_in_person_tracking           Number of HSV channels used             2
                                                     in person tracking (1-2)
     person_tracking_clothes_bbox_height             Height of bounding box for clothes      1.0
                                                     (in % of the face bounding box height)

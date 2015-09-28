@@ -21,6 +21,9 @@ CALCULATE_K_FROM_FEATURES = False
 # Directory containing the test set for caption recognition experiments
 CAPTION_RECOGNITION_TEST_SET_PATH = ''
 
+# Directory that will contain results of clothing recognition experiments
+CLOTHING_RECOGNITION_RESULTS_PATH = ''
+
 # CSV file with results
 CSV_FILE_NAME = 'Results.csv'
 
@@ -66,14 +69,8 @@ FACE_RECOGNITION_TRAINING_SET_PATH = ''
 # Directory containing frames saved from video being analyzed
 FRAMES_FILES_PATH = ''
 
-# TODO ADD EXPLANATION
-HSV_HIST_DIFF_THRESHOLD = 1000000
-
 # Number of K nearest neighbors in face recognition
 KNN_NEIGHBORS = 1
-
-# TODO ADD EXPLANATION
-LBP_HIST_DIFF_THRESHOLD = 3
 
 # If True, use results of analysis on independent frames
 LOAD_IND_FRAMES_RESULTS = True
@@ -251,6 +248,7 @@ CAPTION_MEAN_F1_KEY = 'caption_mean_F1'
 CAPTION_STD_F1_KEY = 'caption_std_F1'
 CHECKED_KEY = 'checked'
 CLOTH_MODELS_DIR_PATH_KEY = 'cloth_models_dir_path'
+CLOTHING_RECOGNITION_RESULTS_PATH_KEY = 'clothing_recognition_results_path'
 CODE_VERSION_KEY = 'code_version'
 DATASET_ALREADY_DIVIDED_KEY = 'dataset_already_divided'
 DATASET_PATH_KEY = 'dataset_path'
