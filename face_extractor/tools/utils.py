@@ -1427,10 +1427,6 @@ def merge_consecutive_segments(segments, min_duration):
         else:
 
             tot_dur = tot_dur + tot_seg_dur
-            
-            # TODO DELETE
-            # simple_seg_dict = {c.SEGMENT_START_KEY: first_start,
-            #                   c.SEGMENT_DURATION_KEY: tot_seg_dur}
 
             new_segment_dict[c.SEGMENT_START_KEY] = first_start
             new_segment_dict[c.SEGMENT_DURATION_KEY] = tot_seg_dur
@@ -1687,9 +1683,11 @@ def similar_face_tracks(
             sim_bboxes = 0.0
             same_frames = 0.0
             # Search same frames
-            for frame1 in face_track1:
+            frames1 = face_track1[c.FRAMES_KEY]
+            frames2 = face_track2[c.FRAMES_KEY]
+            for frame1 in frames1:
                 frame_name1 = frame1[c.SAVED_FRAME_NAME_KEY]
-                for frame2 in face_track2:
+                for frame2 in frames2:
                     frame_name2 = frame2[c.SAVED_FRAME_NAME_KEY]
                     if frame_name1 == frame_name2:
                         # Same frame
@@ -1705,47 +1703,6 @@ def similar_face_tracks(
                 pct = sim_bboxes / same_frames
                 if pct > min_pct:
                     sim = True
-
-                    # TODO DELETE TEST ONLY
-                    print('face_track1', face_track1)
-                    print('face_track2', face_track2)
-                    print('len(face_track1)', len(face_track1))
-                    print('len(face_track2)', len(face_track2))
-                    base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction\fic.02.mpg\Face_extraction\Frames'
-                    for frame in face_track1:
-                        frame_name = frame[c.SAVED_FRAME_NAME_KEY]
-                        full_path = os.path.join(base_path, frame_name)
-                        img = cv2.imread(full_path)
-                        face_bbox = frame[c.BBOX_KEY]
-                        face_x0 = face_bbox[0]
-                        face_y0 = face_bbox[1]
-                        face_width = face_bbox[2]
-                        face_height = face_bbox[3]
-                        face_x1 = face_x0 + face_width
-                        face_y1 = face_y0 + face_height
-                        cv2.rectangle(
-                        img, (face_x0, face_y0), (face_x1, face_y1),
-                        (255, 0, 0), 3, 8, 0)
-                        cv2.imshow('face track 1', img)
-                        cv2.waitKey(0)
-                    for frame in face_track2:
-                        frame_name = frame[c.SAVED_FRAME_NAME_KEY]
-                        full_path = os.path.join(base_path, frame_name)
-                        img = cv2.imread(full_path)
-                        face_bbox = frame[c.BBOX_KEY]
-                        face_x0 = face_bbox[0]
-                        face_y0 = face_bbox[1]
-                        face_width = face_bbox[2]
-                        face_height = face_bbox[3]
-                        face_x1 = face_x0 + face_width
-                        face_y1 = face_y0 + face_height
-                        cv2.rectangle(
-                        img, (face_x0, face_y0), (face_x1, face_y1),
-                        (255, 0, 0), 3, 8, 0)
-                        cv2.imshow('face track 2', img)
-                        cv2.waitKey(0)
-
-
     return sim
 
 

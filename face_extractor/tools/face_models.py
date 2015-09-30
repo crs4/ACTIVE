@@ -306,7 +306,7 @@ class FaceModels:
                     utils.save_YAML_file(
                         tag_label_associations_file, tag_label_associations)
 
-                # TODO DELETE (TEST ONLY) Save whole image with face bbox
+                #  Save whole image with face bbox
                 bbox_images_path = os.path.join(
                     training_set_path, c.BBOX_IMAGES_DIR)
 
@@ -544,7 +544,7 @@ class FaceModels:
                     whole_images_new_label_path, im_name)
                 os.rename(whole_im_old_path, whole_im_new_path)
 
-                # TODO DELETE TEST ONLY BBOX IMAGES
+                # Images with face bounding boxes
                 bbox_images_path = os.path.join(
                     training_set_path, c.BBOX_IMAGES_DIR)
                 bbox_images_old_label_path = os.path.join(
@@ -670,7 +670,6 @@ class FaceModels:
         utils.save_YAML_file(cluster_file, clusters)
 
 
-    # TODO ADD TEST
     def create_model_from_image_list(self, image_list, model_id):
         """
         Read images in given list and create face model
@@ -1003,7 +1002,7 @@ class FaceModels:
                             whole_images_path, str(label))
                         os.rename(old_subject_path, new_subject_path)
 
-                        # TODO DELETE TEST ONLY BBOX IMAGES
+                        # Images with face bounding boxes
                         bbox_images_path = os.path.join(
                             training_set_path, c.BBOX_IMAGES_DIR)
                         old_subject_path = os.path.join(
@@ -1131,9 +1130,6 @@ class FaceModels:
                     tag = tag_list[subject_counter]
                 else:
                     tag = sub_dir_name
-
-                # TODO DELETE - TEST ONLY
-                print 'Creating models for ' + str(label)
 
                 subject_path = os.path.join(images_dir_path, sub_dir_name)
 
@@ -1329,7 +1325,6 @@ class FaceModels:
 
         return clusters
 
-    # TODO ADD GET_TAGS AND GET_TAG CODE TO BE USED WHEN EXTERNAL MODELS ARE USED
     def get_labels(self):
         """
         Get all labels

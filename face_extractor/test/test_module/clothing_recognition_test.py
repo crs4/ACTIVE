@@ -1,6 +1,6 @@
 import argparse
 import os
-import pickle # TODO DELETE TEST ONLY
+import pickle
 import sys
 import constants_for_experiments as ce
 import tools.utils as utils

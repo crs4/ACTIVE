@@ -261,6 +261,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                  c.PEOPLE_CLUSTERING_TIME_KEY + ',' +
                  c.CAPTION_RECOGNITION_TIME_KEY + ',' +
                  c.FACE_RECOGNITION_TIME_KEY + ',' +
+                 c.PEOPLE_TRACKING_TIME_KEY + ',' +
                  c.SEGMENTS_NR_KEY + ',' + 
                  c.PEOPLE_CLUSTERS_NR_KEY + ',' +
                  c.RELEVANT_PEOPLE_NR_KEY + ',' +
@@ -369,6 +370,7 @@ def save_video_indexing_experiments_in_CSV_file(file_path, experiments):
                      str(experiment_dict[c.PEOPLE_CLUSTERING_TIME_KEY]) + ',' +
                      str(experiment_dict[c.CAPTION_RECOGNITION_TIME_KEY]) + ',' +
                      str(experiment_dict[c.FACE_RECOGNITION_TIME_KEY]) + ',' +
+                     str(experiment_dict[c.PEOPLE_TRACKING_TIME_KEY]) + ',' +
                      str(experiment_dict[c.SEGMENTS_NR_KEY]) + ',' +
                      str(experiment_dict[c.PEOPLE_CLUSTERS_NR_KEY]) + ',' +
                      str(experiment_dict[c.RELEVANT_PEOPLE_NR_KEY]) + ',' +
@@ -1318,6 +1320,11 @@ def video_indexing_experiments(
     if c.FACE_RECOGNITION_TIME_KEY in fs.anal_times:
         face_rec_time = fs.anal_times[c.FACE_RECOGNITION_TIME_KEY]
     new_experiment_dict[c.FACE_RECOGNITION_TIME_KEY] = face_rec_time
+
+    person_tracking_time = 0
+    if c.PEOPLE_TRACKING_TIME_KEY in fs.anal_times:
+        person_tracking_time = fs.anal_times[c.PEOPLE_TRACKING_TIME_KEY]
+    new_experiment_dict[c.PEOPLE_TRACKING_TIME_KEY] = person_tracking_time
 
     new_experiment_dict[c.SEGMENTS_NR_KEY] = fs.anal_results[c.SEGMENTS_NR_KEY]
     new_experiment_dict[c.PEOPLE_CLUSTERS_NR_KEY] = fs.anal_results[

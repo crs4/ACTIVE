@@ -407,15 +407,6 @@ def find_most_similar_tag(tags, words, params=None):
 
     if lev_ratio_pct < lev_thresh:
         assigned_tag = c.UNDEFINED_TAG
-    # TODO DELETE TEST ONLY
-    # else:
-    #     if use_levenshtein:
-    #         print "Predicted tag = %s (Levenshtein ratio of %f on %f)" % (
-    #             assigned_tag, eq_letters_nr, tot_letters_nr)
-    #     else:
-    #
-    #         print "Predicted tag = %s (%d equal letters out of %d)" % (
-    #             assigned_tag, eq_letters_nr, tot_letters_nr)
 
     result_dict = {c.ASSIGNED_TAG_KEY: assigned_tag,
                    c.EQ_LETTERS_NR_KEY: eq_letters_nr,

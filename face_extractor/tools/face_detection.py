@@ -872,10 +872,6 @@ def get_cropped_face_from_image(
             cv2.imshow('Result', opencv_img)
             cv2.waitKey(0)
 
-            # TODO DELETE TEST ONLY
-            path = os.path.splitext(image_path)[0] + '_detection.png'
-            cv2.imwrite(path, opencv_img)
-
         if nose_check_ok or not use_nose_pos_in_detection:
             if c.USE_HIST_EQ_IN_CROPPED_FACES:
                 face_image = cv2.equalizeHist(face_image)

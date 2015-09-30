@@ -1,12 +1,9 @@
-# TODO UNCOMMENT FOR SERVER
-# from django.conf import settings
 import os
 
 # Parameters
 
-# TODO CHANGE FOR SERVER
 # Default path of directory for aligned faces
-ALIGNED_FACES_PATH = ''  # r'C:\Users\Maurizio\Documents\Aligned faces'
+ALIGNED_FACES_PATH = ''
 
 # If True, all bounding boxes related to one face track
 # must be entirely contained by the corresponding frame
@@ -15,11 +12,8 @@ ALL_CLOTH_BBOXES_IN_FRAMES = True
 # If True, check eye positions
 CHECK_EYE_POSITIONS = True
 
-# TODO CHANGE FOR SERVER
 # Path of directory with OpenCV classifiers
-# CLASSIFIERS_DIR_PATH = r'/usr/share/opencv/haarcascades'
-CLASSIFIERS_DIR_PATH = r'C:\Opencv\opencv\sources\data\haarcascades' # Portatile MP
-# CLASSIFIERS_DIR_PATH = r'C:\Opencv\sources\data\haarcascades'  # Palladium
+CLASSIFIERS_DIR_PATH = r''
 
 # Height of bounding box for clothes
 # (in % of the face bounding box height)
@@ -109,11 +103,8 @@ FACE_DETECTION_SCALE_FACTOR = 1.1
 # It should be lower than GLOBAL_FACE_REC_THRESHOLD
 GLOBAL_FACE_MODELS_MIN_DIFF = 5
 
-# TODO CHANGE FOR SERVER
 # Path of directory with people recognition data
-# GLOBAL_FACE_REC_DATA_DIR_PATH = os.path.join(os.path.join(settings.MEDIA_ROOT, 'models'), 'video')
-GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Users\Maurizio\Documents\Video indexing\Global face recognition'  # Portatile MP
-# GLOBAL_FACE_REC_DATA_DIR_PATH = r'C:\Active\Sinnova\Global face recognition'  # Palladium
+# GLOBAL_FACE_REC_DATA_DIR_PATH = ''
 
 # Threshold for retaining prediction in global face recognition
 # (faces whose prediction has a confidence value greater
@@ -152,7 +143,7 @@ LBP_RADIUS = 1
 LETT_MARGIN = 2
 
 # Minimum threshold for considering captions in frame
-LEV_RATIO_PCT_THRESH = 0.8  # TODO CHANGE?
+LEV_RATIO_PCT_THRESH = 0.8
 
 # Maximum difference between bounding boxes 
 # of characters in the same row (in pixels)
@@ -178,11 +169,6 @@ MAX_FR_WITH_MISSED_DET = 50
 # Maximum difference between nose positions (
 # stored as % of nose positions in face images)
 MAX_NOSE_DIFF = 0.05
-
-# TODO DELETE AFTER EXPERIMENTS
-# Merge people recognition results based only on captions
-# with people recognition results based only on faces
-MERGE_CAPTION_AND_FACE_RESULTS = False
 
 # Minimum height of characters (in pixels)
 MIN_CHAR_HEIGHT = 5
@@ -221,7 +207,6 @@ OFFSET_PCT_X = 0.20
 # % of the image to keep next to the eyes in the vertical direction
 OFFSET_PCT_Y = 0.50
 
-# TODO CHANGE FOR SERVER
 # Path of file where used parameters are to be saved
 PARAMS_FILE_PATH = ''
 
@@ -262,11 +247,8 @@ STD_MULTIPLIER_FRAME = 20
 # Separator for tag parts
 TAG_SEP = '_'
 
-# TODO CHANGE FOR SERVER
 # Path of directory containing "tesseract" directory
-TESSERACT_PARENT_DIR_PATH = r'C:\Users\Maurizio\Documents\Progetto ACTIVE\face_extractor\tools' + os.sep  # Portatile MP
-TESSERACT_PARENT_DIR_PATH = r'C:\Active\Mercurial\face_extractor\tools' + os.sep  # Palladium
-# TESSERACT_PARENT_DIR_PATH = r'/var/spool/active/job_processor/plugins_script/face_extractor/tools/'
+TESSERACT_PARENT_DIR_PATH = ''
 
 # Minimum value for intersection area 
 # between detection bbox and tracking window
@@ -365,10 +347,8 @@ USE_TAN_AND_TRIGG_NORM = False
 # If True, a variable threshold for clothing recognition is used
 VARIABLE_CLOTHING_THRESHOLD = False
 
-# TODO CHANGE FOR SERVER
 # Path of directory where video indexing results are stored
-# VIDEO_INDEXING_PATH = os.path.join(settings.MEDIA_ROOT, 'items')
-VIDEO_INDEXING_PATH = r'C:\Users\Maurizio\Documents\Face summarization\Test'  # Portatile MP
+VIDEO_INDEXING_PATH = ''
 
 
 
@@ -505,7 +485,6 @@ MAX_FR_WITH_MISSED_DET_KEY = 'max_frames_with_missed_detections'
 MAX_NOSE_DIFF_KEY = 'max_nose_diff'
 MEDOID_ALIGNED_FACE_KEY = 'medoid_aligned_face'
 MEDOID_FRAME_NAME_KEY = 'medoid_frame_name'
-MERGE_CAPTION_AND_FACE_RESULTS_KEY = 'merge_caption_and_face_results' # TODO DELETE AFTER EXPERIMENTS
 MIN_CLOTH_MODEL_SIZE_KEY = 'min_cloth_model_size'
 MIN_DETECTION_PCT_KEY = 'min_detection_pct'
 MIN_EYE_DISTANCE_KEY = 'min_eye_distance'

@@ -16,9 +16,7 @@ class TestVideoFaceExtractor(unittest.TestCase):
 
     def test_analyze_video(self):
 
-        # TODO UNCOMMENT
-        #base_path = os.path.join('..', 'test_files', 'video_indexing')
-        base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
 
         resource_path = os.path.join(base_path, 'fic.02.mpg')
 
@@ -171,9 +169,7 @@ class TestVideoFaceExtractor(unittest.TestCase):
 
     def test_track_people_in_video(self):
 
-        # TODO UNCOMMENT
-        #base_path = os.path.join('..', 'test_files', 'video_indexing')
-        base_path = r'C:\Users\Maurizio\Documents\Video indexing\Face extraction'
+        base_path = os.path.join('..', 'test_files', 'video_indexing')
 
         resource_path = os.path.join(base_path, 'fic.02.mpg')
 

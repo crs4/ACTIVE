@@ -56,24 +56,3 @@ def background_subtraction_on_images(
             cv2.waitKey(0)
 
     return image_masks
-
-
-# TODO DELETE TEST ONLY
-path = r'C:\Users\Maurizio\Documents\Dataset\BMC\111_png\111_png\input'
-save_path = r'C:\Users\Maurizio\Documents\Risultati test\Object detection\BMC\111'
-# Create list of file names without extensions
-no_ext_list = []
-for im in os.listdir(path):
-    no_ext_list.append(os.path.splitext(im)[0])
-
-# Sort list by numerical order
-no_ext_list.sort(key=float)
-
-# Add again extensions
-path_list = []
-for no_ext_name in no_ext_list:
-    im_name = no_ext_name + '.png'
-    im_path = os.path.join(path, im_name)
-    path_list.append(im_path)
-
-background_subtraction_on_images(path_list, save_path, show_results=False)

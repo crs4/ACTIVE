@@ -388,11 +388,6 @@ class PeopleClusterExtractor(object):
         self.cluster_path = os.path.join(
             self.video_path, c.PEOPLE_CLUSTERING_DIR)
 
-        # TODO DELETE
-        # File with clustering results
-        #self.cluster_file_path = os.path.join(
-        #    self.cluster_path, file_name)
-
         # Directory with files with clustering results
         self.cluster_files_path = os.path.join(self.cluster_path, c.YAML_FILES_DIR)
 
@@ -480,8 +475,7 @@ class PeopleClusterExtractor(object):
 
         if use_people_clustering:
             self.cluster_faces_in_video()
-            # TODO UNCOMMENT TEST ONLY
-            # self.show_keyframes()
+            self.show_keyframes()
 
             if sim_user_ann:
                 self.simulate_user_annotations()
@@ -602,27 +596,6 @@ class PeopleClusterExtractor(object):
         logger.debug('Calculating cluster medoids')
 
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file with clustering results
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #     logger.debug('Loading YAML file with clustering results')
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #     logger.debug('YAML file with clustering results loaded')
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #     logger.warning('No clustering results found!')
-            #
-            #     return
 
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
@@ -774,23 +747,6 @@ class PeopleClusterExtractor(object):
         logger.debug('Executing people clustering')
 
         rec_loaded = False
-
-        # TODO DELETE
-        # # Try to load YAML file with clustering results
-        # if os.path.exists(self.cluster_file_path):
-        #
-        #     print 'Loading YAML file with clustering results'
-        #     logger.debug('Loading YAML file with clustering results')
-        #
-        #     rec_faces = utils.load_YAML_file(self.cluster_file_path)
-        #
-        #     if rec_faces:
-        #         self.recognized_faces = rec_faces
-        #
-        #         print 'YAML file with clustering results loaded'
-        #         logger.debug('YAML file with clustering results loaded')
-        #
-        #         rec_loaded = True
 
         # Try to load YAML files
         if os.path.exists(self.cluster_files_path):
@@ -964,11 +920,6 @@ class PeopleClusterExtractor(object):
                 # Create directory for people clustering
                 os.makedirs(self.cluster_path)
 
-            # TODO DELETE
-            # # Save clustering result in YAML file
-            # utils.save_YAML_file(
-            #     self.cluster_file_path, self.recognized_faces)
-
             # Save clustering result in YAML files
 
             # Remove previous files
@@ -995,8 +946,7 @@ class PeopleClusterExtractor(object):
 
             utils.save_YAML_file(self.analysis_file_path, self.anal_times)
 
-            # TODO UNCOMMENT TEST ONLY
-            # self.calculate_medoids()
+            self.calculate_medoids()
 
     def create_cloth_model(self, segment_dict):
         """
@@ -1147,12 +1097,6 @@ class PeopleClusterExtractor(object):
                         # Get region of interest for clothes
 
                         roi = im[clothes_y0:clothes_y1, clothes_x0:clothes_x1]
-
-                        # TODO DELETE - TEST ONLY
-                        # cv2.rectangle(im, (clothes_x0, clothes_y0),
-                        #               (clothes_x1, clothes_y1), (0, 0, 255))
-                        # cv2.imshow('im', im)
-                        # cv2.waitKey(0)
 
                         roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
@@ -2028,20 +1972,6 @@ class PeopleClusterExtractor(object):
 
         if len(result) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file with clustering results
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #     logger.debug('Loading YAML file with clustering results')
-            #
-            #     rec_faces = utils.load_YAML_file(self.cluster_file_path)
-            #
-            #     if rec_faces:
-            #         print 'YAML file with clustering results loaded'
-            #         logger.debug('YAML file with clustering results loaded')
-            #         result = rec_faces
-
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
 
@@ -2077,30 +2007,6 @@ class PeopleClusterExtractor(object):
         logger.debug('Getting person counter for tag id ' + str(tag_id))
 
         person_counter = None
-
-        # TODO DELETE
-        # # Check existence of clustering results
-        # if len(self.recognized_faces) == 0:
-        #
-        #     # Try to load YAML file
-        #     if os.path.exists(self.cluster_file_path):
-        #
-        #         print 'Loading YAML file with clustering results'
-        #         logger.debug('Loading YAML file with clustering results')
-        #
-        #         with open(self.cluster_file_path) as f:
-        #
-        #             self.recognized_faces = yaml.load(f)
-        #
-        #         print 'YAML file with clustering results loaded'
-        #         logger.debug('YAML file with clustering results loaded')
-        #
-        #     else:
-        #
-        #         print 'Warning! No clustering results found!'
-        #         logger.warning('No clustering results found!')
-        #
-        #         return
 
         # Try to load YAML files
         if os.path.exists(self.cluster_files_path):
@@ -2242,24 +2148,6 @@ class PeopleClusterExtractor(object):
 
         if len(self.recognized_faces) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #
-            #     return
-
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
 
@@ -2340,10 +2228,6 @@ class PeopleClusterExtractor(object):
             auto_p_counter = auto_p_counter + 1
 
         self.recognized_faces = user_rec_faces
-
-        # TODO DELETE
-        # # Save clustering result in YAML file
-        # utils.save_YAML_file(self.cluster_file_path, self.recognized_faces)
 
         # Save clustering result in YAML files
 
@@ -2582,24 +2466,6 @@ class PeopleClusterExtractor(object):
 
         # Check existence of clustering results
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #
-            #     return
 
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
@@ -3436,27 +3302,6 @@ class PeopleClusterExtractor(object):
         # Check existence of clustering results
         if len(self.recognized_faces) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #     logger.debug('Loading YAML file with clustering results')
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #     logger.debug('YAML file with clustering results loaded')
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #     logger.warning('No clustering results found!')
-            #
-            #     return
-
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
 
@@ -3539,10 +3384,6 @@ class PeopleClusterExtractor(object):
                     break
 
             p_counter += 1
-
-        #  TODO DELETE
-        # # Update YAML file
-        # utils.save_YAML_file(self.cluster_file_path, self.recognized_faces)
 
         # Update clustering result in YAML files
 
@@ -3645,24 +3486,6 @@ class PeopleClusterExtractor(object):
 
         if len(self.recognized_faces) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #
-            #     return
-
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):
 
@@ -3710,10 +3533,6 @@ class PeopleClusterExtractor(object):
 
         self.recognized_faces = user_rec_faces
 
-        # TODO DELETE
-        # # Save clustering result in YAML file
-        # utils.save_YAML_file(self.cluster_file_path, self.recognized_faces)
-
         # Save clustering result in YAML files
 
         # Remove previous files
@@ -3748,27 +3567,6 @@ class PeopleClusterExtractor(object):
 
         # Check existence of clustering results
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.cluster_file_path):
-            #
-            #     print 'Loading YAML file with clustering results'
-            #     logger.debug('Loading YAML file with clustering results')
-            #
-            #     with open(self.cluster_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with clustering results loaded'
-            #     logger.debug('YAML file with clustering results loaded')
-            #
-            # else:
-            #
-            #     print 'Warning! No clustering results found!'
-            #     logger.warning('No clustering results found!')
-            #
-            #     return
 
             # Try to load YAML files
             if os.path.exists(self.cluster_files_path):

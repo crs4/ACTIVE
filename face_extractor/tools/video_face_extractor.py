@@ -418,10 +418,6 @@ class VideoFaceExtractor(object):
         # Directory for recognition results
         self.rec_path = os.path.join(self.video_path, c.FACE_RECOGNITION_DIR)
 
-        # TODO DELETE
-        # File with recognition results
-        # self.rec_file_path = os.path.join(self.rec_path, file_name)
-
         # Directory with files with recognition results
         self.rec_files_path = os.path.join(self.rec_path, c.YAML_FILES_DIR)
 
@@ -472,20 +468,6 @@ class VideoFaceExtractor(object):
 
             # Check existence of recognition results
             if len(self.recognized_faces) == 0:
-
-                # TODO DELETE
-                # # Try to load YAML file
-                # if os.path.exists(self.rec_file_path):
-                #
-                #     print 'Loading YAML file with recognition results'
-                #     logger.debug('Loading YAML file with recognition results')
-                #
-                #     with open(self.rec_file_path) as f:
-                #
-                #         self.recognized_faces = yaml.load(f)
-                #
-                #     print 'YAML file with recognition results loaded'
-                #     logger.debug('YAML file with recognition results loaded')
 
                 # Try to load YAML files
                 if os.path.exists(self.rec_files_path):
@@ -624,52 +606,38 @@ class VideoFaceExtractor(object):
                 print 'YAML file with analysis times loaded'
                 logger.debug('YAML file with analysis times loaded')
 
-        # TODO DELETE AFTER EXPERIMENTS
-        merge = c.MERGE_CAPTION_AND_FACE_RESULTS
-        if ((self.params is not None) and
-                (c.MERGE_CAPTION_AND_FACE_RESULTS_KEY in self.params)):
-            merge = self.params[c.MERGE_CAPTION_AND_FACE_RESULTS_KEY]
+        if not os.path.exists(self.rec_files_path):
+            # People recognition results do not exist
 
-        if merge:
-            self.merge_caption_and_face_results()
-        else:
+            if not os.path.exists(self.cluster_file_path):
+                # People clustering results do not exist
 
-            if not os.path.exists(self.rec_files_path):
-                # People recognition results do not exist
+                if not os.path.exists(self.track_file_path):
+                    # Face tracking results do not exist
 
-                if not os.path.exists(self.cluster_file_path):
-                    # People clustering results do not exist
+                    if not os.path.exists(self.det_file_path):
+                        # Face detection results do not exist
 
-                    if not os.path.exists(self.track_file_path):
-                        # Face tracking results do not exist
+                        if not os.path.exists(self.frames_file_path):
+                            # File with frame list does not exist
+                            self.get_frame_list()
 
-                        if not os.path.exists(self.det_file_path):
-                            # Face detection results do not exist
+                        self.detect_faces_in_video()
 
-                            if not os.path.exists(self.frames_file_path):
-                                # File with frame list does not exist
-                                self.get_frame_list()
+                    self.track_faces_in_video()
 
-                            self.detect_faces_in_video()
+                self.cluster_faces_in_video()
 
-                        self.track_faces_in_video()
+                use_person_tracking = c.USE_PERSON_TRACKING
+                if ((self.params is not None) and
+                        (c.USE_PERSON_TRACKING_KEY in self.params)):
+                    use_person_tracking = self.params[c.USE_PERSON_TRACKING_KEY]
+                if use_person_tracking:
+                    self.track_people_in_video()
 
-                    self.cluster_faces_in_video()
+            self.recognize_people_in_video()
 
-                    use_person_tracking = c.USE_PERSON_TRACKING
-                    if ((self.params is not None) and
-                            (c.USE_PERSON_TRACKING_KEY in self.params)):
-                        use_person_tracking = self.params[c.USE_PERSON_TRACKING_KEY]
-                    if use_person_tracking:
-                        self.track_people_in_video()
-
-                self.recognize_people_in_video()
-
-                # TODO UNCOMMENT TEST ONLY
-                # self.show_keyframes()
-
-        # TODO COMMENT TEST ONLY
-        self.save_people_files()
+            self.show_keyframes()
 
         self.save_analysis_results()
 
@@ -783,19 +751,6 @@ class VideoFaceExtractor(object):
         logger.debug('Calculating cluster medoids')
 
         if len(self.recognized_faces) == 0:
-
-            # # Try to load YAML file with clustering results
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #     logger.debug('Loading YAML file with recognition results')
-            #
-            #     with open(self.rec_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with recognition results loaded'
-            #     logger.debug('YAML file with recognition results loaded')
 
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
@@ -1016,19 +971,22 @@ class VideoFaceExtractor(object):
                     logger.warning('No tracking results found!')
                     return
 
-                    # Make copy of tracked faces
+            # Make copy of tracked faces
             tracking_list = list(self.tracked_faces)
 
             # Save face models
             self.save_face_models(tracking_list)
 
             use_clothing_rec = c.USE_CLOTHING_RECOGNITION
+            use_person_tracking = c.USE_PERSON_TRACKING
 
-            if ((self.params is not None) and
-                    (c.USE_CLOTHING_RECOGNITION_KEY in self.params)):
-                use_clothing_rec = self.params[c.USE_CLOTHING_RECOGNITION_KEY]
+            if self.params is not None:
+                if c.USE_CLOTHING_RECOGNITION_KEY in self.params:
+                    use_clothing_rec = self.params[c.USE_CLOTHING_RECOGNITION_KEY]
+                if c.USE_PERSON_TRACKING_KEY in self.params:
+                    use_person_tracking = self.params[c.USE_PERSON_TRACKING_KEY]
 
-            if use_clothing_rec:
+            if use_clothing_rec or use_person_tracking:
                 # Save cloth models
                 self.save_cloth_models(tracking_list)
 
@@ -1083,13 +1041,11 @@ class VideoFaceExtractor(object):
 
                     # Start of segment in milliseconds
                     # of elapsed time in video
-
                     start = tracking_segment_dict[c.SEGMENT_START_KEY]
 
                     segment_dict[c.SEGMENT_START_KEY] = start
 
                     # Duration of segment in milliseconds
-
                     duration = tracking_segment_dict[c.SEGMENT_DURATION_KEY]
 
                     segment_dict[c.SEGMENT_DURATION_KEY] = duration
@@ -1110,17 +1066,14 @@ class VideoFaceExtractor(object):
                         if model:
                             # Use model of this segment
                             # to recognize faces of remaining segments
-
                             ann_segments = self.search_face(ann_segments,
                                                             segment_list, model,
                                                             segment_counter)
 
                             # Add segments to person dictionary
-
                             person_dict[c.SEGMENTS_KEY] = segment_list
 
                             # Save total duration of video in milliseconds
-
                             tot_duration = (
                                 self.video_frames * 1000.0 / self.fps)
 
@@ -1438,23 +1391,17 @@ class VideoFaceExtractor(object):
         lbp_grid_y = c.LBP_GRID_Y
 
         if self.params is not None:
-
             if c.USE_NOSE_POS_IN_RECOGNITION_KEY in self.params:
                 use_nose_pos_in_rec = self.params[
                     c.USE_NOSE_POS_IN_RECOGNITION_KEY]
-
             if c.MAX_FACES_IN_MODEL_KEY in self.params:
                 max_faces_in_model = self.params[c.MAX_FACES_IN_MODEL_KEY]
-
             if c.LBP_RADIUS_KEY in self.params:
                 lbp_radius = self.params[c.LBP_RADIUS_KEY]
-
             if c.LBP_NEIGHBORS_KEY in self.params:
                 lbp_neighbors = self.params[c.LBP_NEIGHBORS_KEY]
-
             if c.LBP_GRID_X_KEY in self.params:
                 lbp_grid_x = self.params[c.LBP_GRID_X_KEY]
-
             if c.LBP_GRID_Y_KEY in self.params:
                 lbp_grid_y = self.params[c.LBP_GRID_Y_KEY]
 
@@ -1627,7 +1574,7 @@ class VideoFaceExtractor(object):
                 # Create directory with aligned faces
 
                 os.makedirs(self.align_path)
-                os.chmod(self.align_path, 0o777)  # TODO TO BE DELETED?
+                os.chmod(self.align_path, 0o777)
 
             frame_counter = 0
             self.detected_faces = []
@@ -1656,7 +1603,6 @@ class VideoFaceExtractor(object):
 
             if use_skeletons:
 
-                # TODO REVIEW
                 params = zip(frame_path_list,
                              (self.align_path,) * len(frame_path_list),
                              (self.params,) * len(frame_path_list),
@@ -2207,15 +2153,6 @@ class VideoFaceExtractor(object):
 
         if len(result) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file with recognition results
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #     logger.debug('Loading YAML file with recognition results')
-            #
-            #     rec_faces = utils.load_YAML_file(self.rec_file_path)
-
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
 
@@ -2252,20 +2189,6 @@ class VideoFaceExtractor(object):
 
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #     logger.debug('Loading YAML file with recognition results')
-            #
-            #     with open(self.rec_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with recognition results loaded'
-            #     logger.debug('YAML file with recognition results loaded')
 
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
@@ -2348,86 +2271,6 @@ class VideoFaceExtractor(object):
         time_intervals.append(time_interval)
 
         return time_intervals
-
-
-    # TODO DELETE OR CHANGE ONLY FOR EXPERIMENTS
-    def merge_caption_and_face_results(self):
-
-        # Load file with only caption results
-        base_path = r'C:\Active\People recognition\Risultati dettagliati'
-        exp_type_dir = 'Only_captions'
-        lev_ratio_pct_thresh = self.params[c.LEV_RATIO_PCT_THRESH_KEY]
-        test_dir = 'TEST ID ' + str(int(lev_ratio_pct_thresh * 20))
-
-        file_path = os.path.join(
-            base_path,
-            str(self.resource_id),
-            exp_type_dir,
-            test_dir,
-            str(self.resource_id) + '.yaml'
-        )
-
-        print('file_path', file_path)
-        self.recognized_faces = utils.load_YAML_file(file_path)
-
-        # Load file with only faces results
-        base_path = r'C:\Active\People recognition\Risultati dettagliati'
-        exp_type_dir = 'Only_faces'
-        maj_rule = self.params[c.USE_MAJORITY_RULE_KEY]
-        global_face_rec_thresh = self.params[c.GLOBAL_FACE_REC_THRESHOLD_KEY]
-        if maj_rule:
-            test_dir = 'TEST ID ' + str(global_face_rec_thresh / 2 + 24)
-        else:
-            test_dir = 'TEST ID ' + str(global_face_rec_thresh / 2 - 1)
-
-        file_path = os.path.join(
-            base_path,
-            str(self.resource_id),
-            exp_type_dir,
-            test_dir,
-            str(self.resource_id) + '.yaml'
-        )
-
-        only_faces = utils.load_YAML_file(file_path)
-        counter = 0
-
-        for person_dict in self.recognized_faces:
-
-            p_counter = person_dict[c.PERSON_COUNTER_KEY]
-
-            ass_tag = person_dict[c.ASSIGNED_TAG_KEY]
-
-            if ass_tag == c.UNDEFINED_TAG:
-                # Check annotation in file with only faces results
-                for sub_pers_dict in only_faces:
-
-                    sub_p_counter = sub_pers_dict[c.PERSON_COUNTER_KEY]
-                    if sub_p_counter == p_counter:
-                        sub_ass_tag = sub_pers_dict[c.ASSIGNED_TAG_KEY]
-                        self.recognized_faces[counter][c.ASSIGNED_TAG_KEY] = sub_ass_tag
-
-            counter += 1
-
-        # TODO DELETE
-        # if not (os.path.exists(self.rec_path)):
-        #     # Create directory for people recognition
-        #     os.makedirs(self.rec_path)
-        # # Save recognition result in YAML file
-        # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
-        # Save recognition results in YAML files
-
-        # Remove previous files
-        if os.path.exists(self.rec_files_path):
-            shutil.rmtree(self.rec_files_path)
-        # Create directory for people recognition results
-        os.makedirs(self.rec_files_path)
-
-        counter = 0
-        for person_dict in self.recognized_faces:
-            yaml_file_name = str(counter) + '.yaml'
-            yaml_file_path = os.path.join(self.rec_files_path, yaml_file_name)
-            utils.save_YAML_file(yaml_file_path, person_dict)
-            counter += 1
 
     def merge_consecutive_segments(self):
         """
@@ -2646,7 +2489,6 @@ class VideoFaceExtractor(object):
                 # Execute caption recognition
                 if use_skeletons:
 
-                    # TODO REVIEW
                     pass
 
                 else:
@@ -2656,10 +2498,6 @@ class VideoFaceExtractor(object):
                         segment_caption_rec_results = []
 
                         for frame_path in frame_path_segment_list:
-
-                            # TODO DELETE
-                            # result_dict = get_tag_from_image(
-                            #    frame_path, self.params, api)
 
                             # Launch subprocess
                             caption_rec_file = os.path.join(
@@ -2881,7 +2719,6 @@ class VideoFaceExtractor(object):
 
                 if use_skeletons:
 
-                    # TODO REVIEW
                     pass
 
                 else:
@@ -2927,10 +2764,6 @@ class VideoFaceExtractor(object):
                 label = final_label
                 tag = fm.get_tag(label)
 
-            # TODO DELETE TEST ONLY
-            # print('p_counter', p_counter)
-            # print('frames', frames)
-            # print('assigned final tag', tag)
             logger.debug('assigned final tag : ' + str(tag))
 
             self.recognized_faces[p_counter][c.ASSIGNED_LABEL_KEY] = label
@@ -2959,23 +2792,6 @@ class VideoFaceExtractor(object):
         logger.debug('Executing people recognition')
 
         rec_loaded = False
-
-        # TODO DELETE
-        # # Try to load YAML file with recognition results
-        # if os.path.exists(self.rec_file_path):
-        #
-        #     print 'Loading YAML file with recognition results'
-        #     logger.debug('Loading YAML file with recognition results')
-        #
-        #     rec_faces = utils.load_YAML_file(self.rec_file_path)
-        #
-        #     if rec_faces:
-        #         self.recognized_faces = rec_faces
-        #
-        #         print 'YAML file with recognition results loaded'
-        #         logger.debug('YAML file with recognition results loaded')
-        #
-        #         rec_loaded = True
 
         # Try to load YAML files
         if os.path.exists(self.rec_files_path):
@@ -3038,27 +2854,20 @@ class VideoFaceExtractor(object):
             loaded = fm.load_enabled_models()
 
             if loaded:
-
                 if use_caption_rec:
                     # Caption recognition
                     self.recognize_captions_in_video(fm)
-
                 if use_face_rec:
                     # Face recognition
                     self.recognize_faces_in_video(fm)
 
             # Merge people with the same label
-            # self.merge_labels() TODO UNCOMMENT FOR LANTANIO
+            self.merge_labels()
 
             # Merge consecutive video segments belonging to the same person
-            # self.merge_consecutive_segments() TODO UNCOMMENT FOR LANTANIO
+            self.merge_consecutive_segments()
 
-            # TODO UNCOMMENT TEST ONLY
-            # self.calculate_medoids()
-
-            # TODO DELETE
-            # # Save recognition result in YAML file
-            # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
+            self.calculate_medoids()
 
             # Remove previous files
             if os.path.exists(self.rec_files_path):
@@ -3114,7 +2923,7 @@ class VideoFaceExtractor(object):
         if not (os.path.exists(self.cloth_models_path)):
             os.makedirs(self.cloth_models_path)
 
-            # Calculate and save cloth models for each face track
+        # Calculate and save cloth models for each face track
 
         counter = 0
 
@@ -3285,18 +3094,6 @@ class VideoFaceExtractor(object):
 
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #
-            #     with open(self.rec_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with recognition results loaded'
 
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
@@ -3618,8 +3415,17 @@ class VideoFaceExtractor(object):
 
                 segment_frame_list = segment_dict[c.FRAMES_KEY]
 
+                found_by_p_tracking = False
+                if c.FOUND_BY_PERSON_TRACKING_KEY in segment_dict:
+                    found_by_p_tracking = segment_dict[c.FOUND_BY_PERSON_TRACKING_KEY]
+
+                segment_name = str(segment_counter)
+
+                if found_by_p_tracking:
+                    segment_name += '_person_tracking'
+
                 segment_path = os.path.join(
-                    person_path, str(segment_counter))
+                    person_path, segment_name)
 
                 if not (os.path.exists(segment_path)):
                     os.makedirs(segment_path)
@@ -3635,15 +3441,16 @@ class VideoFaceExtractor(object):
                     image = cv2.imread(frame_path, cv2.IMREAD_COLOR)
 
                     # Add tracking window to image as red rectangle
-                    track_bbox = segment_frame_dict[c.TRACKING_BBOX_KEY]
+                    if c.TRACKING_BBOX_KEY in segment_frame_dict:
+                        track_bbox = segment_frame_dict[c.TRACKING_BBOX_KEY]
 
-                    x0 = track_bbox[0]
-                    x1 = x0 + track_bbox[2]
-                    y0 = track_bbox[1]
-                    y1 = y0 + track_bbox[3]
+                        x0 = track_bbox[0]
+                        x1 = x0 + track_bbox[2]
+                        y0 = track_bbox[1]
+                        y1 = y0 + track_bbox[3]
 
-                    cv2.rectangle(
-                        image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
+                        cv2.rectangle(
+                            image, (x0, y0), (x1, y1), (0, 0, 255), 3, 8, 0)
 
                     det = segment_frame_dict[c.DETECTED_KEY]
 
@@ -4328,20 +4135,6 @@ class VideoFaceExtractor(object):
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
 
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #     logger.debug('Loading YAML file with recognition results')
-            #
-            #     with open(self.rec_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with recognition results loaded'
-            #     logger.debug('YAML file with recognition results loaded')
-
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
 
@@ -4447,20 +4240,6 @@ class VideoFaceExtractor(object):
 
         # Check existence of recognition results
         if len(self.recognized_faces) == 0:
-
-            # TODO DELETE
-            # # Try to load YAML file
-            # if os.path.exists(self.rec_file_path):
-            #
-            #     print 'Loading YAML file with recognition results'
-            #     logger.debug('Loading YAML file with recognition results')
-            #
-            #     with open(self.rec_file_path) as f:
-            #
-            #         self.recognized_faces = yaml.load(f)
-            #
-            #     print 'YAML file with recognition results loaded'
-            #     logger.debug('YAML file with recognition results loaded')
 
             # Try to load YAML files
             if os.path.exists(self.rec_files_path):
@@ -4765,7 +4544,6 @@ class VideoFaceExtractor(object):
                         track_w = track_window[2]
                         track_h = track_window[3]
 
-                        # TODO TRANSFORM <= IN <?
                         # Check size of track window
                         if ((track_w <= min_size_width)
                                 or (track_h <= min_size_height)):
@@ -5104,12 +4882,6 @@ class VideoFaceExtractor(object):
                             time_intervals, ref_frame_path,
                             ref_bbox, ref_model, person_counter)
 
-                        # # TODO DELETE TEST ONLY
-                        # ref_img = cv2.imread(ref_frame_path)
-                        # cv2.imshow('Reference image', ref_img)
-                        # cv2.waitKey(0)
-                        # print('len(new_segments)', len(new_segments))
-
                         for seg in new_segments:
                             frame_list = seg[c.FRAMES_KEY]
                             frame = frame_list[0]
@@ -5144,11 +4916,6 @@ class VideoFaceExtractor(object):
         """
         Update YAML file with people recognition results
         """
-
-        # TODO DELETE
-        # logger.debug('Updating YAML file with people recognition results')
-        #
-        # utils.save_YAML_file(self.rec_file_path, self.recognized_faces)
 
         logger.debug('Updating YAML files with people recognition results')
 
