@@ -63,7 +63,12 @@ public class AMClust {
 	private String parameter_path=null;
 	private PropertiesReader propertiesReader=null;
 	
+	private ClusterSet clusterSet;
 	
+	public ClusterSet getClusterSet() {
+		return clusterSet;
+	}
+
 	public PropertiesReader getPropertiesReader() {
 		return propertiesReader;
 	}
@@ -549,6 +554,20 @@ public class AMClust {
 			e.printStackTrace();
 		}
 	}
+	
+	public void printClusterSet(){
+		for(Cluster cluster: clusterSet.clusterSetValue()) {
+			 System.out.println("cluster name= "+ cluster.getName());
+			 
+			 for(Segment segment: cluster) {
+				 System.out.println("start="+ segment.getStartInSecond()+"duration="+segment.getLengthInSecond()); 
+	            }
+			 
+           
+       }
+		
+	}
+	
 	public  void run() throws Exception {
 		try {
 			SpkDiarizationLogger.setup();
@@ -556,7 +575,7 @@ public class AMClust {
 			//info(parameter, "MClust");
 			if (parameter.show.isEmpty() == false) {
 				// clusters
-				ClusterSet clusterSet = MainTools.readClusterSet(parameter);
+				clusterSet = MainTools.readClusterSet(parameter);
 
 				// Features
 				AudioFeatureSet featureSet = MainTools.readFeatureSet(parameter, clusterSet);
@@ -570,7 +589,31 @@ public class AMClust {
 				
 				ClusterSet clustersetResult = make(featureSet, clusterSet, parameter, ubm);
 				
+				/*
+				System.out.println("-------" );
+				for(Cluster cluster: clusterSet.clusterSetValue()) {
+					 System.out.println("cluster name= "+ cluster.getName());
+					 
+					 for(Segment segment: cluster) {
+						 System.out.println("start="+ segment.getStartInSecond()+"duration="+segment.getLengthInSecond()); 
+			            }
+					 
+		           for(Segment segment: cluster) {
+		            	
+		                // Iterate over feature of the segment
+		                for(int i = 0; i < segment.getLength(); i++) {
+		                    // Get a feature, ie a array of float
+		                    float[] feature =   featureSet.getFeature(segment.getShowName(), segment.getStart()+i);
+		                    for(int j = 0; j < feature.length; j++) {
+		                        System.out.println(feature[j]);
+		                    }
+		                }
 
+		            } 
+		        }*/
+		        
+				System.out.println("-------" );
+				/////
 				MainTools.writeClusterSet(parameter, clustersetResult, false);
 
 			}
@@ -586,8 +629,8 @@ public class AMClust {
 	 * @param parameter the parameter
 	 */
 	public static void logScore(CLRHClustering clustering, Parameter parameter) {
-		MatrixSquare distances = clustering.getDistances(); // Matrix of distances.
-		GMMArrayList models = clustering.getGmmList(); // List of models
+		MatrixSquare distances = clustering.getDistances();  
+		GMMArrayList models = clustering.getGmmList();  
 		int size = distances.getSize();
 		for (int i = 0; i < size; i++) {
 			String spk1 = models.get(i).getName();

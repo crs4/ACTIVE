@@ -22,6 +22,7 @@ import it.crs4.active.diarization.AMScore;
 import it.crs4.parameter.InputParameter;
 import it.crs4.util.PropertiesReader;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +43,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import fr.lium.spkDiarization.lib.DiarizationException;
+import fr.lium.spkDiarization.lib.IOFile;
 import fr.lium.spkDiarization.lib.MainTools;
 import fr.lium.spkDiarization.lib.SpkDiarizationLogger;
 import fr.lium.spkDiarization.libClusteringData.Cluster;
@@ -50,6 +52,7 @@ import fr.lium.spkDiarization.libClusteringData.Segment;
 import fr.lium.spkDiarization.libFeature.AudioFeatureSet;
 import fr.lium.spkDiarization.libModel.gaussian.GMM;
 import fr.lium.spkDiarization.libModel.gaussian.GMMArrayList;
+import fr.lium.spkDiarization.libModel.gaussian.ModelIO;
 import fr.lium.spkDiarization.parameter.Parameter;
 import fr.lium.spkDiarization.parameter.ParameterScore;
 
@@ -509,19 +512,43 @@ public class MScore {
 	 				"--sOutputMask="+outputRoot+"/"+baseName+".ident.M.GiacomoMameli.gmm.seg",
 	 				show}; 		
 	 		parameter.readParameters(parameterScoreIdent);
-	 		
 			if (parameter.show.isEmpty() == false) {
 				// clusters
 				ClusterSet clusterSet = MainTools.readClusterSet(parameter);
-				// FeatureSet featureSet2 = Diarization.loadFeature(parameter, clusterSetBase, parameter.getParameterInputFeature().getFeaturesDescription().getFeaturesFormat()
-				// + ",1:1:0:0:0:0,13,0:0:0:0");
-				// ClusterSet clusterSet = new ClusterSet();
-				// MSegInit.make(featureSet2, clusterSetBase, clusterSet, parameter);
-				// clusterSet.collapse();
-				// Features
 				AudioFeatureSet featureSet = MainTools.readFeatureSet(parameter, clusterSet);
+				
+				for(Cluster cluster: clusterSet.clusterSetValue()) {
+		            //Iterate over segment of the cluster
+		            for(Segment segment: cluster) {
+		                // Iterate over feature of the segment
+		                for(int i = 0; i < segment.getLength(); i++) {
+		                    // Get a feature, ie a array of float
+		                    float[] feature =   featureSet.getFeature(segment.getShowName(), segment.getStart()+i);
+		                    for(int j = 0; j < feature.length; j++) {
+		                        System.out.println(feature[j]);
+		                    }
+		                }
+		            }
+		        }
+				
 				GMMArrayList gmmTopGaussianList = MainTools.readGMMForTopGaussian(parameter, featureSet);
-				GMMArrayList gmmList = MainTools.readGMMContainer(parameter);				
+				GMMArrayList gmmList = MainTools.readGMMContainer(parameter);
+				System.out.println("parameter.getParameterModelSetInputFile().getMask()" +parameter.getParameterModelSetInputFile().getMask());
+				
+				/*
+				GMMArrayList gmmList = new GMMArrayList();
+				String inputFilename = IOFile.getFilename(parameter.getParameterModelSetInputFile().getMask(), parameter.show);
+				File inputFile = new File(inputFilename);
+				IOFile inputFileReader = new IOFile(inputFilename, "rb");
+				ModelIO.readerGMMContainer(inputFileReader, gmmList);
+				inputFileReader.close();
+				if (gmmList.size() > 0) {
+					parameter.getParameterModel().setKind(gmmList.get(0).getGaussianKind());
+					parameter.getParameterModel().setNumberOfComponents(gmmList.get(0).getNbOfComponents());
+				}
+				
+				*/
+				
 				clusterSetResult = make(featureSet, clusterSet, gmmList, gmmTopGaussianList, parameter);
 				MainTools.writeClusterSet(parameter, clusterSetResult, false);
 			}
@@ -531,6 +558,50 @@ public class MScore {
 		}
 
 	}
+	public void run1() throws Exception {
+		try {
+			SpkDiarizationLogger.setup();
+			parameter =new Parameter();
+			String[] parameterScoreIdent ={"","--sGender","--sByCluster","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4","--sOutputFormat=seg,UTF8", 
+	 				fInputMask, "--sTop=8,"+this.ubm_gmm,
+	 				s_inputMaskRoot+baseName+".spl.3.seg", 
+	 				s_outputMaskRoot+baseName+".g.3.seg",
+	 				"--tInputMask="+gmm_model+"/rb/",
+	 				"--sOutputMask="+outputRoot+"/"+baseName+".ident.M.GiacomoMameli.gmm.seg",
+	 				show}; 		
+	 		parameter.readParameters(parameterScoreIdent);
+			if (parameter.show.isEmpty() == false) {
+				// clusters
+				ClusterSet clusterSet = MainTools.readClusterSet(parameter);
+				AudioFeatureSet featureSet = MainTools.readFeatureSet(parameter, clusterSet);
+				GMMArrayList gmmTopGaussianList = MainTools.readGMMForTopGaussian(parameter, featureSet);
+				GMMArrayList gmmList = MainTools.readGMMContainer(parameter);
+				System.out.println("parameter.getParameterModelSetInputFile().getMask()" +parameter.getParameterModelSetInputFile().getMask());
+				
+				/*
+				GMMArrayList gmmList = new GMMArrayList();
+				String inputFilename = IOFile.getFilename(parameter.getParameterModelSetInputFile().getMask(), parameter.show);
+				File inputFile = new File(inputFilename);
+				IOFile inputFileReader = new IOFile(inputFilename, "rb");
+				ModelIO.readerGMMContainer(inputFileReader, gmmList);
+				inputFileReader.close();
+				if (gmmList.size() > 0) {
+					parameter.getParameterModel().setKind(gmmList.get(0).getGaussianKind());
+					parameter.getParameterModel().setNumberOfComponents(gmmList.get(0).getNbOfComponents());
+				}
+				
+				*/
+				
+				clusterSetResult = make(featureSet, clusterSet, gmmList, gmmTopGaussianList, parameter);
+				MainTools.writeClusterSet(parameter, clusterSetResult, false);
+			}
+		} catch (DiarizationException e) {
+			logger.log(Level.SEVERE, "error \t exception ", e);
+			e.printStackTrace();
+		}
+
+	}
+
 
 	/**
 	 * Info.

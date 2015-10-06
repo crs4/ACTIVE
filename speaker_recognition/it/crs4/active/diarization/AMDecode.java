@@ -23,8 +23,12 @@ package it.crs4.active.diarization;
 import it.crs4.util.PropertiesReader;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +43,7 @@ import fr.lium.spkDiarization.libFeature.AudioFeatureSet;
 import fr.lium.spkDiarization.libModel.gaussian.GMMArrayList;
 import fr.lium.spkDiarization.parameter.Parameter;
 import fr.lium.spkDiarization.parameter.ParameterDecoder;
+import fr.lium.spkDiarization.parameter.ParameterSegmentationFile.SegmentationFormat;
 import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MDecode;
 
@@ -102,6 +107,7 @@ public class AMDecode extends fr.lium.spkDiarization.programs.MDecode{
 		} else {
 			decoder = new FastDecoderWithDuration(parameter.getParameterDecoder().getShift());
 		}
+		
 		decoder.setupHMM(gmmList, parameter);
 		ClusterSet clusterSetToDecode = new ClusterSet();
 		Cluster clusterToDecode = clusterSetToDecode.getOrCreateANewCluster("Init");
@@ -151,7 +157,7 @@ public class AMDecode extends fr.lium.spkDiarization.programs.MDecode{
 		}
 	}
 
-	public void run()  throws Exception{
+	public ClusterSet run()  throws Exception{
 		try {
 			SpkDiarizationLogger.setup();
 			if (parameter.show.isEmpty() == false) {
@@ -160,12 +166,18 @@ public class AMDecode extends fr.lium.spkDiarization.programs.MDecode{
 				AudioFeatureSet featureSet = MainTools.readFeatureSet(parameter, clusterSet);
 				GMMArrayList gmmList = MainTools.readGMMContainer(parameter);
 				ClusterSet clusterSetResult = make(featureSet, clusterSet, gmmList, parameter);
+				
+
+				
 				MainTools.writeClusterSet(parameter, clusterSetResult, false);
+				return clusterSetResult;
 			}
+			
 		} catch (DiarizationException e) {
 			logger.log(Level.SEVERE, "", e);
 			e.printStackTrace();
 		}  
+		return null;
 	}
 
 	

@@ -66,6 +66,22 @@ public class DBScore {
 		return vecFile;
 	}
 	
+	public  Vector<String> getFilesTree(File pathFile, String estensione) {
+		File listFile[] = pathFile.listFiles();
+		Vector<String> vecFile=this.getFiles(pathFile, estensione);
+		if (listFile != null) {
+			for (int i = 0; i < listFile.length; i++) {
+					if(listFile[i].isDirectory()){
+				     Vector<String> vecTmp=this.getFiles(listFile[i], estensione);
+				     for (int j = 0; j < vecTmp.size(); j++) {
+				    	 vecFile.add(vecTmp.get(j));
+				     }
+				 }    
+			}
+		}
+		return vecFile;
+	}
+	
 	
 	/**
 	 * @param args
@@ -95,7 +111,8 @@ public class DBScore {
 			dia.setSms_gmms(pr.getProperty("sms_gmms"));
 			dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
 			dia.run();
-		}
+			
+		}    
 		
 		System.out.println("------ SCORING ------");
 		dbscore.setDb_path(pr.getProperty("db_path"));
@@ -123,7 +140,8 @@ public class DBScore {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		}	
+		}
+		System.out.println("------ END ------");
 	}
 
 	/**
@@ -209,20 +227,18 @@ public class DBScore {
 	}
 	
 	public void run() throws Exception{
-		//getMscore().setFileName("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/angelina.wav");
-		//getMscore().setOutputRoot("/Users/labcontenuti/Documents/workspace/AudioActive/84/test_file/out/angelina/");
-		Vector<String> filesVec=this.getFiles(new File(this.db_path), "gmm");
+		//Vector<String> filesVec=this.getFiles(new File(this.db_path), "gmm");
+		Vector<String> filesVec=this.getFilesTree(new File(this.db_path), "gmm");
+		
 		Iterator<String> it=filesVec.iterator();
 		 
 		Map<String, Ratio> clusterRatioSet=new HashMap<String, Ratio>();
-		while(it.hasNext()){
-			 
+		while(it.hasNext()){	 
 			String fl_gmm = (String) it.next();
 			System.out.println("gmm ---> "+fl_gmm);
 			mscore.setGmm_model(fl_gmm);
 			mscore.run();
 		}
-		
 	}
 	private String db_path=null;
 	private MScore mscore=new MScore();

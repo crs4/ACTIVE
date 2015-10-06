@@ -40,6 +40,7 @@ public class DiarizationExample2 {
 			dia.setSms_gmms(pr.getProperty("sms_gmms"));
 			dia.setUbm_gmm(pr.getProperty("ubm_gmm"));		
 			dia.run();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

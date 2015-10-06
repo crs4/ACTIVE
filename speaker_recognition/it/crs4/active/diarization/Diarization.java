@@ -19,6 +19,9 @@
 package it.crs4.active.diarization;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.crs4.util.PropertiesReader;
 import fr.lium.spkDiarization.parameter.Parameter;
 /**
@@ -49,6 +52,8 @@ public class Diarization {
 	public Parameter parameter =null;
 	public String parameter_path=null;
 	public PropertiesReader propertiesReader=null;
+	
+	private AMClust clust;
 	
 	/**
 	 * Return the PropertiesReader with the configuration 
@@ -179,7 +184,7 @@ public class Diarization {
 		this.s_inputMaskRoot="--sInputMask="+this.outputRoot;
 		this.s_outputMaskRoot="--sOutputMask="+this.outputRoot;
 	}
-	
+	private final static Logger logger = Logger.getLogger("");
 	
 	/**
 	 * Usage example <i> java it.crs4.active.diarization.Diarization example.properties </i>
@@ -196,6 +201,8 @@ public class Diarization {
 	 */
 	public static void main(String[] args) throws Exception{ 
 		
+		
+		
 		PropertiesReader pr=new PropertiesReader(args[0]);
 		Diarization dia=new Diarization();
 		dia.setFileName(pr.getProperty("fileName"));
@@ -203,6 +210,8 @@ public class Diarization {
 		dia.setSms_gmms(pr.getProperty("sms_gmms"));
 		dia.setUbm_gmm(pr.getProperty("ubm_gmm"));
 		dia.run();
+		dia.printCluster();
+		
 	}
 
 	/**
@@ -242,7 +251,7 @@ public class Diarization {
 	 * */	
 	public void runAMCLust() throws Exception{
 		Parameter parameter = new Parameter();
-		String[] parameterClust ={"", "--cMethod=l", "--cThr=2",
+		String[] parameterClust ={"", "--cMethod=l", "--cThr=2"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".s.seg",
@@ -260,7 +269,7 @@ public class Diarization {
 	 * */
 	public void run() throws Exception{
 		Parameter parameter = new Parameter();
-		String[] parameterSeg ={"","--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,0:0:0",
+		String[] parameterSeg ={"","--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,0:0:0"," --doCEClustering ",
 				fInputMask,
 				"--sInputMask=",
 				s_outputMaskRoot+baseName+".i.seg",
@@ -272,7 +281,7 @@ public class Diarization {
 		
 		
 		
-		String[] parameterDecode ={"","--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,0:0:0",
+		String[] parameterDecode ={"","--fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,0:0:0"," --doCEClustering ",
 				fInputMask,
 				s_inputMaskRoot+baseName+".i.seg",
 				s_outputMaskRoot+baseName+".pms.seg",
@@ -285,7 +294,7 @@ public class Diarization {
 		amdecode.run();
 		
 
-		String[] parameterSeg2 ={"","--kind=FULL", "--sMethod=GLR", 
+		String[] parameterSeg2 ={"","--kind=FULL", "--sMethod=GLR", " --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".i.seg",
@@ -299,19 +308,19 @@ public class Diarization {
 		amseg2.run();
 		
 		
-		String[] parameterClust ={"", "--cMethod=l", "--cThr=2",
+		String[] parameterClust ={"", "--cMethod=l", "--cThr=2"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".s.seg",
 				s_outputMaskRoot+baseName+".l.seg",
  				show };
  		parameter.readParameters(parameterClust);
-		AMClust clust=new AMClust();
+		clust=new AMClust();
 		clust.setParameter(parameter);
 		clust.run();
 
 		
-		String[] parameterClustH3 ={"", "--cMethod=h", "--cThr=3",
+		String[] parameterClustH3 ={"", "--cMethod=h", "--cThr=3"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".l.seg",
@@ -322,7 +331,7 @@ public class Diarization {
 		clust.run();
 
 		System.out.println("show ="+show);
-		String[] parameterTrain ={"", "--nbComp=8", "--kind=DIAG",
+		String[] parameterTrain ={"", "--nbComp=8", "--kind=DIAG"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".h.3.seg",
@@ -333,7 +342,7 @@ public class Diarization {
 		train.setParameter(parameter);
 		train.run();		
 
-		String[] parameterTrainEM ={"", "--nbComp=8", "--kind=DIAG",
+		String[] parameterTrainEM ={"", "--nbComp=8", "--kind=DIAG"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".h.3.seg",
@@ -345,7 +354,7 @@ public class Diarization {
 		trainEM.setParameter(parameter);
 		trainEM.run();		
 
-		String[] parameterDecodeViterbi ={"", "--dPenality=250",
+		String[] parameterDecodeViterbi ={"", "--dPenality=250"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".h.3.seg",
@@ -356,7 +365,7 @@ public class Diarization {
 		amdecode.setParameter(parameter);
 		amdecode.run();		
 		
-		String[] parameterSadjSeg ={"", "--dPenality=250",
+		String[] parameterSadjSeg ={"", "--dPenality=250"," --doCEClustering ",
 				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
 				fInputMask,
 				s_inputMaskRoot+baseName+".d.3.seg",
@@ -367,8 +376,11 @@ public class Diarization {
  		asadjSeg.setParameter(parameter);
  		asadjSeg.run();		
 		
+ 		
+ 		//fltseg=./$datadir/$show.flt.$h.seg
+ 		//--fltSegMinLenSpeech=150 --fltSegMinLenSil=25 --sFilterClusterName=j --fltSegPadding=25 --sFilterMask=$pmsseg --sInputMask=$adjseg --sOutputMask=$fltseg $show
 		String[] parameterFilter ={"", "--fltSegMinLenSpeech=150", "--fltSegMinLenSil=25", "--sFilterClusterName=j", "--fltSegPadding=25",
-				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+				"--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0"," --doCEClustering ",
 				fInputMask,
 				"--sFilterMask="+this.outputRoot+this.baseName+".pms.seg",
 				s_inputMaskRoot+baseName+".adj.3.seg",
@@ -380,7 +392,7 @@ public class Diarization {
  		asfilter.run();		
  		
  		
- 		String[] parameterSSplit ={"","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0", 
+ 		String[] parameterSSplit ={"","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0", " --doCEClustering ",
  				fInputMask, 
  				"--fltSegMinLenSpeech=150", 
  				"--fltSegMinLenSil=25", 
@@ -396,7 +408,7 @@ public class Diarization {
  		ass.run();		
  		
  
- 		String[] parameterScore ={"","--sGender","--sByCluster","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4", 
+ 		String[] parameterScore ={"","--sGender","--sByCluster","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4", " --doCEClustering ",
  				fInputMask, 
  				s_inputMaskRoot+baseName+".spl.3.seg", 
  				s_outputMaskRoot+baseName+".g.3.seg",
@@ -407,7 +419,7 @@ public class Diarization {
  		amscore.setParameter(parameter);
  		amscore.run();		
  		
-		String[] parameterClustFinale ={"","--cMethod=ce","--cThr=1.7","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4", 
+		String[] parameterClustFinale ={"","--cMethod=ce","--cThr=3.9","--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4", " --doCEClustering ",
  				fInputMask, 
  				s_inputMaskRoot+baseName+".g.3.seg", 
  				s_outputMaskRoot+baseName+".g.3.seg",
@@ -420,6 +432,11 @@ public class Diarization {
  		clust.run();		
  		
  		System.out.println("-------------------------\n ---------FINITO DIARIZATION\n ------------------");
+	}
+	
+	public void printCluster(){
+		clust.printClusterSet();
+		
 	}
 	
 	/**
@@ -454,4 +471,6 @@ public class Diarization {
 		this.sms_gmms = sms_gmms;
 	}
 
+	
+	
 }
