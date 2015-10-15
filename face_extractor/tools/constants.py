@@ -104,7 +104,7 @@ FACE_DETECTION_SCALE_FACTOR = 1.1
 GLOBAL_FACE_MODELS_MIN_DIFF = 5
 
 # Path of directory with people recognition data
-# GLOBAL_FACE_REC_DATA_DIR_PATH = ''
+GLOBAL_FACE_REC_DATA_DIR_PATH = ''
 
 # Threshold for retaining prediction in global face recognition
 # (faces whose prediction has a confidence value greater
