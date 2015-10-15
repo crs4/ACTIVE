@@ -1,0 +1,3 @@
+ For execute the example you need a folder named  'haardcascade' with the trained classifiers available at https://github.com/Itseez/opencv/tree/master/data/haarcascades
+
+The lana.jpg used in the example compare_images_with_lena is available for downloading from http://docs.opencv.org/_images/GCC_CMake_Example_Tutorial.jpg

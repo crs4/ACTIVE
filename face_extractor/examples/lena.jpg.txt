@@ -1,0 +1,1 @@
+The lena.jpg image is available for downloadin from http://docs.opencv.org/_images/GCC_CMake_Example_Tutorial.jpg
