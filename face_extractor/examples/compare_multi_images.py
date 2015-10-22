@@ -1,6 +1,7 @@
 import cv2
 import os
 import sys
+import glob
 
 sys.path.append('..')
 import tools.constants as c
@@ -9,15 +10,20 @@ from tools.face_models import FaceModels
 
 
 def main(argv):
-	base_name=argv[1]
-	for i in range(0,6):
-		for j in range(0,5):
+	dir_path=argv[1]
+	ext="jpg"
+	if len(argv)>2:
+		ext=argv[2]
+	#paths = [os.path.join(dir_path,fn) for fn in next(os.walk(dir_path))[2]]
+	paths = glob.glob(dir_path+"*."+ext)	
+	for i in range(0,len(paths)):
+		for j in range(0,len(paths)):
 			print "**************************************"
 			# Set path of images to be analyzed
-			image_path_1 = base_name+str(i)+".JPG"
+			image_path_1 = paths[i]
 
 			print "image_path_1 ", image_path_1
-			image_path_2 = base_name+str(j)+".JPG"
+			image_path_2 = paths[j]
 			print "image_path_2 ", image_path_2
 
 			# Set path of directory where aligned faces will be saved
