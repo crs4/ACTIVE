@@ -1,0 +1,3220 @@
+[28/Aug/2015 09:28:46] DEBUG [face_recog:331] Analyzing video
+[28/Aug/2015 09:28:46] DEBUG [face_recog:1720] Executing frame extraction
+[28/Aug/2015 09:28:46] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Aug/2015 09:29:03] DEBUG [face_recog:1886] Time for frame extraction: 17.170479455s
+
+[28/Aug/2015 09:29:03] DEBUG [face_recog:1254] Executing face detection
+[28/Aug/2015 09:29:03] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Aug/2015 09:30:14] DEBUG [face_recog:1430] Time for face detection: 70.815074163s
+
+[28/Aug/2015 09:30:14] DEBUG [face_recog:3620] Executing face tracking
+[28/Aug/2015 09:30:14] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Aug/2015 09:30:14] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Aug/2015 09:30:17] DEBUG [face_recog:478] Time for calculation of histogram differences: 2.852829545s
+
+[28/Aug/2015 09:30:17] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Aug/2015 09:30:19] DEBUG [face_recog:4033] Time for face tracking:2.398421667s
+
+[28/Aug/2015 09:30:19] DEBUG [face_recog:666] Executing people clustering
+[28/Aug/2015 09:30:19] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Aug/2015 09:30:23] DEBUG [face_recog:2744] Time for calculating face models: 3.599017672s
+
+[28/Aug/2015 09:30:23] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Aug/2015 09:30:24] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Aug/2015 09:30:25] DEBUG [face_recog:840] Time for people clustering:1.179212839s
+
+[28/Aug/2015 09:30:25] DEBUG [face_recog:2462] Executing people recognition
+[28/Aug/2015 09:30:25] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Aug/2015 09:30:25] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Aug/2015 09:30:26] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.110031969s
+
+[28/Aug/2015 09:30:27] DEBUG [face_recog:3469] Saving keyframes
+[28/Aug/2015 09:30:27] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Aug/2015 09:30:27] DEBUG [face_recog:2550] Saving analysis results
+[28/Aug/2015 09:30:27] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Aug/2015 14:28:45] DEBUG [face_recog:331] Analyzing video
+[28/Aug/2015 14:28:45] DEBUG [face_recog:1720] Executing frame extraction
+[28/Aug/2015 14:28:45] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Aug/2015 14:29:11] DEBUG [face_recog:1886] Time for frame extraction: 26.162430364s
+
+[28/Aug/2015 14:29:11] DEBUG [face_recog:1254] Executing face detection
+[28/Aug/2015 14:29:11] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Aug/2015 14:31:39] DEBUG [face_recog:1430] Time for face detection: 147.951164485s
+
+[28/Aug/2015 14:31:39] DEBUG [face_recog:3620] Executing face tracking
+[28/Aug/2015 14:31:39] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Aug/2015 14:31:39] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Aug/2015 14:31:44] DEBUG [face_recog:478] Time for calculation of histogram differences: 4.764317427s
+
+[28/Aug/2015 14:31:44] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Aug/2015 14:31:52] DEBUG [face_recog:4033] Time for face tracking:8.165255052s
+
+[28/Aug/2015 14:31:52] DEBUG [face_recog:666] Executing people clustering
+[28/Aug/2015 14:31:52] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Aug/2015 14:31:59] DEBUG [face_recog:2744] Time for calculating face models: 6.846487439s
+
+[28/Aug/2015 14:31:59] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Aug/2015 14:32:01] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Aug/2015 14:32:05] DEBUG [face_recog:840] Time for people clustering:3.958276631s
+
+[28/Aug/2015 14:32:05] DEBUG [face_recog:2462] Executing people recognition
+[28/Aug/2015 14:32:05] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Aug/2015 14:32:05] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Aug/2015 14:32:06] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.834917333s
+
+[28/Aug/2015 14:32:07] DEBUG [face_recog:3469] Saving keyframes
+[28/Aug/2015 14:32:07] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Aug/2015 14:32:08] DEBUG [face_recog:2550] Saving analysis results
+[28/Aug/2015 14:32:08] DEBUG [face_recog:1900] Getting list of people detected in video
+[01/Sep/2015 10:43:57] DEBUG [face_recog:331] Analyzing video
+[01/Sep/2015 10:43:57] DEBUG [face_recog:1720] Executing frame extraction
+[01/Sep/2015 10:43:57] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[01/Sep/2015 10:44:11] DEBUG [face_recog:1886] Time for frame extraction: 14.412757073s
+
+[01/Sep/2015 10:44:11] DEBUG [face_recog:1254] Executing face detection
+[01/Sep/2015 10:44:11] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[01/Sep/2015 10:44:37] DEBUG [face_recog:1430] Time for face detection: 25.584301267s
+
+[01/Sep/2015 10:44:37] DEBUG [face_recog:3620] Executing face tracking
+[01/Sep/2015 10:44:37] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[01/Sep/2015 10:44:37] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[01/Sep/2015 10:44:38] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.063569034s
+
+[01/Sep/2015 10:44:38] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[01/Sep/2015 10:44:40] DEBUG [face_recog:4033] Time for face tracking:1.956918721s
+
+[01/Sep/2015 10:44:40] DEBUG [face_recog:666] Executing people clustering
+[01/Sep/2015 10:44:40] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[01/Sep/2015 10:44:41] DEBUG [face_recog:2744] Time for calculating face models: 1.465119326s
+
+[01/Sep/2015 10:44:41] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[01/Sep/2015 10:44:42] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[01/Sep/2015 10:44:42] DEBUG [face_recog:840] Time for people clustering:0.269047534s
+
+[01/Sep/2015 10:44:42] DEBUG [face_recog:2462] Executing people recognition
+[01/Sep/2015 10:44:42] DEBUG [face_recog:489] Calculating cluster medoids
+[01/Sep/2015 10:44:42] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[01/Sep/2015 10:44:43] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.245265131s
+
+[01/Sep/2015 10:44:43] DEBUG [face_recog:3469] Saving keyframes
+[01/Sep/2015 10:44:43] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[01/Sep/2015 10:44:43] DEBUG [face_recog:2550] Saving analysis results
+[01/Sep/2015 10:44:43] DEBUG [face_recog:1900] Getting list of people detected in video
+[01/Sep/2015 14:28:31] DEBUG [face_recog:331] Analyzing video
+[01/Sep/2015 14:28:31] DEBUG [face_recog:1720] Executing frame extraction
+[01/Sep/2015 14:28:31] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[01/Sep/2015 14:28:45] DEBUG [face_recog:1886] Time for frame extraction: 14.186604472s
+
+[01/Sep/2015 14:28:45] DEBUG [face_recog:1254] Executing face detection
+[01/Sep/2015 14:28:45] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[01/Sep/2015 14:29:12] DEBUG [face_recog:1430] Time for face detection: 26.518528755s
+
+[01/Sep/2015 14:29:12] DEBUG [face_recog:3620] Executing face tracking
+[01/Sep/2015 14:29:12] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[01/Sep/2015 14:29:12] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[01/Sep/2015 14:29:13] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.068504315s
+
+[01/Sep/2015 14:29:13] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[01/Sep/2015 14:29:15] DEBUG [face_recog:4033] Time for face tracking:1.969924554s
+
+[01/Sep/2015 14:29:15] DEBUG [face_recog:666] Executing people clustering
+[01/Sep/2015 14:29:15] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[01/Sep/2015 14:29:16] DEBUG [face_recog:2744] Time for calculating face models: 1.463321913s
+
+[01/Sep/2015 14:29:16] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[01/Sep/2015 14:29:17] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[01/Sep/2015 14:29:17] DEBUG [face_recog:840] Time for people clustering:0.265657846s
+
+[01/Sep/2015 14:29:17] DEBUG [face_recog:2462] Executing people recognition
+[01/Sep/2015 14:29:17] DEBUG [face_recog:489] Calculating cluster medoids
+[01/Sep/2015 14:29:17] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[01/Sep/2015 14:29:17] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.240295682s
+
+[01/Sep/2015 14:29:17] DEBUG [face_recog:3469] Saving keyframes
+[01/Sep/2015 14:29:18] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[01/Sep/2015 14:29:18] DEBUG [face_recog:2550] Saving analysis results
+[01/Sep/2015 14:29:18] DEBUG [face_recog:1900] Getting list of people detected in video
+[02/Sep/2015 12:18:08] DEBUG [face_recog:331] Analyzing video
+[02/Sep/2015 12:18:08] DEBUG [face_recog:1720] Executing frame extraction
+[02/Sep/2015 12:18:08] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[02/Sep/2015 12:18:22] DEBUG [face_recog:1886] Time for frame extraction: 14.679539118s
+
+[02/Sep/2015 12:18:22] DEBUG [face_recog:1254] Executing face detection
+[02/Sep/2015 12:18:22] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[02/Sep/2015 12:18:48] DEBUG [face_recog:1430] Time for face detection: 25.419268982s
+
+[02/Sep/2015 12:18:48] DEBUG [face_recog:3620] Executing face tracking
+[02/Sep/2015 12:18:48] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[02/Sep/2015 12:18:48] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[02/Sep/2015 12:18:49] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.063741767s
+
+[02/Sep/2015 12:18:49] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[02/Sep/2015 12:18:51] DEBUG [face_recog:4033] Time for face tracking:2.218855546s
+
+[02/Sep/2015 12:18:51] DEBUG [face_recog:666] Executing people clustering
+[02/Sep/2015 12:18:51] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[02/Sep/2015 12:18:53] DEBUG [face_recog:2744] Time for calculating face models: 1.735804008s
+
+[02/Sep/2015 12:18:53] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[02/Sep/2015 12:18:54] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[02/Sep/2015 12:18:54] DEBUG [face_recog:840] Time for people clustering:0.270568688s
+
+[02/Sep/2015 12:18:54] DEBUG [face_recog:2462] Executing people recognition
+[02/Sep/2015 12:18:54] DEBUG [face_recog:489] Calculating cluster medoids
+[02/Sep/2015 12:18:54] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[02/Sep/2015 12:18:54] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.243137467s
+
+[02/Sep/2015 12:18:54] DEBUG [face_recog:3469] Saving keyframes
+[02/Sep/2015 12:18:54] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[02/Sep/2015 12:18:54] DEBUG [face_recog:2550] Saving analysis results
+[02/Sep/2015 12:18:54] DEBUG [face_recog:1900] Getting list of people detected in video
+[02/Sep/2015 12:21:15] DEBUG [face_recog:331] Analyzing video
+[02/Sep/2015 12:21:15] DEBUG [face_recog:1720] Executing frame extraction
+[02/Sep/2015 12:21:15] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[02/Sep/2015 12:21:28] DEBUG [face_recog:1886] Time for frame extraction: 13.203952765s
+
+[02/Sep/2015 12:21:28] DEBUG [face_recog:1254] Executing face detection
+[02/Sep/2015 12:21:28] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[02/Sep/2015 12:21:54] DEBUG [face_recog:1430] Time for face detection: 26.680688722s
+
+[02/Sep/2015 12:21:54] DEBUG [face_recog:3620] Executing face tracking
+[02/Sep/2015 12:21:54] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[02/Sep/2015 12:21:54] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[02/Sep/2015 12:21:56] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.379724733s
+
+[02/Sep/2015 12:21:56] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[02/Sep/2015 12:21:58] DEBUG [face_recog:4033] Time for face tracking:2.263458278s
+
+[02/Sep/2015 12:21:58] DEBUG [face_recog:666] Executing people clustering
+[02/Sep/2015 12:21:58] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[02/Sep/2015 12:22:00] DEBUG [face_recog:2744] Time for calculating face models: 1.468346109s
+
+[02/Sep/2015 12:22:00] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[02/Sep/2015 12:22:00] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[02/Sep/2015 12:22:01] DEBUG [face_recog:840] Time for people clustering:0.274243261s
+
+[02/Sep/2015 12:22:01] DEBUG [face_recog:2462] Executing people recognition
+[02/Sep/2015 12:22:01] DEBUG [face_recog:489] Calculating cluster medoids
+[02/Sep/2015 12:22:01] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[02/Sep/2015 12:22:01] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.244488416s
+
+[02/Sep/2015 12:22:01] DEBUG [face_recog:3469] Saving keyframes
+[02/Sep/2015 12:22:01] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[02/Sep/2015 12:22:01] DEBUG [face_recog:2550] Saving analysis results
+[02/Sep/2015 12:22:01] DEBUG [face_recog:1900] Getting list of people detected in video
+[02/Sep/2015 12:39:43] DEBUG [face_recog:331] Analyzing video
+[02/Sep/2015 12:39:43] DEBUG [face_recog:1720] Executing frame extraction
+[02/Sep/2015 12:39:43] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[02/Sep/2015 12:39:57] DEBUG [face_recog:1886] Time for frame extraction: 14.116952136s
+
+[02/Sep/2015 12:39:57] DEBUG [face_recog:1254] Executing face detection
+[02/Sep/2015 12:39:57] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[02/Sep/2015 12:40:25] DEBUG [face_recog:1430] Time for face detection: 27.234602179s
+
+[02/Sep/2015 12:40:25] DEBUG [face_recog:3620] Executing face tracking
+[02/Sep/2015 12:40:25] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[02/Sep/2015 12:40:25] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[02/Sep/2015 12:40:26] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.063085956s
+
+[02/Sep/2015 12:40:26] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[02/Sep/2015 12:40:28] DEBUG [face_recog:4033] Time for face tracking:1.961981523s
+
+[02/Sep/2015 12:40:28] DEBUG [face_recog:666] Executing people clustering
+[02/Sep/2015 12:40:28] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[02/Sep/2015 12:40:29] DEBUG [face_recog:2744] Time for calculating face models: 1.698667446s
+
+[02/Sep/2015 12:40:29] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[02/Sep/2015 12:40:30] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[02/Sep/2015 12:40:31] DEBUG [face_recog:840] Time for people clustering:0.273528351s
+
+[02/Sep/2015 12:40:31] DEBUG [face_recog:2462] Executing people recognition
+[02/Sep/2015 12:40:31] DEBUG [face_recog:489] Calculating cluster medoids
+[02/Sep/2015 12:40:31] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[02/Sep/2015 12:40:31] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.240079452s
+
+[02/Sep/2015 12:40:31] DEBUG [face_recog:3469] Saving keyframes
+[02/Sep/2015 12:40:31] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[02/Sep/2015 12:40:31] DEBUG [face_recog:2550] Saving analysis results
+[02/Sep/2015 12:40:31] DEBUG [face_recog:1900] Getting list of people detected in video
+[02/Sep/2015 14:05:10] DEBUG [face_recog:331] Analyzing video
+[02/Sep/2015 14:05:10] DEBUG [face_recog:1720] Executing frame extraction
+[02/Sep/2015 14:05:10] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[02/Sep/2015 14:05:25] DEBUG [face_recog:1886] Time for frame extraction: 15.239160327s
+
+[02/Sep/2015 14:05:25] DEBUG [face_recog:1254] Executing face detection
+[02/Sep/2015 14:05:25] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[02/Sep/2015 14:05:51] DEBUG [face_recog:1430] Time for face detection: 26.185151957s
+
+[02/Sep/2015 14:05:51] DEBUG [face_recog:3620] Executing face tracking
+[02/Sep/2015 14:05:51] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[02/Sep/2015 14:05:51] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[02/Sep/2015 14:05:52] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.064808722s
+
+[02/Sep/2015 14:05:52] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[02/Sep/2015 14:05:55] DEBUG [face_recog:4033] Time for face tracking:2.22861995s
+
+[02/Sep/2015 14:05:55] DEBUG [face_recog:666] Executing people clustering
+[02/Sep/2015 14:05:55] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[02/Sep/2015 14:05:56] DEBUG [face_recog:2744] Time for calculating face models: 1.471988251s
+
+[02/Sep/2015 14:05:56] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[02/Sep/2015 14:05:57] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[02/Sep/2015 14:05:57] DEBUG [face_recog:840] Time for people clustering:0.284694714s
+
+[02/Sep/2015 14:05:57] DEBUG [face_recog:2462] Executing people recognition
+[02/Sep/2015 14:05:57] DEBUG [face_recog:489] Calculating cluster medoids
+[02/Sep/2015 14:05:57] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[02/Sep/2015 14:05:57] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.244690851s
+
+[02/Sep/2015 14:05:58] DEBUG [face_recog:3469] Saving keyframes
+[02/Sep/2015 14:05:58] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[02/Sep/2015 14:05:58] DEBUG [face_recog:2550] Saving analysis results
+[02/Sep/2015 14:05:58] DEBUG [face_recog:1900] Getting list of people detected in video
+[02/Sep/2015 14:09:08] DEBUG [face_recog:331] Analyzing video
+[02/Sep/2015 14:09:08] DEBUG [face_recog:1720] Executing frame extraction
+[02/Sep/2015 14:09:08] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[02/Sep/2015 14:09:23] DEBUG [face_recog:1886] Time for frame extraction: 15.245316745s
+
+[02/Sep/2015 14:09:23] DEBUG [face_recog:1254] Executing face detection
+[02/Sep/2015 14:09:23] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[02/Sep/2015 14:09:50] DEBUG [face_recog:1430] Time for face detection: 26.99904324s
+
+[02/Sep/2015 14:09:50] DEBUG [face_recog:3620] Executing face tracking
+[02/Sep/2015 14:09:50] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[02/Sep/2015 14:09:50] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[02/Sep/2015 14:09:52] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.119284218s
+
+[02/Sep/2015 14:09:52] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[02/Sep/2015 14:09:54] DEBUG [face_recog:4033] Time for face tracking:2.010238641s
+
+[02/Sep/2015 14:09:54] DEBUG [face_recog:666] Executing people clustering
+[02/Sep/2015 14:09:54] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[02/Sep/2015 14:09:55] DEBUG [face_recog:2744] Time for calculating face models: 1.598951979s
+
+[02/Sep/2015 14:09:55] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[02/Sep/2015 14:09:56] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[02/Sep/2015 14:09:56] DEBUG [face_recog:840] Time for people clustering:0.283688053s
+
+[02/Sep/2015 14:09:56] DEBUG [face_recog:2462] Executing people recognition
+[02/Sep/2015 14:09:56] DEBUG [face_recog:489] Calculating cluster medoids
+[02/Sep/2015 14:09:56] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[02/Sep/2015 14:09:57] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.245168355s
+
+[02/Sep/2015 14:09:57] DEBUG [face_recog:3469] Saving keyframes
+[02/Sep/2015 14:09:57] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[02/Sep/2015 14:09:57] DEBUG [face_recog:2550] Saving analysis results
+[02/Sep/2015 14:09:57] DEBUG [face_recog:1900] Getting list of people detected in video
+[03/Sep/2015 13:55:41] DEBUG [face_recog:331] Analyzing video
+[03/Sep/2015 13:55:41] DEBUG [face_recog:1720] Executing frame extraction
+[03/Sep/2015 13:55:41] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[03/Sep/2015 13:55:41] DEBUG [face_recog:331] Analyzing video
+[03/Sep/2015 13:55:41] DEBUG [face_recog:1720] Executing frame extraction
+[03/Sep/2015 13:55:41] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[03/Sep/2015 13:55:42] DEBUG [face_recog:331] Analyzing video
+[03/Sep/2015 13:55:42] DEBUG [face_recog:1720] Executing frame extraction
+[03/Sep/2015 13:55:42] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[03/Sep/2015 13:56:08] DEBUG [face_recog:1886] Time for frame extraction: 26.714065755s
+
+[03/Sep/2015 13:56:08] DEBUG [face_recog:1254] Executing face detection
+[03/Sep/2015 13:56:08] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[03/Sep/2015 13:56:12] DEBUG [face_recog:1886] Time for frame extraction: 30.014941293s
+
+[03/Sep/2015 13:56:12] DEBUG [face_recog:1254] Executing face detection
+[03/Sep/2015 13:56:12] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[03/Sep/2015 13:56:14] DEBUG [face_recog:1886] Time for frame extraction: 32.836844219s
+
+[03/Sep/2015 13:56:14] DEBUG [face_recog:1254] Executing face detection
+[03/Sep/2015 13:56:14] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[03/Sep/2015 13:57:27] DEBUG [face_recog:1430] Time for face detection: 79.39397105s
+
+[03/Sep/2015 13:57:27] DEBUG [face_recog:3620] Executing face tracking
+[03/Sep/2015 13:57:27] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[03/Sep/2015 13:57:27] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[03/Sep/2015 13:57:31] DEBUG [face_recog:478] Time for calculation of histogram differences: 3.779734908s
+
+[03/Sep/2015 13:57:31] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[03/Sep/2015 13:57:39] DEBUG [face_recog:4033] Time for face tracking:7.912558062s
+
+[03/Sep/2015 13:57:39] DEBUG [face_recog:666] Executing people clustering
+[03/Sep/2015 13:57:39] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[03/Sep/2015 13:57:42] DEBUG [face_recog:2744] Time for calculating face models: 2.813662679s
+
+[03/Sep/2015 13:57:42] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[03/Sep/2015 13:57:45] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[03/Sep/2015 13:57:45] DEBUG [face_recog:840] Time for people clustering:0.660020474s
+
+[03/Sep/2015 13:57:45] DEBUG [face_recog:2462] Executing people recognition
+[03/Sep/2015 13:57:45] DEBUG [face_recog:489] Calculating cluster medoids
+[03/Sep/2015 13:57:45] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[03/Sep/2015 13:57:47] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.228245084s
+
+[03/Sep/2015 13:57:47] DEBUG [face_recog:3469] Saving keyframes
+[03/Sep/2015 13:57:47] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[03/Sep/2015 13:57:48] DEBUG [face_recog:2550] Saving analysis results
+[03/Sep/2015 13:57:48] DEBUG [face_recog:1900] Getting list of people detected in video
+[03/Sep/2015 13:59:03] DEBUG [face_recog:1430] Time for face detection: 171.594932355s
+
+[03/Sep/2015 13:59:03] DEBUG [face_recog:3620] Executing face tracking
+[03/Sep/2015 13:59:03] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[03/Sep/2015 13:59:03] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[03/Sep/2015 13:59:07] DEBUG [face_recog:478] Time for calculation of histogram differences: 3.274141338s
+
+[03/Sep/2015 13:59:07] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[03/Sep/2015 13:59:13] DEBUG [face_recog:4033] Time for face tracking:6.552292931s
+
+[03/Sep/2015 13:59:13] DEBUG [face_recog:666] Executing people clustering
+[03/Sep/2015 13:59:13] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[03/Sep/2015 13:59:17] DEBUG [face_recog:2744] Time for calculating face models: 4.262475376s
+
+[03/Sep/2015 13:59:17] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[03/Sep/2015 13:59:20] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[03/Sep/2015 13:59:21] DEBUG [face_recog:840] Time for people clustering:1.014574948s
+
+[03/Sep/2015 13:59:21] DEBUG [face_recog:2462] Executing people recognition
+[03/Sep/2015 13:59:21] DEBUG [face_recog:489] Calculating cluster medoids
+[03/Sep/2015 13:59:21] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[03/Sep/2015 13:59:22] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.749380272s
+
+[03/Sep/2015 13:59:22] DEBUG [face_recog:3469] Saving keyframes
+[03/Sep/2015 13:59:22] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[03/Sep/2015 13:59:23] DEBUG [face_recog:2550] Saving analysis results
+[03/Sep/2015 13:59:23] DEBUG [face_recog:1900] Getting list of people detected in video
+[03/Sep/2015 13:59:32] DEBUG [face_recog:1430] Time for face detection: 198.312098723s
+
+[03/Sep/2015 13:59:32] DEBUG [face_recog:3620] Executing face tracking
+[03/Sep/2015 13:59:32] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[03/Sep/2015 13:59:32] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[03/Sep/2015 13:59:35] DEBUG [face_recog:478] Time for calculation of histogram differences: 3.258579918s
+
+[03/Sep/2015 13:59:35] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[03/Sep/2015 13:59:42] DEBUG [face_recog:4033] Time for face tracking:6.351872496s
+
+[03/Sep/2015 13:59:42] DEBUG [face_recog:666] Executing people clustering
+[03/Sep/2015 13:59:42] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[03/Sep/2015 13:59:46] DEBUG [face_recog:2744] Time for calculating face models: 4.609048728s
+
+[03/Sep/2015 13:59:46] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[03/Sep/2015 13:59:49] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[03/Sep/2015 13:59:50] DEBUG [face_recog:840] Time for people clustering:1.8803742s
+
+[03/Sep/2015 13:59:50] DEBUG [face_recog:2462] Executing people recognition
+[03/Sep/2015 13:59:50] DEBUG [face_recog:489] Calculating cluster medoids
+[03/Sep/2015 13:59:50] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[03/Sep/2015 13:59:51] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.508245766s
+
+[03/Sep/2015 13:59:51] DEBUG [face_recog:3469] Saving keyframes
+[03/Sep/2015 13:59:52] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[03/Sep/2015 13:59:52] DEBUG [face_recog:2550] Saving analysis results
+[03/Sep/2015 13:59:52] DEBUG [face_recog:1900] Getting list of people detected in video
+[03/Sep/2015 14:10:03] DEBUG [face_recog:331] Analyzing video
+[03/Sep/2015 14:10:03] DEBUG [face_recog:1720] Executing frame extraction
+[03/Sep/2015 14:10:03] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[03/Sep/2015 14:10:30] DEBUG [face_recog:1886] Time for frame extraction: 26.059358952s
+
+[03/Sep/2015 14:10:30] DEBUG [face_recog:1254] Executing face detection
+[03/Sep/2015 14:10:30] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[03/Sep/2015 14:12:57] DEBUG [face_recog:1430] Time for face detection: 147.855276631s
+
+[03/Sep/2015 14:12:57] DEBUG [face_recog:3620] Executing face tracking
+[03/Sep/2015 14:12:57] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[03/Sep/2015 14:12:57] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[03/Sep/2015 14:13:02] DEBUG [face_recog:478] Time for calculation of histogram differences: 4.746875284s
+
+[03/Sep/2015 14:13:02] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[03/Sep/2015 14:13:10] DEBUG [face_recog:4033] Time for face tracking:8.3655243s
+
+[03/Sep/2015 14:13:10] DEBUG [face_recog:666] Executing people clustering
+[03/Sep/2015 14:13:10] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[03/Sep/2015 14:13:18] DEBUG [face_recog:2744] Time for calculating face models: 7.202556681s
+
+[03/Sep/2015 14:13:18] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[03/Sep/2015 14:13:21] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[03/Sep/2015 14:13:24] DEBUG [face_recog:840] Time for people clustering:3.6208572s
+
+[03/Sep/2015 14:13:24] DEBUG [face_recog:2462] Executing people recognition
+[03/Sep/2015 14:13:24] DEBUG [face_recog:489] Calculating cluster medoids
+[03/Sep/2015 14:13:24] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[03/Sep/2015 14:13:25] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.753474225s
+
+[03/Sep/2015 14:13:26] DEBUG [face_recog:3469] Saving keyframes
+[03/Sep/2015 14:13:26] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[03/Sep/2015 14:13:27] DEBUG [face_recog:2550] Saving analysis results
+[03/Sep/2015 14:13:27] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 11:55:38] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 11:55:38] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 11:55:38] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 11:55:38] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 11:55:38] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 11:55:38] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 11:55:39] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 11:55:39] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 11:55:39] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 11:55:39] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 11:55:39] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 11:55:39] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 11:56:11] DEBUG [face_recog:1886] Time for frame extraction: 33.651269423s
+
+[08/Sep/2015 11:56:11] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 11:56:11] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 11:56:21] DEBUG [face_recog:1886] Time for frame extraction: 43.196216756s
+
+[08/Sep/2015 11:56:21] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 11:56:21] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 11:56:37] DEBUG [face_recog:1886] Time for frame extraction: 58.119196951s
+
+[08/Sep/2015 11:56:37] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 11:56:37] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 11:56:39] DEBUG [face_recog:1886] Time for frame extraction: 59.843098726s
+
+[08/Sep/2015 11:56:39] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 11:56:39] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 11:58:29] DEBUG [face_recog:1430] Time for face detection: 137.978207236s
+
+[08/Sep/2015 11:58:29] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 11:58:29] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 11:58:29] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 11:58:39] DEBUG [face_recog:478] Time for calculation of histogram differences: 9.151605911s
+
+[08/Sep/2015 11:58:39] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 11:58:53] DEBUG [face_recog:4033] Time for face tracking:14.220582419s
+
+[08/Sep/2015 11:58:53] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 11:58:53] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 11:58:58] DEBUG [face_recog:2744] Time for calculating face models: 5.438907153s
+
+[08/Sep/2015 11:58:58] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 11:59:04] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 11:59:07] DEBUG [face_recog:840] Time for people clustering:3.166400882s
+
+[08/Sep/2015 11:59:07] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 11:59:07] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 11:59:07] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 11:59:09] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.6291626s
+
+[08/Sep/2015 11:59:10] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 11:59:10] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 11:59:11] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 11:59:11] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 11:59:50] DEBUG [face_recog:1430] Time for face detection: 208.23865322s
+
+[08/Sep/2015 11:59:50] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 11:59:50] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 11:59:50] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:00:01] DEBUG [face_recog:478] Time for calculation of histogram differences: 11.704692479s
+
+[08/Sep/2015 12:00:01] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:00:21] DEBUG [face_recog:4033] Time for face tracking:19.450741132s
+
+[08/Sep/2015 12:00:21] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:00:21] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:00:27] DEBUG [face_recog:2744] Time for calculating face models: 6.302282527s
+
+[08/Sep/2015 12:00:27] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:00:34] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:00:38] DEBUG [face_recog:840] Time for people clustering:3.730276061s
+
+[08/Sep/2015 12:00:38] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:00:38] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:00:38] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:00:41] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.950726721s
+
+[08/Sep/2015 12:00:42] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:00:42] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:00:43] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:00:43] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:01:41] DEBUG [face_recog:1430] Time for face detection: 303.76686854s
+
+[08/Sep/2015 12:01:41] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:01:41] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:01:41] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:01:53] DEBUG [face_recog:478] Time for calculation of histogram differences: 11.976105666s
+
+[08/Sep/2015 12:01:53] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:01:57] DEBUG [face_recog:1430] Time for face detection: 318.812775583s
+
+[08/Sep/2015 12:01:57] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:01:57] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:01:57] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:02:05] DEBUG [face_recog:4033] Time for face tracking:12.257826742s
+
+[08/Sep/2015 12:02:05] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:02:05] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:02:05] DEBUG [face_recog:478] Time for calculation of histogram differences: 7.593221885s
+
+[08/Sep/2015 12:02:05] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:02:11] DEBUG [face_recog:2744] Time for calculating face models: 6.159775403s
+
+[08/Sep/2015 12:02:11] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:02:14] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:02:17] DEBUG [face_recog:840] Time for people clustering:2.523740393s
+
+[08/Sep/2015 12:02:17] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:02:17] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:02:17] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:02:18] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.394197481s
+
+[08/Sep/2015 12:02:19] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:02:19] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:02:20] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:02:20] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:02:22] DEBUG [face_recog:4033] Time for face tracking:17.105951425s
+
+[08/Sep/2015 12:02:22] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:02:22] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:02:28] DEBUG [face_recog:2744] Time for calculating face models: 5.872102979s
+
+[08/Sep/2015 12:02:28] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:02:31] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:02:34] DEBUG [face_recog:840] Time for people clustering:2.287362229s
+
+[08/Sep/2015 12:02:34] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:02:34] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:02:34] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:02:35] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.05887665s
+
+[08/Sep/2015 12:02:36] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:02:36] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:02:37] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:02:37] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:49:10] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:10] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:10] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:11] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:11] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:11] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:11] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:11] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:11] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:12] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:12] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:12] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:30] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:30] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:30] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:43] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:43] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:43] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:47] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:49:47] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:49:47] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:49:54] DEBUG [face_recog:1886] Time for frame extraction: 43.884534358s
+
+[08/Sep/2015 12:49:54] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:49:54] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:49:57] DEBUG [face_recog:1886] Time for frame extraction: 45.534637026s
+
+[08/Sep/2015 12:49:57] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:49:57] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:50:00] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:50:00] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:50:00] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:50:02] DEBUG [face_recog:1886] Time for frame extraction: 51.237678128s
+
+[08/Sep/2015 12:50:02] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:50:02] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:50:02] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:50:02] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:50:02] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:50:04] DEBUG [face_recog:1886] Time for frame extraction: 52.605532011s
+
+[08/Sep/2015 12:50:04] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:50:04] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:50:08] DEBUG [face_recog:1886] Time for frame extraction: 38.380997178s
+
+[08/Sep/2015 12:50:08] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:50:08] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:50:18] DEBUG [face_recog:1886] Time for frame extraction: 34.300585173s
+
+[08/Sep/2015 12:50:18] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:50:18] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:50:28] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:50:28] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:50:28] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:50:31] DEBUG [face_recog:1886] Time for frame extraction: 44.073693571s
+
+[08/Sep/2015 12:50:31] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:50:31] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:51:01] DEBUG [face_recog:1886] Time for frame extraction: 33.076134053s
+
+[08/Sep/2015 12:51:01] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:51:01] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:51:21] DEBUG [face_recog:1886] Time for frame extraction: 80.863041954s
+
+[08/Sep/2015 12:51:21] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:51:21] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:51:27] DEBUG [face_recog:1886] Time for frame extraction: 84.218357952s
+
+[08/Sep/2015 12:51:27] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:51:27] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:51:58] DEBUG [face_recog:331] Analyzing video
+[08/Sep/2015 12:51:58] DEBUG [face_recog:1720] Executing frame extraction
+[08/Sep/2015 12:51:58] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[08/Sep/2015 12:52:40] DEBUG [face_recog:1430] Time for face detection: 151.356620806s
+
+[08/Sep/2015 12:52:40] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:52:40] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:52:40] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:52:49] DEBUG [face_recog:478] Time for calculation of histogram differences: 9.102607393s
+
+[08/Sep/2015 12:52:49] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:53:02] DEBUG [face_recog:4033] Time for face tracking:13.088694561s
+
+[08/Sep/2015 12:53:02] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:53:02] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:53:05] DEBUG [face_recog:2744] Time for calculating face models: 3.549536038s
+
+[08/Sep/2015 12:53:05] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:53:10] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:53:11] DEBUG [face_recog:840] Time for people clustering:1.622880785s
+
+[08/Sep/2015 12:53:12] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:53:12] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:53:12] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:53:14] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.047668896s
+
+[08/Sep/2015 12:53:15] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:53:15] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:53:15] DEBUG [face_recog:1886] Time for frame extraction: 77.706362765s
+
+[08/Sep/2015 12:53:15] DEBUG [face_recog:1254] Executing face detection
+[08/Sep/2015 12:53:15] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[08/Sep/2015 12:53:16] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:53:17] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:54:06] DEBUG [face_recog:1430] Time for face detection: 228.375479559s
+
+[08/Sep/2015 12:54:06] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:54:06] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:54:06] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:54:17] DEBUG [face_recog:478] Time for calculation of histogram differences: 10.721323285s
+
+[08/Sep/2015 12:54:17] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:54:43] DEBUG [face_recog:1430] Time for face detection: 289.194660334s
+
+[08/Sep/2015 12:54:43] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:54:43] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:54:43] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:54:54] DEBUG [face_recog:4033] Time for face tracking:37.179671349s
+
+[08/Sep/2015 12:54:54] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:54:54] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:55:01] DEBUG [face_recog:2744] Time for calculating face models: 6.569188295s
+
+[08/Sep/2015 12:55:01] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:55:02] DEBUG [face_recog:478] Time for calculation of histogram differences: 18.667784165s
+
+[08/Sep/2015 12:55:02] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:55:14] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:55:20] DEBUG [face_recog:840] Time for people clustering:6.43386934s
+
+[08/Sep/2015 12:55:20] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:55:20] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:55:20] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:55:25] DEBUG [face_recog:658] Time for calculating cluster medoids: 4.837610612s
+
+[08/Sep/2015 12:55:28] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:55:28] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:55:29] DEBUG [face_recog:4033] Time for face tracking:27.479764665s
+
+[08/Sep/2015 12:55:29] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:55:29] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:55:31] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:55:32] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:55:34] DEBUG [face_recog:1430] Time for face detection: 336.890535981s
+
+[08/Sep/2015 12:55:34] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:55:34] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:55:34] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:55:38] DEBUG [face_recog:2744] Time for calculating face models: 8.134776888s
+
+[08/Sep/2015 12:55:38] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:55:41] DEBUG [face_recog:1430] Time for face detection: 279.798464141s
+
+[08/Sep/2015 12:55:41] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:55:41] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:55:41] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:55:46] DEBUG [face_recog:478] Time for calculation of histogram differences: 12.574083798s
+
+[08/Sep/2015 12:55:46] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:55:47] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:55:48] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.686223581s
+
+[08/Sep/2015 12:55:48] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:55:52] DEBUG [face_recog:840] Time for people clustering:4.692761621s
+
+[08/Sep/2015 12:55:52] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:55:52] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:55:52] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:55:55] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.871182345s
+
+[08/Sep/2015 12:55:56] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:55:56] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:55:58] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:55:58] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:56:08] DEBUG [face_recog:4033] Time for face tracking:21.963332833s
+
+[08/Sep/2015 12:56:08] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:56:08] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:56:16] DEBUG [face_recog:2744] Time for calculating face models: 7.379104489s
+
+[08/Sep/2015 12:56:16] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:56:19] DEBUG [face_recog:4033] Time for face tracking:31.471155654s
+
+[08/Sep/2015 12:56:20] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:56:20] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:56:25] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:56:27] DEBUG [face_recog:2744] Time for calculating face models: 7.2877141s
+
+[08/Sep/2015 12:56:27] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:56:27] DEBUG [face_recog:1430] Time for face detection: 382.585141523s
+
+[08/Sep/2015 12:56:27] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:56:27] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:56:27] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:56:32] DEBUG [face_recog:840] Time for people clustering:6.626515646s
+
+[08/Sep/2015 12:56:32] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:56:32] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:56:32] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:56:37] DEBUG [face_recog:658] Time for calculating cluster medoids: 5.681443515s
+
+[08/Sep/2015 12:56:39] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:56:39] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:56:40] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:56:40] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:56:44] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:56:49] DEBUG [face_recog:840] Time for people clustering:5.1412395s
+
+[08/Sep/2015 12:56:49] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:56:49] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:56:49] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:56:53] DEBUG [face_recog:478] Time for calculation of histogram differences: 25.669267871s
+
+[08/Sep/2015 12:56:53] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:56:56] DEBUG [face_recog:658] Time for calculating cluster medoids: 6.740080629s
+
+[08/Sep/2015 12:56:58] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:56:59] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:57:00] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:57:00] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:57:08] DEBUG [face_recog:1430] Time for face detection: 425.597985787s
+
+[08/Sep/2015 12:57:08] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:57:08] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:57:08] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:57:25] DEBUG [face_recog:478] Time for calculation of histogram differences: 17.42622572s
+
+[08/Sep/2015 12:57:25] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:57:25] DEBUG [face_recog:4033] Time for face tracking:32.883100657s
+
+[08/Sep/2015 12:57:26] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:57:26] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:57:35] DEBUG [face_recog:2744] Time for calculating face models: 9.423875768s
+
+[08/Sep/2015 12:57:35] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:57:48] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:57:53] DEBUG [face_recog:840] Time for people clustering:4.530715778s
+
+[08/Sep/2015 12:57:53] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:57:53] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:57:53] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:57:55] DEBUG [face_recog:4033] Time for face tracking:29.510250654s
+
+[08/Sep/2015 12:57:55] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:57:55] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:58:00] DEBUG [face_recog:658] Time for calculating cluster medoids: 6.810587788s
+
+[08/Sep/2015 12:58:03] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:58:03] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:58:06] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:58:06] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:58:09] DEBUG [face_recog:2744] Time for calculating face models: 14.442348459s
+
+[08/Sep/2015 12:58:09] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:58:11] DEBUG [face_recog:1430] Time for face detection: 459.676197444s
+
+[08/Sep/2015 12:58:11] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 12:58:11] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 12:58:11] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 12:58:20] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:58:22] DEBUG [face_recog:478] Time for calculation of histogram differences: 10.962320066s
+
+[08/Sep/2015 12:58:22] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 12:58:27] DEBUG [face_recog:840] Time for people clustering:7.799864451s
+
+[08/Sep/2015 12:58:27] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:58:27] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:58:27] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:58:30] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.403893655s
+
+[08/Sep/2015 12:58:31] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:58:32] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:58:34] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:58:34] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 12:58:44] DEBUG [face_recog:4033] Time for face tracking:22.177800101s
+
+[08/Sep/2015 12:58:44] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 12:58:44] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 12:58:52] DEBUG [face_recog:2744] Time for calculating face models: 7.699729382s
+
+[08/Sep/2015 12:58:52] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 12:59:00] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 12:59:03] DEBUG [face_recog:840] Time for people clustering:3.052836562s
+
+[08/Sep/2015 12:59:03] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 12:59:03] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 12:59:03] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 12:59:09] DEBUG [face_recog:658] Time for calculating cluster medoids: 5.672800638s
+
+[08/Sep/2015 12:59:10] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 12:59:10] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 12:59:11] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 12:59:11] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 13:00:02] DEBUG [face_recog:1430] Time for face detection: 520.974864024s
+
+[08/Sep/2015 13:00:02] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 13:00:02] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 13:00:02] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 13:00:20] DEBUG [face_recog:478] Time for calculation of histogram differences: 18.008485313s
+
+[08/Sep/2015 13:00:20] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 13:00:22] DEBUG [face_recog:1430] Time for face detection: 535.272208346s
+
+[08/Sep/2015 13:00:22] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 13:00:22] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 13:00:22] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 13:00:31] DEBUG [face_recog:478] Time for calculation of histogram differences: 8.928831842s
+
+[08/Sep/2015 13:00:31] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 13:00:34] DEBUG [face_recog:4033] Time for face tracking:13.338896525s
+
+[08/Sep/2015 13:00:34] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 13:00:34] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 13:00:42] DEBUG [face_recog:2744] Time for calculating face models: 8.26474314s
+
+[08/Sep/2015 13:00:42] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 13:00:47] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 13:00:50] DEBUG [face_recog:840] Time for people clustering:3.220865302s
+
+[08/Sep/2015 13:00:50] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 13:00:50] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 13:00:50] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 13:00:53] DEBUG [face_recog:4033] Time for face tracking:22.275429651s
+
+[08/Sep/2015 13:00:53] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 13:00:53] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 13:00:54] DEBUG [face_recog:658] Time for calculating cluster medoids: 3.500988622s
+
+[08/Sep/2015 13:00:55] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 13:00:55] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 13:00:56] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 13:00:56] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 13:01:02] DEBUG [face_recog:2744] Time for calculating face models: 8.851590854s
+
+[08/Sep/2015 13:01:02] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 13:01:03] DEBUG [face_recog:1430] Time for face detection: 467.521436172s
+
+[08/Sep/2015 13:01:03] DEBUG [face_recog:3620] Executing face tracking
+[08/Sep/2015 13:01:03] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[08/Sep/2015 13:01:03] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[08/Sep/2015 13:01:06] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 13:01:09] DEBUG [face_recog:840] Time for people clustering:2.452329206s
+
+[08/Sep/2015 13:01:09] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 13:01:09] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 13:01:09] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 13:01:09] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.429425177s
+
+[08/Sep/2015 13:01:09] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[08/Sep/2015 13:01:10] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.172552243s
+
+[08/Sep/2015 13:01:11] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 13:01:11] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 13:01:12] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 13:01:12] DEBUG [face_recog:1900] Getting list of people detected in video
+[08/Sep/2015 13:01:25] DEBUG [face_recog:4033] Time for face tracking:15.712262632s
+
+[08/Sep/2015 13:01:25] DEBUG [face_recog:666] Executing people clustering
+[08/Sep/2015 13:01:25] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[08/Sep/2015 13:01:34] DEBUG [face_recog:2744] Time for calculating face models: 8.944641646s
+
+[08/Sep/2015 13:01:34] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[08/Sep/2015 13:01:39] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[08/Sep/2015 13:01:43] DEBUG [face_recog:840] Time for people clustering:3.817303756s
+
+[08/Sep/2015 13:01:43] DEBUG [face_recog:2462] Executing people recognition
+[08/Sep/2015 13:01:43] DEBUG [face_recog:489] Calculating cluster medoids
+[08/Sep/2015 13:01:43] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[08/Sep/2015 13:01:45] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.298936869s
+
+[08/Sep/2015 13:01:47] DEBUG [face_recog:3469] Saving keyframes
+[08/Sep/2015 13:01:47] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[08/Sep/2015 13:01:48] DEBUG [face_recog:2550] Saving analysis results
+[08/Sep/2015 13:01:48] DEBUG [face_recog:1900] Getting list of people detected in video
+[09/Sep/2015 12:19:19] DEBUG [face_recog:331] Analyzing video
+[09/Sep/2015 12:19:19] DEBUG [face_recog:1720] Executing frame extraction
+[09/Sep/2015 12:19:19] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[09/Sep/2015 12:19:33] DEBUG [face_recog:1886] Time for frame extraction: 14.124770684s
+
+[09/Sep/2015 12:19:33] DEBUG [face_recog:1254] Executing face detection
+[09/Sep/2015 12:19:33] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[09/Sep/2015 12:20:36] DEBUG [face_recog:1430] Time for face detection: 62.781846988s
+
+[09/Sep/2015 12:20:36] DEBUG [face_recog:3620] Executing face tracking
+[09/Sep/2015 12:20:36] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[09/Sep/2015 12:20:36] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[09/Sep/2015 12:20:38] DEBUG [face_recog:478] Time for calculation of histogram differences: 1.858128692s
+
+[09/Sep/2015 12:20:38] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[09/Sep/2015 12:20:41] DEBUG [face_recog:4033] Time for face tracking:2.98556696s
+
+[09/Sep/2015 12:20:41] DEBUG [face_recog:666] Executing people clustering
+[09/Sep/2015 12:20:41] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[09/Sep/2015 12:20:45] DEBUG [face_recog:2744] Time for calculating face models: 3.845535681s
+
+[09/Sep/2015 12:20:45] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[09/Sep/2015 12:20:46] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[09/Sep/2015 12:20:47] DEBUG [face_recog:840] Time for people clustering:0.949383606s
+
+[09/Sep/2015 12:20:47] DEBUG [face_recog:2462] Executing people recognition
+[09/Sep/2015 12:20:47] DEBUG [face_recog:489] Calculating cluster medoids
+[09/Sep/2015 12:20:47] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[09/Sep/2015 12:20:48] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.929996023s
+
+[09/Sep/2015 12:20:48] DEBUG [face_recog:3469] Saving keyframes
+[09/Sep/2015 12:20:48] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[09/Sep/2015 12:20:49] DEBUG [face_recog:2550] Saving analysis results
+[09/Sep/2015 12:20:49] DEBUG [face_recog:1900] Getting list of people detected in video
+[09/Sep/2015 12:45:37] DEBUG [face_recog:331] Analyzing video
+[09/Sep/2015 12:45:37] DEBUG [face_recog:1720] Executing frame extraction
+[09/Sep/2015 12:45:37] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[09/Sep/2015 12:45:52] DEBUG [face_recog:1886] Time for frame extraction: 15.775976959s
+
+[09/Sep/2015 12:45:52] DEBUG [face_recog:1254] Executing face detection
+[09/Sep/2015 12:45:52] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[09/Sep/2015 12:47:15] DEBUG [face_recog:1430] Time for face detection: 82.766744835s
+
+[09/Sep/2015 12:47:15] DEBUG [face_recog:3620] Executing face tracking
+[09/Sep/2015 12:47:15] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[09/Sep/2015 12:47:15] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[09/Sep/2015 12:47:17] DEBUG [face_recog:478] Time for calculation of histogram differences: 2.332399646s
+
+[09/Sep/2015 12:47:17] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[09/Sep/2015 12:47:24] DEBUG [face_recog:4033] Time for face tracking:6.091934317s
+
+[09/Sep/2015 12:47:24] DEBUG [face_recog:666] Executing people clustering
+[09/Sep/2015 12:47:24] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[09/Sep/2015 12:47:26] DEBUG [face_recog:2744] Time for calculating face models: 2.703129324s
+
+[09/Sep/2015 12:47:26] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[09/Sep/2015 12:47:27] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[09/Sep/2015 12:47:28] DEBUG [face_recog:840] Time for people clustering:0.753101815s
+
+[09/Sep/2015 12:47:28] DEBUG [face_recog:2462] Executing people recognition
+[09/Sep/2015 12:47:28] DEBUG [face_recog:489] Calculating cluster medoids
+[09/Sep/2015 12:47:28] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[09/Sep/2015 12:47:29] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.648853896s
+
+[09/Sep/2015 12:47:29] DEBUG [face_recog:3469] Saving keyframes
+[09/Sep/2015 12:47:29] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[09/Sep/2015 12:47:30] DEBUG [face_recog:2550] Saving analysis results
+[09/Sep/2015 12:47:30] DEBUG [face_recog:1900] Getting list of people detected in video
+[21/Sep/2015 13:54:18] DEBUG [face_recog:331] Analyzing video
+[21/Sep/2015 13:54:18] DEBUG [face_recog:1720] Executing frame extraction
+[21/Sep/2015 13:54:18] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[21/Sep/2015 13:54:45] DEBUG [face_recog:1886] Time for frame extraction: 27.371020124s
+
+[21/Sep/2015 13:54:45] DEBUG [face_recog:1254] Executing face detection
+[21/Sep/2015 13:54:45] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[21/Sep/2015 13:56:51] DEBUG [face_recog:1430] Time for face detection: 125.660254159s
+
+[21/Sep/2015 13:56:51] DEBUG [face_recog:3620] Executing face tracking
+[21/Sep/2015 13:56:51] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[21/Sep/2015 13:56:51] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[21/Sep/2015 13:56:57] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.358749867s
+
+[21/Sep/2015 13:56:57] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[21/Sep/2015 13:57:06] DEBUG [face_recog:4033] Time for face tracking:8.740185017s
+
+[21/Sep/2015 13:57:06] DEBUG [face_recog:666] Executing people clustering
+[21/Sep/2015 13:57:06] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[21/Sep/2015 13:57:12] DEBUG [face_recog:2744] Time for calculating face models: 5.679224943s
+
+[21/Sep/2015 13:57:12] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[21/Sep/2015 13:57:15] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[21/Sep/2015 13:57:17] DEBUG [face_recog:840] Time for people clustering:2.34519456s
+
+[21/Sep/2015 13:57:17] DEBUG [face_recog:2462] Executing people recognition
+[21/Sep/2015 13:57:17] DEBUG [face_recog:489] Calculating cluster medoids
+[21/Sep/2015 13:57:17] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[21/Sep/2015 13:57:19] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.325613153s
+
+[21/Sep/2015 13:57:19] DEBUG [face_recog:3469] Saving keyframes
+[21/Sep/2015 13:57:20] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[21/Sep/2015 13:57:20] DEBUG [face_recog:2550] Saving analysis results
+[21/Sep/2015 13:57:20] DEBUG [face_recog:1900] Getting list of people detected in video
+[21/Sep/2015 15:01:40] DEBUG [face_recog:331] Analyzing video
+[21/Sep/2015 15:01:40] DEBUG [face_recog:1720] Executing frame extraction
+[21/Sep/2015 15:01:40] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[21/Sep/2015 15:02:11] DEBUG [face_recog:1886] Time for frame extraction: 31.035020484s
+
+[21/Sep/2015 15:02:11] DEBUG [face_recog:1254] Executing face detection
+[21/Sep/2015 15:02:11] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[21/Sep/2015 15:04:42] DEBUG [face_recog:1430] Time for face detection: 150.928894614s
+
+[21/Sep/2015 15:04:42] DEBUG [face_recog:3620] Executing face tracking
+[21/Sep/2015 15:04:42] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[21/Sep/2015 15:04:42] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[21/Sep/2015 15:04:48] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.250241541s
+
+[21/Sep/2015 15:04:48] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[21/Sep/2015 15:05:00] DEBUG [face_recog:4033] Time for face tracking:12.397006746s
+
+[21/Sep/2015 15:05:00] DEBUG [face_recog:666] Executing people clustering
+[21/Sep/2015 15:05:00] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[21/Sep/2015 15:05:06] DEBUG [face_recog:2744] Time for calculating face models: 5.883354793s
+
+[21/Sep/2015 15:05:06] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[21/Sep/2015 15:05:10] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[21/Sep/2015 15:05:12] DEBUG [face_recog:840] Time for people clustering:2.347932875s
+
+[21/Sep/2015 15:05:12] DEBUG [face_recog:2462] Executing people recognition
+[21/Sep/2015 15:05:12] DEBUG [face_recog:489] Calculating cluster medoids
+[21/Sep/2015 15:05:12] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[21/Sep/2015 15:05:13] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.095150224s
+
+[21/Sep/2015 15:05:14] DEBUG [face_recog:3469] Saving keyframes
+[21/Sep/2015 15:05:14] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[21/Sep/2015 15:05:15] DEBUG [face_recog:2550] Saving analysis results
+[21/Sep/2015 15:05:15] DEBUG [face_recog:1900] Getting list of people detected in video
+[21/Sep/2015 15:23:34] DEBUG [face_recog:331] Analyzing video
+[21/Sep/2015 15:23:34] DEBUG [face_recog:1720] Executing frame extraction
+[21/Sep/2015 15:23:34] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[21/Sep/2015 15:24:02] DEBUG [face_recog:1886] Time for frame extraction: 28.187308485s
+
+[21/Sep/2015 15:24:02] DEBUG [face_recog:1254] Executing face detection
+[21/Sep/2015 15:24:02] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[21/Sep/2015 15:26:08] DEBUG [face_recog:1430] Time for face detection: 125.552566096s
+
+[21/Sep/2015 15:26:08] DEBUG [face_recog:3620] Executing face tracking
+[21/Sep/2015 15:26:08] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[21/Sep/2015 15:26:08] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[21/Sep/2015 15:26:14] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.110296541s
+
+[21/Sep/2015 15:26:14] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[21/Sep/2015 15:26:23] DEBUG [face_recog:4033] Time for face tracking:8.947443789s
+
+[21/Sep/2015 15:26:23] DEBUG [face_recog:666] Executing people clustering
+[21/Sep/2015 15:26:23] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[21/Sep/2015 15:26:28] DEBUG [face_recog:2744] Time for calculating face models: 5.697659942s
+
+[21/Sep/2015 15:26:28] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[21/Sep/2015 15:26:32] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[21/Sep/2015 15:26:34] DEBUG [face_recog:840] Time for people clustering:2.360901079s
+
+[21/Sep/2015 15:26:34] DEBUG [face_recog:2462] Executing people recognition
+[21/Sep/2015 15:26:34] DEBUG [face_recog:489] Calculating cluster medoids
+[21/Sep/2015 15:26:34] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[21/Sep/2015 15:26:35] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.306337377s
+
+[21/Sep/2015 15:26:36] DEBUG [face_recog:3469] Saving keyframes
+[21/Sep/2015 15:26:36] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[21/Sep/2015 15:26:37] DEBUG [face_recog:2550] Saving analysis results
+[21/Sep/2015 15:26:37] DEBUG [face_recog:1900] Getting list of people detected in video
+[24/Sep/2015 13:28:08] DEBUG [face_recog:331] Analyzing video
+[24/Sep/2015 13:28:08] DEBUG [face_recog:1720] Executing frame extraction
+[24/Sep/2015 13:28:08] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[24/Sep/2015 13:28:39] DEBUG [face_recog:1886] Time for frame extraction: 31.236944761s
+
+[24/Sep/2015 13:28:39] DEBUG [face_recog:1254] Executing face detection
+[24/Sep/2015 13:28:39] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[24/Sep/2015 13:30:46] DEBUG [face_recog:1430] Time for face detection: 127.094803954s
+
+[24/Sep/2015 13:30:46] DEBUG [face_recog:3620] Executing face tracking
+[24/Sep/2015 13:30:46] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[24/Sep/2015 13:30:46] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[24/Sep/2015 13:30:52] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.12408807s
+
+[24/Sep/2015 13:30:52] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[24/Sep/2015 13:31:01] DEBUG [face_recog:4033] Time for face tracking:8.700409794s
+
+[24/Sep/2015 13:31:01] DEBUG [face_recog:666] Executing people clustering
+[24/Sep/2015 13:31:01] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[24/Sep/2015 13:31:07] DEBUG [face_recog:2744] Time for calculating face models: 5.762645329s
+
+[24/Sep/2015 13:31:07] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[24/Sep/2015 13:31:10] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[24/Sep/2015 13:31:12] DEBUG [face_recog:840] Time for people clustering:2.332899966s
+
+[24/Sep/2015 13:31:12] DEBUG [face_recog:2462] Executing people recognition
+[24/Sep/2015 13:31:12] DEBUG [face_recog:489] Calculating cluster medoids
+[24/Sep/2015 13:31:12] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[24/Sep/2015 13:31:14] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.362050048s
+
+[24/Sep/2015 13:31:14] DEBUG [face_recog:3469] Saving keyframes
+[24/Sep/2015 13:31:14] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[24/Sep/2015 13:31:15] DEBUG [face_recog:2550] Saving analysis results
+[24/Sep/2015 13:31:15] DEBUG [face_recog:1900] Getting list of people detected in video
+[24/Sep/2015 15:29:51] DEBUG [face_recog:331] Analyzing video
+[24/Sep/2015 15:29:51] DEBUG [face_recog:1720] Executing frame extraction
+[24/Sep/2015 15:29:51] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[24/Sep/2015 15:30:26] DEBUG [face_recog:1886] Time for frame extraction: 33.118222852s
+
+[24/Sep/2015 15:30:26] DEBUG [face_recog:1254] Executing face detection
+[24/Sep/2015 15:30:26] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[24/Sep/2015 15:32:32] DEBUG [face_recog:1430] Time for face detection: 126.223624242s
+
+[24/Sep/2015 15:32:32] DEBUG [face_recog:3620] Executing face tracking
+[24/Sep/2015 15:32:32] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[24/Sep/2015 15:32:32] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[24/Sep/2015 15:32:38] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.158227547s
+
+[24/Sep/2015 15:32:38] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[24/Sep/2015 15:32:47] DEBUG [face_recog:4033] Time for face tracking:8.735842316s
+
+[24/Sep/2015 15:32:47] DEBUG [face_recog:666] Executing people clustering
+[24/Sep/2015 15:32:47] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[24/Sep/2015 15:32:52] DEBUG [face_recog:2744] Time for calculating face models: 5.661878273s
+
+[24/Sep/2015 15:32:52] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[24/Sep/2015 15:32:56] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[24/Sep/2015 15:32:58] DEBUG [face_recog:840] Time for people clustering:2.333136855s
+
+[24/Sep/2015 15:32:58] DEBUG [face_recog:2462] Executing people recognition
+[24/Sep/2015 15:32:58] DEBUG [face_recog:489] Calculating cluster medoids
+[24/Sep/2015 15:32:58] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[24/Sep/2015 15:32:59] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.303603198s
+
+[24/Sep/2015 15:33:00] DEBUG [face_recog:3469] Saving keyframes
+[24/Sep/2015 15:33:00] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[24/Sep/2015 15:33:01] DEBUG [face_recog:2550] Saving analysis results
+[24/Sep/2015 15:33:01] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 12:35:04] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 12:35:04] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 12:35:04] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 12:35:30] DEBUG [face_recog:1886] Time for frame extraction: 26.216530016s
+
+[28/Sep/2015 12:35:30] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 12:35:30] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Sep/2015 12:37:29] DEBUG [face_recog:1430] Time for face detection: 119.411224231s
+
+[28/Sep/2015 12:37:29] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 12:37:29] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Sep/2015 12:37:29] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Sep/2015 12:37:35] DEBUG [face_recog:478] Time for calculation of histogram differences: 5.943691137s
+
+[28/Sep/2015 12:37:35] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:4033] Time for face tracking:1.321066647s
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 12:37:37] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:2744] Time for calculating face models: 0.146139745s
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:840] Time for people clustering:0.02853945s
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 12:37:37] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Sep/2015 12:37:37] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.009199023s
+
+[28/Sep/2015 12:37:37] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 12:37:37] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Sep/2015 12:37:37] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 12:37:37] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 12:43:05] DEBUG [face_recog:1222] Deleting analysis results
+[28/Sep/2015 12:43:34] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 12:43:34] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 12:43:34] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 12:43:56] DEBUG [face_recog:1886] Time for frame extraction: 22.736603015s
+
+[28/Sep/2015 12:43:56] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 12:43:56] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Sep/2015 12:45:20] DEBUG [face_recog:1430] Time for face detection: 83.654867649s
+
+[28/Sep/2015 12:45:20] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 12:45:20] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Sep/2015 12:45:20] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Sep/2015 12:45:23] DEBUG [face_recog:478] Time for calculation of histogram differences: 3.509140371s
+
+[28/Sep/2015 12:45:23] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Sep/2015 12:45:27] DEBUG [face_recog:4033] Time for face tracking:3.194025012s
+
+[28/Sep/2015 12:45:27] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 12:45:27] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:2744] Time for calculating face models: 0.938922513s
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:840] Time for people clustering:0.174106321s
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 12:45:28] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Sep/2015 12:45:28] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.119085277s
+
+[28/Sep/2015 12:45:28] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 12:45:28] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Sep/2015 12:45:28] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 12:45:28] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:02:31] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:02:31] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:02:31] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:02:31] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:02:31] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:02:31] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:02:31] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:02:31] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:02:31] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:02:31] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:02:31] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:02:31] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:02:31] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:02:31] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:02:31] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:02:32] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:03:53] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:03:53] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:03:53] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:03:53] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:03:53] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:03:53] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:03:53] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:03:53] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:03:53] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:03:53] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:03:53] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:03:53] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:03:53] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:03:53] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:03:53] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:03:53] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:11:43] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:11:43] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:11:43] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:11:43] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:11:43] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:11:43] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:11:43] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:11:43] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:11:43] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:11:43] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:11:43] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:11:43] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:11:43] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:11:43] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:11:43] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:11:43] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:15:52] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:15:52] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:15:52] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:15:52] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:15:52] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:15:52] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:15:52] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:15:52] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:15:52] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:15:52] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:15:52] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:15:52] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:15:52] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:15:52] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:15:52] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:15:52] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:17:26] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:17:26] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:17:26] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:17:26] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:17:26] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:17:26] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:17:26] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:17:26] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:17:26] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:17:26] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:17:26] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:17:26] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:17:26] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:17:26] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:17:26] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:17:26] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:18:20] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:18:20] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:18:20] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:18:20] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:18:20] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:18:20] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:18:20] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:18:20] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:18:20] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:18:20] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:18:20] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:18:20] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:18:20] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:18:20] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:18:20] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:18:20] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:18:40] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:18:40] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:18:40] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:18:40] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:18:40] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:18:40] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:18:40] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:18:40] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:18:40] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:18:40] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:18:40] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:18:40] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:18:40] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:18:40] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:18:40] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:18:40] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:22:15] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:22:15] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:22:15] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:22:15] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:22:15] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:22:15] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:22:15] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:22:15] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:22:15] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:22:15] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:22:15] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:22:15] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:22:15] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:22:15] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:22:15] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:22:15] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 13:38:27] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 13:38:27] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 13:38:27] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 13:38:27] DEBUG [face_recog:1770] Error in opening video file
+[28/Sep/2015 13:38:27] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 13:38:27] WARNING [face_recog:1307] No frame list found!
+[28/Sep/2015 13:38:27] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 13:38:27] WARNING [face_recog:3662] No detection results found!
+[28/Sep/2015 13:38:27] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 13:38:27] WARNING [face_recog:706] No tracking results found!
+[28/Sep/2015 13:38:27] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 13:38:27] WARNING [face_recog:2503] No clustering results found!
+[28/Sep/2015 13:38:27] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 13:38:27] WARNING [face_recog:3496] No recognition results found!
+[28/Sep/2015 13:38:27] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 13:38:27] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 15:14:51] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 15:14:51] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 15:14:51] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 15:16:54] DEBUG [face_recog:1886] Time for frame extraction: 123.065437458s
+
+[28/Sep/2015 15:16:54] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 15:16:54] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Sep/2015 15:24:51] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 15:24:51] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 15:24:51] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 15:28:17] DEBUG [face_recog:331] Analyzing video
+[28/Sep/2015 15:28:17] DEBUG [face_recog:1720] Executing frame extraction
+[28/Sep/2015 15:28:17] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[28/Sep/2015 15:36:57] DEBUG [face_recog:1886] Time for frame extraction: 519.475195475s
+
+[28/Sep/2015 15:36:57] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 15:36:57] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Sep/2015 15:47:02] DEBUG [face_recog:1430] Time for face detection: 1808.30538888s
+
+[28/Sep/2015 15:47:02] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 15:47:02] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Sep/2015 15:47:02] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Sep/2015 15:48:45] DEBUG [face_recog:478] Time for calculation of histogram differences: 102.136624599s
+
+[28/Sep/2015 15:48:45] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Sep/2015 15:51:31] DEBUG [face_recog:4033] Time for face tracking:166.516857833s
+
+[28/Sep/2015 15:51:31] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 15:51:31] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Sep/2015 15:53:34] DEBUG [face_recog:2744] Time for calculating face models: 122.602226726s
+
+[28/Sep/2015 15:53:34] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Sep/2015 15:54:30] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Sep/2015 15:58:50] DEBUG [face_recog:840] Time for people clustering:259.252742271s
+
+[28/Sep/2015 15:58:50] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 15:58:50] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Sep/2015 15:58:50] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Sep/2015 16:05:48] DEBUG [face_recog:658] Time for calculating cluster medoids: 418.429119475s
+
+[28/Sep/2015 16:05:57] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 16:05:58] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Sep/2015 16:06:08] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 16:06:08] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 16:36:29] DEBUG [face_recog:1886] Time for frame extraction: 4298.07325584s
+
+[28/Sep/2015 16:36:29] DEBUG [face_recog:1254] Executing face detection
+[28/Sep/2015 16:36:29] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[28/Sep/2015 16:49:36] DEBUG [face_recog:1430] Time for face detection: 4359.55099616s
+
+[28/Sep/2015 16:49:36] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 16:49:36] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Sep/2015 16:49:36] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Sep/2015 16:52:39] DEBUG [face_recog:478] Time for calculation of histogram differences: 182.179014353s
+
+[28/Sep/2015 16:52:39] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[28/Sep/2015 16:59:35] DEBUG [face_recog:4033] Time for face tracking:416.719798909s
+
+[28/Sep/2015 16:59:35] DEBUG [face_recog:666] Executing people clustering
+[28/Sep/2015 16:59:35] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[28/Sep/2015 17:01:58] DEBUG [face_recog:2744] Time for calculating face models: 142.393703804s
+
+[28/Sep/2015 17:01:58] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[28/Sep/2015 17:04:06] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[28/Sep/2015 17:08:59] DEBUG [face_recog:840] Time for people clustering:293.685369762s
+
+[28/Sep/2015 17:08:59] DEBUG [face_recog:2462] Executing people recognition
+[28/Sep/2015 17:08:59] DEBUG [face_recog:489] Calculating cluster medoids
+[28/Sep/2015 17:08:59] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[28/Sep/2015 17:12:20] DEBUG [face_recog:658] Time for calculating cluster medoids: 200.936367023s
+
+[28/Sep/2015 17:12:34] DEBUG [face_recog:3469] Saving keyframes
+[28/Sep/2015 17:12:37] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[28/Sep/2015 17:12:51] DEBUG [face_recog:2550] Saving analysis results
+[28/Sep/2015 17:12:51] DEBUG [face_recog:1900] Getting list of people detected in video
+[28/Sep/2015 23:34:09] DEBUG [face_recog:1430] Time for face detection: 25060.5597498s
+
+[28/Sep/2015 23:34:10] DEBUG [face_recog:3620] Executing face tracking
+[28/Sep/2015 23:34:10] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[28/Sep/2015 23:34:10] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[28/Sep/2015 23:48:37] DEBUG [face_recog:478] Time for calculation of histogram differences: 867.945647605s
+
+[28/Sep/2015 23:48:37] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 00:24:16] DEBUG [face_recog:4033] Time for face tracking:2138.43229834s
+
+[29/Sep/2015 00:24:16] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 00:24:16] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 00:39:21] DEBUG [face_recog:2744] Time for calculating face models: 904.920019837s
+
+[29/Sep/2015 00:39:21] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 00:50:15] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 03:15:08] DEBUG [face_recog:840] Time for people clustering:8692.33495467s
+
+[29/Sep/2015 03:15:08] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 03:15:08] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 03:15:08] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 03:38:43] DEBUG [face_recog:658] Time for calculating cluster medoids: 1414.8122904s
+
+[29/Sep/2015 03:40:27] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 03:40:54] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 03:42:37] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 08:57:01] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:01] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:01] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:01] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:01] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:02] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:02] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:02] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:27] DEBUG [face_recog:1886] Time for frame extraction: 26.443525664s
+
+[29/Sep/2015 08:57:27] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:57:27] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:57:32] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:32] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:32] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:32] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 08:57:32] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 08:57:32] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 08:57:42] DEBUG [face_recog:1886] Time for frame extraction: 40.757385749s
+
+[29/Sep/2015 08:57:42] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:57:42] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:57:48] DEBUG [face_recog:1886] Time for frame extraction: 45.192918085s
+
+[29/Sep/2015 08:57:48] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:57:48] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:57:49] DEBUG [face_recog:1886] Time for frame extraction: 48.424839272s
+
+[29/Sep/2015 08:57:49] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:57:49] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:57:50] DEBUG [face_recog:1886] Time for frame extraction: 49.154371385s
+
+[29/Sep/2015 08:57:50] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:57:50] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:58:12] DEBUG [face_recog:1886] Time for frame extraction: 40.091030664s
+
+[29/Sep/2015 08:58:12] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:58:12] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:58:44] DEBUG [face_recog:1886] Time for frame extraction: 72.01369516s
+
+[29/Sep/2015 08:58:44] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 08:58:44] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 08:59:27] DEBUG [face_recog:1430] Time for face detection: 119.389570986s
+
+[29/Sep/2015 08:59:27] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 08:59:27] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 08:59:27] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 08:59:34] DEBUG [face_recog:478] Time for calculation of histogram differences: 7.189193097s
+
+[29/Sep/2015 08:59:34] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 08:59:46] DEBUG [face_recog:4033] Time for face tracking:11.94803023s
+
+[29/Sep/2015 08:59:46] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 08:59:46] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 08:59:50] DEBUG [face_recog:2744] Time for calculating face models: 4.140072997s
+
+[29/Sep/2015 08:59:50] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 08:59:55] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 08:59:56] DEBUG [face_recog:840] Time for people clustering:1.35361848s
+
+[29/Sep/2015 08:59:56] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 08:59:56] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 08:59:56] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 08:59:58] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.869883286s
+
+[29/Sep/2015 08:59:59] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 08:59:59] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:00:01] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:00:01] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:00:59] DEBUG [face_recog:1430] Time for face detection: 197.002923833s
+
+[29/Sep/2015 09:00:59] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:00:59] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:00:59] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:01:11] DEBUG [face_recog:478] Time for calculation of histogram differences: 11.981840685s
+
+[29/Sep/2015 09:01:11] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:01:45] DEBUG [face_recog:4033] Time for face tracking:34.213853305s
+
+[29/Sep/2015 09:01:45] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:01:45] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:01:53] DEBUG [face_recog:2744] Time for calculating face models: 6.824243567s
+
+[29/Sep/2015 09:01:53] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:02:05] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:02:06] DEBUG [face_recog:840] Time for people clustering:1.812829961s
+
+[29/Sep/2015 09:02:06] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:02:06] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:02:06] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:02:10] DEBUG [face_recog:658] Time for calculating cluster medoids: 3.985987677s
+
+[29/Sep/2015 09:02:12] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:02:13] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:02:14] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:02:14] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:02:42] DEBUG [face_recog:1430] Time for face detection: 294.789601913s
+
+[29/Sep/2015 09:02:42] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:02:42] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:02:42] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:02:44] DEBUG [face_recog:1430] Time for face detection: 272.100442215s
+
+[29/Sep/2015 09:02:44] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:02:44] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:02:44] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:02:57] DEBUG [face_recog:478] Time for calculation of histogram differences: 14.15325332s
+
+[29/Sep/2015 09:02:57] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:02:57] DEBUG [face_recog:478] Time for calculation of histogram differences: 12.74125357s
+
+[29/Sep/2015 09:02:57] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:03:16] DEBUG [face_recog:4033] Time for face tracking:19.065918687s
+
+[29/Sep/2015 09:03:16] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:03:16] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:03:17] DEBUG [face_recog:4033] Time for face tracking:20.203028254s
+
+[29/Sep/2015 09:03:17] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:03:17] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:03:22] DEBUG [face_recog:2744] Time for calculating face models: 5.933185566s
+
+[29/Sep/2015 09:03:22] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:03:23] DEBUG [face_recog:2744] Time for calculating face models: 5.51415218s
+
+[29/Sep/2015 09:03:23] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:03:29] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:03:32] DEBUG [face_recog:840] Time for people clustering:3.558878804s
+
+[29/Sep/2015 09:03:32] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:03:33] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:03:33] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:03:33] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:03:36] DEBUG [face_recog:658] Time for calculating cluster medoids: 3.004932864s
+
+[29/Sep/2015 09:03:37] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:03:37] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:03:39] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:03:39] DEBUG [face_recog:840] Time for people clustering:6.0587785s
+
+[29/Sep/2015 09:03:39] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:03:39] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:03:39] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:03:40] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:03:43] DEBUG [face_recog:658] Time for calculating cluster medoids: 3.405959173s
+
+[29/Sep/2015 09:03:44] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:03:44] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:03:45] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:03:45] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:04:05] DEBUG [face_recog:1430] Time for face detection: 375.983780883s
+
+[29/Sep/2015 09:04:05] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:04:05] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:04:05] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:04:09] DEBUG [face_recog:1430] Time for face detection: 378.691366342s
+
+[29/Sep/2015 09:04:09] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:04:09] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:04:09] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:04:12] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.963984665s
+
+[29/Sep/2015 09:04:12] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:04:15] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.18297807s
+
+[29/Sep/2015 09:04:15] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:04:21] DEBUG [face_recog:4033] Time for face tracking:9.006407362s
+
+[29/Sep/2015 09:04:21] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:04:21] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:04:26] DEBUG [face_recog:4033] Time for face tracking:10.82978762s
+
+[29/Sep/2015 09:04:26] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:04:26] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:04:26] DEBUG [face_recog:2744] Time for calculating face models: 5.057547281s
+
+[29/Sep/2015 09:04:26] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:04:31] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:04:32] DEBUG [face_recog:2744] Time for calculating face models: 5.795370092s
+
+[29/Sep/2015 09:04:32] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:04:32] DEBUG [face_recog:840] Time for people clustering:1.015688666s
+
+[29/Sep/2015 09:04:32] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:04:32] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:04:32] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:04:34] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.81939085s
+
+[29/Sep/2015 09:04:35] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:04:35] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:04:36] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:04:36] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:04:37] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:04:40] DEBUG [face_recog:840] Time for people clustering:2.211900418s
+
+[29/Sep/2015 09:04:40] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:04:40] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:04:40] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:04:40] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.601142614s
+
+[29/Sep/2015 09:04:41] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:04:42] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:04:42] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:04:42] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:05:06] DEBUG [face_recog:1430] Time for face detection: 382.551824124s
+
+[29/Sep/2015 09:05:06] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:05:06] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:05:06] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:05:13] DEBUG [face_recog:478] Time for calculation of histogram differences: 6.394751736s
+
+[29/Sep/2015 09:05:13] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:05:22] DEBUG [face_recog:4033] Time for face tracking:8.989455255s
+
+[29/Sep/2015 09:05:22] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:05:22] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:05:27] DEBUG [face_recog:2744] Time for calculating face models: 5.726074794s
+
+[29/Sep/2015 09:05:27] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:05:31] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:05:33] DEBUG [face_recog:840] Time for people clustering:2.341523699s
+
+[29/Sep/2015 09:05:33] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:05:33] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:05:33] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:05:35] DEBUG [face_recog:658] Time for calculating cluster medoids: 1.561084931s
+
+[29/Sep/2015 09:05:35] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:05:36] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:05:36] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:05:36] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:15:24] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 09:15:24] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 09:15:24] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 09:16:37] DEBUG [face_recog:1886] Time for frame extraction: 72.120924318s
+
+[29/Sep/2015 09:16:37] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 09:16:37] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 09:20:16] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 09:20:16] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 09:20:16] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 09:25:17] DEBUG [face_recog:1430] Time for face detection: 520.772351974s
+
+[29/Sep/2015 09:25:17] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:25:17] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:25:17] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 09:25:38] DEBUG [face_recog:478] Time for calculation of histogram differences: 21.081683552s
+
+[29/Sep/2015 09:25:38] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 09:25:55] DEBUG [face_recog:4033] Time for face tracking:16.467709907s
+
+[29/Sep/2015 09:25:55] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 09:25:55] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 09:25:57] DEBUG [face_recog:1886] Time for frame extraction: 340.915596961s
+
+[29/Sep/2015 09:25:57] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 09:25:57] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 09:26:02] DEBUG [face_recog:2744] Time for calculating face models: 7.106112179s
+
+[29/Sep/2015 09:26:02] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 09:26:04] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 09:26:08] DEBUG [face_recog:840] Time for people clustering:3.693953499s
+
+[29/Sep/2015 09:26:08] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 09:26:08] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 09:26:08] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 09:26:08] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.615315477s
+
+[29/Sep/2015 09:26:09] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 09:26:10] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 09:26:11] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 09:26:11] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 09:43:32] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 09:43:32] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 09:43:32] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 09:43:33] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 09:43:33] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 09:43:33] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 09:43:33] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 09:43:33] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 09:43:33] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 09:45:38] DEBUG [face_recog:1886] Time for frame extraction: 125.864924804s
+
+[29/Sep/2015 09:45:38] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 09:45:38] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 09:46:34] DEBUG [face_recog:1886] Time for frame extraction: 181.413385617s
+
+[29/Sep/2015 09:46:34] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 09:46:34] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 09:47:24] DEBUG [face_recog:1886] Time for frame extraction: 230.236521774s
+
+[29/Sep/2015 09:47:24] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 09:47:24] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 09:59:45] DEBUG [face_recog:1430] Time for face detection: 846.996721487s
+
+[29/Sep/2015 09:59:45] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 09:59:45] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 09:59:45] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 10:00:24] DEBUG [face_recog:478] Time for calculation of histogram differences: 39.390563874s
+
+[29/Sep/2015 10:00:24] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 10:00:53] DEBUG [face_recog:4033] Time for face tracking:28.487409369s
+
+[29/Sep/2015 10:00:53] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 10:00:53] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 10:01:02] DEBUG [face_recog:2744] Time for calculating face models: 9.652931183s
+
+[29/Sep/2015 10:01:02] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 10:01:06] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 10:01:18] DEBUG [face_recog:840] Time for people clustering:12.751012313s
+
+[29/Sep/2015 10:01:18] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 10:01:18] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 10:01:18] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 10:01:19] DEBUG [face_recog:658] Time for calculating cluster medoids: 0.805981849s
+
+[29/Sep/2015 10:01:21] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 10:01:21] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 10:01:23] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 10:01:23] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 10:07:31] DEBUG [face_recog:1430] Time for face detection: 1257.30985045s
+
+[29/Sep/2015 10:07:31] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 10:07:31] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 10:07:31] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 10:08:17] DEBUG [face_recog:478] Time for calculation of histogram differences: 45.906239885s
+
+[29/Sep/2015 10:08:17] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 10:09:15] DEBUG [face_recog:4033] Time for face tracking:57.427830463s
+
+[29/Sep/2015 10:09:15] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 10:09:15] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 10:09:43] DEBUG [face_recog:2744] Time for calculating face models: 28.69356685s
+
+[29/Sep/2015 10:09:43] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 10:09:51] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 10:10:44] DEBUG [face_recog:840] Time for people clustering:53.33121545s
+
+[29/Sep/2015 10:10:44] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 10:10:44] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 10:10:44] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 10:10:49] DEBUG [face_recog:658] Time for calculating cluster medoids: 4.529350476s
+
+[29/Sep/2015 10:10:52] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 10:10:57] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 10:11:00] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 10:11:00] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 10:13:28] DEBUG [face_recog:1430] Time for face detection: 1564.24184715s
+
+[29/Sep/2015 10:13:28] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 10:13:28] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 10:13:28] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 10:14:30] DEBUG [face_recog:478] Time for calculation of histogram differences: 62.171828343s
+
+[29/Sep/2015 10:14:30] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 10:15:54] DEBUG [face_recog:4033] Time for face tracking:83.894125312s
+
+[29/Sep/2015 10:15:54] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 10:15:54] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 10:16:29] DEBUG [face_recog:2744] Time for calculating face models: 34.793743987s
+
+[29/Sep/2015 10:16:29] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 10:16:46] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 10:17:07] DEBUG [face_recog:1430] Time for face detection: 3069.76722546s
+
+[29/Sep/2015 10:17:07] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 10:17:07] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 10:17:07] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 10:18:07] DEBUG [face_recog:840] Time for people clustering:81.555710106s
+
+[29/Sep/2015 10:18:07] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 10:18:07] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 10:18:07] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 10:18:10] DEBUG [face_recog:658] Time for calculating cluster medoids: 2.104089782s
+
+[29/Sep/2015 10:18:13] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 10:18:15] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 10:18:18] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 10:18:18] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 10:18:48] DEBUG [face_recog:478] Time for calculation of histogram differences: 100.794026454s
+
+[29/Sep/2015 10:18:48] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+
+[29/Sep/2015 10:21:19] DEBUG [face_recog:4033] Time for face tracking:150.60963372s
+
+[29/Sep/2015 10:21:19] DEBUG [face_recog:666] Executing people clustering
+[29/Sep/2015 10:21:19] DEBUG [face_recog:2708] 
+
+### Creating face models ###
+
+[29/Sep/2015 10:22:06] DEBUG [face_recog:2744] Time for calculating face models: 47.537176561s
+
+[29/Sep/2015 10:22:06] DEBUG [face_recog:2578] 
+
+### Creating cloth models ###
+
+[29/Sep/2015 10:22:22] DEBUG [face_recog:726] 
+
+### People clustering ###
+
+[29/Sep/2015 10:25:05] DEBUG [face_recog:840] Time for people clustering:162.826300356s
+
+[29/Sep/2015 10:25:05] DEBUG [face_recog:2462] Executing people recognition
+[29/Sep/2015 10:25:05] DEBUG [face_recog:489] Calculating cluster medoids
+[29/Sep/2015 10:25:05] DEBUG [face_recog:514] 
+
+### Calculating cluster medoids ###
+
+[29/Sep/2015 10:25:12] DEBUG [face_recog:658] Time for calculating cluster medoids: 6.677703439s
+
+[29/Sep/2015 10:25:19] DEBUG [face_recog:3469] Saving keyframes
+[29/Sep/2015 10:25:22] DEBUG [face_recog:4044] Updating YAML file with people recognition results
+[29/Sep/2015 10:25:30] DEBUG [face_recog:2550] Saving analysis results
+[29/Sep/2015 10:25:30] DEBUG [face_recog:1900] Getting list of people detected in video
+[29/Sep/2015 13:00:15] DEBUG [face_recog:331] Analyzing video
+[29/Sep/2015 13:00:15] DEBUG [face_recog:1720] Executing frame extraction
+[29/Sep/2015 13:00:15] DEBUG [face_recog:1743] 
+
+### Frame extraction ###
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:1886] Time for frame extraction: 12.584043508s
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:1254] Executing face detection
+[29/Sep/2015 13:00:28] DEBUG [face_recog:1288] Loading YAML file with frame list
+[29/Sep/2015 13:00:28] WARNING [face_recog:1302] Error in loading file!
+[29/Sep/2015 13:00:28] DEBUG [face_recog:1312] 
+
+### Face detection ###
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:1430] Time for face detection: 0.000543363s
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:3620] Executing face tracking
+[29/Sep/2015 13:00:28] DEBUG [face_recog:3650] Loading YAML file with detection results
+[29/Sep/2015 13:00:28] DEBUG [face_recog:3657] YAML file with detection results loaded
+[29/Sep/2015 13:00:28] DEBUG [face_recog:392] Calculating histogram differences between consecutive frames
+[29/Sep/2015 13:00:28] DEBUG [face_recog:413] Loading YAML file with frame list
+[29/Sep/2015 13:00:28] DEBUG [face_recog:420] YAML file with frame list loaded
+[29/Sep/2015 13:00:28] DEBUG [face_recog:430] 
+
+### Calculating histogram differences ###
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:478] Time for calculation of histogram differences: 5.085e-06s
+
+[29/Sep/2015 13:00:28] DEBUG [face_recog:3670] 
+
+### Face tracking ###
+

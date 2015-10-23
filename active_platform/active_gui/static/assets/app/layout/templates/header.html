@@ -1,0 +1,40 @@
+<header setting-header class="main-header" ng-controller="headerCtrl">
+	<a href="/" class="logo"><b>ACTIVE</b> gui</a>
+	
+	<nav class="navbar navbar-static-top" role="navigation">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">Toggle navigation</span>
+        </a>
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+				<li class="dropdown user user-menu">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+						<img class="user-image" alt="User Image" src="/assets/theme/img/placeholder.png">
+						<span class="hidden-xs">Ciccio Panda</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="user-header">
+							<img class="img-circle" alt="User Image" src="/assets/theme/img/placeholder.png">
+							<p>
+								Ciccio Panda - Admin
+								<small>Member since Nov. 2012</small>
+							</p>
+						</li>
+						<li class="user-footer">
+							<div oauth site="http://156.148.132.79:80" 
+								   template="/assets/app/layout/templates/oauth.html"
+								   storage="localStorage"
+								   authorize-path="/o/authorize"
+								   token-path="/o/token"
+								   client-id="-bprnir9sG--zyTQSn=a=d3QxuRkgDV9sum@;__;"
+								   redirect-uri="http://156.148.132.79:4000" 
+								   scope="read+write"
+								   state="random_state_string" class="pull-right">
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</header>

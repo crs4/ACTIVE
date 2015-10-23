@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-8">
+        <!--<videogular vg-player-ready="onPlayerReady($API)" vg-complete="onCompleteInstance()" vg-theme="config.theme.url">-->
+	<videogular vg-player-ready="onPlayerReady($API)" vg-theme="config.theme.url">
+            <vg-media vg-src="config.sources" vg-tracks="config.tracks"></vg-media>
+
+            <vg-controls>
+                <vg-play-pause-button></vg-play-pause-button>
+                <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                </vg-scrub-bar>
+                <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                <vg-volume>
+                    <vg-mute-button></vg-mute-button>
+                    <vg-volume-bar></vg-volume-bar>
+                </vg-volume>
+                <vg-fullscreen-button></vg-fullscreen-button>
+            </vg-controls>
+
+	    <vg-poster vg-url="config.plugins.poster"></vg-poster>
+
+        </videogular>
+    </div>
+    <div class="col-md-4">
+	<div id="player_items"" widget-scrollbar scrollbar-service="Instance" scrollbar-type="checkbox"></div>
+    </div>
+</div>

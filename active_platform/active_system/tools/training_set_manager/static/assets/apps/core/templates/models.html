@@ -1,0 +1,46 @@
+<div class="row margin_bottom_10" ng-controller="modelSearchCtrl">
+	<div class="col-sm-12">
+		<div class="manager-box col-lg-2 col-xs-12"></div>
+		<div class="manager-box col-lg-3 col-xs-7 float_right" widget-select2>
+			<select id="s2" class="select2" ng-model="selectedModel"></select>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-controller="modelCtrl">
+
+	<div id="gallery" class="col-sm-12" infinite-scroll="nextPage()" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false">
+		<div id="model_{{model.id}}" class="superbox-list" ng-repeat="model in models">
+			<img ng-src="/static/assets/theme/img/folder.png" preload-file preload-item="model" preload-type="none" widget-context alt="{{model.id}}" title="{{model.name}}" class="superbox-img" ng-click="selectModel($event, model)">
+			<a id="editable_{{model.id}}" href="#" class="superbox-img-title-model" editable-item="model" widget-editable>{{model.id}} - {{model.name | limitTo:10 || "empty"}}</a>
+		</div>
+		<div class="superbox-float"></div>
+	</div>
+	<div class="superbox-show" style="height:300px; display: none"></div>
+	
+	<div class="col-md-2 no-padding context-menu" ng-controller="contextMenuCtrl">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Actions</h3>
+			</div>
+			<div class="box-body no-padding">
+				<ul class="context-menu_items nav nav-pills nav-stacked" role="menu">
+					<li class="context-menu_item" role="menu-item">
+						<a href="#" class="context-menu__link" ng-click="deleteModel()">
+							<i class="fa fa-circle-o"></i> Delete model
+						</a>
+					</li>
+					<li class="context-menu_item" role="menu-item">
+						<a href="#" class="context-menu__link" ng-click="buildModel()">
+							<i class="fa fa-circle-o"></i> Build model
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+

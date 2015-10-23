@@ -1,0 +1,45 @@
+<div class="row" ng-controller="modelFormCtrl">
+	<div class="col-md-12">
+		<div class="box">
+			
+			<div class="box-header">
+				<h3 class="box-title">Model form</h3>
+			</div>
+			
+			<form role="form" ng-submit="save(currentElement)" id="model-form">
+				
+				<div class="box-body">
+					
+					<div class="form-group">
+						<section class="col col-mg-6 col-lg-6 no-padding-left">
+							<label for="email">Type</label>
+							<div>
+								<label class="radio">
+									<input type="radio" ng-model="currentElement.type" value="audio">
+									<i> </i>
+									audio
+								</label>
+								<label class="radio">
+									<input type="radio" ng-model="currentElement.type" value="video">
+									<i> </i>
+									video
+								</label>
+							</div>
+						</section>
+						<section class="col col-md-6 col-lg-6 no-padding-right">
+							<label>People</label>
+							<div id="widgetScrollbar" widget-scrollbar scrollbar-service="People" scrollbar-type="radio" style="height:160px;"></div>
+						</section>
+					</div>
+				</div>
+				
+				<div class="box-footer">
+					<button type="submit" class="btn btn-primary"> Save Model </button>
+				</div>
+				
+			</form>
+			
+		</div>
+	</div>
+</div>
+

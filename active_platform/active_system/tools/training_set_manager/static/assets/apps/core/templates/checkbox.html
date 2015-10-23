@@ -1,0 +1,5 @@
+<label id="track_{{$index}}" class="checkbox" ng-repeat="item in elements">
+	<input type="checkbox" checklist-change="imChanged([$index, item], checked)" checklist-model="selected" checklist-value="item">
+	<i> </i>
+	<span>{{item.id}} - {{item.features.split('/')[2]}}</span>
+</label>

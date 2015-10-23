@@ -1,0 +1,20 @@
+<div class="row margin_bottom_10" ng-controller="managerCtrl">
+	<div class="col-sm-12">
+		<div class="manager-box col-lg-2 col-xs-12" widget-counter></div>
+		<div class="manager-box col-lg-3 col-xs-7 float_right" widget-select2>
+			<select id="s2" class="select2" ng-model="selectedModel"></select>
+		</div>
+		<div class="manager-box col-lg-1 col-xs-5 float_right" ng-show="selectedModel && selectedItems.length > 0">
+			<a ng-click="bindInstance()" class="btn btn_action btn-default"> Bind </a>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-controller="instanceBaseCtrl">
+	<div class="superbox col-sm-12" ng-controller="audioInstanceCtrl">
+		<div class="container-fluid player_container" widget-player></div>
+	</div>
+</div>
+
+
+

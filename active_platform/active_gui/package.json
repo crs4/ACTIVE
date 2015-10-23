@@ -1,0 +1,13 @@
+{
+	"version": "0.0.1",
+	"name": "GUI",
+	"description": "ANGULARJS ACTIVE GUI",
+	"dependencies": {
+		"body-parser": "1.9.2",
+		"method-override": "2.3.0",
+		"morgan": "1.5.0",
+		"express": "4.x",
+		"ejs": "1.0.0",
+		"connect-modrewrite": "0.8.x"
+	}
+}
